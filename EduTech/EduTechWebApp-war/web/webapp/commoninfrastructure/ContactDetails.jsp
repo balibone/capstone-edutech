@@ -49,7 +49,7 @@
                                     <%
                                         if(contactActiveStatus.equals("true")) {
                                     %>
-                                    <form action="SGMapleStore" method="POST" target="_parent">
+                                    <form action="CommonInfra" method="POST" target="_parent">
                                         <li onclick="deactivateCheck();">
                                             <input type="hidden" name="hiddenContactEmail" value="<%= contactEmail %>" />
                                             <input type="hidden" name="pageTransit" value="deactivateAContact" />
@@ -62,7 +62,7 @@
                                     <%
                                         if(contactActiveStatus.equals("false")) {
                                     %>
-                                    <form action="SGMapleStore" method="POST" target="_parent">
+                                    <form action="CommonInfra" method="POST" target="_parent">
                                         <li onclick="activateCheck();">
                                             <input type="hidden" name="hiddenContactEmail" value="<%= contactEmail %>" />
                                             <input type="hidden" name="pageTransit" value="activateAContact" />

@@ -387,31 +387,25 @@
                                                             
                                                             <div class="col-xs-12 col-menu">
                                                                 <ul class="links">
-                                                                    <li><a href="SGMapleStore?pageTransit=goToHomepage">Homepage</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToProductCategory">Product Category</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToProductDetails">Product Details</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToShoppingCart">Shopping Cart</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToCheckout">Checkout</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToContactUs">Contact Us</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToStoreLogin">Store Login</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToProductWishlist">Wishlist</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToTermsCondition">Terms and Condition</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToTrackOrder">Track Orders</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToProductComparison">Product Comparison</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToStoreFAQ">FAQ</a></li>
-                                                                    <li><a href="SGMapleStore?pageTransit=goToErrorPage">Error Page</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToHomepage">Homepage</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToProductCategory">Product Category</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToProductDetails">Product Details</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToShoppingCart">Shopping Cart</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToCheckout">Checkout</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToContactUs">Contact Us</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToStoreLogin">Store Login</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToProductWishlist">Wishlist</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToTermsCondition">Terms and Condition</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToTrackOrder">Track Orders</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToProductComparison">Product Comparison</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToStoreFAQ">FAQ</a></li>
+                                                                    <li><a href="Storefront?pageTransit=goToErrorPage">Error Page</a></li>
                                                                     <li><a href="CommonInfra?pageTransit=goToLogout">Warehouse</a></li>
                                                                 </ul>
                                                             </div>
-                                                                
-                                                                
-                                                                
                                                         </div>
                                                     </div>
                                                 </li>
-                                                    
-                                                    
-                                                    
                                             </ul>
                                         </li>
                                         <li class="dropdown  navbar-right special-menu">

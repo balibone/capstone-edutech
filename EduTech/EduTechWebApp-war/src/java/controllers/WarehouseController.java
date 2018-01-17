@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import javax.servlet.ServletException;
@@ -25,27 +20,19 @@ import java.util.Vector;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import javax.ejb.EJB;
-import sessionbeans.CommonInfraMgrBeanRemote;
 import sessionbeans.WarehouseMgrBeanRemote;
 
-/**
- *
- * @author Derian
- */
+
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 10,
         maxFileSize = 1024 * 1024 * 50,
         maxRequestSize = 1024 * 1024 * 100
 )
-public class WarehouseController
-        extends HttpServlet {
+public class WarehouseController extends HttpServlet {
     @EJB
     private WarehouseMgrBeanRemote wmr;
     String userNRIC = "";
-    protected void processRequest(HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException,
-            IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
             RequestDispatcher dispatcher;
@@ -74,7 +61,7 @@ public class WarehouseController
                     break;
                 case "goToViewItem":
                     request.setAttribute("employeeNRIC",userNRIC);
-                    request.setAttribute("itemDetails",wmr.viewItem(request.getParameter("itemSKU")));
+                    request.setAttribute("itemDetails", wmr.viewItem(request.getParameter("itemSKU")));
                     pageAction = "ViewItem";
                     break;
                 case "deleteItem":
@@ -84,15 +71,15 @@ public class WarehouseController
                     pageAction = "ItemList";
                     break;
                 case "goToEditItem":
-                    request.setAttribute("employeeNRIC",userNRIC);
-                    request.setAttribute("itemDetails",wmr.viewItem(request.getParameter("itemSKU")));
+                    request.setAttribute("employeeNRIC", userNRIC);
+                    request.setAttribute("itemDetails", wmr.viewItem(request.getParameter("itemSKU")));
                     pageAction = "EditItem";
                     break;
                 case "editItem":
                     request.setAttribute("employeeNRIC",userNRIC);
                     if(editItem(request,response)){
                         request.setAttribute("successMessage", "Item edited successfully");
-                        request.setAttribute("itemDetails",wmr.viewItem(request.getParameter("itemSKU")));
+                        request.setAttribute("itemDetails", wmr.viewItem(request.getParameter("itemSKU")));
                     }else{
                         request.setAttribute("errorMessage", "Error editing item");
                     }   pageAction = "EditItem";
@@ -212,8 +199,7 @@ public class WarehouseController
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
         try {
             ArrayList<Vector> retrievedItemList = (ArrayList)wmr.getItemListingNames();
@@ -238,13 +224,12 @@ public class WarehouseController
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    public String getServletInfo() { return "SG MapleStore Servlet"; }
+    public String getServletInfo() { return "Warehouse Servlet"; }
     
     private boolean createItemInventoryLog(String userNRIC, HttpServletRequest request){
         boolean logCreationStatus = false;
@@ -266,11 +251,12 @@ public class WarehouseController
     
     private boolean createItem(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         boolean itemCreationStatus = false;
-        // Create path components to save the file
+        
         String appPath = request.getServletContext().getRealPath("");
-        String truncatedAppPath = appPath.replace("SGMapleStore"+File.separator+"dist"+File.separator+"gfdeploy"+File.separator+"SGMapleStore"+File.separator+"SGMapleStoreWebApp_war", "");
-        String imageDir = truncatedAppPath + "SGMapleStoreWebApp" + File.separator + "web" + File.separator + "uploads" + File.separator +
-                    "images" + File.separator + "Items";
+        String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator + 
+                    "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+        String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator + 
+                    "uploads" + File.separator + "images" + File.separator + "warehouse" + File.separator + "Items";
         final Part imagePart = request.getPart("itemImage");
         final String fileName = imagePart.getSubmittedFileName();
  
@@ -279,8 +265,7 @@ public class WarehouseController
         //final PrintWriter writer = response.getWriter();
         String itemImageDirPath = "";
         try {
-            out = new FileOutputStream(new File(imageDir + File.separator
-                    + fileName));
+            out = new FileOutputStream(new File(imageDir + File.separator + fileName));
             itemImageDirPath = fileName;
             fileContent = imagePart.getInputStream();
             
@@ -326,12 +311,12 @@ public class WarehouseController
     private boolean editItem(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         boolean itemEditionStatus = false;
         String itemImageDirPath = "";
-        if(request.getParameter("imageReplacement").equalsIgnoreCase("yes")){
-            // Create path components to save the file
+        if(request.getParameter("imageReplacement").equalsIgnoreCase("yes")) {
             String appPath = request.getServletContext().getRealPath("");
-            String truncatedAppPath = appPath.replace("SGMapleStore"+File.separator+"dist"+File.separator+"gfdeploy"+File.separator+"SGMapleStore"+File.separator+"SGMapleStoreWebApp_war", "");
-            String imageDir = truncatedAppPath + "SGMapleStoreWebApp" + File.separator + "web" + File.separator + "uploads" + File.separator +
-                    "images" + File.separator + "Items";
+            String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator + 
+                    "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+            String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator + 
+                    "uploads" + File.separator + "images" + File.separator + "warehouse" + File.separator + "Items";
             final Part imagePart = request.getPart("itemImage");
             final String fileName = imagePart.getSubmittedFileName();
 
@@ -339,8 +324,7 @@ public class WarehouseController
             InputStream fileContent = null;
             final PrintWriter writer = response.getWriter();
             try {
-                out = new FileOutputStream(new File(imageDir + File.separator
-                        + fileName));
+                out = new FileOutputStream(new File(imageDir + File.separator + fileName));
                 itemImageDirPath = fileName;
                 fileContent = imagePart.getInputStream();
                 
@@ -396,14 +380,15 @@ public class WarehouseController
             fileName = (String) getFileName(filePart);
             
             String appPath = request.getServletContext().getRealPath("");
-            String truncatedAppPath = appPath.replace("SGMapleStore"+File.separator+"dist"+File.separator+"gfdeploy"+File.separator+"SGMapleStore"+File.separator+"SGMapleStoreWebApp_war", "");
-            String imageDir = truncatedAppPath + "SGMapleStoreWebApp" + File.separator + "web" + File.separator + 
-                    "uploads" + File.separator + "images" + File.separator + "CompositeItems" + File.separator;
+            String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator + 
+                    "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+            String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator + 
+                    "uploads" + File.separator + "images" + File.separator + "warehouse" + File.separator + "CompositeItems";
             
             InputStream inputStream = null;
             OutputStream outputStream = null;
             try {
-                File outputFilePath = new File(imageDir + fileName);
+                File outputFilePath = new File(imageDir + File.separator + fileName);
                 inputStream = filePart.getInputStream();
                 outputStream = new FileOutputStream(outputFilePath);
             
@@ -482,5 +467,4 @@ public class WarehouseController
         }
         wmr.modifyInventoryCategory(categoryName,updatedCategoryDesc,sCats);
     }
-
 }

@@ -30,6 +30,9 @@
                 compositeSellPrice = (String.valueOf(compositeItemInfoArr.get(3)));
                 compositeQuantity = (String.valueOf(compositeItemInfoArr.get(4)));
                 itemListInCompositeArr = (ArrayList)compositeItemInfoArr.get(5);
+                
+                System.out.println("Servlet Name: " + compositeName);
+                System.out.println("Servlet Selling Price: " + compositeSellPrice);
             }
         %>
         <div class="row" style="visibility: visible; margin: 30px 50px 0 50px; background-color: #fff;">
@@ -37,7 +40,7 @@
                 <div class="single-product-gallery">
                     <div class="owl-item" style="width: 336px;">
                         <div class="single-product-gallery-item">
-                            <img src="uploads/images/CompositeItems/<%= compositeImagePath %>" style="max-width: 251px; min-width: 251px; max-height: 256px; min-height: 256px;" />
+                            <img src="uploads/images/warehouse/CompositeItems/<%= compositeImagePath %>" style="max-width: 251px; min-width: 251px; max-height: 256px; min-height: 256px;" />
                         </div>
                     </div>
                 </div>
@@ -135,7 +138,7 @@
                                 String assocItemInventorySellPrice = String.valueOf(v.get(4));
                     %>
                     <tr class="line-item new-line-item">
-                        <td class="line-item-column item-img"><span class="displayImage"><img src="uploads/images/Items/<%= assocItemInventoryPath %>" /></span></td>
+                        <td class="line-item-column item-img"><span class="displayImage"><img src="uploads/images/warehouse/Items/<%= assocItemInventoryPath %>" /></span></td>
                         <td class="line-item-column item-details"><span class="displayField"><%= assocItemInventoryName %></span></td>
                         <td class="line-item-column item-qty text-muted"><span class="displayField"><%= assocItemInventorySKU %></span></td>
                         <td class="line-item-column item-qty text-muted"><span class="displayField"><%= assocItemInventoryQuantity %></span></td>
