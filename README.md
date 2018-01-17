@@ -1,21 +1,5 @@
 # :books: EduTech :books: 
 
-### Ensure you are running NetBeans 8.1, with JDK 1.8(Java SE 8) and Glasshfish Server 4 installed.
-### Read below on how to get these files + run them.
-### Note: If asked about build.properties being from another netbeans installation, click "Update"!
-### First steps:
-1. Ensure Glassfish 4 is installed. Run the server and open domain admin console. 
-2. Create JDBC connection pool.
-![Creating Connection Pool](https://github.com/41capstone03/very-fun-project/blob/master/Screenshots/CreatingConnectionPool.png)
-![Settings](https://github.com/41capstone03/very-fun-project/blob/master/Screenshots/ConnectionPoolSettings.png)
-3. Ping
-![Ping Success](https://github.com/41capstone03/very-fun-project/blob/master/Screenshots/ConnectionPoolSuccess.png)
-
-3. Create JDBC resource (database) that connects the the application using the above created connection pool. 
-![Create Database](https://github.com/41capstone03/very-fun-project/blob/master/Screenshots/CreatingDatabase.png)
-![Created](https://github.com/41capstone03/very-fun-project/blob/master/Screenshots/DatabaseCreated.png)
-
-
 ### How To Start using Git:
 1. Create GitHub account.
 2. Fork this repo (top right button) into your account. So now you have an exact copy of the group repo in your personal online repo. 
