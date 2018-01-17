@@ -7,7 +7,7 @@ $(document).ready(function() {
                 return $(this).text();
             }).get();
             rowSKU = $.trim(rowData[2]);
-            $('iframe').attr('src', 'SGMapleStore?pageTransit=goToCompositeItemDetails&compositeIdentifier=' + rowSKU);
+            $('iframe').attr('src', 'Warehouse?pageTransit=goToCompositeItemDetails&compositeIdentifier=' + rowSKU);
             $('#modal-iframe').iziModal('open', event);
         }
     });

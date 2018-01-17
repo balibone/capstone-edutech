@@ -1,7 +1,7 @@
 var rowCounter = 1;
 var rowSelected;
 var itemOptions = {
-    url: "SGMapleStore",
+    url: "Warehouse",
     type : "GET",
     listLocation: "itemDetails",
     getValue: "itemName",

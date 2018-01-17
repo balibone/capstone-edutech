@@ -7,7 +7,7 @@ $(document).ready(function() {
                 return $(this).text();
             }).get();
             rowEmail = $.trim(rowData[2]);
-            $('iframe').attr('src', 'SGMapleStore?pageTransit=goToContactDetails&contactIdentifier=' + rowEmail);
+            $('iframe').attr('src', 'CommonInfra?pageTransit=goToContactDetails&contactIdentifier=' + rowEmail);
             $('#modal-iframe').iziModal('open', event);
         }
     });

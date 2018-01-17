@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sessionbeans;
 
-import entities.CompositeItemEntity;
 import entities.ContactEntity;
 import entities.EmployeeEntity;
-import entities.InventoryLogEntity;
-import entities.InvoiceEntity;
-import entities.ItemEntity;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -19,29 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import javax.ejb.Stateless;
-import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
- *
- * @author Derian
- */
 @Stateless
-@LocalBean
 public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     @PersistenceContext
     private EntityManager em;
     
     private EmployeeEntity eEntity;
     private ContactEntity cEntity;
-    private InventoryLogEntity ilEntity;
-    private CompositeItemEntity ciEntity;
-    private ItemEntity iEntity;
-    private InvoiceEntity invoice;
 
     @Override
     public boolean createContact(String contactSalutation, String contactFirstName, String contactLastName, String contactEmail, 

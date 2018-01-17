@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sessionbeans;
 
 import entities.CategoryEntity;
@@ -13,9 +8,6 @@ import entities.InventoryLogEntity;
 import entities.InvoiceEntity;
 import entities.ItemEntity;
 import entities.SalesOrderEntity;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,20 +19,15 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
- *
- * @author Derian
- */
 @Stateless
 public class WarehouseMgrBean implements WarehouseMgrBeanRemote {
-
     @PersistenceContext
-    private EntityManager em;  
+    private EntityManager em;
+    
     private EmployeeEntity eEntity;
     private InventoryLogEntity ilEntity;
     private CompositeItemEntity ciEntity;
     private ItemEntity iEntity;
-    private InvoiceEntity invoice;
     
     /* WAREHOUSE-TRANSPORT MODULE (JSON) */
     @Override
@@ -205,7 +192,7 @@ public class WarehouseMgrBean implements WarehouseMgrBeanRemote {
         ciEntity = lookupCompositeItem(compositeIdentifier);
         Vector compositeInfoVec = new Vector();
         
-        if (eEntity != null) {
+        if (ciEntity != null) {
             compositeInfoVec.add(ciEntity.getCompositeImagePath());
             compositeInfoVec.add(ciEntity.getCompositeName());
             compositeInfoVec.add(ciEntity.getCompositeDescription());
