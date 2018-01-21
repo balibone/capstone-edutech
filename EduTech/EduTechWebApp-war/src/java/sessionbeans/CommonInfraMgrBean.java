@@ -17,14 +17,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 @Stateless
-public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
+public class CommonInfraMgrBean {
     @PersistenceContext
     private EntityManager em;
     
     private EmployeeEntity eEntity;
     private ContactEntity cEntity;
 
-    @Override
+    
     public boolean createContact(String contactSalutation, String contactFirstName, String contactLastName, String contactEmail, 
             String contactPhone, String contactType, String contactBillingAttn, String contactBillingAddress, String contactBillingCity, 
             String contactBillingState, String contactBillingZipCode, String contactBillingCountry, String contactBillingFax, 
@@ -46,7 +46,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return true;
     }
 
-    @Override
+    
     public List<Vector> viewContactList(){
         Query q = em.createQuery("SELECT c FROM Contact c");
         List<Vector> contactList = new ArrayList<Vector>();
@@ -68,7 +68,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return contactList;
     }
     
-    @Override
+    
     public Vector getContactInfo(String contactIdentifier) {
         cEntity = lookupContact(contactIdentifier);
         Vector contactInfoVec = new Vector();
@@ -87,7 +87,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return null;
     }
     
-    @Override
+    
     public boolean deactivateMultipleContact(String[] contactEmailListArr) {
         boolean contactDeletionStatus = true;
         for (String contactEmail : contactEmailListArr) {
@@ -102,7 +102,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return contactDeletionStatus;
     }
     
-    @Override
+    
     public boolean deactivateAContact(String hiddenContactEmail) {
         boolean contactDeletionStatus = true;
         if (lookupContact(hiddenContactEmail) == null) {
@@ -115,7 +115,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return contactDeletionStatus;
     }
     
-    @Override
+    
     public boolean activateAContact(String hiddenContactEmail) {
         boolean contactDeletionStatus = true;
         if (lookupContact(hiddenContactEmail) == null) {
@@ -128,7 +128,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return contactDeletionStatus;
     }
     
-    @Override
+    
     public boolean createEmployee(String empSalutation, String empFirstName, String empLastName, String empEmail, 
             String empPhone, String empUniqueIdentifier, String empDateOfBirth, String empGender, String empRace, 
             String empNationality, String empResidentAddress, String empResidentCity, String empResidentState, 
@@ -146,7 +146,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return true;
     }
     
-    @Override
+    
     public List<Vector> viewEmployeeList(){
         Query q = em.createQuery("SELECT e FROM Employee e");
         List<Vector> employeeList = new ArrayList<Vector>();
@@ -167,7 +167,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return employeeList;
     }
     
-    @Override
+    
     public Vector getEmployeeInfo(String employeeIdentifier) {
         eEntity = lookupEmployee(employeeIdentifier);
         Vector employeeInfoVec = new Vector();
@@ -186,7 +186,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return null;
     }
     
-    @Override
+    
     public boolean deactivateMultipleEmployee(String[] empEmailListArr) {
         boolean empDeletionStatus = true;
         for (String empEmail : empEmailListArr) {
@@ -201,7 +201,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return empDeletionStatus;
     }
     
-    @Override
+    
     public boolean deactivateAnEmployee(String hiddenEmpEmail) {
         boolean empDeletionStatus = true;
         if (lookupEmployee(hiddenEmpEmail) == null) {
@@ -214,7 +214,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return empDeletionStatus;
     }
     
-    @Override
+    
     public boolean activateAnEmployee(String hiddenEmpEmail) {
         boolean empDeletionStatus = true;
         if (lookupEmployee(hiddenEmpEmail) == null) {
@@ -227,7 +227,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return empDeletionStatus;
     }
 
-    @Override
+    
     public boolean empLogin(String empUsername, String empPassword) {
         /* Must perform hashing here, not on the servlet side. Otherwise will produce different hash values */
         String hashedPassword = "";
