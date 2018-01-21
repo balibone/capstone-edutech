@@ -10,11 +10,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sessionbeans.CommonInfraMgrBeanRemote;
+import sessionbeans.CommonInfraMgrBean;
 
 public class CommonInfraController extends HttpServlet {
     @EJB
-    private CommonInfraMgrBeanRemote cir;
+    private CommonInfraMgrBean cir;
     String userNRIC = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
