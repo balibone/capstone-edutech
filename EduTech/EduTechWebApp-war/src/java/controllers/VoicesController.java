@@ -8,12 +8,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sessionbeans.CommonInfraMgrBeanRemote;
 
-public class CommonInfraController extends HttpServlet {
+import sessionbeans.VoicesMgrBeanRemote;
+
+public class VoicesController extends HttpServlet {
     @EJB
-    private CommonInfraMgrBeanRemote cir;
-    String emailID = "";
+    private VoicesMgrBeanRemote vmr;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -23,29 +23,11 @@ public class CommonInfraController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
-                case "loginToSys":
-                    String userEmail = request.getParameter("userEmail");
-                    String userPassword = request.getParameter("userPassword");
-                    if(cir.empLogin(userEmail, userPassword)){
-                        emailID = userEmail;
-                        request.setAttribute("emailID", userEmail);
-                        pageAction = "IntegratedSPLanding";
-                    }
-                    else{
-                        request.setAttribute("sysMessage", "Incorrect email or password. Please try again.");
-                        pageAction = "IntegratedSPLogin";
-                    }   break;
-                case "goToLogout":
-                    emailID = "";
-                    pageAction = "IntegratedSPLogin";
+                case "goToShoutListing":
+                    pageAction = "ShoutListing";
                     break;
-                case "goToCommonLanding":
-                    request.setAttribute("emailID", emailID);
-                    pageAction = "IntegratedSPLanding";
-                    break;
-                case "goToUnifyAdmin":
-                    request.setAttribute("emailID", emailID);
-                    pageAction = "UnifyAdminLanding";
+                case "goToShoutDetails":
+                    pageAction = "ShoutDetails";
                     break;
                 default:
                     break;
@@ -54,7 +36,7 @@ public class CommonInfraController extends HttpServlet {
             dispatcher.forward(request, response);       
         }
         catch(Exception ex) {
-            log("Exception in CommonInfraController: processRequest()");
+            log("Exception in VoicesController: processRequest()");
             ex.printStackTrace();
         }
     
@@ -71,5 +53,5 @@ public class CommonInfraController extends HttpServlet {
     }
 
     @Override
-    public String getServletInfo() { return "Common Infrastructure Servlet"; }
+    public String getServletInfo() { return "Voices (Shout) Servlet"; }
 }

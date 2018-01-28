@@ -1,14 +1,10 @@
 package sessionbeans;
 
-import entities.EmployeeEntity;
+import entities.UserEntity;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 import javax.ejb.Stateless;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
@@ -19,56 +15,54 @@ import javax.persistence.Query;
 public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     @PersistenceContext
     private EntityManager em;
-    
-    private EmployeeEntity eEntity;
+    private UserEntity uEntity;
 
     @Override
-    public boolean empLogin(String empUsername, String empPassword) {
-        /* Must perform hashing here, not on the servlet side. Otherwise will produce different hash values */
+    public boolean empLogin(String userEmail, String userPassword) {
         String hashedPassword = "";
-        try{ hashedPassword = encodePassword(empPassword); }
+        try{ hashedPassword = encodePassword(userPassword); }
         catch(NoSuchAlgorithmException ex){ ex.printStackTrace(); }
 
-        eEntity = new EmployeeEntity();
+        uEntity = new UserEntity();
         try{
-            Query q = em.createQuery("SELECT e FROM Employee e WHERE e.empUsername = :empUsername");
-            q.setParameter("empUsername", empUsername);
-            eEntity = (EmployeeEntity)q.getSingleResult();
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.userEmail = :userEmail");
+            q.setParameter("userEmail", userEmail);
+            uEntity = (UserEntity)q.getSingleResult();
         }
         catch(EntityNotFoundException enfe){
-            System.out.println("ERROR: Employee cannot be found. " + enfe.getMessage());
-            em.remove(eEntity);
-            eEntity = null;
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(uEntity);
+            uEntity = null;
         }
         catch(NoResultException nre){
-            System.out.println("ERROR: Employee does not exist. " + nre.getMessage());
-            em.remove(eEntity);
-            eEntity = null;
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(uEntity);
+            uEntity = null;
         }
-        if(eEntity == null) { return false; }
-        // if(eEntity.getEmpPassword().equals(hashedPassword)) { return true; }
-        if(eEntity.getEmpPassword().equals(empPassword)) { return true; }
+        if(uEntity == null) { return false; }
+        // if(uEntity.getUserPassword().equals(hashedPassword)) { return true; }
+        if(uEntity.getUserPassword().equals(userPassword)) { return true; }
         return false;
     }
 
-    public EmployeeEntity lookupEmployee(String emailAddress){
-        EmployeeEntity ee = new EmployeeEntity();
+    public UserEntity lookupUser(String userEmail){
+        UserEntity ue = new UserEntity();
         try{
-            Query q = em.createQuery("SELECT e FROM Employee e WHERE e.empEmail = :emailAddress");
-            q.setParameter("emailAddress", emailAddress);
-            ee = (EmployeeEntity)q.getSingleResult();
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.userEmail = :userEmail");
+            q.setParameter("userEmail", userEmail);
+            ue = (UserEntity)q.getSingleResult();
         }
         catch(EntityNotFoundException enfe){
-            System.out.println("ERROR: Employee cannot be found. " + enfe.getMessage());
-            em.remove(ee);
-            ee = null;
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
         }
         catch(NoResultException nre){
-            System.out.println("ERROR: Employee does not exist. " + nre.getMessage());
-            em.remove(ee);
-            ee = null;
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
         }
-        return ee;
+        return ue;
     }
     
     public String encodePassword(String password) throws NoSuchAlgorithmException {
