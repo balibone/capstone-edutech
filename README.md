@@ -1,4 +1,4 @@
-# :books: EduTech :books: 
+# :books: Integrated Student System (ISS) :books: 
 
 ### How To Start using Git:
 1. Create GitHub account.
