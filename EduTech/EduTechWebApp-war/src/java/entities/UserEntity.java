@@ -7,8 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity(name = "SystemUser")
+@XmlRootElement
 public class UserEntity implements Serializable {
     @Id
     private String userEmail;
