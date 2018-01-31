@@ -23,11 +23,11 @@ public class VoicesController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
-                case "goToShoutListing":
-                    pageAction = "ShoutListing";
+                case "goToReviewListing":
+                    pageAction = "ReviewListing";
                     break;
-                case "goToShoutDetails":
-                    pageAction = "ShoutDetails";
+                case "goToReviewDetails":
+                    pageAction = "ReviewDetails";
                     break;
                 default:
                     break;
