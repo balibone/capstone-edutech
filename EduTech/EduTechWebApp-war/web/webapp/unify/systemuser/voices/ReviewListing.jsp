@@ -24,7 +24,7 @@
                     <div style="padding-left: 20px;">
                         <h3 class="my-4 text-left">Job Listings</h3>
                         <div class="pt-1 list-group" style="overflow-y:scroll; height:auto;">
-                            <a href="Voices?pageTransit=goToReviewDetails" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <a href="VoicesSysUser?pageTransit=goToReviewDetails" class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <h5 class="d-inline">Q : </h5>

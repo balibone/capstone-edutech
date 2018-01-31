@@ -1,4 +1,4 @@
-package controllers;
+package unifycontrollers.admin;
 
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sessionbeans.VoicesMgrBeanRemote;
+import unifysessionbeans.admin.VoicesAdminMgrBeanRemote;
 
-public class VoicesController extends HttpServlet {
+public class VoicesAdminController extends HttpServlet {
     @EJB
-    private VoicesMgrBeanRemote vmr;
+    private VoicesAdminMgrBeanRemote vamr;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -23,12 +23,6 @@ public class VoicesController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
-                case "goToReviewListing":
-                    pageAction = "ReviewListing";
-                    break;
-                case "goToReviewDetails":
-                    pageAction = "ReviewDetails";
-                    break;
                 default:
                     break;
             }
@@ -36,7 +30,7 @@ public class VoicesController extends HttpServlet {
             dispatcher.forward(request, response);       
         }
         catch(Exception ex) {
-            log("Exception in VoicesController: processRequest()");
+            log("Exception in VoicesAdminController: processRequest()");
             ex.printStackTrace();
         }
     
@@ -53,5 +47,5 @@ public class VoicesController extends HttpServlet {
     }
 
     @Override
-    public String getServletInfo() { return "Voices (Shout) Servlet"; }
+    public String getServletInfo() { return "Voices (Shout) Admin Servlet"; }
 }

@@ -1,4 +1,4 @@
-package controllers;
+package unifycontrollers.systemuser;
 
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sessionbeans.ErrandsMgrBeanRemote;
+import unifysessionbeans.systemuser.VoicesSysUserMgrBeanRemote;
 
-public class ErrandsController extends HttpServlet {
+public class VoicesSysUserController extends HttpServlet {
     @EJB
-    private ErrandsMgrBeanRemote emr;
+    private VoicesSysUserMgrBeanRemote vsmr;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -23,11 +23,11 @@ public class ErrandsController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
-                case "goToHelpListing":
-                    pageAction = "HelpListing";
+                case "goToReviewListing":
+                    pageAction = "ReviewListing";
                     break;
-                case "goToHelpDetails":
-                    pageAction = "HelpDetails";
+                case "goToReviewDetails":
+                    pageAction = "ReviewDetails";
                     break;
                 default:
                     break;
@@ -36,7 +36,7 @@ public class ErrandsController extends HttpServlet {
             dispatcher.forward(request, response);       
         }
         catch(Exception ex) {
-            log("Exception in ErrandsMgrBeanRemote: processRequest()");
+            log("Exception in VoicesSysUserController: processRequest()");
             ex.printStackTrace();
         }
     
@@ -53,5 +53,5 @@ public class ErrandsController extends HttpServlet {
     }
 
     @Override
-    public String getServletInfo() { return "Errands (Job) Servlet"; }
+    public String getServletInfo() { return "Voices (Shout) System User Servlet"; }
 }

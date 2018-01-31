@@ -1,4 +1,4 @@
-package controllers;
+package unifycontrollers.systemuser;
 
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sessionbeans.UserProfileMgrBeanRemote;
+import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
 
-public class UserProfileController extends HttpServlet {
+public class MarketplaceSysUserController extends HttpServlet {
     @EJB
-    private UserProfileMgrBeanRemote upmr;
+    private MarketplaceSysUserMgrBeanRemote msmr;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -23,8 +23,11 @@ public class UserProfileController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
-                case "goToUserProfile":
-                    pageAction = "UserProfile";
+                case "goToItemListing":
+                    pageAction = "ItemListing";
+                    break;
+                case "goToItemDetails":
+                    pageAction = "ItemDetails";
                     break;
                 default:
                     break;
@@ -33,7 +36,7 @@ public class UserProfileController extends HttpServlet {
             dispatcher.forward(request, response);       
         }
         catch(Exception ex) {
-            log("Exception in UserProfileController: processRequest()");
+            log("Exception in MarketplaceSysUserController: processRequest()");
             ex.printStackTrace();
         }
     
@@ -50,5 +53,5 @@ public class UserProfileController extends HttpServlet {
     }
 
     @Override
-    public String getServletInfo() { return "User Profile Servlet"; }
+    public String getServletInfo() { return "Marketplace (Item) System User Servlet"; }
 }

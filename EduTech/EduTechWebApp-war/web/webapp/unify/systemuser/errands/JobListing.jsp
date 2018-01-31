@@ -14,7 +14,7 @@
         <!-- JavaScript (JS) -->
         <script src="js/unify/systemuser/basejs/jquery-v3.1.0.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/errands/HelpListingJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/errands/JobListingJS.js" type="text/javascript"></script>
     </head>
     <body>
         <div id="header"></div>
@@ -47,7 +47,7 @@
                                         <td>
                                             <img width="80px" height="auto" src="../images/products/tables.jpeg" alt="image description"></td>
                                         <td>
-                                            <a href="Errands?pageTransit=goToHelpDetails"><h5 class="title">Table Shifting</h5></a>
+                                            <a href="ErrandsSysUser?pageTransit=goToJobDetails"><h5 class="title">Table Shifting</h5></a>
                                             <i class="fa fa-map-marker" aria-hidden="true"></i><span> School of Computing, COM1, SR1</span><br>
                                             <i class="fa fa-calendar" aria-hidden="true"></i><span> Feb 27, 2018</span>
                                             <i class="fa fa-clock-o" aria-hidden="true"></i><span> 12:00 PM</span>

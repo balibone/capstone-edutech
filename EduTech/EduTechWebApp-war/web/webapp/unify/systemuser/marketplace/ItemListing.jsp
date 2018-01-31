@@ -62,10 +62,10 @@
                         <div class="row">			
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100">
-                                    <a href="Marketplace?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/textbook.jpeg" alt=""></a>
+                                    <a href="MarketplaceSysUser?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/textbook.jpeg" alt=""></a>
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            <a href="Marketplace?pageTransit=goToItemDetails">LSM1001 Textbook</a>
+                                            <a href="MarketplaceSysUser?pageTransit=goToItemDetails">LSM1001 Textbook</a>
                                         </h4>
                                         <h5>$12.99</h5>
                                         <p class="card-text">LSM1001 textbook, pre-loved</p>
@@ -79,10 +79,10 @@
 
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100">
-                                    <a href="Marketplace?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/gc.png" alt=""></a>
+                                    <a href="MarketplaceSysUser?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/gc.png" alt=""></a>
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            <a href="Marketplace?pageTransit=goToItemDetails">TI-84 Graphic Calculator </a>
+                                            <a href="MarketplaceSysUser?pageTransit=goToItemDetails">TI-84 Graphic Calculator </a>
                                         </h4>
                                         <h5>$24.99</h5>
                                         <p class="card-text">Used GC for sale!</p>
@@ -96,10 +96,10 @@
 
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100">
-                                    <a href="Marketplace?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/pump.jpeg" alt=""></a>
+                                    <a href="MarketplaceSysUser?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/pump.jpeg" alt=""></a>
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            <a href="Marketplace?pageTransit=goToItemDetails">Beto Ball Pump</a>
+                                            <a href="MarketplaceSysUser?pageTransit=goToItemDetails">Beto Ball Pump</a>
                                         </h4>
                                         <h5>$10.99</h5>
                                         <p class="card-text">Brand New In Box, was a birthday gift but didn't use.</p>
@@ -113,10 +113,10 @@
 
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100">
-                                    <a href="Marketplace?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/gc.png" alt=""></a>
+                                    <a href="MarketplaceSysUser?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/gc.png" alt=""></a>
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            <a href="Marketplace?pageTransit=goToItemDetails">TI-84 Graphic Calculator </a>
+                                            <a href="MarketplaceSysUser?pageTransit=goToItemDetails">TI-84 Graphic Calculator </a>
                                         </h4>
                                         <h5>$24.99</h5>
                                         <p class="card-text">Used GC for sale!</p>
@@ -130,10 +130,10 @@
 
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100">
-                                    <a href="Marketplace?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/textbook.jpeg" alt=""></a>
+                                    <a href="MarketplaceSysUser?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/textbook.jpeg" alt=""></a>
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            <a href="Marketplace?pageTransit=goToItemDetails">LSM1001 Textbook</a>
+                                            <a href="MarketplaceSysUser?pageTransit=goToItemDetails">LSM1001 Textbook</a>
                                         </h4>
                                         <h5>$12.99</h5>
                                         <p class="card-text">LSM1001 textbook, pre-loved</p>
@@ -147,10 +147,10 @@
 
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100">
-                                    <a href="Marketplace?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/pump.jpeg" alt=""></a>
+                                    <a href="MarketplaceSysUser?pageTransit=goToItemDetails"><img class="card-img-top" src="../images/pump.jpeg" alt=""></a>
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            <a href="Marketplace?pageTransit=goToItemDetails">Beto Ball Pump</a>
+                                            <a href="MarketplaceSysUser?pageTransit=goToItemDetails">Beto Ball Pump</a>
                                         </h4>
                                         <h5>$10.99</h5>
                                         <p class="card-text">Brand New In Box, was a birthday gift but didn't use.</p>
