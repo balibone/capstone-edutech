@@ -14,7 +14,7 @@
         <!-- JavaScript (JS) -->
         <script src="js/unify/systemuser/basejs/jquery-v3.1.0.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/errands/HelpDetailsJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/errands/JobDetailsJS.js" type="text/javascript"></script>
     </head>
     <body>
         <div id="header"></div>

@@ -1,4 +1,4 @@
-package controllers;
+package unifycontrollers.admin;
 
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sessionbeans.MarketplaceMgrBeanRemote;
+import unifysessionbeans.admin.ErrandsAdminMgrBeanRemote;
 
-public class MarketplaceController extends HttpServlet {
+public class ErrandsAdminController extends HttpServlet {
     @EJB
-    private MarketplaceMgrBeanRemote mmr;
+    private ErrandsAdminMgrBeanRemote eamr;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -23,12 +23,6 @@ public class MarketplaceController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
-                case "goToItemListing":
-                    pageAction = "ItemListing";
-                    break;
-                case "goToItemDetails":
-                    pageAction = "ItemDetails";
-                    break;
                 default:
                     break;
             }
@@ -36,7 +30,7 @@ public class MarketplaceController extends HttpServlet {
             dispatcher.forward(request, response);       
         }
         catch(Exception ex) {
-            log("Exception in MarketplaceController: processRequest()");
+            log("Exception in ErrandsAdminController: processRequest()");
             ex.printStackTrace();
         }
     
@@ -53,5 +47,5 @@ public class MarketplaceController extends HttpServlet {
     }
 
     @Override
-    public String getServletInfo() { return "Marketplace (Item) Servlet"; }
+    public String getServletInfo() { return "Errands (Job) Admin Servlet"; }
 }

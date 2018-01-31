@@ -112,7 +112,7 @@
                     <a href="CommonInfra?pageTransit=goToEdutechAdmin"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Edutech Admin</a><br/>
                     <a href="CommonInfra?pageTransit=goToEdutechPortal"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Edutech Portal</a><br/>
                     <a href="CommonInfra?pageTransit=goToUnifyAdmin"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Unify Admin</a><br/>
-                    <a href="Profile?pageTransit=goToUserProfile"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Unify Portal</a>
+                    <a href="ProfileSysUser?pageTransit=goToUserProfile"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Unify Portal</a>
                 </div>
             </div>
         </div>
