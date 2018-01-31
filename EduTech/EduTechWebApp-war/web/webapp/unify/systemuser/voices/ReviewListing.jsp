@@ -8,12 +8,12 @@
         <title>Unify - Voices(Shout) Listing</title>
 
         <!-- Cascading Style Sheet (CSS) -->
-        <link href="css/unify/systemuser/baselayout/bootstrap_v4.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
 
         <!-- JavaScript (JS) -->
-        <script src="js/unify/systemuser/basejs/jquery.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/bootstrap_v4.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/jquery-v3.1.0.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/voices/ShoutListingJS.js" type="text/javascript"></script>
     <body>
         <div id="header"></div>
@@ -24,7 +24,7 @@
                     <div style="padding-left: 20px;">
                         <h3 class="my-4 text-left">Job Listings</h3>
                         <div class="pt-1 list-group" style="overflow-y:scroll; height:auto;">
-                            <a href="Voices?pageTransit=goToShoutDetails" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <a href="Voices?pageTransit=goToReviewDetails" class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <h5 class="d-inline">Q : </h5>

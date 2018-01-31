@@ -45,7 +45,7 @@ public class CommonInfraController extends HttpServlet {
                     break;
                 case "goToUnifyAdmin":
                     request.setAttribute("emailID", emailID);
-                    pageAction = "UnifyAdminLanding";
+                    pageAction = "AdminDashboard";
                     break;
                 default:
                     break;
