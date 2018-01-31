@@ -17,7 +17,7 @@
                             <a class="nav-link text-white" href="Errands?pageTransit=goToHelpListing"><i class="fa d-inline fa-lg fa-handshake-o"></i> Errands (Help)</a>
                         </li>
                         <li class="nav-item text-capitalize bg-primary text-center justify-content-center flex-row align-items-center align-self-center">
-                            <a class="nav-link text-white" href="Voices?pageTransit=goToShoutListing"><i class="fa d-inline fa-lg fa-comments-o" aria-hidden="true"></i> Voices (Shout)</a>
+                            <a class="nav-link text-white" href="Voices?pageTransit=goToReviewListing"><i class="fa d-inline fa-lg fa-comments-o" aria-hidden="true"></i> Voices (Review)</a>
                         </li>
                         <li class="nav-item text-capitalize bg-primary text-center justify-content-center flex-row align-items-center align-self-center">
                             <a class="nav-link text-white" href="../explore/explore.html"><i class="fa d-inline fa-lg fa-map"></i> Explore (Map)</a>

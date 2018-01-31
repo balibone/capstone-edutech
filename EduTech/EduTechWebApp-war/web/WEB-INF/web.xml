@@ -12,7 +12,7 @@
     <servlet><servlet-name>Marketplace</servlet-name><servlet-class>controllers.MarketplaceController</servlet-class></servlet>
     <servlet><servlet-name>Voices</servlet-name><servlet-class>controllers.VoicesController</servlet-class></servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN (JSP) -->
-    <servlet><servlet-name>UnifyAdminLanding</servlet-name><jsp-file>/webapp/unify/admin/UnifyAdminLanding.jsp</jsp-file></servlet>
+    <servlet><servlet-name>AdminDashboard</servlet-name><jsp-file>/webapp/unify/admin/AdminDashboard.jsp</jsp-file></servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
     <servlet><servlet-name>HelpListing</servlet-name><jsp-file>/webapp/unify/systemuser/errands/HelpListing.jsp</jsp-file></servlet>
     <servlet><servlet-name>HelpDetails</servlet-name><jsp-file>/webapp/unify/systemuser/errands/HelpDetails.jsp</jsp-file></servlet>
@@ -22,8 +22,8 @@
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
     <servlet><servlet-name>UserProfile</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file></servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    <servlet><servlet-name>ShoutListing</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ShoutListing.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ShoutDetails</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ShoutDetails.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReviewListing</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ReviewListing.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReviewDetails</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ReviewDetails.jsp</jsp-file></servlet>
     
     <!-- URL MAPPING - EDUTECH (SERVLET) -->
     <servlet-mapping><servlet-name>CommonInfra</servlet-name><url-pattern>/CommonInfra</url-pattern></servlet-mapping>
@@ -37,7 +37,7 @@
     <servlet-mapping><servlet-name>Marketplace</servlet-name><url-pattern>/Marketplace</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>Voices</servlet-name><url-pattern>/Voices</url-pattern></servlet-mapping>
     <!-- URL MAPPING - UNIFY - ADMIN (JSP) -->
-    <servlet-mapping><servlet-name>UnifyAdminLanding</servlet-name><url-pattern>/webapp/unify/admin/UnifyAdminLanding</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>AdminDashboard</servlet-name><url-pattern>/webapp/unify/admin/AdminDashboard</url-pattern></servlet-mapping>
     <!-- URL MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
     <servlet-mapping><servlet-name>HelpListing</servlet-name><url-pattern>/webapp/unify/systemuser/errands/HelpListing</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>HelpDetails</servlet-name><url-pattern>/webapp/unify/systemuser/errands/HelpDetails</url-pattern></servlet-mapping>
@@ -47,8 +47,8 @@
     <!-- URL MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
     <servlet-mapping><servlet-name>UserProfile</servlet-name><url-pattern>/webapp/unify/systemuser/userprofile/UserProfile</url-pattern></servlet-mapping>
     <!-- URL MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    <servlet-mapping><servlet-name>ShoutListing</servlet-name><url-pattern>/webapp/unify/systemuser/voices/ShoutListing</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>ShoutDetails</servlet-name><url-pattern>/webapp/unify/systemuser/voices/ShoutDetails</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>ReviewListing</servlet-name><url-pattern>/webapp/unify/systemuser/voices/ReviewListing</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>ReviewDetails</servlet-name><url-pattern>/webapp/unify/systemuser/voices/ReviewDetails</url-pattern></servlet-mapping>
     
     <!-- MISCELLANEOUS -->
     <session-config><session-timeout>300</session-timeout></session-config>

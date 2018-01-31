@@ -8,12 +8,12 @@
         <title>Unify - Errands(Help) Details</title>
 
         <!-- Cascading Style Sheet (CSS) -->
-        <link href="css/unify/systemuser/baselayout/bootstrap_v4.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
 
         <!-- JavaScript (JS) -->
-        <script src="js/unify/systemuser/basejs/jquery.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/bootstrap_v4.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/jquery-v3.1.0.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/errands/HelpDetailsJS.js" type="text/javascript"></script>
     </head>
     <body>
