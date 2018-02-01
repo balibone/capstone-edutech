@@ -14,6 +14,7 @@
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/UnifyAdminCommonCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/dataTable/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/dataTable/responsive.bootstrap.min.css" rel="stylesheet" type="text/css">
     </head>
@@ -195,7 +196,7 @@
                             <div class="x_title">
                                 <h2 class="bodyHeader">Item Categories</h2>
                                 <ul class="nav navbar-right panel_toolbox">
-                                    <li><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Item Category</li>
+                                    <li id="newItemCategory"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Item Category</li>
                                 </ul>
                                 <div class="clearfix"></div>
                             </div>
@@ -206,28 +207,30 @@
                                             <th>Category Image</th>
                                             <th>Category Name</th>
                                             <th>Category Description</th>
+                                            <th>Category Active Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <%
+                                            String activeStatus = "";
                                             ArrayList<Vector> itemCategoryList = (ArrayList) request.getAttribute("itemCategoryList");
-                                            if (itemCategoryList.isEmpty()) {
+                                            if (!itemCategoryList.isEmpty()) {
                                         %>
-                                        <tr>
-                                            <td colspan="6" style="text-align: center;">There are no item category records available.</td>
-                                        </tr>
                                         <%
-                                        } else {
-                                            for (int i = 0; i <= itemCategoryList.size() - 1; i++) {
-                                                Vector v = itemCategoryList.get(i);
-                                                String categoryImage = String.valueOf(v.get(0));
-                                                String categoryName = String.valueOf(v.get(1));
-                                                String categoryDescription = String.valueOf(v.get(2));
+                                                for (int i = 0; i <= itemCategoryList.size()-1; i++) {
+                                                    Vector v = itemCategoryList.get(i);
+                                                    String categoryImage = String.valueOf(v.get(0));
+                                                    String categoryName = String.valueOf(v.get(1));
+                                                    String categoryDescription = String.valueOf(v.get(2));
+                                                    String categoryActiveStatus = String.valueOf(v.get(3));
+                                                    if(categoryActiveStatus.equals("false")) { activeStatus = "Inactive"; }
+                                                    else if(categoryActiveStatus.equals("true")) { activeStatus = "Active"; }
                                         %>
                                         <tr>
-                                            <td><img src="uploads/unify/images/marketplace/item/<%= categoryImage %>" style="max-width: 50px; max-height: 50px;" /></td>
+                                            <td><img src="uploads/unify/images/common/category/<%= categoryImage %>" style="max-width: 50px; max-height: 50px;" /></td>
                                             <td><%= categoryName %></td>
                                             <td><%= categoryDescription %></td>
+                                            <td><%= activeStatus %></td>
                                         </tr>
                                         <%      }   %>
                                         <%  }%>
@@ -237,6 +240,8 @@
                         </div>
                     </div>
                 </div>
+                <div id="newItemCategory-iframe"></div>
+                <div id="editItemCategory-iframe"></div>
                 <div id="adminFooter"></div>
             </div>
         </div>
@@ -246,6 +251,8 @@
         <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/UnifyAdminCommonJS.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/iziModal.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/webjs/marketplace/ViewItemCategoryListingJS.js" type="text/javascript"></script>
         
         <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>

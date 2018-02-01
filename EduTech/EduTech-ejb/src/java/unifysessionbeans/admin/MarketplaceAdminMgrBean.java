@@ -19,6 +19,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     @PersistenceContext
     private EntityManager em;
     
+    private CategoryEntity cEntity;
     private ItemEntity iEntity;
     
     @Override
@@ -32,11 +33,35 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             
             categoryVec.add(categoryE.getCategoryImage());
             categoryVec.add(categoryE.getCategoryName());
-            categoryVec.add(categoryE.getCategoryType());
             categoryVec.add(categoryE.getCategoryDescription());
+            categoryVec.add(categoryE.getCategoryActiveStatus());
             categoryList.add(categoryVec);
         }
         return categoryList;
+    }
+    
+    @Override
+    public Vector viewItemCategoryDetails(String categoryName, String categoryType) {
+        cEntity = lookupItemCategory(categoryName, categoryType);
+        Vector itemCategoryDetailsVec = new Vector();
+        
+        if (cEntity != null) {
+            itemCategoryDetailsVec.add(cEntity.getCategoryImage());
+            itemCategoryDetailsVec.add(cEntity.getCategoryName());
+            itemCategoryDetailsVec.add(cEntity.getCategoryType());
+            itemCategoryDetailsVec.add(cEntity.getCategoryDescription());
+            itemCategoryDetailsVec.add(cEntity.getCategoryActiveStatus());
+            return itemCategoryDetailsVec;
+        }
+        return null;
+    }
+    
+    @Override
+    public boolean createItemCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
+        cEntity = new CategoryEntity();
+        cEntity.createCategory(categoryName, categoryType, categoryDescription, categoryImage);
+        em.persist(cEntity);
+        return true;
     }
     
     @Override
@@ -81,6 +106,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
         return null;
     }
     
+    /* MISCELLANEOUS METHODS */
     public ItemEntity lookupItem(String itemName, String itemSellerID){
         ItemEntity ie = new ItemEntity();
         try{
@@ -100,5 +126,26 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             ie = null;
         }
         return ie;
+    }
+    
+    public CategoryEntity lookupItemCategory(String categoryName, String categoryType){
+        CategoryEntity ce = new CategoryEntity();
+        try{
+            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryName = :categoryName AND c.categoryType = :categoryType");
+            q.setParameter("categoryName", categoryName);
+            q.setParameter("categoryType", categoryType);
+            ce = (CategoryEntity)q.getSingleResult();
+        }
+        catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        catch(NoResultException nre){
+            System.out.println("ERROR: Category does not exist. " + nre.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        return ce;
     }
 }
