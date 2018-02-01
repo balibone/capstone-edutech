@@ -5,7 +5,7 @@ $(document).ready(function() {
         $('#newItemCategory-iframe').iziModal('open', event);
     });
     
-    $("#newItemCategory-iframe").iziModal({
+    $('#newItemCategory-iframe').iziModal({
         title: 'New Item Category',
         subtitle: 'Fill in the information of the new category here',
         iconClass: 'fa fa-cubes',
@@ -25,12 +25,12 @@ $(document).ready(function() {
                 return $(this).text();
             }).get();
             rowCategoryName = $.trim(rowData[1]);
-            $('iframe').attr('src', 'MarketplaceAdmin?pageTransit=goToViewItemCategoryDetails&categoryName=' + rowCategoryName + '&categoryType=marketplace');
+            $('iframe').attr('src', 'MarketplaceAdmin?pageTransit=goToViewItemCategoryDetails&urlCategoryName=' + rowCategoryName + '&urlCategoryType=marketplace');
             $('#editItemCategory-iframe').iziModal('open', event);
         }
     });
     
-    $("#editItemCategory-iframe").iziModal({
+    $('#editItemCategory-iframe').iziModal({
         title: 'Edit Item Category',
         subtitle: 'Administrator may deactivate this item here',
         iconClass: 'fa fa-cubes',
@@ -42,4 +42,7 @@ $(document).ready(function() {
         iframe : true,
         iframeHeight: 350
     });
+    
+    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
+    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 });

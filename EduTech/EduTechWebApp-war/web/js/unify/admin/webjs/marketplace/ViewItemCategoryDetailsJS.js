@@ -4,6 +4,7 @@ function previewImage(event) {
     reader.onload = function() {
         var output = document.getElementById('output-image');
         output.src = reader.result;
+        document.getElementById('imageUploadStatus').value = "Uploaded";
     };
     reader.readAsDataURL(event.target.files[0]);
 }

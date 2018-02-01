@@ -201,6 +201,25 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
+                                <%
+                                    String successMessage = (String) request.getAttribute("successMessage");
+                                    if (successMessage != null) {
+                                %>
+                                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                                    <button type="button" class="close" id="closeSuccess">&times;</button>
+                                    <%= successMessage %>
+                                </div>
+                                <%  } %>
+                                <%
+                                    String errorMessage = (String) request.getAttribute("errorMessage");
+                                    if (errorMessage != null) {
+                                %>
+                                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                                    <button type="button" class="close" id="closeError">&times;</button>
+                                    <%= errorMessage %>
+                                </div>
+                                <%  } %>
+                                
                                 <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
@@ -217,20 +236,23 @@
                                             if (!itemCategoryList.isEmpty()) {
                                         %>
                                         <%
-                                                for (int i = 0; i <= itemCategoryList.size()-1; i++) {
-                                                    Vector v = itemCategoryList.get(i);
-                                                    String categoryImage = String.valueOf(v.get(0));
-                                                    String categoryName = String.valueOf(v.get(1));
-                                                    String categoryDescription = String.valueOf(v.get(2));
-                                                    String categoryActiveStatus = String.valueOf(v.get(3));
-                                                    if(categoryActiveStatus.equals("false")) { activeStatus = "Inactive"; }
-                                                    else if(categoryActiveStatus.equals("true")) { activeStatus = "Active"; }
+                                            for (int i = 0; i <= itemCategoryList.size() - 1; i++) {
+                                                Vector v = itemCategoryList.get(i);
+                                                String categoryImage = String.valueOf(v.get(0));
+                                                String categoryName = String.valueOf(v.get(1));
+                                                String categoryDescription = String.valueOf(v.get(2));
+                                                String categoryActiveStatus = String.valueOf(v.get(3));
+                                                if (categoryActiveStatus.equals("false")) {
+                                                    activeStatus = "Inactive";
+                                                } else if (categoryActiveStatus.equals("true")) {
+                                                    activeStatus = "Active";
+                                                }
                                         %>
                                         <tr>
-                                            <td><img src="uploads/unify/images/common/category/<%= categoryImage %>" style="max-width: 50px; max-height: 50px;" /></td>
-                                            <td><%= categoryName %></td>
-                                            <td><%= categoryDescription %></td>
-                                            <td><%= activeStatus %></td>
+                                            <td><img src="uploads/unify/images/common/category/<%= categoryImage%>" style="max-width: 50px; max-height: 50px;" /></td>
+                                            <td><%= categoryName%></td>
+                                            <td><%= categoryDescription%></td>
+                                            <td><%= activeStatus%></td>
                                         </tr>
                                         <%      }   %>
                                         <%  }%>
@@ -253,7 +275,7 @@
         <script src="js/unify/admin/basejs/UnifyAdminCommonJS.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/webjs/marketplace/ViewItemCategoryListingJS.js" type="text/javascript"></script>
-        
+
         <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.bootstrap.js" type="text/javascript"></script>
