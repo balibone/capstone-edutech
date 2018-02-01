@@ -19,7 +19,6 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import unifyentities.common.CategoryEntity;
 
 @Entity(name = "Item")
 public class ItemEntity implements Serializable {
@@ -29,17 +28,18 @@ public class ItemEntity implements Serializable {
     private String itemName;
     private String itemDescription;
     private Double itemPrice;
-    private CategoryEntity itemCategory;
+    private String itemCategory;
     private String itemStatus;
     private String tradeLocation;
     private String tradeLat;
     private String tradeLong;
+    private String itemImage;
     
     @Temporal(TemporalType.DATE)
     private Date itemPostingDate;
     
     /* FOREIGN KEY */
-    private Long itemSellerID;
+    private String itemSellerID;
     
     @PrePersist
     public void creationDate() { this.itemPostingDate = new Date(); }
@@ -49,24 +49,26 @@ public class ItemEntity implements Serializable {
     public String getItemName() { return itemName; }
     public String getItemDescription() { return itemDescription; }
     public Double getItemPrice() { return itemPrice; }
-    public CategoryEntity getItemCategory() { return itemCategory; }
+    public String getItemCategory() { return itemCategory; }
     public String getItemStatus() { return itemStatus; }
     public String getTradeLocation() { return tradeLocation; }
     public String getTradeLat() { return tradeLat; }
     public String getTradeLong() { return tradeLong; }
+    public String getItemImage() { return itemImage; }
     public Date getItemPostingDate() { return itemPostingDate; }
-    public Long getItemSellerID() { return itemSellerID; }
+    public String getItemSellerID() { return itemSellerID; }
     
     /* SETTER METHODS */
     public void setItemID(Long itemID) { this.itemID = itemID; }
     public void setItemName(String itemName) { this.itemName = itemName; }
     public void setItemDescription(String itemDescription) { this.itemDescription = itemDescription; }
     public void setItemPrice(Double itemPrice) { this.itemPrice = itemPrice; }
-    public void setItemCategory(CategoryEntity itemCategory) { this.itemCategory = itemCategory; }
+    public void setItemCategory(String itemCategory) { this.itemCategory = itemCategory; }
     public void setItemStatus(String itemStatus) { this.itemStatus = itemStatus; }
     public void setTradeLocation(String tradeLocation) { this.tradeLocation = tradeLocation; }
     public void setTradeLat(String tradeLat) { this.tradeLat = tradeLat; }
     public void setTradeLong(String tradeLong) { this.tradeLong = tradeLong; }
+    public void setItemImage(String itemImage) { this.itemImage = itemImage; }
     public void setItemPostingDate(Date itemPostingDate) { this.itemPostingDate = itemPostingDate; }
-    public void setItemSellerID(Long itemSellerID) { this.itemSellerID = itemSellerID; }
+    public void setItemSellerID(String itemSellerID) { this.itemSellerID = itemSellerID; }
 }

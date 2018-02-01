@@ -6,6 +6,7 @@
     <servlet><servlet-name>IntegratedSPLanding</servlet-name><jsp-file>/webapp/edutech/commoninfrastructure/IntegratedSPLanding.jsp</jsp-file></servlet>
     <servlet><servlet-name>IntegratedSPLogin</servlet-name><jsp-file>/webapp/edutech/commoninfrastructure/IntegratedSPLogin.jsp</jsp-file></servlet>
     
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
     <servlet><servlet-name>ProfileAdmin</servlet-name><servlet-class>unifycontrollers.admin.UserProfileAdminController</servlet-class></servlet>
     <servlet><servlet-name>ErrandsAdmin</servlet-name><servlet-class>unifycontrollers.admin.ErrandsAdminController</servlet-class></servlet>
@@ -15,9 +16,12 @@
     <servlet><servlet-name>AdminDashboard</servlet-name><jsp-file>/webapp/unify/admin/AdminDashboard.jsp</jsp-file></servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - MARKETPLACE (JSP) -->
+    <servlet><servlet-name>ViewItemCategoryListing</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemCategoryListing.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewItemListing</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemListing.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewItemListingDetails</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemListingDetails.jsp</jsp-file></servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - USERPROFILE (JSP) -->
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - VOICES (JSP) -->
+    
     
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
     <servlet><servlet-name>ProfileSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.UserProfileSysUserController</servlet-class></servlet>
@@ -36,11 +40,13 @@
     <servlet><servlet-name>ReviewListing</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ReviewListing.jsp</jsp-file></servlet>
     <servlet><servlet-name>ReviewDetails</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ReviewDetails.jsp</jsp-file></servlet>
     
+    
     <!-- URL MAPPING - EDUTECH (SERVLET) -->
     <servlet-mapping><servlet-name>CommonInfra</servlet-name><url-pattern>/CommonInfra</url-pattern></servlet-mapping>
     <!-- URL MAPPING - EDUTECH - COMMON INFRASTRUCTURE (JSP) -->
     <servlet-mapping><servlet-name>IntegratedSPLanding</servlet-name><url-pattern>/webapp/edutech/commoninfrastructure/IntegratedSPLanding</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>IntegratedSPLogin</servlet-name><url-pattern>/webapp/edutech/commoninfrastructure/IntegratedSPLogin</url-pattern></servlet-mapping>
+    
     
     <!-- URL MAPPING - UNIFY - ADMIN (SERVLET) -->
     <servlet-mapping><servlet-name>ProfileAdmin</servlet-name><url-pattern>/ProfileAdmin</url-pattern></servlet-mapping>
@@ -51,9 +57,12 @@
     <servlet-mapping><servlet-name>AdminDashboard</servlet-name><url-pattern>/webapp/unify/admin/AdminDashboard</url-pattern></servlet-mapping>
     <!-- URL MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
     <!-- URL MAPPING - UNIFY - ADMIN - MARKETPLACE (JSP) -->
+    <servlet-mapping><servlet-name>ViewItemCategoryListing</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemCategoryListing</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>ViewItemListing</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemListing</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>ViewItemListingDetails</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemListingDetails</url-pattern></servlet-mapping>
     <!-- URL MAPPING - UNIFY - ADMIN - USERPROFILE (JSP) -->
     <!-- URL MAPPING - UNIFY - ADMIN - VOICES (JSP) -->
+
 
     <!-- URL MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
     <servlet-mapping><servlet-name>ProfileSysUser</servlet-name><url-pattern>/ProfileSysUser</url-pattern></servlet-mapping>
@@ -71,6 +80,7 @@
     <!-- URL MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
     <servlet-mapping><servlet-name>ReviewListing</servlet-name><url-pattern>/webapp/unify/systemuser/voices/ReviewListing</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>ReviewDetails</servlet-name><url-pattern>/webapp/unify/systemuser/voices/ReviewDetails</url-pattern></servlet-mapping>
+    
     
     <!-- MISCELLANEOUS -->
     <session-config><session-timeout>300</session-timeout></session-config>
