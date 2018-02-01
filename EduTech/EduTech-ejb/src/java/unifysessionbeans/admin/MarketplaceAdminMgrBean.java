@@ -41,8 +41,8 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     }
     
     @Override
-    public Vector viewItemCategoryDetails(String categoryName, String categoryType) {
-        cEntity = lookupItemCategory(categoryName, categoryType);
+    public Vector viewItemCategoryDetails(String urlCategoryName, String urlCategoryType) {
+        cEntity = lookupItemCategory(urlCategoryName, urlCategoryType);
         Vector itemCategoryDetailsVec = new Vector();
         
         if (cEntity != null) {
@@ -62,6 +62,48 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
         cEntity.createCategory(categoryName, categoryType, categoryDescription, categoryImage);
         em.persist(cEntity);
         return true;
+    }
+    
+    @Override
+    public boolean updateItemCategory(String oldCategoryName, String newCategoryName, String categoryType, 
+            String oldCategoryDescription, String newCategoryDescription, String fileName) {
+        boolean icUpdateStatus = true;
+        if (lookupItemCategory(oldCategoryName, categoryType) == null) {
+            icUpdateStatus = false;
+        } else {
+            cEntity = lookupItemCategory(oldCategoryName, categoryType);
+            cEntity.setCategoryName(newCategoryName);
+            cEntity.setCategoryDescription(newCategoryDescription);
+            cEntity.setCategoryImage(fileName);
+            em.merge(cEntity);
+        }
+        return icUpdateStatus;
+    }
+    
+    @Override
+    public boolean deactivateAnItemCategory(String deactCategoryName, String deactCategoryType) {
+        boolean icDeactivateStatus = true;
+        if (lookupItemCategory(deactCategoryName, deactCategoryType) == null) {
+            icDeactivateStatus = false;
+        } else {
+            cEntity = lookupItemCategory(deactCategoryName, deactCategoryType);
+            cEntity.setCategoryActiveStatus(false);
+            em.merge(cEntity);
+        }
+        return icDeactivateStatus;
+    }
+    
+    @Override
+    public boolean activateAnItemCategory(String actCategoryName, String actCategoryType) {
+        boolean icDeactivateStatus = true;
+        if (lookupItemCategory(actCategoryName, actCategoryType) == null) {
+            icDeactivateStatus = false;
+        } else {
+            cEntity = lookupItemCategory(actCategoryName, actCategoryType);
+            cEntity.setCategoryActiveStatus(true);
+            em.merge(cEntity);
+        }
+        return icDeactivateStatus;
     }
     
     @Override
@@ -128,7 +170,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
         return ie;
     }
     
-    public CategoryEntity lookupItemCategory(String categoryName, String categoryType){
+    public CategoryEntity lookupItemCategory(String categoryName, String categoryType) {
         CategoryEntity ce = new CategoryEntity();
         try{
             Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryName = :categoryName AND c.categoryType = :categoryType");

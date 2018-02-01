@@ -69,13 +69,46 @@
                     </div>
             </div>
             <div class="ln_solid"></div>
-            <div class="form-group" style="text-align: center;">
+            <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                    <input type="hidden" name="pageTransit" value="updateItemCategory"/>
-                    <input type="hidden" name="hiddenCategoryType" value="<%= categoryType %>" />
-                    <button type="submit" class="btn btn-primary">Update Category</button>&nbsp;&nbsp;
-                    <button type="button" class="btn btn-primary" onclick="location.href='MarketplaceAdmin?pageTransit=deactivateItemCategory&categoryName='+ <%= categoryName %> + '&categoryType=marketplace';">Deactivate Category</button>
-                    </form>
+                    <table border="0" style="margin: auto;">
+                        <tr>
+                            <td>
+                                <input type="hidden" name="pageTransit" value="updateItemCategory"/>
+                                <input type="hidden" name="oldCategoryName" value="<%= categoryName %>" />
+                                <input type="hidden" name="hiddenCategoryType" value="<%= categoryType %>" />
+                                <input type="hidden" name="oldCategoryDescription" value="<%= categoryDescription %>" />
+                                <input type="hidden" name="imageUploadStatus" id="imageUploadStatus" />
+                                <input type="hidden" name="oldCategoryImage"  value="<%= categoryImage %>" />
+                                <button type="submit" class="btn btn-primary">Update Category</button></form>
+                            </td>
+                            <% 
+                                if(activeStatus.equals("Active")) {
+                            %>
+                            <td>
+                                <form action="MarketplaceAdmin" method="POST" target="_parent">
+                                    <input type="hidden" name="pageTransit" value="deactivateAnItemCategory"/>
+                                    <input type="hidden" name="hiddenCategoryName" value="<%= categoryName %>"/>
+                                    <input type="hidden" name="hiddenCategoryType" value="<%= categoryType %>"/>
+                                    <button type="submit" class="btn btn-primary">Deactivate Category</button>
+                                </form>
+                            </td>
+                            <%
+                                } else if(activeStatus.equals("Inactive")) {
+                            %>
+                            <td>
+                                <form action="MarketplaceAdmin" method="POST" target="_parent">
+                                    <input type="hidden" name="pageTransit" value="activateAnItemCategory"/>
+                                    <input type="hidden" name="hiddenCategoryName" value="<%= categoryName %>"/>
+                                    <input type="hidden" name="hiddenCategoryType" value="<%= categoryType %>"/>
+                                    <button type="submit" class="btn btn-primary">Activate Category</button>
+                                </form>
+                            </td>
+                            <%
+                                }
+                            %>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
