@@ -1,18 +1,21 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page import="java.util.ArrayList" %>
+<%@page import="java.util.Vector"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Admin - View Item Listing</title>
+        <title>Unify Admin - View Item Categories</title>
 
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/UnifyAdminCommonCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/dataTable/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/dataTable/responsive.bootstrap.min.css" rel="stylesheet" type="text/css">
     </head>
 
     <body class="nav-md">
@@ -190,10 +193,47 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_title">
-                                <h2 class="bodyHeader">Dashboard</h2>
+                                <h2 class="bodyHeader">Item Categories</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Item Category</li>
+                                </ul>
                                 <div class="clearfix"></div>
                             </div>
-                            <div class="x_content"></div>
+                            <div class="x_content">
+                                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Category Image</th>
+                                            <th>Category Name</th>
+                                            <th>Category Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%
+                                            ArrayList<Vector> itemCategoryList = (ArrayList) request.getAttribute("itemCategoryList");
+                                            if (itemCategoryList.isEmpty()) {
+                                        %>
+                                        <tr>
+                                            <td colspan="6" style="text-align: center;">There are no item category records available.</td>
+                                        </tr>
+                                        <%
+                                        } else {
+                                            for (int i = 0; i <= itemCategoryList.size() - 1; i++) {
+                                                Vector v = itemCategoryList.get(i);
+                                                String categoryImage = String.valueOf(v.get(0));
+                                                String categoryName = String.valueOf(v.get(1));
+                                                String categoryDescription = String.valueOf(v.get(2));
+                                        %>
+                                        <tr>
+                                            <td><img src="uploads/unify/images/marketplace/item/<%= categoryImage %>" style="max-width: 50px; max-height: 50px;" /></td>
+                                            <td><%= categoryName %></td>
+                                            <td><%= categoryDescription %></td>
+                                        </tr>
+                                        <%      }   %>
+                                        <%  }%>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -206,5 +246,10 @@
         <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/UnifyAdminCommonJS.js" type="text/javascript"></script>
+        
+        <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.bootstrap.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.min.js" type="text/javascript"></script>
     </body>
 </html>

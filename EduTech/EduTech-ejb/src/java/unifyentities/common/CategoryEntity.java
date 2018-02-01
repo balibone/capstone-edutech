@@ -24,16 +24,19 @@ public class CategoryEntity implements Serializable {
     private String categoryName;
     private String categoryType;
     private String categoryDescription;
+    private String categoryImage;
     
     /* GETTER METHODS */
     public Long getCategoryID() { return categoryID; }
     public String getCategoryName() { return categoryName; }
     public String getCategoryType() { return categoryType; }
     public String getCategoryDescription() { return categoryDescription; }
+    public String getCategoryImage() { return categoryImage; }
     
     /* SETTER METHODS */
     public void setCategoryID(Long categoryID) { this.categoryID = categoryID; }
     public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
     public void setCategoryType(String categoryType) { this.categoryType = categoryType; }
     public void setCategoryDescription(String categoryDescription) { this.categoryDescription = categoryDescription; }
+    public void setCategoryImage(String categoryImage) { this.categoryImage = categoryImage; }
 }
