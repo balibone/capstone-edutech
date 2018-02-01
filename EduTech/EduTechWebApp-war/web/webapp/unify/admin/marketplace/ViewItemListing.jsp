@@ -212,21 +212,15 @@
                                     <tbody>
                                         <%
                                             ArrayList<Vector> itemList = (ArrayList) request.getAttribute("itemList");
-                                            if (itemList.isEmpty()) {
-                                        %>
-                                        <tr>
-                                            <td colspan="6" style="text-align: center;">There are no item records available.</td>
-                                        </tr>
-                                        <%
-                                        } else {
-                                            for (int i = 0; i <= itemList.size() - 1; i++) {
-                                                Vector v = itemList.get(i);
-                                                String itemImage = String.valueOf(v.get(0));
-                                                String itemName = String.valueOf(v.get(1));
-                                                String itemCategory = String.valueOf(v.get(2));
-                                                String itemSellerID = String.valueOf(v.get(3));
-                                                String itemPrice = String.valueOf(v.get(4));
-                                                String itemStatus = String.valueOf(v.get(5));
+                                            if (!itemList.isEmpty()) {
+                                                for (int i = 0; i <= itemList.size() - 1; i++) {
+                                                    Vector v = itemList.get(i);
+                                                    String itemImage = String.valueOf(v.get(0));
+                                                    String itemName = String.valueOf(v.get(1));
+                                                    String itemCategory = String.valueOf(v.get(2));
+                                                    String itemSellerID = String.valueOf(v.get(3));
+                                                    String itemPrice = String.valueOf(v.get(4));
+                                                    String itemStatus = String.valueOf(v.get(5));
                                         %>
                                         <tr>
                                             <td><img src="uploads/unify/images/marketplace/item/<%= itemImage %>" style="max-width: 50px; max-height: 50px;" /></td>

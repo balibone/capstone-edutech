@@ -17,6 +17,8 @@
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - MARKETPLACE (JSP) -->
     <servlet><servlet-name>ViewItemCategoryListing</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemCategoryListing.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewItemCategoryDetails</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemCategoryDetails.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewItemCategory</servlet-name><jsp-file>/webapp/unify/admin/marketplace/NewItemCategory.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewItemListing</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemListing.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewItemListingDetails</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemListingDetails.jsp</jsp-file></servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - USERPROFILE (JSP) -->
@@ -58,6 +60,8 @@
     <!-- URL MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
     <!-- URL MAPPING - UNIFY - ADMIN - MARKETPLACE (JSP) -->
     <servlet-mapping><servlet-name>ViewItemCategoryListing</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemCategoryListing</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>ViewItemCategoryDetails</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemCategoryDetails</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>NewItemCategory</servlet-name><url-pattern>/webapp/unify/admin/marketplace/NewItemCategory</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>ViewItemListing</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemListing</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>ViewItemListingDetails</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemListingDetails</url-pattern></servlet-mapping>
     <!-- URL MAPPING - UNIFY - ADMIN - USERPROFILE (JSP) -->

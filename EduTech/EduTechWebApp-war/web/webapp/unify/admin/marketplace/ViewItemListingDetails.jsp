@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.Vector"%>
-<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
     <head>

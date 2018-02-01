@@ -25,6 +25,18 @@ public class CategoryEntity implements Serializable {
     private String categoryType;
     private String categoryDescription;
     private String categoryImage;
+    private Boolean categoryActiveStatus;
+    
+    /* DEFAULT CONSTRUCTOR */
+    public CategoryEntity() { categoryActiveStatus = true; }
+    
+    /* MISCELLANEOUS METHODS */
+    public void createCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
+        this.categoryName = categoryName;
+        this.categoryType = categoryType;
+        this.categoryDescription = categoryDescription;
+        this.categoryImage = categoryImage;
+    }
     
     /* GETTER METHODS */
     public Long getCategoryID() { return categoryID; }
@@ -32,6 +44,7 @@ public class CategoryEntity implements Serializable {
     public String getCategoryType() { return categoryType; }
     public String getCategoryDescription() { return categoryDescription; }
     public String getCategoryImage() { return categoryImage; }
+    public Boolean getCategoryActiveStatus() { return categoryActiveStatus; }
     
     /* SETTER METHODS */
     public void setCategoryID(Long categoryID) { this.categoryID = categoryID; }
@@ -39,4 +52,5 @@ public class CategoryEntity implements Serializable {
     public void setCategoryType(String categoryType) { this.categoryType = categoryType; }
     public void setCategoryDescription(String categoryDescription) { this.categoryDescription = categoryDescription; }
     public void setCategoryImage(String categoryImage) { this.categoryImage = categoryImage; }
+    public void setCategoryActiveStatus(Boolean categoryActiveStatus) { this.categoryActiveStatus = categoryActiveStatus; }
 }
