@@ -1,6 +1,8 @@
 package unifycontrollers.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -23,11 +25,19 @@ public class MarketplaceAdminController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
+                case "goToViewItemCategoryListing":
+                    request.setAttribute("itemCategoryList", (ArrayList)mamr.viewItemCategoryList());
+                    pageAction = "ViewItemCategoryListing";
+                    break;
                 case "goToViewItemListing":
+                    request.setAttribute("itemList", (ArrayList)mamr.viewItemList());
                     pageAction = "ViewItemListing";
                     break;
-                case "goToViewItemDetails":
-                    pageAction = "ViewItemDetails";
+                case "goToViewItemListingDetails":
+                    String itemName = request.getParameter("itemName");
+                    String itemSellerID = request.getParameter("itemSellerID");
+                    request.setAttribute("itemDetailsVec", mamr.viewItemDetails(itemName, itemSellerID));
+                    pageAction = "ViewItemListingDetails";
                     break;
                 default:
                     break;
