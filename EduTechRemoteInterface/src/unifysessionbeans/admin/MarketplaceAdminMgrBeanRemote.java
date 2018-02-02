@@ -16,4 +16,7 @@ public interface MarketplaceAdminMgrBeanRemote {
     
     public List<Vector> viewItemList();
     public Vector viewItemDetails(String itemName, String itemSellerID);
+    public boolean deleteAnItem(String hiddenItemName, String hiddenSellerID);
+    
+    public void createSystemMessage(String hiddenItemName, String hiddenSellerID);
 }

@@ -81,7 +81,23 @@
                 </div>
             </div>
         </div>
-                        
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <table border="0" style="margin: auto;">
+                    <tr>
+                        <td>
+                            <form action="MarketplaceAdmin" method="POST" target="_parent">
+                                <input type="hidden" name="pageTransit" value="deleteAnItem" />
+                                <input type="hidden" name="hiddenItemName" value="<%= itemName %>" />
+                                <input type="hidden" name="hiddenSellerID" value="<%= itemSellerID %>" />
+                                <button type="submit" class="btn btn-primary">Delete Item</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>             
+        
         <!-- JAVASCRIPT (JS) -->
         <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
     </body>

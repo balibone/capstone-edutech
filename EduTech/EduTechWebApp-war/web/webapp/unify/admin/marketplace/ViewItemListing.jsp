@@ -198,6 +198,25 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
+                                <%
+                                    String successMessage = (String) request.getAttribute("successMessage");
+                                    if (successMessage != null) {
+                                %>
+                                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                                    <button type="button" class="close" id="closeSuccess">&times;</button>
+                                    <%= successMessage %>
+                                </div>
+                                <%  } %>
+                                <%
+                                    String errorMessage = (String) request.getAttribute("errorMessage");
+                                    if (errorMessage != null) {
+                                %>
+                                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                                    <button type="button" class="close" id="closeError">&times;</button>
+                                    <%= errorMessage %>
+                                </div>
+                                <%  } %>
+                                
                                 <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>

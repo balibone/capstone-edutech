@@ -25,10 +25,9 @@ import unifysessionbeans.admin.MarketplaceAdminMgrBeanRemote;
         maxRequestSize = 1024 * 1024 * 100
 )
 public class MarketplaceAdminController extends HttpServlet {
-
     @EJB
     private MarketplaceAdminMgrBeanRemote mamr;
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
@@ -100,6 +99,18 @@ public class MarketplaceAdminController extends HttpServlet {
                     String itemSellerID = request.getParameter("itemSellerID");
                     request.setAttribute("itemDetailsVec", mamr.viewItemDetails(itemName, itemSellerID));
                     pageAction = "ViewItemListingDetails";
+                    break;
+                case "deleteAnItem":
+                    String hiddenItemName = request.getParameter("hiddenItemName");
+                    String hiddenSellerID = request.getParameter("hiddenSellerID");
+                    if (mamr.deleteAnItem(hiddenItemName, hiddenSellerID)) {
+                        mamr.createSystemMessage(hiddenItemName, hiddenSellerID);
+                        request.setAttribute("successMessage", "Selected item has been deleted successfully. A system notification has been sent to the seller");
+                    } else {
+                        request.setAttribute("errorMessage", "Selected item cannot be deleted. Please try again later.");
+                    }
+                    request.setAttribute("itemList", (ArrayList) mamr.viewItemList());
+                    pageAction = "ViewItemListing";
                     break;
                 default:
                     break;
