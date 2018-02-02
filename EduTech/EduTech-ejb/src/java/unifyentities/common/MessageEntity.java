@@ -35,6 +35,14 @@ public class MessageEntity implements Serializable {
     @PrePersist
     public void creationDate() { this.messageDate = new Date(); }
     
+    /* MISCELLANEOUS METHODS */
+    public void createSystemMessage(String messageSenderID, String messageReceiverID, String messageContent, String messageType) {
+        this.messageSenderID = messageSenderID;
+        this.messageReceiverID = messageReceiverID;
+        this.messageContent = messageContent;
+        this.messageType = messageType;
+    }
+    
     /* GETTER METHODS */
     public Long getMessageID() { return messageID; }
     public String getMessageSenderID() { return messageSenderID; }

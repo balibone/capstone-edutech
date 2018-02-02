@@ -26,4 +26,7 @@ $(document).ready(function() {
         iframe : true,
         iframeHeight: 525
     });
+    
+    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
+    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 });

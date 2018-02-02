@@ -13,6 +13,7 @@ import java.util.Vector;
 
 import unifyentities.marketplace.ItemEntity;
 import unifyentities.common.CategoryEntity;
+import unifyentities.common.MessageEntity;
 
 @Stateless
 public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
@@ -21,6 +22,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     
     private CategoryEntity cEntity;
     private ItemEntity iEntity;
+    private MessageEntity mEntity;
     
     @Override
     public List<Vector> viewItemCategoryList(){
@@ -148,6 +150,20 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
         return null;
     }
     
+    @Override
+    public boolean deleteAnItem(String hiddenItemName, String hiddenSellerID) {
+        boolean itemDeleteStatus = true;
+        if (lookupItem(hiddenItemName, hiddenSellerID) == null) {
+            itemDeleteStatus = false;
+        } else {
+            iEntity = lookupItem(hiddenItemName, hiddenSellerID);
+            em.remove(iEntity);
+            em.flush();
+            em.clear();
+        }
+        return itemDeleteStatus;
+    }
+    
     /* MISCELLANEOUS METHODS */
     public ItemEntity lookupItem(String itemName, String itemSellerID){
         ItemEntity ie = new ItemEntity();
@@ -189,5 +205,14 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             ce = null;
         }
         return ce;
+    }
+    
+    @Override
+    public void createSystemMessage(String hiddenItemName, String hiddenSellerID) {
+        mEntity = new MessageEntity();
+        String messageContent = "Dear " + hiddenSellerID + ", your '" + hiddenItemName + "' listing has been "
+                + "removed due to inappropriate content.";
+        mEntity.createSystemMessage("SystemAdmin", hiddenSellerID, messageContent, "System");
+        em.persist(mEntity);
     }
 }
