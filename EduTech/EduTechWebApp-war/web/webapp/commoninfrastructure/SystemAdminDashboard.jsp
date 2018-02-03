@@ -6,13 +6,13 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Admin - View Item Listing</title>
+        <title>System Admin - View Item Listing</title>
 
         <!-- CASCADING STYLESHEET (CSS) -->
-        <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/baselayout/UnifyAdminCommonCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/admin/baselayout/SystemAdminBaseCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/admin/baselayout/SystemAdminCommonCSS.css" rel="stylesheet" type="text/css">
     </head>
 
     <body class="nav-md">
@@ -202,9 +202,9 @@
         </div>
 
         <!-- JAVASCRIPT (JS) -->
-        <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/UnifyAdminCommonJS.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/admin/basejs/SystemAdminBaseJS.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/admin/basejs/SystemAdminCommonJS.js" type="text/javascript"></script>
     </body>
 </html>

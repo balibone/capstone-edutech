@@ -7,17 +7,17 @@
         <title>Integrated Student System - Landing Page</title>
 
         <!-- Cascading Style Sheet (CSS) -->
-        <link href="css/edutech/commoninfrastructure/baselayout/bootstrap.min.css" rel="stylesheet" type="text/css">
-        <link href="css/edutech/commoninfrastructure/baselayout/basetemplate.css" rel="stylesheet" type="text/css">
-        <link href="css/edutech/commoninfrastructure/baselayout/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <link href="css/edutech/commoninfrastructure/baselayout/CommonCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/dashboard/baselayout/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/dashboard/baselayout/basetemplate.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/dashboard/baselayout/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/dashboard/baselayout/CommonCSS.css" rel="stylesheet" type="text/css">
 
         <!-- JavaScript (JS) -->
-        <script src="js/edutech/commoninfrastructure/basejs/bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/edutech/commoninfrastructure/basejs/jquery.min.js" type="text/javascript"></script>
-        <script src="js/edutech/commoninfrastructure/basejs/metisMenu.min.js" type="text/javascript"></script>
-        <script src="js/edutech/commoninfrastructure/basejs/jquery.newsTicker.js" type="text/javascript"></script>
-        <script src="js/edutech/commoninfrastructure/basejs/CommonJS.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/dashboard/basejs/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/dashboard/basejs/jquery.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/dashboard/basejs/metisMenu.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/dashboard/basejs/jquery.newsTicker.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/dashboard/basejs/CommonJS.js" type="text/javascript"></script>
     </head>
     <body onload="establishTime(); setInterval('updateTime()', 1000)">
         <div id="wrapper">

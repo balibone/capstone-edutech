@@ -8,11 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <!-- Cascading Style Sheet (CSS) -->
-        <link rel="stylesheet" type="text/css" href="css/edutech/commoninfrastructure/weblayout/IntegratedSPLoginCSS.css">
+        <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/IntegratedSPLoginCSS.css">
 
         <!-- JavaScript (JS) -->
-        <script src="js/edutech/commoninfrastructure/basejs/bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/edutech/commoninfrastructure/basejs/jquery.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/login/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/login/jquery.min.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="session-page">
