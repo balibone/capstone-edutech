@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <!-- SERVLET CLASS MAPPING - EDUTECH (SERVLET) -->
-    <servlet>
-        <servlet-name>CommonInfra</servlet-name>
-        <servlet-class>controllers.CommonInfraController</servlet-class>
-    </servlet>
-    <!-- SERVLET CLASS MAPPING - EDUTECH - COMMON INFRASTRUCTURE (JSP) -->
-    <servlet>
-        <servlet-name>IntegratedSPLanding</servlet-name>
-        <jsp-file>/webapp/edutech/commoninfrastructure/IntegratedSPLanding.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>IntegratedSPLogin</servlet-name>
-        <jsp-file>/webapp/edutech/commoninfrastructure/IntegratedSPLogin.jsp</jsp-file>
-    </servlet>
+    <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
+    <servlet><servlet-name>CommonInfra</servlet-name><servlet-class>controllers.CommonInfraController</servlet-class></servlet>
+    
+    <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE (JSP) -->
+    <servlet><servlet-name>IntegratedSPLanding</servlet-name><jsp-file>/webapp/commoninfrastructure/IntegratedSPLanding.jsp</jsp-file></servlet>
+    <servlet><servlet-name>IntegratedSPLogin</servlet-name><jsp-file>/webapp/commoninfrastructure/IntegratedSPLogin.jsp</jsp-file></servlet>
+    <servlet><servlet-name>SystemAdminDashboard</servlet-name><jsp-file>/webapp/commoninfrastructure/SystemAdminDashboard.jsp</jsp-file></servlet>
+
+    <!-- SERVLET CLASS MAPPING - EDUTECH - ADMIN (SERVLET) -->
+    <!-- SERVLET CLASS MAPPING - EDUTECH - ADMIN (JSP) -->
+    <!-- SERVLET CLASS MAPPING - EDUTECH - SYSTEMUSER (SERVLET) -->
+    <!-- SERVLET CLASS MAPPING - EDUTECH - SYSTEMUSER (JSP) -->
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
     <servlet>
         <servlet-name>ProfileAdmin</servlet-name>
@@ -137,6 +136,21 @@
         <servlet-name>IntegratedSPLogin</servlet-name>
         <url-pattern>/webapp/edutech/commoninfrastructure/IntegratedSPLogin</url-pattern>
     </servlet-mapping>
+    <servlet><servlet-name>ReviewListing</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ReviewListing.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReviewDetails</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ReviewDetails.jsp</jsp-file></servlet>
+    
+    
+    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
+    <servlet-mapping><servlet-name>CommonInfra</servlet-name><url-pattern>/CommonInfra</url-pattern></servlet-mapping>
+    <!-- URL MAPPING - COMMON INFRASTRUCTURE (JSP) -->
+    <servlet-mapping><servlet-name>IntegratedSPLanding</servlet-name><url-pattern>/webapp/commoninfrastructure/IntegratedSPLanding</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>IntegratedSPLogin</servlet-name><url-pattern>/webapp/commoninfrastructure/IntegratedSPLogin</url-pattern></servlet-mapping>
+    
+    <!-- URL MAPPING - EDUTECH - ADMIN (SERVLET) -->
+    <!-- URL MAPPING - EDUTECH - ADMIN (JSP) -->
+    <!-- URL MAPPING - EDUTECH - SYSTEMUSER (SERVLET) -->
+    <!-- URL MAPPING - EDUTECH - SYSTEMUSER (JSP) --> 
+    
     <!-- URL MAPPING - UNIFY - ADMIN (SERVLET) -->
     <servlet-mapping>
         <servlet-name>ProfileAdmin</servlet-name>

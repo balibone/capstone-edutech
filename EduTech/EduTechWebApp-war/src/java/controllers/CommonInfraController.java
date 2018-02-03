@@ -43,6 +43,10 @@ public class CommonInfraController extends HttpServlet {
                     request.setAttribute("emailID", emailID);
                     pageAction = "IntegratedSPLanding";
                     break;
+                case "goToSystemAdmin":
+                    request.setAttribute("emailID", emailID);
+                    pageAction = "SystemAdminDashboard";
+                    break;
                 case "goToUnifyAdmin":
                     request.setAttribute("emailID", emailID);
                     pageAction = "AdminDashboard";

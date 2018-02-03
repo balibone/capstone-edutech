@@ -1,4 +1,4 @@
-package entities;
+package commoninfrastructure;
 
 import java.io.Serializable;
 import java.util.Date;

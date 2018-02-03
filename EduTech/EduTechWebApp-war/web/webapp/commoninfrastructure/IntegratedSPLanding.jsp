@@ -5,13 +5,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Integrated Student System - Landing Page</title>
-        
+
         <!-- Cascading Style Sheet (CSS) -->
         <link href="css/edutech/commoninfrastructure/baselayout/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="css/edutech/commoninfrastructure/baselayout/basetemplate.css" rel="stylesheet" type="text/css">
         <link href="css/edutech/commoninfrastructure/baselayout/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="css/edutech/commoninfrastructure/baselayout/CommonCSS.css" rel="stylesheet" type="text/css">
-        
+
         <!-- JavaScript (JS) -->
         <script src="js/edutech/commoninfrastructure/basejs/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/edutech/commoninfrastructure/basejs/jquery.min.js" type="text/javascript"></script>
@@ -26,7 +26,7 @@
                     <!-- <img src="images/landing/moneymind_logo.png" /> -->
                     Integrated Student System
                 </a>
-                
+
                 <!-- Top Navigation -->
                 <div id="pageAnnouncement">
                     <div class="ccr-last-update">
@@ -49,7 +49,7 @@
                     <li class="divider"></li>
                     <li><a href="CommonInfra?pageTransit=goToLogout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a></li>
                 </ul>
-            
+
                 <!-- Left Navigation -->
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
@@ -58,7 +58,8 @@
                                 <table border="0" style="margin: 12px 0px 12px 5px;" width="95%">
                                     <tr>
                                         <td rowspan="2" style="text-align: right;"><img src="images/ProfileImage.png" /></td>
-                                        <td colspan="2" valign="middle" style="padding-left: 10px;"><strong>Hello <%= request.getAttribute("emailID")%>!</strong></td>
+                                        <td colspan="2" valign="middle" style="padding-left: 10px;"><strong>Hello <%= request.getAttribute(
+                                                        "emailID")%>!</strong></td>
                                     </tr>
                                     <tr>
                                         <td style="padding-left: 10px;">
@@ -109,6 +110,7 @@
             <!-- Content Space -->
             <div id="page-wrapper">
                 <div class="row">
+                    <a href="CommonInfra?pageTransit=goToSystemAdmin"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;System Admin</a><br/>
                     <a href="CommonInfra?pageTransit=goToEdutechAdmin"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Edutech Admin</a><br/>
                     <a href="CommonInfra?pageTransit=goToEdutechPortal"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Edutech Portal</a><br/>
                     <a href="CommonInfra?pageTransit=goToUnifyAdmin"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Unify Admin</a><br/>
