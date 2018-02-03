@@ -1,4 +1,4 @@
-package controllers;
+package commoninfracontrollers;
 
 import java.io.IOException;
 import javax.ejb.EJB;
