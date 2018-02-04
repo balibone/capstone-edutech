@@ -1,6 +1,6 @@
 package sessionbeans;
 
-import entities.UserEntity;
+import commoninfrastructure.UserEntity;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.ejb.Stateless;

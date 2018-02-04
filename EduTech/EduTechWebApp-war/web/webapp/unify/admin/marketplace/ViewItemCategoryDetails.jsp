@@ -83,7 +83,7 @@
                                 <button type="submit" class="btn btn-primary">Update Category</button></form>
                             </td>
                             <% 
-                                if(activeStatus.equals("Active")) {
+                                if(activeStatus.toUpperCase().equals("ACTIVE")) {
                             %>
                             <td>
                                 <form action="MarketplaceAdmin" method="POST" target="_parent">
@@ -94,7 +94,7 @@
                                 </form>
                             </td>
                             <%
-                                } else if(activeStatus.equals("Inactive")) {
+                                } else if(activeStatus.toUpperCase().equals("INACTIVE")) {
                             %>
                             <td>
                                 <form action="MarketplaceAdmin" method="POST" target="_parent">
