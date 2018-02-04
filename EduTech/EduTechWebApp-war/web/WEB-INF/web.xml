@@ -164,29 +164,13 @@
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>
     </servlet-mapping>
-    <!-- URL MAPPING - COMMON INFRASTRUCTURE (JSP) -->
-    <servlet-mapping>
-        <servlet-name>IntegratedSPLanding</servlet-name>
-        <url-pattern>/webapp/commoninfrastructure/IntegratedSPLanding</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>IntegratedSPLogin</servlet-name>
-        <url-pattern>/webapp/commoninfrastructure/IntegratedSPLogin</url-pattern>
-    </servlet-mapping>
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->
     <servlet-mapping>
         <servlet-name>SystemAdmin</servlet-name>
         <url-pattern>/SystemAdmin</url-pattern>
     </servlet-mapping>
-    <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN(JSP) -->
-    <servlet-mapping>
-        <servlet-name>SystemAdminDashboard</servlet-name>
-        <url-pattern>/webapp/commoninfrastructure/admin/Dashboard</url-pattern>
-    </servlet-mapping>
     <!-- URL MAPPING - EDUTECH - ADMIN (SERVLET) -->
-    <!-- URL MAPPING - EDUTECH - ADMIN (JSP) -->
     <!-- URL MAPPING - EDUTECH - SYSTEMUSER (SERVLET) -->
-    <!-- URL MAPPING - EDUTECH - SYSTEMUSER (JSP) -->
     <!-- URL MAPPING - UNIFY - ADMIN (SERVLET) -->
     <servlet-mapping>
         <servlet-name>ProfileAdmin</servlet-name>
@@ -203,55 +187,6 @@
     <servlet-mapping>
         <servlet-name>VoicesAdmin</servlet-name>
         <url-pattern>/VoicesAdmin</url-pattern>
-    </servlet-mapping>
-    <!-- URL MAPPING - UNIFY - ADMIN (JSP) -->
-    <servlet-mapping>
-        <servlet-name>AdminDashboard</servlet-name>
-        <url-pattern>/webapp/unify/admin/AdminDashboard</url-pattern>
-    </servlet-mapping>
-    <!-- URL MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
-    <!-- URL MAPPING - UNIFY - ADMIN - MARKETPLACE (JSP) -->
-    <servlet-mapping>
-        <servlet-name>ViewItemCategoryListing</servlet-name>
-        <url-pattern>/webapp/unify/admin/marketplace/ViewItemCategoryListing</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewItemCategoryDetails</servlet-name>
-        <url-pattern>/webapp/unify/admin/marketplace/ViewItemCategoryDetails</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>NewItemCategory</servlet-name>
-        <url-pattern>/webapp/unify/admin/marketplace/NewItemCategory</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewItemListing</servlet-name>
-        <url-pattern>/webapp/unify/admin/marketplace/ViewItemListing</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewItemListingDetails</servlet-name>
-        <url-pattern>/webapp/unify/admin/marketplace/ViewItemListingDetails</url-pattern>
-    </servlet-mapping>
-    <!-- URL MAPPING - UNIFY - ADMIN - USERPROFILE (JSP) -->
-    <!-- URL MAPPING - UNIFY - ADMIN - VOICES (JSP) -->
-    <servlet-mapping>
-        <servlet-name>ViewCompanyList</servlet-name>
-        <url-pattern>/webapp/unify/admin/voices/ViewCompanyList</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewCompanyListDetails</servlet-name>
-        <url-pattern>/webapp/unify/admin/voices/ViewCompanyListDetails</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>NewCompany</servlet-name>
-        <url-pattern>/webapp/unify/admin/voices/NewCompany</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewReviewList</servlet-name>
-        <url-pattern>/webapp/unify/admin/voices/ViewReviewList</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewReviewListDetails</servlet-name>
-        <url-pattern>/webapp/unify/admin/voices/ViewReviewListDetails</url-pattern>
     </servlet-mapping>
     <!-- URL MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
     <servlet-mapping>
@@ -270,38 +205,7 @@
         <servlet-name>VoicesSysUser</servlet-name>
         <url-pattern>/VoicesSysUser</url-pattern>
     </servlet-mapping>
-    <!-- URL MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
-    <servlet-mapping>
-        <servlet-name>JobListing</servlet-name>
-        <url-pattern>/webapp/unify/systemuser/errands/JobListing</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>JobDetails</servlet-name>
-        <url-pattern>/webapp/unify/systemuser/errands/JobDetails</url-pattern>
-    </servlet-mapping>
-    <!-- URL MAPPING - UNIFY - SYSTEMUSER - MARKETPLACE (JSP) -->
-    <servlet-mapping>
-        <servlet-name>ViewItemListingSYS</servlet-name>
-        <url-pattern>/webapp/unify/systemuser/marketplace/ViewItemListingSYS</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewItemListingDetailsSYS</servlet-name>
-        <url-pattern>/webapp/unify/systemuser/marketplace/ViewItemListingDetailsSYS</url-pattern>
-    </servlet-mapping>
-    <!-- URL MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
-    <servlet-mapping>
-        <servlet-name>UserProfile</servlet-name>
-        <url-pattern>/webapp/unify/systemuser/userprofile/UserProfile</url-pattern>
-    </servlet-mapping>
-    <!-- URL MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    <servlet-mapping>
-        <servlet-name>ReviewListing</servlet-name>
-        <url-pattern>/webapp/unify/systemuser/voices/ReviewListing</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ReviewDetails</servlet-name>
-        <url-pattern>/webapp/unify/systemuser/voices/ReviewDetails</url-pattern>
-    </servlet-mapping>
+    
     <!-- MISCELLANEOUS -->
     <session-config>
         <session-timeout>300</session-timeout>
