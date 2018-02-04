@@ -13,7 +13,7 @@
     <servlet>
         <servlet-name>IntegratedSPLogin</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/IntegratedSPLogin.jsp</jsp-file>
-    </servlet>  
+    </servlet>
     <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE - ADMIN(SERVLET) -->
     <servlet>
         <servlet-name>SystemAdmin</servlet-name>
@@ -22,14 +22,28 @@
     <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE - ADMIN(JSP) -->
     <servlet>
         <servlet-name>SystemAdminDashboard</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/SystemAdminDashboard.jsp</jsp-file>
+        <jsp-file>/webapp/commoninfrastructure/admin/Dashboard.jsp</jsp-file>
     </servlet>
-    
+    <servlet>
+        <servlet-name>EduTechAdminList</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/EduTechAdminList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>UnifyAdminList</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/UnifyAdminList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>StudentList</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/StudentList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>InstructorList</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/InstructorList.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - EDUTECH - ADMIN (SERVLET) -->
     <!-- SERVLET CLASS MAPPING - EDUTECH - ADMIN (JSP) -->
     <!-- SERVLET CLASS MAPPING - EDUTECH - SYSTEMUSER (SERVLET) -->
     <!-- SERVLET CLASS MAPPING - EDUTECH - SYSTEMUSER (JSP) -->
-    
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN (SERVLET) -->
     <servlet>
         <servlet-name>ProfileAdmin</servlet-name>
@@ -145,7 +159,6 @@
         <servlet-name>ReviewDetails</servlet-name>
         <jsp-file>/webapp/unify/systemuser/voices/ReviewDetails.jsp</jsp-file>
     </servlet>
-    
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
@@ -168,14 +181,12 @@
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN(JSP) -->
     <servlet-mapping>
         <servlet-name>SystemAdminDashboard</servlet-name>
-        <url-pattern>/webapp/commoninfrastructure/admin/SystemAdminDashboard</url-pattern>
+        <url-pattern>/webapp/commoninfrastructure/admin/Dashboard</url-pattern>
     </servlet-mapping>
-
     <!-- URL MAPPING - EDUTECH - ADMIN (SERVLET) -->
     <!-- URL MAPPING - EDUTECH - ADMIN (JSP) -->
     <!-- URL MAPPING - EDUTECH - SYSTEMUSER (SERVLET) -->
-    <!-- URL MAPPING - EDUTECH - SYSTEMUSER (JSP) --> 
-    
+    <!-- URL MAPPING - EDUTECH - SYSTEMUSER (JSP) -->
     <!-- URL MAPPING - UNIFY - ADMIN (SERVLET) -->
     <servlet-mapping>
         <servlet-name>ProfileAdmin</servlet-name>
@@ -291,7 +302,6 @@
         <servlet-name>ReviewDetails</servlet-name>
         <url-pattern>/webapp/unify/systemuser/voices/ReviewDetails</url-pattern>
     </servlet-mapping>
-  
     <!-- MISCELLANEOUS -->
     <session-config>
         <session-timeout>300</session-timeout>
