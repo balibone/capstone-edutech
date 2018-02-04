@@ -15,6 +15,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import unifyentities.voices.CompanyEntity;
+import unifyentities.marketplace.ItemEntity;
+import unifyentities.errands.JobEntity;
 
 @Entity(name = "Category")
 public class CategoryEntity implements Serializable {
@@ -26,6 +36,13 @@ public class CategoryEntity implements Serializable {
     private String categoryDescription;
     private String categoryImage;
     private Boolean categoryActiveStatus;
+    
+    // @OneToMany(mappedBy = "categoryEntity")
+    // private Set<CompanyEntity> companySet = new HashSet<CompanyEntity>();
+    @OneToMany(mappedBy = "categoryEntity")
+    private Collection<ItemEntity> itemSet = new ArrayList<ItemEntity>();
+    // @OneToMany(mappedBy = "categoryEntity")
+    // private Collection<JobEntity> jobSet = new ArrayList<JobEntity>();
     
     /* DEFAULT CONSTRUCTOR */
     public CategoryEntity() { categoryActiveStatus = true; }
@@ -45,6 +62,9 @@ public class CategoryEntity implements Serializable {
     public String getCategoryDescription() { return categoryDescription; }
     public String getCategoryImage() { return categoryImage; }
     public Boolean getCategoryActiveStatus() { return categoryActiveStatus; }
+    // public Set<CompanyEntity> getCompanySet() { return companySet; }
+    public Collection<ItemEntity> getItemSet() { return itemSet; }
+    // public Collection<JobEntity> getJobSet() { return jobSet; }
     
     /* SETTER METHODS */
     public void setCategoryID(Long categoryID) { this.categoryID = categoryID; }
@@ -53,4 +73,7 @@ public class CategoryEntity implements Serializable {
     public void setCategoryDescription(String categoryDescription) { this.categoryDescription = categoryDescription; }
     public void setCategoryImage(String categoryImage) { this.categoryImage = categoryImage; }
     public void setCategoryActiveStatus(Boolean categoryActiveStatus) { this.categoryActiveStatus = categoryActiveStatus; }
+    // public void setCompanySet(Set<CompanyEntity> companySet) { this.companySet = companySet; }
+    public void setItemSet(Collection<ItemEntity> itemSet) { this.itemSet = itemSet; }
+    // public void setJobSet(Collection<JobEntity> jobSet) { this.jobSet = jobSet; }
 }

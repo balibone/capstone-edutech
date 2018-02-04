@@ -71,11 +71,11 @@ public class MarketplaceAdminController extends HttpServlet {
                 case "deactivateAnItemCategory":
                     String deactCategoryName = request.getParameter("hiddenCategoryName");
                     String deactCategoryType = request.getParameter("hiddenCategoryType");
-                    if (mamr.deactivateAnItemCategory(deactCategoryName, deactCategoryType)) {
-                        request.setAttribute("successMessage", "Selected item category has been deactivated successfully.");
-                    } else {
-                        request.setAttribute("errorMessage", "Selected item category cannot be deactivated. Please try again later.");
-                    }
+                    
+                    String icReturnMsg = mamr.deactivateAnItemCategory(deactCategoryName, deactCategoryType);
+                    if (icReturnMsg.endsWith("!")) { request.setAttribute("successMessage", icReturnMsg); } 
+                    else { request.setAttribute("errorMessage", icReturnMsg); }
+                    
                     request.setAttribute("itemCategoryList", (ArrayList) mamr.viewItemCategoryList());
                     pageAction = "ViewItemCategoryListing";
                     break;
