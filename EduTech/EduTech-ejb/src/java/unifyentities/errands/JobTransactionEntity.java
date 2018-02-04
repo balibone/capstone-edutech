@@ -28,7 +28,6 @@ public class JobTransactionEntity implements Serializable {
     private String jobCategory;
     private Double jobTransactionRate;
     private String jobTransactionRateType;
-    private String jobTransactionStatus;
     
     @Temporal(TemporalType.DATE)
     private Date jobTransactionDate;
@@ -46,7 +45,6 @@ public class JobTransactionEntity implements Serializable {
     public String getJobCategory() { return jobCategory; }
     public Double getJobTransactionRate() { return jobTransactionRate; }
     public String getJobTransactionRateType() { return jobTransactionRateType; }
-    public String getJobTransactionStatus() { return jobTransactionStatus; }
     public Date getJobTransactionDate() { return jobTransactionDate; }
     public Long getJobID() { return jobID; }
     public String getJobPosterID() { return jobPosterID; }
@@ -57,7 +55,6 @@ public class JobTransactionEntity implements Serializable {
     public void setJobCategory(String jobCategory) { this.jobCategory = jobCategory; }
     public void setJobTransactionRate(Double jobTransactionRate) { this.jobTransactionRate = jobTransactionRate; }
     public void setJobTransactionRateType(String jobTransactionRateType) { this.jobTransactionRateType = jobTransactionRateType; }
-    public void setJobTransactionStatus(String jobTransactionStatus) { this.jobTransactionStatus = jobTransactionStatus; }
     public void setJobTransactionDate(Date jobTransactionDate) { this.jobTransactionDate = jobTransactionDate; }
     public void setJobID(Long jobID) { this.jobID = jobID; }
     public void setJobPosterID(String jobPosterID) { this.jobPosterID = jobPosterID; }
