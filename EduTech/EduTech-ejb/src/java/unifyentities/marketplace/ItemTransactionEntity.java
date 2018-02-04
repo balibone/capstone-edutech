@@ -26,7 +26,6 @@ public class ItemTransactionEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long itemTransactionID;
     private Double itemTransactionPrice;
-    private String itemTransactionStatus;
     
     @Temporal(TemporalType.DATE)
     private Date itemTransactionDate;
@@ -42,7 +41,6 @@ public class ItemTransactionEntity implements Serializable {
     /* GETTER METHODS */
     public Long getItemTransactionID() { return itemTransactionID; }
     public Double getItemTransactionPrice() { return itemTransactionPrice; }
-    public String getItemTransactionStatus() { return itemTransactionStatus; }
     public Date getItemTransactionDate() { return itemTransactionDate; }
     public Long getItemID() { return itemID; }
     public String getItemSellerID() { return itemSellerID; }
@@ -51,7 +49,6 @@ public class ItemTransactionEntity implements Serializable {
     /* SETTER METHODS */
     public void setItemTransactionID(Long itemTransactionID) { this.itemTransactionID = itemTransactionID; }
     public void setItemTransactionPrice(Double itemTransactionPrice) { this.itemTransactionPrice = itemTransactionPrice; }
-    public void setItemTransactionStatus(String itemTransactionStatus) { this.itemTransactionStatus = itemTransactionStatus; }
     public void setItemTransactionDate(Date itemTransactionDate) { this.itemTransactionDate = itemTransactionDate; }
     public void setItemID(Long itemID) { this.itemID = itemID; }
     public void setItemSellerID(String itemSellerID) { this.itemSellerID = itemSellerID; }

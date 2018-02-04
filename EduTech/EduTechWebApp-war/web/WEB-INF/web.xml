@@ -1,93 +1,269 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <!-- SERVLET CLASS MAPPING - EDUTECH (SERVLET) -->
-    <servlet><servlet-name>CommonInfra</servlet-name><servlet-class>controllers.CommonInfraController</servlet-class></servlet>
+    <servlet>
+        <servlet-name>CommonInfra</servlet-name>
+        <servlet-class>controllers.CommonInfraController</servlet-class>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - EDUTECH - COMMON INFRASTRUCTURE (JSP) -->
-    <servlet><servlet-name>IntegratedSPLanding</servlet-name><jsp-file>/webapp/edutech/commoninfrastructure/IntegratedSPLanding.jsp</jsp-file></servlet>
-    <servlet><servlet-name>IntegratedSPLogin</servlet-name><jsp-file>/webapp/edutech/commoninfrastructure/IntegratedSPLogin.jsp</jsp-file></servlet>
-    
-    
+    <servlet>
+        <servlet-name>IntegratedSPLanding</servlet-name>
+        <jsp-file>/webapp/edutech/commoninfrastructure/IntegratedSPLanding.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>IntegratedSPLogin</servlet-name>
+        <jsp-file>/webapp/edutech/commoninfrastructure/IntegratedSPLogin.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
-    <servlet><servlet-name>ProfileAdmin</servlet-name><servlet-class>unifycontrollers.admin.UserProfileAdminController</servlet-class></servlet>
-    <servlet><servlet-name>ErrandsAdmin</servlet-name><servlet-class>unifycontrollers.admin.ErrandsAdminController</servlet-class></servlet>
-    <servlet><servlet-name>MarketplaceAdmin</servlet-name><servlet-class>unifycontrollers.admin.MarketplaceAdminController</servlet-class></servlet>
-    <servlet><servlet-name>VoicesAdmin</servlet-name><servlet-class>unifycontrollers.admin.VoicesAdminController</servlet-class></servlet>
+    <servlet>
+        <servlet-name>ProfileAdmin</servlet-name>
+        <servlet-class>unifycontrollers.admin.UserProfileAdminController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ErrandsAdmin</servlet-name>
+        <servlet-class>unifycontrollers.admin.ErrandsAdminController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MarketplaceAdmin</servlet-name>
+        <servlet-class>unifycontrollers.admin.MarketplaceAdminController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VoicesAdmin</servlet-name>
+        <servlet-class>unifycontrollers.admin.VoicesAdminController</servlet-class>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN (JSP) -->
-    <servlet><servlet-name>AdminDashboard</servlet-name><jsp-file>/webapp/unify/admin/AdminDashboard.jsp</jsp-file></servlet>
+    <servlet>
+        <servlet-name>AdminDashboard</servlet-name>
+        <jsp-file>/webapp/unify/admin/AdminDashboard.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - MARKETPLACE (JSP) -->
-    <servlet><servlet-name>ViewItemCategoryListing</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemCategoryListing.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ViewItemCategoryDetails</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemCategoryDetails.jsp</jsp-file></servlet>
-    <servlet><servlet-name>NewItemCategory</servlet-name><jsp-file>/webapp/unify/admin/marketplace/NewItemCategory.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ViewItemListing</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemListing.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ViewItemListingDetails</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemListingDetails.jsp</jsp-file></servlet>
+    <servlet>
+        <servlet-name>ViewItemCategoryListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/marketplace/ViewItemCategoryListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewItemCategoryDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/marketplace/ViewItemCategoryDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewItemCategory</servlet-name>
+        <jsp-file>/webapp/unify/admin/marketplace/NewItemCategory.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewItemListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/marketplace/ViewItemListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewItemListingDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/marketplace/ViewItemListingDetails.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - USERPROFILE (JSP) -->
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - VOICES (JSP) -->
-    
-    
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
-    <servlet><servlet-name>ProfileSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.UserProfileSysUserController</servlet-class></servlet>
-    <servlet><servlet-name>ErrandsSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.ErrandsSysUserController</servlet-class></servlet>
-    <servlet><servlet-name>MarketplaceSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.MarketplaceSysUserController</servlet-class></servlet>
-    <servlet><servlet-name>VoicesSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.VoicesSysUserController</servlet-class></servlet>
+    <servlet>
+        <servlet-name>ProfileSysUser</servlet-name>
+        <servlet-class>unifycontrollers.systemuser.UserProfileSysUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ErrandsSysUser</servlet-name>
+        <servlet-class>unifycontrollers.systemuser.ErrandsSysUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MarketplaceSysUser</servlet-name>
+        <servlet-class>unifycontrollers.systemuser.MarketplaceSysUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VoicesSysUser</servlet-name>
+        <servlet-class>unifycontrollers.systemuser.VoicesSysUserController</servlet-class>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
-    <servlet><servlet-name>JobListing</servlet-name><jsp-file>/webapp/unify/systemuser/errands/JobListing.jsp</jsp-file></servlet>
-    <servlet><servlet-name>JobDetails</servlet-name><jsp-file>/webapp/unify/systemuser/errands/JobDetails.jsp</jsp-file></servlet>
+    <servlet>
+        <servlet-name>JobListing</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/errands/JobListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>JobDetails</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/errands/JobDetails.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - MARKETPLACE (JSP) -->
-    <servlet><servlet-name>ItemListing</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ItemListing.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ItemDetails</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ItemDetails.jsp</jsp-file></servlet>
+    <servlet>
+        <servlet-name>ItemListing</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/marketplace/ItemListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ItemDetails</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/marketplace/ItemDetails.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
-    <servlet><servlet-name>UserProfile</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file></servlet>
+    <servlet>
+        <servlet-name>UserProfile</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    <servlet><servlet-name>ReviewListing</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ReviewListing.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ReviewDetails</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ReviewDetails.jsp</jsp-file></servlet>
-    
-    
+    <servlet>
+        <servlet-name>ReviewListing</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/voices/ReviewListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ReviewDetails</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/voices/ReviewDetails.jsp</jsp-file>
+    </servlet>
     <!-- URL MAPPING - EDUTECH (SERVLET) -->
-    <servlet-mapping><servlet-name>CommonInfra</servlet-name><url-pattern>/CommonInfra</url-pattern></servlet-mapping>
+    <servlet>
+        <servlet-name>ViewCompanyList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyListDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyListDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewCompany</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/NewCompany.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewReviewList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewReviewList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewReviewListDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewReviewListDetails.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CommonInfra</servlet-name>
+        <url-pattern>/CommonInfra</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - EDUTECH - COMMON INFRASTRUCTURE (JSP) -->
-    <servlet-mapping><servlet-name>IntegratedSPLanding</servlet-name><url-pattern>/webapp/edutech/commoninfrastructure/IntegratedSPLanding</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>IntegratedSPLogin</servlet-name><url-pattern>/webapp/edutech/commoninfrastructure/IntegratedSPLogin</url-pattern></servlet-mapping>
-    
-    
+    <servlet-mapping>
+        <servlet-name>IntegratedSPLanding</servlet-name>
+        <url-pattern>/webapp/edutech/commoninfrastructure/IntegratedSPLanding</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IntegratedSPLogin</servlet-name>
+        <url-pattern>/webapp/edutech/commoninfrastructure/IntegratedSPLogin</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - UNIFY - ADMIN (SERVLET) -->
-    <servlet-mapping><servlet-name>ProfileAdmin</servlet-name><url-pattern>/ProfileAdmin</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>ErrandsAdmin</servlet-name><url-pattern>/ErrandsAdmin</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>MarketplaceAdmin</servlet-name><url-pattern>/MarketplaceAdmin</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>VoicesAdmin</servlet-name><url-pattern>/VoicesAdmin</url-pattern></servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProfileAdmin</servlet-name>
+        <url-pattern>/ProfileAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ErrandsAdmin</servlet-name>
+        <url-pattern>/ErrandsAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MarketplaceAdmin</servlet-name>
+        <url-pattern>/MarketplaceAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoicesAdmin</servlet-name>
+        <url-pattern>/VoicesAdmin</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - UNIFY - ADMIN (JSP) -->
-    <servlet-mapping><servlet-name>AdminDashboard</servlet-name><url-pattern>/webapp/unify/admin/AdminDashboard</url-pattern></servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashboard</servlet-name>
+        <url-pattern>/webapp/unify/admin/AdminDashboard</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
     <!-- URL MAPPING - UNIFY - ADMIN - MARKETPLACE (JSP) -->
-    <servlet-mapping><servlet-name>ViewItemCategoryListing</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemCategoryListing</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>ViewItemCategoryDetails</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemCategoryDetails</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>NewItemCategory</servlet-name><url-pattern>/webapp/unify/admin/marketplace/NewItemCategory</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>ViewItemListing</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemListing</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>ViewItemListingDetails</servlet-name><url-pattern>/webapp/unify/admin/marketplace/ViewItemListingDetails</url-pattern></servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewItemCategoryListing</servlet-name>
+        <url-pattern>/webapp/unify/admin/marketplace/ViewItemCategoryListing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewItemCategoryDetails</servlet-name>
+        <url-pattern>/webapp/unify/admin/marketplace/ViewItemCategoryDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewItemCategory</servlet-name>
+        <url-pattern>/webapp/unify/admin/marketplace/NewItemCategory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewItemListing</servlet-name>
+        <url-pattern>/webapp/unify/admin/marketplace/ViewItemListing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewItemListingDetails</servlet-name>
+        <url-pattern>/webapp/unify/admin/marketplace/ViewItemListingDetails</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - UNIFY - ADMIN - USERPROFILE (JSP) -->
     <!-- URL MAPPING - UNIFY - ADMIN - VOICES (JSP) -->
-
-
     <!-- URL MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
-    <servlet-mapping><servlet-name>ProfileSysUser</servlet-name><url-pattern>/ProfileSysUser</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>ErrandsSysUser</servlet-name><url-pattern>/ErrandsSysUser</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>MarketplaceSysUser</servlet-name><url-pattern>/MarketplaceSysUser</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>VoicesSysUser</servlet-name><url-pattern>/VoicesSysUser</url-pattern></servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProfileSysUser</servlet-name>
+        <url-pattern>/ProfileSysUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ErrandsSysUser</servlet-name>
+        <url-pattern>/ErrandsSysUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MarketplaceSysUser</servlet-name>
+        <url-pattern>/MarketplaceSysUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoicesSysUser</servlet-name>
+        <url-pattern>/VoicesSysUser</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
-    <servlet-mapping><servlet-name>JobListing</servlet-name><url-pattern>/webapp/unify/systemuser/errands/JobListing</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>JobDetails</servlet-name><url-pattern>/webapp/unify/systemuser/errands/JobDetails</url-pattern></servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JobListing</servlet-name>
+        <url-pattern>/webapp/unify/systemuser/errands/JobListing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JobDetails</servlet-name>
+        <url-pattern>/webapp/unify/systemuser/errands/JobDetails</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - UNIFY - SYSTEMUSER - MARKETPLACE (JSP) -->
-    <servlet-mapping><servlet-name>ItemListing</servlet-name><url-pattern>/webapp/unify/systemuser/marketplace/ItemListing</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>ItemDetails</servlet-name><url-pattern>/webapp/unify/systemuser/marketplace/ItemDetails</url-pattern></servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItemListing</servlet-name>
+        <url-pattern>/webapp/unify/systemuser/marketplace/ItemListing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItemDetails</servlet-name>
+        <url-pattern>/webapp/unify/systemuser/marketplace/ItemDetails</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
-    <servlet-mapping><servlet-name>UserProfile</servlet-name><url-pattern>/webapp/unify/systemuser/userprofile/UserProfile</url-pattern></servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserProfile</servlet-name>
+        <url-pattern>/webapp/unify/systemuser/userprofile/UserProfile</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    <servlet-mapping><servlet-name>ReviewListing</servlet-name><url-pattern>/webapp/unify/systemuser/voices/ReviewListing</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>ReviewDetails</servlet-name><url-pattern>/webapp/unify/systemuser/voices/ReviewDetails</url-pattern></servlet-mapping>
-    
-    
+    <servlet-mapping>
+        <servlet-name>ReviewListing</servlet-name>
+        <url-pattern>/webapp/unify/systemuser/voices/ReviewListing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReviewDetails</servlet-name>
+        <url-pattern>/webapp/unify/systemuser/voices/ReviewDetails</url-pattern>
+    </servlet-mapping>
     <!-- MISCELLANEOUS -->
-    <session-config><session-timeout>300</session-timeout></session-config>
-    <welcome-file-list><welcome-file>webapp/edutech/commoninfrastructure/IntegratedSPLogin.jsp</welcome-file></welcome-file-list>
+    <servlet-mapping>
+        <servlet-name>ViewCompanyList</servlet-name>
+        <url-pattern>/webapp/unify/admin/voices/ViewCompanyList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewCompanyListDetails</servlet-name>
+        <url-pattern>/webapp/unify/admin/voices/ViewCompanyListDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewCompany</servlet-name>
+        <url-pattern>/webapp/unify/admin/voices/NewCompany</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewReviewList</servlet-name>
+        <url-pattern>/webapp/unify/admin/voices/ViewReviewList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewReviewListDetails</servlet-name>
+        <url-pattern>/webapp/unify/admin/voices/ViewReviewListDetails</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>300</session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>webapp/edutech/commoninfrastructure/IntegratedSPLogin.jsp</welcome-file>
+    </welcome-file-list>
     <jsp-config/>
 </web-app>
