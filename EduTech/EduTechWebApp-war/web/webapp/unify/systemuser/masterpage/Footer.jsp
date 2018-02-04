@@ -3,10 +3,10 @@
 <html>
     <head></head>
     <body>
-        <footer class="py-5 bg-dark">
-            <div class="container">
-                <p class="m-0 text-center text-white">Unify @ Integrated Student System, 2018</p>
+        <div class="footer">
+            <div class="text-center copyright">
+                Unify @ EduBox 2018
             </div>
-        </footer>
+        </div>
     </body>
 </html>

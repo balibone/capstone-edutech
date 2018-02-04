@@ -16,9 +16,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import unifyentities.common.CategoryEntity;
+import entities.UserEntity;
 
 @Entity(name = "Item")
 public class ItemEntity implements Serializable {
@@ -41,6 +45,11 @@ public class ItemEntity implements Serializable {
     /* FOREIGN KEY */
     private String itemSellerID;
     
+    @ManyToOne
+    private CategoryEntity categoryEntity;
+    @ManyToOne
+    private UserEntity userEntity;
+    
     @PrePersist
     public void creationDate() { this.itemPostingDate = new Date(); }
     
@@ -57,6 +66,8 @@ public class ItemEntity implements Serializable {
     public String getItemImage() { return itemImage; }
     public Date getItemPostingDate() { return itemPostingDate; }
     public String getItemSellerID() { return itemSellerID; }
+    public CategoryEntity getCategoryEntity() { return categoryEntity; }
+    public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
     public void setItemID(Long itemID) { this.itemID = itemID; }
@@ -71,4 +82,6 @@ public class ItemEntity implements Serializable {
     public void setItemImage(String itemImage) { this.itemImage = itemImage; }
     public void setItemPostingDate(Date itemPostingDate) { this.itemPostingDate = itemPostingDate; }
     public void setItemSellerID(String itemSellerID) { this.itemSellerID = itemSellerID; }
+    public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
+    public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

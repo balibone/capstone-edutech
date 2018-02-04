@@ -1,6 +1,7 @@
 package unifycontrollers.systemuser;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -23,11 +24,12 @@ public class MarketplaceSysUserController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
-                case "goToItemListing":
-                    pageAction = "ItemListing";
+                case "goToViewItemListingSYS":
+                    request.setAttribute("itemList", (ArrayList) msmr.viewItemList());
+                    pageAction = "ViewItemListingSYS";
                     break;
-                case "goToItemDetails":
-                    pageAction = "ItemDetails";
+                case "goToViewItemDetailsSYS":
+                    pageAction = "ViewItemListingDetailsSYS";
                     break;
                 default:
                     break;

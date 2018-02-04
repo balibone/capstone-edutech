@@ -11,7 +11,7 @@
                 <div class="collapse navbar-collapse text-center justify-content-center" id="navbar2SupportedContent">
                     <ul class="navbar-nav">
                         <li class="nav-item bg-primary justify-content-center align-items-center align-self-center">
-                            <a class="nav-link text-white" href="MarketplaceSysUser?pageTransit=goToItemListing"><i class="fa d-inline fa-lg fa-shopping-basket"></i> Marketplace (Trade)</a>
+                            <a class="nav-link text-white" href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS"><i class="fa d-inline fa-lg fa-shopping-basket"></i> Marketplace (Trade)</a>
                         </li>
                         <li class="nav-item text-capitalize bg-primary text-center justify-content-center flex-row align-items-center align-self-center">
                             <a class="nav-link text-white" href="ErrandsSysUser?pageTransit=goToJobListing"><i class="fa d-inline fa-lg fa-handshake-o"></i> Errands (Help)</a>

@@ -8,11 +8,15 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import unifyentities.marketplace.ItemEntity;
+import unifyentities.voices.CompanyEntity;
 import unifyentities.common.CategoryEntity;
+import unifyentities.errands.JobEntity;
 import unifyentities.common.MessageEntity;
 
 @Stateless
@@ -24,6 +28,10 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     private ItemEntity iEntity;
     private MessageEntity mEntity;
     
+    private Set<CompanyEntity> companySet;
+    private Collection<ItemEntity> itemSet;
+    private Collection<JobEntity> jobSet;
+
     @Override
     public List<Vector> viewItemCategoryList(){
         Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'marketplace'");
@@ -83,16 +91,36 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean deactivateAnItemCategory(String deactCategoryName, String deactCategoryType) {
-        boolean icDeactivateStatus = true;
+    public String deactivateAnItemCategory(String deactCategoryName, String deactCategoryType) {
+        /* DON'T CHANGE THE RETURN STRING (USED FOR SERVLET VALIDATION) */
+        boolean itemAvailWithinCat = false;
+        
         if (lookupItemCategory(deactCategoryName, deactCategoryType) == null) {
-            icDeactivateStatus = false;
+            return "Selected item category cannot be found.";
         } else {
-            cEntity = lookupItemCategory(deactCategoryName, deactCategoryType);
-            cEntity.setCategoryActiveStatus(false);
-            em.merge(cEntity);
+            cEntity = em.find(CategoryEntity.class, lookupItemCategory(deactCategoryName, deactCategoryType).getCategoryID());
+            itemSet = cEntity.getItemSet();
+            
+            if (!itemSet.isEmpty()){
+                em.clear();
+                for (ItemEntity ie : itemSet) {
+                    if((ie.getItemStatus()).equals("Available")) {
+                        itemAvailWithinCat = true;
+                        break;
+                    }
+                }
+                if (itemAvailWithinCat == true) {
+                    return "There are currently active items inside this item category. Cannot be deactivated.";
+                } else {
+                    return "Selected item category has been deactivated successfully!";
+                }
+            }
+            else{
+                cEntity.setCategoryActiveStatus(false);
+                em.merge(cEntity);
+                return "Selected item category has been deactivated successfully!";
+            }
         }
-        return icDeactivateStatus;
     }
     
     @Override
