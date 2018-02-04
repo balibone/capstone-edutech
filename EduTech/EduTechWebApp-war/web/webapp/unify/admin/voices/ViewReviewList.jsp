@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.ArrayList" %>
 <%@page import="java.util.Vector"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +7,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Admin - View Item Listing</title>
+        <title>Unify Admin - View Review Listing</title>
 
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -60,7 +60,7 @@
                                     <li><a><i class="fa fa-desktop"></i>&nbsp;Company Reviews&nbsp;<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li><a href="VoicesAdmin?pageTransit=goToViewCompanyList">Company Listing</a></li>
-                                            <li><a href="media_gallery.html">Review Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewReviewList">Review Listing</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-table"></i>&nbsp;Tags&nbsp;<span class="fa fa-chevron-down"></span></a>
@@ -194,7 +194,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_title">
-                                <h2 class="bodyHeader">Item Listing</h2>
+                                <h2 class="bodyHeader">Review Listing</h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
@@ -220,34 +220,28 @@
                                 <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>Item Image</th>
-                                            <th>Item Name</th>
-                                            <th>Item Category</th>
-                                            <th>Seller ID</th>
-                                            <th>Item Price</th>
-                                            <th>Item Status</th>
+                                            <th>Review Title</th>
+                                            <th>Reviewed Company</th>
+                                            <th>Review Poster ID</th>
+                                            <th>Review Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <%
-                                            ArrayList<Vector> itemList = (ArrayList) request.getAttribute("itemList");
-                                            if (!itemList.isEmpty()) {
-                                                for (int i = 0; i <= itemList.size() - 1; i++) {
-                                                    Vector v = itemList.get(i);
-                                                    String itemImage = String.valueOf(v.get(0));
-                                                    String itemName = String.valueOf(v.get(1));
-                                                    String itemCategory = String.valueOf(v.get(2));
-                                                    String itemSellerID = String.valueOf(v.get(3));
-                                                    String itemPrice = String.valueOf(v.get(4));
-                                                    String itemStatus = String.valueOf(v.get(5));
+                                            ArrayList<Vector> reviewList = (ArrayList) request.getAttribute("data");
+                                            if (!reviewList.isEmpty()) {
+                                                for (int i = 0; i <= reviewList.size() - 1; i++) {
+                                                    Vector v = reviewList.get(i);
+                                                    String reviewTitle = String.valueOf(v.get(0));
+                                                    String reviewedCompany = String.valueOf(v.get(1));
+                                                    String reviewPosterID = String.valueOf(v.get(2));
+                                                    String reviewDate = String.valueOf(v.get(3));
                                         %>
                                         <tr>
-                                            <td><img src="uploads/unify/images/marketplace/item/<%= itemImage %>" style="max-width: 50px; max-height: 50px;" /></td>
-                                            <td><%= itemName %></td>
-                                            <td><%= itemCategory %></td>
-                                            <td><%= itemSellerID %></td>
-                                            <td>$<%= itemPrice %></td>
-                                            <td><%= itemStatus %></td>
+                                            <td><%= reviewTitle %></td>
+                                            <td><%= reviewedCompany %></td>
+                                            <td><%= reviewPosterID %></td>
+                                            <td><%= reviewDate %></td>
                                         </tr>
                                         <%      }   %>
                                         <%  }%>
@@ -268,7 +262,7 @@
         <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/UnifyAdminCommonJS.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/iziModal.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/webjs/marketplace/ViewItemListingJS.js" type="text/javascript"></script>
+        <script src="js/unify/admin/webjs/voices/ViewReviewListJS.js" type="text/javascript"></script>
         
         <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>
