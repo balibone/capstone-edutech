@@ -22,7 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import unifyentities.common.CategoryEntity;
-import entities.UserEntity;
+import commoninfrastructure.UserEntity;
 
 @Entity(name = "Item")
 public class ItemEntity implements Serializable {
