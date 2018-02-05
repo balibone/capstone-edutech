@@ -12,9 +12,13 @@ package unifyentities.errands;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.CascadeType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
@@ -36,21 +40,33 @@ public class JobEntity implements Serializable {
     private Double jobEndLong;
     @Temporal(TemporalType.DATE)
     private Date jobWorkDate;
+    private long jobCategoryId;
+    //@ManyToOne
     private CategoryEntity jobCategory;
     private Double jobRate;
     private String jobRateType;
     private String jobImage;
-    
+    private String jobStatus;
+
     @Temporal(TemporalType.DATE)
     private Date jobPostDate;
-    
+
     /* FOREIGN KEY */
     private Long jobPosterID;
     private Long jobTakerID;
+
+    @OneToOne(cascade={CascadeType.PERSIST})
+    private JobTransactionEntity jobTransaction;
     
+    //@OneToOne(cascade={CascadeType.PERSIST})
+    //private JobReviewEntity posterReview;
+    
+    //@OneToOne(cascade={CascadeType.PERSIST})
+    private List<JobReviewEntity> jobReviews;
+
     @PrePersist
     public void creationDate() { this.jobPostDate = new Date(); }
-    
+
     /* GETTER METHODS */
     public Long getJobID() { return jobID; }
     public String getJobTitle() { return jobTitle; }
@@ -62,14 +78,18 @@ public class JobEntity implements Serializable {
     public Double getJobEndLat() { return jobEndLat; }
     public Double getJobEndLong() { return jobEndLong; }
     public Date getJobWorkDate() { return jobWorkDate; }
-    public CategoryEntity getJobCategory() { return jobCategory; }
+    public long getJobCategoryID() { return jobCategoryId; }
+    public CategoryEntity getJobCategory() {return jobCategory; }
     public Double getJobRate() { return jobRate; }
     public String getJobRateType() { return jobRateType; }
     public String getJobImage() { return jobImage; }
     public Date getJobPostDate() { return jobPostDate; }
     public Long getJobPosterID() { return jobPosterID; }
     public Long getJobTakerID() { return jobTakerID; }
-    
+    public String getJobStatus() { return jobStatus; }
+    public JobTransactionEntity getJobTransaction() { return jobTransaction;}
+    public List<JobReviewEntity> getJobReviews() { return jobReviews; }
+
     /* SETTER METHODS */
     public void setJobID(Long jobID) { this.jobID = jobID; }
     public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
@@ -81,11 +101,15 @@ public class JobEntity implements Serializable {
     public void setJobEndLat(Double jobEndLat) { this.jobEndLat = jobEndLat; }
     public void setJobEndLong(Double jobEndLong) { this.jobEndLong = jobEndLong; }
     public void setJobWorkDate(Date jobWorkDate) { this.jobWorkDate = jobWorkDate; }
-    public void setJobCategory(CategoryEntity jobCategory) { this.jobCategory = jobCategory; }
+    public void setJobCategoryID(long jobCategoryId) { this.jobCategoryId = jobCategoryId; }
+    public void setJobCategory(CategoryEntity jobCategory) {this.jobCategory = jobCategory; }
     public void setJobRate(Double jobRate) { this.jobRate = jobRate; }
     public void setJobRateType(String jobRateType) { this.jobRateType = jobRateType; }
     public void setJobImage(String jobImage) { this.jobImage = jobImage; }
     public void setJobPostDate(Date jobPostDate) { this.jobPostDate = jobPostDate; }
     public void setJobPosterID(Long jobPosterID) { this.jobPosterID = jobPosterID; }
     public void setJobTakerID(Long jobTakerID) { this.jobTakerID = jobTakerID; }
+    public void setJobStatus(String jobStatus) { this.jobStatus = jobStatus; }
+    public void setJobReviews(List<JobReviewEntity> jobReviews) { this.jobReviews = jobReviews; }
+    public void setJobTransaction(JobTransactionEntity jobTransaction) {this.jobTransaction = jobTransaction; }
 }

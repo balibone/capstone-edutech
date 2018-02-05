@@ -67,6 +67,10 @@
         <jsp-file>/webapp/unify/admin/AdminDashboard.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
+    <servlet>
+        <servlet-name>ViewJobListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobListing.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - MARKETPLACE (JSP) -->
     <servlet>
         <servlet-name>ViewItemCategoryListing</servlet-name>
@@ -160,6 +164,22 @@
         <jsp-file>/webapp/unify/systemuser/voices/ReviewDetails.jsp</jsp-file>
     </servlet>
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
+    <servlet>
+        <servlet-name>CreateNewJobCategory</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/CreateNewJobCategory.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobCategoryDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobCategoryDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobCategoryListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobCategoryListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>
@@ -205,8 +225,23 @@
         <servlet-name>VoicesSysUser</servlet-name>
         <url-pattern>/VoicesSysUser</url-pattern>
     </servlet-mapping>
-    
     <!-- MISCELLANEOUS -->
+    <servlet-mapping>
+        <servlet-name>CreateNewJobCategory</servlet-name>
+        <url-pattern>/webapp/unify/admin/errands/CreateNewJobCategory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewJobCategoryDetails</servlet-name>
+        <url-pattern>/webapp/unify/admin/errands/ViewJobCategoryDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewJobCategoryListing</servlet-name>
+        <url-pattern>/webapp/unify/admin/errands/ViewJobCategoryListing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewJobDetails</servlet-name>
+        <url-pattern>/webapp/unify/admin/errands/ViewJobDetails</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>300</session-timeout>
     </session-config>
