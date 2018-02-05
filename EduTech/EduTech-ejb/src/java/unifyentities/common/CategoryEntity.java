@@ -28,6 +28,7 @@ import unifyentities.errands.JobEntity;
 
 @Entity(name = "Category")
 public class CategoryEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long categoryID;
@@ -36,6 +37,7 @@ public class CategoryEntity implements Serializable {
     private String categoryDescription;
     private String categoryImage;
     private Boolean categoryActiveStatus;
+
     
     // @OneToMany(mappedBy = "categoryEntity")
     // private Set<CompanyEntity> companySet = new HashSet<CompanyEntity>();
@@ -45,7 +47,10 @@ public class CategoryEntity implements Serializable {
     // private Collection<JobEntity> jobSet = new ArrayList<JobEntity>();
     
     /* DEFAULT CONSTRUCTOR */
-    public CategoryEntity() { categoryActiveStatus = true; }
+    public CategoryEntity() { 
+        categoryActiveStatus = true;
+        setCategoryID(System.nanoTime());
+    }
     
     /* MISCELLANEOUS METHODS */
     public void createCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
@@ -55,22 +60,37 @@ public class CategoryEntity implements Serializable {
         this.categoryImage = categoryImage;
     }
     
+//=======
+
+
+    public void createJobCategory(String categoryName, String categoryDescription){
+        this.setCategoryName(categoryName);
+        this.setCategoryType("Errands");
+        this.setCategoryDescription(categoryDescription);
+        this.setCategoryActiveStatus(true);
+    }
+
+//>>>>>>> Stashed changes
     /* GETTER METHODS */
     public Long getCategoryID() { return categoryID; }
     public String getCategoryName() { return categoryName; }
     public String getCategoryType() { return categoryType; }
     public String getCategoryDescription() { return categoryDescription; }
+//<<<<<<< Updated upstream
     public String getCategoryImage() { return categoryImage; }
     public Boolean getCategoryActiveStatus() { return categoryActiveStatus; }
     // public Set<CompanyEntity> getCompanySet() { return companySet; }
     public Collection<ItemEntity> getItemSet() { return itemSet; }
     // public Collection<JobEntity> getJobSet() { return jobSet; }
     
+
+//>>>>>>> Stashed changes
     /* SETTER METHODS */
     public void setCategoryID(Long categoryID) { this.categoryID = categoryID; }
     public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
     public void setCategoryType(String categoryType) { this.categoryType = categoryType; }
     public void setCategoryDescription(String categoryDescription) { this.categoryDescription = categoryDescription; }
+//<<<<<<< Updated upstream
     public void setCategoryImage(String categoryImage) { this.categoryImage = categoryImage; }
     public void setCategoryActiveStatus(Boolean categoryActiveStatus) { this.categoryActiveStatus = categoryActiveStatus; }
     // public void setCompanySet(Set<CompanyEntity> companySet) { this.companySet = companySet; }
