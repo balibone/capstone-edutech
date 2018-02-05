@@ -7,20 +7,14 @@ package commoninfracontrollers.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Derian
- */
-@WebServlet(name
-        = "SystemAdminController",
-        urlPatterns
-        = {"/SystemAdminController"})
 public class SystemAdminController
         extends HttpServlet {
 
@@ -38,20 +32,33 @@ public class SystemAdminController
             throws ServletException,
             IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out
-                = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SystemAdminController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SystemAdminController at "
-                    + request.getContextPath()
-                    + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try {
+            RequestDispatcher dispatcher;
+            ServletContext servletContext = getServletContext();
+            String pageAction = request.getParameter("pageTransit");
+            
+            switch (pageAction) {
+                case "goToStudentList":
+                    pageAction="StudentList";
+                    break;
+                case "goToInstructorList":
+                    pageAction="InstructorList";
+                    break;
+                case "goToUnifyAdminList":
+                    pageAction="EduTechAdminList";
+                    break;
+                case "goToEduTechAdminList":
+                    pageAction="UnifyAdminList";
+                    break;
+                default:
+                    break;
+            }
+            dispatcher = servletContext.getNamedDispatcher(pageAction);
+            dispatcher.forward(request, response);       
+        }
+        catch(Exception ex) {
+            log("Exception in CommonInfraController: processRequest()");
+            ex.printStackTrace();
         }
     }
 
