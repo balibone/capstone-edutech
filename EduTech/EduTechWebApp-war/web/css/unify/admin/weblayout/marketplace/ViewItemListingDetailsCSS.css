@@ -20,6 +20,7 @@
     padding: 0px;
     font-weight: normal;
 }
+
 .product-info .stock-container .stock-box .available {
     font-size: 13px;
     font-weight: bold;
@@ -104,6 +105,9 @@ ul.setLeftUL li::before {
     display: table-cell;
     padding-right: 0.6em;
 }
+
+
+
 
 .line-item-table { margin: 0 0 20px 0; }
 .line-item-table .line-item-header { font-size: 12px; text-transform: uppercase; color: #1685C6; }

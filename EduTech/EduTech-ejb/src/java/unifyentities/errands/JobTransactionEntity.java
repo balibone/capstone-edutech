@@ -19,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
 
 @Entity(name = "JobTransaction")
 public class JobTransactionEntity implements Serializable {
@@ -31,15 +33,24 @@ public class JobTransactionEntity implements Serializable {
     
     @Temporal(TemporalType.DATE)
     private Date jobTransactionDate;
-    
+
     /* FOREIGN KEY */
     private Long jobID;
     private String jobPosterID;
     private String jobTakerID;
+
+    //@OneToOne(mappedBy="jobtransaction")
+    //private JobEntity job;
     
+    //@OneToOne(cascade={CascadeType.PERSIST})
+    //private JobReviewEntity posterReview;
+    
+    //@OneToOne(cascade={CascadeType.PERSIST})
+    //private JobReviewEntity takerReview;
+
     @PrePersist
     public void creationDate() { this.jobTransactionDate = new Date(); }
-    
+
     /* GETTER METHODS */
     public Long getJobTransactionID() { return jobTransactionID; }
     public String getJobCategory() { return jobCategory; }
@@ -49,7 +60,7 @@ public class JobTransactionEntity implements Serializable {
     public Long getJobID() { return jobID; }
     public String getJobPosterID() { return jobPosterID; }
     public String getJobTakerID() { return jobTakerID; }
-    
+
     /* SETTER METHODS */
     public void setJobTransactionID(Long jobTransactionID) { this.jobTransactionID = jobTransactionID; }
     public void setJobCategory(String jobCategory) { this.jobCategory = jobCategory; }
