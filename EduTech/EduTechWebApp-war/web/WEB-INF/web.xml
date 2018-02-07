@@ -188,6 +188,14 @@
         <servlet-name>NewInstructor</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/admin/NewInstructor.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>NewEduTechAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/NewEduTechAdmin.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewUnifyAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/NewUnifyAdmin.jsp</jsp-file>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>

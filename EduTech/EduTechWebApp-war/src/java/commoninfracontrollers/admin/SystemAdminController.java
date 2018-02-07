@@ -55,7 +55,7 @@ public class SystemAdminController
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-            System.out.println("info:" + pageAction);
+            System.out.println(pageAction);
             
             switch (pageAction) {
                 case "StudentList":
@@ -75,10 +75,17 @@ public class SystemAdminController
                     pageAction="NewInstructor";
                     break;
                 case "UnifyAdminList":
+                    ArrayList<ArrayList> unifyAdminList = sam.getAllUnifyAdmins();
+                    request.setAttribute("unifyAdminList", unifyAdminList);
                     pageAction="UnifyAdminList";
                     break;
                 case "EduTechAdminList":
+                    ArrayList<ArrayList> eduTechAdminList = sam.getAllEduTechAdmins();
+                    request.setAttribute("eduTechAdminList", eduTechAdminList);
                     pageAction="EduTechAdminList";
+                    break;
+                case "NewEduTechAdmin":
+                    pageAction="NewEduTechAdmin";
                     break;
                 case "createStudent"://create new student
                     boolean success = processNewUser(request,response, "student");//pass request to helper method for parsing & store success boolean
@@ -93,6 +100,32 @@ public class SystemAdminController
                     
                     pageAction="NewStudent";//response is same page. 
                     break;
+                case "createEduTechAdmin"://create new student
+                    boolean createEduTechAdminStatus = processNewUser(request,response, "EduTechAdmin");//pass request to helper method for parsing & store success boolean
+                    String eduTechMsg = "";//confirmation msg
+                    if (createEduTechAdminStatus){
+                       eduTechMsg = "User created successfully.";
+                    }else{
+                        eduTechMsg = "Failed to create user. Please try again.";
+                    }
+                    request.setAttribute("success", createEduTechAdminStatus);//success boolean
+                    request.setAttribute("msg", eduTechMsg);//plug in confirmation
+                    
+                    pageAction="NewEduTechAdmin";//response is same page. 
+                    break;
+                case "createUnifyAdmin"://create new student
+                    boolean createUnifyAdminStatus = processNewUser(request,response, "UnifyAdmin");//pass request to helper method for parsing & store success boolean
+                    String unifyMsg = "";//confirmation msg
+                    if (createUnifyAdminStatus){
+                       unifyMsg = "User created successfully.";
+                    }else{
+                        unifyMsg = "Failed to create user. Please try again.";
+                    }
+                    request.setAttribute("success", createUnifyAdminStatus);//success boolean
+                    request.setAttribute("msg", unifyMsg);//plug in confirmation
+                    
+                    pageAction="NewUnifyAdmin";//response is same page. 
+                    break;
                 case "createInstructor"://create new instructor
                     boolean successIndex = processNewUser(request,response, "instructor");//pass request to helper method for parsing & store success boolean
                     String message = "";//confirmation msg
@@ -102,8 +135,7 @@ public class SystemAdminController
                         message = "Failed to create user. Please try again.";
                     }
                     request.setAttribute("success", successIndex);//success boolean
-                    request.setAttribute("msg", message);//plug in confirmation
-                    
+                    request.setAttribute("msg", message);//plug in confirmation         
                     pageAction="NewInstructor";//response is same page. 
                     break;
                 default:
@@ -219,11 +251,15 @@ public class SystemAdminController
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         
-        if(userType.equals("student"))
+        if(userType.equals("EduTechAdmin")) {
+            return sam.createNewEduTechAdmin(salutation,firstName,lastName,email, password, fileName);
+        } else if(userType.equals("UnifyAdmin")){
+            return sam.createNewUnifyAdmin(salutation, firstName, lastName, email, password, fileName);
+        } else if(userType.equals("student")){ 
             return sam.createNewStudent(salutation,firstName,lastName,email, password, fileName);
-        else
-            return sam.createNewInstructor(salutation,firstName,lastName,email, password, fileName);
-        
+        } else {
+            return sam.createNewInstructor(salutation, firstName, lastName, email, password, fileName);
+        }
     }
     private String getFileName(final Part part) {
         final String partHeader = part.getHeader("content-disposition");

@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,11 +27,49 @@
                 <div class="right_col" role="main">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="x_title">
-                                <h2 class="bodyHeader">Students</h2>
-                                <div class="clearfix"></div>
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2 class="bodyHeader">Unify Admins</h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li>
+                                            <a href="SystemAdmin?pageTransit=NewUnifyAdmin">
+                                            <button type="button" class="btn btn-default">
+                                                
+                                                    <i class="fas fa-plus"></i>&nbsp;&nbsp;Create New Unify Admin
+                                            </button>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <table id="datatable" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="w_20">Photo</th>
+                                                <th>Name</th>
+                                                <th>Username(E-mail)</th>
+                                                <th>Date Created</th>
+                                            </tr>
+                                        </thead>                                                                                       
+                                        <tbody>
+                                            <% 
+                                                ArrayList unifyAdminList = (ArrayList)request.getAttribute("unifyAdminList");
+                                                for(Object o : unifyAdminList){
+                                                    ArrayList unifyAdminData = (ArrayList) o;
+                                            %>
+                                            <tr>
+                                                <td><img src="uploads/commoninfrastructure/admin/images/<%= unifyAdminData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
+                                                <td><%=unifyAdminData.get(1)%></td>
+                                                <td><%=unifyAdminData.get(2)%></td>
+                                                <td><%=unifyAdminData.get(3)%></td>
+                                            </tr>                                                                                                                                               
+                                            <%  }
+                                            %>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="x_content"></div>
                         </div>
                     </div>
                 </div>
