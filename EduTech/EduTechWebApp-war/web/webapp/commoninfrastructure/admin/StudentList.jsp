@@ -72,14 +72,16 @@
                                                 for(Object o : studentList){
                                                     ArrayList studentData = (ArrayList) o;
                                             %>
+                                        <a href="#studentModal">
                                             <tr>
                                                 <td><img src="uploads/commoninfrastructure/admin/images/<%= studentData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=studentData.get(1)%></td>
                                                 <td><%=studentData.get(2)%></td>
                                                 <td><%=studentData.get(3)%></td>
-                                            </tr>                                                                                                                                               
-                                            <%}
-                                            %>
+                                            </tr>   
+                                        </a>
+                                                                                                                                                                                        
+                                            <%}%>
                                         </tbody>
                                     </table>
                                 </div>
@@ -89,7 +91,7 @@
                 </div>
             </div>
         </div>
-            
+        <%@include file="StudentModal.jspf"%>               
         <!-- JAVASCRIPT (JS) -->
         <script src="js/commoninfrastructure/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
