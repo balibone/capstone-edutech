@@ -5,7 +5,7 @@
  */
 package commoninfracontrollers.admin;
 
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+//import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import commoninfrasessionsbeans.admin.SystemAdminMgrBeanRemote;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,6 +55,7 @@ public class SystemAdminController
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
+            System.out.println("info:" + pageAction);
             
             switch (pageAction) {
                 case "StudentList":
@@ -66,7 +67,12 @@ public class SystemAdminController
                     pageAction="NewStudent";
                     break;
                 case "InstructorList":
+                    ArrayList<ArrayList> instructorList = sam.getAllInstructors();
+                    request.setAttribute("instructorList", instructorList);
                     pageAction="InstructorList";
+                    break;
+                case "NewInstructor":
+                    pageAction="NewInstructor";
                     break;
                 case "UnifyAdminList":
                     pageAction="UnifyAdminList";
@@ -75,7 +81,7 @@ public class SystemAdminController
                     pageAction="EduTechAdminList";
                     break;
                 case "createStudent"://create new student
-                    boolean success = processNewUser(request,response);//pass request to helper method for parsing & store success boolean
+                    boolean success = processNewUser(request,response, "student");//pass request to helper method for parsing & store success boolean
                     String msg = "";//confirmation msg
                     if (success){
                         msg = "User created successfully.";
@@ -86,6 +92,19 @@ public class SystemAdminController
                     request.setAttribute("msg", msg);//plug in confirmation
                     
                     pageAction="NewStudent";//response is same page. 
+                    break;
+                case "createInstructor"://create new instructor
+                    boolean successIndex = processNewUser(request,response, "instructor");//pass request to helper method for parsing & store success boolean
+                    String message = "";//confirmation msg
+                    if (successIndex){
+                        message = "User created successfully.";
+                    }else{
+                        message = "Failed to create user. Please try again.";
+                    }
+                    request.setAttribute("success", successIndex);//success boolean
+                    request.setAttribute("msg", message);//plug in confirmation
+                    
+                    pageAction="NewInstructor";//response is same page. 
                     break;
                 default:
                     break;
@@ -144,7 +163,7 @@ public class SystemAdminController
         return "Short description";
     }// </editor-fold>
     
-    private boolean processNewUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+    private boolean processNewUser(HttpServletRequest request, HttpServletResponse response, String userType) throws IOException, ServletException{
         //Save image to offline folder. 
         // Create path components to save the file
         String appPath = request.getServletContext().getRealPath("");
@@ -200,7 +219,10 @@ public class SystemAdminController
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         
-        return sam.createNewStudent(salutation,firstName,lastName,email, password, fileName);
+        if(userType.equals("student"))
+            return sam.createNewStudent(salutation,firstName,lastName,email, password, fileName);
+        else
+            return sam.createNewInstructor(salutation,firstName,lastName,email, password, fileName);
         
     }
     private String getFileName(final Part part) {

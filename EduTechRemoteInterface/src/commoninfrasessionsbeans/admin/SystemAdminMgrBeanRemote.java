@@ -16,7 +16,8 @@ import javax.ejb.Remote;
 public interface SystemAdminMgrBeanRemote {
 
     public boolean createNewStudent(String salutation, String firstName, String lastName, String email, String password, String fileName);
-
     public ArrayList<ArrayList> getAllStudents();
+    public boolean createNewInstructor(String salutation, String firstName, String lastName, String email, String password, String fileName);
+    public ArrayList<ArrayList> getAllInstructors();
 
 }
