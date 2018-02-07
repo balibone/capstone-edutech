@@ -19,5 +19,9 @@ public interface SystemAdminMgrBeanRemote {
     public ArrayList<ArrayList> getAllStudents();
     public boolean createNewInstructor(String salutation, String firstName, String lastName, String email, String password, String fileName);
     public ArrayList<ArrayList> getAllInstructors();
+    public boolean createNewEduTechAdmin(String salutation, String firstName, String lastName, String email, String password, String fileName);
+    public ArrayList<ArrayList> getAllEduTechAdmins();
+    public boolean createNewUnifyAdmin(String salutation, String firstName, String lastName, String email, String password, String fileName);
+    public ArrayList<ArrayList> getAllUnifyAdmins();
 
 }
