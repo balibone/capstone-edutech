@@ -5,19 +5,38 @@
  */
 package commoninfracontrollers.admin;
 
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+import commoninfrasessionsbeans.admin.SystemAdminMgrBeanRemote;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 10,
+        maxFileSize = 1024 * 1024 * 50,
+        maxRequestSize = 1024 * 1024 * 100
+)
 public class SystemAdminController
         extends HttpServlet {
 
+    @EJB
+    private SystemAdminMgrBeanRemote sam;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,17 +57,35 @@ public class SystemAdminController
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
-                case "goToStudentList":
+                case "StudentList":
+                    ArrayList<ArrayList> studentList = sam.getAllStudents();
+                    request.setAttribute("studentList", studentList);
                     pageAction="StudentList";
                     break;
-                case "goToInstructorList":
+                case "NewStudent":
+                    pageAction="NewStudent";
+                    break;
+                case "InstructorList":
                     pageAction="InstructorList";
                     break;
-                case "goToUnifyAdminList":
+                case "UnifyAdminList":
+                    pageAction="UnifyAdminList";
+                    break;
+                case "EduTechAdminList":
                     pageAction="EduTechAdminList";
                     break;
-                case "goToEduTechAdminList":
-                    pageAction="UnifyAdminList";
+                case "createStudent"://create new student
+                    boolean success = processNewUser(request,response);//pass request to helper method for parsing & store success boolean
+                    String msg = "";//confirmation msg
+                    if (success){
+                        msg = "User created successfully.";
+                    }else{
+                        msg = "Failed to create user. Please try again.";
+                    }
+                    request.setAttribute("success", success);//success boolean
+                    request.setAttribute("msg", msg);//plug in confirmation
+                    
+                    pageAction="NewStudent";//response is same page. 
                     break;
                 default:
                     break;
@@ -106,5 +143,74 @@ public class SystemAdminController
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+    private boolean processNewUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        //Save image to offline folder. 
+        // Create path components to save the file
+        String appPath = request.getServletContext().getRealPath("");
+        String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
+                + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+        //Directory path to save image to
+        String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
+                + "uploads" + File.separator + "commoninfrastructure" + File.separator + "admin" + File.separator + "images"
+                + File.separator;
+        Part imagePart = request.getPart("profileImage");
+        final String fileName;
+        fileName= getFileName(imagePart);
+ 
+        FileOutputStream out = null;
+        InputStream fileContent = null;
+        //final PrintWriter writer = response.getWriter();
+        try {
+            out = new FileOutputStream(new File(imageDir + File.separator
+                    + fileName));
+            fileContent = imagePart.getInputStream();
+            
+            int bytesRead = 0;
+            final byte[] bytes = new byte[1024];
+            //read image bytes from input stream until finish.
+            while ((bytesRead = fileContent.read(bytes)) != -1) {
+                //write image bytes to output stream incrementally, until bytesRead = total file size --> means full image written.
+                out.write(bytes, 0, bytesRead);
+            }
+            //writer.println("New file " + fileName + " created at " + imageDir);
+        } catch (FileNotFoundException fne) {
+            /*writer.println("You either did not specify a file to upload or are "
+                    + "trying to upload a file to a protected or nonexistent "
+                    + "location.");
+            writer.println("<br/> ERROR: " + fne.getMessage());
+            
+            LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
+                    new Object[]{fne.getMessage()});*/
+        } finally {
+            /*if (out != null) {
+                out.close();
+            }
+            if (fileContent != null) {
+                fileContent.close();
+            }
+            if (writer != null) {
+                writer.close();
+            )*/
+        }
+    
+        String salutation = request.getParameter("salutation");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        
+        return sam.createNewStudent(salutation,firstName,lastName,email, password, fileName);
+        
+    }
+    private String getFileName(final Part part) {
+        final String partHeader = part.getHeader("content-disposition");
+        for (String content : partHeader.split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
 }

@@ -40,6 +40,10 @@
         <servlet-name>InstructorList</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/admin/InstructorList.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>NewStudent</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/NewStudent.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - EDUTECH - ADMIN (SERVLET) -->
     <!-- SERVLET CLASS MAPPING - EDUTECH - ADMIN (JSP) -->
     <!-- SERVLET CLASS MAPPING - EDUTECH - SYSTEMUSER (SERVLET) -->
@@ -226,22 +230,7 @@
         <url-pattern>/VoicesSysUser</url-pattern>
     </servlet-mapping>
     <!-- MISCELLANEOUS -->
-    <servlet-mapping>
-        <servlet-name>CreateNewJobCategory</servlet-name>
-        <url-pattern>/webapp/unify/admin/errands/CreateNewJobCategory</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewJobCategoryDetails</servlet-name>
-        <url-pattern>/webapp/unify/admin/errands/ViewJobCategoryDetails</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewJobCategoryListing</servlet-name>
-        <url-pattern>/webapp/unify/admin/errands/ViewJobCategoryListing</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewJobDetails</servlet-name>
-        <url-pattern>/webapp/unify/admin/errands/ViewJobDetails</url-pattern>
-    </servlet-mapping>
+    
     <session-config>
         <session-timeout>300</session-timeout>
     </session-config>

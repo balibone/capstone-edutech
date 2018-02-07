@@ -10,8 +10,11 @@
 
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
-        <link href="css/commoninfrastructure/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
         <link href="css/commoninfrastructure/admin/baselayout/CommonAdminBaseCSS.css" rel="stylesheet" type="text/css">
+        
+        <!--Font Awesome 5-->
+        <script defer src="fonts/fa5/fontawesome-all.js"></script>
+        <script defer src="fonts/fa5/fa-v4-shims.js"></script>
     </head>
 
     <body class="nav-md">
