@@ -16,9 +16,5 @@
 /EduTech/EduTechWebApp-war/nbproject/private/
 
 #List of lowest level folders within "uploads/" which contain files.
-#add "/" after folder to ignore files inside, instead of the folders themselves
 
-/EduTech/EduTechWebApp-war/web/uploads/unify/images/common/category/
-/EduTech/EduTechWebApp-war/web/uploads/unify/images/errands/job/
-/EduTech/EduTechWebApp-war/web/uploads/unify/images/marketplace/item/
-/EduTech/EduTechWebApp-war/web/uploads/unify/images/voices/company/
+/EduTech/EduTechWebApp-war/web/uploads/
