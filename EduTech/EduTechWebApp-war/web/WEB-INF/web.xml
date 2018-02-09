@@ -136,14 +136,6 @@
         <servlet-class>unifycontrollers.systemuser.VoicesSysUserController</servlet-class>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
-    <servlet>
-        <servlet-name>JobListing</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/errands/JobListing.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>JobDetails</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/errands/JobDetails.jsp</jsp-file>
-    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - MARKETPLACE (JSP) -->
     <servlet>
         <servlet-name>ViewItemListingSYS</servlet-name>
@@ -155,18 +147,18 @@
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
     <servlet>
+        <servlet-name>UserAccount</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserAccount.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>UserItemTransaction</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransaction.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>UserProfile</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    <servlet>
-        <servlet-name>ReviewListing</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/voices/ReviewListing.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReviewDetails</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/voices/ReviewDetails.jsp</jsp-file>
-    </servlet>
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet>
         <servlet-name>CreateNewJobCategory</servlet-name>
@@ -183,18 +175,6 @@
     <servlet>
         <servlet-name>ViewJobDetails</servlet-name>
         <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewInstructor</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/NewInstructor.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewEduTechAdmin</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/NewEduTechAdmin.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewUnifyAdmin</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/NewUnifyAdmin.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
@@ -242,6 +222,22 @@
         <url-pattern>/VoicesSysUser</url-pattern>
     </servlet-mapping>
     <!-- MISCELLANEOUS -->
+    <servlet-mapping>
+        <servlet-name>CreateNewJobCategory</servlet-name>
+        <url-pattern>/webapp/unify/admin/errands/CreateNewJobCategory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewJobCategoryDetails</servlet-name>
+        <url-pattern>/webapp/unify/admin/errands/ViewJobCategoryDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewJobCategoryListing</servlet-name>
+        <url-pattern>/webapp/unify/admin/errands/ViewJobCategoryListing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewJobDetails</servlet-name>
+        <url-pattern>/webapp/unify/admin/errands/ViewJobDetails</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>300</session-timeout>
     </session-config>

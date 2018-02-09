@@ -1,8 +1,65 @@
 package unifysessionbeans.systemuser;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
+
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import commoninfrastructure.UserEntity;
+import unifyentities.marketplace.ItemTransactionEntity;
 
 @Stateless
 public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemote {
-
+    @PersistenceContext
+    private EntityManager em;
+    
+    private UserEntity uEntity;
+    private Collection<ItemTransactionEntity> itemTransactionSet;
+    
+    @Override
+    public List<Vector> viewItemTransaction(String emailID) {
+        List<Vector> itemTransList = new ArrayList<Vector>();
+        Vector itemTransDetailsVec = new Vector();
+        
+        uEntity = lookupUser(emailID);
+        itemTransactionSet = uEntity.getItemTransactionSet();
+        
+        for (ItemTransactionEntity ite : itemTransactionSet) {
+            itemTransDetailsVec.add(ite.getItemBuyerID());
+            itemTransDetailsVec.add(ite.getItemSellerID());
+            itemTransDetailsVec.add(ite.getItemEntity().getItemName());
+            itemTransDetailsVec.add(ite.getItemTransactionDate());
+            itemTransDetailsVec.add(ite.getItemTransactionPrice());
+            itemTransList.add(itemTransDetailsVec);
+        }
+        return itemTransList;
+    }
+    
+    /* MISCELLANEOUS METHODS */
+    public UserEntity lookupUser(String userEmail){
+        UserEntity ue = new UserEntity();
+        try{
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.userEmail = :userEmail");
+            q.setParameter("userEmail", userEmail);
+            ue = (UserEntity)q.getSingleResult();
+        }
+        catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        catch(NoResultException nre){
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
+    }
 }

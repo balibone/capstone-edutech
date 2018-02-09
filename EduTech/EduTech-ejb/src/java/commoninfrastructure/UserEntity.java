@@ -1,12 +1,32 @@
 package commoninfrastructure;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import unifyentities.marketplace.ItemEntity;
+import unifyentities.errands.JobEntity;
+
+import unifyentities.voices.CompanyReviewEntity;
+import unifyentities.marketplace.ItemReviewEntity;
+import unifyentities.errands.JobReviewEntity;
+import unifyentities.marketplace.ItemTransactionEntity;
+import unifyentities.errands.JobTransactionEntity;
+
+import unifyentities.common.CompanyReviewReportEntity;
+import unifyentities.common.ItemReportEntity;
+import unifyentities.common.JobReportEntity;
+import unifyentities.common.MessageEntity;
 
 @Entity(name = "SystemUser")
 public class UserEntity implements Serializable {
@@ -22,6 +42,30 @@ public class UserEntity implements Serializable {
     
     @Temporal(TemporalType.DATE)
     private Date userCreationDate;
+    
+    /* OBJECT-ORIENTED MAPPINGS (UNIFY) */
+    @OneToMany(mappedBy = "userEntity")
+    private Set<ItemEntity> itemSet = new HashSet<ItemEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<JobEntity> jobSet = new ArrayList<JobEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<CompanyReviewReportEntity> companyReviewReportSet = new ArrayList<CompanyReviewReportEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<ItemReportEntity> itemReportSet = new ArrayList<ItemReportEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<JobReportEntity> jobReportSet = new ArrayList<JobReportEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<MessageEntity> messageSet = new ArrayList<MessageEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<CompanyReviewEntity> companyReviewSet = new ArrayList<CompanyReviewEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<ItemReviewEntity> itemReviewSet = new ArrayList<ItemReviewEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<JobReviewEntity> jobReviewSet = new ArrayList<JobReviewEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<ItemTransactionEntity> itemTransactionSet = new ArrayList<ItemTransactionEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<JobTransactionEntity> jobTransactionSet = new ArrayList<JobTransactionEntity>();
     
     @PrePersist
     public void creationDate() { 
@@ -49,12 +93,23 @@ public class UserEntity implements Serializable {
     public Boolean getUserActiveStatus() { return userActiveStatus; }
     public Date getUserCreationDate() { return userCreationDate; }
     public String getImgFileName() { return imgFileName; }
-    public String getUserSalutation() {return userSalutation;}
-    public String getUserLastName() {return userLastName;}
-    public String getUserFirstName() {
-        return userFirstName;
-    }
-
+    public String getUserSalutation() { return userSalutation; }
+    public String getUserLastName() { return userLastName;}
+    public String getUserFirstName() { return userFirstName; }
+    
+    /* GETTER METHODS (UNIFY) */
+    public Set<ItemEntity> getItemSet() { return itemSet; }
+    public Collection<JobEntity> getJobSet() { return jobSet; }
+    public Collection<CompanyReviewReportEntity> getCompanyReviewReportSet() { return companyReviewReportSet; }
+    public Collection<ItemReportEntity> getItemReportSet() { return itemReportSet; }
+    public Collection<JobReportEntity> getJobReportSet() { return jobReportSet; }
+    public Collection<MessageEntity> getMessageSet() { return messageSet; }
+    public Collection<CompanyReviewEntity> getCompanyReviewSet() { return companyReviewSet; }
+    public Collection<ItemReviewEntity> getItemReviewSet() { return itemReviewSet; }
+    public Collection<JobReviewEntity> getJobReviewSet() { return jobReviewSet; }
+    public Collection<ItemTransactionEntity> getItemTransactionSet() { return itemTransactionSet; }
+    public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
+    
     /* SETTER METHODS */
     public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
     public void setUserPassword(String userPassword) { this.userPassword = userPassword; }
@@ -66,4 +121,16 @@ public class UserEntity implements Serializable {
     public void setUserLastName(String userLastName) {this.userLastName= userLastName;}
     public void setUserFirstName(String userFirstName) {this.userFirstName= userFirstName;}
 
+    /* SETTER METHODS (UNIFY) */
+    public void setItemSet(Set<ItemEntity> itemSet) { this.itemSet = itemSet; }
+    public void setJobSet(Collection<JobEntity> jobSet) { this.jobSet = jobSet; }
+    public void setCompanyReviewReportSet(Collection<CompanyReviewReportEntity> companyReviewReportSet) { this.companyReviewReportSet = companyReviewReportSet; }
+    public void setItemReportSet(Collection<ItemReportEntity> itemReportSet) { this.itemReportSet = itemReportSet; }
+    public void setJobReportSet(Collection<JobReportEntity> jobReportSet) { this.jobReportSet = jobReportSet; }
+    public void setMessageSet(Collection<MessageEntity> messageSet) { this.messageSet = messageSet; }
+    public void setCompanyReviewSet(Collection<CompanyReviewEntity> companyReviewSet) { this.companyReviewSet = companyReviewSet; }
+    public void setItemReviewSet(Collection<ItemReviewEntity> itemReviewSet) { this.itemReviewSet = itemReviewSet; }
+    public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
+    public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
+    public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
 }

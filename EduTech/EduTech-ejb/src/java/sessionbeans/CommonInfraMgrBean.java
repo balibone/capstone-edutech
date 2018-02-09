@@ -45,6 +45,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return false;
     }
 
+    /* MISCELLANEOUS METHODS */
     public UserEntity lookupUser(String userEmail){
         UserEntity ue = new UserEntity();
         try{

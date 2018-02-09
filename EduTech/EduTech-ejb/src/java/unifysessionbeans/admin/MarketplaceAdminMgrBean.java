@@ -10,13 +10,10 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.Vector;
 
 import unifyentities.marketplace.ItemEntity;
-import unifyentities.voices.CompanyEntity;
 import unifyentities.common.CategoryEntity;
-import unifyentities.errands.JobEntity;
 import unifyentities.common.MessageEntity;
 
 @Stateless
@@ -28,26 +25,24 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     private ItemEntity iEntity;
     private MessageEntity mEntity;
     
-    private Set<CompanyEntity> companySet;
     private Collection<ItemEntity> itemSet;
-    private Collection<JobEntity> jobSet;
 
     @Override
     public List<Vector> viewItemCategoryList(){
         Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'marketplace'");
-        List<Vector> categoryList = new ArrayList<Vector>();
+        List<Vector> itemCategoryList = new ArrayList<Vector>();
         
-        for(Object o: q.getResultList()){
+        for (Object o: q.getResultList()){
             CategoryEntity categoryE = (CategoryEntity) o;
-            Vector categoryVec = new Vector();
+            Vector itemCategoryVec = new Vector();
             
-            categoryVec.add(categoryE.getCategoryImage());
-            categoryVec.add(categoryE.getCategoryName());
-            categoryVec.add(categoryE.getCategoryDescription());
-            categoryVec.add(categoryE.getCategoryActiveStatus());
-            categoryList.add(categoryVec);
+            itemCategoryVec.add(categoryE.getCategoryImage());
+            itemCategoryVec.add(categoryE.getCategoryName());
+            itemCategoryVec.add(categoryE.getCategoryDescription());
+            itemCategoryVec.add(categoryE.getCategoryActiveStatus());
+            itemCategoryList.add(itemCategoryVec);
         }
-        return categoryList;
+        return itemCategoryList;
     }
     
     @Override
@@ -70,6 +65,8 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     public boolean createItemCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
         cEntity = new CategoryEntity();
         cEntity.createCategory(categoryName, categoryType, categoryDescription, categoryImage);
+        itemSet = new ArrayList<ItemEntity>();
+        cEntity.setItemSet(itemSet);
         em.persist(cEntity);
         return true;
     }
@@ -77,6 +74,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     @Override
     public boolean updateItemCategory(String oldCategoryName, String newCategoryName, String categoryType, 
             String oldCategoryDescription, String newCategoryDescription, String fileName) {
+        /* DOES NOT MATTER WHETHER OR NOT THERE IS ITEMS INSIDE THE ITEM CATEGORY, ADMIN CAN JUST UPDATE THE ITEM CATEGORY DETAILS */
         boolean icUpdateStatus = true;
         if (lookupItemCategory(oldCategoryName, categoryType) == null) {
             icUpdateStatus = false;
@@ -101,9 +99,10 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             cEntity = em.find(CategoryEntity.class, lookupItemCategory(deactCategoryName, deactCategoryType).getCategoryID());
             itemSet = cEntity.getItemSet();
             
-            if (!itemSet.isEmpty()){
-                em.clear();
+            /* IF THERE IS ITEM INSIDE THE ITEM CATEGORY */
+            if (!itemSet.isEmpty()) {
                 for (ItemEntity ie : itemSet) {
+                    /* IF THE ITEM INSIDE THE ITEM CATEGORY IS "AVAILABLE", THEN CANNOT DEACTIVATE THE ITEM CATEGORY */
                     if((ie.getItemStatus()).equals("Available")) {
                         itemAvailWithinCat = true;
                         break;
@@ -115,6 +114,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
                     return "Selected item category has been deactivated successfully!";
                 }
             }
+            /* IF THERE IS NO ITEMS INSIDE THE ITEM CATEGORY, PROCEED TO DEACTIVATE THE ITEM CATEGORY */
             else{
                 cEntity.setCategoryActiveStatus(false);
                 em.merge(cEntity);
@@ -147,7 +147,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             
             itemVec.add(itemE.getItemImage());
             itemVec.add(itemE.getItemName());
-            itemVec.add(itemE.getItemCategory());
+            itemVec.add(itemE.getCategoryEntity().getCategoryName());
             itemVec.add(itemE.getItemSellerID());
             itemVec.add(itemE.getItemPrice());
             itemVec.add(itemE.getItemStatus());
@@ -164,7 +164,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
         if (iEntity != null) {
             itemDetailsVec.add(iEntity.getItemImage());
             itemDetailsVec.add(iEntity.getItemName());
-            itemDetailsVec.add(iEntity.getItemCategory());
+            itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryName());
             itemDetailsVec.add(iEntity.getItemSellerID());
             itemDetailsVec.add(iEntity.getItemPrice());
             itemDetailsVec.add(iEntity.getItemDescription());
@@ -180,6 +180,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     
     @Override
     public boolean deleteAnItem(String hiddenItemName, String hiddenSellerID) {
+        /* ADMIN CAN JUST DELETE THE ITEM IMMEDIATELY */
         boolean itemDeleteStatus = true;
         if (lookupItem(hiddenItemName, hiddenSellerID) == null) {
             itemDeleteStatus = false;

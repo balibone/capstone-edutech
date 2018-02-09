@@ -10,12 +10,16 @@
 ***************************************************************************************/
 package unifyentities.errands;
 
+import commoninfrastructure.UserEntity;
 import java.io.Serializable;
+
 import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,6 +40,11 @@ public class JobReviewEntity implements Serializable {
     private String jobReviewerID;
     private String jobReceiverID;
     
+    @ManyToOne
+    private JobEntity jobEntity;
+    @ManyToOne
+    private UserEntity userEntity;
+    
     @PrePersist
     public void creationDate() { this.jobReviewDate = new Date(); }
     
@@ -47,6 +56,8 @@ public class JobReviewEntity implements Serializable {
     public Long getJobID() { return jobID; }
     public String getJobReviewerID() { return jobReviewerID; }
     public String getJobReceiverID() { return jobReceiverID; }
+    public JobEntity getJobEntity() { return jobEntity; }
+    public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
     public void setJobReviewID(Long jobReviewID) { this.jobReviewID = jobReviewID; }
@@ -56,4 +67,6 @@ public class JobReviewEntity implements Serializable {
     public void setJobID(Long jobID) { this.jobID = jobID; }
     public void setJobReviewerID(String jobReviewerID) { this.jobReviewerID = jobReviewerID; }
     public void setJobReceiverID(String jobReceiverID) { this.jobReceiverID = jobReceiverID; }
+    public void setJobEntity(JobEntity jobEntity) { this.jobEntity = jobEntity; }
+    public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

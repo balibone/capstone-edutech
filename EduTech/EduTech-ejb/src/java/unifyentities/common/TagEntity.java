@@ -11,10 +11,23 @@
 package unifyentities.common;
 
 import java.io.Serializable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import unifyentities.errands.JobEntity;
+import unifyentities.voices.CompanyEntity;
+import unifyentities.marketplace.ItemEntity;
 
 @Entity(name = "Tag")
 public class TagEntity implements Serializable {
@@ -24,13 +37,31 @@ public class TagEntity implements Serializable {
     private String tagName;
     private String tagType;
     
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(name="TAGMMBI_JOBMMBI")
+    private Collection<JobEntity> jobSet = new ArrayList<JobEntity>();
+    
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(name="TAGMMBI_COMPANYMMBI")
+    private Set<CompanyEntity> companySet = new HashSet<CompanyEntity>();
+    
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(name="TAGMMBI_ITEMMMBI")
+    private Collection<ItemEntity> itemSet = new ArrayList<ItemEntity>();
+    
     /* GETTER METHODS */
     public Long getTagID() { return tagID; }
     public String getTagName() { return tagName; }
     public String getTagType() { return tagType; }
+    public Collection<JobEntity> getJobSet() { return jobSet; }
+    public Set<CompanyEntity> getCompanySet() { return companySet; }
+    public Collection<ItemEntity> getItemSet() { return itemSet; }
     
     /* SETTER METHODS */
     public void setTagID(Long tagID) { this.tagID = tagID; }
     public void setTagName(String tagName) { this.tagName = tagName; }
     public void setTagType(String tagType) { this.tagType = tagType; }
+    public void setJobSet(Collection<JobEntity> jobSet) { this.jobSet = jobSet; };
+    public void setCompanySet(Set<CompanyEntity> companySet) { this.companySet = companySet; };
+    public void setItemSet(Collection<ItemEntity> itemSet) { this.itemSet = itemSet; };
 }

@@ -45,7 +45,7 @@ public class ErrandsAdminController extends HttpServlet {
                     long jobId = Long.parseLong(request.getParameter("jobID"));
                     request.setAttribute("jobDetails", eamr.getJobDetails(jobId));
                     request.setAttribute("jobReviews", eamr.getJobReviews(jobId));
-                    request.setAttribute("jobTransaction", eamr.getJobTransaction(jobId));
+                    // request.setAttribute("jobTransaction", eamr.getJobTransaction(jobId));
                     pageAction = "ViewJobDetails";
                     break;
                 case "deleteAJobListing":
@@ -94,11 +94,11 @@ public class ErrandsAdminController extends HttpServlet {
                 case "deactivateJobCategory":
                     String deactCategoryID = request.getParameter("hiddenCategoryID");
                     long deactivateCategoryID = Long.parseLong(deactCategoryID);
-                    if (eamr.deactivateJobCategory(deactivateCategoryID)) {
-                        request.setAttribute("successMessage", "Selected item category has been deactivated successfully.");
-                    } else {
-                        request.setAttribute("errorMessage", "Selected item category cannot be deactivated. Please try again later.");
-                    }
+                    
+                    String icReturnMsg = eamr.deactivateJobCategory(deactivateCategoryID);
+                    if (icReturnMsg.endsWith("!")) { request.setAttribute("successMessage", icReturnMsg); } 
+                    else { request.setAttribute("errorMessage", icReturnMsg); }
+                    
                     request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
                     pageAction = "ViewJobCategoryListing";
                     break;

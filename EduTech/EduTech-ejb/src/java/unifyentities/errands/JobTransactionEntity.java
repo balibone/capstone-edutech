@@ -10,8 +10,11 @@
 ***************************************************************************************/
 package unifyentities.errands;
 
+import commoninfrastructure.UserEntity;
 import java.io.Serializable;
+
 import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.OneToOne;
-import javax.persistence.CascadeType;
+import javax.persistence.ManyToOne;
 
 @Entity(name = "JobTransaction")
 public class JobTransactionEntity implements Serializable {
@@ -39,15 +41,11 @@ public class JobTransactionEntity implements Serializable {
     private String jobPosterID;
     private String jobTakerID;
 
-    //@OneToOne(mappedBy="jobtransaction")
-    //private JobEntity job;
+    @ManyToOne
+    private JobEntity jobEntity;
+    @ManyToOne
+    private UserEntity userEntity;
     
-    //@OneToOne(cascade={CascadeType.PERSIST})
-    //private JobReviewEntity posterReview;
-    
-    //@OneToOne(cascade={CascadeType.PERSIST})
-    //private JobReviewEntity takerReview;
-
     @PrePersist
     public void creationDate() { this.jobTransactionDate = new Date(); }
 
@@ -60,7 +58,9 @@ public class JobTransactionEntity implements Serializable {
     public Long getJobID() { return jobID; }
     public String getJobPosterID() { return jobPosterID; }
     public String getJobTakerID() { return jobTakerID; }
-
+    public JobEntity getJobEntity() { return jobEntity; }
+    public UserEntity getUserEntity() { return userEntity; }
+    
     /* SETTER METHODS */
     public void setJobTransactionID(Long jobTransactionID) { this.jobTransactionID = jobTransactionID; }
     public void setJobCategory(String jobCategory) { this.jobCategory = jobCategory; }
@@ -70,4 +70,6 @@ public class JobTransactionEntity implements Serializable {
     public void setJobID(Long jobID) { this.jobID = jobID; }
     public void setJobPosterID(String jobPosterID) { this.jobPosterID = jobPosterID; }
     public void setJobTakerID(String jobTakerID) { this.jobTakerID = jobTakerID; }
+    public void setJobEntity(JobEntity jobEntity) { this.jobEntity = jobEntity; }
+    public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }
