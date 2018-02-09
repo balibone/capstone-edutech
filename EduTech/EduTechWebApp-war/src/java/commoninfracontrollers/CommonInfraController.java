@@ -51,6 +51,9 @@ public class CommonInfraController extends HttpServlet {
                     request.setAttribute("emailID", emailID);
                     pageAction = "AdminDashboard";
                     break;
+                case "goToNewLandingPage":
+                    pageAction = "LandingPage";
+                    break;
                 default:
                     break;
             }
