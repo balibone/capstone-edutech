@@ -41,7 +41,6 @@ public class MarketplaceSysUserController extends HttpServlet {
             log("Exception in MarketplaceSysUserController: processRequest()");
             ex.printStackTrace();
         }
-    
     }
 
     @Override

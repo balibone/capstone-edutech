@@ -10,12 +10,14 @@
 ***************************************************************************************/
 package unifyentities.marketplace;
 
+import commoninfrastructure.UserEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,9 +33,13 @@ public class ItemTransactionEntity implements Serializable {
     private Date itemTransactionDate;
     
     /* FOREIGN KEY */
-    private Long itemID;
     private String itemSellerID;
     private String itemBuyerID;
+    
+    @ManyToOne
+    private UserEntity userEntity;
+    @ManyToOne
+    private ItemEntity itemEntity;
     
     @PrePersist
     public void creationDate() { this.itemTransactionDate = new Date(); }
@@ -42,15 +48,19 @@ public class ItemTransactionEntity implements Serializable {
     public Long getItemTransactionID() { return itemTransactionID; }
     public Double getItemTransactionPrice() { return itemTransactionPrice; }
     public Date getItemTransactionDate() { return itemTransactionDate; }
-    public Long getItemID() { return itemID; }
     public String getItemSellerID() { return itemSellerID; }
     public String getItemBuyerID() { return itemBuyerID; }
+    
+    public UserEntity getUserEntity() { return userEntity; }
+    public ItemEntity getItemEntity() { return itemEntity; }
     
     /* SETTER METHODS */
     public void setItemTransactionID(Long itemTransactionID) { this.itemTransactionID = itemTransactionID; }
     public void setItemTransactionPrice(Double itemTransactionPrice) { this.itemTransactionPrice = itemTransactionPrice; }
     public void setItemTransactionDate(Date itemTransactionDate) { this.itemTransactionDate = itemTransactionDate; }
-    public void setItemID(Long itemID) { this.itemID = itemID; }
     public void setItemSellerID(String itemSellerID) { this.itemSellerID = itemSellerID; }
     public void setItemBuyerID(String itemBuyerID) { this.itemBuyerID = itemBuyerID; }
+    
+    public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setItemEntity(ItemEntity itemEntity) { this.itemEntity = itemEntity; }
 }

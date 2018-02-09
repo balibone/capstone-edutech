@@ -16,9 +16,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import commoninfrastructure.UserEntity;
 
 @Entity(name = "Message")
 public class MessageEntity implements Serializable {
@@ -32,6 +35,10 @@ public class MessageEntity implements Serializable {
     
     @Temporal(TemporalType.DATE)
     private Date messageDate;
+    
+    @ManyToOne
+    private UserEntity userEntity;
+    
     @PrePersist
     public void creationDate() { this.messageDate = new Date(); }
     
@@ -50,6 +57,7 @@ public class MessageEntity implements Serializable {
     public String getMessageContent() { return messageContent; }
     public String getMessageType() { return messageType; }
     public Date getMessageDate() { return messageDate; }
+    public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
     public void setMessageID(Long messageID) { this.messageID = messageID; }
@@ -58,4 +66,5 @@ public class MessageEntity implements Serializable {
     public void setMessageContent(String messageContent) { this.messageContent = messageContent; }
     public void setMessageType(String messageType) { this.messageType = messageType; }
     public void setMessageDate(Date messageDate) { this.messageDate = messageDate; }
+    public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

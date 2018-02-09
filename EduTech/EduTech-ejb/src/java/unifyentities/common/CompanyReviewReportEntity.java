@@ -10,12 +10,14 @@
 ***************************************************************************************/
 package unifyentities.common;
 
+import commoninfrastructure.UserEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,6 +37,9 @@ public class CompanyReviewReportEntity implements Serializable {
     private String reviewReporterID;
     private String reviewPosterID;
     
+    @ManyToOne
+    private UserEntity userEntity;
+    
     @PrePersist
     public void creationDate() { this.reviewReportDate = new Date(); }
     
@@ -45,6 +50,7 @@ public class CompanyReviewReportEntity implements Serializable {
     public Date getReviewReportDate() { return reviewReportDate; }
     public String getReviewReporterID() { return reviewReporterID; }
     public String getReviewPosterID() { return reviewPosterID; }
+    public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
     public void setReviewReportID(Long reviewReportID) { this.reviewReportID = reviewReportID; }
@@ -53,4 +59,5 @@ public class CompanyReviewReportEntity implements Serializable {
     public void setReviewReportDate(Date reviewReportDate) { this.reviewReportDate = reviewReportDate; }
     public void setReviewReporterID(String reviewReporterID) { this.reviewReporterID = reviewReporterID; }
     public void setReviewPosterID(String reviewPosterID) { this.reviewPosterID = reviewPosterID; }
+    public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

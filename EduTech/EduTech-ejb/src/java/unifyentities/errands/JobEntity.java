@@ -11,19 +11,27 @@
 package unifyentities.errands;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import unifyentities.common.CategoryEntity;
+import commoninfrastructure.UserEntity;
+import unifyentities.common.TagEntity;
 
 @Entity(name = "Job")
 public class JobEntity implements Serializable {
@@ -41,8 +49,6 @@ public class JobEntity implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date jobWorkDate;
     private long jobCategoryId;
-    //@ManyToOne
-    private CategoryEntity jobCategory;
     private Double jobRate;
     private String jobRateType;
     private String jobImage;
@@ -52,18 +58,20 @@ public class JobEntity implements Serializable {
     private Date jobPostDate;
 
     /* FOREIGN KEY */
-    private Long jobPosterID;
-    private Long jobTakerID;
+    private String jobPosterID;
+    private String jobTakerID;
 
-    @OneToOne(cascade={CascadeType.PERSIST})
-    private JobTransactionEntity jobTransaction;
+    @ManyToOne
+    private CategoryEntity categoryEntity;
+    @ManyToOne
+    private UserEntity userEntity;
+    @OneToMany(mappedBy = "jobEntity")
+    private Collection<JobReviewEntity> jobReviewSet = new ArrayList<JobReviewEntity>();
+    @OneToMany(mappedBy = "jobEntity")
+    private Collection<JobTransactionEntity> jobTransactionSet = new ArrayList<JobTransactionEntity>();
+    @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy = "jobSet")
+    private Set<TagEntity> tagSet = new HashSet<TagEntity>();
     
-    //@OneToOne(cascade={CascadeType.PERSIST})
-    //private JobReviewEntity posterReview;
-    
-    //@OneToOne(cascade={CascadeType.PERSIST})
-    private List<JobReviewEntity> jobReviews;
-
     @PrePersist
     public void creationDate() { this.jobPostDate = new Date(); }
 
@@ -79,16 +87,19 @@ public class JobEntity implements Serializable {
     public Double getJobEndLong() { return jobEndLong; }
     public Date getJobWorkDate() { return jobWorkDate; }
     public long getJobCategoryID() { return jobCategoryId; }
-    public CategoryEntity getJobCategory() {return jobCategory; }
     public Double getJobRate() { return jobRate; }
     public String getJobRateType() { return jobRateType; }
     public String getJobImage() { return jobImage; }
-    public Date getJobPostDate() { return jobPostDate; }
-    public Long getJobPosterID() { return jobPosterID; }
-    public Long getJobTakerID() { return jobTakerID; }
     public String getJobStatus() { return jobStatus; }
-    public JobTransactionEntity getJobTransaction() { return jobTransaction;}
-    public List<JobReviewEntity> getJobReviews() { return jobReviews; }
+    public Date getJobPostDate() { return jobPostDate; }
+    public String getJobPosterID() { return jobPosterID; }
+    public String getJobTakerID() { return jobTakerID; }
+    
+    public CategoryEntity getCategoryEntity() { return categoryEntity; }
+    public UserEntity getUserEntity() { return userEntity; }
+    public Collection<JobReviewEntity> getJobReviewSet() { return jobReviewSet; }
+    public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
+    public Set<TagEntity> getTagSet() { return tagSet; }
 
     /* SETTER METHODS */
     public void setJobID(Long jobID) { this.jobID = jobID; }
@@ -102,14 +113,17 @@ public class JobEntity implements Serializable {
     public void setJobEndLong(Double jobEndLong) { this.jobEndLong = jobEndLong; }
     public void setJobWorkDate(Date jobWorkDate) { this.jobWorkDate = jobWorkDate; }
     public void setJobCategoryID(long jobCategoryId) { this.jobCategoryId = jobCategoryId; }
-    public void setJobCategory(CategoryEntity jobCategory) {this.jobCategory = jobCategory; }
     public void setJobRate(Double jobRate) { this.jobRate = jobRate; }
     public void setJobRateType(String jobRateType) { this.jobRateType = jobRateType; }
     public void setJobImage(String jobImage) { this.jobImage = jobImage; }
     public void setJobPostDate(Date jobPostDate) { this.jobPostDate = jobPostDate; }
-    public void setJobPosterID(Long jobPosterID) { this.jobPosterID = jobPosterID; }
-    public void setJobTakerID(Long jobTakerID) { this.jobTakerID = jobTakerID; }
     public void setJobStatus(String jobStatus) { this.jobStatus = jobStatus; }
-    public void setJobReviews(List<JobReviewEntity> jobReviews) { this.jobReviews = jobReviews; }
-    public void setJobTransaction(JobTransactionEntity jobTransaction) {this.jobTransaction = jobTransaction; }
+    public void setJobPosterID(String jobPosterID) { this.jobPosterID = jobPosterID; }
+    public void setJobTakerID(String jobTakerID) { this.jobTakerID = jobTakerID; }
+    
+    public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
+    public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
+    public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
+    public void setTagSet(Set<TagEntity> tagSet) { this.tagSet = tagSet; }
 }

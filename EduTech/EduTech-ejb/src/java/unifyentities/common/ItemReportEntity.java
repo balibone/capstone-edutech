@@ -10,12 +10,14 @@
 ***************************************************************************************/
 package unifyentities.common;
 
+import commoninfrastructure.UserEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,6 +37,9 @@ public class ItemReportEntity implements Serializable {
     private Long itemID;
     private String itemPosterID;
     
+    @ManyToOne
+    private UserEntity userEntity;
+    
     @PrePersist
     public void creationDate() { this.itemReportDate = new Date(); }
     
@@ -45,6 +50,7 @@ public class ItemReportEntity implements Serializable {
     public Date getItemReportDate() { return itemReportDate; }
     public Long getItemID() { return itemID; }
     public String getItemPosterID() { return itemPosterID; }
+    public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
     public void setItemReportID(Long itemReportID) { this.itemReportID = itemReportID; }
@@ -53,4 +59,5 @@ public class ItemReportEntity implements Serializable {
     public void setItemReportDate(Date itemReportDate) { this.itemReportDate = itemReportDate; }
     public void setItemID(Long itemID) { this.itemID = itemID; }
     public void setItemPosterID(String itemPosterID) { this.itemPosterID = itemPosterID; }
+    public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

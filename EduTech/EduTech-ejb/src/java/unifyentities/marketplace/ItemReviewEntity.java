@@ -10,12 +10,14 @@
 ***************************************************************************************/
 package unifyentities.marketplace;
 
+import commoninfrastructure.UserEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,6 +38,11 @@ public class ItemReviewEntity implements Serializable {
     private String itemReviewerID;
     private String itemReceiverID;
     
+    @ManyToOne
+    private ItemEntity itemEntity;
+    @ManyToOne
+    private UserEntity userEntity;
+    
     @PrePersist
     public void creationDate() { this.itemReviewDate = new Date(); }
     
@@ -47,6 +54,8 @@ public class ItemReviewEntity implements Serializable {
     public Long getItemID() { return itemID; }
     public String getItemReviewerID() { return itemReviewerID; }
     public String getItemReceiverID() { return itemReceiverID; }
+    public ItemEntity getItemEntity() { return itemEntity; }
+    public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
     public void setItemReviewID(Long itemReviewID) { this.itemReviewID = itemReviewID; }
@@ -56,4 +65,6 @@ public class ItemReviewEntity implements Serializable {
     public void setItemID(Long itemID) { this.itemID = itemID; }
     public void setItemReviewerID(String itemReviewerID) { this.itemReviewerID = itemReviewerID; }
     public void setItemReceiverID(String itemReceiverID) { this.itemReceiverID = itemReceiverID; }
+    public void setItemEntity(ItemEntity itemEntity) { this.itemEntity = itemEntity; }
+    public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }
