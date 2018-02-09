@@ -176,6 +176,10 @@
         <servlet-name>ViewJobDetails</servlet-name>
         <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>LandingPage</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>
@@ -222,22 +226,6 @@
         <url-pattern>/VoicesSysUser</url-pattern>
     </servlet-mapping>
     <!-- MISCELLANEOUS -->
-    <servlet-mapping>
-        <servlet-name>CreateNewJobCategory</servlet-name>
-        <url-pattern>/webapp/unify/admin/errands/CreateNewJobCategory</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewJobCategoryDetails</servlet-name>
-        <url-pattern>/webapp/unify/admin/errands/ViewJobCategoryDetails</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewJobCategoryListing</servlet-name>
-        <url-pattern>/webapp/unify/admin/errands/ViewJobCategoryListing</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewJobDetails</servlet-name>
-        <url-pattern>/webapp/unify/admin/errands/ViewJobDetails</url-pattern>
-    </servlet-mapping>
     <session-config>
         <session-timeout>300</session-timeout>
     </session-config>
