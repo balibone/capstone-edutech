@@ -21,8 +21,8 @@
     <body class="nav-md">
         <div class="container body">
             <div class="main_container">
-                <%@include file="SideMenu.jspf"%>
-                <%@include file="TopMenu.jspf"%>               
+                <%@include file="../SideMenu.jspf"%>
+                <%@include file="../TopMenu.jspf"%>               
 
                 <div class="right_col" role="main">
                     <div class="row">
@@ -59,7 +59,7 @@
                                                     ArrayList eduTechAdminData = (ArrayList) o;
                                             %>
                                             <tr>
-                                                <td><img src="uploads/commoninfrastructure/admin/images/<%= eduTechAdminData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
+                                                <td><img src="uploads/commoninfrastructure/admin/images/edutechadmins/<%= eduTechAdminData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=eduTechAdminData.get(1)%></td>
                                                 <td><%=eduTechAdminData.get(2)%></td>
                                                 <td><%=eduTechAdminData.get(3)%></td>

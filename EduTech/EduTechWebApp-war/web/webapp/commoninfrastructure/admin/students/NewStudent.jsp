@@ -36,8 +36,8 @@
         <div class="container body">
             <div class="main_container">
                 <!--Side Menu is 3 col wide-->
-                <%@include file="SideMenu.jspf"%>
-                <%@include file="TopMenu.jspf"%>               
+                <%@include file="../SideMenu.jspf"%>
+                <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
                     <h3>New Student</h3>
@@ -121,7 +121,7 @@
                             <div class="col-md-8">
                                 <!-- Pass this to servlet to handle user creation -->
                                 <input type="hidden" name="pageTransit" value="createStudent"/>
-                                <button type="submit" class="btn btn-primary" value="submit">Create Student</button></a>
+                                <button type="submit" class="btn btn-primary" value="submit">Create Student</button>
                                 <a href="SystemAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Cancel</button></a>
                             </div>
                         </form>

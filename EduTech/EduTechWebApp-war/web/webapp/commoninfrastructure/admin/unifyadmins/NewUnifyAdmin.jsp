@@ -36,8 +36,8 @@
         <div class="container body">
             <div class="main_container">
                 <!--Side Menu is 3 col wide-->
-                <%@include file="SideMenu.jspf"%>
-                <%@include file="TopMenu.jspf"%>               
+                <%@include file="../SideMenu.jspf"%>
+                <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
                     <h3>New Unify Admin</h3>

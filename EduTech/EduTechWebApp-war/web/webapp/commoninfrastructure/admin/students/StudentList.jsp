@@ -31,8 +31,8 @@
     <body class="nav-md">
         <div class="container body">
             <div class="main_container">
-                <%@include file="SideMenu.jspf"%>
-                <%@include file="TopMenu.jspf"%>               
+                <%@include file="../SideMenu.jspf"%>
+                <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -64,6 +64,7 @@
                                                 <th>Name</th>
                                                 <th>Username(E-mail)</th>
                                                 <th>Date Created</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>                                                                                       
                                         <tbody>
@@ -72,15 +73,28 @@
                                                 for(Object o : studentList){
                                                     ArrayList studentData = (ArrayList) o;
                                             %>
-                                        <a href="#studentModal">
+                                            <!--Clicking toggles modal. Script is in StudentListJS.js while modal is in StudentModal.jspf 
+                                            <tr data-toggle="modal" data-id="<%=studentData.get(2)%>" data-target="#myModal">
+                                            -->
                                             <tr>
-                                                <td><img src="uploads/commoninfrastructure/admin/images/<%= studentData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
+                                                <td><img src="uploads/commoninfrastructure/admin/images/students/<%= studentData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=studentData.get(1)%></td>
                                                 <td><%=studentData.get(2)%></td>
                                                 <td><%=studentData.get(3)%></td>
-                                            </tr>   
-                                        </a>
-                                                                                                                                                                                        
+                                                <td>
+                                                    <ul class="list-inline">
+                                                        <li>
+                                                            <a href="SystemAdmin?pageTransit=ViewStudent&id=<%=studentData.get(2)%>"><i class="fas fa-eye fa-lg"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="SystemAdmin?pageTransit=EditStudent&id=<%=studentData.get(2)%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
+                                                        </li>
+                                                        <li>
+                                                            <a onclick="return confirm('Delete Student?')" href="SystemAdmin?pageTransit=deleteUser&id=<%=studentData.get(2)%>"><i class="fas fa-trash fa-lg"></i></a> 
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>                                                                                                                                                                                           
                                             <%}%>
                                         </tbody>
                                     </table>
@@ -95,6 +109,8 @@
         <!-- JAVASCRIPT (JS) -->
         <script src="js/commoninfrastructure/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/admin/webjs/StudentListJS.js" type="text/javascript"></script>
+
         <!-- FastClick -->
         <script src="js/commoninfrastructure/admin/webjs/fastclick.js"></script>
         <!-- NProgress -->

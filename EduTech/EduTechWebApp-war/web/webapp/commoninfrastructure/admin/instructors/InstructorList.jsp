@@ -31,8 +31,8 @@
     <body class="nav-md">
         <div class="container body">
             <div class="main_container">
-                <%@include file="SideMenu.jspf"%>
-                <%@include file="TopMenu.jspf"%>               
+                <%@include file="../SideMenu.jspf"%>
+                <%@include file="../TopMenu.jspf"%>               
 
                 <div class="right_col" role="main">
                     <div class="row">
@@ -69,7 +69,7 @@
                                                     ArrayList instructorData = (ArrayList) o;
                                             %>
                                             <tr>
-                                                <td><img src="uploads/commoninfrastructure/admin/images/<%= instructorData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
+                                                <td><img src="uploads/commoninfrastructure/admin/images/instructors/<%= instructorData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=instructorData.get(1)%></td>
                                                 <td><%=instructorData.get(2)%></td>
                                                 <td><%=instructorData.get(3)%></td>
