@@ -196,6 +196,10 @@
         <servlet-name>NewUnifyAdmin</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/admin/NewUnifyAdmin.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>LandingPage</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>
@@ -242,6 +246,10 @@
         <url-pattern>/VoicesSysUser</url-pattern>
     </servlet-mapping>
     <!-- MISCELLANEOUS -->
+    <servlet-mapping>
+        <servlet-name>LandingPage</servlet-name>
+        <url-pattern>/webapp/commoninfrastructure/LandingPage</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>300</session-timeout>
     </session-config>
