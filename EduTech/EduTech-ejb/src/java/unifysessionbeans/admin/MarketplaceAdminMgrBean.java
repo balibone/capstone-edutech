@@ -61,6 +61,29 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
         return null;
     }
     
+    /* VIEW ASSOCIATED ITEM LIST IN A PARTICULAR ITEM CATEGORY */
+    @Override
+    public List<Vector> viewAssociatedItemList(String urlCategoryName, String urlCategoryType){
+        cEntity = lookupItemCategory(urlCategoryName, urlCategoryType);
+        
+        Query q = em.createQuery("SELECT i FROM Item i WHERE i.categoryEntity.categoryName = :itemCategoryName");
+        q.setParameter("itemCategoryName", cEntity.getCategoryName());
+        List<Vector> itemList = new ArrayList<Vector>();
+        
+        for(Object o: q.getResultList()){
+            ItemEntity itemE = (ItemEntity) o;
+            Vector itemVec = new Vector();
+            
+            itemVec.add(itemE.getItemImage());
+            itemVec.add(itemE.getItemName());
+            itemVec.add(itemE.getItemSellerID());
+            itemVec.add(itemE.getItemPrice());
+            itemVec.add(itemE.getItemStatus());
+            itemList.add(itemVec);
+        }
+        return itemList;
+    }
+    
     @Override
     public boolean createItemCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
         cEntity = new CategoryEntity();

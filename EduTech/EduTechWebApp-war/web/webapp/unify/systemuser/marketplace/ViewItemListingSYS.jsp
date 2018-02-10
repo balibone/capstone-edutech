@@ -233,14 +233,15 @@
                                 <%
                                     ArrayList<Vector> itemList = (ArrayList) request.getAttribute("itemList");
                                     if (!itemList.isEmpty()) {
-                                        for (int i = 0; i <= itemList.size() - 1; i++) {
+                                        for (int i = 0; i <= itemList.size()-1; i++) {
                                             Vector v = itemList.get(i);
-                                            String itemImage = String.valueOf(v.get(0));
-                                            String itemName = String.valueOf(v.get(1));
-                                            String itemCategory = String.valueOf(v.get(2));
-                                            String itemSellerID = String.valueOf(v.get(3));
-                                            String itemPostedDuration = String.valueOf(v.get(4));
-                                            String itemPrice = String.valueOf(v.get(5));
+                                            String itemID = String.valueOf(v.get(0));
+                                            String itemImage = String.valueOf(v.get(1));
+                                            String itemName = String.valueOf(v.get(2));
+                                            String itemCategory = String.valueOf(v.get(3));
+                                            String itemSellerID = String.valueOf(v.get(4));
+                                            String itemPostedDuration = String.valueOf(v.get(5));
+                                            String itemPrice = String.valueOf(v.get(6));
                                 %>
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -250,10 +251,15 @@
                                         <div class="card-content">
                                             <div class="card-body">
                                                 <div class="img-wrapper">
-                                                    <a href="detail.html"><img class="card-img-top" style="max-width: 130px; max-height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" /></a>
+                                                    <a href="detail.html">
+                                                        <img class="card-img-top" style="max-width: 130px; max-height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
+                                                    </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
                                                         <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            <button class="btn btn-link btn-sm d-none d-sm-inline-block quick-view"><i class="fa fa-search-plus"></i></button>
+                                                            <button class="btn btn-link btn-sm d-none d-sm-inline-block quick-view itemCard">
+                                                                <input type="hidden" id="itemIDHidden" value="<%= itemID %>" />
+                                                                <i class="fa fa-search-plus"></i>
+                                                            </button>
                                                             <button class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
                                                         </div>
                                                     </div>
@@ -287,107 +293,12 @@
                 </div>
             </div>
             <!-- <div id="unifyFooter"></div> -->
-
-            <!-- HIDDEN MODAL -->
-            <div class="modal fade" id="QuickViewModal" tabindex="-1" role="dialog" aria-labelledby="QuickViewModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-quickview" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title"><a href="detail.html" class="text-default">U.S. Polo Assn. Green Solid Slim Fit</a></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col col-sm-6">
-                                        <div class="owl-carousel owl-theme quickview-slider">
-                                            <div><img src="https://mimity31.netlify.com/images/product/polo1.jpg" alt="image"></div>
-                                            <div><img src="https://mimity31.netlify.com/images/product/polo2.jpg" alt="image"></div>
-                                            <div><img src="https://mimity31.netlify.com/images/product/polo3.jpg" alt="image"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-sm-6">
-                                        <table class="table">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="border-top-0">Price</td>
-                                                    <td class="border-top-0">
-                                                        <ul class="list-inline mb-0">
-                                                            <li class="list-inline-item"><span class="price">$13.50</span></li>
-                                                            <li class="list-inline-item"><del class="text-muted">$15.00</del></li>
-                                                            <li class="list-inline-item d-none d-sm-inline-block"><span class="badge custom-badge arrowed-left badge-primary">-10%</span></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Quantity</td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm input-group-qty">
-                                                            <div class="input-group-prepend">
-                                                                <button class="btn btn-theme btn-down" type="button"><i class="fa fa-minus"></i></button>
-                                                            </div>
-                                                            <input type="text" class="form-control" aria-label="Quantity" value="1" data-min="1" data-max="10">
-                                                            <div class="input-group-append">
-                                                                <button class="btn btn-theme btn-up" type="button"><i class="fa fa-plus"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Size</td>
-                                                    <td>
-                                                        <select class="select-dropdown" data-width="65px" data-size="sm">
-                                                            <option value="S">S</option>
-                                                            <option value="M">M</option>
-                                                            <option value="L">L</option>
-                                                            <option value="XL">XL</option>
-                                                            <option value="XXL">XXL</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr class="d-none d-md-table-row">
-                                                    <td>Checkbox</td>
-                                                    <td>
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input" id="quickviewCheck">
-                                                            <label class="custom-control-label" for="quickviewCheck">Check this</label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr class="d-none d-md-table-row">
-                                                    <td class="align-middle">Radio Option</td>
-                                                    <td>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="quickviewOption1" name="quickview-option" class="custom-control-input">
-                                                            <label class="custom-control-label" for="quickviewOption1">Yes</label>
-                                                        </div>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="quickviewOption2" name="quickview-option" class="custom-control-input">
-                                                            <label class="custom-control-label" for="quickviewOption2">No</label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <button class="btn btn-sm btn-theme btn-block btn-add-quickview">Add to Cart</button>
-                                                        <button class="btn btn-sm btn-outline-theme"><i class="fa fa-heart"></i></button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
+            <div id="itemcard-iframe"></div>
         </div>
+        
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>

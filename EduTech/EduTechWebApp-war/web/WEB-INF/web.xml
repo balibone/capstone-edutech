@@ -185,8 +185,12 @@
         <jsp-file>/webapp/unify/systemuser/marketplace/ViewItemListingSYS.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>ViewItemListingDetailsSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/marketplace/ViewItemListingDetailsSYS.jsp</jsp-file>
+        <servlet-name>ViewItemDetailsSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/marketplace/ViewItemDetailsSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewItemDetailsModalSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/marketplace/ViewItemDetailsModalSYS.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
     <servlet>

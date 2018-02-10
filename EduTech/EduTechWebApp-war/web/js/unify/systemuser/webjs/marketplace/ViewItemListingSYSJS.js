@@ -20,4 +20,24 @@ $(document).ready(function () {
     $('#contentArea').jplist({
         itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
     });
+    
+    $('.itemCard').on('click', function(event) {
+        var itemID = $('#itemIDHidden').val();
+        alert(itemID);
+        $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToViewItemDetailsModalSYS&itemID=' + itemID);
+        $('#itemcard-iframe').iziModal('open', event);
+    });
+    
+    $("#itemcard-iframe").iziModal({
+        title: 'Item Details',
+        subtitle: 'Administrator may deactivate this item here',
+        iconClass: 'fa fa-cubes',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#337AB7',
+        width: 900,
+        overlayClose: true,
+        iframe : true,
+        iframeHeight: 525
+    });
 });

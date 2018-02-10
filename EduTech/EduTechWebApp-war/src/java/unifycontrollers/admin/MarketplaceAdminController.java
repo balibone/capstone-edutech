@@ -43,7 +43,9 @@ public class MarketplaceAdminController extends HttpServlet {
                 case "goToViewItemCategoryDetails":
                     String urlCategoryName = request.getParameter("urlCategoryName");
                     String urlCategoryType = request.getParameter("urlCategoryType");
+                    request.setAttribute("itemCategoryName", urlCategoryName);
                     request.setAttribute("itemCategoryDetailsVec", mamr.viewItemCategoryDetails(urlCategoryName, urlCategoryType));
+                    request.setAttribute("associateditemList", (ArrayList) mamr.viewAssociatedItemList(urlCategoryName, urlCategoryType));
                     pageAction = "ViewItemCategoryDetails";
                     break;
                 case "goToNewItemCategory":

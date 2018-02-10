@@ -37,10 +37,10 @@ $(document).ready(function() {
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#337AB7',
-        width: 540,
+        width: 600,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 350
+        iframeHeight: 550
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

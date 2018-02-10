@@ -40,7 +40,6 @@ public class ItemEntity implements Serializable {
     private String itemName;
     private String itemDescription;
     private Double itemPrice;
-    private String itemCategory;
     private String itemStatus;
     private String tradeLocation;
     private String tradeLat;
@@ -72,7 +71,6 @@ public class ItemEntity implements Serializable {
     public String getItemName() { return itemName; }
     public String getItemDescription() { return itemDescription; }
     public Double getItemPrice() { return itemPrice; }
-    public String getItemCategory() { return itemCategory; }
     public String getItemStatus() { return itemStatus; }
     public String getTradeLocation() { return tradeLocation; }
     public String getTradeLat() { return tradeLat; }
@@ -92,7 +90,6 @@ public class ItemEntity implements Serializable {
     public void setItemName(String itemName) { this.itemName = itemName; }
     public void setItemDescription(String itemDescription) { this.itemDescription = itemDescription; }
     public void setItemPrice(Double itemPrice) { this.itemPrice = itemPrice; }
-    public void setItemCategory(String itemCategory) { this.itemCategory = itemCategory; }
     public void setItemStatus(String itemStatus) { this.itemStatus = itemStatus; }
     public void setTradeLocation(String tradeLocation) { this.tradeLocation = tradeLocation; }
     public void setTradeLat(String tradeLat) { this.tradeLat = tradeLat; }

@@ -29,7 +29,10 @@ public class MarketplaceSysUserController extends HttpServlet {
                     pageAction = "ViewItemListingSYS";
                     break;
                 case "goToViewItemDetailsSYS":
-                    pageAction = "ViewItemListingDetailsSYS";
+                    pageAction = "ViewItemDetailsSYS";
+                    break;
+                case "goToViewItemDetailsModalSYS":
+                    pageAction = "ViewItemDetailsModalSYS";
                     break;
                 default:
                     break;

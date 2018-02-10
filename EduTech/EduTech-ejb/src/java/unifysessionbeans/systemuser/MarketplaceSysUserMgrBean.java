@@ -22,16 +22,17 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         Date currentDate = new Date();
         String dateString = "";
         
-        Query q = em.createQuery("SELECT i FROM Item i WHERE i.itemStatus = 'Available'");
+        Query q = em.createQuery("SELECT i FROM Item i WHERE i.itemStatus = 'Available' AND i.categoryEntity.categoryActiveStatus = '1'");
         List<Vector> itemList = new ArrayList<Vector>();
         
         for(Object o: q.getResultList()){
             ItemEntity itemE = (ItemEntity) o;
             Vector itemVec = new Vector();
             
+            itemVec.add(itemE.getItemID());
             itemVec.add(itemE.getItemImage());
             itemVec.add(itemE.getItemName());
-            itemVec.add(itemE.getItemCategory());
+            itemVec.add(itemE.getCategoryEntity().getCategoryName());
             itemVec.add(itemE.getItemSellerID());
             
             long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
