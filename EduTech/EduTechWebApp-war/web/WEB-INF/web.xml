@@ -212,7 +212,6 @@
         <jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet>
         <servlet-name>CreateNewJobCategory</servlet-name>
         <jsp-file>/webapp/unify/admin/errands/CreateNewJobCategory.jsp</jsp-file>
@@ -229,10 +228,8 @@
         <servlet-name>ViewJobDetails</servlet-name>
         <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
     </servlet>
-    <servlet>
-        <servlet-name>LandingPage</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
-    </servlet>
+    
+    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>
