@@ -90,7 +90,7 @@
                                                             <a href="SystemAdmin?pageTransit=EditStudent&id=<%=studentData.get(2)%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
                                                         </li>
                                                         <li>
-                                                            <a onclick="return confirm('Delete Student?')" href="SystemAdmin?pageTransit=deleteUser&id=<%=studentData.get(2)%>"><i class="fas fa-trash fa-lg"></i></a> 
+                                                            <a onclick="return confirm('Delete Student?')" href="SystemAdmin?pageTransit=deleteStudent&id=<%=studentData.get(2)%>"><i class="fas fa-trash fa-lg"></i></a> 
                                                         </li>
                                                     </ul>
                                                 </td>

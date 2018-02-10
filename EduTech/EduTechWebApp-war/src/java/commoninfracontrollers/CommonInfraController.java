@@ -13,7 +13,7 @@ import sessionbeans.CommonInfraMgrBeanRemote;
 public class CommonInfraController extends HttpServlet {
     @EJB
     private CommonInfraMgrBeanRemote cir;
-    String emailID = "";
+    String username = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -24,11 +24,11 @@ public class CommonInfraController extends HttpServlet {
             
             switch (pageAction) {
                 case "loginToSys":
-                    String userEmail = request.getParameter("userEmail");
+                    String enteredUsername = request.getParameter("username");
                     String userPassword = request.getParameter("userPassword");
-                    if(cir.empLogin(userEmail, userPassword)){
-                        emailID = userEmail;
-                        request.setAttribute("emailID", userEmail);
+                    if(cir.empLogin(username, userPassword)){//login successful
+                        username = enteredUsername;
+                        request.setAttribute("username", username);
                         pageAction = "IntegratedSPLanding";
                     }
                     else{
@@ -36,19 +36,19 @@ public class CommonInfraController extends HttpServlet {
                         pageAction = "IntegratedSPLogin";
                     }   break;
                 case "goToLogout":
-                    emailID = "";
+                    username = "";
                     pageAction = "IntegratedSPLogin";
                     break;
                 case "goToCommonLanding":
-                    request.setAttribute("emailID", emailID);
+                    request.setAttribute("username", username);
                     pageAction = "IntegratedSPLanding";
                     break;
                 case "goToSystemAdmin":
-                    request.setAttribute("emailID", emailID);
+                    request.setAttribute("username", username);
                     pageAction = "SystemAdminDashboard";
                     break;
                 case "goToUnifyAdmin":
-                    request.setAttribute("emailID", emailID);
+                    request.setAttribute("username", username);
                     pageAction = "AdminDashboard";
                     break;
                 case "goToNewLandingPage":

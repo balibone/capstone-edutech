@@ -63,11 +63,9 @@ public class SystemAdminController
             String msg = "";
             boolean success = false;
             
-            
             switch (pageAction) {
                 case "StudentList":
-                    ArrayList<ArrayList> studentList = sam.getAllStudents();
-                    request.setAttribute("studentList", studentList);
+                    request.setAttribute("studentList", sam.getAllStudents());
                     pageAction="StudentList";
                     break;
                 case "NewStudent":
@@ -85,7 +83,9 @@ public class SystemAdminController
                     request.setAttribute("userInfo", userInfo);
                     pageAction="EditStudent";
                     break;
-                case "DeleteStudent":
+                case "deleteStudent":
+                    sam.deleteUser(request.getParameter("id"));
+                    request.setAttribute("studentList", sam.getAllStudents());
                     pageAction="StudentList";
                     break;
                 case "InstructorList":
@@ -123,7 +123,7 @@ public class SystemAdminController
                     pageAction="NewStudent";//response is same page. 
                     break;
                 case "editStudent"://create new student
-                    success = processEditUser(request,response, "student");//pass request to helper method for parsing & store success boolean
+                    success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
                     msg = "";//confirmation msg
                     if (success){
                         msg = "User edited successfully.";
@@ -134,10 +134,6 @@ public class SystemAdminController
                     request.setAttribute("msg", msg);//plug in confirmation
                     
                     pageAction="EditStudent";//response is same page. 
-                    break;
-                case "deleteUser":
-                    sam.deleteUser(request.getParameter("id"));
-                    pageAction="StudentList";
                     break;
                 case "createEduTechAdmin"://create new student
                     boolean createEduTechAdminStatus = processNewUser(request,response, "edutechadmin");//pass request to helper method for parsing & store success boolean
@@ -241,7 +237,7 @@ public class SystemAdminController
         String subfolder = "";
         if(userType.equals("edutechadmin")) {
             subfolder="edutechadmins";
-        } else if(userType.equals("unifyadmin")){
+        } else if(userType.equals("instructor")){
             subfolder="instructors";
         } else if(userType.equals("student")){ 
             subfolder="students";
@@ -298,17 +294,17 @@ public class SystemAdminController
         String salutation = request.getParameter("salutation");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
-        String email = request.getParameter("email");
+        String username = request.getParameter("username");
         String password = request.getParameter("password");
         
         if(userType.equals("edutechadmin")) {
-            return sam.createNewEduTechAdmin(salutation,firstName,lastName,email, password, fileName);
+            return sam.createNewEduTechAdmin(salutation,firstName,lastName,username, password, fileName);
         } else if(userType.equals("unifyadmin")){
-            return sam.createNewUnifyAdmin(salutation, firstName, lastName, email, password, fileName);
+            return sam.createNewUnifyAdmin(salutation, firstName, lastName, username, password, fileName);
         } else if(userType.equals("student")){ 
-            return sam.createNewStudent(salutation,firstName,lastName,email, password, fileName);
+            return sam.createNewStudent(salutation,firstName,lastName,username, password, fileName);
         } else {
-            return sam.createNewInstructor(salutation, firstName, lastName, email, password, fileName);
+            return sam.createNewInstructor(salutation, firstName, lastName, username, password, fileName);
         }
     }
     private String getFileName(final Part part) {
@@ -321,24 +317,41 @@ public class SystemAdminController
         }
         return null;
     }
-    private boolean processEditUser(HttpServletRequest request, HttpServletResponse response, String userType) throws IOException, ServletException {
+    private boolean processEditUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        //pull submitted user type
+        String newType = request.getParameter("type");
+        //pull original user type
+        String originalType = request.getParameter("originalType");
+        //instantiate user type string to be used for image uploading and DB persisting
+        String userType = "";
         //pull original file name 
         String fileName=request.getParameter("originalImage");
-        //if image has been replaced, replace file name 
-        if(request.getParameter("imageReplacement").equalsIgnoreCase("yes")){
-            //Save image to offline folder.
+        //if image has been replaced OR user type has changed, replace file name or reupload file into different folder. 
+        if(request.getParameter("imageReplacement").equalsIgnoreCase("yes") || (newType!=null && !newType.equalsIgnoreCase(originalType))){
+            //if image got replaced but type did not get replace, newType will be null. 
+            if(newType == null){
+                userType = originalType; 
+            }else{
+                userType = newType;
+            }
+            // Save image to offline folder.
             // Create path components to save the file
             // choose subfolder to save into
             String subfolder = "";
+            //debugging
+            //System.out.println("FINAL USER TYPE IS: "+userType);
             if(userType.equals("edutechadmin")) {
                 subfolder="edutechadmins";
-            } else if(userType.equals("unifyadmin")){
+            } else if(userType.equals("instructor")){
                 subfolder="instructors";
             } else if(userType.equals("student")){
                 subfolder="students";
             } else {
                 subfolder="unifyadmins";
             }
+            //debugging
+            //System.out.println("SUBFOLDER IS: "+subfolder);
+
             String appPath = request.getServletContext().getRealPath("");
             String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
                     + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
@@ -365,44 +378,28 @@ public class SystemAdminController
                     //write image bytes to output stream incrementally, until bytesRead = total file size --> means full image written.
                     out.write(bytes, 0, bytesRead);
                 }
-                //writer.println("New file " + fileName + " created at " + imageDir);
             } catch (FileNotFoundException fne) {
-                /*writer.println("You either did not specify a file to upload or are "
-                + "trying to upload a file to a protected or nonexistent "
-                + "location.");
-                writer.println("<br/> ERROR: " + fne.getMessage());
-                
-                LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
-                new Object[]{fne.getMessage()});*/
-            } finally {
-                /*if (out != null) {
-                out.close();
-                }
-                if (fileContent != null) {
-                fileContent.close();
-                }
-                if (writer != null) {
-                writer.close();
-                )*/
+                System.out.println("***********FILE NOT FOUND EXCEPTION");
+                fne.printStackTrace();
             }
         }
-        /*
+        
         String salutation = request.getParameter("salutation");
         String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        */
-        String email = request.getParameter("email");
-        //String password = request.getParameter("password");
+        String lastName = request.getParameter("lastName");       
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         
-        if(userType.equals("edutechadmin")) {
-            return sam.editEduTechAdmin(fileName);
+        return sam.editStudent(username, salutation, firstName, lastName, password, userType, fileName);
+        /*if(userType.equals("edutechadmin")) {
+            //return sam.editEduTechAdmin(fileName);
         } else if(userType.equals("unifyadmin")){
-            return sam.editUnifyAdmin(fileName);
+            //return sam.editUnifyAdmin(fileName);
         } else if(userType.equals("student")){
-            return sam.editStudent(email,fileName);
+            return sam.editStudent(username,fileName);
         } else {
             return sam.editInstructor(fileName);
-        }
+        }*/
         
     }
 }

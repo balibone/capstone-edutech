@@ -15,24 +15,23 @@ import javax.ejb.Remote;
 @Remote
 public interface SystemAdminMgrBeanRemote {
 
-    public boolean createNewStudent(String salutation, String firstName, String lastName, String email, String password, String fileName);
-    public boolean editStudent(String email, String fileName);
+    public boolean createNewStudent(String salutation, String firstName, String lastName, String username, String password, String fileName);
+    
     public ArrayList<ArrayList> getAllStudents();
     public ArrayList getStudentInfo(String id);
     
-    public boolean createNewInstructor(String salutation, String firstName, String lastName, String email, String password, String fileName);
-    public boolean editInstructor(String fileName);
+    public boolean createNewInstructor(String salutation, String firstName, String lastName, String username, String password, String fileName);
     public ArrayList<ArrayList> getAllInstructors();
     
-    public boolean createNewEduTechAdmin(String salutation, String firstName, String lastName, String email, String password, String fileName);
-    public boolean editEduTechAdmin(String fileName);
+    public boolean createNewEduTechAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName);
     public ArrayList<ArrayList> getAllEduTechAdmins();
     
-    public boolean createNewUnifyAdmin(String salutation, String firstName, String lastName, String email, String password, String fileName);
-    public boolean editUnifyAdmin(String fileName);
+    public boolean createNewUnifyAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName);
     public ArrayList<ArrayList> getAllUnifyAdmins();
+    
+    public void deleteUser(String username);
 
-    public void deleteUser(String email);
+    public boolean editStudent(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName);
 
 
 

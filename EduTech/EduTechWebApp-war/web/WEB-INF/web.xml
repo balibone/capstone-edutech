@@ -11,6 +11,10 @@
         <jsp-file>/webapp/commoninfrastructure/IntegratedSPLanding.jsp</jsp-file>
     </servlet>
     <servlet>
+        <servlet-name>LandingPage</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>IntegratedSPLogin</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/IntegratedSPLogin.jsp</jsp-file>
     </servlet>

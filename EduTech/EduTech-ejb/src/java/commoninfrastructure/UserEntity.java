@@ -31,7 +31,7 @@ import unifyentities.common.MessageEntity;
 @Entity(name = "SystemUser")
 public class UserEntity implements Serializable {
     @Id
-    private String userEmail;
+    private String username;
     private String userSalutation;
     private String userFirstName;
     private String userLastName;
@@ -75,7 +75,7 @@ public class UserEntity implements Serializable {
     public UserEntity() { userActiveStatus = true; }
 
     public UserEntity(String userEmail, String userSalutation, String userFirstName, String userLastName, String userPassword, String userType, String imgFileName) {
-        this.userEmail = userEmail;
+        this.username = userEmail;
         this.userSalutation = userSalutation;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
@@ -87,7 +87,7 @@ public class UserEntity implements Serializable {
     }
     
     /* GETTER METHODS */
-    public String getUserEmail() { return userEmail; }
+    public String getUsername() { return username; }
     public String getUserPassword() { return userPassword; }
     public String getUserType() { return userType; }
     public Boolean getUserActiveStatus() { return userActiveStatus; }
@@ -111,7 +111,7 @@ public class UserEntity implements Serializable {
     public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
     
     /* SETTER METHODS */
-    public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
+    public void setUsername(String username) { this.username = username; }
     public void setUserPassword(String userPassword) { this.userPassword = userPassword; }
     public void setUserType(String userType) { this.userType = userType; }
     public void setUserActiveStatus(Boolean userActiveStatus) { this.userActiveStatus = userActiveStatus; }

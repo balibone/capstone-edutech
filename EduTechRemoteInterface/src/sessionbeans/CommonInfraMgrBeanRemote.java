@@ -4,5 +4,5 @@ import javax.ejb.Remote;
 
 @Remote
 public interface CommonInfraMgrBeanRemote {
-    public boolean empLogin(String empNRIC, String empPassword);
+    public boolean empLogin(String username, String password);
 }
