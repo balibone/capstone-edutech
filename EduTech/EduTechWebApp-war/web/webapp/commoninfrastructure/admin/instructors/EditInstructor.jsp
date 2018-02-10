@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -5,7 +6,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Common Admin - New Instructor</title>
+        <title>Common Admin - Edit Instructor</title>
         
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -34,7 +35,7 @@
                 <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
-                    <h3>New Instructor</h3>
+                    <h3>Edit Instructor</h3>
                     </div>
                     <hr>
                     <%
@@ -63,60 +64,96 @@
                                     </div>
                                 </div>
                                 -->
+                                <%
+                                    //Extracting field values from ArrayList passed from servlet to jsp.
+                                    ArrayList userInfo = (ArrayList)request.getAttribute("userInfo");
+                                    String salutation,firstName,lastName,username,password,creationDate,type,imageFile;
+                                    salutation = firstName = lastName = username = password = creationDate = type = imageFile = "";
+                                    //ArrayList exists and is not empty. 
+                                    if(userInfo!=null && !userInfo.isEmpty()){
+                                        salutation = (String)userInfo.get(0);
+                                        firstName = (String)userInfo.get(1);
+                                        lastName = (String)userInfo.get(2);
+                                        username = (String)userInfo.get(3);
+                                        password = (String)userInfo.get(4);
+                                        creationDate = (String)userInfo.get(5);
+                                        type = (String)userInfo.get(6);
+                                        imageFile = (String)userInfo.get(7);
+                                    }
+                                %>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Salutation</label>
+                                    <label class="col-md-2 control-label required">Salutation: </label>
                                     <div class="col-md-5">
                                         <select required autofocus class="form-control" name="salutation">
-                                            <option value="Mr.">Mr.</option>
+                                            <option selected value="Mr.">Mr.</option>
                                             <option value="Ms.">Ms.</option>
                                             <option value="Madam.">Madam</option>
                                             <option value="Dr.">Dr.</option>
                                         </select>
-                                    </div>
-                                </div>
-                                    
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label required">First Name</label>
-                                    <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="firstName" />
+                                        Current: <%=salutation%>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Last Name</label>
+                                    <label class="col-md-2 control-label required">First Name:</label>
                                     <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="lastName" />
+                                        <input type="text" value="<%=firstName%>" class="form-control" name="firstName"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Username</label>
+                                    <label class="col-md-2 control-label required">Last Name:</label>
                                     <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="username" />
+                                        <input type="text" value="<%=lastName%>" class="form-control" name="lastName"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Password</label>
+                                    <label class="col-md-2 control-label required">Username:</label>
                                     <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="password" />
+                                        <input type="text" readonly value="<%=username%>" class="form-control" name="username"/>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label required">Password:</label>
+                                    <div class="col-md-5">
+                                        <input type="text" value="<%=password%>" class="form-control" name="password"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label required">Created On:</label>
+                                    <div class="col-md-5">
+                                        <input type="text" readonly value="<%=creationDate%>" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label required">User Type:</label>
+                                    <div class="col-md-5">
+                                        <select required class="form-control" name="type">
+                                            <option value="student">Student</option>
+                                            <option selected value="instructor">Instructor</option>
+                                            <option value="unifyadmin">Unify Admin</option>
+                                            <option value="edutechadmin">EduTech Admin</option>
+                                            <option value="dualadmin">Dual Admin (EduTech + Unify)</option>
+                                        </select>
+                                        Current: <%=type%>
+                                    </div>
+                                </div>                               
                             </div>
                             <div class="col-md-4">
-                                <div class="col-md-7">
-                                    <div class="image-upload">
-                                        <img id="output-image" />
-                                    </div>
-                                    <label for="file-upload" style="margin-top: 10px; margin-left: 7px">
-                                        <button type="button" class="btn btn-warning " onclick="$('#file-upload').click();"><span class="glyphicon glyphicon-open"></span> Upload Image</button>
-                                        <p class="help-block">Image upload is necessary</p>
-                                    </label>                                   
-                                    <input id="file-upload" style="visibility:hidden" required name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" />
+                                <div class="image-upload">
+                                    <img id="output-image" class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>
                                 </div>
+                                <label for="file-upload" style="margin-top: 10px; margin-left: 7px">
+                                    <button type="button" class="btn btn-warning " onclick="$('#file-upload').click();"><span class="glyphicon glyphicon-open"></span> Replace Image</button>
+                                </label>
+                                <input type="hidden" id="imageReplacement" name="imageReplacement" value="no"/>
+                                <input id="file-upload" name="profileImage" style="visibility:hidden" type="file" accept="image/*" onchange="javascript: previewImage(event); window.imageReplacement();" />
                             </div>
                             <div class="col-md-8">
                                 <!-- Pass this to servlet to handle user creation -->
-                                <input type="hidden" name="pageTransit" value="createInstructor"/>
-                                <button type="submit" class="btn btn-primary" value="submit">Create Instructor</button></a>
-                                <a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Cancel</button></a>
+                                <a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Go Back To Instructor List</button></a>
+                                <input type="hidden" name="originalImage" value="<%=imageFile%>"/>
+                                <input type="hidden" name="originalType" value="<%=type%>"/>
+                                <input type="hidden" name="pageTransit" value="editInstructor"/>
+                                <button type="submit" class="btn btn-primary" value="submit">Edit Instructor</button>  
                             </div>
                         </form>
                     </div>

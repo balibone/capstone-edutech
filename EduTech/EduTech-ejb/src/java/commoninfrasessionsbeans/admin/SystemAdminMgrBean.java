@@ -48,7 +48,9 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             singleUser.add(userE.getImgFileName());
             singleUser.add(userE.getUserFirstName()+" "+userE.getUserLastName());
             singleUser.add(userE.getUsername());
-            singleUser.add(userE.getUserCreationDate());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            String creationDate = dateFormat.format(userE.getUserCreationDate());
+            singleUser.add(creationDate);
             
             entityList.add(singleUser);
             
@@ -56,7 +58,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
         return entityList;
     }
     @Override
-    public ArrayList getStudentInfo(String id) {
+    public ArrayList getUserInfo(String id) {
         ArrayList userInfo = new ArrayList();
         Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username= :username");
         q1.setParameter("username", id);
@@ -86,7 +88,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean editStudent(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName) {
+    public boolean editUser(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName) {
         Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username= :username");
         q1.setParameter("username", username);
         for(Object o:q1.getResultList()){
@@ -128,7 +130,9 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             singleUser.add(userE.getImgFileName());
             singleUser.add(userE.getUserFirstName()+" "+userE.getUserLastName());
             singleUser.add(userE.getUsername());
-            singleUser.add(userE.getUserCreationDate());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            String creationDate = dateFormat.format(userE.getUserCreationDate());
+            singleUser.add(creationDate);
             
             entityList.add(singleUser);
             
@@ -159,7 +163,9 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             singleUser.add(userE.getImgFileName());
             singleUser.add(userE.getUserFirstName()+" "+userE.getUserLastName());
             singleUser.add(userE.getUsername());
-            singleUser.add(userE.getUserCreationDate());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            String creationDate = dateFormat.format(userE.getUserCreationDate());
+            singleUser.add(creationDate);
             
             entityList.add(singleUser);
             
@@ -190,7 +196,9 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             singleUser.add(userE.getImgFileName());
             singleUser.add(userE.getUserFirstName()+" "+userE.getUserLastName());
             singleUser.add(userE.getUsername());
-            singleUser.add(userE.getUserCreationDate());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            String creationDate = dateFormat.format(userE.getUserCreationDate());
+            singleUser.add(creationDate);
             
             entityList.add(singleUser);
             
