@@ -25,8 +25,9 @@ public class CommonInfraController extends HttpServlet {
             switch (pageAction) {
                 case "loginToSys":
                     String enteredUsername = request.getParameter("username");
+                    System.out.println(enteredUsername);
                     String userPassword = request.getParameter("userPassword");
-                    if(cir.empLogin(username, userPassword)){//login successful
+                    if(cir.empLogin(enteredUsername, userPassword)){//login successful
                         username = enteredUsername;
                         request.setAttribute("username", username);
                         pageAction = "IntegratedSPLanding";

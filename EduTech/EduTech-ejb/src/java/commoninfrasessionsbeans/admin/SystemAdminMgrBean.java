@@ -78,7 +78,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             //store creation date (pass in front but cannot edit)
             userInfo.add(creationDate);
             //store user type (editable)
-            userInfo.add("Student");
+            userInfo.add(user.getUserType());
             //store image file (editable)
             userInfo.add(user.getImgFileName());
         }

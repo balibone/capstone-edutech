@@ -85,7 +85,7 @@
                                     <label class="col-md-2 control-label required">Salutation: </label>
                                     <div class="col-md-5">
                                         <select required autofocus class="form-control" name="salutation">
-                                            <option selected disabled>Now: <%=salutation%></option>
+                                            <option selected disabled value="<%=salutation%>">Now: <%=salutation%></option>
                                             <option value="Mr.">Mr.</option>
                                             <option value="Ms.">Ms.</option>
                                             <option value="Madam">Madam</option>
@@ -131,8 +131,8 @@
                                             <option value="student">Student</option>
                                             <option value="instructor">Instructor</option>
                                             <option value="unifyadmin">Unify Admin</option>
-                                            <option value="edutechadmin">Edutech Admin</option>
-                                            <option value="dualadmin">Dual Admin</option>
+                                            <option value="edutechadmin">EduTech Admin</option>
+                                            <option value="dualadmin">Dual(EduTech + Unify) Admin</option>
                                         </select>
                                     </div>
                                 </div>                               

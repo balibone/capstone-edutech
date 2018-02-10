@@ -323,15 +323,13 @@ public class SystemAdminController
         //pull original user type
         String originalType = request.getParameter("originalType");
         //instantiate user type string to be used for image uploading and DB persisting
-        String userType = "";
+        String userType = originalType;
         //pull original file name 
         String fileName=request.getParameter("originalImage");
         //if image has been replaced OR user type has changed, replace file name or reupload file into different folder. 
         if(request.getParameter("imageReplacement").equalsIgnoreCase("yes") || (newType!=null && !newType.equalsIgnoreCase(originalType))){
-            //if image got replaced but type did not get replace, newType will be null. 
-            if(newType == null){
-                userType = originalType; 
-            }else{
+            //if image got replaced but type did not get replaced, newType will be null. 
+            if(newType != null){
                 userType = newType;
             }
             // Save image to offline folder.

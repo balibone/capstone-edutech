@@ -73,7 +73,7 @@
                                     <label class="col-md-2 control-label required">Salutation</label>
                                     <div class="col-md-5">
                                         <select required autofocus class="form-control" name="salutation">
-                                            <option value="Mr.">Mr.</option>
+                                            <option selected value="Mr.">Mr.</option>
                                             <option value="Ms.">Ms.</option>
                                             <option value="Madam">Madam</option>
                                             <option value="Dr.">Dr.</option>
