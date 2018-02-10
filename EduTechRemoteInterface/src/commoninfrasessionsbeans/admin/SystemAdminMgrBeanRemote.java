@@ -18,7 +18,7 @@ public interface SystemAdminMgrBeanRemote {
     public boolean createNewStudent(String salutation, String firstName, String lastName, String username, String password, String fileName);
     
     public ArrayList<ArrayList> getAllStudents();
-    public ArrayList getStudentInfo(String id);
+    public ArrayList getUserInfo(String id);
     
     public boolean createNewInstructor(String salutation, String firstName, String lastName, String username, String password, String fileName);
     public ArrayList<ArrayList> getAllInstructors();
@@ -31,7 +31,7 @@ public interface SystemAdminMgrBeanRemote {
     
     public void deleteUser(String username);
 
-    public boolean editStudent(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName);
+    public boolean editUser(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName);
 
 
 

@@ -62,7 +62,7 @@ public class SystemAdminController
             ArrayList userInfo = new ArrayList();
             String msg = "";
             boolean success = false;
-            
+            //Convention: EditStudent is for page redirect. editStudent is for database update handling
             switch (pageAction) {
                 case "StudentList":
                     request.setAttribute("studentList", sam.getAllStudents());
@@ -73,13 +73,13 @@ public class SystemAdminController
                     break;
                 case "ViewStudent":
                     id = request.getParameter("id");
-                    userInfo = sam.getStudentInfo(id);
+                    userInfo = sam.getUserInfo(id);
                     request.setAttribute("userInfo", userInfo);
                     pageAction="ViewStudent";
                     break;
                 case "EditStudent":
                     id = request.getParameter("id");
-                    userInfo = sam.getStudentInfo(id);
+                    userInfo = sam.getUserInfo(id);
                     request.setAttribute("userInfo", userInfo);
                     pageAction="EditStudent";
                     break;
@@ -95,6 +95,35 @@ public class SystemAdminController
                     break;
                 case "NewInstructor":
                     pageAction="NewInstructor";
+                    break;
+                case "ViewInstructor":
+                    id = request.getParameter("id");
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    pageAction="ViewInstructor";
+                    break;
+                case "EditInstructor":
+                    id = request.getParameter("id");
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    pageAction="EditInstructor";
+                    break;
+                case "editInstructor":
+                    success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
+                    msg = "";//confirmation msg
+                    if (success){
+                        msg = "User edited successfully.";
+                    }else{
+                        msg = "Failed to edit user. Please try again.";
+                    }
+                    request.setAttribute("success", success);//success boolean
+                    request.setAttribute("msg", msg);//plug in confirmation
+                    pageAction="EditInstructor";
+                    break;
+                case "deleteInstructor":
+                    sam.deleteUser(request.getParameter("id"));
+                    request.setAttribute("instructorList", sam.getAllInstructors());
+                    pageAction="InstructorList";
                     break;
                 case "UnifyAdminList":
                     ArrayList<ArrayList> unifyAdminList = sam.getAllUnifyAdmins();
@@ -233,24 +262,13 @@ public class SystemAdminController
     private boolean processNewUser(HttpServletRequest request, HttpServletResponse response, String userType) throws IOException, ServletException{
         //Save image to offline folder. 
         // Create path components to save the file
-        // choose subfolder to save into
-        String subfolder = "";
-        if(userType.equals("edutechadmin")) {
-            subfolder="edutechadmins";
-        } else if(userType.equals("instructor")){
-            subfolder="instructors";
-        } else if(userType.equals("student")){ 
-            subfolder="students";
-        } else {
-            subfolder="unifyadmins";
-        }
         String appPath = request.getServletContext().getRealPath("");
         String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
                 + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
         //Directory path to save image to
         String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
                 + "uploads" + File.separator + "commoninfrastructure" + File.separator + "admin" + File.separator + "images"
-                + File.separator + subfolder;
+                + File.separator;
         Part imagePart = request.getPart("profileImage");
         final String fileName;
         fileName= getFileName(imagePart);
@@ -279,18 +297,9 @@ public class SystemAdminController
             
             LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
                     new Object[]{fne.getMessage()});*/
-        } finally {
-            /*if (out != null) {
-                out.close();
-            }
-            if (fileContent != null) {
-                fileContent.close();
-            }
-            if (writer != null) {
-                writer.close();
-            )*/
-        }
-    
+            System.out.println("***********FILE NOT FOUND EXCEPTION");
+                fne.printStackTrace();
+        }  
         String salutation = request.getParameter("salutation");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -322,43 +331,28 @@ public class SystemAdminController
         String newType = request.getParameter("type");
         //pull original user type
         String originalType = request.getParameter("originalType");
-        //instantiate user type string to be used for image uploading and DB persisting
-        String userType = originalType;
+        //instantiate user type string to be used for DB persisting
+        String userType = "";
+        //if type has been changed, take that new type for persisting
+        if(!newType.equalsIgnoreCase(originalType)){
+            userType=newType;
+        }else{
+            userType=originalType;
+        }
         //pull original file name 
-        String fileName=request.getParameter("originalImage");
-        //if image has been replaced OR user type has changed, replace file name or reupload file into different folder. 
-        if(request.getParameter("imageReplacement").equalsIgnoreCase("yes") || (newType!=null && !newType.equalsIgnoreCase(originalType))){
-            //if image got replaced but type did not get replaced, newType will be null. 
-            if(newType != null){
-                userType = newType;
-            }
+        String fileName = request.getParameter("originalImage");
+        //if image has been replaced, upload new file and change file name. 
+        if(request.getParameter("imageReplacement").equalsIgnoreCase("yes")){           
             // Save image to offline folder.
             // Create path components to save the file
-            // choose subfolder to save into
-            String subfolder = "";
-            //debugging
-            //System.out.println("FINAL USER TYPE IS: "+userType);
-            if(userType.equals("edutechadmin")) {
-                subfolder="edutechadmins";
-            } else if(userType.equals("instructor")){
-                subfolder="instructors";
-            } else if(userType.equals("student")){
-                subfolder="students";
-            } else {
-                subfolder="unifyadmins";
-            }
-            //debugging
-            //System.out.println("SUBFOLDER IS: "+subfolder);
-
             String appPath = request.getServletContext().getRealPath("");
             String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
                     + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
             //Directory path to save image to
             String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
                     + "uploads" + File.separator + "commoninfrastructure" + File.separator + "admin" + File.separator + "images"
-                    + File.separator + subfolder;
+                    + File.separator;
             Part imagePart = request.getPart("profileImage");
-            
             fileName= getFileName(imagePart);
             
             FileOutputStream out = null;
@@ -387,17 +381,6 @@ public class SystemAdminController
         String lastName = request.getParameter("lastName");       
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        
-        return sam.editStudent(username, salutation, firstName, lastName, password, userType, fileName);
-        /*if(userType.equals("edutechadmin")) {
-            //return sam.editEduTechAdmin(fileName);
-        } else if(userType.equals("unifyadmin")){
-            //return sam.editUnifyAdmin(fileName);
-        } else if(userType.equals("student")){
-            return sam.editStudent(username,fileName);
-        } else {
-            return sam.editInstructor(fileName);
-        }*/
-        
+        return sam.editUser(username, salutation, firstName, lastName, password, userType, fileName);   
     }
 }

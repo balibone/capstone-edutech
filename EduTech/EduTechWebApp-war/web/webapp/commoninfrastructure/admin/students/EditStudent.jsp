@@ -85,12 +85,12 @@
                                     <label class="col-md-2 control-label required">Salutation: </label>
                                     <div class="col-md-5">
                                         <select required autofocus class="form-control" name="salutation">
-                                            <option selected disabled value="<%=salutation%>">Now: <%=salutation%></option>
                                             <option value="Mr.">Mr.</option>
                                             <option value="Ms.">Ms.</option>
-                                            <option value="Madam">Madam</option>
+                                            <option value="Madam.">Madam</option>
                                             <option value="Dr.">Dr.</option>
                                         </select>
+                                        Current: <%=salutation%>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -127,19 +127,19 @@
                                     <label class="col-md-2 control-label required">User Type:</label>
                                     <div class="col-md-5">
                                         <select required class="form-control" name="type">
-                                            <option selected disabled value="<%=type.trim().toLowerCase()%>">Now: <%=type%></option>
-                                            <option value="student">Student</option>
+                                            <option selected value="student">Student</option>
                                             <option value="instructor">Instructor</option>
                                             <option value="unifyadmin">Unify Admin</option>
                                             <option value="edutechadmin">EduTech Admin</option>
-                                            <option value="dualadmin">Dual(EduTech + Unify) Admin</option>
+                                            <option value="dualadmin">Dual Admin (EduTech + Unify)</option>
                                         </select>
+                                        Current: <%=type%>                                        
                                     </div>
                                 </div>                               
                             </div>
                             <div class="col-md-4">
                                 <div class="image-upload">
-                                    <img id="output-image" class="img-responsive" src="uploads/commoninfrastructure/admin/images/students/<%= imageFile%>"/>
+                                    <img id="output-image" class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>
                                 </div>
                                 <label for="file-upload" style="margin-top: 10px; margin-left: 7px">
                                     <button type="button" class="btn btn-warning " onclick="$('#file-upload').click();"><span class="glyphicon glyphicon-open"></span> Replace Image</button>

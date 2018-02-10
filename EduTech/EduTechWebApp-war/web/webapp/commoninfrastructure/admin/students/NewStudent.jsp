@@ -75,7 +75,7 @@
                                         <select required autofocus class="form-control" name="salutation">
                                             <option selected value="Mr.">Mr.</option>
                                             <option value="Ms.">Ms.</option>
-                                            <option value="Madam">Madam</option>
+                                            <option value="Madam.">Madam</option>
                                             <option value="Dr.">Dr.</option>
                                         </select>
                                     </div>
