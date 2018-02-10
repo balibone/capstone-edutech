@@ -11,6 +11,10 @@
         <jsp-file>/webapp/commoninfrastructure/IntegratedSPLanding.jsp</jsp-file>
     </servlet>
     <servlet>
+        <servlet-name>LandingPage</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>IntegratedSPLogin</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/IntegratedSPLogin.jsp</jsp-file>
     </servlet>
@@ -24,26 +28,75 @@
         <servlet-name>SystemAdminDashboard</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/admin/Dashboard.jsp</jsp-file>
     </servlet>
+    
     <servlet>
         <servlet-name>EduTechAdminList</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/EduTechAdminList.jsp</jsp-file>
+        <jsp-file>/webapp/commoninfrastructure/admin/edutechadmins/EduTechAdminList.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>NewEduTechAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/edutechadmins/NewEduTechAdmin.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewEduTechAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/edutechadmins/ViewEduTechAdmin.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>EditEduTechAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/edutechadmins/EditEduTechAdmin.jsp</jsp-file>
+    </servlet>
+    
     <servlet>
         <servlet-name>UnifyAdminList</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/UnifyAdminList.jsp</jsp-file>
+        <jsp-file>/webapp/commoninfrastructure/admin/unifyadmins/UnifyAdminList.jsp</jsp-file>
+    </servlet>   
+    <servlet>
+        <servlet-name>NewUnifyAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/unifyadmins/NewUnifyAdmin.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ViewUnifyAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/unifyadmins/ViewUnifyAdmin.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>EditUnifyAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/unifyadmins/EditUnifyAdmin.jsp</jsp-file>
+    </servlet>
+    
     <servlet>
         <servlet-name>StudentList</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/StudentList.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>InstructorList</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/InstructorList.jsp</jsp-file>
+        <jsp-file>/webapp/commoninfrastructure/admin/students/StudentList.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>NewStudent</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/NewStudent.jsp</jsp-file>
+        <jsp-file>/webapp/commoninfrastructure/admin/students/NewStudent.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ViewStudent</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/students/ViewStudent.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>EditStudent</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/students/EditStudent.jsp</jsp-file>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>InstructorList</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/instructors/InstructorList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewInstructor</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/instructors/NewInstructor.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewInstructor</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/instructors/ViewInstructor.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>EditInstructor</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/instructors/EditInstructor.jsp</jsp-file>
+    </servlet>
+        
     <!-- SERVLET CLASS MAPPING - EDUTECH - ADMIN (SERVLET) -->
     <!-- SERVLET CLASS MAPPING - EDUTECH - ADMIN (JSP) -->
     <!-- SERVLET CLASS MAPPING - EDUTECH - SYSTEMUSER (SERVLET) -->
@@ -159,7 +212,6 @@
         <jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet>
         <servlet-name>CreateNewJobCategory</servlet-name>
         <jsp-file>/webapp/unify/admin/errands/CreateNewJobCategory.jsp</jsp-file>
@@ -176,10 +228,8 @@
         <servlet-name>ViewJobDetails</servlet-name>
         <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
     </servlet>
-    <servlet>
-        <servlet-name>LandingPage</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
-    </servlet>
+    
+    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>

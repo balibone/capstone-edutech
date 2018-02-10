@@ -18,15 +18,15 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     private UserEntity uEntity;
 
     @Override
-    public boolean empLogin(String userEmail, String userPassword) {
+    public boolean empLogin(String username, String userPassword) {
         String hashedPassword = "";
         try{ hashedPassword = encodePassword(userPassword); }
         catch(NoSuchAlgorithmException ex){ ex.printStackTrace(); }
 
         uEntity = new UserEntity();
         try{
-            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.userEmail = :userEmail");
-            q.setParameter("userEmail", userEmail);
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
             uEntity = (UserEntity)q.getSingleResult();
         }
         catch(EntityNotFoundException enfe){
@@ -45,12 +45,11 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return false;
     }
 
-    /* MISCELLANEOUS METHODS */
-    public UserEntity lookupUser(String userEmail){
+    public UserEntity lookupUser(String username){
         UserEntity ue = new UserEntity();
         try{
-            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.userEmail = :userEmail");
-            q.setParameter("userEmail", userEmail);
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
             ue = (UserEntity)q.getSingleResult();
         }
         catch(EntityNotFoundException enfe){

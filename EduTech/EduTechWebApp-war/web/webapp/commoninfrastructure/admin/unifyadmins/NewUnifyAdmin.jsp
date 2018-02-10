@@ -11,7 +11,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Common Admin - New EduTech Admin</title>
+        <title>Common Admin - New Unify Admin</title>
         
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -36,11 +36,11 @@
         <div class="container body">
             <div class="main_container">
                 <!--Side Menu is 3 col wide-->
-                <%@include file="SideMenu.jspf"%>
-                <%@include file="TopMenu.jspf"%>               
+                <%@include file="../SideMenu.jspf"%>
+                <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
-                    <h3>New EduTech Admin</h3>
+                    <h3>New Unify Admin</h3>
                     </div>
                     <hr>
                     <%
@@ -120,9 +120,9 @@
                             </div>
                             <div class="col-md-8">
                                 <!-- Pass this to servlet to handle user creation -->
-                                <input type="hidden" name="pageTransit" value="createEduTechAdmin"/>
-                                <button type="submit" class="btn btn-primary" value="submit">Create EduTech Admin</button></a>
-                                <a href="SystemAdmin?pageTransit=EduTechAdminList"><button type="button" class="btn btn-default">Cancel</button></a>
+                                <input type="hidden" name="pageTransit" value="createUnifyAdmin"/>
+                                <button type="submit" class="btn btn-primary" value="submit">Create Unify Admin</button></a>
+                                <a href="SystemAdmin?pageTransit=UnifyAdminList"><button type="button" class="btn btn-default">Cancel</button></a>
                             </div>
                         </form>
                     </div>

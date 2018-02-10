@@ -31,8 +31,8 @@
                                     <div class="col-md-12">
                                         <form action="CommonInfra" method="POST">
                                             <div class="form-group">
-                                                <label for="username">Email Adddress</label>
-                                                <input type="text" class="form-control" name="userEmail" />
+                                                <label for="username">Username</label>
+                                                <input type="text" class="form-control" name="username" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="password">Password</label>

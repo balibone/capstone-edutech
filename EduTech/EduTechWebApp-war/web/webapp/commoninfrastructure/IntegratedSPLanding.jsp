@@ -59,7 +59,7 @@
                                     <tr>
                                         <td rowspan="2" style="text-align: right;"><img src="images/ProfileImage.png" /></td>
                                         <td colspan="2" valign="middle" style="padding-left: 10px;"><strong>Hello <%= request.getAttribute(
-                                                        "emailID")%>!</strong></td>
+                                                        "username")%>!</strong></td>
                                     </tr>
                                     <tr>
                                         <td style="padding-left: 10px;">

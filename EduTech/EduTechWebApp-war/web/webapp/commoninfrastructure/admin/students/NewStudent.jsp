@@ -36,8 +36,8 @@
         <div class="container body">
             <div class="main_container">
                 <!--Side Menu is 3 col wide-->
-                <%@include file="SideMenu.jspf"%>
-                <%@include file="TopMenu.jspf"%>               
+                <%@include file="../SideMenu.jspf"%>
+                <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
                     <h3>New Student</h3>
@@ -73,7 +73,7 @@
                                     <label class="col-md-2 control-label required">Salutation</label>
                                     <div class="col-md-5">
                                         <select required autofocus class="form-control" name="salutation">
-                                            <option value="Mr.">Mr.</option>
+                                            <option selected value="Mr.">Mr.</option>
                                             <option value="Ms.">Ms.</option>
                                             <option value="Madam">Madam</option>
                                             <option value="Dr.">Dr.</option>
@@ -94,9 +94,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">E-mail (Username)</label>
+                                    <label class="col-md-2 control-label required">Username</label>
                                     <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="email" />
+                                        <input type="text" required class="form-control" name="username" />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -121,7 +121,7 @@
                             <div class="col-md-8">
                                 <!-- Pass this to servlet to handle user creation -->
                                 <input type="hidden" name="pageTransit" value="createStudent"/>
-                                <button type="submit" class="btn btn-primary" value="submit">Create Student</button></a>
+                                <button type="submit" class="btn btn-primary" value="submit">Create Student</button>
                                 <a href="SystemAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Cancel</button></a>
                             </div>
                         </form>
