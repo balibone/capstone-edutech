@@ -86,7 +86,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">E-mail:</label>
+                                    <label class="col-md-2 control-label required">Username:</label>
                                     <div class="col-md-5">
                                         <input type="text" readonly value="<%=email%>" class="form-control" />
                                     </div>
@@ -111,7 +111,7 @@
                                 </div>                               
                             </div>
                             <div class="col-md-4">
-                                <img class="img-responsive" src="uploads/commoninfrastructure/admin/images/students/<%= imageFile%>"/>                                                             
+                                <img class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>                                                             
                             </div>
                             <div class="col-md-8">
                                 <a href="SystemAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Go Back To Student List</button></a>                            

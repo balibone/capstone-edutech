@@ -48,7 +48,9 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             singleUser.add(userE.getImgFileName());
             singleUser.add(userE.getUserFirstName()+" "+userE.getUserLastName());
             singleUser.add(userE.getUsername());
-            singleUser.add(userE.getUserCreationDate());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            String creationDate = dateFormat.format(userE.getUserCreationDate());
+            singleUser.add(creationDate);
             
             entityList.add(singleUser);
             
@@ -56,7 +58,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
         return entityList;
     }
     @Override
-    public ArrayList getStudentInfo(String id) {
+    public ArrayList getUserInfo(String id) {
         ArrayList userInfo = new ArrayList();
         Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username= :username");
         q1.setParameter("username", id);
@@ -86,7 +88,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean editStudent(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName) {
+    public boolean editUser(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName) {
         Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username= :username");
         q1.setParameter("username", username);
         for(Object o:q1.getResultList()){
@@ -128,69 +130,9 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             singleUser.add(userE.getImgFileName());
             singleUser.add(userE.getUserFirstName()+" "+userE.getUserLastName());
             singleUser.add(userE.getUsername());
-            singleUser.add(userE.getUserCreationDate());
-            
-            entityList.add(singleUser);
-            
-        }
-        return entityList;
-    }
-    
-    @Override
-    public boolean createNewEduTechAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName) { 
-        try{
-            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"edutechadmin",fileName);
-            em.persist(newStudent);//may throw null pointer if em is not created with proper syntax.
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false; 
-        }
-    }
-    
-    @Override
-    public ArrayList<ArrayList> getAllEduTechAdmins() {
-        List results = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType='edutechadmin'").getResultList();
-        ArrayList entityList = new ArrayList();//to store the set of ArrayLists containing 1 entity information each. 
-        for(Object o: results){
-            UserEntity userE = (UserEntity) o;
-            ArrayList singleUser = new ArrayList();
-            
-            singleUser.add(userE.getImgFileName());
-            singleUser.add(userE.getUserFirstName()+" "+userE.getUserLastName());
-            singleUser.add(userE.getUsername());
-            singleUser.add(userE.getUserCreationDate());
-            
-            entityList.add(singleUser);
-            
-        }
-        return entityList;
-    }
-    
-    @Override
-    public boolean createNewUnifyAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName) { 
-        try{
-            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"unifyadmin",fileName);
-            em.persist(newStudent);//may throw null pointer if em is not created with proper syntax.
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false; 
-        }
-    }
-    
-    @Override
-    public ArrayList<ArrayList> getAllUnifyAdmins() {
-        List results = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType='unifyadmin'").getResultList();
-        ArrayList entityList = new ArrayList();//to store the set of ArrayLists containing 1 entity information each. 
-        for(Object o: results){
-            UserEntity userE = (UserEntity) o;
-            ArrayList singleUser = new ArrayList();
-            
-            singleUser.add(userE.getImgFileName());
-            singleUser.add(userE.getUserFirstName()+" "+userE.getUserLastName());
-            singleUser.add(userE.getUsername());
-            singleUser.add(userE.getUserCreationDate());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            String creationDate = dateFormat.format(userE.getUserCreationDate());
+            singleUser.add(creationDate);
             
             entityList.add(singleUser);
             
@@ -207,12 +149,41 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             em.remove(o);
         }
     }
-    
 
+    @Override
+    public ArrayList<ArrayList> getAllAdmins() {
+        List results = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType='unifyadmin' OR u.userType='edutechadmin' OR u.userType='dualadmin' OR u.userType='superadmin'").getResultList();
+        ArrayList entityList = new ArrayList();//to store the set of ArrayLists containing 1 entity information each. 
+        for(Object o: results){
+            UserEntity userE = (UserEntity) o;
+            ArrayList singleUser = new ArrayList();
+            //profile image
+            singleUser.add(userE.getImgFileName());
+            //full name
+            singleUser.add(userE.getUserFirstName()+" "+userE.getUserLastName());
+            //username
+            singleUser.add(userE.getUsername());
+            //creation date
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            String creationDate = dateFormat.format(userE.getUserCreationDate());
+            singleUser.add(creationDate);
+            //admin type
+            singleUser.add(userE.getUserType());
+            entityList.add(singleUser);           
+        }
+        return entityList;    
+    }
     
-
-    
-
-    
+    @Override
+    public boolean createNewAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName, String adminType) { 
+        try{
+            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,adminType.trim().toLowerCase(),fileName);
+            em.persist(newStudent);//may throw null pointer if em is not created with proper syntax.
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false; 
+        }
+    }
     
 }

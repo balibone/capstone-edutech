@@ -6,7 +6,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Common Admin - Edit Student</title>
+        <title>Common Admin - Edit Admin</title>
         
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -35,7 +35,7 @@
                 <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
-                    <h3>Edit Student</h3>
+                    <h3>Edit Admin</h3>
                     </div>
                     <hr>
                     <%
@@ -99,7 +99,7 @@
                                     <label class="col-md-2 control-label required">Salutation: </label>
                                     <div class="col-md-5">
                                         <select required autofocus class="form-control" name="salutation">
-                                            <option value="Mr.">Mr.</option>
+                                            <option selected value="Mr.">Mr.</option>
                                             <option value="Ms.">Ms.</option>
                                             <option value="Madam.">Madam</option>
                                             <option value="Dr.">Dr.</option>
@@ -141,34 +141,36 @@
                                     <label class="col-md-2 control-label required">User Type:</label>
                                     <div class="col-md-5">
                                         <select required class="form-control" name="type">
-                                            <option selected value="student">Student</option>
+                                            <option value="student">Student</option>
                                             <option value="instructor">Instructor</option>
                                             <option value="unifyadmin">Unify Admin</option>
                                             <option value="edutechadmin">EduTech Admin</option>
-                                            <option value="dualadmin">Dual Admin (EduTech + Unify)</option>
+                                            <option selected value="dualadmin">Dual Admin (EduTech + Unify)</option>
                                             <option value="superadmin">Super Admin (Full Access Rights)</option>
                                         </select>
-                                        Current: <%=displayType%>                                        
+                                        Current: <%=displayType%>
                                     </div>
                                 </div>                               
                             </div>
                             <div class="col-md-4">
+                                <label for="output-image">Profile Image:</label>
                                 <div class="image-upload">
-                                    <img id="output-image" class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>
+                                    <img id="output-image" src="uploads/commoninfrastructure/admin/images/<%=imageFile%>"/>
                                 </div>
-                                <label for="file-upload" style="margin-top: 10px; margin-left: 7px">
-                                    <button type="button" class="btn btn-warning " onclick="$('#file-upload').click();"><span class="glyphicon glyphicon-open"></span> Replace Image</button>
-                                </label>
+                                <br>
                                 <input type="hidden" id="imageReplacement" name="imageReplacement" value="no"/>
-                                <input id="file-upload" name="profileImage" style="visibility:hidden" type="file" accept="image/*" onchange="javascript: previewImage(event); window.imageReplacement();" />
+                                <input id="file-upload" name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event); window.imageReplacement()"/>
                             </div>
                             <div class="col-md-8">
-                                <!-- Pass this to servlet to handle user creation -->
-                                <a href="SystemAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Go Back To Student List</button></a>
-                                <input type="hidden" name="originalImage" value="<%=imageFile%>"/>
-                                <input type="hidden" name="originalType" value="<%=type%>"/>
-                                <input type="hidden" name="pageTransit" value="editStudent"/>
-                                <button type="submit" class="btn btn-primary" value="submit">Edit Student</button>  
+                                <div class="col-md-2"></div>
+                                <div class="col-md-5">
+                                    <!-- Pass this to servlet to handle user creation -->
+                                    <a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Admin List</button></a>
+                                    <input type="hidden" name="originalImage" value="<%=imageFile%>"/>
+                                    <input type="hidden" name="originalType" value="<%=type%>"/>
+                                    <input type="hidden" name="pageTransit" value="editAdmin"/>
+                                    <button type="submit" class="btn btn-primary" value="submit">Edit Admin</button> 
+                                </div>                                
                             </div>
                         </form>
                     </div>

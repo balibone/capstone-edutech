@@ -30,7 +30,7 @@ public class CommonInfraController extends HttpServlet {
                     if(cir.empLogin(enteredUsername, userPassword)){//login successful
                         username = enteredUsername;
                         request.setAttribute("username", username);
-                        pageAction = "IntegratedSPLanding";
+                        pageAction = "LandingPage";
                     }
                     else{
                         request.setAttribute("sysMessage", "Incorrect email or password. Please try again.");
@@ -42,7 +42,7 @@ public class CommonInfraController extends HttpServlet {
                     break;
                 case "goToCommonLanding":
                     request.setAttribute("username", username);
-                    pageAction = "IntegratedSPLanding";
+                    pageAction = "LandingPage";
                     break;
                 case "goToSystemAdmin":
                     request.setAttribute("username", username);
@@ -52,9 +52,9 @@ public class CommonInfraController extends HttpServlet {
                     request.setAttribute("username", username);
                     pageAction = "AdminDashboard";
                     break;
-                case "goToNewLandingPage":
+                /*case "goToNewLandingPage":
                     pageAction = "LandingPage";
-                    break;
+                    break;*/
                 default:
                     break;
             }

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : NewEduTechAdmin
-    Created on : 6 Feb, 2018, 12:08:34 PM
-    Author     : Derian
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,7 +5,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Common Admin - New EduTech Admin</title>
+        <title>Common Admin - New Admin</title>
         
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -40,7 +34,7 @@
                 <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
-                    <h3>New EduTech Admin</h3>
+                    <h3>New Admin</h3>
                     </div>
                     <hr>
                     <%
@@ -75,7 +69,7 @@
                                         <select required autofocus class="form-control" name="salutation">
                                             <option value="Mr.">Mr.</option>
                                             <option value="Ms.">Ms.</option>
-                                            <option value="Madam">Madam</option>
+                                            <option value="Madam.">Madam</option>
                                             <option value="Dr.">Dr.</option>
                                         </select>
                                     </div>
@@ -94,9 +88,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">E-mail (Username)</label>
+                                    <label class="col-md-2 control-label required">Username</label>
                                     <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="email" />
+                                        <input type="text" required class="form-control" name="username" />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -105,24 +99,34 @@
                                         <input type="text" required class="form-control" name="password" />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="col-md-7">
-                                    <div class="image-upload">
-                                        <img id="output-image" />
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label required">Admin Type</label>
+                                    <div class="col-md-5">
+                                        <select required autofocus class="form-control" name="adminType">
+                                            <option selected value="dualadmin">Dual Admin (Edutech + Unify)</option>
+                                            <option value="unifyadmin">Unify Admin</option>
+                                            <option value="edutechadmin">EduTech Admin</option>
+                                            <option value="superadmin">Super Admin (Full Access Rights)</option>
+                                        </select>
                                     </div>
-                                    <label for="file-upload" style="margin-top: 10px; margin-left: 7px">
-                                        <button type="button" class="btn btn-warning " onclick="$('#file-upload').click();"><span class="glyphicon glyphicon-open"></span> Upload Image</button>
-                                        <p class="help-block">Image upload is necessary</p>
-                                    </label>                                   
-                                    <input id="file-upload" style="visibility:hidden" required name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" />
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <label for="output-image">Profile Image:</label>
+                                <div class="image-upload">
+                                    <img id="output-image" />
+                                </div>
+                                <br>
+                                <input id="file-upload" required name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event)"/>
+                            </div>
                             <div class="col-md-8">
-                                <!-- Pass this to servlet to handle user creation -->
-                                <input type="hidden" name="pageTransit" value="createEduTechAdmin"/>
-                                <button type="submit" class="btn btn-primary" value="submit">Create EduTech Admin</button></a>
-                                <a href="SystemAdmin?pageTransit=EduTechAdminList"><button type="button" class="btn btn-default">Cancel</button></a>
+                                <div class="col-md-2">                                    
+                                </div>
+                                <div class="col-md-5"> 
+                                    <!-- Pass this to servlet to handle user creation -->
+                                    <input type="hidden" name="pageTransit" value="createAdmin"/>
+                                    <button type="submit" class="btn btn-primary" value="submit">Create Admin</button><a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Admin List</button></a>
+                                </div>                               
                             </div>
                         </form>
                     </div>

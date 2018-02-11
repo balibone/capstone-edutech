@@ -30,37 +30,20 @@
     </servlet>
     
     <servlet>
-        <servlet-name>EduTechAdminList</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/edutechadmins/EduTechAdminList.jsp</jsp-file>
+        <servlet-name>AllAdminList</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/admins/AllAdminList.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>NewEduTechAdmin</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/edutechadmins/NewEduTechAdmin.jsp</jsp-file>
+        <servlet-name>NewAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/admins/NewAdmin.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>ViewEduTechAdmin</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/edutechadmins/ViewEduTechAdmin.jsp</jsp-file>
+        <servlet-name>ViewAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/admins/ViewAdmin.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>EditEduTechAdmin</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/edutechadmins/EditEduTechAdmin.jsp</jsp-file>
-    </servlet>
-    
-    <servlet>
-        <servlet-name>UnifyAdminList</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/unifyadmins/UnifyAdminList.jsp</jsp-file>
-    </servlet>   
-    <servlet>
-        <servlet-name>NewUnifyAdmin</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/unifyadmins/NewUnifyAdmin.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewUnifyAdmin</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/unifyadmins/ViewUnifyAdmin.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>EditUnifyAdmin</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/admin/unifyadmins/EditUnifyAdmin.jsp</jsp-file>
+        <servlet-name>EditAdmin</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/admins/EditAdmin.jsp</jsp-file>
     </servlet>
     
     <servlet>

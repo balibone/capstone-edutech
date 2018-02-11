@@ -62,7 +62,7 @@
                                             <tr>
                                                 <th class="w_20">Photo</th>
                                                 <th>Name</th>
-                                                <th>Username(E-mail)</th>
+                                                <th>Username</th>
                                                 <th>Date Created</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -77,7 +77,7 @@
                                             <tr data-toggle="modal" data-id="<%=studentData.get(2)%>" data-target="#myModal">
                                             -->
                                             <tr>
-                                                <td><img src="uploads/commoninfrastructure/admin/images/students/<%= studentData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
+                                                <td><img src="uploads/commoninfrastructure/admin/images/<%= studentData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=studentData.get(1)%></td>
                                                 <td><%=studentData.get(2)%></td>
                                                 <td><%=studentData.get(3)%></td>
@@ -105,7 +105,6 @@
                 </div>
             </div>
         </div>
-        <%@include file="StudentModal.jspf"%>               
         <!-- JAVASCRIPT (JS) -->
         <script src="js/commoninfrastructure/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
