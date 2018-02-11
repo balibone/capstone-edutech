@@ -64,6 +64,20 @@
                                         password = (String)userInfo.get(4);
                                         creationDate = (String)userInfo.get(5);
                                         type = (String)userInfo.get(6);
+                                        //parse type for proper display front end.
+                                        if(type.trim().equalsIgnoreCase("student")){
+                                            type="Student";
+                                        }else if(type.trim().equalsIgnoreCase("instructor")){
+                                            type="Instructor";
+                                        }else if(type.trim().equalsIgnoreCase("unifyadmin")){
+                                            type="Unify Admin";
+                                        }else if(type.trim().equalsIgnoreCase("edutechadmin")){
+                                            type="EduTech Admin";
+                                        }else if(type.trim().equalsIgnoreCase("dualadmin")){
+                                            type="Dual Admin (EduTech + Unify)";
+                                        }else if(type.trim().equalsIgnoreCase("superadmin")){
+                                            type="Super Admin";
+                                        }
                                         imageFile = (String)userInfo.get(7);
                                     }
                                 %>
@@ -111,7 +125,8 @@
                                 </div>                               
                             </div>
                             <div class="col-md-4">
-                                <img class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>                                 
+                                <label for="output-image">Profile Image:</label>
+                                <img id="output-image" class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>                                 
                             </div>
                             <div class="col-md-8">
                                 <div class="col-md-2"></div>

@@ -67,8 +67,8 @@
                                 <%
                                     //Extracting field values from ArrayList passed from servlet to jsp.
                                     ArrayList userInfo = (ArrayList)request.getAttribute("userInfo");
-                                    String salutation,firstName,lastName,username,password,creationDate,type,imageFile;
-                                    salutation = firstName = lastName = username = password = creationDate = type = imageFile = "";
+                                    String salutation,firstName,lastName,username,password,creationDate,type,imageFile, displayType;
+                                    salutation = firstName = lastName = username = password = creationDate = type = imageFile = displayType= "";
                                     //ArrayList exists and is not empty. 
                                     if(userInfo!=null && !userInfo.isEmpty()){
                                         salutation = (String)userInfo.get(0);
@@ -78,6 +78,20 @@
                                         password = (String)userInfo.get(4);
                                         creationDate = (String)userInfo.get(5);
                                         type = (String)userInfo.get(6);
+                                        //parse type for proper display front end.
+                                        if(type.trim().equalsIgnoreCase("student")){
+                                            displayType="Student";
+                                        }else if(type.trim().equalsIgnoreCase("instructor")){
+                                            displayType="Instructor";
+                                        }else if(type.trim().equalsIgnoreCase("unifyadmin")){
+                                            displayType="Unify Admin";
+                                        }else if(type.trim().equalsIgnoreCase("edutechadmin")){
+                                            displayType="EduTech Admin";
+                                        }else if(type.trim().equalsIgnoreCase("dualadmin")){
+                                            displayType="Dual Admin (EduTech + Unify)";
+                                        }else if(type.trim().equalsIgnoreCase("superadmin")){
+                                            displayType="Super Admin";
+                                        }
                                         imageFile = (String)userInfo.get(7);
                                     }
                                 %>
@@ -132,8 +146,9 @@
                                             <option value="unifyadmin">Unify Admin</option>
                                             <option value="edutechadmin">EduTech Admin</option>
                                             <option value="dualadmin">Dual Admin (EduTech + Unify)</option>
+                                            <option value="superadmin">Super Admin (Full Access Rights)</option>
                                         </select>
-                                        Current: <%=type%>                                        
+                                        Current: <%=displayType%>                                        
                                     </div>
                                 </div>                               
                             </div>

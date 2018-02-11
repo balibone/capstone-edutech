@@ -67,8 +67,8 @@
                                 <%
                                     //Extracting field values from ArrayList passed from servlet to jsp.
                                     ArrayList userInfo = (ArrayList)request.getAttribute("userInfo");
-                                    String salutation,firstName,lastName,username,password,creationDate,type,imageFile;
-                                    salutation = firstName = lastName = username = password = creationDate = type = imageFile = "";
+                                    String salutation,firstName,lastName,username,password,creationDate,type,imageFile,displayType;
+                                    salutation = firstName = lastName = username = password = creationDate = type = imageFile = displayType="";
                                     //ArrayList exists and is not empty. 
                                     if(userInfo!=null && !userInfo.isEmpty()){
                                         salutation = (String)userInfo.get(0);
@@ -78,6 +78,20 @@
                                         password = (String)userInfo.get(4);
                                         creationDate = (String)userInfo.get(5);
                                         type = (String)userInfo.get(6);
+                                        //parse type for proper display front end.
+                                        if(type.trim().equalsIgnoreCase("student")){
+                                            displayType="Student";
+                                        }else if(type.trim().equalsIgnoreCase("instructor")){
+                                            displayType="Instructor";
+                                        }else if(type.trim().equalsIgnoreCase("unifyadmin")){
+                                            displayType="Unify Admin";
+                                        }else if(type.trim().equalsIgnoreCase("edutechadmin")){
+                                            displayType="EduTech Admin";
+                                        }else if(type.trim().equalsIgnoreCase("dualadmin")){
+                                            displayType="Dual Admin (EduTech + Unify)";
+                                        }else if(type.trim().equalsIgnoreCase("superadmin")){
+                                            displayType="Super Admin";
+                                        }
                                         imageFile = (String)userInfo.get(7);
                                     }
                                 %>
@@ -133,27 +147,29 @@
                                             <option value="edutechadmin">EduTech Admin</option>
                                             <option value="dualadmin">Dual Admin (EduTech + Unify)</option>
                                         </select>
-                                        Current: <%=type%>
+                                        Current: <%=displayType%>
                                     </div>
                                 </div>                               
                             </div>
                             <div class="col-md-4">
+                                <label for="output-image">Profile Image:</label>
                                 <div class="image-upload">
-                                    <img id="output-image" class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>
+                                    <img id="output-image" src="uploads/commoninfrastructure/admin/images/<%=imageFile%>"/>
                                 </div>
-                                <label for="file-upload" style="margin-top: 10px; margin-left: 7px">
-                                    <button type="button" class="btn btn-warning " onclick="$('#file-upload').click();"><span class="glyphicon glyphicon-open"></span> Replace Image</button>
-                                </label>
+                                <br>
                                 <input type="hidden" id="imageReplacement" name="imageReplacement" value="no"/>
-                                <input id="file-upload" name="profileImage" style="visibility:hidden" type="file" accept="image/*" onchange="javascript: previewImage(event); window.imageReplacement();" />
+                                <input id="file-upload" name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event); window.imageReplacement()"/>
                             </div>
                             <div class="col-md-8">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-5">
                                 <!-- Pass this to servlet to handle user creation -->
                                 <a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Go Back To Instructor List</button></a>
                                 <input type="hidden" name="originalImage" value="<%=imageFile%>"/>
                                 <input type="hidden" name="originalType" value="<%=type%>"/>
                                 <input type="hidden" name="pageTransit" value="editInstructor"/>
                                 <button type="submit" class="btn btn-primary" value="submit">Edit Instructor</button>  
+                                </div>
                             </div>
                         </form>
                     </div>

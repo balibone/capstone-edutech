@@ -73,6 +73,16 @@
                                                 ArrayList adminList = (ArrayList)request.getAttribute("adminList");
                                                 for(Object o : adminList){
                                                     ArrayList adminData = (ArrayList) o;
+                                                    String adminType = (String) adminData.get(4);
+                                                    if(adminType.trim().equalsIgnoreCase("unifyadmin")){
+                                                        adminType="Unify Admin";
+                                                    }else if(adminType.trim().equalsIgnoreCase("edutechadmin")){
+                                                        adminType="EduTech Admin";
+                                                    }else if(adminType.trim().equalsIgnoreCase("dualadmin")){
+                                                        adminType="Dual Admin (EduTech + Unify)";
+                                                    }else if(adminType.trim().equalsIgnoreCase("superadmin")){
+                                                        adminType="Super Admin (Full Access Rights)";
+                                                    }
                                             %>
                                             
                                             <tr>
@@ -80,7 +90,7 @@
                                                 <td><%=adminData.get(1)%></td>
                                                 <td><%=adminData.get(2)%></td>
                                                 <td><%=adminData.get(3)%></td>
-                                                <td><%=adminData.get(4)%></td>
+                                                <td><%=adminType%></td>
                                                 <td>
                                                     <ul class="list-inline">
                                                         <li>
