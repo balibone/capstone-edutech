@@ -128,32 +128,34 @@
                                     <div class="col-md-5">
                                         <select required class="form-control" name="type">
                                             <option value="student">Student</option>
-                                            <option selected value="instructor">Instructor</option>
+                                            <option value="instructor">Instructor</option>
                                             <option value="unifyadmin">Unify Admin</option>
                                             <option value="edutechadmin">EduTech Admin</option>
-                                            <option value="dualadmin">Dual Admin (EduTech + Unify)</option>
+                                            <option selected value="dualadmin">Dual Admin (EduTech + Unify)</option>
                                         </select>
                                         Current: <%=type%>
                                     </div>
                                 </div>                               
                             </div>
                             <div class="col-md-4">
+                                <label for="output-image">Profile Image:</label>
                                 <div class="image-upload">
-                                    <img id="output-image" class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>
+                                    <img id="output-image" src="uploads/commoninfrastructure/admin/images/<%=imageFile%>"/>
                                 </div>
-                                <label for="file-upload" style="margin-top: 10px; margin-left: 7px">
-                                    <button type="button" class="btn btn-warning " onclick="$('#file-upload').click();"><span class="glyphicon glyphicon-open"></span> Replace Image</button>
-                                </label>
+                                <br>
                                 <input type="hidden" id="imageReplacement" name="imageReplacement" value="no"/>
-                                <input id="file-upload" name="profileImage" style="visibility:hidden" type="file" accept="image/*" onchange="javascript: previewImage(event); window.imageReplacement();" />
+                                <input id="file-upload" name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event); window.imageReplacement()"/>
                             </div>
                             <div class="col-md-8">
-                                <!-- Pass this to servlet to handle user creation -->
-                                <a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Admin List</button></a>
-                                <input type="hidden" name="originalImage" value="<%=imageFile%>"/>
-                                <input type="hidden" name="originalType" value="<%=type%>"/>
-                                <input type="hidden" name="pageTransit" value="editAdmin"/>
-                                <button type="submit" class="btn btn-primary" value="submit">Edit Admin</button>  
+                                <div class="col-md-2"></div>
+                                <div class="col-md-5">
+                                    <!-- Pass this to servlet to handle user creation -->
+                                    <a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Admin List</button></a>
+                                    <input type="hidden" name="originalImage" value="<%=imageFile%>"/>
+                                    <input type="hidden" name="originalType" value="<%=type%>"/>
+                                    <input type="hidden" name="pageTransit" value="editAdmin"/>
+                                    <button type="submit" class="btn btn-primary" value="submit">Edit Admin</button> 
+                                </div>                                
                             </div>
                         </form>
                     </div>

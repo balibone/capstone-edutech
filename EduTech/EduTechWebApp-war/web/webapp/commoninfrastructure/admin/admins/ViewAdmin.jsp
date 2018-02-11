@@ -111,10 +111,11 @@
                                 </div>                               
                             </div>
                             <div class="col-md-4">
-                                <img class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>                                                             
+                                <img class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>                                 
                             </div>
                             <div class="col-md-8">
-                                <a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Student List</button></a>                            
+                                <div class="col-md-2"></div>
+                                <a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Admin List</button></a>                            
                             </div>
                         </form>
                     </div>
