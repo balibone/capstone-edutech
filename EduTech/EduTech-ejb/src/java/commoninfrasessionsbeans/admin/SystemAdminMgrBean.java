@@ -39,7 +39,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     
     @Override
     public ArrayList<ArrayList> getAllStudents() {
-        Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType= 'student'");
+        Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType= 'student' AND u.userActiveStatus = 1");
         ArrayList entityList = new ArrayList();//to store the set of ArrayLists containing 1 entity information each. 
         for(Object o: q.getResultList()){
             UserEntity userE = (UserEntity) o;
@@ -121,7 +121,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     
     @Override
     public ArrayList<ArrayList> getAllInstructors() {
-        List results = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType='instructor'").getResultList();
+        List results = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType='instructor' AND u.userActiveStatus = 1").getResultList();
         ArrayList entityList = new ArrayList();//to store the set of ArrayLists containing 1 entity information each. 
         for(Object o: results){
             UserEntity userE = (UserEntity) o;
@@ -146,13 +146,14 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
         q1.setParameter("username", username);
         for(Object o : q1.getResultList()){
             UserEntity u = (UserEntity) o;
-            em.remove(o);
+            //logical delete, not physical delete.
+            u.setUserActiveStatus(Boolean.FALSE);
         }
     }
 
     @Override
     public ArrayList<ArrayList> getAllAdmins() {
-        List results = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType='unifyadmin' OR u.userType='edutechadmin' OR u.userType='dualadmin' OR u.userType='superadmin'").getResultList();
+        List results = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType='unifyadmin' OR u.userType='edutechadmin' OR u.userType='dualadmin' OR u.userType='superadmin' AND u.userActiveStatus = 1").getResultList();
         ArrayList entityList = new ArrayList();//to store the set of ArrayLists containing 1 entity information each. 
         for(Object o: results){
             UserEntity userE = (UserEntity) o;
