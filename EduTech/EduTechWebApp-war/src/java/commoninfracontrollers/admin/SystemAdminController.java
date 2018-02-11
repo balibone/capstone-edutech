@@ -178,6 +178,9 @@ public class SystemAdminController
                     pageAction="ViewAdmin";
                     break;
                 case "EditAdmin":
+                    id = request.getParameter("id");
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
                     pageAction="EditAdmin";
                     break;
                 case "createAdmin"://create new student
@@ -192,6 +195,24 @@ public class SystemAdminController
                     request.setAttribute("msg", adminMsg);//plug in confirmation
                     
                     pageAction="NewAdmin";//response is same page. 
+                    break;
+                case "editAdmin":
+                    success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
+                    msg = "";//confirmation msg
+                    if (success){
+                        msg = "User edited successfully.";
+                    }else{
+                        msg = "Failed to edit user. Please try again.";
+                    }
+                    request.setAttribute("success", success);//success boolean
+                    request.setAttribute("msg", msg);//plug in confirmation
+                    pageAction="EditAdmin";
+                    break;
+                case "deleteAdmin":
+                    id = request.getParameter("id");
+                    sam.deleteUser(id);
+                    request.setAttribute("adminList", sam.getAllAdmins());
+                    pageAction="AllAdminList";
                     break;
                 default:
                     break;
