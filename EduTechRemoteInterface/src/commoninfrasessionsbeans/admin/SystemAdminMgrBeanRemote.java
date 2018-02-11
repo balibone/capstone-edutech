@@ -16,24 +16,15 @@ import javax.ejb.Remote;
 public interface SystemAdminMgrBeanRemote {
 
     public boolean createNewStudent(String salutation, String firstName, String lastName, String username, String password, String fileName);
-    
+    public void deleteUser(String username);
+    public boolean editUser(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName);
     public ArrayList<ArrayList> getAllStudents();
-    public ArrayList getUserInfo(String id);
-    
+    public ArrayList getUserInfo(String id);    
     public boolean createNewInstructor(String salutation, String firstName, String lastName, String username, String password, String fileName);
     public ArrayList<ArrayList> getAllInstructors();
     
-    public boolean createNewEduTechAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName);
-    public ArrayList<ArrayList> getAllEduTechAdmins();
-    
-    public boolean createNewUnifyAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName);
-    public ArrayList<ArrayList> getAllUnifyAdmins();
-    
-    public void deleteUser(String username);
-
-    public boolean editUser(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName);
-
-
+    public ArrayList<ArrayList> getAllAdmins();
+    public boolean createNewAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName,String adminType);
 
 
 
