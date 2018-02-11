@@ -83,61 +83,6 @@ public class SystemAdminController
                     request.setAttribute("userInfo", userInfo);
                     pageAction="EditStudent";
                     break;
-                case "deleteStudent":
-                    sam.deleteUser(request.getParameter("id"));
-                    request.setAttribute("studentList", sam.getAllStudents());
-                    pageAction="StudentList";
-                    break;
-                case "InstructorList":
-                    ArrayList<ArrayList> instructorList = sam.getAllInstructors();
-                    request.setAttribute("instructorList", instructorList);
-                    pageAction="InstructorList";
-                    break;
-                case "NewInstructor":
-                    pageAction="NewInstructor";
-                    break;
-                case "ViewInstructor":
-                    id = request.getParameter("id");
-                    userInfo = sam.getUserInfo(id);
-                    request.setAttribute("userInfo", userInfo);
-                    pageAction="ViewInstructor";
-                    break;
-                case "EditInstructor":
-                    id = request.getParameter("id");
-                    userInfo = sam.getUserInfo(id);
-                    request.setAttribute("userInfo", userInfo);
-                    pageAction="EditInstructor";
-                    break;
-                case "editInstructor":
-                    success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
-                    msg = "";//confirmation msg
-                    if (success){
-                        msg = "User edited successfully.";
-                    }else{
-                        msg = "Failed to edit user. Please try again.";
-                    }
-                    request.setAttribute("success", success);//success boolean
-                    request.setAttribute("msg", msg);//plug in confirmation
-                    pageAction="EditInstructor";
-                    break;
-                case "deleteInstructor":
-                    sam.deleteUser(request.getParameter("id"));
-                    request.setAttribute("instructorList", sam.getAllInstructors());
-                    pageAction="InstructorList";
-                    break;
-                case "UnifyAdminList":
-                    ArrayList<ArrayList> unifyAdminList = sam.getAllUnifyAdmins();
-                    request.setAttribute("unifyAdminList", unifyAdminList);
-                    pageAction="UnifyAdminList";
-                    break;
-                case "EduTechAdminList":
-                    ArrayList<ArrayList> eduTechAdminList = sam.getAllEduTechAdmins();
-                    request.setAttribute("eduTechAdminList", eduTechAdminList);
-                    pageAction="EduTechAdminList";
-                    break;
-                case "NewEduTechAdmin":
-                    pageAction="NewEduTechAdmin";
-                    break;
                 case "createStudent"://create new student
                     success = processNewUser(request,response, "student");//pass request to helper method for parsing & store success boolean
                     msg = "";//confirmation msg
@@ -163,32 +108,31 @@ public class SystemAdminController
                     request.setAttribute("msg", msg);//plug in confirmation
                     
                     pageAction="EditStudent";//response is same page. 
+                    break;              
+                case "deleteStudent":
+                    sam.deleteUser(request.getParameter("id"));
+                    request.setAttribute("studentList", sam.getAllStudents());
+                    pageAction="StudentList";
                     break;
-                case "createEduTechAdmin"://create new student
-                    boolean createEduTechAdminStatus = processNewUser(request,response, "edutechadmin");//pass request to helper method for parsing & store success boolean
-                    String eduTechMsg = "";//confirmation msg
-                    if (createEduTechAdminStatus){
-                        eduTechMsg = "User created successfully.";
-                    }else{
-                        eduTechMsg = "Failed to create user. Please try again.";
-                    }
-                    request.setAttribute("success", createEduTechAdminStatus);//success boolean
-                    request.setAttribute("msg", eduTechMsg);//plug in confirmation
-                    
-                    pageAction="NewEduTechAdmin";//response is same page. 
+                case "InstructorList":
+                    ArrayList<ArrayList> instructorList = sam.getAllInstructors();
+                    request.setAttribute("instructorList", instructorList);
+                    pageAction="InstructorList";
                     break;
-                case "createUnifyAdmin"://create new student
-                    boolean createUnifyAdminStatus = processNewUser(request,response, "unifyadmin");//pass request to helper method for parsing & store success boolean
-                    String unifyMsg = "";//confirmation msg
-                    if (createUnifyAdminStatus){
-                        unifyMsg = "User created successfully.";
-                    }else{
-                        unifyMsg = "Failed to create user. Please try again.";
-                    }
-                    request.setAttribute("success", createUnifyAdminStatus);//success boolean
-                    request.setAttribute("msg", unifyMsg);//plug in confirmation
-                    
-                    pageAction="NewUnifyAdmin";//response is same page. 
+                case "NewInstructor":
+                    pageAction="NewInstructor";
+                    break;
+                case "ViewInstructor":
+                    id = request.getParameter("id");
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    pageAction="ViewInstructor";
+                    break;
+                case "EditInstructor":
+                    id = request.getParameter("id");
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    pageAction="EditInstructor";
                     break;
                 case "createInstructor"://create new instructor
                     boolean successIndex = processNewUser(request,response, "instructor");//pass request to helper method for parsing & store success boolean
@@ -201,6 +145,53 @@ public class SystemAdminController
                     request.setAttribute("success", successIndex);//success boolean
                     request.setAttribute("msg", message);//plug in confirmation         
                     pageAction="NewInstructor";//response is same page. 
+                    break;
+                case "editInstructor":
+                    success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
+                    msg = "";//confirmation msg
+                    if (success){
+                        msg = "User edited successfully.";
+                    }else{
+                        msg = "Failed to edit user. Please try again.";
+                    }
+                    request.setAttribute("success", success);//success boolean
+                    request.setAttribute("msg", msg);//plug in confirmation
+                    pageAction="EditInstructor";
+                    break;
+                case "deleteInstructor":
+                    sam.deleteUser(request.getParameter("id"));
+                    request.setAttribute("instructorList", sam.getAllInstructors());
+                    pageAction="InstructorList";
+                    break; 
+                case "AllAdminList":
+                    ArrayList<ArrayList> adminList = sam.getAllAdmins();
+                    request.setAttribute("adminList", adminList);
+                    pageAction="AllAdminList";
+                    break;
+                case "NewAdmin":
+                    pageAction="NewAdmin";
+                    break;
+                case "ViewAdmin":
+                    id = request.getParameter("id");
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    pageAction="ViewAdmin";
+                    break;
+                case "EditAdmin":
+                    pageAction="EditAdmin";
+                    break;
+                case "createAdmin"://create new student
+                    boolean createAdminStatus = processNewUser(request,response, "admin");//pass request to helper method for parsing & store success boolean
+                    String adminMsg = "";//confirmation msg
+                    if (createAdminStatus){
+                        adminMsg = "User created successfully.";
+                    }else{
+                        adminMsg = "Failed to create user. Please try again.";
+                    }
+                    request.setAttribute("success", createAdminStatus);//success boolean
+                    request.setAttribute("msg", adminMsg);//plug in confirmation
+                    
+                    pageAction="NewAdmin";//response is same page. 
                     break;
                 default:
                     break;
@@ -306,10 +297,9 @@ public class SystemAdminController
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
-        if(userType.equals("edutechadmin")) {
-            return sam.createNewEduTechAdmin(salutation,firstName,lastName,username, password, fileName);
-        } else if(userType.equals("unifyadmin")){
-            return sam.createNewUnifyAdmin(salutation, firstName, lastName, username, password, fileName);
+        if(userType.equals("admin")) {
+            String adminType = request.getParameter("adminType");
+            return sam.createNewAdmin(salutation,firstName,lastName,username, password, fileName,adminType);
         } else if(userType.equals("student")){ 
             return sam.createNewStudent(salutation,firstName,lastName,username, password, fileName);
         } else {

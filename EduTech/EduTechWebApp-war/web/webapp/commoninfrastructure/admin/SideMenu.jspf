@@ -25,11 +25,7 @@
                             <li><a href="SystemAdmin?pageTransit=InstructorList">Instructors</a></li>
                         </ul>
                     </li>
-                    <li><a><i class="fas fa-edit"></i>&nbsp;Administrators&nbsp;<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="SystemAdmin?pageTransit=EduTechAdminList">EduTech Admins</a></li>
-                            <li><a href="SystemAdmin?pageTransit=UnifyAdminList">Unify Admins</a></li>
-                        </ul>
+                    <li><a href="SystemAdmin?pageTransit=AllAdminList"><i class="fas fa-edit"></i>&nbsp;Administrators&nbsp;</a>
                     </li>
                 </ul>
             </div>
@@ -37,7 +33,7 @@
                 <ul class="nav side-menu">
                     <li>
                         <a href="CommonInfra?pageTransit=goToCommonLanding">
-                            <i class="fas fa-book"></i>&nbsp;&nbsp;Back To Edupack&nbsp;
+                            <i class="fas fa-book"></i>&nbsp;&nbsp;Back To EduBox&nbsp;
                         </a>
                     </li>
                 </ul>

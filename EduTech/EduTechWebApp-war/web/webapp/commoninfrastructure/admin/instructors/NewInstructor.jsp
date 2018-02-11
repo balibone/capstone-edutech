@@ -101,22 +101,21 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="col-md-7">
-                                    <div class="image-upload">
-                                        <img id="output-image" />
-                                    </div>
-                                    <label for="file-upload" style="margin-top: 10px; margin-left: 7px">
-                                        <button type="button" class="btn btn-warning " onclick="$('#file-upload').click();"><span class="glyphicon glyphicon-open"></span> Upload Image</button>
-                                        <p class="help-block">Image upload is necessary</p>
-                                    </label>                                   
-                                    <input id="file-upload" style="visibility:hidden" required name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" />
+                                <div class="image-upload">
+                                    <img id="output-image" />
+                                </div>
+                                <br>
+                                <input id="file-upload" required name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event)"/>
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <!-- Pass this to servlet to handle user creation -->
-                                <input type="hidden" name="pageTransit" value="createInstructor"/>
-                                <button type="submit" class="btn btn-primary" value="submit">Create Instructor</button></a>
-                                <a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Cancel</button></a>
+                                <div class="col-md-2">                                    
+                                </div>
+                                <div class="col-md-5"> 
+                                    <!-- Pass this to servlet to handle user creation -->
+                                    <input type="hidden" name="pageTransit" value="createInstructor"/>
+                                    <button type="submit" class="btn btn-primary" value="submit">Create Instructor</button><a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Cancel</button></a>
+                                </div>                               
                             </div>
                         </form>
                     </div>
