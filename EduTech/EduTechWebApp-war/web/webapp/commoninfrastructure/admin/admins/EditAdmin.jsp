@@ -6,7 +6,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Common Admin - View Admin</title>
+        <title>Common Admin - Edit Admin</title>
         
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -35,9 +35,23 @@
                 <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
-                    <h3>View Admin</h3>
+                    <h3>Edit Admin</h3>
                     </div>
                     <hr>
+                    <%
+                    String msg = (String)request.getAttribute("msg");
+                    if(msg!=null){
+                        Boolean success = (Boolean)request.getAttribute("success");
+                        if(success){
+                    %>
+                    <div class="alert alert-info" role="alert"><%=msg%></div>                    
+                    <%
+                        }else{
+                    %>
+                    <div class="alert alert-danger" role="alert"><%=msg%></div>                    
+                    <%
+}}
+                    %>
                     <div class="row">
                         <!--Submit form to SystemAdmin Servlet-->
                         <form action="SystemAdmin" method="POST" class="form-horizontal" enctype="multipart/form-data">
@@ -70,51 +84,76 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label required">Salutation: </label>
                                     <div class="col-md-5">
-                                        <input type="text" readonly value="<%=salutation%>" class="form-control" />
+                                        <select required autofocus class="form-control" name="salutation">
+                                            <option selected value="Mr.">Mr.</option>
+                                            <option value="Ms.">Ms.</option>
+                                            <option value="Madam.">Madam</option>
+                                            <option value="Dr.">Dr.</option>
+                                        </select>
+                                        Current: <%=salutation%>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label required">First Name:</label>
                                     <div class="col-md-5">
-                                        <input type="text" readonly value="<%=firstName%>" class="form-control"/>
+                                        <input type="text" value="<%=firstName%>" class="form-control" name="firstName"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label required">Last Name:</label>
                                     <div class="col-md-5">
-                                        <input type="text" readonly value="<%=lastName%>" class="form-control" />
+                                        <input type="text" value="<%=lastName%>" class="form-control" name="lastName"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label required">Username:</label>
                                     <div class="col-md-5">
-                                        <input type="text" readonly value="<%=username%>" class="form-control" />
+                                        <input type="text" readonly value="<%=username%>" class="form-control" name="username"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label required">Password:</label>
                                     <div class="col-md-5">
-                                        <input type="text" readonly value="<%=password%>" class="form-control" />
+                                        <input type="text" value="<%=password%>" class="form-control" name="password"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label required">Created On:</label>
                                     <div class="col-md-5">
-                                        <input type="text" readonly value="<%=creationDate%>" class="form-control" />
+                                        <input type="text" readonly value="<%=creationDate%>" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label required">User Type:</label>
                                     <div class="col-md-5">
-                                        <input type="text" readonly value="<%=type%>" class="form-control" />
+                                        <select required class="form-control" name="type">
+                                            <option value="student">Student</option>
+                                            <option selected value="instructor">Instructor</option>
+                                            <option value="unifyadmin">Unify Admin</option>
+                                            <option value="edutechadmin">EduTech Admin</option>
+                                            <option value="dualadmin">Dual Admin (EduTech + Unify)</option>
+                                        </select>
+                                        Current: <%=type%>
                                     </div>
                                 </div>                               
                             </div>
                             <div class="col-md-4">
-                                <img class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>                                                             
+                                <div class="image-upload">
+                                    <img id="output-image" class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>
+                                </div>
+                                <label for="file-upload" style="margin-top: 10px; margin-left: 7px">
+                                    <button type="button" class="btn btn-warning " onclick="$('#file-upload').click();"><span class="glyphicon glyphicon-open"></span> Replace Image</button>
+                                </label>
+                                <input type="hidden" id="imageReplacement" name="imageReplacement" value="no"/>
+                                <input id="file-upload" name="profileImage" style="visibility:hidden" type="file" accept="image/*" onchange="javascript: previewImage(event); window.imageReplacement();" />
                             </div>
                             <div class="col-md-8">
-                                <a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Student List</button></a>                            
+                                <!-- Pass this to servlet to handle user creation -->
+                                <a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Admin List</button></a>
+                                <input type="hidden" name="originalImage" value="<%=imageFile%>"/>
+                                <input type="hidden" name="originalType" value="<%=type%>"/>
+                                <input type="hidden" name="pageTransit" value="editAdmin"/>
+                                <button type="submit" class="btn btn-primary" value="submit">Edit Admin</button>  
                             </div>
                         </form>
                     </div>
