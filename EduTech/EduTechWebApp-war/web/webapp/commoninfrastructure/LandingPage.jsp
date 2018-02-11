@@ -36,7 +36,7 @@
             </div>
             <a name="content"></a>
             <div id="wherechoices"> 
-                <a class="students" href="CommonInfra?pageTransit=goToSystemAdmin">
+                <a class="students" href="SystemAdmin?pageTransit=StudentList">
                     <span class="user-container"><span class="mainpage-button-text">System Admin</span></span></a>
                 <a class="employers" href="CommonInfra?pageTransit=goToEdutechAdmin">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Admin</span></span></a>
