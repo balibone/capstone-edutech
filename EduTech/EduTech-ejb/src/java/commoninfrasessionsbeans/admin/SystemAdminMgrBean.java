@@ -152,7 +152,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
 
     @Override
     public ArrayList<ArrayList> getAllAdmins() {
-        List results = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType='unifyadmin' OR u.userType='edutechadmin' OR u.userType='dualadmin'").getResultList();
+        List results = em.createQuery("SELECT u FROM SystemUser u WHERE u.userType='unifyadmin' OR u.userType='edutechadmin' OR u.userType='dualadmin' OR u.userType='superadmin'").getResultList();
         ArrayList entityList = new ArrayList();//to store the set of ArrayLists containing 1 entity information each. 
         for(Object o: results){
             UserEntity userE = (UserEntity) o;

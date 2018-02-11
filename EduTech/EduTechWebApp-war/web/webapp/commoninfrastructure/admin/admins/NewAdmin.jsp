@@ -106,11 +106,13 @@
                                             <option selected value="dualadmin">Dual Admin (Edutech + Unify)</option>
                                             <option value="unifyadmin">Unify Admin</option>
                                             <option value="edutechadmin">EduTech Admin</option>
+                                            <option value="superadmin">Super Admin (Full Access Rights)</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
+                                <label for="output-image">Profile Image:</label>
                                 <div class="image-upload">
                                     <img id="output-image" />
                                 </div>
@@ -123,7 +125,7 @@
                                 <div class="col-md-5"> 
                                     <!-- Pass this to servlet to handle user creation -->
                                     <input type="hidden" name="pageTransit" value="createAdmin"/>
-                                    <button type="submit" class="btn btn-primary" value="submit">Create Admin</button><a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Cancel</button></a>
+                                    <button type="submit" class="btn btn-primary" value="submit">Create Admin</button><a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Admin List</button></a>
                                 </div>                               
                             </div>
                         </form>

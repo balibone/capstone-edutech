@@ -64,6 +64,9 @@ public class SystemAdminController
             boolean success = false;
             //Convention: EditStudent is for page redirect. editStudent is for database update handling
             switch (pageAction) {
+                case "SystemAdminDashboard":
+                    pageAction="SystemAdminDashboard";
+                    break;
                 case "StudentList":
                     request.setAttribute("studentList", sam.getAllStudents());
                     pageAction="StudentList";

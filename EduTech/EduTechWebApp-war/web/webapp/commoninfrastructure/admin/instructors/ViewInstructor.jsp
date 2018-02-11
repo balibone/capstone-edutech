@@ -111,10 +111,11 @@
                                 </div>                               
                             </div>
                             <div class="col-md-4">
-                                <img class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>                                                             
+                                <label for="output-image">Profile Image:</label>
+                                <img id="output-image" class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>                                 
                             </div>
                             <div class="col-md-8">
-                                <a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Go Back To Student List</button></a>                            
+                                <a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Go Back To Instructor List</button></a>                            
                             </div>
                         </form>
                     </div>

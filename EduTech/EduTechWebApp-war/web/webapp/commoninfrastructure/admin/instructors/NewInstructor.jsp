@@ -101,6 +101,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
+                                <label for="output-image">Profile Image:</label>
                                 <div class="image-upload">
                                     <img id="output-image" />
                                 </div>
@@ -114,7 +115,7 @@
                                 <div class="col-md-5"> 
                                     <!-- Pass this to servlet to handle user creation -->
                                     <input type="hidden" name="pageTransit" value="createInstructor"/>
-                                    <button type="submit" class="btn btn-primary" value="submit">Create Instructor</button><a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Cancel</button></a>
+                                    <button type="submit" class="btn btn-primary" value="submit">Create Instructor</button><a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Go Back To Instructor List</button></a>
                                 </div>                               
                             </div>
                         </form>
