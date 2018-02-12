@@ -8,9 +8,8 @@
     </filter>
     <filter-mapping>
         <filter-name>NoCacheFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <servlet-name>CommonInfra</servlet-name>
     </filter-mapping>
-    
     <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet>
         <servlet-name>CommonInfra</servlet-name>
