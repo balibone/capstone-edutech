@@ -1,6 +1,7 @@
 <%@page import="java.util.ArrayList"%>
+<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-    
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,7 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Common Admin - Admins</title>
-            
+
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
         <link href="css/commoninfrastructure/admin/baselayout/CommonAdminBaseCSS.css" rel="stylesheet" type="text/css">
@@ -22,12 +23,12 @@
         <link href="css/commoninfrastructure/admin/weblayout/fixedHeader.bootstrap.min.css" rel="stylesheet">
         <link href="css/commoninfrastructure/admin/weblayout/responsive.bootstrap.min.css" rel="stylesheet">
         <link href="css/commoninfrastructure/admin/weblayout/scroller.bootstrap.min.css" rel="stylesheet">
-            
+
         <!--Font Awesome 5 JS-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
     </head>
-        
+
     <body class="nav-md">
         <div class="container body">
             <div class="main_container">
@@ -42,10 +43,10 @@
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li>
                                             <a href="SystemAdmin?pageTransit=NewAdmin">
-                                            <button type="button" class="btn btn-default">
-                                                
+                                                <button type="button" class="btn btn-default">
+
                                                     <i class="fas fa-plus"></i>&nbsp;&nbsp;Create New Admin
-                                            </button>
+                                                </button>
                                             </a>
                                         </li>
                                     </ul>
@@ -69,24 +70,23 @@
                                             </tr>
                                         </thead>                                                                                       
                                         <tbody>
-                                            <% 
-                                                ArrayList adminList = (ArrayList)request.getAttribute("adminList");
-                                                for(Object o : adminList){
+                                            <%                                                ArrayList adminList = (ArrayList) request.getAttribute("adminList");
+                                                for (Object o : adminList) {
                                                     ArrayList adminData = (ArrayList) o;
                                                     String adminType = (String) adminData.get(4);
-                                                    if(adminType.trim().equalsIgnoreCase("unifyadmin")){
-                                                        adminType="Unify Admin";
-                                                    }else if(adminType.trim().equalsIgnoreCase("edutechadmin")){
-                                                        adminType="EduTech Admin";
-                                                    }else if(adminType.trim().equalsIgnoreCase("dualadmin")){
-                                                        adminType="Dual Admin (EduTech + Unify)";
-                                                    }else if(adminType.trim().equalsIgnoreCase("superadmin")){
-                                                        adminType="Super Admin (Full Access Rights)";
+                                                    if (adminType.trim().equalsIgnoreCase("unifyadmin")) {
+                                                        adminType = "Unify Admin";
+                                                    } else if (adminType.trim().equalsIgnoreCase("edutechadmin")) {
+                                                        adminType = "EduTech Admin";
+                                                    } else if (adminType.trim().equalsIgnoreCase("dualadmin")) {
+                                                        adminType = "Dual Admin (EduTech + Unify)";
+                                                    } else if (adminType.trim().equalsIgnoreCase("superadmin")) {
+                                                        adminType = "Super Admin (Full Access Rights)";
                                                     }
                                             %>
-                                            
+
                                             <tr>
-                                                <td><img src="uploads/commoninfrastructure/admin/images/<%= adminData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
+                                                <td><img src="uploads/commoninfrastructure/admin/images/<%= adminData.get(0)%>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=adminData.get(1)%></td>
                                                 <td><%=adminData.get(2)%></td>
                                                 <td><%=adminData.get(3)%></td>
@@ -142,7 +142,7 @@
         <script src="js/commoninfrastructure/admin/webjs/dataTables/jszip.min.js"></script>
         <script src="js/commoninfrastructure/admin/webjs/dataTables/pdfmake.min.js"></script>
         <script src="js/commoninfrastructure/admin/webjs/dataTables/vfs_fonts.js"></script>
-            
+
         <!--System Admin Base JS-->
         <script src="js/commoninfrastructure/admin/basejs/CommonAdminBaseJS.js" type="text/javascript"></script>
     </body>

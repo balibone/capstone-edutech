@@ -1,4 +1,6 @@
 <%@page import="java.util.ArrayList"%>
+<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -7,7 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Common Admin - View Admin</title>
-        
+
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
         <link href="css/commoninfrastructure/admin/baselayout/CommonAdminBaseCSS.css" rel="stylesheet" type="text/css">
@@ -22,7 +24,7 @@
         <link href="css/commoninfrastructure/admin/weblayout/responsive.bootstrap.min.css" rel="stylesheet">
         <link href="css/commoninfrastructure/admin/weblayout/scroller.bootstrap.min.css" rel="stylesheet">
         <link href="css/commoninfrastructure/admin/baselayout/NewUserCSS.css" rel="stylesheet">
-        
+
         <!--Font Awesome 5 JS-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
@@ -35,7 +37,7 @@
                 <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
-                    <h3>View Admin</h3>
+                        <h3>View Admin</h3>
                     </div>
                     <hr>
                     <div class="row">
@@ -50,35 +52,34 @@
                                     </div>
                                 </div>
                                 -->
-                                <%
-                                    //Extracting field values from ArrayList passed from servlet to jsp.
-                                    ArrayList userInfo = (ArrayList)request.getAttribute("userInfo");
-                                    String salutation,firstName,lastName,username,password,creationDate,type,imageFile;
+                                <%                                    //Extracting field values from ArrayList passed from servlet to jsp.
+                                    ArrayList userInfo = (ArrayList) request.getAttribute("userInfo");
+                                    String salutation, firstName, lastName, username, password, creationDate, type, imageFile;
                                     salutation = firstName = lastName = username = password = creationDate = type = imageFile = "";
                                     //ArrayList exists and is not empty. 
-                                    if(userInfo!=null && !userInfo.isEmpty()){
-                                        salutation = (String)userInfo.get(0);
-                                        firstName = (String)userInfo.get(1);
-                                        lastName = (String)userInfo.get(2);
-                                        username = (String)userInfo.get(3);
-                                        password = (String)userInfo.get(4);
-                                        creationDate = (String)userInfo.get(5);
-                                        type = (String)userInfo.get(6);
+                                    if (userInfo != null && !userInfo.isEmpty()) {
+                                        salutation = (String) userInfo.get(0);
+                                        firstName = (String) userInfo.get(1);
+                                        lastName = (String) userInfo.get(2);
+                                        username = (String) userInfo.get(3);
+                                        password = (String) userInfo.get(4);
+                                        creationDate = (String) userInfo.get(5);
+                                        type = (String) userInfo.get(6);
                                         //parse type for proper display front end.
-                                        if(type.trim().equalsIgnoreCase("student")){
-                                            type="Student";
-                                        }else if(type.trim().equalsIgnoreCase("instructor")){
-                                            type="Instructor";
-                                        }else if(type.trim().equalsIgnoreCase("unifyadmin")){
-                                            type="Unify Admin";
-                                        }else if(type.trim().equalsIgnoreCase("edutechadmin")){
-                                            type="EduTech Admin";
-                                        }else if(type.trim().equalsIgnoreCase("dualadmin")){
-                                            type="Dual Admin (EduTech + Unify)";
-                                        }else if(type.trim().equalsIgnoreCase("superadmin")){
-                                            type="Super Admin";
+                                        if (type.trim().equalsIgnoreCase("student")) {
+                                            type = "Student";
+                                        } else if (type.trim().equalsIgnoreCase("instructor")) {
+                                            type = "Instructor";
+                                        } else if (type.trim().equalsIgnoreCase("unifyadmin")) {
+                                            type = "Unify Admin";
+                                        } else if (type.trim().equalsIgnoreCase("edutechadmin")) {
+                                            type = "EduTech Admin";
+                                        } else if (type.trim().equalsIgnoreCase("dualadmin")) {
+                                            type = "Dual Admin (EduTech + Unify)";
+                                        } else if (type.trim().equalsIgnoreCase("superadmin")) {
+                                            type = "Super Admin";
                                         }
-                                        imageFile = (String)userInfo.get(7);
+                                        imageFile = (String) userInfo.get(7);
                                     }
                                 %>
                                 <div class="form-group">
@@ -137,7 +138,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- JAVASCRIPT (JS) -->
         <script src="js/commoninfrastructure/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>

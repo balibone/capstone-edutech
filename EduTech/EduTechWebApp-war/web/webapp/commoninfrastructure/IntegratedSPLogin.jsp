@@ -11,8 +11,8 @@
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/IntegratedSPLoginCSS.css">
 
         <!-- JavaScript (JS) -->
-        <script src="js/commoninfrastructure/login/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/login/jquery.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/login/bootstrap.min.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="session-page">
@@ -41,6 +41,13 @@
                                             <div class="checkbox">
                                                 <label><input type="checkbox">&nbsp;Remember me</label>
                                             </div>
+                                            <%
+                                            if(request.getAttribute("sysMessage")!=null){
+                                            %>
+                                            <div class="alert alert-danger" role="alert"><%=request.getAttribute("sysMessage")%></div>
+                                            <%
+                                            }
+                                            %> 
                                             <div class="submit">
                                                 <input type="hidden" name="pageTransit" value="loginToSys"/>
                                                 <button type="submit" class="btn btn-default">Sign in to my account</button>
@@ -51,6 +58,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
