@@ -35,6 +35,7 @@ public class JobReportEntity implements Serializable {
     /* FOREIGN KEY */
     private Long jobID;
     private String jobPosterID;
+    private String jobReporterID;
     
     @ManyToOne
     private UserEntity userEntity;
@@ -49,6 +50,7 @@ public class JobReportEntity implements Serializable {
     public Date getJobReportDate() { return jobReportDate; }
     public Long getJobID() { return jobID; }
     public String getJobPosterID() { return jobPosterID; }
+    public String getJobReporterID() { return jobReporterID; }
     public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
@@ -58,5 +60,6 @@ public class JobReportEntity implements Serializable {
     public void setJobReportDate(Date jobReportDate) { this.jobReportDate = jobReportDate; }
     public void setJobID(Long jobID) { this.jobID = jobID; }
     public void setJobPosterID(String jobPosterID) { this.jobPosterID = jobPosterID; }
+    public void setJobReporterID(String jobReporterID) { this.jobReporterID = jobReporterID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

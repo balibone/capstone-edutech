@@ -35,6 +35,7 @@ public class ItemReportEntity implements Serializable {
     /* FOREIGN KEY */
     private Long itemID;
     private String itemPosterID;
+    private String itemReporterID;
     
     @ManyToOne
     private UserEntity userEntity;
@@ -50,6 +51,7 @@ public class ItemReportEntity implements Serializable {
     public Long getItemID() { return itemID; }
     public String getItemPosterID() { return itemPosterID; }
     public UserEntity getUserEntity() { return userEntity; }
+    public String getItemReporterID() { return itemReporterID; }
     
     /* SETTER METHODS */
     public void setItemReportID(Long itemReportID) { this.itemReportID = itemReportID; }
@@ -58,5 +60,6 @@ public class ItemReportEntity implements Serializable {
     public void setItemReportDate(Date itemReportDate) { this.itemReportDate = itemReportDate; }
     public void setItemID(Long itemID) { this.itemID = itemID; }
     public void setItemPosterID(String itemPosterID) { this.itemPosterID = itemPosterID; }
+    public void setItemReporterID(String itemReporterID) { this.itemReporterID = itemReporterID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

@@ -35,7 +35,8 @@ public class CompanyReviewReportEntity implements Serializable {
     /* FOREIGN KEY */
     private String reviewReporterID;
     private String reviewPosterID;
-    
+    private String reviewID;
+        
     @ManyToOne
     private UserEntity userEntity;
     
@@ -49,6 +50,7 @@ public class CompanyReviewReportEntity implements Serializable {
     public Date getReviewReportDate() { return reviewReportDate; }
     public String getReviewReporterID() { return reviewReporterID; }
     public String getReviewPosterID() { return reviewPosterID; }
+    public String getReviewID() { return reviewID; }
     public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
@@ -58,5 +60,6 @@ public class CompanyReviewReportEntity implements Serializable {
     public void setReviewReportDate(Date reviewReportDate) { this.reviewReportDate = reviewReportDate; }
     public void setReviewReporterID(String reviewReporterID) { this.reviewReporterID = reviewReporterID; }
     public void setReviewPosterID(String reviewPosterID) { this.reviewPosterID = reviewPosterID; }
+    public void setReviewID(String reviewID) { this.reviewID = reviewID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }
