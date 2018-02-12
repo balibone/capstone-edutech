@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.util.Vector"%>
 <!DOCTYPE html>

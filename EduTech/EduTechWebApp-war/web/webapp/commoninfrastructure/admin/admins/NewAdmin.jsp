@@ -1,4 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Common Admin - New Admin</title>
-        
+
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
         <link href="css/commoninfrastructure/admin/baselayout/CommonAdminBaseCSS.css" rel="stylesheet" type="text/css">
@@ -21,7 +23,7 @@
         <link href="css/commoninfrastructure/admin/weblayout/responsive.bootstrap.min.css" rel="stylesheet">
         <link href="css/commoninfrastructure/admin/weblayout/scroller.bootstrap.min.css" rel="stylesheet">
         <link href="css/commoninfrastructure/admin/baselayout/NewUserCSS.css" rel="stylesheet">
-        
+
         <!--Font Awesome 5 JS-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
@@ -34,22 +36,22 @@
                 <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
-                    <h3>New Admin</h3>
+                        <h3>New Admin</h3>
                     </div>
                     <hr>
-                    <%
-                    String msg = (String)request.getAttribute("msg");
-                    if(msg!=null){
-                        Boolean success = (Boolean)request.getAttribute("success");
-                        if(success){
+                    <%                        String msg = (String) request.getAttribute("msg");
+                        if (msg != null) {
+                            Boolean success = (Boolean) request.getAttribute("success");
+                            if (success) {
                     %>
                     <div class="alert alert-info" role="alert"><%=msg%></div>                    
                     <%
-                        }else{
+                    } else {
                     %>
                     <div class="alert alert-danger" role="alert"><%=msg%></div>                    
                     <%
-}}
+                            }
+                        }
                     %>
                     <div class="row">
                         <!--Submit form to SystemAdmin Servlet-->
@@ -74,7 +76,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                    
+
                                 <div class="form-group">
                                     <label class="col-md-2 control-label required">First Name</label>
                                     <div class="col-md-5">
@@ -133,7 +135,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- JAVASCRIPT (JS) -->
         <script src="js/commoninfrastructure/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
