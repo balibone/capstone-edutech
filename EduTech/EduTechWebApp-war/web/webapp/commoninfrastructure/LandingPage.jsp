@@ -1,5 +1,6 @@
 <%
     String loggedInUsername = (String)request.getAttribute("startUsername");
+    String userType = (String)request.getAttribute("userType");
     //If "startUsername" attribute is null, that means previous page was not log in page. Try to look for username from cookie.
     /*
     HttpServletRequest object is already available to JSP page by default as variable "request"
@@ -9,8 +10,13 @@
     Cookie[] reqCookies = request.getCookies();
     if(reqCookies!=null){
         for(Cookie c : reqCookies){
+            //if username cookie is valid, extract cookie value.
             if("username".equals(c.getName()) && !c.getValue().equals("")){
                 loggedInUsername = c.getValue();
+            }
+            //if userType cookie is valid, extract cookie value.
+            else if("userType".equals(c.getName()) && !c.getValue().equals("")){
+                userType = c.getValue();
             }
         }
     } 
