@@ -1,5 +1,4 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -29,11 +28,11 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Category Type:&nbsp;&nbsp;<u><%= request.getAttribute("paramCategoryType")%></u></label>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <input type="text" class="form-control has-feedback-left" placeholder="Category Name" name="categoryName" />
+                            <input type="text" class="form-control has-feedback-left" placeholder="Category Name" name="categoryName" required />
                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <textarea rows="5" class="form-control has-feedback-left" placeholder="Category Description" name="categoryDescription"></textarea>
+                            <textarea rows="5" class="form-control has-feedback-left" placeholder="Category Description" name="categoryDescription" required ></textarea>
                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
                     </div>
