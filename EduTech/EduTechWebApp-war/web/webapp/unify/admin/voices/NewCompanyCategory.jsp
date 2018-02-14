@@ -1,4 +1,3 @@
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -9,7 +8,7 @@
         <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/weblayout/voices/NewCompanyCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/weblayout/marketplace/NewItemCategoryCSS.css" rel="stylesheet" type="text/css">
     </head>
     <body style="background-color: transparent;">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bodyContent">
@@ -22,31 +21,15 @@
                         <label for="file-upload" class="btn btn-outline btn-primary btn-sm btn-block" style="margin-top: 10px;">
                             <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
                         </label>
-                        <input id="file-upload" name="companyImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" /> 
+                        <input id="file-upload" name="categoryImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" /> 
                     </div> 
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <input type="text" class="form-control has-feedback-left" placeholder="Company Name" name="companyName" required="required"/>
+                            <input type="text" class="form-control has-feedback-left" placeholder="Category Name" name="categoryName" required="required"/>
                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <input type="text" class="form-control has-feedback-left" placeholder="Company Website" name="companyWebsite" required="required"/>
-                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <input type="text" class="form-control has-feedback-left" placeholder="Company Headquarter" name="companyHQ" required="required"/>
-                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <input type="number" class="form-control has-feedback-left" placeholder="Company Size" name="companySize" required="required"/>
-                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <input type="text" class="form-control has-feedback-left" placeholder="Company Industry" name="companyIndustry" required="required"/>
-                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <textarea rows="5" class="form-control has-feedback-left" placeholder="Company Description" name="companyDescription"required="required"></textarea>
+                            <textarea rows="5" class="form-control has-feedback-left" placeholder="Category Description" name="categoryDescription" required="required"></textarea>
                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
                     </div>
@@ -54,8 +37,8 @@
             <div class="ln_solid"></div>
             <div class="form-group" style="text-align: center;">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                    <input type="hidden" name="pageTransit" value="addCompany"/>
-                    <button type="submit" class="btn btn-primary">Add Company</button>
+                    <input type="hidden" name="pageTransit" value="addCompanyCategory"/>
+                    <button type="submit" class="btn btn-primary">Add Company Category</button>
                 </div></form>
             </div>
         </div>

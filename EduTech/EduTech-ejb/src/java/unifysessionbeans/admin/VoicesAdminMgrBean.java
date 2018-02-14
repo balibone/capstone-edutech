@@ -26,6 +26,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     private CompanyReviewEntity companyReviewEntity;
     private CategoryEntity categoryEntity;
     private Collection<CompanyReviewEntity> companyReviewList;
+    private Collection<CompanyEntity> companySet;
 
     @Override
     public boolean createCompany(String companyName, String companyWebsite, String companyHQ, int companySize, String companyIndustry, String companyDescription, String companyImage) {
@@ -63,6 +64,29 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         }
         return companyList;
     }
+    
+    @Override
+    public List<Vector> viewCompanyInCategoryList(String categoryName, String categoryType) {
+        categoryEntity = lookupCategory(categoryName, categoryType);
+        List<Vector> companyList = new ArrayList<Vector>();
+        if(categoryEntity != null) {
+            Query q = em.createQuery("SELECT c from Company c WHERE c.categoryEntity = :companyIndustry");
+            q.setParameter("companyIndustry", categoryEntity);
+
+            for (Object o : q.getResultList()) {
+                CompanyEntity ce = (CompanyEntity) o;
+                Vector companyVec = new Vector();
+            
+                companyVec.add(ce.getCompanyName());
+                companyVec.add(ce.getCompanyAverageRating());
+                companyVec.add(ce.getCompanyStatus());
+                companyVec.add(ce.getCategoryEntity().getCategoryName());
+                companyVec.add(ce.getCompanyImage());
+                companyList.add(companyVec);
+            }
+        }
+        return companyList;
+    }
 
     @Override
     public Vector viewCompanyDetails(String companyName) {
@@ -85,16 +109,16 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     }
 
     @Override
-    public boolean deactivateCompany(String companyName) {
-        boolean companyDeactivateStatus = true;
+    public String deactivateCompany(String companyName) {
         if (lookupCompany(companyName) == null) {
-            companyDeactivateStatus = false;
+            return "Selected company cannot be found.";
         } else {
             compEntity = lookupCompany(companyName);
+            companyReviewList = compEntity.getCompanyReviewSet();
             compEntity.setCompanyStatus("Inactive");
             em.merge(compEntity);
+            return "Selected company category has been deactivated successfully!";
         }
-        return companyDeactivateStatus;
     }
 
     @Override
@@ -135,7 +159,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     @Override
     public List<Vector> viewReviewList(String reviewedCompany) {
         compEntity = lookupCompany(reviewedCompany);
-        Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.reviewedCompany = :reviewedCompany");
+        Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.companyEntity = :reviewedCompany");
         q.setParameter("reviewedCompany", compEntity);
         
         List<Vector> reviewList = new ArrayList<Vector>();
@@ -177,7 +201,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         CompanyReviewEntity cre = new CompanyReviewEntity();
         try {
             compEntity = lookupCompany(reviewedCompany);
-            Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.reviewedCompany = :reviewedCompany AND cr.reviewPosterID = :reviewPosterID");
+            Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.companyEntity = :reviewedCompany AND cr.reviewPosterID = :reviewPosterID");
             q.setParameter("reviewedCompany", compEntity);
             q.setParameter("reviewPosterID", reviewPosterID);
             cre = (CompanyReviewEntity) q.getSingleResult();
@@ -198,16 +222,16 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         boolean reviewDeleteStatus = false;
         compEntity = lookupCompany(reviewedCompany);
         companyReviewList = compEntity.getCompanyReviewSet();
-        /*
+        
         for (int i = 0; i < companyReviewList.size(); i++) {
-            companyReviewEntity = companyReviewList.get(i);
+            companyReviewEntity = (CompanyReviewEntity)companyReviewList.toArray()[i];
             if (companyReviewEntity.getReviewPosterID().equals(reviewPosterID)) {
-                compEntity.getCompanyReviewList().remove(i);
+                compEntity.getCompanyReviewSet().remove(companyReviewEntity);
                 em.remove(companyReviewEntity);
                 em.merge(compEntity);
                 reviewDeleteStatus = true;
             }
-        }*/
+        }
         return reviewDeleteStatus;
     }
 
@@ -247,5 +271,134 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             ce = null;
         }
         return ce;
+    }
+    
+    @Override
+    public List<Vector> viewCompanyCategoryList() {
+        Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'company' ");
+        List<Vector> categoryList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            CategoryEntity ce = (CategoryEntity) o;
+            Vector categoryVec = new Vector();
+            
+            categoryVec.add(ce.getCategoryName());
+            categoryVec.add(ce.getCategoryID());
+            categoryVec.add(ce.getCategoryDescription());
+            categoryVec.add(ce.getCategoryActiveStatus());
+            categoryVec.add(ce.getCategoryImage());
+            categoryList.add(categoryVec);
+        }
+        return categoryList;
+    }
+    
+    @Override
+    public boolean createCompanyCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
+        categoryEntity = new CategoryEntity();
+        categoryEntity.createCategory(categoryName, categoryType, categoryDescription, categoryImage);
+        em.persist(categoryEntity);
+        return true;
+    }
+    
+    @Override
+    public Vector viewCompanyCategoryDetails(String categoryName, String categoryType) {
+        categoryEntity = lookupCategory(categoryName, categoryType);
+        Vector companyCategoryDetailsVec = new Vector();
+        
+        if (categoryEntity != null) {
+            companyCategoryDetailsVec.add(categoryEntity.getCategoryName());
+            companyCategoryDetailsVec.add(categoryEntity.getCategoryType());
+            companyCategoryDetailsVec.add(categoryEntity.getCategoryDescription());
+            companyCategoryDetailsVec.add(categoryEntity.getCategoryActiveStatus());
+            companyCategoryDetailsVec.add(categoryEntity.getCategoryImage());
+            return companyCategoryDetailsVec;
+        }
+        return null;
+    }
+    
+    public CategoryEntity lookupCategory(String categoryName, String categoryType) {
+        CategoryEntity ce = new CategoryEntity();
+        try{
+            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryName = :categoryName AND c.categoryType = :categoryType");
+            q.setParameter("categoryName", categoryName);
+            q.setParameter("categoryType", categoryType);
+            ce = (CategoryEntity)q.getSingleResult();
+        }
+        catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        catch(NoResultException nre){
+            System.out.println("ERROR: Category does not exist. " + nre.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        return ce;
+    }
+    
+    @Override
+    public String deactivateCompanyCategory(String deactCategoryName, String deactCategoryType) {
+        /* DON'T CHANGE THE RETURN STRING (USED FOR SERVLET VALIDATION) */
+        boolean companyAvailWithinCat = false;
+        
+        if (lookupCategory(deactCategoryName, deactCategoryType) == null) {
+            return "Selected company category cannot be found.";
+        } else {
+            categoryEntity = em.find(CategoryEntity.class, lookupCategory(deactCategoryName, deactCategoryType).getCategoryID());
+            companySet = categoryEntity.getCompanySet();
+            
+            /* IF THERE IS ITEM INSIDE THE ITEM CATEGORY */
+            if (!companySet.isEmpty()) {
+                for (CompanyEntity ie : companySet) {
+                    /* IF THE ITEM INSIDE THE ITEM CATEGORY IS "AVAILABLE", THEN CANNOT DEACTIVATE THE ITEM CATEGORY */
+                    if((ie.getCompanyStatus()).equals("Active")) {
+                        companyAvailWithinCat = true;
+                        break;
+                    }
+                }
+                if (companyAvailWithinCat == true) {
+                    return "There are currently active companies inside this company category. Cannot be deactivated.";
+                } else {
+                    return "Selected company category has been deactivated successfully!";
+                }
+            }
+            /* IF THERE IS NO ITEMS INSIDE THE ITEM CATEGORY, PROCEED TO DEACTIVATE THE ITEM CATEGORY */
+            else{
+                categoryEntity.setCategoryActiveStatus(false);
+                em.merge(categoryEntity);
+                return "Selected company category has been deactivated successfully!";
+            }
+        }
+    }
+    
+    @Override
+    public boolean activateCompanyCategory(String actCategoryName, String actCategoryType) {
+        boolean ccDeactivateStatus = true;
+        if (lookupCategory(actCategoryName, actCategoryType) == null) {
+            ccDeactivateStatus = false;
+        } else {
+            categoryEntity = lookupCategory(actCategoryName, actCategoryType);
+            categoryEntity.setCategoryActiveStatus(true);
+            em.merge(categoryEntity);
+        }
+        return ccDeactivateStatus;
+    }
+    
+    @Override
+    public boolean updateCompanyCategory(String oldCategoryName, String newCategoryName, String categoryType, 
+            String oldCategoryDescription, String newCategoryDescription, String fileName) {
+        /* DOES NOT MATTER WHETHER OR NOT THERE IS ITEMS INSIDE THE ITEM CATEGORY, ADMIN CAN JUST UPDATE THE ITEM CATEGORY DETAILS */
+        boolean ccUpdateStatus = true;
+        if (lookupCategory(oldCategoryName, categoryType) == null) {
+            ccUpdateStatus = false;
+        } else {
+            categoryEntity = lookupCategory(oldCategoryName, categoryType);
+            categoryEntity.setCategoryName(newCategoryName);
+            categoryEntity.setCategoryDescription(newCategoryDescription);
+            categoryEntity.setCategoryImage(fileName);
+            em.merge(categoryEntity);
+        }
+        return ccUpdateStatus;
     }
 }

@@ -254,6 +254,34 @@
         <servlet-name>ViewJobTransactionListing</servlet-name>
         <jsp-file>/webapp/unify/admin/errands/ViewJobTransactionListing.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ViewJobCategoryListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobCategoryListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyCategoryList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyCategoryList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewCompanyCategory</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/NewCompanyCategory.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyCategoryListDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyCategoryListDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyReviewList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyReviewList.jsp</jsp-file>
+    </servlet>
+    </servlet>
+        <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
+        <servlet-name>LandingPage</servlet-name>
+    <servlet>
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>

@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.annotation.MultipartConfig;
-import unifysessionbeans.admin.VoicesAdminMgrBeanRemote;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.servlet.http.Part;
@@ -66,11 +65,9 @@ public class VoicesAdminController extends HttpServlet {
                     break;
                 case "deactivateCompany":
                     String deactCompanyName = request.getParameter("hiddenCompanyName");
-                    if (vamr.deactivateCompany(deactCompanyName)) {
-                        request.setAttribute("successMessage", "Selected Company has been deactivated successfully.");
-                    } else {
-                        request.setAttribute("errorMessage", "Selected Company cannot be deactivated. Please try again later.");
-                    }
+                    String ccReturnMsg = vamr.deactivateCompany(deactCompanyName);
+                    if (ccReturnMsg.endsWith("!")) { request.setAttribute("successMessage", ccReturnMsg); } 
+                    else { request.setAttribute("errorMessage", ccReturnMsg); }
                     request.setAttribute("data", (ArrayList) vamr.viewCompanyList());
                     pageAction = "ViewCompanyList";
                     break;
@@ -97,22 +94,18 @@ public class VoicesAdminController extends HttpServlet {
                     String reviewedCompanyName = request.getParameter("hiddenCompanyName");
                     request.setAttribute("reviewListVec", (ArrayList) vamr.viewReviewList(reviewedCompanyName));
                     pageAction = "ViewReviewList";
-                    break;
-                /*
-                case "goToViewReviewList":
-                    data = (ArrayList) vamr.viewReviewList();
-                    request.setAttribute("data", data);
-                    pageAction = "ViewReviewList";
-                    break; */ 
+                    break; 
                 case "goToViewReviewListDetails":
                     String reviewedCompany = request.getParameter("reviewedCompany");
                     String reviewPosterID = request.getParameter("reviewPosterID");
-                    request.setAttribute("data", vamr.viewReviewDetails(reviewedCompany, reviewPosterID));
+                    request.setAttribute("reviewDetailsVec", vamr.viewReviewDetails(reviewedCompany, reviewPosterID));
                     pageAction = "ViewReviewListDetails";
                     break; 
                 case "deleteReview":
                     String DelReviewedCompany = request.getParameter("hiddenReviewedCompany");
+                    System.out.println(DelReviewedCompany);
                     String DelReviewPosterID = request.getParameter("hiddenReviewPosterID");
+                    System.out.println(DelReviewPosterID);
                     if (vamr.deleteReview(DelReviewedCompany, DelReviewPosterID)) {
                         request.setAttribute("successMessage", "Selected Review has been deleted successfully.");
                     } else {
@@ -122,6 +115,67 @@ public class VoicesAdminController extends HttpServlet {
                     request.setAttribute("reviewListVec", (ArrayList) vamr.viewReviewList(DelReviewedCompany));
                     pageAction = "ViewCompanyListDetails";
                     break; 
+                case "goToViewCompanyCategoryList":
+                    data = (ArrayList) vamr.viewCompanyCategoryList();
+                    request.setAttribute("categoryListVec", data);
+                    pageAction = "ViewCompanyCategoryList";
+                    break; 
+                case "goToNewCompanyCategory":
+                    pageAction = "NewCompanyCategory";
+                    break;
+                case "addCompanyCategory":
+                    if (addCompanyCategory(request)) {
+                        request.setAttribute("successMessage", "Company Category has been added successfully.");
+                    } else {
+                        request.setAttribute("errorMessage", "One or more fields are invalid. Please check again.");
+                    }
+                    request.setAttribute("categoryListVec", (ArrayList) vamr.viewCompanyCategoryList());
+                    pageAction = "ViewCompanyCategoryList";
+                    break;
+                case "goToViewCompanyCategoryListDetails":
+                    String categoryName = request.getParameter("categoryName");
+                    String categoryType = request.getParameter("categoryType");
+                    request.setAttribute("categoryDetailsVec", vamr.viewCompanyCategoryDetails(categoryName, categoryType));
+                    request.setAttribute("companyListVec", (ArrayList) vamr.viewCompanyInCategoryList(categoryName, categoryType));
+                    pageAction = "ViewCompanyCategoryListDetails";
+                    break;
+                case "deactivateCategory":
+                    String deactCategoryName = request.getParameter("hiddenCategoryName");
+                    String deactCategoryType = request.getParameter("hiddenCategoryType");
+                    
+                    String icReturnMsg = vamr.deactivateCompanyCategory(deactCategoryName, deactCategoryType);
+                    if (icReturnMsg.endsWith("!")) { request.setAttribute("successMessage", icReturnMsg); } 
+                    else { request.setAttribute("errorMessage", icReturnMsg); }
+                    
+                    request.setAttribute("categoryListVec", (ArrayList) vamr.viewCompanyCategoryList());
+                    pageAction = "ViewCompanyCategoryList";
+                    break;
+                case "activateCategory":
+                    String actCategoryName = request.getParameter("hiddenCategoryName");
+                    String actCategoryType = request.getParameter("hiddenCategoryType");
+                    if (vamr.activateCompanyCategory(actCategoryName, actCategoryType)) {
+                        request.setAttribute("successMessage", "Selected item category has been activated successfully.");
+                    } else {
+                        request.setAttribute("errorMessage", "Selected item category cannot be activated. Please try again later.");
+                    }
+                    request.setAttribute("categoryListVec", (ArrayList) vamr.viewCompanyCategoryList());
+                    pageAction = "ViewCompanyCategoryList";
+                    break;
+                case "updateCompanyCategory":
+                    if(updateCompanyCategory(request)) {
+                        request.setAttribute("successMessage", "Selected company category has been updated successfully.");
+                    } else {
+                        request.setAttribute("errorMessage", "Selected company category cannot be updated. Please check the inventory log.");
+                    }
+                    request.setAttribute("categoryListVec", (ArrayList) vamr.viewCompanyCategoryList());
+                    pageAction = "ViewCompanyCategoryListDetails";
+                    break;
+                case "goToViewCategoryCompanyReviewList":
+                    String categoryCompanyName = request.getParameter("hiddenCategoryCompany");
+                    request.setAttribute("data", vamr.viewCompanyDetails(categoryCompanyName));
+                    request.setAttribute("reviewListVec", (ArrayList) vamr.viewReviewList(categoryCompanyName));
+                    pageAction = "ViewCompanyReviewList";
+                    break;
                 default:
                     break;
             }
@@ -272,6 +326,123 @@ public class VoicesAdminController extends HttpServlet {
             companyUpdateStatus = true;
         }
         return companyUpdateStatus;
+    }
+    
+        private boolean addCompanyCategory(HttpServletRequest request) {
+        boolean addCompanyCategoryStatus = false;
+        String fileName = "";
+        try {
+            Part filePart = request.getPart("categoryImage");
+            fileName = (String) getFileName(filePart);
+            
+            if(fileName.contains("\\")) {
+                fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
+            }
+                    
+            String appPath = request.getServletContext().getRealPath("");
+            String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
+                    + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+            String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
+                    + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "voices"
+                    + File.separator + "category" + File.separator;
+            
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            
+            try {
+                File outputFilePath = new File(imageDir + fileName);
+                inputStream = filePart.getInputStream();
+                outputStream = new FileOutputStream(outputFilePath);
+
+                int read = 0;
+                final byte[] bytes = new byte[1024];
+                while ((read = inputStream.read(bytes)) != -1) {
+                    outputStream.write(bytes, 0, read);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                fileName = "";
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fileName = "";
+        }
+        String categoryName = request.getParameter("categoryName");
+        String categoryDescription = request.getParameter("categoryDescription");
+        
+        vamr.createCompanyCategory(categoryName, "company", categoryDescription, fileName);
+        addCompanyCategoryStatus = true;
+        return addCompanyCategoryStatus;
+    }
+        
+    private boolean updateCompanyCategory(HttpServletRequest request) {
+        boolean companyCategoryUpdateStatus = false;
+        String fileName = "";
+        String imageUploadStatus = request.getParameter("imageUploadStatus");
+        
+        if(imageUploadStatus.equals("Uploaded")) {
+            try {
+                Part filePart = request.getPart("categoryImage");
+                fileName = (String) getFileName(filePart);
+
+                String appPath = request.getServletContext().getRealPath("");
+                String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
+                        + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+                String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
+                        + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "voices"
+                        + File.separator + "category" + File.separator;
+
+                InputStream inputStream = null;
+                OutputStream outputStream = null;
+                try {
+                    File outputFilePath = new File(imageDir + fileName);
+                    inputStream = filePart.getInputStream();
+                    outputStream = new FileOutputStream(outputFilePath);
+
+                    int read = 0;
+                    final byte[] bytes = new byte[1024];
+                    while ((read = inputStream.read(bytes)) != -1) {
+                        outputStream.write(bytes, 0, read);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    fileName = "";
+                } finally {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    if (outputStream != null) {
+                        outputStream.close();
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                fileName = "";
+            }
+        }
+        else { fileName = request.getParameter("oldCategoryImage"); }
+        
+        String oldCategoryName = request.getParameter("oldCategoryName");
+        String newCategoryName = request.getParameter("categoryName");
+        String categoryType = request.getParameter("hiddenCategoryType");
+        String oldCategoryDescription = request.getParameter("oldCategoryDescription");
+        String newCategoryDescription = request.getParameter("categoryDescription");
+
+        if(newCategoryName.equals("")) { newCategoryName = oldCategoryName; }
+        if(newCategoryDescription.equals("")) { newCategoryDescription = oldCategoryDescription; }
+        
+        if (vamr.updateCompanyCategory(oldCategoryName, newCategoryName, categoryType, oldCategoryDescription, 
+                newCategoryDescription, fileName)) {
+            companyCategoryUpdateStatus = true;
+        }
+        return companyCategoryUpdateStatus;
     }
     
     private String getFileName(final Part part) {
