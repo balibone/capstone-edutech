@@ -35,42 +35,45 @@
             }
         %>
         <div class="row" style="visibility: visible; margin: 30px 50px 0 50px; background-color: #fff;">
-            <div class="col-sm-5 col-md-5 gallery-holder">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bodyContent">
+            <%--<div class="col-sm-2 col-md-2 gallery-holder">--%>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                 <div class="single-product-gallery">
                     <div class="owl-item" style="width: 36px;">
                         <div class="single-product-gallery-item">
-                            <img src="uploads/unify/images/errands/job/<%= jobImage %>" style="max-width: 251px; min-width: 251px; max-height: 256px; min-height: 256px;" />
+                            <img src="uploads/unify/images/errands/job/<%= jobImage %>" style="max-width: 151px; min-width: 151px; max-height: 156px; min-height: 156px;" />
                         </div>
                     </div>
                 </div>
             </div>   
-            <div class="col-sm-7 col-md-7 product-info-block">
+            <%--<div class="col-sm-10 col-md-10 product-info-block">--%>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                 <div class="product-info">
                     <h1 class="name"><%= jobTitle %></h1><br/>
                     <div class="stock-container">
-                        <div class="col-sm-3"><div class="stock-box"><span class="label">Job ID:&nbsp;</span></div></div>
-                        <div class="col-sm-9"><div class="stock-box"><%= jobID %></div></div>
-                        <br/>
-                        <div class="col-sm-3"><div class="stock-box"><span class="label">Job Status:&nbsp;</span></div></div>
-                        <div class="col-sm-9"><div class="stock-box"><%= jobStatus %></div></div>
-                        <br/>
-                        <div class="col-sm-3"><div class="stock-box"><span class="label">Category:&nbsp;</span></div></div>
-                        <div class="col-sm-9"><div class="stock-box"><%= jobCategory %></div></div>
-                        <br/>
-                        <div class="col-sm-3"><div class="stock-box"><span class="label">Rate Type:&nbsp;</span></div></div>
-                        <div class="col-sm-9"><div class="stock-box"><%= jobRateType %></div></div>
-                        <br/>
-                        <div class="col-sm-3"><div class="stock-box"><span class="label">Start Location:&nbsp;</span></div></div>
-                        <div class="col-sm-9"><div class="stock-box"><%= jobStartLoc %></div></div>
-                        <br/>
-                        <div class="col-sm-3"><div class="stock-box"><span class="label">End Location:&nbsp;</span></div></div>
-                        <div class="col-sm-9"><div class="stock-box"><%= jobEndLoc %></div></div>
-                        <br/>
-                        <div class="col-sm-3"><div class="stock-box"><span class="label">Poster ID:&nbsp;</span></div></div>
-                        <div class="col-sm-9"><div class="stock-box"><%= jobPosterID %></div></div>
-                        <br/>
-                        <div class="col-sm-3"><div class="stock-box"><span class="label">Work Date:&nbsp;</span></div></div>
-                        <div class="col-sm-9"><div class="stock-box"><%= jobWorkDate %></div></div>
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Job ID:&nbsp;<%= jobID %></span></div></div>
+                        <%--<div class="col-sm-9"><div class="stock-box"><%= jobID %></div></div>--%>
+                        
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Job Status:&nbsp;<%= jobStatus %></span></div></div>
+                        <%--<div class="col-sm-9"><div class="stock-box"><%= jobStatus %></div></div>--%>
+                        
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Category:&nbsp;<%= jobCategory %></span></div></div>
+                        <%--<div class="col-sm-9"><div class="stock-box"><%= jobCategory %></div></div>--%>
+                        
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Rate Type:&nbsp;<%= jobRateType %></span></div></div>
+                        <%--<div class="col-sm-9"><div class="stock-box"><%= jobRateType %></div></div>--%>
+                        
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Start Location:&nbsp;<%= jobStartLoc %></span></div></div>
+                        <%--<div class="col-sm-9"><div class="stock-box"><%= jobStartLoc %></div></div>--%>
+                        
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">End Location:&nbsp;<%= jobEndLoc %></span></div></div>
+                        <%--<div class="col-sm-9"><div class="stock-box"><%= jobEndLoc %></div></div>--%>
+                        
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Poster ID:&nbsp;<%= jobPosterID %></span></div></div>
+                        <%--<div class="col-sm-9"><div class="stock-box"><%= jobPosterID %></div></div>--%>
+                        
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Work Date:&nbsp;<%= jobWorkDate %></span></div></div>
+                        <%--<div class="col-sm-9"><div class="stock-box"><%= jobWorkDate %></div></div>--%>
                     </div>
                     <div class="description-container m-t-20">
                         <%= jobDescription %><br/>
@@ -83,6 +86,7 @@
                 </div>
             </div>
         </div>
+      </div>
                         
 
     <div class="tab">
@@ -91,7 +95,7 @@
      </div>
  
   <div id="Transaction" class="tabcontent" style="margin-left: 20px; margin-right: 20px" >
-      <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" >
+      <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="90%" >
                     <thead>
                         <tr>
                             <th>Transaction ID</th>
@@ -143,7 +147,7 @@
                 <span id="search-text"> Search: </span> 
                 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="" title="Type in a name">
             </div>
-            <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="margin-top: 8px">
+            <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>Review ID</th>
@@ -208,7 +212,9 @@
                     </tr>
                 </table>
             </div>
-        </div>             
+        </div> 
+        
+       
         
         <!-- JAVASCRIPT (JS) -->
         <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>

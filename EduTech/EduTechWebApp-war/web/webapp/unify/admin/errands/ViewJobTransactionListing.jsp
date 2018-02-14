@@ -1,9 +1,3 @@
-<%-- 
-    Document   : newjsp
-    Created on : Feb 2, 2018, 9:05:11 AM
-    Author     : ChenMeng
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.util.Vector"%>
@@ -230,37 +224,39 @@
                                 <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
+                                            <th>Transaction ID</th>
+                                            <th>Transaction Date</th>
                                             <th>Job ID</th>
-                                            <th>Job Title</th>
-                                            <th>Job Description</th>
                                             <th>Poster ID</th>
                                             <th>Taker ID</th>
-                                            <th>Work Date</th>
+                                            <th>Transaction Rate Type</th>
+                                            <th>Transaction Rate</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <%
-                                            ArrayList<Vector> jobList = (ArrayList) request.getAttribute("jobListing");
+                                            ArrayList<Vector> jobList = (ArrayList) request.getAttribute("jobTransactionListing");
                                             if (!jobList.isEmpty()) {
                                         %>
                                         <%
                                             for (int i = 0; i <= jobList.size() - 1; i++) {
                                                 Vector v = jobList.get(i);
-                                                String jobID = String.valueOf(v.get(0));
-                                                String jobTitle = String.valueOf(v.get(1));
-                                                String jobDescription = String.valueOf(v.get(2));
+                                                String transactionID = String.valueOf(v.get(0));
+                                                String transactionDate = String.valueOf(v.get(1));
+                                                String jobID = String.valueOf(v.get(2));
                                                 String posterID = String.valueOf(v.get(3));
                                                 String takerID = String.valueOf(v.get(4));
-                                                String workDate = String.valueOf(v.get(5));
-                                                
+                                                String transactionRateType = String.valueOf(v.get(5));
+                                                String transactionRate = String.valueOf(v.get(6));       
                                         %>
                                         <tr>
+                                            <td><%= transactionID%></td>
+                                            <td><%= transactionDate%></td>
                                             <td><%= jobID%></td>
-                                            <td><%= jobTitle%></td>
-                                            <td><%= jobDescription%></td>
                                             <td><%= posterID%></td>
                                             <td><%= takerID%></td>
-                                            <td><%= workDate%></td>
+                                            <td><%= transactionRateType%></td>
+                                            <td><%= transactionRate%></td>
                                         </tr>
                                         <%      }   %>
                                         <%  }%>
@@ -281,7 +277,7 @@
         <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/UnifyAdminCommonJS.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/iziModal.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/webjs/errands/ViewJobListingJS.js" type="text/javascript"></script>
+        <%--<script src="js/unify/admin/webjs/errands/ViewJobListingJS.js" type="text/javascript"></script>--%>
 
         <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>
@@ -289,3 +285,4 @@
         <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.min.js" type="text/javascript"></script>
     </body>
 </html>
+
