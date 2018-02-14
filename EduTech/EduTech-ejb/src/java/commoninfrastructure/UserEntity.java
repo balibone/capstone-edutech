@@ -74,8 +74,8 @@ public class UserEntity implements Serializable {
     /* DEFAULT CONSTRUCTOR */
     public UserEntity() { userActiveStatus = true; }
 
-    public UserEntity(String userEmail, String userSalutation, String userFirstName, String userLastName, String userPassword, String userType, String imgFileName) {
-        this.username = userEmail;
+    public UserEntity(String username, String userSalutation, String userFirstName, String userLastName, String userPassword, String userType, String imgFileName) {
+        this.username = username;
         this.userSalutation = userSalutation;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;

@@ -16,8 +16,8 @@ import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 public class UserProfileSysUserController extends HttpServlet {
     @EJB
     private UserProfileSysUserMgrBeanRemote usmr;
-    boolean firstProfile = true;
-    String emailID = "";
+    boolean firstVisit = true;
+    String username = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -28,21 +28,18 @@ public class UserProfileSysUserController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
-                case "goToUserAccount":
-                    request.setAttribute("emailID", emailID);
+                case "goToUnifyUserAccount":
+                    if(firstVisit == true) { 
+                        username = request.getParameter("userID");
+                        firstVisit = false;
+                    }
                     pageAction = "UserAccount";
                     break;
                 case "goToMarketplaceTrans":
-                    request.setAttribute("emailID", emailID);
-                    request.setAttribute("itemTransList", (ArrayList) usmr.viewItemTransaction(emailID));
+                    request.setAttribute("itemTransList", (ArrayList) usmr.viewItemTransaction(username));
                     pageAction = "UserItemTransaction";
                     break;
                 case "goToUserProfile":
-                    if(firstProfile == true) { 
-                        emailID = request.getParameter("emailID");
-                        firstProfile = false;
-                    }
-                    request.setAttribute("emailID", emailID);
                     pageAction = "UserProfile";
                     break;
                 default:

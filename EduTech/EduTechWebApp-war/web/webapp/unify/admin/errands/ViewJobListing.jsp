@@ -1,9 +1,3 @@
-<%-- 
-    Document   : newjsp
-    Created on : Feb 2, 2018, 9:05:11 AM
-    Author     : ChenMeng
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page import="java.util.ArrayList" %>
@@ -40,7 +34,7 @@
                         <!-- menu profile quick info -->
                         <div class="profile clearfix">
                             <div class="profile_pic">
-                                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                                <img src="images/img.jpg" class="img-circle profile_img">
                             </div>
                             <div class="profile_info">
                                 <span>Welcome,</span>
@@ -60,14 +54,14 @@
                                     </li>
                                     <li><a><i class="fa fa-edit"></i>&nbsp;Errands (Jobs)&nbsp;<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="form.html">Job Categories</a></li>
-                                            <li><a href="form_advanced.html">Job Listing</a></li>
+                                            <li><a href="ErrandsAdmin?pageTransit=goToViewJobCategoryListing">Job Categories</a></li>
+                                            <li><a href="ErrandsAdmin?pageTransit=goToViewJobListing">Job Listing</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-desktop"></i>&nbsp;Company Reviews&nbsp;<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="general_elements.html">Company Listing</a></li>
-                                            <li><a href="media_gallery.html">Review Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewCompanyList">Company Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewReviewList">Review Listing</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-table"></i>&nbsp;Tags&nbsp;<span class="fa fa-chevron-down"></span></a>

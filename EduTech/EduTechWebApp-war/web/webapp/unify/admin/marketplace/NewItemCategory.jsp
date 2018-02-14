@@ -11,7 +11,7 @@
         <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/weblayout/marketplace/NewItemCategoryCSS.css" rel="stylesheet" type="text/css">
     </head>
-    <body style="background-color: transparent;">
+    <body style="background-color: #FFFFFF;">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bodyContent">
             <div id="formContent">
                 <form action="MarketplaceAdmin" method="POST" enctype="multipart/form-data" target="_parent">
@@ -19,21 +19,21 @@
                         <div class="image-upload">
                             <img id="output-image" />
                         </div>
-                        <label for="file-upload" class="btn btn-outline btn-primary btn-sm btn-block" style="margin-top: 10px;">
+                        <label for="file-upload" class="btn btn-outline btn-primary btn-sm btn-block" style="margin-top: 10px; width: 151px;">
                             <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
                         </label>
-                        <input id="file-upload" name="itemImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" />
+                        <input id="file-upload" name="itemImage" type="file" accept="image/*" required="required" onchange="javascript: previewImage(event)" />
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Category Type:&nbsp;&nbsp;<u><%= request.getAttribute("paramCategoryType")%></u></label>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <input type="text" class="form-control has-feedback-left" placeholder="Category Name" name="categoryName" />
+                            <input type="text" class="form-control has-feedback-left" placeholder="Category Name (Required)" required="required" name="categoryName" />
                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <textarea rows="5" class="form-control has-feedback-left" placeholder="Category Description" name="categoryDescription"></textarea>
+                            <textarea rows="5" class="form-control has-feedback-left" placeholder="Category Description (Required)" required="required" name="categoryDescription"></textarea>
                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
                     </div>
@@ -52,6 +52,7 @@
         <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/validator-v1.1.0.js" type="text/javascript"></script>
         <script src="js/unify/admin/webjs/marketplace/NewItemCategoryJS.js" type="text/javascript"></script>
     </body>
 </html>

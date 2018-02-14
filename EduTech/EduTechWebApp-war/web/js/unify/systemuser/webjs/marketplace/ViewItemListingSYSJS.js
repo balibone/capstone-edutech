@@ -20,4 +20,27 @@ $(document).ready(function () {
     $('#contentArea').jplist({
         itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
     });
+    
+    $('.itemCard').on('click', function(event) {
+        var itemID = $(this).attr('id');
+        if(itemID != null) {
+            $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToViewItemDetailsModalSYS&itemID=' + itemID);
+            $('#itemcard-iframe').iziModal('open', event);
+        } else {
+            alert("Item cannot be found. Please refresh the page and try again.")
+        }
+    });
+    
+    $("#itemcard-iframe").iziModal({
+        title: 'Item Details',
+        subtitle: 'Item Description, Chat to Buy',
+        iconClass: 'fa fa-cubes',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#337AB7',
+        width: 525,
+        overlayClose: true,
+        iframe : true,
+        iframeHeight: 425
+    });
 });

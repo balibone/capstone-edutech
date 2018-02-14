@@ -15,7 +15,7 @@
         }
     } 
     //no username passed from login page and no username retrieved from cookie, means user is trying to access landing page directly.
-    if(loggedInUsername==null){
+    if(loggedInUsername == null){
         response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
     }
 %>
@@ -97,7 +97,7 @@
                 <br>
                 <a class="students" href="CommonInfra?pageTransit=goToUnifyAdmin">
                     <span class="user-container"><span class="mainpage-button-text">Unify Admin</span></span></a>
-                <a class="students" href="ProfileSysUser?pageTransit=goToUserProfile&emailID=<%= request.getAttribute("emailID") %>">
+                <a class="students" href="ProfileSysUser?pageTransit=goToUnifyUserAccount&userID=<%= loggedInUsername %>">
                     <span class="user-container"><span class="mainpage-button-text">Unify Portal</span></span></a>
             </div> 
         </div>

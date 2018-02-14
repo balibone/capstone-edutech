@@ -8,6 +8,8 @@ import javax.ejb.Remote;
 public interface MarketplaceAdminMgrBeanRemote {
     public List<Vector> viewItemCategoryList();
     public Vector viewItemCategoryDetails(String urlCategoryName, String urlCategoryType);
+    public List<Vector> viewAssociatedItemList(String urlCategoryName, String urlCategoryType);
+    
     public boolean createItemCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage);
     public boolean updateItemCategory(String oldCategoryName, String newCategoryName, String categoryType, 
             String oldCategoryDescription, String newCategoryDescription, String fileName);
