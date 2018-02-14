@@ -181,6 +181,10 @@
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - MARKETPLACE (JSP) -->
     <servlet>
+        <servlet-name>NewItemListingSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/marketplace/NewItemListingSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>ViewItemListingSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/marketplace/ViewItemListingSYS.jsp</jsp-file>
     </servlet>

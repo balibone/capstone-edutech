@@ -11,7 +11,7 @@
         <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/weblayout/marketplace/NewItemCategoryCSS.css" rel="stylesheet" type="text/css">
     </head>
-    <body style="background-color: transparent;">
+    <body style="background-color: #FFFFFF;">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bodyContent">
             <div id="formContent">
                 <form action="MarketplaceAdmin" method="POST" enctype="multipart/form-data" target="_parent">

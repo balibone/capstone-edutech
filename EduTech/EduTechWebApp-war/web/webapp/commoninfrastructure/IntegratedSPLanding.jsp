@@ -115,7 +115,7 @@
                     <a href="CommonInfra?pageTransit=goToEdutechAdmin"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Edutech Admin</a><br/>
                     <a href="CommonInfra?pageTransit=goToEdutechPortal"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Edutech Portal</a><br/>
                     <a href="CommonInfra?pageTransit=goToUnifyAdmin"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Unify Admin</a><br/>
-                    <a href="ProfileSysUser?pageTransit=goToUserProfile&emailID=<%= request.getAttribute("emailID") %>"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Unify Portal</a>
+                    <a href="ProfileSysUser?pageTransit=goToUserProfile&username=<%= request.getAttribute("username") %>"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;Unify Portal</a>
                     <a href="CommonInfra?pageTransit=goToNewLandingPage"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;New Landing Page</a>
                 </div>
             </div>

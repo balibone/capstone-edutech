@@ -31,31 +31,19 @@
         <!-- MOBILE SIDE NAVIGATION -->
         <nav class="offcanvas">
             <div class="offcanvas-content">
-                <div id="list-menu" class="list-menu list-group" data-children=".sub-menu1">
+                <div id="list-menu" class="list-menu list-group" data-children=".submenu">
                     <a href="index.html"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
-                    <div class="sub-menu1">
-                        <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="sub1">
-                            <i class="fa fa-fw fa-file"></i>&nbsp;Marketplace
-                        </a>
-                        <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel">
-                            <a href="about.html">Item Listing</a>
-                        </div>
+                    <div class="submenu">
+                        <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
+                        <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="about.html">Item Listing</a></div>
                     </div>
-                    <div class="sub-menu1">
-                        <a data-toggle="collapse" href="#" data-target="#errandsSub" role="button" aria-expanded="false" aria-controls="sub1">
-                            <i class="fa fa-fw fa-file"></i>&nbsp;Errands
-                        </a>
-                        <div id="errandsSub" class="collapse" data-parent="#list-menu" role="tabpanel">
-                            <a href="about.html">Errands Listing</a>
-                        </div>
+                    <div class="submenu">
+                        <a data-toggle="collapse" href="#" data-target="#errandsSub" role="button" aria-expanded="false" aria-controls="errandsSub"><i class="fa fa-fw fa-file"></i>&nbsp;Errands</a>
+                        <div id="errandsSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="about.html">Errands Listing</a></div>
                     </div>
-                    <div class="sub-menu1">
-                        <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="sub2">
-                            <i class="fa fa-fw fa-user"></i>&nbsp;Company Review
-                        </a>
-                        <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel">
-                            <a href="account-order.html">Company Listing</a>
-                        </div>
+                    <div class="submenu">
+                        <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
+                        <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="account-order.html">Company Listing</a></div>
                     </div>
                     <a href="index.html"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
@@ -75,10 +63,19 @@
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link"><i class="fa fa-heart-o"></i>&nbsp;&nbsp;Likes</a>
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-heart-o"></i>&nbsp;&nbsp;Likes
+                                    </a>
                                 </li>
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link"><i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages</a>
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
+                                    </a>
+                                </li>
+                                <li class="nav-item d-none d-md-block">
+                                    <a href="ProfileSysUser?pageTransit=goToUserAccount" class="nav-link">
+                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;My Account
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -128,12 +125,12 @@
                     </div>
                     <div class="col-4 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block">
                         <div class="d-flex align-items-center h-100 float-right abg-secondary">
-                            <div class="btn-group btn-group-sm mr-3" role="group" aria-label="Login Sign Up">
-                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserProfile" role="button">
-                                    <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;My Profile
+                            <div class="btn-group btn-group-sm mr-3" role="group">
+                                <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
+                                    <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </a>
                                 <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
-                                    <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;My Account
+                                    <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
                         </div>
@@ -164,7 +161,7 @@
                                 <div class="media">
                                     <img class="img-thumbnail" src="images/ProfileImage.png">
                                     <div class="media-body">
-                                        <h5 class="user-name"><%= request.getAttribute("emailID") %></h5>
+                                        <h5 class="user-name"><%= request.getAttribute("username") %></h5>
                                         <small class="card-text text-muted">Joined Dec 31, 2017</small>
                                     </div>
                                 </div>

@@ -24,11 +24,11 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     private Collection<ItemTransactionEntity> itemTransactionSet;
     
     @Override
-    public List<Vector> viewItemTransaction(String emailID) {
+    public List<Vector> viewItemTransaction(String username) {
         List<Vector> itemTransList = new ArrayList<Vector>();
         Vector itemTransDetailsVec = new Vector();
         
-        uEntity = lookupUser(emailID);
+        uEntity = lookupUser(username);
         itemTransactionSet = uEntity.getItemTransactionSet();
         
         for (ItemTransactionEntity ite : itemTransactionSet) {
@@ -43,11 +43,11 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     }
     
     /* MISCELLANEOUS METHODS */
-    public UserEntity lookupUser(String userEmail){
+    public UserEntity lookupUser(String username){
         UserEntity ue = new UserEntity();
         try{
-            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.userEmail = :userEmail");
-            q.setParameter("userEmail", userEmail);
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
             ue = (UserEntity)q.getSingleResult();
         }
         catch(EntityNotFoundException enfe){

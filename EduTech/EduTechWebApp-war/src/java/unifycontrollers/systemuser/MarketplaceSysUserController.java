@@ -24,21 +24,30 @@ public class MarketplaceSysUserController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
+                case "goToNewItemListingSYS":
+                    pageAction = "NewItemListingSYS";
+                    break;
                 case "goToViewItemListingSYS":
-                    request.setAttribute("itemList", (ArrayList) msmr.viewItemList());
+                    request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList());
                     pageAction = "ViewItemListingSYS";
                     break;
                 case "goToViewItemDetailsSYS":
+                    String hiddenCategoryName = request.getParameter("hiddenCategoryName");
+                    long hiddenItemID = Long.parseLong(request.getParameter("hiddenItemID"));
+                    request.setAttribute("assocCategoryItemListSYS", (ArrayList) msmr.viewAssocCategoryItemList(hiddenCategoryName, hiddenItemID));
+                    request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(hiddenItemID));
                     pageAction = "ViewItemDetailsSYS";
                     break;
                 case "goToViewItemDetailsModalSYS":
+                    long itemID = Long.parseLong(request.getParameter("itemID"));
+                    request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(itemID));
                     pageAction = "ViewItemDetailsModalSYS";
                     break;
                 default:
                     break;
             }
             dispatcher = servletContext.getNamedDispatcher(pageAction);
-            dispatcher.forward(request, response);       
+            dispatcher.forward(request, response);
         }
         catch(Exception ex) {
             log("Exception in MarketplaceSysUserController: processRequest()");

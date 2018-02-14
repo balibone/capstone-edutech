@@ -6,5 +6,5 @@ import javax.ejb.Remote;
 
 @Remote
 public interface UserProfileSysUserMgrBeanRemote {
-    public List<Vector> viewItemTransaction(String emailID);
+    public List<Vector> viewItemTransaction(String username);
 }

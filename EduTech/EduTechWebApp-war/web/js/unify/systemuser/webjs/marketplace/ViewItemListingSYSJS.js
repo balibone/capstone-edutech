@@ -22,22 +22,25 @@ $(document).ready(function () {
     });
     
     $('.itemCard').on('click', function(event) {
-        var itemID = $('#itemIDHidden').val();
-        alert(itemID);
-        $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToViewItemDetailsModalSYS&itemID=' + itemID);
-        $('#itemcard-iframe').iziModal('open', event);
+        var itemID = $(this).attr('id');
+        if(itemID != null) {
+            $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToViewItemDetailsModalSYS&itemID=' + itemID);
+            $('#itemcard-iframe').iziModal('open', event);
+        } else {
+            alert("Item cannot be found. Please refresh the page and try again.")
+        }
     });
     
     $("#itemcard-iframe").iziModal({
         title: 'Item Details',
-        subtitle: 'Administrator may deactivate this item here',
+        subtitle: 'Item Description, Chat to Buy',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#337AB7',
-        width: 900,
+        width: 525,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 525
+        iframeHeight: 425
     });
 });

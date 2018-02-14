@@ -17,7 +17,7 @@ public class UserProfileSysUserController extends HttpServlet {
     @EJB
     private UserProfileSysUserMgrBeanRemote usmr;
     boolean firstProfile = true;
-    String emailID = "";
+    String username = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -29,20 +29,20 @@ public class UserProfileSysUserController extends HttpServlet {
             
             switch (pageAction) {
                 case "goToUserAccount":
-                    request.setAttribute("emailID", emailID);
+                    request.setAttribute("username", username);
                     pageAction = "UserAccount";
                     break;
                 case "goToMarketplaceTrans":
-                    request.setAttribute("emailID", emailID);
-                    request.setAttribute("itemTransList", (ArrayList) usmr.viewItemTransaction(emailID));
+                    request.setAttribute("username", username);
+                    request.setAttribute("itemTransList", (ArrayList) usmr.viewItemTransaction(username));
                     pageAction = "UserItemTransaction";
                     break;
                 case "goToUserProfile":
                     if(firstProfile == true) { 
-                        emailID = request.getParameter("emailID");
+                        username = request.getParameter("username");
                         firstProfile = false;
                     }
-                    request.setAttribute("emailID", emailID);
+                    request.setAttribute("username", username);
                     pageAction = "UserProfile";
                     break;
                 default:

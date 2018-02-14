@@ -1,4 +1,3 @@
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Vector"%>
@@ -8,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Account</title>
+        <title>Unify - New Item Listing</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -18,16 +17,8 @@
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-
-        <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
     </head>
-    <body>
+    <body onload="loadMap()">
         <!-- MOBILE SIDE NAVIGATION -->
         <nav class="offcanvas">
             <div class="offcanvas-content">
@@ -147,48 +138,17 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User Account</li>
+                            <li class="breadcrumb-item active" aria-current="page">Marketplace (Sell An Item)</li>
                         </ol>
                     </nav>
                 </div>
             </div>
-            
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                        <div class="card user-card">
-                            <div class="card-body p-2 mb-3 mb-md-0 mb-xl-3">
-                                <div class="media">
-                                    <img class="img-thumbnail" src="images/ProfileImage.png">
-                                    <div class="media-body">
-                                        <h5 class="user-name"><%= request.getAttribute("username") %></h5>
-                                        <small class="card-text text-muted">Joined Dec 31, 2017</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group list-group-flush">
-                                <a href="ProfileSysUser?pageTransit=goToUserProfile" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;User Profile
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
-                                </a>
-                                <a href="account-address.html" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>User Profile</span></div>
-                        <div class="table-responsive">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="unifyFooter"></div>
 
+            <div class="container" style="margin-bottom: 30px;">
+                
+            </div>
+            <!-- <div id="unifyFooter"></div> -->
+            
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
@@ -202,6 +162,6 @@
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/userprofile/UserAccountJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/marketplace/NewItemListingSYSJS.js" type="text/javascript"></script>
     </body>
 </html>
