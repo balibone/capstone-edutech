@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.util.Vector"%>
 <!DOCTYPE html>
@@ -55,13 +56,12 @@
                                         <ul class="nav child_menu">
                                             <li><a href="ErrandsAdmin?pageTransit=goToViewJobCategoryListing">Job Categories</a></li>
                                             <li><a href="ErrandsAdmin?pageTransit=goToViewJobListing">Job Listing</a></li>
-                                            <li><a href="ErrandsAdmin?pageTransit=goToViewJobTransactions">Job Transactions</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-desktop"></i>&nbsp;Company Reviews&nbsp;<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="general_elements.html">Company Listing</a></li>
-                                            <li><a href="media_gallery.html">Review Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewCompanyList">Company Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewReviewList">Review Listing</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-table"></i>&nbsp;Tags&nbsp;<span class="fa fa-chevron-down"></span></a>

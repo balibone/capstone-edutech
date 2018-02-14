@@ -52,7 +52,6 @@
                                         <ul class="nav child_menu">
                                             <li><a href="ErrandsAdmin?pageTransit=goToViewJobCategoryListing">Job Categories</a></li>
                                             <li><a href="ErrandsAdmin?pageTransit=goToViewJobListing">Job Listing</a></li>
-                                            <li><a href="ErrandsAdmin?pageTransit=goToViewJobTransactions">Job Transactions</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-desktop"></i>&nbsp;Company Reviews&nbsp;<span class="fa fa-chevron-down"></span></a>

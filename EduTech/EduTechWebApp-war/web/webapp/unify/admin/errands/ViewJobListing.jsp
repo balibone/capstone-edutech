@@ -1,10 +1,5 @@
-<%-- 
-    Document   : newjsp
-    Created on : Feb 2, 2018, 9:05:11 AM
-    Author     : ChenMeng
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.util.Vector"%>
 <!DOCTYPE html>
@@ -39,7 +34,7 @@
                         <!-- menu profile quick info -->
                         <div class="profile clearfix">
                             <div class="profile_pic">
-                                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                                <img src="images/img.jpg" class="img-circle profile_img">
                             </div>
                             <div class="profile_info">
                                 <span>Welcome,</span>
@@ -61,13 +56,12 @@
                                         <ul class="nav child_menu">
                                             <li><a href="ErrandsAdmin?pageTransit=goToViewJobCategoryListing">Job Categories</a></li>
                                             <li><a href="ErrandsAdmin?pageTransit=goToViewJobListing">Job Listing</a></li>
-                                            <li><a href="ErrandsAdmin?pageTransit=goToViewJobTransactions">Job Transactions</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-desktop"></i>&nbsp;Company Reviews&nbsp;<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="general_elements.html">Company Listing</a></li>
-                                            <li><a href="media_gallery.html">Review Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewCompanyList">Company Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewReviewList">Review Listing</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-table"></i>&nbsp;Tags&nbsp;<span class="fa fa-chevron-down"></span></a>
@@ -200,13 +194,13 @@
                 <div class="right_col" role="main">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <%--<div class="x_title">
+                            <div class="x_title">
                                 <h2 class="bodyHeader">Job Listing</h2>
                                 <ul class="nav navbar-right panel_toolbox">
                                     <li id="newItemCategory"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Item Category</li>
                                 </ul>
                                 <div class="clearfix"></div>
-                            </div>--%>
+                            </div>
                             <div class="x_content">
                                 <%
                                     String successMessage = (String) request.getAttribute("successMessage");

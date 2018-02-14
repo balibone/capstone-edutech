@@ -10,6 +10,7 @@
         <filter-name>NoCacheFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    
     <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet>
         <servlet-name>CommonInfra</servlet-name>
@@ -117,22 +118,6 @@
         <servlet-name>ViewJobListing</servlet-name>
         <jsp-file>/webapp/unify/admin/errands/ViewJobListing.jsp</jsp-file>
     </servlet>
-    <servlet>
-        <servlet-name>CreateNewJobCategory</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/CreateNewJobCategory.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewJobCategoryDetails</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobCategoryDetails.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewJobCategoryListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobCategoryListing.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewJobDetails</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
-    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - MARKETPLACE (JSP) -->
     <servlet>
         <servlet-name>ViewItemCategoryListing</servlet-name>
@@ -225,15 +210,23 @@
         <jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
+    <servlet>
+        <servlet-name>CreateNewJobCategory</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/CreateNewJobCategory.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobCategoryDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobCategoryDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobCategoryListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobCategoryListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
+    </servlet>
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
-    <servlet>
-        <servlet-name>ViewJobDetailsInCategory</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobDetailsInCategory.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewJobTransactionListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobTransactionListing.jsp</jsp-file>
-    </servlet>
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>

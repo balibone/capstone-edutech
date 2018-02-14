@@ -17,10 +17,7 @@ public interface ErrandsAdminMgrBeanRemote {
     public boolean updateJobCategory(long jobCategoryID, String newJobCategoryName, String newJobCategoryDescription, String fileName);
     public String deactivateJobCategory(long jobCategoryID);
     public boolean activateJobCategory(long jobCategoryID);
-    public ArrayList<Vector> getCategoryJobListing(long categoryID);
     
     public List<Vector> getJobReviews(long jobID);
-    public List<Vector> getJobTransaction(long jobID);
-    
-    public ArrayList<Vector> getAllJobTransactions();
+    // public Vector getJobTransaction(long jobID);
 }

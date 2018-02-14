@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page import="java.util.Vector"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,28 +17,28 @@
     <body>
         <%
             Vector jobDetailsVec = (Vector) request.getAttribute("jobDetails");
-            String jobImage, jobID, jobStatus, jobCategory, jobTitle, jobDescription, jobStartLoc, jobEndLoc, jobRateType, jobRate, jobPosterID, jobTakerID, jobWorkDate;
-            jobImage = jobID = jobStatus = jobCategory = jobTitle = jobDescription = jobStartLoc = jobEndLoc = jobRateType = jobRate = jobPosterID = jobTakerID = jobWorkDate= "";
+            String jobImage, jobID, jobCategory, jobTitle, jobDescription, jobStartLoc, jobEndLoc, jobRateType, jobRate, jobPosterID, jobTakerID, jobWorkDate;
+            jobImage = jobID = jobCategory = jobTitle = jobDescription = jobStartLoc = jobEndLoc = jobRateType = jobRate = jobPosterID = jobTakerID = jobWorkDate= "";
             
             if (jobDetailsVec != null) {
                 jobImage = (String) jobDetailsVec.get(0);
                 jobID = (String.valueOf(jobDetailsVec.get(1)));
-                jobStatus = (String)jobDetailsVec.get(2);
-                jobCategory = (String.valueOf(jobDetailsVec.get(3)));
-                jobTitle = (String) jobDetailsVec.get(4);
-                jobDescription = (String)jobDetailsVec.get(5);
-                jobStartLoc = (String)jobDetailsVec.get(6);
-                jobEndLoc = (String)jobDetailsVec.get(7);
-                jobRateType = (String)jobDetailsVec.get(8);
-                jobRate = (String.valueOf(jobDetailsVec.get(9)));
-                jobPosterID = (String.valueOf(jobDetailsVec.get(10)));
+                jobCategory = (String.valueOf(jobDetailsVec.get(2)));
+                jobTitle = (String) jobDetailsVec.get(3);
+                jobDescription = (String)jobDetailsVec.get(4);
+                jobStartLoc = (String)jobDetailsVec.get(5);
+                jobEndLoc = (String)jobDetailsVec.get(6);
+                jobRateType = (String)jobDetailsVec.get(7);
+                jobRate = (String.valueOf(jobDetailsVec.get(8)));
+                jobPosterID = (String.valueOf(jobDetailsVec.get(9)));
+                jobTakerID = (String.valueOf(jobDetailsVec.get(10)));
                 jobWorkDate = (String.valueOf(jobDetailsVec.get(11)));
             }
         %>
         <div class="row" style="visibility: visible; margin: 30px 50px 0 50px; background-color: #fff;">
             <div class="col-sm-5 col-md-5 gallery-holder">
                 <div class="single-product-gallery">
-                    <div class="owl-item" style="width: 36px;">
+                    <div class="owl-item" style="width: 336px;">
                         <div class="single-product-gallery-item">
                             <img src="uploads/unify/images/errands/job/<%= jobImage %>" style="max-width: 251px; min-width: 251px; max-height: 256px; min-height: 256px;" />
                         </div>
@@ -50,9 +51,6 @@
                     <div class="stock-container">
                         <div class="col-sm-3"><div class="stock-box"><span class="label">Job ID:&nbsp;</span></div></div>
                         <div class="col-sm-9"><div class="stock-box"><%= jobID %></div></div>
-                        <br/>
-                        <div class="col-sm-3"><div class="stock-box"><span class="label">Job Status:&nbsp;</span></div></div>
-                        <div class="col-sm-9"><div class="stock-box"><%= jobStatus %></div></div>
                         <br/>
                         <div class="col-sm-3"><div class="stock-box"><span class="label">Category:&nbsp;</span></div></div>
                         <div class="col-sm-9"><div class="stock-box"><%= jobCategory %></div></div>
@@ -69,6 +67,9 @@
                         <div class="col-sm-3"><div class="stock-box"><span class="label">Poster ID:&nbsp;</span></div></div>
                         <div class="col-sm-9"><div class="stock-box"><%= jobPosterID %></div></div>
                         <br/>
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Taker ID:&nbsp;</span></div></div>
+                        <div class="col-sm-9"><div class="stock-box"><%= jobTakerID %></div></div>
+                        <br/>
                         <div class="col-sm-3"><div class="stock-box"><span class="label">Work Date:&nbsp;</span></div></div>
                         <div class="col-sm-9"><div class="stock-box"><%= jobWorkDate %></div></div>
                     </div>
@@ -83,67 +84,43 @@
                 </div>
             </div>
         </div>
-                        
-
-    <div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'Transaction')">Transaction</button>
-    <button class="tablinks" onclick="openCity(event, 'Reviews')">Reviews</button>
-     </div>
  
-  <div id="Transaction" class="tabcontent" style="margin-left: 20px; margin-right: 20px" >
-      <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" >
-                    <thead>
-                        <tr>
-                            <th>Transaction ID</th>
-                            <th>Transaction Date</th>
-                            <th>Poster ID</th>
-                            <th>Taker ID</th>
-                        </tr>
-                    </thead>
-         <%    ArrayList<Vector> transactionList = (ArrayList)request.getAttribute("jobTransaction");
+  <div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'Transaction')">Transaction</button>
+  <button class="tablinks" onclick="openCity(event, 'Reviews')">Reviews</button>
+  </div>
+  <div id="Transaction" class="tabcontent" class="active">
+         <%    Vector transaction = (Vector)request.getAttribute("jobTransaction");
         String transactionID, transactionDate, posterID, takerID;
         transactionID = transactionDate = posterID = takerID ="";
-        if(transactionList.size() > 0){
-            for(int i=0; i<transactionList.size(); i++){
-                Vector transaction = (Vector)transactionList.get(i);
-                transactionID = String.valueOf(transaction.get(0));
-                transactionDate = String.valueOf(transaction.get(1));
-                posterID = String.valueOf(transaction.get(2));
-                takerID = String.valueOf(transaction.get(3));
+        if(transaction != null){
+            transactionID = String.valueOf(transaction.get(0));
+            transactionDate = String.valueOf(transaction.get(1));
+            posterID = String.valueOf(transaction.get(2));
+            takerID = String.valueOf(transaction.get(3));
         %>    
-                <tbody>
-                                        <tr>
-                                            <td><%= transactionID%></td>
-                                            <td><%= transactionDate%></td>
-                                            <td><%= posterID%></td>
-                                            <td><%= takerID%></td>
-                                        </tr>
-               
-       <%  }
-                }else{
+       
+                <div class="col-sm-3"><div class="tab-box"><span class="tab-info">Transaction ID:&nbsp;</span></div></div>
+                <div class="col-sm-9"><div class="tab-box"><%= transactionID%></div></div>
+                <br/>
+                <div class="col-sm-3"><div class="stock-box"><span class="tab-info">Transaction Date:&nbsp;</span></div></div>
+                <div class="col-sm-9"><div class="tab-box"><%= transactionDate%></div></div>
+                <br/>
+                <div class="col-sm-3"><div class="stock-box"><span class="tab-info">Poster ID:&nbsp;</span></div></div>
+                <div class="col-sm-9"><div class="tab-box"><%= posterID%></div></div>
+                <br/>
+                <div class="col-sm-3"><div class="stock-box"><span class="tab-info">Taker ID:&nbsp;</span></div></div>
+                <div class="col-sm-9"><div class="tab-box"><%= takerID%></div></div>
+                <br/>           
+       <% }else{
        %>
-
+        <p>There is no transaction data available. </p>
         <% }
         %>
-        </tbody>
-       </table>
       </div>
       
        <div id="Reviews" class="tabcontent">
-        <%--<div id="datatable-responsive_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-           <div class="row">
-               <div class="col-sm-6">
-                   <div class="dataTables_length" id="datatable-responsive_length">
-                       <label>Show <select name="datatable-responsive_length" aria-controls="datatable-responsive" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div>
-               <div class="col-sm-6">
-                   <div id="datatable-responsive_filter" class="dataTables_filter">
-                       <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable-responsive"></label></div></div>
-           </div> --%>
-            <div id="search-box">
-                <span id="search-text"> Search: </span> 
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="" title="Type in a name">
-            </div>
-            <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="margin-top: 8px">
+            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>Review ID</th>
@@ -157,8 +134,8 @@
            <%
                String reviewID, reviewIndex, reviewContent, reviewerID, receiverID, reviewDate;
                reviewID = reviewIndex = reviewContent = reviewerID = receiverID = reviewDate = "";
-               ArrayList<Vector> reviews = (ArrayList)request.getAttribute("jobReviews");
-               if(reviews.size()>0){
+               List<Vector> reviews = (List)request.getAttribute("jobReviews");
+               if(reviews!=null){
                    for(int i=0; i<reviews.size(); i++){
                        Vector v = reviews.get(i);       
                        reviewID = String.valueOf(v.get(0));
@@ -182,9 +159,9 @@
            <%
                    }
                }
-               else{
+               if(reviews.size()==0){
             %>
- 
+            <tbody> <tr> <td>No review data available. </td></tr>
                <%
             }
             
@@ -194,12 +171,12 @@
     </div>
 
                         
-        <div class="form-group" style="margin-top: 12px; margin-left: 40%; margin-bottom: 20px">
+        <div class="form-group" style="margin-top: 20px;">
             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                <table border="0" style="margin-left: 50;">
+                <table border="0" style="margin: auto;">
                     <tr>
                         <td>
-                            <form action="ErrandsAdmin" method="POST" target="_parent" onsubmit="return confirm('Do you really want to delete this job listing?');">
+                            <form action="ErrandsAdmin" method="POST" target="_parent">
                                 <input type="hidden" name="pageTransit" value="deleteAJobListing" />
                                 <input type="hidden" name="hiddenJobID" value="<%= jobID %>" />
                                 <button type="submit" class="btn btn-primary">Delete Item</button>
@@ -212,44 +189,6 @@
         
         <!-- JAVASCRIPT (JS) -->
         <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/UnifyAdminCommonJS.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/webjs/errands/ViewTransactionDetailsJS.js" type="text/javascript"></script>
-        
-        <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.bootstrap.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.min.js" type="text/javascript"></script>
-        
-        <script>
-        function myFunction() {
-            var input, filter, table, tr, td, i, j, found;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("datatable-table");
-            tr = table.getElementsByTagName("tr");
-  
-            for (i = 1; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td");
-                found = false;
-                for (j = 0; j < td.length; j++) {
-                    var cell = td[j];
-                    if (cell) {
-                        if (cell.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                            found = true;
-                        } else {
-                        }   
-                    }
-                }
-                if(found==true){
-                    tr[i].style.display = "";
-                }else{
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-</script>
     </body>
 </html>

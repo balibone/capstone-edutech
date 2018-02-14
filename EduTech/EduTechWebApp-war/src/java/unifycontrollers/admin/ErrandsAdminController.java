@@ -45,7 +45,7 @@ public class ErrandsAdminController extends HttpServlet {
                     long jobId = Long.parseLong(request.getParameter("jobID"));
                     request.setAttribute("jobDetails", eamr.getJobDetails(jobId));
                     request.setAttribute("jobReviews", eamr.getJobReviews(jobId));
-                    request.setAttribute("jobTransaction", eamr.getJobTransaction(jobId));
+                    // request.setAttribute("jobTransaction", eamr.getJobTransaction(jobId));
                     pageAction = "ViewJobDetails";
                     break;
                 case "deleteAJobListing":
@@ -80,14 +80,13 @@ public class ErrandsAdminController extends HttpServlet {
                     String urlCategoryID = request.getParameter("urlCategoryID");
                     long categoryID = Long.parseLong(urlCategoryID);
                     request.setAttribute("jobCategoryDetailsVec", (Vector) eamr.getJobCategoryDetails(categoryID));
-                    request.setAttribute("categoryJobList", (ArrayList) eamr.getCategoryJobListing(categoryID));
                     pageAction = "ViewJobCategoryDetails";
                     break;
                 case "updateJobCategory":
                     if(updateJobCategory(request)) {
-                        request.setAttribute("successMessage", "Selected job category has been updated successfully.");
+                        request.setAttribute("successMessage", "Selected item category has been updated successfully.");
                     } else {
-                        request.setAttribute("errorMessage", "Selected job category cannot be updated. Please check the inventory log.");
+                        request.setAttribute("errorMessage", "Selected item category cannot be updated. Please check the inventory log.");
                     }
                     request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
                     pageAction = "ViewJobCategoryListing";
@@ -113,29 +112,6 @@ public class ErrandsAdminController extends HttpServlet {
                     }
                     request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
                     pageAction = "ViewJobCategoryListing";
-                    break;
-                case "deleteAJobListingViaCategory":
-                    long thejobID = Long.parseLong(request.getParameter("hiddenJobID"));
-                    long theJobCategoryID = Long.parseLong(request.getParameter("hiddenCategory"));
-                    if (eamr.deleteJobListing(thejobID)) {
-                        request.setAttribute("successMessage", "Selected job listing has been deleted successfully.");
-                    } else {
-                        request.setAttribute("errorMessage", "Selected job listing cannot be deleted. Please try again later.");
-                    }
-                    request.setAttribute("jobCategoryDetailsVec", (Vector) eamr.getJobCategoryDetails(theJobCategoryID));
-                    request.setAttribute("categoryJobList", (ArrayList) eamr.getCategoryJobListing(theJobCategoryID));
-                    pageAction = "ViewJobCategoryDetails";
-                    break;
-                case "goToViewJobDetailsInCategory":
-                    long theJobId = Long.parseLong(request.getParameter("jobID"));
-                    request.setAttribute("jobDetails", eamr.getJobDetails(theJobId));
-                    request.setAttribute("jobReviews", eamr.getJobReviews(theJobId));
-                    request.setAttribute("jobTransaction", eamr.getJobTransaction(theJobId));
-                    pageAction = "ViewJobDetailsInCategory";
-                    break;
-                case "goToViewJobTransactions":
-                    request.setAttribute("jobTransactionListing", (ArrayList) eamr.getAllJobTransactions());
-                    pageAction = "ViewJobTransactionListing";
                     break;
                 default:
                     break;

@@ -48,6 +48,7 @@ public class JobEntity implements Serializable {
     private Double jobEndLong;
     @Temporal(TemporalType.DATE)
     private Date jobWorkDate;
+    private long jobCategoryId;
     private Double jobRate;
     private String jobRateType;
     private String jobImage;
@@ -85,6 +86,7 @@ public class JobEntity implements Serializable {
     public Double getJobEndLat() { return jobEndLat; }
     public Double getJobEndLong() { return jobEndLong; }
     public Date getJobWorkDate() { return jobWorkDate; }
+    public long getJobCategoryID() { return jobCategoryId; }
     public Double getJobRate() { return jobRate; }
     public String getJobRateType() { return jobRateType; }
     public String getJobImage() { return jobImage; }
@@ -110,6 +112,7 @@ public class JobEntity implements Serializable {
     public void setJobEndLat(Double jobEndLat) { this.jobEndLat = jobEndLat; }
     public void setJobEndLong(Double jobEndLong) { this.jobEndLong = jobEndLong; }
     public void setJobWorkDate(Date jobWorkDate) { this.jobWorkDate = jobWorkDate; }
+    public void setJobCategoryID(long jobCategoryId) { this.jobCategoryId = jobCategoryId; }
     public void setJobRate(Double jobRate) { this.jobRate = jobRate; }
     public void setJobRateType(String jobRateType) { this.jobRateType = jobRateType; }
     public void setJobImage(String jobImage) { this.jobImage = jobImage; }
