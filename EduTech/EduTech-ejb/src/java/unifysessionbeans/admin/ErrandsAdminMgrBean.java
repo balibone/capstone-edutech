@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
 import unifyentities.errands.JobEntity;
 import unifyentities.errands.JobReviewEntity;
+import unifyentities.errands.JobTransactionEntity;
 
 @Stateless
 public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
@@ -24,6 +25,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
     private CategoryEntity cEntity;
     private Collection<JobEntity> jobSet;
     private Collection<JobReviewEntity> jobReviewSet;
+    private Collection<JobTransactionEntity> jobTransactionSet;
     
     @Override
     public List<Vector> getAllJobListing() {
@@ -54,6 +56,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
         if (jEntity != null) {
             jobDetailsVec.add(jEntity.getJobImage());
             jobDetailsVec.add(jobID);
+            jobDetailsVec.add(jEntity.getJobStatus());
             jobDetailsVec.add(jEntity.getCategoryEntity().getCategoryName());
             jobDetailsVec.add(jEntity.getJobTitle());
             jobDetailsVec.add(jEntity.getJobDescription());
@@ -62,7 +65,6 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             jobDetailsVec.add(jEntity.getJobRateType());
             jobDetailsVec.add(jEntity.getJobRate());
             jobDetailsVec.add(jEntity.getJobPosterID());
-            jobDetailsVec.add(jEntity.getJobTakerID());
             jobDetailsVec.add(jEntity.getJobWorkDate());
             return jobDetailsVec;
         }
@@ -92,25 +94,29 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
         return jobReviewList;
     }
     
-    /*
+    
     @Override
-    public Vector getJobTransaction(long jobID) {
-        Vector jobTransaction = null;
-        Query q = em.createQuery("SELECT j FROM Job j WHERE j.jobID=:id");
-        q.setParameter("id", jobID);
-        if (q.getSingleResult() != null) {
-            JobTransactionEntity jobTran = ((JobEntity) q.getSingleResult()).getJobTransaction();
-            if (jobTran != null) {
-                jobTransaction = new Vector();
-                jobTransaction.add(jobTran.getJobTransactionID());
-                jobTransaction.add(jobTran.getJobTransactionDate());
-                jobTransaction.add(jobTran.getJobPosterID());
-                jobTransaction.add(jobTran.getJobTakerID());
+    public List<Vector> getJobTransaction(long jobID) {
+        jEntity = lookupJob(jobID);
+        List<Vector> jobTransactionList = new ArrayList<Vector>();
+        
+        if (jEntity.getJobTransactionSet() != null) {
+            jobTransactionSet = jEntity.getJobTransactionSet();
+            if (!jobTransactionSet.isEmpty()) {
+                for (JobTransactionEntity jte : jobTransactionSet) {
+                    Vector jobReviewDetails = new Vector();
+                    jobReviewDetails.add(jte.getJobTransactionID());
+                    jobReviewDetails.add(jte.getJobTransactionDate());
+                    jobReviewDetails.add(jte.getJobPosterID());
+                    jobReviewDetails.add(jte.getJobTakerID());
+                    jobTransactionList.add(jobReviewDetails);
+                }
             }
         }
-        return jobTransaction;
+        System.out.println("Transaction: " + jobTransactionList.size());
+        return jobTransactionList;
     }
-    */
+    
     
     @Override
     public boolean deleteJobListing(long jobID) {
@@ -135,8 +141,8 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
         for (Object o: q.getResultList()){
             CategoryEntity categoryE = (CategoryEntity) o;
             Vector jobCategoryVec = new Vector();
-            
             jobCategoryVec.add(categoryE.getCategoryImage());
+            jobCategoryVec.add(categoryE.getCategoryID());
             jobCategoryVec.add(categoryE.getCategoryName());
             jobCategoryVec.add(categoryE.getCategoryDescription());
             jobCategoryVec.add(categoryE.getCategoryActiveStatus());
@@ -156,9 +162,10 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
     @Override
     public Vector getJobCategoryDetails(long jobCategoryID) {
         cEntity = lookupJobCategory(jobCategoryID);
+        System.out.println("ID: "+cEntity.getCategoryID());
         Vector jobCategoryDetailsVec = new Vector();
         
-        if (jEntity != null) {
+        if (cEntity != null) {
             jobCategoryDetailsVec.add(cEntity.getCategoryImage());
             jobCategoryDetailsVec.add(jobCategoryID);
             jobCategoryDetailsVec.add(cEntity.getCategoryName());
@@ -168,7 +175,34 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             if (cEntity.getCategoryActiveStatus()) { jobCategoryDetailsVec.add("Active"); } 
             else { jobCategoryDetailsVec.add("Inactive"); }
         }
+        System.out.println("list size: " + jobCategoryDetailsVec.size());
         return jobCategoryDetailsVec;
+    }
+    
+    @Override
+    public ArrayList<Vector> getCategoryJobListing(long categoryID){
+        Query q0 = em.createQuery("SELECT c FROM Category c WHERE c.categoryID = :id");
+        q0.setParameter("id", categoryID);
+        CategoryEntity category = (CategoryEntity) q0.getSingleResult();
+        
+        Query q = em.createQuery("SELECT j FROM Job j WHERE j.categoryEntity = :category");
+        q.setParameter("category", category);
+        ArrayList<Vector> jobL = new ArrayList();
+        
+        if(q.getResultList()!=null){
+            Vector jobList = (Vector)q.getResultList();
+            for(int i=0; i<jobList.size(); i++){    
+                JobEntity jEntity = (JobEntity) jobList.get(i);
+                Vector job = new Vector();
+                job.add(jEntity.getJobID());
+                job.add(jEntity.getJobTitle());
+                job.add(jEntity.getJobDescription());
+                job.add(jEntity.getJobWorkDate());
+                job.add(jEntity.getJobStatus());
+                jobL.add(job);
+            }
+        }
+        return jobL;
     }
 
     @Override
@@ -233,6 +267,27 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             em.merge(cEntity);
         }
         return jcDeactivateStatus;
+    }
+    
+    public ArrayList<Vector> getAllJobTransactions(){
+        Query q = em.createQuery("SELECT t FROM JobTransaction t");
+        ArrayList<Vector> transactionList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            JobTransactionEntity jtEntity = (JobTransactionEntity) o;
+            Vector jtVec = new Vector();
+            
+            jtVec.add(jtEntity.getJobTransactionID());
+            jtVec.add(jtEntity.getJobTransactionDate());
+            jtVec.add(jtEntity.getJobID());
+            jtVec.add(jtEntity.getJobPosterID());
+            jtVec.add(jtEntity.getJobTakerID());
+            jtVec.add(jtEntity.getJobTransactionRateType());
+            jtVec.add(jtEntity.getJobTransactionRate());
+            
+            transactionList.add(jtVec);
+        }
+        return transactionList;
     }
     
     /* MISCELLANEOUS METHODS */
