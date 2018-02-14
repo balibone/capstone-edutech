@@ -76,7 +76,35 @@ public class CommonInfraController extends HttpServlet {
                     pageAction = "IntegratedSPLogin";
                     break;
                 case "goToCommonLanding":
-                    pageAction = "LandingPage";
+                    //check logged in user's type and respond with correct landing page.
+                    Cookie[] cookies = request.getCookies();
+                    String uType = null;
+                    for(Cookie c : cookies){
+                        if(c.getName().equals("userType") && !c.getValue().equals("")){
+                            uType = c.getValue();
+                        }
+                    }
+                    switch(uType){
+                        case "superadmin":
+                            pageAction="SystemAdminLanding";
+                            break;                             
+                        case "dualadmin":
+                            pageAction="DualAdminLanding";
+                            break;
+                        case "unifyadmin":
+                            pageAction="UnifyAdminLanding";
+                            break;
+                        case "edutechadmin":
+                            pageAction="EduTechAdminLanding";
+                            break;
+                        case "student":
+                        case "instructor":
+                            pageAction="SystemUserAdminLanding";
+                            break;
+                        default: 
+                            pageAction="IntegratedSPLogin";
+                            break;
+                    }
                     break;
                 case "goToSystemAdmin":
                     pageAction = "SystemAdminDashboard";
