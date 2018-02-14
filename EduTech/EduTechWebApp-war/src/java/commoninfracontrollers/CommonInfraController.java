@@ -51,7 +51,7 @@ public class CommonInfraController extends HttpServlet {
                         */
                         request.setAttribute("startUsername", enteredUsername);
                         request.setAttribute("userType", userType);
-                        pageAction = "LandingPage";
+                        response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding");
                     }
                     else{
                         request.setAttribute("sysMessage", "Incorrect username or password. Please try again.");
