@@ -21,8 +21,24 @@
         <jsp-file>/webapp/commoninfrastructure/IntegratedSPLanding.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>LandingPage</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
+        <servlet-name>SystemAdminLanding</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/SystemAdminLanding.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>DualAdminLanding</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/DualAdminLanding.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>UnifyAdminLanding</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/UnifyAdminLanding.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>EduTechAdminLanding</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/EduTechAdminLanding.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>SystemUserLanding</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/SystemUserLanding.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>IntegratedSPLogin</servlet-name>

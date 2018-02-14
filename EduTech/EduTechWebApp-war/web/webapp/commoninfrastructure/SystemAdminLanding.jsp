@@ -81,10 +81,15 @@
                 <h1 class="page-title">Welcome to EduBox!</h1>
             </div>
             <div id="wherechoices"> 
+                <a class="students" href="SystemAdmin?pageTransit=SystemAdminDashboard">
+                    <span class="user-container"><span class="mainpage-button-text">System Admin</span></span></a>
                 <a class="employers" href="CommonInfra?pageTransit=goToEdutechAdmin">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Admin</span></span></a>
                 <a class="faculty" href="CommonInfra?pageTransit=goToEdutechPortal">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Portal</span></span></a>
+                <br>
+                <a class="students" href="CommonInfra?pageTransit=goToUnifyAdmin">
+                    <span class="user-container"><span class="mainpage-button-text">Unify Admin</span></span></a>
                 <a class="students" href="ProfileSysUser?pageTransit=goToUnifyUserAccount&userID=<%= loggedInUsername %>">
                     <span class="user-container"><span class="mainpage-button-text">Unify Portal</span></span></a>
             </div> 
