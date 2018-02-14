@@ -54,14 +54,14 @@
                                     </li>
                                     <li><a><i class="fa fa-edit"></i>&nbsp;Errands (Jobs)&nbsp;<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="form.html">Job Categories</a></li>
-                                            <li><a href="form_advanced.html">Job Listing</a></li>
+                                            <li><a href="ErrandsAdmin?pageTransit=goToViewJobCategoryListing">Job Categories</a></li>
+                                            <li><a href="ErrandsAdmin?pageTransit=goToViewJobListing">Job Listing</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-desktop"></i>&nbsp;Company Reviews&nbsp;<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="general_elements.html">Company Listing</a></li>
-                                            <li><a href="media_gallery.html">Review Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewCompanyList">Company Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewReviewList">Review Listing</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-table"></i>&nbsp;Tags&nbsp;<span class="fa fa-chevron-down"></span></a>

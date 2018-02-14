@@ -1,12 +1,12 @@
 <% 
-    String loggedInUsername=null;
+    String loggedInUsername = null;
     /*
-    HttpServletRequest object is already available to JSP page by default as variable "request"
-    See https://www.tutorialspoint.com/jsp/jsp_implicit_objects.htm
-    If loggedInUsername remains null, means either 1)user did not log in prior to accessing this page OR 2)log in session has expired. 
+        HttpServletRequest object is already available to JSP page by default as variable "request"
+        See https://www.tutorialspoint.com/jsp/jsp_implicit_objects.htm
+        If loggedInUsername remains null, means either 1)user did not log in prior to accessing this page OR 2)log in session has expired. 
     */
     Cookie[] reqCookies = request.getCookies();
-    if(reqCookies!=null){
+    if(reqCookies != null){
         for(Cookie c : reqCookies){
             if("username".equals(c.getName()) && !c.getValue().equals("")){
                 loggedInUsername = c.getValue();

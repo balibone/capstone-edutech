@@ -16,7 +16,7 @@ import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 public class UserProfileSysUserController extends HttpServlet {
     @EJB
     private UserProfileSysUserMgrBeanRemote usmr;
-    boolean firstProfile = true;
+    boolean firstVisit = true;
     String username = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,21 +28,18 @@ public class UserProfileSysUserController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
-                case "goToUserAccount":
-                    request.setAttribute("username", username);
+                case "goToUnifyUserAccount":
+                    if(firstVisit == true) { 
+                        username = request.getParameter("userID");
+                        firstVisit = false;
+                    }
                     pageAction = "UserAccount";
                     break;
                 case "goToMarketplaceTrans":
-                    request.setAttribute("username", username);
                     request.setAttribute("itemTransList", (ArrayList) usmr.viewItemTransaction(username));
                     pageAction = "UserItemTransaction";
                     break;
                 case "goToUserProfile":
-                    if(firstProfile == true) { 
-                        username = request.getParameter("username");
-                        firstProfile = false;
-                    }
-                    request.setAttribute("username", username);
                     pageAction = "UserProfile";
                     break;
                 default:

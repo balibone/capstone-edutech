@@ -1,3 +1,4 @@
+<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Vector"%>
@@ -64,7 +65,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="ProfileSysUser?pageTransit=goToUserAccount" class="nav-link">
+                                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount" class="nav-link">
                                         <i class="fa fa-envelope"></i>&nbsp;&nbsp;My Account
                                     </a>
                                 </li>

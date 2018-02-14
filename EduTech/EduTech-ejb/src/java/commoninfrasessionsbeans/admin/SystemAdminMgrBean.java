@@ -1,11 +1,11 @@
 package commoninfrasessionsbeans.admin;
 
 import commoninfrastructure.UserEntity;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 

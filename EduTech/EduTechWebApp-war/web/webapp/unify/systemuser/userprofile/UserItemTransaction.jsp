@@ -69,7 +69,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="ProfileSysUser?pageTransit=goToUserAccount" class="nav-link">
+                                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount" class="nav-link">
                                         <i class="fa fa-envelope"></i>&nbsp;&nbsp;My Account
                                     </a>
                                 </li>
@@ -157,7 +157,7 @@
                                 <div class="media">
                                     <img class="img-thumbnail" src="images/ProfileImage.png">
                                     <div class="media-body">
-                                        <h5 class="user-name"><%= request.getAttribute("username")%></h5>
+                                        <h5 class="user-name"><%= request.getAttribute("loggedInUsername")%></h5>
                                         <small class="card-text text-muted">Joined Dec 31, 2017</small>
                                     </div>
                                 </div>
