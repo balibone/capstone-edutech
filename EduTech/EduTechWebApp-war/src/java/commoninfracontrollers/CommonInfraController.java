@@ -45,16 +45,16 @@ public class CommonInfraController extends HttpServlet {
                         response.addCookie(newCookie);
                         response.addCookie(userTypeCookie);
                         /*
-                            Passes username as string to landing page as there is no cookie to be used for checking yet.
-                            Cookie is being returned in the same response object as the jsp file.
-                            Cookie can only be used for session management after landing page.
+                        * This is to prevent a "confirm resubmission" or blank page after pressing back from landing page logout.
+                        * Now, app correctly shows session invalid message.
+                        * There is also no more need to pass request attributes on first log in as response.sendRedirect triggers a fresh http request,
+                        * where the cookies will already be available for checking. 
+                        * Working as intended, please do not remove :)
                         */
-                        request.setAttribute("startUsername", enteredUsername);
-                        request.setAttribute("userType", userType);
-                        pageAction = "LandingPage";
+                        response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding");
                     }
                     else{
-                        request.setAttribute("sysMessage", "Incorrect username or password. Please try again.");
+                        request.setAttribute("sysMessage", "<strong>Incorrect username or password. Please try again.</strong>");
                         pageAction = "IntegratedSPLogin";                   
                     }
                     break;
@@ -71,12 +71,46 @@ public class CommonInfraController extends HttpServlet {
                     
                     String sessionInvalid = request.getParameter("sessionInvalid");
                     if(sessionInvalid!=null && sessionInvalid.equals("true")){
-                        request.setAttribute("sysMessage", "Invalid session, please login again.");
+                        request.setAttribute("sysMessage", "<strong>Invalid session. Please login again.</strong>");
                     }
                     pageAction = "IntegratedSPLogin";
                     break;
                 case "goToCommonLanding":
-                    pageAction = "LandingPage";
+                    //check logged in user's type and respond with correct landing page.
+                    Cookie[] cookies = request.getCookies();
+                    String uType = null;
+                    if(cookies!=null){
+                        for(Cookie c : cookies){
+                            if(c.getName().equals("userType") && !c.getValue().equals("")){
+                                uType = c.getValue();
+                            }
+                        }
+                    }
+                    if(uType != null){
+                        switch(uType){
+                            case "superadmin":
+                                pageAction="SystemAdminLanding";
+                                break;
+                            case "dualadmin":
+                                pageAction="DualAdminLanding";
+                                break;
+                            case "unifyadmin":
+                                pageAction="UnifyAdminLanding";
+                                break;
+                            case "edutechadmin":
+                                pageAction="EduTechAdminLanding";
+                                break;
+                            case "student":
+                            case "instructor":
+                                pageAction="SystemUserLanding";
+                                break;
+                            default:
+                                break;
+                        }
+                    }else{
+                        //user type cookie is invalid. redirect to logout page
+                        response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
+                    }
                     break;
                 case "goToSystemAdmin":
                     pageAction = "SystemAdminDashboard";
