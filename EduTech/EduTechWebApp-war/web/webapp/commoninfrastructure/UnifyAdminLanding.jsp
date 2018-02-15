@@ -1,30 +1,4 @@
-<%
-    String loggedInUsername = (String)request.getAttribute("startUsername");
-    String userType = (String)request.getAttribute("userType");
-    //If "startUsername" attribute is null, that means previous page was not log in page. Try to look for username from cookie.
-    /*
-    HttpServletRequest object is already available to JSP page by default as variable "request"
-    See https://www.tutorialspoint.com/jsp/jsp_implicit_objects.htm
-    If loggedInUsername remains null, means either 1)user did not log in prior to accessing this page OR 2)log in session has expired. 
-    */
-    Cookie[] reqCookies = request.getCookies();
-    if(reqCookies!=null){
-        for(Cookie c : reqCookies){
-            //if username cookie is valid, extract cookie value.
-            if("username".equals(c.getName()) && !c.getValue().equals("")){
-                loggedInUsername = c.getValue();
-            }
-            //if userType cookie is valid, extract cookie value.
-            else if("userType".equals(c.getName()) && !c.getValue().equals("")){
-                userType = c.getValue();
-            }
-        }
-    } 
-    //no username passed from login page and no username retrieved from cookie, means user is trying to access landing page directly.
-    if(loggedInUsername == null){
-        response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
-    }
-%>
+<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -74,7 +48,7 @@
         <div class="login-wrapper login-main has-reg user_type" style="top: 108.5px;">
             <header style="background-color: #ffffff" class="login-header clearfix">
                 <div id="page-brand">
-                    <div> <img src = "images/EduBox Logo.png" style="max-width: 260px; max-height: 130px"></div>
+                    <div> <img src = "images/edubox-logo.png" style="max-width: 260px; max-height: 130px"></div>
                 </div>
             </header>
             <div class="page-title-wrapper">

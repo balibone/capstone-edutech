@@ -45,13 +45,13 @@ public class CommonInfraController extends HttpServlet {
                         response.addCookie(newCookie);
                         response.addCookie(userTypeCookie);
                         /*
-                            Passes username as string to landing page as there is no cookie to be used for checking yet.
-                            Cookie is being returned in the same response object as the jsp file.
-                            Cookie can only be used for session management after landing page.
+                        * This is to prevent a "confirm resubmission" or blank page after pressing back from landing page logout.
+                        * Now, app correctly shows session invalid message.
+                        * There is also no more need to pass request attributes on first log in as response.sendRedirect triggers a fresh http request,
+                        * where the cookies will already be available for checking. 
+                        * Working as intended, please do not remove :)
                         */
-                        request.setAttribute("startUsername", enteredUsername);
-                        request.setAttribute("userType", userType);
-                        pageAction = "LandingPage";
+                        response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding");
                     }
                     else{
                         request.setAttribute("sysMessage", "<strong>Incorrect username or password. Please try again.</strong>");
@@ -79,9 +79,11 @@ public class CommonInfraController extends HttpServlet {
                     //check logged in user's type and respond with correct landing page.
                     Cookie[] cookies = request.getCookies();
                     String uType = null;
-                    for(Cookie c : cookies){
-                        if(c.getName().equals("userType") && !c.getValue().equals("")){
-                            uType = c.getValue();
+                    if(cookies!=null){
+                        for(Cookie c : cookies){
+                            if(c.getName().equals("userType") && !c.getValue().equals("")){
+                                uType = c.getValue();
+                            }
                         }
                     }
                     if(uType != null){
