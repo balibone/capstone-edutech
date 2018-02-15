@@ -83,6 +83,7 @@
             <div id="wherechoices"> 
                 <a class="students" href="SystemAdmin?pageTransit=SystemAdminDashboard">
                     <span class="user-container"><span class="mainpage-button-text">System Admin</span></span></a>
+                <br>
                 <a class="employers" href="CommonInfra?pageTransit=goToEdutechAdmin">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Admin</span></span></a>
                 <a class="faculty" href="CommonInfra?pageTransit=goToEdutechPortal">

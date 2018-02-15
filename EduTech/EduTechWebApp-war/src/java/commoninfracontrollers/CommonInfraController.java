@@ -54,7 +54,7 @@ public class CommonInfraController extends HttpServlet {
                         response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding");
                     }
                     else{
-                        request.setAttribute("sysMessage", "Incorrect username or password. Please try again.");
+                        request.setAttribute("sysMessage", "<strong>Incorrect username or password. Please try again.</strong>");
                         pageAction = "IntegratedSPLogin";                   
                     }
                     break;
@@ -71,7 +71,7 @@ public class CommonInfraController extends HttpServlet {
                     
                     String sessionInvalid = request.getParameter("sessionInvalid");
                     if(sessionInvalid!=null && sessionInvalid.equals("true")){
-                        request.setAttribute("sysMessage", "Invalid session, please login again.");
+                        request.setAttribute("sysMessage", "<strong>Invalid session. Please login again.</strong>");
                     }
                     pageAction = "IntegratedSPLogin";
                     break;
@@ -84,26 +84,30 @@ public class CommonInfraController extends HttpServlet {
                             uType = c.getValue();
                         }
                     }
-                    switch(uType){
-                        case "superadmin":
-                            pageAction="SystemAdminLanding";
-                            break;                             
-                        case "dualadmin":
-                            pageAction="DualAdminLanding";
-                            break;
-                        case "unifyadmin":
-                            pageAction="UnifyAdminLanding";
-                            break;
-                        case "edutechadmin":
-                            pageAction="EduTechAdminLanding";
-                            break;
-                        case "student":
-                        case "instructor":
-                            pageAction="SystemUserAdminLanding";
-                            break;
-                        default: 
-                            pageAction="IntegratedSPLogin";
-                            break;
+                    if(uType != null){
+                        switch(uType){
+                            case "superadmin":
+                                pageAction="SystemAdminLanding";
+                                break;
+                            case "dualadmin":
+                                pageAction="DualAdminLanding";
+                                break;
+                            case "unifyadmin":
+                                pageAction="UnifyAdminLanding";
+                                break;
+                            case "edutechadmin":
+                                pageAction="EduTechAdminLanding";
+                                break;
+                            case "student":
+                            case "instructor":
+                                pageAction="SystemUserLanding";
+                                break;
+                            default:
+                                break;
+                        }
+                    }else{
+                        //user type cookie is invalid. redirect to logout page
+                        response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
                     }
                     break;
                 case "goToSystemAdmin":
