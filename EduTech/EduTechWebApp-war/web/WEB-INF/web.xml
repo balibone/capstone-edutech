@@ -302,5 +302,4 @@
     <welcome-file-list>
         <welcome-file>webapp/commoninfrastructure/IntegratedSPLogin.jsp</welcome-file>
     </welcome-file-list>
-    <jsp-config/>
 </web-app>

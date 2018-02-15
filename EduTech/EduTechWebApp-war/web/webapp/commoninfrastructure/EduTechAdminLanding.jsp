@@ -74,7 +74,7 @@
         <div class="login-wrapper login-main has-reg user_type" style="top: 108.5px;">
             <header style="background-color: #ffffff" class="login-header clearfix">
                 <div id="page-brand">
-                    <div> <img src = "images/EduBox Logo.png" style="max-width: 260px; max-height: 130px"></div>
+                    <div> <img src = "images/EduBox Logo.png" style="max-width: 260px;"></div>
                 </div>
             </header>
             <div class="page-title-wrapper">
