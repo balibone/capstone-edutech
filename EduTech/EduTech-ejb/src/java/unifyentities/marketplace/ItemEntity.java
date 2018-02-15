@@ -38,19 +38,19 @@ public class ItemEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long itemID;
     private String itemName;
+    private double itemPrice;
+    private String itemCondition;
     private String itemDescription;
-    private Double itemPrice;
+    private String itemImage;
     private String itemStatus;
+    private int itemNumOfLikes;
     private String tradeLocation;
     private String tradeLat;
     private String tradeLong;
-    private String itemImage;
+    private String tradeInformation;
     
     @Temporal(TemporalType.DATE)
     private Date itemPostingDate;
-    
-    /* FOREIGN KEY */
-    private String itemSellerID;
     
     @ManyToOne
     private CategoryEntity categoryEntity;
@@ -66,18 +66,37 @@ public class ItemEntity implements Serializable {
     @PrePersist
     public void creationDate() { this.itemPostingDate = new Date(); }
     
+    /* MISCELLANEOUS METHODS */
+    public boolean createItemListing(String itemName, double itemPrice, String itemCondition, String itemDescription, 
+            String itemImagefileName, String tradeLocation, String tradeLat, String tradeLong, String tradeInformation) {
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.itemCondition = itemCondition;
+        this.itemDescription = itemDescription;
+        this.itemImage = itemImagefileName;
+        this.itemStatus = "Available";
+        this.itemNumOfLikes = 0;
+        this.tradeLocation = tradeLocation;
+        this.tradeLat = tradeLat;
+        this.tradeLong = tradeLong;
+        this.tradeInformation = tradeInformation;
+        return true;
+    }
+    
     /* GETTER METHODS */
     public Long getItemID() { return itemID; }
     public String getItemName() { return itemName; }
+    public double getItemPrice() { return itemPrice; }
+    public String getItemCondition() { return itemCondition; }
     public String getItemDescription() { return itemDescription; }
-    public Double getItemPrice() { return itemPrice; }
+    public String getItemImage() { return itemImage; }
     public String getItemStatus() { return itemStatus; }
+    public int getItemNumOfLikes() { return 0; }
     public String getTradeLocation() { return tradeLocation; }
     public String getTradeLat() { return tradeLat; }
     public String getTradeLong() { return tradeLong; }
-    public String getItemImage() { return itemImage; }
+    public String getTradeInformation() { return tradeInformation; }
     public Date getItemPostingDate() { return itemPostingDate; }
-    public String getItemSellerID() { return itemSellerID; }
     
     public CategoryEntity getCategoryEntity() { return categoryEntity; }
     public UserEntity getUserEntity() { return userEntity; }
@@ -88,15 +107,16 @@ public class ItemEntity implements Serializable {
     /* SETTER METHODS */
     public void setItemID(Long itemID) { this.itemID = itemID; }
     public void setItemName(String itemName) { this.itemName = itemName; }
+    public void setItemPrice(double itemPrice) { this.itemPrice = itemPrice; }
+    public void setItemCondition(String itemCondition) { this.itemCondition = itemCondition; }
     public void setItemDescription(String itemDescription) { this.itemDescription = itemDescription; }
-    public void setItemPrice(Double itemPrice) { this.itemPrice = itemPrice; }
+    public void setItemImage(String itemImage) { this.itemImage = itemImage; }
     public void setItemStatus(String itemStatus) { this.itemStatus = itemStatus; }
     public void setTradeLocation(String tradeLocation) { this.tradeLocation = tradeLocation; }
     public void setTradeLat(String tradeLat) { this.tradeLat = tradeLat; }
     public void setTradeLong(String tradeLong) { this.tradeLong = tradeLong; }
-    public void setItemImage(String itemImage) { this.itemImage = itemImage; }
+    public void setTradeInformation(String tradeInformation) { this.tradeInformation = tradeInformation; }
     public void setItemPostingDate(Date itemPostingDate) { this.itemPostingDate = itemPostingDate; }
-    public void setItemSellerID(String itemSellerID) { this.itemSellerID = itemSellerID; }
     
     public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

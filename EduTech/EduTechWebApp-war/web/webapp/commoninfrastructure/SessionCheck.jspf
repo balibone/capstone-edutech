@@ -12,16 +12,15 @@
             //if username cookie is valid, extract cookie value.
             if("username".equals(c.getName()) && !c.getValue().equals("")){
                 loggedInUsername = c.getValue();
+                request.setAttribute("loggedInUsername", loggedInUsername);
             }
             //if userType cookie is valid, extract cookie value.
             else if("userType".equals(c.getName()) && !c.getValue().equals("")){
                 userType = c.getValue();
             }
         }
-    }
-    //If loggedInUsername remains null, means either 1)user did not log in prior to accessing this page OR 2)log in session has expired. 
-    if (loggedInUsername == null){
-        //redirect to login page with a invalid session marker
+    } 
+    if (loggedInUsername == null) {
         response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
     }  
 %>

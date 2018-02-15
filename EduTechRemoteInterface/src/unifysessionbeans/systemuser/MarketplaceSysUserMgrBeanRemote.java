@@ -9,4 +9,9 @@ public interface MarketplaceSysUserMgrBeanRemote {
     public List<Vector> viewItemList();
     public List<Vector> viewAssocCategoryItemList(String hiddenCategoryName, long hiddenItemID);
     public Vector viewItemDetails(long itemID);
+    public String createItemListing(String itemName, double itemPrice, String itemCondition, 
+            String itemDescription, String itemImagefileName, long categoryID, String username, 
+            String tradeLocation, String tradeLat, String tradeLong, String tradeInformation);
+    
+    public List<Vector> viewItemCategoryList();
 }

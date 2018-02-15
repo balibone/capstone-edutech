@@ -76,7 +76,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             
             itemVec.add(itemE.getItemImage());
             itemVec.add(itemE.getItemName());
-            itemVec.add(itemE.getItemSellerID());
+            itemVec.add(itemE.getUserEntity().getUsername());
             itemVec.add(itemE.getItemPrice());
             itemVec.add(itemE.getItemStatus());
             itemList.add(itemVec);
@@ -171,7 +171,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             itemVec.add(itemE.getItemImage());
             itemVec.add(itemE.getItemName());
             itemVec.add(itemE.getCategoryEntity().getCategoryName());
-            itemVec.add(itemE.getItemSellerID());
+            itemVec.add(itemE.getUserEntity().getUsername());
             itemVec.add(itemE.getItemPrice());
             itemVec.add(itemE.getItemStatus());
             itemList.add(itemVec);
@@ -188,7 +188,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             itemDetailsVec.add(iEntity.getItemImage());
             itemDetailsVec.add(iEntity.getItemName());
             itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryName());
-            itemDetailsVec.add(iEntity.getItemSellerID());
+            itemDetailsVec.add(iEntity.getUserEntity().getUsername());
             itemDetailsVec.add(iEntity.getItemPrice());
             itemDetailsVec.add(iEntity.getItemDescription());
             itemDetailsVec.add(iEntity.getItemStatus());

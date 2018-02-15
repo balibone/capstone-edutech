@@ -12,6 +12,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import commoninfrastructure.UserEntity;
+import unifyentities.common.CategoryEntity;
 import unifyentities.marketplace.ItemEntity;
 
 @Stateless
@@ -20,8 +22,10 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     @PersistenceContext
     private EntityManager em;
 
+    private CategoryEntity cEntity;
     private ItemEntity iEntity;
-
+    private UserEntity uEntity;
+    
     @Override
     public List<Vector> viewItemList() {
         Date currentDate = new Date();
@@ -39,7 +43,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemVec.add(itemE.getItemImage());
             itemVec.add(itemE.getItemName());
             itemVec.add(itemE.getCategoryEntity().getCategoryName());
-            itemVec.add(itemE.getItemSellerID());
+            itemVec.add(itemE.getUserEntity().getUsername());
 
             long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
             long diffSeconds = diff / 1000 % 60;
@@ -126,7 +130,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                 assocCategoryItemVec.add(itemE.getItemImage());
                 assocCategoryItemVec.add(itemE.getItemName());
                 assocCategoryItemVec.add(itemE.getCategoryEntity().getCategoryName());
-                assocCategoryItemVec.add(itemE.getItemSellerID());
+                assocCategoryItemVec.add(itemE.getUserEntity().getUsername());
 
                 long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
                 long diffSeconds = diff / 1000 % 60;
@@ -171,8 +175,69 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         }
         return assocCategoryItemList;
     }
+    
+    @Override
+    public String createItemListing(String itemName, double itemPrice, String itemCondition, 
+            String itemDescription, String itemImagefileName, long categoryID, String username, 
+            String tradeLocation, String tradeLat, String tradeLong, String tradeInformation) {
+        if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
+        else if (lookupCategory(categoryID) == null) { return "Chosen category cannot be found. Please try again."; }
+        else {
+            uEntity = lookupUser(username);
+            cEntity = lookupCategory(categoryID);
+            iEntity = new ItemEntity();
+            
+            if(iEntity.createItemListing(itemName, itemPrice, itemCondition, itemDescription, itemImagefileName, 
+                    tradeLocation, tradeLat, tradeLong, tradeInformation)) {
+                iEntity.setCategoryEntity(cEntity);
+                iEntity.setUserEntity(uEntity);
+                em.persist(iEntity);
+                return "Item has been listed successfully!";
+            } else {
+                return "Error occured while listing the item. Please try again.";
+            }
+        }
+    }
+    
+    @Override
+    public List<Vector> viewItemCategoryList(){
+        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'marketplace' "
+                + "AND c.categoryActiveStatus = '1'");
+        List<Vector> itemCategoryList = new ArrayList<Vector>();
+        
+        for (Object o: q.getResultList()){
+            CategoryEntity categoryE = (CategoryEntity) o;
+            Vector itemCategoryVec = new Vector();
+            
+            itemCategoryVec.add(categoryE.getCategoryImage());
+            itemCategoryVec.add(categoryE.getCategoryID());
+            itemCategoryVec.add(categoryE.getCategoryName());
+            itemCategoryList.add(itemCategoryVec);
+        }
+        return itemCategoryList;
+    }
 
     /* MISCELLANEOUS METHODS */
+    public CategoryEntity lookupCategory(long categoryID) {
+        CategoryEntity ce = new CategoryEntity();
+        try{
+            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryID = :categoryID");
+            q.setParameter("categoryID", categoryID);
+            ce = (CategoryEntity)q.getSingleResult();
+        }
+        catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        catch(NoResultException nre){
+            System.out.println("ERROR: Category does not exist. " + nre.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        return ce;
+    }
+    
     public ItemEntity lookupItem(long itemID) {
         ItemEntity ie = new ItemEntity();
         try {
@@ -189,5 +254,25 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             ie = null;
         }
         return ie;
+    }
+    
+    public UserEntity lookupUser(String username) {
+        UserEntity ue = new UserEntity();
+        try{
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity)q.getSingleResult();
+        }
+        catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        catch(NoResultException nre){
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
     }
 }

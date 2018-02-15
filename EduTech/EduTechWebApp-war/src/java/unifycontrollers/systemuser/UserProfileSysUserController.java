@@ -52,7 +52,6 @@ public class UserProfileSysUserController extends HttpServlet {
             log("Exception in UserProfileSysUserController: processRequest()");
             ex.printStackTrace();
         }
-    
     }
 
     @Override

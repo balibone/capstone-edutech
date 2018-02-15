@@ -250,7 +250,7 @@
                                             <div class="card-body">
                                                 <div class="img-wrapper">
                                                     <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID %>&hiddenCategoryName=<%= itemCategoryName %>">
-                                                        <img class="card-img-top" style="max-width: 130px; max-height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
+                                                        <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
                                                     </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
                                                         <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
