@@ -27,6 +27,7 @@ import unifysessionbeans.admin.MarketplaceAdminMgrBeanRemote;
 public class MarketplaceAdminController extends HttpServlet {
     @EJB
     private MarketplaceAdminMgrBeanRemote mamr;
+    String responseMessage = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -74,9 +75,9 @@ public class MarketplaceAdminController extends HttpServlet {
                     String deactCategoryName = request.getParameter("hiddenCategoryName");
                     String deactCategoryType = request.getParameter("hiddenCategoryType");
                     
-                    String icReturnMsg = mamr.deactivateAnItemCategory(deactCategoryName, deactCategoryType);
-                    if (icReturnMsg.endsWith("!")) { request.setAttribute("successMessage", icReturnMsg); } 
-                    else { request.setAttribute("errorMessage", icReturnMsg); }
+                    responseMessage = mamr.deactivateAnItemCategory(deactCategoryName, deactCategoryType);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
                     
                     request.setAttribute("itemCategoryList", (ArrayList) mamr.viewItemCategoryList());
                     pageAction = "ViewItemCategoryListing";

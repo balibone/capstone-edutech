@@ -1,14 +1,30 @@
 body::before{display:none;content:'unset'}
 
 .logo { width: 160px; height: 60px; padding: 5px 0 5px 0; }
-.searchresult-row {
-    width: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
+/* FORM CSS */
+.x_panel { width: 100%; padding: 10px 17px; display: inline-block; background: #fff; border: 1px solid #E6E9ED; -webkit-column-break-inside: avoid; opacity: 1; transition: all .2s ease; }
+.x_title { border-bottom: 2px solid #E6E9ED; padding: 1px 5px 6px; }
+.x_content { padding: 0 5px 6px; clear: both; margin-top: 5px; }
+.x_panel, .x_title { margin-bottom: 10px; }
+.degrees:after,.x_content,.x_panel{position:relative}
+
+.wizard_horizontal ul.wizard_steps{display:table;list-style:none;position:relative;width:100%;margin:0 0 20px}
+.wizard_horizontal ul.wizard_steps li{display:table-cell;text-align:center}
+.wizard_horizontal ul.wizard_steps li a,.wizard_horizontal ul.wizard_steps li:hover{display:block;position:relative;-moz-opacity:1;filter:alpha(opacity=100);opacity:1;color:#666}
+.wizard_horizontal ul.wizard_steps li a:before{content:"";position:absolute;height:4px;background:#ccc;top:20px;width:100%;z-index:4;left:0}
+.wizard_horizontal ul.wizard_steps li a.disabled .step_no{background:#ccc}
+.wizard_horizontal ul.wizard_steps li a .step_no{width:40px;height:40px;line-height:40px;border-radius:100px;display:block;margin:0 auto 5px;font-size:16px;text-align:center;position:relative;z-index:5}
+.step_no,.wizard_horizontal ul.wizard_steps li a.selected:before{background:#EF7C00;color:#FFFFFF}
+.step_no,.wizard_horizontal ul.wizard_steps li a:hover{text-decoration: none;}
+.wizard_horizontal ul.wizard_steps li a.done .step_no,.wizard_horizontal ul.wizard_steps li a.done:before{background:#28A745;color:#fff}
+.wizard_horizontal ul.wizard_steps li:first-child a:before{left:50%}
+.wizard_horizontal ul.wizard_steps li:last-child a:before{right:50%;width:50%;left:auto}
+
+.form_wizard .stepContainer { display: block; position: relative; margin: 0; padding: 0; border: 0 solid #CCC; overflow-x: hidden; }
+
+/* FOR JPLIST */
+.searchresult-row { width: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; }
+
 @media (max-width: 575.98px) {
     body::before{content:'xs'}
 }

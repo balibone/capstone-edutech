@@ -243,7 +243,7 @@
                                                     String itemStatus = String.valueOf(v.get(5));
                                         %>
                                         <tr>
-                                            <td><img src="uploads/unify/images/marketplace/item/<%= itemImage %>" style="max-width: 50px; max-height: 50px;" /></td>
+                                            <td><img src="uploads/unify/images/marketplace/item/<%= itemImage %>" style="width: 50px; height: 50px;" /></td>
                                             <td><%= itemName %></td>
                                             <td><%= itemCategory %></td>
                                             <td><%= itemSellerID %></td>

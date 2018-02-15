@@ -250,7 +250,7 @@
                                                 }
                                         %>
                                         <tr>
-                                            <td><img src="uploads/unify/images/common/category/<%= categoryImage%>" style="max-width: 50px; max-height: 50px;" /></td>
+                                            <td><img src="uploads/unify/images/common/category/<%= categoryImage%>" style="width: 50px; height: 50px;" /></td>
                                             <td><%= categoryName%></td>
                                             <td><%= categoryDescription%></td>
                                             <td><%= activeStatus%></td>
