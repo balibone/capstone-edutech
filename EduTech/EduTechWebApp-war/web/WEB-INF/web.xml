@@ -216,6 +216,10 @@
         <jsp-file>/webapp/unify/systemuser/marketplace/NewItemListingSYS.jsp</jsp-file>
     </servlet>
     <servlet>
+        <servlet-name>EditItemListingSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/marketplace/EditItemListingSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>ViewItemListingSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/marketplace/ViewItemListingSYS.jsp</jsp-file>
     </servlet>

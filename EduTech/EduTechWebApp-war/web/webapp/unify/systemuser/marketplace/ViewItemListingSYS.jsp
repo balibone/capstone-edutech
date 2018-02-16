@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - Marketplace(Item) Listing</title>
+        <title>Unify Marketplace - Item Listing Details</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -153,8 +153,26 @@
                     </nav>
                 </div>
             </div>
-            
+
             <div id="contentArea" class="container jplist" style="margin-bottom: 30px;">
+                <%                    
+                    String successMessage = (String) request.getAttribute("successMessage");
+                    if (successMessage != null) {
+                %>
+                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                    <button type="button" class="close" id="closeSuccess">&times;</button>
+                    <%= successMessage%>
+                </div>
+                <%  }   %>
+                <%
+                    String errorMessage = (String) request.getAttribute("errorMessage");
+                    if (errorMessage != null) {
+                %>
+                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                    <button type="button" class="close" id="closeError">&times;</button>
+                    <%= errorMessage%>
+                </div>
+                <%  }   %>
                 <div class="row">
                     <div class="col-lg-3 col-md-4 mb-3 jplist-search">
                         <button class="btn btn-outline-theme btn-block dropdown-toggle d-md-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
@@ -231,7 +249,7 @@
                                 <%
                                     ArrayList<Vector> itemListSYS = (ArrayList) request.getAttribute("itemListSYS");
                                     if (!itemListSYS.isEmpty()) {
-                                        for (int i = 0; i <= itemListSYS.size()-1; i++) {
+                                        for (int i = 0; i <= itemListSYS.size() - 1; i++) {
                                             Vector v = itemListSYS.get(i);
                                             String itemID = String.valueOf(v.get(0));
                                             String itemImage = String.valueOf(v.get(1));
@@ -240,6 +258,7 @@
                                             String itemSellerID = String.valueOf(v.get(4));
                                             String itemPostedDuration = String.valueOf(v.get(5));
                                             String itemPrice = String.valueOf(v.get(6));
+                                            String itemNumOfLikes = String.valueOf(v.get(7));
                                 %>
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -249,30 +268,35 @@
                                         <div class="card-content">
                                             <div class="card-body">
                                                 <div class="img-wrapper">
-                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID %>&hiddenCategoryName=<%= itemCategoryName %>">
+                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>">
                                                         <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
                                                     </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
                                                         <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            <button id="<%= itemID %>" class="btn btn-link btn-sm d-none d-sm-inline-block quick-view itemCard">
+                                                            <button id="<%= itemID%>" class="btn btn-link btn-sm d-none d-sm-inline-block quick-view itemCard">
                                                                 <i class="fa fa-search-plus"></i>
                                                             </button>
                                                             <button class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID %>&hiddenCategoryName=<%= itemCategoryName %>"><%= itemName%></a></strong></span><br/>
+                                                <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
                                                 <span class="card-text"><%= itemCategoryName%></span>
                                             </div>
                                         </div>
                                         <div class="card-footer text-muted mt-1">
                                             <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
-                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;Like</span>
+                                            <span class="float-right">
+                                                <i class="fa fa-heart-o"></i>&nbsp;
+                                                <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%><%= itemNumOfLikes%>&nbsp;Like
+                                                <%  } else {%><%= itemNumOfLikes%>&nbsp;Likes
+                                                <%  }   %>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <%      }   %>
-                                <%  }   %>
+                                <%  }%>
                             </div>
                         </div>
                         <div class="box jplist-no-results text-shadow align-center">
@@ -295,7 +319,7 @@
             </a>
             <div id="itemcard-iframe"></div>
         </div>
-        
+
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
@@ -307,7 +331,7 @@
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/ViewItemListingSYSJS.js" type="text/javascript"></script>
-        
+
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>

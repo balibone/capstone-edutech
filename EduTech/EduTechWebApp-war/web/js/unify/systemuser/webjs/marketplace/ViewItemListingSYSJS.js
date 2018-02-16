@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    $("#unifyPageNAV").load("webapp/unify/systemuser/masterpage/PageNavigation.jsp");
-    $("#unifyFooter").load("webapp/unify/systemuser/masterpage/PageFooter.jsp");
+    $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
+    $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
 
     jQuery.fn.jplist.settings = {
         priceSlider: function ($slider) {
@@ -43,4 +43,7 @@ $(document).ready(function () {
         iframe : true,
         iframeHeight: 425
     });
+    
+    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
+    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 });

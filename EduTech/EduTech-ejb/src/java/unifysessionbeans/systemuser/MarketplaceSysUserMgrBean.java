@@ -82,6 +82,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             }
             itemVec.add(dateString);
             itemVec.add(itemE.getItemPrice());
+            itemVec.add(itemE.getItemNumOfLikes());
             itemList.add(itemVec);
             dateString = "";
         }
@@ -94,17 +95,24 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         Vector itemDetailsVec = new Vector();
 
         if (iEntity != null) {
-            itemDetailsVec.add(iEntity.getItemImage());
+            itemDetailsVec.add(iEntity.getItemID());
             itemDetailsVec.add(iEntity.getItemName());
             itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryName());
-            itemDetailsVec.add(iEntity.getItemStatus());
             itemDetailsVec.add(iEntity.getItemPrice());
+            itemDetailsVec.add(iEntity.getItemCondition());
             itemDetailsVec.add(iEntity.getItemDescription());
+            itemDetailsVec.add(iEntity.getItemImage());
+            itemDetailsVec.add(iEntity.getItemStatus());
+            itemDetailsVec.add(iEntity.getItemNumOfLikes());
             itemDetailsVec.add(iEntity.getItemPostingDate());
             itemDetailsVec.add(iEntity.getTradeLocation());
             itemDetailsVec.add(iEntity.getTradeLat());
             itemDetailsVec.add(iEntity.getTradeLong());
+            itemDetailsVec.add(iEntity.getTradeInformation());
             itemDetailsVec.add(iEntity.getUserEntity().getUsername());
+            itemDetailsVec.add(iEntity.getUserEntity().getImgFileName());
+            itemDetailsVec.add(iEntity.getUserEntity().getUserCreationDate());
+            itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryID());
             return itemDetailsVec;
         }
         return null;
@@ -181,7 +189,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             String itemDescription, String itemImagefileName, long categoryID, String username, 
             String tradeLocation, String tradeLat, String tradeLong, String tradeInformation) {
         if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
-        else if (lookupCategory(categoryID) == null) { return "Chosen category cannot be found. Please try again."; }
+        else if (lookupCategory(categoryID) == null) { return "Selected category cannot be found. Please try again."; }
         else {
             uEntity = lookupUser(username);
             cEntity = lookupCategory(categoryID);
@@ -196,6 +204,46 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             } else {
                 return "Error occured while listing the item. Please try again.";
             }
+        }
+    }
+    
+    @Override
+    public String editItemListing(long itemID, String itemName, double itemPrice, String itemCondition, 
+            String itemDescription, String itemImageFileName, long itemCategoryID, String username, 
+            String tradeLocation, String tradeLat, String tradeLong, String tradeInformation) {
+        if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
+        else if (lookupItem(itemID) == null) { return "There are some issues with your item listing. Please try again."; }
+        else if (lookupCategory(itemCategoryID) == null) { return "Selected category cannot be found. Please try again."; }
+        else {
+            uEntity = lookupUser(username);
+            iEntity = lookupItem(itemID);
+            cEntity = lookupCategory(itemCategoryID);
+            
+            iEntity.setItemName(itemName);
+            iEntity.setItemPrice(itemPrice);
+            iEntity.setItemCondition(itemCondition);
+            iEntity.setItemDescription(itemDescription);
+            iEntity.setItemImage(itemImageFileName);
+            iEntity.setCategoryEntity(cEntity);
+            iEntity.setUserEntity(uEntity);
+            iEntity.setTradeLocation(tradeLocation);
+            iEntity.setTradeLat(tradeLat);
+            iEntity.setTradeLong(tradeLong);
+            iEntity.setTradeInformation(tradeInformation);
+            em.merge(iEntity);
+            return "Item listing has been updated successfully!";
+        }
+    }
+    
+    @Override
+    public String deleteItemListing(long itemIDToDelete) {
+        if (lookupItem(itemIDToDelete) == null) { return "There are some issues with your item listing. Please try again."; }
+        else {
+            iEntity = lookupItem(itemIDToDelete);
+            em.remove(iEntity);
+            em.flush();
+            em.clear();
+            return "Item listing has been deleted successfully!";
         }
     }
     

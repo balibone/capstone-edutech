@@ -12,6 +12,10 @@ public interface MarketplaceSysUserMgrBeanRemote {
     public String createItemListing(String itemName, double itemPrice, String itemCondition, 
             String itemDescription, String itemImagefileName, long categoryID, String username, 
             String tradeLocation, String tradeLat, String tradeLong, String tradeInformation);
+    public String editItemListing(long itemID, String itemName, double itemPrice, String itemCondition, 
+            String itemDescription, String itemImageFileName, long itemCategoryID, String username, 
+            String tradeLocation, String tradeLat, String tradeLong, String tradeInformation);
+    public String deleteItemListing(long itemIDToDelete);
     
     public List<Vector> viewItemCategoryList();
 }
