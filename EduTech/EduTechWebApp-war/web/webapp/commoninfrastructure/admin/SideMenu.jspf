@@ -1,7 +1,7 @@
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="SystemAdmin?pageTransit=StudentList" class="site_title"><i class="fas fa-tv"></i> <span>System Admin</span></a>
+            <a href="SystemAdmin?pageTransit=SystemAdminDashboard" class="site_title"><i class="fas fa-tv"></i> <span>System Admin</span></a>
         </div>
         <div class="clearfix"></div>                          
         <!-- menu profile quick info -->
@@ -23,17 +23,16 @@
             <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                    <!--
-                    <li><a href="SystemAdmin?pageTransit=SystemAdminDashboard"><i class="fas fa-home"></i>&nbsp;&nbsp;Dashboard&nbsp;</a>-->
+                    <li><a href="SystemAdmin?pageTransit=SystemAdminDashboard"><i class="fas fa-home fa-lg"></i>&nbsp;&nbsp;Dashboard&nbsp;</a>
                     </li>
-                    <li><a><i class="fas fa-users"></i>&nbsp;&nbsp;Users&nbsp;&nbsp;<span class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="fas fa-users fa-lg"></i>&nbsp;&nbsp;Users&nbsp;&nbsp;<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="SystemAdmin?pageTransit=StudentList">Students</a></li>
                             <li><a href="SystemAdmin?pageTransit=InstructorList">Instructors</a></li>
                             
                         </ul>
                     </li>
-                    <li><a href="SystemAdmin?pageTransit=AllAdminList"><i class="fas fa-unlock-alt"></i>&nbsp;&nbsp;Administrators&nbsp;</a>
+                    <li><a href="SystemAdmin?pageTransit=AllAdminList"><i class="fas fa-unlock-alt fa-lg"></i>&nbsp;&nbsp;&nbsp;Administrators&nbsp;</a>
                     </li>
                 </ul>
             </div>

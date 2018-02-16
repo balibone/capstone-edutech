@@ -26,6 +26,8 @@ public interface SystemAdminMgrBeanRemote {
     public ArrayList<ArrayList> getAllAdmins();
     public boolean createNewAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName,String adminType);
 
+    public Long getUserCount(String type);
+
 
 
     

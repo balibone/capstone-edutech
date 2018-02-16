@@ -175,5 +175,19 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             return false; 
         }
     }
+
+    @Override
+    public Long getUserCount(String type) {
+        Query q1 = em.createQuery("SELECT COUNT(DISTINCT u.username) FROM SystemUser u WHERE u.userActiveStatus=1 AND u.userType = :type");
+        q1.setParameter("type", type);
+        Long count = new Long(0);
+        try{
+            count = (Long)q1.getSingleResult();
+        }catch(Exception e){
+            System.out.println("Exception in SystemAdminMgrBean.getUserCount().getSingleResult()");
+            e.printStackTrace();
+        }
+        return count;
+    }
     
 }
