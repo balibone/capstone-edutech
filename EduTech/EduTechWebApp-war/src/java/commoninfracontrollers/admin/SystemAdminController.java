@@ -28,9 +28,7 @@ import javax.servlet.http.Part;
         maxFileSize = 1024 * 1024 * 50,
         maxRequestSize = 1024 * 1024 * 100
 )
-public class SystemAdminController
-        extends HttpServlet {
-
+public class SystemAdminController extends HttpServlet {
     @EJB
     private SystemAdminMgrBeanRemote sam;
     
@@ -50,39 +48,39 @@ public class SystemAdminController
             //Convention: EditStudent is for page redirect. editStudent is for database update handling
             switch (pageAction) {
                 case "SystemAdminDashboard":
-                    pageAction="SystemAdminDashboard";
+                    pageAction = "SystemAdminDashboard";
                     break;
                 case "StudentList":
                     request.setAttribute("studentList", sam.getAllStudents());
-                    pageAction="StudentList";
+                    pageAction = "StudentList";
                     break;
                 case "NewStudent":
-                    pageAction="NewStudent";
+                    pageAction = "NewStudent";
                     break;
                 case "ViewStudent":
                     id = request.getParameter("id");
                     userInfo = sam.getUserInfo(id);
                     request.setAttribute("userInfo", userInfo);
-                    pageAction="ViewStudent";
+                    pageAction = "ViewStudent";
                     break;
                 case "EditStudent":
                     id = request.getParameter("id");
                     userInfo = sam.getUserInfo(id);
                     request.setAttribute("userInfo", userInfo);
-                    pageAction="EditStudent";
+                    pageAction = "EditStudent";
                     break;
                 case "createStudent"://create new student
                     success = processNewUser(request,response, "student");//pass request to helper method for parsing & store success boolean
                     msg = "";//confirmation msg
                     if (success){
                         msg = "User created successfully.";
-                    }else{
+                    } else{
                         msg = "Failed to create user. Please try again.";
                     }
                     request.setAttribute("success", success);//success boolean
                     request.setAttribute("msg", msg);//plug in confirmation
                     
-                    pageAction="NewStudent";//response is same page. 
+                    pageAction = "NewStudent";
                     break;
                 case "editStudent"://create new student
                     success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
@@ -108,23 +106,23 @@ public class SystemAdminController
                     pageAction="InstructorList";
                     break;
                 case "NewInstructor":
-                    pageAction="NewInstructor";
+                    pageAction = "NewInstructor";
                     break;
                 case "ViewInstructor":
                     id = request.getParameter("id");
                     userInfo = sam.getUserInfo(id);
                     request.setAttribute("userInfo", userInfo);
-                    pageAction="ViewInstructor";
+                    pageAction = "ViewInstructor";
                     break;
                 case "EditInstructor":
                     id = request.getParameter("id");
                     userInfo = sam.getUserInfo(id);
                     request.setAttribute("userInfo", userInfo);
-                    pageAction="EditInstructor";
+                    pageAction = "EditInstructor";
                     break;
-                case "createInstructor"://create new instructor
+                case "createInstructor":
                     boolean successIndex = processNewUser(request,response, "instructor");//pass request to helper method for parsing & store success boolean
-                    String message = "";//confirmation msg
+                    String message = "";
                     if (successIndex){
                         message = "User created successfully.";
                     }else{
@@ -132,11 +130,11 @@ public class SystemAdminController
                     }
                     request.setAttribute("success", successIndex);//success boolean
                     request.setAttribute("msg", message);//plug in confirmation         
-                    pageAction="NewInstructor";//response is same page. 
+                    pageAction = "NewInstructor";
                     break;
                 case "editInstructor":
                     success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
-                    msg = "";//confirmation msg
+                    msg = "";
                     if (success){
                         msg = "User edited successfully.";
                     }else{
@@ -144,32 +142,32 @@ public class SystemAdminController
                     }
                     request.setAttribute("success", success);//success boolean
                     request.setAttribute("msg", msg);//plug in confirmation
-                    pageAction="EditInstructor";
+                    pageAction = "EditInstructor";
                     break;
                 case "deleteInstructor":
                     sam.deleteUser(request.getParameter("id"));
                     request.setAttribute("instructorList", sam.getAllInstructors());
-                    pageAction="InstructorList";
+                    pageAction = "InstructorList";
                     break; 
                 case "AllAdminList":
                     ArrayList<ArrayList> adminList = sam.getAllAdmins();
                     request.setAttribute("adminList", adminList);
-                    pageAction="AllAdminList";
+                    pageAction = "AllAdminList";
                     break;
                 case "NewAdmin":
-                    pageAction="NewAdmin";
+                    pageAction = "NewAdmin";
                     break;
                 case "ViewAdmin":
                     id = request.getParameter("id");
                     userInfo = sam.getUserInfo(id);
                     request.setAttribute("userInfo", userInfo);
-                    pageAction="ViewAdmin";
+                    pageAction = "ViewAdmin";
                     break;
                 case "EditAdmin":
                     id = request.getParameter("id");
                     userInfo = sam.getUserInfo(id);
                     request.setAttribute("userInfo", userInfo);
-                    pageAction="EditAdmin";
+                    pageAction = "EditAdmin";
                     break;
                 case "createAdmin"://create new student
                     boolean createAdminStatus = processNewUser(request,response, "admin");//pass request to helper method for parsing & store success boolean
@@ -182,11 +180,11 @@ public class SystemAdminController
                     request.setAttribute("success", createAdminStatus);//success boolean
                     request.setAttribute("msg", adminMsg);//plug in confirmation
                     
-                    pageAction="NewAdmin";//response is same page. 
+                    pageAction = "NewAdmin";
                     break;
                 case "editAdmin":
                     success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
-                    msg = "";//confirmation msg
+                    msg = "";
                     if (success){
                         msg = "User edited successfully.";
                     }else{
@@ -194,13 +192,13 @@ public class SystemAdminController
                     }
                     request.setAttribute("success", success);//success boolean
                     request.setAttribute("msg", msg);//plug in confirmation
-                    pageAction="EditAdmin";
+                    pageAction = "EditAdmin";
                     break;
                 case "deleteAdmin":
                     id = request.getParameter("id");
                     sam.deleteUser(id);
                     request.setAttribute("adminList", sam.getAllAdmins());
-                    pageAction="AllAdminList";
+                    pageAction = "AllAdminList";
                     break;
                 default:
                     break;
@@ -238,8 +236,7 @@ public class SystemAdminController
         FileOutputStream out = null;
         InputStream fileContent = null;
         try {
-            out = new FileOutputStream(new File(imageDir + File.separator
-                    + fileName));
+            out = new FileOutputStream(new File(imageDir + File.separator + fileName));
             fileContent = imagePart.getInputStream();
             
             int bytesRead = 0;

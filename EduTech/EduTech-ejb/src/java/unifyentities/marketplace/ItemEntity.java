@@ -91,7 +91,7 @@ public class ItemEntity implements Serializable {
     public String getItemDescription() { return itemDescription; }
     public String getItemImage() { return itemImage; }
     public String getItemStatus() { return itemStatus; }
-    public int getItemNumOfLikes() { return 0; }
+    public int getItemNumOfLikes() { return itemNumOfLikes; }
     public String getTradeLocation() { return tradeLocation; }
     public String getTradeLat() { return tradeLat; }
     public String getTradeLong() { return tradeLong; }
@@ -112,6 +112,7 @@ public class ItemEntity implements Serializable {
     public void setItemDescription(String itemDescription) { this.itemDescription = itemDescription; }
     public void setItemImage(String itemImage) { this.itemImage = itemImage; }
     public void setItemStatus(String itemStatus) { this.itemStatus = itemStatus; }
+    public void setItemNumOfLikes(int itemNumOfLikes) { this.itemNumOfLikes = itemNumOfLikes; }
     public void setTradeLocation(String tradeLocation) { this.tradeLocation = tradeLocation; }
     public void setTradeLat(String tradeLat) { this.tradeLat = tradeLat; }
     public void setTradeLong(String tradeLong) { this.tradeLong = tradeLong; }

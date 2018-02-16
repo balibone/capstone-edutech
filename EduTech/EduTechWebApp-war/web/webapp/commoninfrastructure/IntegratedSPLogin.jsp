@@ -19,7 +19,7 @@
             <div class="container">
                 <div class="row header">
                     <div class="col-md-12">
-                        <h3 class="logo"><a href="index.html">Welcome to Integrated Student System</a></h3>
+                        <h3 class="logo"><a href="index.html">Welcome to EduBox</a></h3>
                         <p>Sign in to your account here.</p>
                     </div>
                 </div>
@@ -41,13 +41,9 @@
                                             <div class="checkbox">
                                                 <label><input type="checkbox">&nbsp;Remember me</label>
                                             </div>
-                                            <%
-                                            if(request.getAttribute("sysMessage")!=null){
-                                            %>
-                                            <div class="alert alert-danger" role="alert"><%=request.getAttribute("sysMessage")%></div>
-                                            <%
-                                            }
-                                            %> 
+                                            <%  if(request.getAttribute("sysMessage") != null) {   %>
+                                            <div class="alert alert-danger" role="alert"><%= request.getAttribute("sysMessage")%></div>
+                                            <%  }   %> 
                                             <div class="submit">
                                                 <input type="hidden" name="pageTransit" value="loginToSys"/>
                                                 <button type="submit" class="btn btn-default">Sign in to my account</button>

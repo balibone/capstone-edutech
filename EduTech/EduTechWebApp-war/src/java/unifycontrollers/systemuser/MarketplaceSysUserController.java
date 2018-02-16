@@ -50,6 +50,31 @@ public class MarketplaceSysUserController extends HttpServlet {
                     request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
                     pageAction = "NewItemListingSYS";
                     break;
+                case "goToEditItemListingSYS":
+                    long urlItemID = Long.parseLong(request.getParameter("urlItemID"));
+                    request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(urlItemID));
+                    request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
+                    pageAction = "EditItemListingSYS";
+                    break;
+                case "editItemListingSYS":
+                    responseMessage = editItemListing(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    long itemIDToUpdate = Long.parseLong(request.getParameter("hiddenItemID"));
+                    request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(itemIDToUpdate));
+                    request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
+                    pageAction = "EditItemListingSYS";
+                    break;
+                case "deleteItemListingSYS":
+                    long itemIDToDelete = Long.parseLong(request.getParameter("hiddenItemID"));
+                    responseMessage = msmr.deleteItemListing(itemIDToDelete);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList());
+                    pageAction = "ViewItemListingSYS";
+                    break;
                 case "goToViewItemListingSYS":
                     request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList());
                     pageAction = "ViewItemListingSYS";
@@ -146,6 +171,73 @@ public class MarketplaceSysUserController extends HttpServlet {
         
         return msmr.createItemListing(itemName, itemPrice, itemCondition, itemDescription, itemImagefileName, 
                 categoryID, username, tradeLocation, tradeLat, tradeLong, tradeInformation);
+    }
+    
+    private String editItemListing(HttpServletRequest request) {
+        String itemImageFileName = "";
+        String imageUploadStatus = request.getParameter("imageUploadStatus");
+        
+        if(imageUploadStatus.equals("Uploaded")) {
+            try {
+                Part filePart = request.getPart("itemImage");
+                itemImageFileName = (String) getFileName(filePart);
+
+                String appPath = request.getServletContext().getRealPath("");
+                String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator 
+                        + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+                String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator 
+                        + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "marketplace" 
+                        + File.separator + "item" + File.separator;
+
+                InputStream inputStream = null;
+                OutputStream outputStream = null;
+                try {
+                    File outputFilePath = new File(imageDir + itemImageFileName);
+                    inputStream = filePart.getInputStream();
+                    outputStream = new FileOutputStream(outputFilePath);
+
+                    int read = 0;
+                    final byte[] bytes = new byte[1024];
+                    while ((read = inputStream.read(bytes)) != -1) {
+                        outputStream.write(bytes, 0, read);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    itemImageFileName = "";
+                } finally {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    if (outputStream != null) {
+                        outputStream.close();
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                itemImageFileName = "";
+            }
+        } else { itemImageFileName = request.getParameter("hiddenItemImage"); }
+        
+        long itemID = Long.parseLong(request.getParameter("hiddenItemID"));
+        String itemName = request.getParameter("itemName");
+        if(itemName.equals("")) { itemName = request.getParameter("hiddenItemName"); }
+        String itemPrice = request.getParameter("itemPrice");
+        if(itemPrice.equals("")) { itemPrice = request.getParameter("hiddenItemPrice"); }
+        String itemCondition = request.getParameter("itemCondition");
+        if(itemCondition.equals("")) { itemCondition = request.getParameter("hiddenItemCondition"); }
+        String itemDescription = request.getParameter("itemDescription");
+        if(itemDescription.equals("")) { itemDescription = request.getParameter("hiddenItemDescription"); }
+        long itemCategoryID = Long.parseLong(request.getParameter("hiddenItemCategoryID"));
+        String username = request.getParameter("username");
+        String tradeLocation = request.getParameter("tradeLocation");
+        if(tradeLocation.equals("")) { tradeLocation = request.getParameter("hiddenTradeLocation"); }
+        String tradeLat = request.getParameter("hiddenTradeLat");
+        String tradeLong = request.getParameter("hiddenTradeLong");
+        String tradeInformation = request.getParameter("tradeInformation");
+        if(tradeInformation.equals("")) { tradeInformation = request.getParameter("hiddenTradeInformation"); }
+        
+        return msmr.editItemListing(itemID, itemName, Double.parseDouble(itemPrice), itemCondition, itemDescription, 
+                itemImageFileName, itemCategoryID, username, tradeLocation, tradeLat, tradeLong, tradeInformation);
     }
     
     /* MISCELLANEOUS METHODS */

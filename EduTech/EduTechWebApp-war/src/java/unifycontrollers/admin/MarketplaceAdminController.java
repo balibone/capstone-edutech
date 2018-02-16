@@ -236,8 +236,7 @@ public class MarketplaceAdminController extends HttpServlet {
                 ex.printStackTrace();
                 fileName = "";
             }
-        }
-        else { fileName = request.getParameter("oldCategoryImage"); }
+        } else { fileName = request.getParameter("oldCategoryImage"); }
         
         String oldCategoryName = request.getParameter("oldCategoryName");
         String newCategoryName = request.getParameter("categoryName");

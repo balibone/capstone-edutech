@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - Marketplace(Item) Listing</title>
+        <title>Unify Marketplace - Item Listing</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -17,8 +17,9 @@
         <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/leaflet.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/marketplace/ViewItemDetailsSYSCSS.css" rel="stylesheet" type="text/css">
     </head>
     <body onload="loadMap()">
         <!-- MOBILE SIDE NAVIGATION -->
@@ -149,24 +150,30 @@
             <div class="container" style="margin-bottom: 30px;">
                 <%
                     Vector itemDetailsSYSVec = (Vector) request.getAttribute("itemDetailsSYSVec");
-                    String itemImage, itemName, itemCategoryName, itemStatus, itemPrice, itemDescription;
-                    itemImage = itemName = itemCategoryName = itemStatus = itemPrice = itemDescription = "";
+                    String itemID, itemName, itemCategoryName, itemPrice, itemCondition, itemDescription, itemImage, itemStatus, itemNumOfLikes;
+                    itemID = itemName = itemCategoryName = itemPrice = itemCondition = itemDescription = itemImage = itemStatus = itemNumOfLikes = "";
 
-                    String itemPostingDate, tradeLocation, tradeLat, tradeLong, itemSellerID;
-                    itemPostingDate = tradeLocation = tradeLat = tradeLong = itemSellerID = "";
+                    String itemPostingDate, tradeLocation, tradeLat, tradeLong, tradeInformation, itemSellerID, itemSellerImage, itemSellerJoinDate;
+                    itemPostingDate = tradeLocation = tradeLat = tradeLong = tradeInformation = itemSellerID = itemSellerImage = itemSellerJoinDate = "";
 
                     if (itemDetailsSYSVec != null) {
-                        itemImage = (String) itemDetailsSYSVec.get(0);
+                        itemID = (String.valueOf(itemDetailsSYSVec.get(0)));
                         itemName = (String) itemDetailsSYSVec.get(1);
                         itemCategoryName = (String) itemDetailsSYSVec.get(2);
-                        itemStatus = (String.valueOf(itemDetailsSYSVec.get(3)));
-                        itemPrice = (String.valueOf(itemDetailsSYSVec.get(4)));
-                        itemDescription = (String.valueOf(itemDetailsSYSVec.get(5)));
-                        itemPostingDate = (String.valueOf(itemDetailsSYSVec.get(6)));
-                        tradeLocation = (String.valueOf(itemDetailsSYSVec.get(7)));
-                        tradeLat = (String.valueOf(itemDetailsSYSVec.get(8)));
-                        tradeLong = (String.valueOf(itemDetailsSYSVec.get(9)));
-                        itemSellerID = (String.valueOf(itemDetailsSYSVec.get(10)));
+                        itemPrice = (String.valueOf(itemDetailsSYSVec.get(3)));
+                        itemCondition = (String) itemDetailsSYSVec.get(4);
+                        itemDescription = (String) itemDetailsSYSVec.get(5);
+                        itemImage = (String) itemDetailsSYSVec.get(6);
+                        itemStatus = (String) itemDetailsSYSVec.get(7);
+                        itemNumOfLikes = (String.valueOf(itemDetailsSYSVec.get(8)));
+                        itemPostingDate = (String.valueOf(itemDetailsSYSVec.get(9)));
+                        tradeLocation = (String) itemDetailsSYSVec.get(10);
+                        tradeLat = (String) itemDetailsSYSVec.get(11);
+                        tradeLong = (String) itemDetailsSYSVec.get(12);
+                        tradeInformation = (String) itemDetailsSYSVec.get(13);
+                        itemSellerID = (String.valueOf(itemDetailsSYSVec.get(14)));
+                        itemSellerImage = (String) itemDetailsSYSVec.get(15);
+                        itemSellerJoinDate = (String.valueOf(itemDetailsSYSVec.get(16)));
                     }
                 %>
                 <div class="row">
@@ -174,7 +181,7 @@
                         <div class="title"><span><%= itemName%></span></div>
                     </div>
                     <div class="col-xl-4 col-lg-5 col-md-6">
-                        <img src="uploads/unify/images/marketplace/item/<%= itemImage%>" class="img-fluid mb-2 border w-100 image-detail" data-zoom-image="uploads/unify/images/marketplace/item/<%= itemImage%>" alt="" style="cursor: pointer;">
+                        <img src="uploads/unify/images/marketplace/item/<%= itemImage%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer;">
                         <div class="title d-none d-md-block"><span>Share to</span></div>
                         <ul class="list-inline d-none d-md-block">
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-facebook"></i></button></li>
@@ -191,9 +198,9 @@
                                     <td class="border-top-0" colspan="2"><h5><%= itemName%></h5></td>
                                 </tr>
                                 <tr>
-                                    <td>Item Category</td>
+                                    <td>Item Condition</td>
                                     <td>
-                                        <ul class="list-inline mb-0"><li class="list-inline-item"><h5 class="mb-0"><%= itemCategoryName%></h5></li></ul>
+                                        <ul class="list-inline mb-0"><li class="list-inline-item"><h5 class="mb-0"><%= itemCondition%></h5></li></ul>
                                     </td>
                                 </tr>
                                 <tr>
@@ -204,22 +211,36 @@
                                 </tr>
                                 <tr>
                                     <td>Availability</td>
-                                    <%
-                                        if (itemStatus.equals("Available")) {
-                                    %>
+                                    <%  if (itemStatus.equals("Available")) {   %>
                                     <td><span class="badge badge-success custom-badge arrowed-left"><%= itemStatus%></span></td>
-                                        <%
-                                        } else if (itemStatus.equals("Sold")) {
-                                        %>
+                                    <%  } else if (itemStatus.equals("Sold")) { %>
                                     <td><span class="badge badge-danger custom-badge arrowed-left"><%= itemStatus%></span></td>
-                                        <%  }%>
+                                    <%  }   %>
                                 </tr>
                                 <tr>
-                                    <td></td>
+                                    <td>Number of Likes</td>
+                                    <td>
+                                        <ul class="list-inline mb-0">
+                                            <li class="list-inline-item">
+                                                <%  if(itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {    %>
+                                                <span class="price"><h5 class="mb-0"><%= itemNumOfLikes%>&nbsp;Like</h5></span>
+                                                <%  } else { %>
+                                                <span class="price"><h5 class="mb-0"><%= itemNumOfLikes%>&nbsp;Likes</h5></span>
+                                                <%  }   %>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
                                     <td>
                                         <div class="btn-group" role="group">
+                                            <%  if (itemSellerID.equals(request.getAttribute("loggedInUsername"))) {    %>
+                                            <button type="button" class="btn btn-outline-theme" onclick="location.href='MarketplaceSysUser?pageTransit=goToEditItemListingSYS&urlItemID=<%= itemID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
+                                            <%  } else {    %>
                                             <button type="button" class="btn btn-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
-                                            <button type="button" class="btn btn-outline-theme" data-toggle="tooltip" data-placement="top" title="Like (Add to Wishlist)"><i class="fa fa-heart"></i></button>
+                                            <%  }   %>
+                                            <button type="button" class="btn btn-outline-theme" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -238,11 +259,20 @@
                                     <tbody>
                                         <tr>
                                             <td class="bg-light w-25">Trade Location</td>
-                                            <td><%= tradeLocation%></td>
+                                            <td>
+                                                <input type="hidden" id="tradeLocation" value="<%= tradeLocation %>" />
+                                                <input type="hidden" id="tradeLat" value="<%= tradeLat %>" />
+                                                <input type="hidden" id="tradeLong" value="<%= tradeLong %>" />
+                                                <%= tradeLocation%>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="bg-light w-25">Trade Location Map</td>
                                             <td><div id="mapdiv" style="width: auto; height: 300px;"></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light w-25">Trade Information</td>
+                                            <td><%= tradeInformation%></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -251,31 +281,33 @@
                                 <table class="table table-bordered mb-0">
                                     <tbody>
                                         <tr>
-                                            <td class="bg-light w-25">Item Posted Date</td>
-                                            <td><%= itemPostingDate%></td>
+                                            <td class="bg-light w-25">Item Category</td>
+                                            <td><%= itemCategoryName%></td>
                                         </tr>
                                         <tr>
                                             <td class="bg-light w-25">Item Description</td>
                                             <td><%= itemDescription%></td>
                                         </tr>
+                                        <tr>
+                                            <td class="bg-light w-25">Item Posted Date</td>
+                                            <td><%= itemPostingDate%></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="tab-pane border border-top-0 p-3" id="itemSellerPane" role="tabpanel" aria-labelledby="itemSellerPane-tab">
-                                <div class="media mb-3">
+                                <h5 class="sellerInfo">Seller Information:</h5>
+                                <div class="media mb-2 mt-3">
                                     <div class="mr-2">
-                                        <img class="img-thumbnail" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
+                                        <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage %>" />
+                                    </div>
+                                    <div class="media-body col-md-6">
+                                        <h5 class="sellerInfo"><%= itemSellerID%></h5>
+                                        Joined on <%= itemSellerJoinDate %><br/>
+                                        <hr/>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
                                         </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="font-weight-bold"><%= itemSellerID%></div>
-                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
                                     </div>
                                 </div>
                             </div>
