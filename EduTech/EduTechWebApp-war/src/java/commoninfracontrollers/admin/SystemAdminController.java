@@ -48,6 +48,12 @@ public class SystemAdminController extends HttpServlet {
             //Convention: EditStudent is for page redirect. editStudent is for database update handling
             switch (pageAction) {
                 case "SystemAdminDashboard":
+                    request.setAttribute("studentCount", sam.getUserCount("student"));
+                    request.setAttribute("instructorCount", sam.getUserCount("instructor"));
+                    request.setAttribute("edutechCount", sam.getUserCount("edutechadmin"));
+                    request.setAttribute("unifyCount", sam.getUserCount("unifyadmin"));
+                    request.setAttribute("dualCount", sam.getUserCount("dualadmin"));
+                    request.setAttribute("superCount", sam.getUserCount("superadmin"));
                     pageAction = "SystemAdminDashboard";
                     break;
                 case "StudentList":
