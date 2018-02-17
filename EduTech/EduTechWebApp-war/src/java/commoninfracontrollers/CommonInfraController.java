@@ -114,6 +114,9 @@ public class CommonInfraController extends HttpServlet {
                 case "goToSystemAdmin":
                     pageAction = "SystemAdminDashboard";
                     break;
+                case "goToEdutechAdmin":
+                    pageAction = "EduTechAdminDashboard";
+                    break;
                 case "goToUnifyAdmin":
                     pageAction = "AdminDashboard";
                     break;
