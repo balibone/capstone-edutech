@@ -192,6 +192,22 @@
         <servlet-name>ViewReviewListDetails</servlet-name>
         <jsp-file>/webapp/unify/admin/voices/ViewReviewListDetails.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyCategoryList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyCategoryList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewCompanyCategory</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/NewCompanyCategory.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyCategoryListDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyCategoryListDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyReviewList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyReviewList.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
     <servlet>
         <servlet-name>ProfileSysUser</servlet-name>
@@ -262,26 +278,19 @@
         <servlet-name>ViewJobDetails</servlet-name>
         <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
     </servlet>
+    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet>
-        <servlet-name>ViewCompanyCategoryList</servlet-name>
-        <jsp-file>/webapp/unify/admin/voices/ViewCompanyCategoryList.jsp</jsp-file>
+        <servlet-name>ViewCompanyRequestList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyRequestList.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>NewCompanyCategory</servlet-name>
-        <jsp-file>/webapp/unify/admin/voices/NewCompanyCategory.jsp</jsp-file>
+        <servlet-name>ViewCompanyRequestListDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyRequestListDetails.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>ViewCompanyCategoryListDetails</servlet-name>
-        <jsp-file>/webapp/unify/admin/voices/ViewCompanyCategoryListDetails.jsp</jsp-file>
+        <servlet-name>AddCompany</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/AddCompany.jsp</jsp-file>
     </servlet>
-    <servlet>
-        <servlet-name>ViewCompanyReviewList</servlet-name>
-        <jsp-file>/webapp/unify/admin/voices/ViewCompanyReviewList.jsp</jsp-file>
-    </servlet>
-    </servlet>
-        <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
-        <servlet-name>LandingPage</servlet-name>
-    <servlet>
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>

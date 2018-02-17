@@ -6,8 +6,8 @@ $(document).ready(function() {
     });
     
     $('#newCompany-iframe').iziModal({
-        title: 'New Company Category',
-        subtitle: 'Fill in the information of the new category here',
+        title: 'New Company',
+        subtitle: 'Fill in the information of the new company here',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',

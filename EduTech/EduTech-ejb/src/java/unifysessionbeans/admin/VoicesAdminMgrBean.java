@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
+import unifyentities.voices.CompanyRequestEntity;
 
 @Stateless
 public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
@@ -24,6 +25,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     
     private CompanyEntity compEntity;
     private CompanyReviewEntity companyReviewEntity;
+    private CompanyRequestEntity companyRequestEntity;
     private CategoryEntity categoryEntity;
     private Collection<CompanyReviewEntity> companyReviewList;
     private Collection<CompanyEntity> companySet;
@@ -400,5 +402,84 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             em.merge(categoryEntity);
         }
         return ccUpdateStatus;
+    }
+    
+    @Override
+    public List<Vector> viewCompanyRequestList() {
+        Query q = em.createQuery("SELECT cr from CompanyRequest cr");
+        List<Vector> requestList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            CompanyRequestEntity ce = (CompanyRequestEntity) o;
+            Vector requestVec = new Vector();
+            
+            requestVec.add(ce.getRequestDate());
+            requestVec.add(ce.getRequestCompany());
+            requestVec.add(ce.getRequestPosterID());
+            requestVec.add(ce.getRequestStatus());
+            requestVec.add(ce.getRequestComment());
+            requestVec.add(ce.getRequestIndustry());
+            requestList.add(requestVec);
+        }
+        return requestList;
+    }
+    
+    @Override
+    public Vector viewCompanyRequestDetails(String requestCompany, String requestPosterID) {
+        companyRequestEntity = lookupRequest(requestCompany, requestPosterID);
+        Vector requestDetailsVec = new Vector();
+        if (companyRequestEntity != null) {
+            requestDetailsVec.add(companyRequestEntity.getRequestID());
+            requestDetailsVec.add(companyRequestEntity.getRequestDate());
+            requestDetailsVec.add(companyRequestEntity.getRequestPosterID());
+            requestDetailsVec.add(companyRequestEntity.getRequestCompany());
+            requestDetailsVec.add(companyRequestEntity.getRequestIndustry());
+            requestDetailsVec.add(companyRequestEntity.getRequestComment());
+            requestDetailsVec.add(companyRequestEntity.getRequestStatus());
+        }
+        return requestDetailsVec;
+    }
+    
+    @Override
+    public boolean solveRequest(String requestCompany, String requestPosterID) {
+        boolean requestStatus = false;
+        companyRequestEntity = lookupRequest(requestCompany, requestPosterID);
+        if(companyRequestEntity != null) {
+            companyRequestEntity.setRequestStatus("Solved");
+            em.merge(companyRequestEntity);
+            requestStatus = true;
+        }
+        return requestStatus;
+    }
+    
+    @Override
+    public boolean rejectRequest(String requestCompany, String requestPosterID) {
+        boolean requestStatus = false;
+        companyRequestEntity = lookupRequest(requestCompany, requestPosterID);
+        if(companyRequestEntity != null) {
+            companyRequestEntity.setRequestStatus("Rejected");
+            em.merge(companyRequestEntity);
+            requestStatus = true;
+        }
+        return requestStatus;
+    }
+    
+    public CompanyRequestEntity lookupRequest(String requestCompany, String requestPosterID) {
+        CompanyRequestEntity cre = new CompanyRequestEntity();
+        try {
+            Query q = em.createQuery("SELECT cr from CompanyRequest cr WHERE cr.requestCompany=:requestCompany AND cr.requestPosterID=:requestPosterID");
+            q.setParameter("requestCompany", requestCompany);
+            q.setParameter("requestPosterID", requestPosterID);
+            cre = (CompanyRequestEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Company request cannot be found. " + enfe.getMessage());
+            em.remove(cre);
+            cre = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Company request does not exist. " + nre.getMessage());
+            em.remove(cre);
+            cre = null;
+        }
+        return cre;
     }
 }

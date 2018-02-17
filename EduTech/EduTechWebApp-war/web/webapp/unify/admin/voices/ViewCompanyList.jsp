@@ -62,6 +62,7 @@
                                         <ul class="nav child_menu">
                                             <li><a href="VoicesAdmin?pageTransit=goToViewCompanyCategoryList">Company Categories</a></li>
                                             <li><a href="VoicesAdmin?pageTransit=goToViewCompanyList">Company Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewCompanyRequestList">Request Listing</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-table"></i>&nbsp;Tags&nbsp;<span class="fa fa-chevron-down"></span></a>

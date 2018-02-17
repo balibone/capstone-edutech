@@ -6,7 +6,7 @@ $(document).ready(function() {
     });
     
     $('#newCompanyCategory-iframe').iziModal({
-        title: 'New Company',
+        title: 'New Category',
         subtitle: 'Fill in the information of the new category here',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',

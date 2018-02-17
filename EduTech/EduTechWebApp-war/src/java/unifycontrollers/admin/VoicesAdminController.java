@@ -48,7 +48,16 @@ public class VoicesAdminController extends HttpServlet {
                 case "goToNewCompany":
                     pageAction = "NewCompany";
                     break;
-                case "addCompany":
+                case "goToAddCompany":
+                    String posterID = (String) request.getParameter("requestPosterID");
+                    String addRequestCompany = (String) request.getParameter("requestCompany");
+                    String addRequestIndustry = (String) request.getParameter("requestIndustry");
+                    request.setAttribute("requestPosterID", posterID);
+                    request.setAttribute("requestCompany", addRequestCompany);
+                    request.setAttribute("requestIndustry", addRequestIndustry);
+                    pageAction = "AddCompany";
+                    break;
+                case "newCompany":
                     if (addCompany(request)) {
                         request.setAttribute("successMessage", "Company has been added successfully.");
                     } else {
@@ -56,6 +65,18 @@ public class VoicesAdminController extends HttpServlet {
                     }
                     request.setAttribute("data", (ArrayList) vamr.viewCompanyList());
                     pageAction = "ViewCompanyList";
+                    break;
+                 case "addCompany":
+                    String newRequestCompany = (String) request.getParameter("hiddenRequestCompany");
+                    String newRequestPosterID = (String) request.getParameter("hiddenRequestPosterID");
+                    if (addCompany(request)) {
+                        request.setAttribute("successMessage", "Company has been added successfully.");
+                    } else {
+                        request.setAttribute("errorMessage", "One or more fields are invalid. Please check again.");
+                    }
+                    vamr.solveRequest(newRequestCompany, newRequestPosterID);
+                    request.setAttribute("requestListVec", (ArrayList) vamr.viewCompanyRequestList());
+                    pageAction = "ViewCompanyRequestList";
                     break;
                 case "goToViewCompanyListDetails":
                     String companyName = request.getParameter("companyName");
@@ -175,6 +196,30 @@ public class VoicesAdminController extends HttpServlet {
                     request.setAttribute("data", vamr.viewCompanyDetails(categoryCompanyName));
                     request.setAttribute("reviewListVec", (ArrayList) vamr.viewReviewList(categoryCompanyName));
                     pageAction = "ViewCompanyReviewList";
+                    break;
+                case "goToViewCompanyRequestList":
+                    data = (ArrayList) vamr.viewCompanyRequestList();
+                    request.setAttribute("requestListVec", data);
+                    pageAction = "ViewCompanyRequestList";
+                    break;
+                case "rejectRequest":
+                    String requestCompany = request.getParameter("hiddenRequestCompany");
+                    System.out.println(requestCompany);
+                    String requestPosterID = request.getParameter("hiddenRequestPosterID");
+                    System.out.println(requestPosterID);
+                    if (vamr.rejectRequest(requestCompany, requestPosterID)) {
+                        request.setAttribute("successMessage", "Selected Request has been rejected successfully.");
+                    } else {
+                        request.setAttribute("errorMessage", "Selected Request cannot be rejected. Please try again later.");
+                    }
+                    request.setAttribute("requestListVec", (ArrayList) vamr.viewCompanyRequestList());
+                    pageAction = "ViewCompanyRequestList";
+                    break; 
+                case "goToViewCompanyRequestListDetails":
+                    String viewRequestCompany = request.getParameter("requestCompany");
+                    String viewRequestPosterID = request.getParameter("requestPosterID");
+                    request.setAttribute("requestDetailsVec", vamr.viewCompanyRequestDetails(viewRequestCompany, viewRequestPosterID));
+                    pageAction = "ViewCompanyRequestListDetails";
                     break;
                 default:
                     break;

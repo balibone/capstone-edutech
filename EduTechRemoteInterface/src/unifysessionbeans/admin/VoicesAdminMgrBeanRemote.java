@@ -24,6 +24,10 @@ public interface VoicesAdminMgrBeanRemote {
     public boolean activateCompanyCategory(String actCategoryName, String actCategoryType);
     public boolean updateCompanyCategory(String oldCategoryName, String newCategoryName, String categoryType, 
             String oldCategoryDescription, String newCategoryDescription, String fileName);
+    public List<Vector> viewCompanyRequestList();
+    public Vector viewCompanyRequestDetails(String requestCompany, String requestPosterID);
+    public boolean solveRequest(String requestCompany, String requestPosterID);
+    public boolean rejectRequest(String requestCompany, String requestPosterID);
  
     
 }

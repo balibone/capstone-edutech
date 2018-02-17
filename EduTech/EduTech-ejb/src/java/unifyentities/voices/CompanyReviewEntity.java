@@ -73,7 +73,6 @@ public class CompanyReviewEntity implements Serializable {
     public String getReviewSalaryRange() { return reviewSalaryRange; }
     public Date getReviewDate() { return reviewDate; }
     public String getReviewPosterID() { return reviewPosterID; }
-    
     public UserEntity getUserEntity() { return userEntity; }
     public CompanyEntity getCompanyEntity() { return companyEntity; }
 
@@ -88,7 +87,6 @@ public class CompanyReviewEntity implements Serializable {
     public void setReviewSalaryRange(String reviewSalaryRange) { this.reviewSalaryRange = reviewSalaryRange; }
     public void setReviewDate(Date reviewDate) { this.reviewDate = reviewDate; }
     public void setReviewPosterID(String reviewPosterID) { this.reviewPosterID = reviewPosterID; }
-    
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
     public void setCompanyEntity(CompanyEntity companyEntity) { this.companyEntity = companyEntity; }
 }
