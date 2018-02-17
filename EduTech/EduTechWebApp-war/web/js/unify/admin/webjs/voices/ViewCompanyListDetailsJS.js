@@ -14,28 +14,29 @@ var rowReviewPosterID;
 $(document).ready(function() {
     $('#datatable-responsive tbody').on('click', 'tr', function(event) {
         var $cell= $(event.target).closest('td');
-        if($cell.index() > 0) {
+        if($cell.index() > 0 && $cell.index() < 4) {
             var rowData = $(this).children("td").map(function() {
                 return $(this).text();
             }).get();
             rowReviewedCompany =$.trim(rowData[1]);
             rowReviewPosterID = $.trim(rowData[2]);
             $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToViewReviewListDetails&reviewedCompany=' + rowReviewedCompany + '&reviewPosterID=' + rowReviewPosterID);
-            $('#modal-iframe').iziModal('open', event);
+            $('#reviewDetails-iframe').iziModal('open', event);
         }
     });
     
-    $("#modal-iframe").iziModal({
-        title: 'Review Details',
-        subtitle: 'Administrator may delete this review here',
-        iconClass: 'fa fa-cubes',
+    $("#reviewDetails-iframe").iziModal({
+        iconColor: '#337AB7',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#337AB7',
-        width: 760,
+        width: 540, 
         overlayClose: true,
+        overlayColor: 'rgba(0, 0, 0, 0.6)',
         iframe : true,
-        iframeHeight: 525
+        iframeHeight: 400,
+        history: false,
+        navigateCaption: true,
+        navigateArrows: false
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

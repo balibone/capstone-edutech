@@ -1,13 +1,13 @@
 var rowItemName;
 $(document).ready(function() {
-    $('#newCompany').on('click', function() {
-        $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToNewCompany');
-        $('#newCompany-iframe').iziModal('open', event);
+    $('#newCompanyCategory').on('click', function() {
+        $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToNewCompanyCategory');
+        $('#newCompanyCategory-iframe').iziModal('open', event);
     });
     
-    $('#newCompany-iframe').iziModal({
-        title: 'New Company',
-        subtitle: 'Fill in the information of the new company here',
+    $('#newCompanyCategory-iframe').iziModal({
+        title: 'New Category',
+        subtitle: 'Fill in the information of the new category here',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
@@ -25,15 +25,15 @@ $(document).ready(function() {
             var rowData = $(this).children("td").map(function() {
                 return $(this).text();
             }).get();
-            rowCompanyName = $.trim(rowData[1]);
-            $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToViewCompanyListDetails&companyName=' + rowCompanyName /*+ '&itemSellerID=' + rowSellerID*/);
+            rowCompanyName = $.trim(rowData[2]);
+            $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToViewCompanyCategoryListDetails&categoryName=' + rowCompanyName + '&categoryType=company');
             $('#modal-iframe').iziModal('open', event);
         }
     });
     
     $("#modal-iframe").iziModal({
-        title: 'Company Details',
-        subtitle: 'Administrator may deactivate this company here',
+        title: 'Category Details',
+        subtitle: 'Administrator may deactivate this company category here',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
@@ -44,6 +44,9 @@ $(document).ready(function() {
         iframeHeight: 525
     });
     
+    
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 });
+
+    

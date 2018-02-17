@@ -1,0 +1,29 @@
+#bodyContent { margin-top: 20px; }
+#formContent { padding-left: 10px; }
+
+input[type="file"] { display: none; }
+.image-upload { border: 3px dashed #D6D6D6; background-color: #FAFAFA; max-width: 151px; min-width: 151px; max-height: 156px; min-height: 156px;}
+#output-image { max-width: 145px; min-width: 145px; max-height: 150px; min-height: 150px; }
+
+
+
+.company.bad .alert {
+    left: 0;
+    opacity: 1;
+}
+
+.company.alert {
+    float: left;
+    margin: 0 0 0 20px;
+    padding: 3px 10px;
+    color: #FFF;
+    border-radius: 3px 4px 4px 3px;
+    background-color: #CE5454;
+    max-width: 170px;
+    white-space: pre;
+    position: relative;
+    left: -15px;
+    opacity: 0;
+    z-index: 1;
+    transition: .15s ease-out;
+}

@@ -1,6 +1,6 @@
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page import="java.util.ArrayList" %>
+<%@page import="java.util.Vector"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,6 +14,9 @@
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/UnifyAdminCommonCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/dataTable/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/dataTable/responsive.bootstrap.min.css" rel="stylesheet" type="text/css">
     </head>
 
     <body class="nav-md">
@@ -50,9 +53,8 @@
                                     </li>
                                     <li><a><i class="fa fa-edit"></i>&nbsp;Errands (Jobs)&nbsp;<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="ErrandsAdmin?pageTransit=goToViewJobCategoryListing">Job Categories</a></li>
-                                            <li><a href="ErrandsAdmin?pageTransit=goToViewJobListing">Job Listing</a></li>
-                                            <li><a href="ErrandsAdmin?pageTransit=goToViewJobTransactions">Job Transactions</a></li>
+                                            <li><a href="form.html">Job Categories</a></li>
+                                            <li><a href="form_advanced.html">Job Listing</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-desktop"></i>&nbsp;Company Reviews&nbsp;<span class="fa fa-chevron-down"></span></a>
@@ -193,13 +195,86 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_title">
-                                <h2 class="bodyHeader">Dashboard</h2>
+                                <h2 class="bodyHeader">Company Request Listing</h2>
                                 <div class="clearfix"></div>
                             </div>
-                            <div class="x_content"></div>
+                            <div class="x_content">
+                                <%
+                                    String successMessage = (String) request.getAttribute("successMessage");
+                                    if (successMessage != null) {
+                                %>
+                                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                                    <button type="button" class="close" id="closeSuccess">&times;</button>
+                                    <%= successMessage %>
+                                </div>
+                                <%  } %>
+                                <%
+                                    String errorMessage = (String) request.getAttribute("errorMessage");
+                                    if (errorMessage != null) {
+                                %>
+                                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                                    <button type="button" class="close" id="closeError">&times;</button>
+                                    <%= errorMessage %>
+                                </div>
+                                <%  } %>
+                                
+                                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Request Date</th>
+                                            <th>Poster ID</th>
+                                            <th>Request Company</th>
+                                            <th>Company Industry</th>
+                                            <th>Request Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%
+                                            ArrayList<Vector> requestList = (ArrayList) request.getAttribute("requestListVec");
+                                            if (!requestList.isEmpty()) {
+                                                for (int i = 0; i <= requestList.size() - 1; i++) {
+                                                    Vector v = requestList.get(i);
+                                                    String requestDate = String.valueOf(v.get(0));
+                                                    String requestCompany = String.valueOf(v.get(1));
+                                                    String requestPosterID = String.valueOf(v.get(2));
+                                                    String requestStatus = String.valueOf(v.get(3));
+                                                    String requestIndustry = String.valueOf(v.get(5));
+                                                    
+                                                    if(requestStatus.equals("Pending")) { %>
+                                            <tr>
+                                                <td><%= requestDate %></td>
+                                                <td id="posterID"><%= requestPosterID %></td>
+                                                <td id="company"><%= requestCompany %></td>
+                                                <td id="industry"><%= requestIndustry %></td>
+                                                <td>
+                                                    <input type="button" value="Create" class="btn btn-primary btn-xs" onClick="addCompany()" />
+                                                    <form action="VoicesAdmin" method="POST">
+                                                    <input type="hidden" name="pageTransit" value="rejectRequest"/>
+                                                    <input type="hidden" name="hiddenRequestCompany" value="<%= requestCompany %>"/>
+                                                    <input type="hidden" name="hiddenRequestPosterID" value="<%= requestPosterID %>"/>
+                                                    <button id="rejectRequest" type="submit" class="btn btn-danger btn-xs">Reject</button>
+                                                    </form>
+                                                </td>
+                                            </tr>            
+                                        <%          } else {  %>
+                                        <tr>
+                                            <td><%= requestDate %></td>
+                                            <td><%= requestPosterID %></td>
+                                            <td><%= requestCompany %></td>
+                                            <td><%= requestIndustry %></td>
+                                            <td><%= requestStatus %></td> 
+                                        </tr>
+                                        <%          }
+                                                }   %>
+                                        <%  }%>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div id="modal-iframe"></div>
+                <div id="newCompany-iframe"></div>
                 <div id="adminFooter"></div>
             </div>
         </div>
@@ -209,5 +284,12 @@
         <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/UnifyAdminCommonJS.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/iziModal.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/webjs/voices/ViewCompanyRequestListJS.js" type="text/javascript"></script>
+        
+        <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.bootstrap.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.min.js" type="text/javascript"></script>
     </body>
 </html>
