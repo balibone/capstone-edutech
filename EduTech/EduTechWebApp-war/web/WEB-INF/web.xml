@@ -208,6 +208,18 @@
         <servlet-name>ViewCompanyReviewList</servlet-name>
         <jsp-file>/webapp/unify/admin/voices/ViewCompanyReviewList.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyRequestList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyRequestList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyRequestListDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyRequestListDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>AddCompany</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/AddCompany.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
     <servlet>
         <servlet-name>ProfileSysUser</servlet-name>
@@ -269,27 +281,6 @@
     <servlet>
         <servlet-name>ViewJobTransactionListing</servlet-name>
         <jsp-file>/webapp/unify/admin/errands/ViewJobTransactionListing.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewJobCategoryListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobCategoryListing.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewJobDetails</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
-    </servlet>
-    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
-    <servlet>
-        <servlet-name>ViewCompanyRequestList</servlet-name>
-        <jsp-file>/webapp/unify/admin/voices/ViewCompanyRequestList.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewCompanyRequestListDetails</servlet-name>
-        <jsp-file>/webapp/unify/admin/voices/ViewCompanyRequestListDetails.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>AddCompany</servlet-name>
-        <jsp-file>/webapp/unify/admin/voices/AddCompany.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
