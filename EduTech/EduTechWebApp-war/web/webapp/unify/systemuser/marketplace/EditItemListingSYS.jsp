@@ -151,8 +151,7 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
-                            <%  
-                                String successMessage = (String) request.getAttribute("successMessage");
+                            <%                                String successMessage = (String) request.getAttribute("successMessage");
                                 if (successMessage != null) {
                             %>
                             <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
@@ -211,7 +210,7 @@
                                                 </label>
                                                 <input id="file-upload" name="itemImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" />
                                                 <input type="hidden" name="imageUploadStatus" id="imageUploadStatus" />
-                                                <input type="hidden" name="hiddenItemImage" value="<%= itemImage %>" />
+                                                <input type="hidden" name="hiddenItemImage" value="<%= itemImage%>" />
                                             </div>
                                         </div>
 
@@ -219,21 +218,25 @@
                                             <div class="form-group">
                                                 <label for="itemName">Item Name&nbsp;<span class="asterik">*</span></label>
                                                 <input type="text" class="form-control" name="itemName" placeholder="<%= itemName%>" />
-                                                <input type="hidden" name="hiddenItemID" value="<%= itemID %>" />
-                                                <input type="hidden" name="hiddenItemName" value="<%= itemName %>" />
+                                                <input type="hidden" name="hiddenItemID" value="<%= itemID%>" />
+                                                <input type="hidden" name="hiddenItemName" value="<%= itemName%>" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="itemCondition">Item Condition&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="itemCondition" data-width="75%">
-                                                    <option value="New">New</option>
-                                                    <option value="Used">Used</option>
-                                                </select>
-                                                <input type="hidden" name="hiddenItemCondition" id="dbItemCondition" value="<%= itemCondition %>" />
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" id="conditionNew" name="itemCondition" value="New" class="custom-control-input" />
+                                                    <label class="custom-control-label" for="conditionNew">New</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" id="conditionUsed" name="itemCondition" value="Used" class="custom-control-input" />
+                                                    <label class="custom-control-label" for="conditionUsed">Used</label>
+                                                </div>
+                                                <input type="hidden" name="hiddenItemCondition" id="dbItemCondition" value="<%= itemCondition%>" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="itemDescription">Item Description</label>
                                                 <textarea class="form-control" name="itemDescription" rows="5" placeholder="<%= itemDescription%>"></textarea>
-                                                <input type="hidden" name="hiddenItemDescription" value="<%= itemDescription %>" />
+                                                <input type="hidden" name="hiddenItemDescription" value="<%= itemDescription%>" />
                                             </div>
                                         </div>
                                         <div class="col-md-4 ml-2">
@@ -244,7 +247,7 @@
                                                         <button class="btn btn-outline-theme btn-down" type="button"><i class="fa fa-minus"></i></button>
                                                     </div>
                                                     <input type="text" class="form-control" name="itemPrice" aria-label="itemPrice" data-min="1" data-max="9999" placeholder="<%= itemPrice%>" />
-                                                    <input type="hidden" name="hiddenItemPrice" value="<%= itemPrice %>" />
+                                                    <input type="hidden" name="hiddenItemPrice" value="<%= itemPrice%>" />
                                                     <div class="input-group-append">
                                                         <button class="btn btn-outline-theme btn-up" type="button"><i class="fa fa-plus"></i></button>
                                                     </div>
@@ -253,7 +256,7 @@
                                         </div>
                                     </div><hr/>
                                     <div class="form-row">
-                                        <input type="hidden" name="hiddenItemCategoryID" id="dbItemCategoryID" value="<%= itemCategoryID %>" />
+                                        <input type="hidden" name="hiddenItemCategoryID" id="dbItemCategoryID" value="<%= itemCategoryID%>" />
                                         <div class="owl-carousel owl-theme product-slider">
                                             <%
                                                 ArrayList<Vector> itemCategoryListSYS = (ArrayList) request.getAttribute("itemCategoryListSYS");
@@ -286,15 +289,15 @@
                                             <div class="form-group" style="position: relative;">
                                                 <label for="tradeLocation">Trade Location&nbsp;<span class="asterik">*</span></label>
                                                 <input type="text" class="form-control" id="tradeLocation" name="tradeLocation" placeholder="<%= tradeLocation%>" />
-                                                <input type="hidden" name="hiddenTradeLocation" id="dbTradeLocation" value="<%= tradeLocation %>" />
-                                                <input type="hidden" name="hiddenTradeLat" id="dbTradeLat" value="<%= tradeLat %>" />
-                                                <input type="hidden" name="hiddenTradeLong" id="dbTradeLong" value="<%= tradeLong %>" />
+                                                <input type="hidden" name="hiddenTradeLocation" id="dbTradeLocation" value="<%= tradeLocation%>" />
+                                                <input type="hidden" name="hiddenTradeLat" id="dbTradeLat" value="<%= tradeLat%>" />
+                                                <input type="hidden" name="hiddenTradeLong" id="dbTradeLong" value="<%= tradeLong%>" />
                                                 <div id="searchResults"></div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="tradeInformation">Trade Information</label>
                                                 <textarea class="form-control" name="tradeInformation" rows="5" placeholder="<%= tradeInformation%>"></textarea>
-                                                <input type="hidden" name="hiddenTradeInformation" value="<%= tradeInformation %>" />
+                                                <input type="hidden" name="hiddenTradeInformation" value="<%= tradeInformation%>" />
                                             </div>
                                             <div class="form-group" style="text-align: center;">
                                                 <!-- FOR FORM SUBMIT UPDATE OPERATION -->
@@ -302,7 +305,7 @@
                                                 <input type="hidden" name="username" value="<%= loggedInUsername%>" />
 
                                                 <button type="submit" class="btn btn-theme">Edit Item Listing</button>&nbsp;&nbsp;
-                                                <button type="button" class="btn btn-theme" onclick="location.href = 'MarketplaceSysUser?pageTransit=deleteItemListingSYS&hiddenItemID=<%= itemID %>'">Delete Item Listing</button>
+                                                <button type="button" class="btn btn-theme" onclick="location.href = 'MarketplaceSysUser?pageTransit=deleteItemListingSYS&hiddenItemID=<%= itemID%>'">Delete Item Listing</button>
                                             </div>
                                         </div>
                                     </div>
@@ -313,7 +316,7 @@
                 </div>
             </div>
             <!-- <div id="unifyFooter"></div> -->
-            
+
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>

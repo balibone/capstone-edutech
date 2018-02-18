@@ -21,7 +21,6 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
     private EntityManager em;
     
     private JobEntity jEntity;
-    private JobReviewEntity jrEntity;
     private CategoryEntity cEntity;
     private Collection<JobEntity> jobSet;
     private Collection<JobReviewEntity> jobReviewSet;
@@ -288,6 +287,17 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             transactionList.add(jtVec);
         }
         return transactionList;
+    }
+    
+    @Override
+    public String getErrandsTransTodayCount() {
+        Query q = em.createQuery("SELECT COUNT(t) FROM JobTransaction t");
+        return String.valueOf(q.getFirstResult());
+    }
+    @Override
+    public String getErrandsListingCount() {
+        Query q = em.createQuery("SELECT COUNT(j) FROM Job j");
+        return String.valueOf(q.getFirstResult());
     }
     
     /* MISCELLANEOUS METHODS */

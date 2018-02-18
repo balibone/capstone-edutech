@@ -21,6 +21,10 @@ $(document).ready(function () {
     
     $('.form-row .product-slider-item').find("#" + dbItemCategoryID).addClass("active");
     
+    var $radios = $('input:radio[name=itemCondition]');
+    if($('#dbItemCondition').val() == 'New') { $radios.filter('[value=New]').prop('checked', true); }
+    else if($('#dbItemCondition').val() == 'Used') { $radios.filter('[value=Used]').prop('checked', true); }
+    
     map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
     basemap.addTo(map);
     

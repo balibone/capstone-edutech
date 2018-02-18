@@ -25,7 +25,7 @@
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Unify Admin</span></a>
+                            <a href="index.html" class="site_title"><span>Unify Admin</span></a>
                         </div>
 
                         <div class="clearfix"></div>
@@ -37,7 +37,7 @@
                             </div>
                             <div class="profile_info">
                                 <span>Welcome,</span>
-                                <h2>John Doe</h2>
+                                <h2><%= loggedInUsername %></h2>
                             </div>
                         </div>
                         <br />
@@ -60,8 +60,8 @@
                                     </li>
                                     <li><a><i class="fa fa-desktop"></i>&nbsp;Company Reviews&nbsp;<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="general_elements.html">Company Listing</a></li>
-                                            <li><a href="media_gallery.html">Review Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewCompanyList">Company Listing</a></li>
+                                            <li><a href="VoicesAdmin?pageTransit=goToViewReviewList">Review Listing</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-table"></i>&nbsp;Tags&nbsp;<span class="fa fa-chevron-down"></span></a>
@@ -194,13 +194,6 @@
                 <div class="right_col" role="main">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <%--<div class="x_title">
-                                <h2 class="bodyHeader">Job Listing</h2>
-                                <ul class="nav navbar-right panel_toolbox">
-                                    <li id="newItemCategory"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Item Category</li>
-                                </ul>
-                                <div class="clearfix"></div>
-                            </div>--%>
                             <div class="x_content">
                                 <%
                                     String successMessage = (String) request.getAttribute("successMessage");

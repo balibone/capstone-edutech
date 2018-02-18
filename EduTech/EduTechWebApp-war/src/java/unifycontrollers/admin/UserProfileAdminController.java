@@ -10,10 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import unifysessionbeans.admin.UserProfileAdminMgrBeanRemote;
+import unifysessionbeans.admin.MarketplaceAdminMgrBeanRemote;
+import unifysessionbeans.admin.ErrandsAdminMgrBeanRemote;
 
 public class UserProfileAdminController extends HttpServlet {
     @EJB
     private UserProfileAdminMgrBeanRemote uamr;
+    @EJB
+    private MarketplaceAdminMgrBeanRemote mamr;
+    @EJB
+    private ErrandsAdminMgrBeanRemote eamr;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -23,6 +29,13 @@ public class UserProfileAdminController extends HttpServlet {
             String pageAction = request.getParameter("pageTransit");
             
             switch (pageAction) {
+                case "goToUnifyAdmin":
+                    request.setAttribute("itemTransTodayCount", mamr.getItemTransTodayCount());
+                    request.setAttribute("itemListingCount", mamr.getItemListingCount());
+                    request.setAttribute("errandsTransTodayCount", eamr.getErrandsTransTodayCount());
+                    request.setAttribute("errandsListingCount", eamr.getErrandsListingCount());
+                    pageAction = "UnifyAdminDashboard";
+                    break;
                 default:
                     break;
             }
@@ -33,19 +46,16 @@ public class UserProfileAdminController extends HttpServlet {
             log("Exception in UserProfileAdminController: processRequest()");
             ex.printStackTrace();
         }
-    
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
-
     @Override
     public String getServletInfo() { return "User Profile Admin Servlet"; }
 }

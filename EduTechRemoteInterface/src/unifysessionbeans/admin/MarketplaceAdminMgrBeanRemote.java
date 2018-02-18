@@ -20,5 +20,9 @@ public interface MarketplaceAdminMgrBeanRemote {
     public Vector viewItemDetails(String itemName, String itemSellerID);
     public boolean deleteAnItem(String hiddenItemName, String hiddenSellerID);
     
+    /* METHODS FOR ADMIN DASHBOARD */
+    public String getItemTransTodayCount();
+    public String getItemListingCount();
+    
     public void createSystemMessage(String hiddenItemName, String hiddenSellerID);
 }

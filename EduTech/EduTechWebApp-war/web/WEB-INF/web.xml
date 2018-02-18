@@ -143,8 +143,8 @@
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN (JSP) -->
     <servlet>
-        <servlet-name>AdminDashboard</servlet-name>
-        <jsp-file>/webapp/unify/admin/AdminDashboard.jsp</jsp-file>
+        <servlet-name>UnifyAdminDashboard</servlet-name>
+        <jsp-file>/webapp/unify/admin/UnifyAdminDashboard.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
     <servlet>

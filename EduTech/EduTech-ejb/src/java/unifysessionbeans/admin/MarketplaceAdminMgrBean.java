@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Vector;
 
 import unifyentities.marketplace.ItemEntity;
+import unifyentities.marketplace.ItemTransactionEntity;
 import unifyentities.common.CategoryEntity;
 import unifyentities.common.MessageEntity;
 
@@ -23,6 +24,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     
     private CategoryEntity cEntity;
     private ItemEntity iEntity;
+    private ItemTransactionEntity itEntity;
     private MessageEntity mEntity;
     
     private Collection<ItemEntity> itemSet;
@@ -214,6 +216,17 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             em.clear();
         }
         return itemDeleteStatus;
+    }
+    
+    @Override
+    public String getItemTransTodayCount() {
+        Query q = em.createQuery("SELECT COUNT(t) FROM ItemTransaction t");
+        return String.valueOf(q.getFirstResult());
+    }
+    @Override
+    public String getItemListingCount() {
+        Query q = em.createQuery("SELECT COUNT(i) FROM Item i");
+        return String.valueOf(q.getFirstResult());
     }
     
     /* MISCELLANEOUS METHODS */

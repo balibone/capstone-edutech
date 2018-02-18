@@ -21,6 +21,9 @@ public interface ErrandsAdminMgrBeanRemote {
     
     public List<Vector> getJobReviews(long jobID);
     public List<Vector> getJobTransaction(long jobID);
-    
     public ArrayList<Vector> getAllJobTransactions();
+    
+    /* METHODS FOR ADMIN DASHBOARD */
+    public String getErrandsTransTodayCount();
+    public String getErrandsListingCount();
 }
