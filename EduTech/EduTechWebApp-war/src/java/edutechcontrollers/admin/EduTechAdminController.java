@@ -5,8 +5,11 @@
  */
 package edutechcontrollers.admin;
 
+import commoninfrasessionsbeans.admin.SystemAdminMgrBeanRemote;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -19,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Derian
  */
 public class EduTechAdminController extends HttpServlet {
-
+    @EJB
+    private SystemAdminMgrBeanRemote sam;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,9 +40,29 @@ public class EduTechAdminController extends HttpServlet {
         ServletContext context = getServletContext();
         String pageAction = request.getParameter("pageTransit");
         try{
+            //instantiate variables used in switch statement
+            String id = "";
+            ArrayList userInfo = new ArrayList();
+            String msg = "";
+            boolean success = false;
+            
             switch(pageAction){
                 case "EduTechAdminDashboard":
                     pageAction = "EduTechAdminDashboard";
+                    break;
+                case "StudentList":
+                    request.setAttribute("userList", sam.getAllStudents());
+                    pageAction = "ETAStudentList";
+                    break;
+                case "ViewStudent":
+                    id = request.getParameter("id");
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    pageAction = "ViewUserModal";
+                    break;
+                case "InstructorList":
+                    request.setAttribute("userList", sam.getAllInstructors());
+                    pageAction = "ETAInstructorList";
                     break;
             }
             dispatcher = context.getNamedDispatcher(pageAction);

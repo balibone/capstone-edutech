@@ -53,6 +53,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
         q1.setParameter("username", id);
         for(Object o: q1.getResultList()){
             UserEntity user = (UserEntity) o;
+            //System.out.println("There is a result with username "+user.getUsername());
             //store salutation (editable)
             userInfo.add(user.getUserSalutation());
             //store first name (editable)

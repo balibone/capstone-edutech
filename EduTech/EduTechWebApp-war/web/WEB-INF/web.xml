@@ -112,6 +112,18 @@
         <servlet-name>EduTechAdminDashboard</servlet-name>
         <jsp-file>/webapp/edutech/admin/Dashboard.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ETAStudentList</servlet-name>
+        <jsp-file>/webapp/edutech/admin/users/StudentList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewUserModal</servlet-name>
+        <jsp-file>/webapp/edutech/admin/users/ViewUserModal.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ETAInstructorList</servlet-name>
+        <jsp-file>/webapp/edutech/admin/users/InstructorList.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN (SERVLET) -->
     <servlet>
         <servlet-name>ProfileAdmin</servlet-name>

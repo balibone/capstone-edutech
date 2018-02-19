@@ -27,8 +27,8 @@
                     </li>
                     <li><a><i class="fas fa-users fa-lg"></i>&nbsp;&nbsp;Users&nbsp;&nbsp;<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">Students</a></li>
-                            <li><a href="#">Instructors</a></li>
+                            <li><a href="EduTechAdmin?pageTransit=StudentList">Students</a></li>
+                            <li><a href="EduTechAdmin?pageTransit=InstructorList">Instructors</a></li>
                             
                         </ul>
                     </li>

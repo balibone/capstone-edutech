@@ -74,9 +74,6 @@
                                                 for(Object o : studentList){
                                                     ArrayList studentData = (ArrayList) o;
                                             %>
-                                            <!--Clicking toggles modal. Script is in StudentListJS.js while modal is in StudentModal.jspf 
-                                            <tr data-toggle="modal" data-id="<%=studentData.get(2)%>" data-target="#myModal">
-                                            -->
                                             <tr>
                                                 <td><img src="uploads/commoninfrastructure/admin/images/<%= studentData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=studentData.get(1)%></td>
@@ -109,7 +106,6 @@
         <!-- JAVASCRIPT (JS) -->
         <script src="js/commoninfrastructure/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
-        <script src="js/commoninfrastructure/admin/webjs/StudentListJS.js" type="text/javascript"></script>
 
         <!-- FastClick -->
         <script src="js/commoninfrastructure/admin/webjs/fastclick.js"></script>
