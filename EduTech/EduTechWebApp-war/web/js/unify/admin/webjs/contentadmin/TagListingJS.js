@@ -21,7 +21,7 @@ $(document).ready(function () {
         width: 525,
         overlayClose: true,
         iframe: true,
-        iframeHeight: 325
+        iframeHeight: 200
     });
 
     // edit tag iframe
@@ -35,7 +35,7 @@ $(document).ready(function () {
         width: 525,
         overlayClose: true,
         iframe: true,
-        iframeHeight: 325
+        iframeHeight: 200
     });
     
     // show button on tr mouse hover

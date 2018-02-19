@@ -33,28 +33,24 @@
             <div id="formContent">
                 <form action="ContentAdmin?pageTransit=goToTagListing" method="GET" enctype="multipart/form-data" target="_parent">
 
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                         <%-- form field 1 --%>
-                        <div class="col-md-6 col-sm-6 col-xs-12 form-group disabled" style="margin-top: 7px;">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tag ID:&nbsp;&nbsp;<u><%= tagID%></u></label>
+                        <div class="col-md-20 col-sm-20 col-xs-20 form-group disabled" style="margin-top: 7px;">
+                            <label class="control-label col-md-12 col-sm-12 col-xs-12">Tag ID:&nbsp;&nbsp;<u><%= tagID%></u></label>
                         </div>
-
-                        <%-- field 2 --%>                       
-                        <div class="col-md-6 col-sm-6 col-xs-12 form-group disabled" style="margin-top: 7px;">
-                            <label class="control-label col-md-6 col-sm-6 col-xs-12">Tag Name:&nbsp;&nbsp;</label>
-                            <input type="text" class="form-control has-feedback" placeholder="<%= tagName%>" name="tagName" />
-
+                    
+                        <%-- field 2 --%> 
+                        <div class="col-md-3 col-sm-3 col-xs-12 form-group" style="margin-top: 7px;">
+                            <label>Tag Name:&nbsp;&nbsp;</label>
+                            <input type="text" font color = "black" value="<%= tagName%>" name="tagName" />
                         </div>
-
-                        
-                            
+             
                         <%-- dropdown --%>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             
                                 <%-- field 1 --%>
-                                <label for="tagTypeTitle">Type of Tag</label>
+                                <label for="tagTypeTitle">Type of Tag: </label>
                                 
                                 &nbsp;&nbsp;
                                 

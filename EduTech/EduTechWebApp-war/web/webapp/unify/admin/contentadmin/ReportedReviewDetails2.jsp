@@ -42,7 +42,7 @@
             <div id="formContent">
                 <form action="ContentAdmin?pageTransit=goToReportedReviewListing" method="GET" enctype="multipart/form-data" target="_parent">
 
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <%--- to display review when found --%>
                         <%
                             if (reportListVec.size() > 7) {
@@ -125,7 +125,7 @@
 
                         
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>REVIEW HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></label>
+                            <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"> <b>REVIEW HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
                         </div>
                         <%
                             }

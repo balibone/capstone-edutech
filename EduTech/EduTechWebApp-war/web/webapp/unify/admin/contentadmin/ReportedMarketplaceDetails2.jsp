@@ -35,25 +35,28 @@
                 }
             }
         %>
-        <%-- display image of marketplace item --%>
-            <div class="col-sm-5 col-md-5 gallery-holder">
-                <div class="single-product-gallery">
-                    <div class="owl-item" style="width: 336px;">
-                        <div class="single-product-gallery-item">
-                            <img src="uploads/unify/images/marketplace/item/<%= itemImage %>" style="max-width: 251px; min-width: 251px; max-height: 256px; min-height: 256px;" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="row" style="visibility: visible; margin: 30px 50px 0 50px; background-color: #fff;">
+
+        </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bodyContent">
             <div id="formContent">
                 <form action="ContentAdmin?pageTransit=goToReportedMarketplaceListing" method="GET" enctype="multipart/form-data" target="_parent">
 
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <%--- to display item when found --%>
                         <%
                             if (reportListVec.size() > 7) {
                         %>
+                        <%-- display image of marketplace item --%>
+                        <div class="col-sm-5 col-md-5 gallery-holder">
+                            <div class="single-product-gallery">
+                                <div class="owl-item" style="width: 336px;">
+                                    <div class="single-product-gallery-item">
+                                        <img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="max-width: 251px; min-width: 251px; max-height: 256px; min-height: 256px;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Report ID:&nbsp;&nbsp;<u><%= reportID%></u></label>
                         </div>
@@ -124,7 +127,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>ITEM HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></label>
+                            <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"><b>ITEM HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
                         </div>
                         <%
                             }
@@ -140,6 +143,7 @@
                             <%
                                 if (reportStatus.equals("Resolved") && !itemName.equals("")) {
                             %>
+                            <%-- revert to unresolved --%>
                             <td>
                                 <form action="ContentAdmin?pageTransit=goToReportedMarketplaceListing" method="GET" target="_parent">
                                     <input type="hidden" name="pageTransit" value="unresolveMarketplaceReport"/>

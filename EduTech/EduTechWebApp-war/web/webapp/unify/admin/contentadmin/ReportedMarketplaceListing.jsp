@@ -227,7 +227,7 @@
                                         <tr>
                                             <th>Report ID</th>
                                             <th>Report Status</th>
-                                            <th>Report Description</th>
+                                            
                                             <th>Report Date</th>
                                             <th>Reported Item ID</th>
                                             <th>User ID of Item Poster</th>
@@ -259,7 +259,7 @@
 
                                             <td><%= reportID%></td>
                                             <td><%= reportStatus%></td>
-                                            <td><%= reportDescription%></td>
+                                            
                                             <td><%= reportDate%></td>
                                             <td><%= reportedItemID%></td>
                                             <td><%= reportedPosterID%></td>
