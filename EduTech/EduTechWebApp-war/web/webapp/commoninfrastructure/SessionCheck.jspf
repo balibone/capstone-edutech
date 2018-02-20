@@ -37,7 +37,7 @@ If Cancel is pressed, session timer will continue running and eventually timeout
         //renew boolean
         var renew=confirm('Your session is about to timeout in ' + timeToDecide + ' seconds!\n\n\
         Press OK to continue browswing.');
-        //if OK is pressed, refresh session by refetching current page from server.
+        //if OK is pressed, renew session by refetching current page from server.
         if(renew){
             window.location.reload(true);
             console.log(window.location);
