@@ -29,8 +29,4 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     public Object getSemesterCount() {
         return em.createQuery("SELECT COUNT(DISTINCT s.id) FROM Semester s WHERE s.activeStatus=1").getSingleResult();
     }
-
-
-
-
 }

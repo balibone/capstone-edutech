@@ -9,12 +9,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>EduTech Admin - Students</title>
-            
+        
+        <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/dataTable/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/dataTable/responsive.bootstrap.min.css" rel="stylesheet" type="text/css">
+        <!-- NProgress -->
+        <link href="css/commoninfrastructure/admin/weblayout/nprogress.css" rel="stylesheet">
+        <!-- iCheck -->
+        <link href="css/commoninfrastructure/admin/weblayout/green.css" rel="stylesheet">
         <!-- iziModal -->
         <link href="css/unify/admin/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <!--Font Awesome 5 JS-->
@@ -33,16 +38,6 @@
                             <div class="x_panel">
                                 <div class="x_title">
                                     <h2>Students</h2>
-                                    <ul class="nav navbar-right panel_toolbox">
-                                        <li>
-                                            <a href="SystemAdmin?pageTransit=NewStudent">
-                                            <button type="button" class="btn btn-default">
-                                                
-                                                    <i class="fas fa-plus"></i>&nbsp;&nbsp;Create New Student
-                                            </button>
-                                            </a>
-                                        </li>
-                                    </ul>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
