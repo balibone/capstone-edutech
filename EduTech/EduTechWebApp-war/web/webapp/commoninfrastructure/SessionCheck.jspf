@@ -30,12 +30,12 @@ This script alerts the user of session timeout, and asks the user to click OK to
 If Cancel is pressed, session timer will continue running and eventually timeout.
 -->
 <script>
-    var timeToDecide = 60; // Give client these number to choose.
+    var timeToDecide = 10; // Give client these number of seconds to choose.
     console.log(<%=session.getMaxInactiveInterval()%>);
     setTimeout(alertTimeout, (<%=session.getMaxInactiveInterval()%> - timeToDecide) * 1000);
     function alertTimeout(){
         //renew boolean
-        var renew=confirm('Your session is about to timeout in ' + timeToDecide/60 + ' minute!\n\n\
+        var renew=confirm('Your session is about to timeout in ' + timeToDecide + ' seconds!\n\n\
         Press OK to continue browswing.');
         //if OK is pressed, refresh session by refetching current page from server.
         if(renew){
@@ -43,5 +43,5 @@ If Cancel is pressed, session timer will continue running and eventually timeout
             console.log(window.location);
         }
     }
-    setTimeout(function(){alert('Session timing out now!'); window.location.replace("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");},(<%=session.getMaxInactiveInterval()%>)*1000);
+    setTimeout(function(){alert('Your session has expired.'); window.location.replace("CommonInfra?pageTransit=goToLogout&sessionExpire=true");},(<%=session.getMaxInactiveInterval()%>)*1000);
 </script>

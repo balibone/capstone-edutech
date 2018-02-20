@@ -69,8 +69,12 @@ public class CommonInfraController extends HttpServlet {
                     response.addCookie(userType);//update this cookie by adding it to response.
 
                     String sessionInvalid = request.getParameter("sessionInvalid");
-                    if (sessionInvalid != null && sessionInvalid.equals("true")) {
+                    String sessionExpire = request.getParameter("sessionExpire");
+                    if(sessionInvalid!=null && sessionInvalid.equals("true")){
                         request.setAttribute("sysMessage", "<strong>Invalid session. Please login again.</strong>");
+                    }
+                    if(sessionExpire!=null && sessionExpire.equals("true")){
+                        request.setAttribute("sysMessage", "<strong>You session has expired. Please login again.</strong>");
                     }
                     pageAction = "IntegratedSPLogin";
                     break;
