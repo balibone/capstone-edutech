@@ -46,53 +46,49 @@
         <div class="container body">
             <div class="main_container">         
                 <div class="right_col" role="main">
-                    <div>
-                    <h3>View Student</h3>
-                    </div>
-                    <hr>
                     <div class="row">
-                        <div class="col-md-4"><img class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/></div>
-                        <div class="col-md-8">
+                        <div class="col-xs-3"><img class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/></div>
+                        <div class="col-xs-9">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">Salutation: </label>
-                                    <div class="col-md-5">
+                                    <label class="col-xs-3 control-label required">Salutation: </label>
+                                    <div class="col-xs-6">
                                         <input type="text" readonly value="<%=salutation%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">First Name:</label>
-                                    <div class="col-md-5">
+                                    <label class="col-xs-3 control-label required">First Name:</label>
+                                    <div class="col-xs-6">
                                         <input type="text" readonly value="<%=firstName%>" class="form-control" name="email"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">Last Name:</label>
-                                    <div class="col-md-5">
+                                    <label class="col-xs-3 control-label required">Last Name:</label>
+                                    <div class="col-xs-6">
                                         <input type="text" readonly value="<%=lastName%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">Username:</label>
-                                    <div class="col-md-5">
+                                    <label class="col-xs-3 control-label required">Username:</label>
+                                    <div class="col-xs-6">
                                         <input type="text" readonly value="<%=email%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">Password:</label>
-                                    <div class="col-md-5">
+                                    <label class="col-xs-3 control-label required">Password:</label>
+                                    <div class="col-xs-6">
                                         <input type="text" readonly value="<%=password%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">Created On:</label>
-                                    <div class="col-md-5">
+                                    <label class="col-xs-3 control-label required">Created On:</label>
+                                    <div class="col-xs-6">
                                         <input type="text" readonly value="<%=creationDate%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">User Type:</label>
-                                    <div class="col-md-5">
+                                    <label class="col-xs-3 control-label required">User Type:</label>
+                                    <div class="col-xs-6">
                                         <input type="text" readonly value="<%=type%>" class="form-control" />
                                     </div>
                                 </div> 

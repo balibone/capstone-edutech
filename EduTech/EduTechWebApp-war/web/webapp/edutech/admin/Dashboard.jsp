@@ -47,134 +47,14 @@
                                 </div>
                                 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("edutechCount")%></div>
-                                        <h3>EduTech Admins</h3>
+                                        <div class="count"><%=request.getAttribute("moduleCount")%></div>
+                                        <h3>Modules</h3>
                                     </div>
                                 </div>
                                 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("unifyCount")%></div>
-                                        <h3>Unify Admins</h3>
-                                    </div>
-                                </div>
-                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("dualCount")%></div>
-                                        <h3>Dual Admins</h3>
-                                    </div>
-                                </div>
-                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("superCount")%></div>
-                                        <h3>Super Admins</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--User Types big panel-->
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="x_panel">
-                                    <div class="x_title">
-                                        <h2> <i class="fas fa-info-circle"></i> User Types</h2>
-                                        <ul class="nav navbar-right panel_toolbox">
-                                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                            </li>
-                                        </ul>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="x_content">
-                                        
-                                        <div class="col-xs-3">
-                                            <!-- required for floating -->
-                                            <!-- Nav tabs -->
-                                            <ul class="nav nav-tabs tabs-left">
-                                                <li class="active"><a href="#student" data-toggle="tab">Students</a>
-                                                </li>
-                                                <li><a href="#instructor" data-toggle="tab">Instructors</a>
-                                                </li>
-                                                <li><a href="#edutech" data-toggle="tab">EduTech Admins</a>
-                                                </li>
-                                                <li><a href="#unify" data-toggle="tab">Unify Admins</a>
-                                                </li>
-                                                <li><a href="#dual" data-toggle="tab">Dual Admins</a>
-                                                </li>
-                                                <li><a href="#super" data-toggle="tab">Super Admins</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div class="col-xs-9">
-                                            <!-- Tab panes -->
-                                            <div class="tab-content">
-                                                <div class="tab-pane active" id="student">
-                                                    <p class="lead">Students</p>
-                                                    <div class="alert alert-info" role="alert">These users are the registered students.</div>
-                                                    <p class="lead">Access Rights:</p>
-                                                    <h2><span class="label label-info">EduTech</span>&nbsp;
-                                                        <span class="label label-warning">Unify</span>
-                                                    </h2>
-                                                    
-                                                </div>
-                                                <div class="tab-pane" id="instructor">
-                                                    <p class="lead">Instructors</p>
-                                                    <div class="alert alert-info" role="alert">These users are members of teaching staff.</div>
-                                                    <p class="lead">Access Rights:</p>
-                                                    <h2>
-                                                        <span class="label label-info">EduTech</span>&nbsp;
-                                                        <span class="label label-warning">Unify</span>
-                                                    </h2>
-                                                    
-                                                </div>
-                                                <div class="tab-pane" id="edutech">
-                                                    <p class="lead">EduTech Admins</p>
-                                                    <div class="alert alert-info" role="alert">These users are administrators of the EduTech portal.</div>
-                                                    <p class="lead">Access Rights:</p>
-                                                    <h2>
-                                                    <span class="label label-primary">EduTech Admin Portal</span>&nbsp;
-                                                    <span class="label label-info">EduTech</span>&nbsp;
-                                                    <span class="label label-warning">Unify</span>
-                                                    </h2>
-                                                </div>
-                                                <div class="tab-pane" id="unify">
-                                                    <p class="lead">Unify Admins</p>
-                                                    <div class="alert alert-info" role="alert">These users are administrators of the Unify portal.</div>
-                                                    <p class="lead">Access Rights:</p>
-                                                    <h2>
-                                                    <span class="label label-success">Unify Admin Portal</span>&nbsp;
-                                                    <span class="label label-info">EduTech</span>&nbsp;
-                                                    <span class="label label-warning">Unify</span>
-                                                    </h2>
-                                                </div>
-                                                <div class="tab-pane" id="dual">
-                                                    <p class="lead">Dual Admins</p>
-                                                    <div class="alert alert-info" role="alert">These users are administrators of both EduTech and Unify portals.</div>
-                                                    <p class="lead">Access Rights:</p>
-                                                    <h2>
-                                                    <span class="label label-primary">EduTech Admin Portal</span>&nbsp;
-                                                    <span class="label label-success">Unify Admin Portal</span>&nbsp;
-                                                    <span class="label label-info">EduTech</span>&nbsp;
-                                                    <span class="label label-warning">Unify</span>
-                                                    </h2>
-                                                </div>
-                                                <div class="tab-pane" id="super">
-                                                    <p class="lead">Super Admins</p>
-                                                    <div class="alert alert-info" role="alert">These users have full administrator privileges and can manage user data.</div>
-                                                    <p class="lead">Access Rights:</p>
-                                                    <h2>
-                                                    <span class="label label-default">System Admin Portal</span>&nbsp;
-                                                    <span class="label label-primary">EduTech Admin Portal</span>&nbsp;
-                                                    <span class="label label-success">Unify Admin Portal</span>&nbsp;
-                                                    <span class="label label-info">EduTech</span>&nbsp;
-                                                    <span class="label label-warning">Unify</span>
-                                                    </h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="clearfix"></div>
-                                        
+                                        <div class="count"><%=request.getAttribute("semesterCount")%></div>
+                                        <h3>Semesters</h3>
                                     </div>
                                 </div>
                             </div>

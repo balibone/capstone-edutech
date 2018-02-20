@@ -7,13 +7,13 @@ $(document).ready(function() {
         }).get();
         rowID = $.trim(rowData[2]);
         console.log("Row ID is :"+rowID);
-        $('iframe').attr('src', 'EduTechAdmin?pageTransit=ViewStudent&id=' + rowID);
-        $('#viewStudent-iframe').iziModal('open', event);
+        $('iframe').attr('src', 'EduTechAdmin?pageTransit=ViewInstructor&id=' + rowID);
+        $('#viewInstructor-iframe').iziModal('open', event);
     });
     
-    $('#viewStudent-iframe').iziModal({
-        title: 'View Student',
-        iconClass: 'fas fa-graduation-cap',
+    $('#viewInstructor-iframe').iziModal({
+        title: 'View Instructor',
+        iconClass: 'fas fa-book',
         transitionIn: 'comingIn',
         transitionOut: 'comingOut',
         headerColor: '#337AB7',

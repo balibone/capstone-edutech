@@ -10,7 +10,7 @@
 ***************************************************************************************/
 package unifyentities.marketplace;
 
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;

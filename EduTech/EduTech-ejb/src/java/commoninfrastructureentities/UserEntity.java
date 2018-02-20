@@ -1,4 +1,4 @@
-package commoninfrastructure;
+package commoninfrastructureentities;
 
 import java.io.Serializable;
 import java.util.ArrayList;

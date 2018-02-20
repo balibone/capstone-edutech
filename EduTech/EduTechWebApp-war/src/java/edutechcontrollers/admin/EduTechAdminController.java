@@ -6,6 +6,7 @@
 package edutechcontrollers.admin;
 
 import commoninfrasessionsbeans.admin.SystemAdminMgrBeanRemote;
+import edutechsessionbeans.admin.EduTechAdminMgrBeanRemote;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -22,8 +23,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author Derian
  */
 public class EduTechAdminController extends HttpServlet {
+
+    @EJB
+    private EduTechAdminMgrBeanRemote eam;
     @EJB
     private SystemAdminMgrBeanRemote sam;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,6 +53,10 @@ public class EduTechAdminController extends HttpServlet {
             
             switch(pageAction){
                 case "EduTechAdminDashboard":
+                    request.setAttribute("studentCount", sam.getUserCount("student"));
+                    request.setAttribute("instructorCount", sam.getUserCount("instructor"));
+                    request.setAttribute("moduleCount", eam.getModuleCount());
+                    request.setAttribute("semesterCount", eam.getSemesterCount());
                     pageAction = "EduTechAdminDashboard";
                     break;
                 case "StudentList":
@@ -63,6 +72,12 @@ public class EduTechAdminController extends HttpServlet {
                 case "InstructorList":
                     request.setAttribute("userList", sam.getAllInstructors());
                     pageAction = "ETAInstructorList";
+                    break;
+                case "ViewInstructor":
+                    id = request.getParameter("id");
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    pageAction = "ViewUserModal";
                     break;
             }
             dispatcher = context.getNamedDispatcher(pageAction);

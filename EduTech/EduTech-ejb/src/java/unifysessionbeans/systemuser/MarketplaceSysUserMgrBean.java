@@ -12,7 +12,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import unifyentities.common.CategoryEntity;
 import unifyentities.marketplace.ItemEntity;
 

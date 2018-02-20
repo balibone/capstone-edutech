@@ -25,7 +25,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import unifyentities.common.CategoryEntity;
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;

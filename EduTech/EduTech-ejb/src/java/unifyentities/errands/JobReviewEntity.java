@@ -10,7 +10,7 @@
 ***************************************************************************************/
 package unifyentities.errands;
 
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
 
 import java.util.Date;
