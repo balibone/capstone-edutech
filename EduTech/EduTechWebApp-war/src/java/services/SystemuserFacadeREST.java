@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
 @Path("entities.systemuser")
 public class SystemuserFacadeREST extends AbstractFacade<Systemuser> {
 
-    @PersistenceContext(unitName = "EduTechWebApp-warPU")
+    @PersistenceContext
     private EntityManager em;
 
     public SystemuserFacadeREST() {
@@ -55,7 +55,7 @@ public class SystemuserFacadeREST extends AbstractFacade<Systemuser> {
         return super.find(id);
     }
 
-    @GET @Override @Produces({MediaType.APPLICATION_JSON})
+    @GET @Override @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Systemuser> findAll() {
         return super.findAll();
     }

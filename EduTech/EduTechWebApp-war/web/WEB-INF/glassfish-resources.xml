@@ -5,10 +5,10 @@
         <property name="serverName" value="localhost"/>
         <property name="portNumber" value="1527"/>
         <property name="databaseName" value="CapstoneDB"/>
-        <property name="User" value=""/>
+        <property name="User" value="app"/>
         <property name="Password" value="app"/>
         <property name="URL" value="jdbc:derby://localhost:1527/CapstoneDB"/>
         <property name="driverClass" value="org.apache.derby.jdbc.ClientDriver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:module/capstoneREST" object-type="user" pool-name="derby_net_CapstoneDB_Pool"/>
+    <jdbc-resource enabled="true" jndi-name="java:app/capstoneREST" object-type="user" pool-name="derby_net_CapstoneDB_Pool"/>
 </resources>
