@@ -103,9 +103,27 @@
         <jsp-file>/webapp/commoninfrastructure/admin/instructors/EditInstructor.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - EDUTECH - ADMIN (SERVLET) -->
+    <servlet>
+        <servlet-name>EduTechAdmin</servlet-name>
+        <servlet-class>edutechcontrollers.admin.EduTechAdminController</servlet-class>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - EDUTECH - ADMIN (JSP) -->
-    <!-- SERVLET CLASS MAPPING - EDUTECH - SYSTEMUSER (SERVLET) -->
-    <!-- SERVLET CLASS MAPPING - EDUTECH - SYSTEMUSER (JSP) -->
+    <servlet>
+        <servlet-name>EduTechAdminDashboard</servlet-name>
+        <jsp-file>/webapp/edutech/admin/Dashboard.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ETAStudentList</servlet-name>
+        <jsp-file>/webapp/edutech/admin/users/StudentList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewUserModal</servlet-name>
+        <jsp-file>/webapp/edutech/admin/users/ViewUserModal.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ETAInstructorList</servlet-name>
+        <jsp-file>/webapp/edutech/admin/users/InstructorList.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN (SERVLET) -->
     <servlet>
         <servlet-name>ProfileAdmin</servlet-name>
@@ -238,6 +256,14 @@
         <servlet-class>unifycontrollers.systemuser.VoicesSysUserController</servlet-class>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
+    <servlet>
+        <servlet-name>ViewJobDetailsInCategory</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobDetailsInCategory.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobTransactionListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobTransactionListing.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - MARKETPLACE (JSP) -->
     <servlet>
         <servlet-name>NewItemListingSYS</servlet-name>
@@ -273,15 +299,10 @@
         <jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
+    
+    
+    
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
-    <servlet>
-        <servlet-name>ViewJobDetailsInCategory</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobDetailsInCategory.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewJobTransactionListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobTransactionListing.jsp</jsp-file>
-    </servlet>
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>
@@ -292,7 +313,10 @@
         <url-pattern>/SystemAdmin</url-pattern>
     </servlet-mapping>
     <!-- URL MAPPING - EDUTECH - ADMIN (SERVLET) -->
-    <!-- URL MAPPING - EDUTECH - SYSTEMUSER (SERVLET) -->
+    <servlet-mapping>
+        <servlet-name>EduTechAdmin</servlet-name>
+        <url-pattern>/EduTechAdmin</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - UNIFY - ADMIN (SERVLET) -->
     <servlet-mapping>
         <servlet-name>ProfileAdmin</servlet-name>
@@ -327,6 +351,8 @@
         <servlet-name>VoicesSysUser</servlet-name>
         <url-pattern>/VoicesSysUser</url-pattern>
     </servlet-mapping>
+    
+    
     <!-- MISCELLANEOUS -->
     <session-config>
         <session-timeout>300</session-timeout>

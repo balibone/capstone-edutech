@@ -21,7 +21,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 
 @Entity(name = "Message")
 public class MessageEntity implements Serializable {

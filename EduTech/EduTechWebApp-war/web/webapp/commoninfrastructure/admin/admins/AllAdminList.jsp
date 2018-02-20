@@ -118,7 +118,6 @@
         <!-- JAVASCRIPT (JS) -->
         <script src="js/commoninfrastructure/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
-        <script src="js/commoninfrastructure/admin/webjs/StudentListJS.js" type="text/javascript"></script>
 
         <!-- FastClick -->
         <script src="js/commoninfrastructure/admin/webjs/fastclick.js"></script>

@@ -30,7 +30,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import unifyentities.common.CategoryEntity;
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import unifyentities.common.TagEntity;
 
 @Entity(name = "Job")
