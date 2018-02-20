@@ -145,32 +145,32 @@
   }
   
   .user_type #wherechoices a.alumni {
-    background: #fff url("/components/valkyrie/images/student.svg") 65px -25px no-repeat;
+    background: #fff 65px -25px no-repeat;
     background-size: 85%; 
   }
   
   .user_type #wherechoices a.employers {
-    background: #fff url("/components/valkyrie/images/building.svg") 65px -15px no-repeat;
+    background: #fff 65px -15px no-repeat;
     background-size: 85%; 
   }
   
   .user_type #wherechoices a.events {
-    background: #fff url("/components/valkyrie/images/event.svg") 65px -25px no-repeat;
+    background: #fff 65px -25px no-repeat;
     background-size: 85%; 
   }
   
   .user_type #wherechoices a.managers {
-    background: #fff url("/components/valkyrie/images/support.svg") 65px -15px no-repeat;
+    background: #fff 65px -15px no-repeat;
     background-size: 85%; 
   }
   
   .user_type #wherechoices a.students {
-    background: #fff url("/components/valkyrie/images/student.svg") 65px -25px no-repeat;
+    background: #fff 65px -25px no-repeat;
     background-size: 85%; 
   }
   
   .user_type #wherechoices a.faculty {
-    background: #fff url("/components/valkyrie/images/apple.svg") 65px -15px no-repeat;
+    background: #fff 65px -15px no-repeat;
     background-size: 85%; 
   }
   

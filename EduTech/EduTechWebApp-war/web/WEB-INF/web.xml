@@ -298,7 +298,7 @@
     
     <!-- MISCELLANEOUS -->
     <session-config>
-        <session-timeout>1</session-timeout>
+        <session-timeout>300</session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>webapp/commoninfrastructure/IntegratedSPLogin.jsp</welcome-file>

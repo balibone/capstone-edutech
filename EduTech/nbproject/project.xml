@@ -8,10 +8,6 @@
             <web-module-libraries/>
             <web-module-additional-libraries>
                 <library>
-                    <file>${reference.EduTechWebApp-war.dist-ear}</file>
-                    <path-in-war>/</path-in-war>
-                </library>
-                <library>
                     <file>${reference.EduTech-ejb.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
@@ -36,14 +32,6 @@
                 <target>jar</target>
                 <clean-target>clean</clean-target>
                 <id>jar</id>
-            </reference>
-            <reference>
-                <foreign-project>EduTechWebApp-war</foreign-project>
-                <artifact-type>j2ee_ear_archive</artifact-type>
-                <script>build.xml</script>
-                <target>dist-ear</target>
-                <clean-target>clean-ear</clean-target>
-                <id>dist-ear</id>
             </reference>
         </references>
     </configuration>
