@@ -1,3 +1,13 @@
+/***************************************************************************************
+*   Title:                  ErrandsSysUserController.java
+*   Purpose:                SERVLET FOR UNIFY ERRANDS - SYSUSER (EDUBOX)
+*   Created & Modified By:  CHEN MENG
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+***************************************************************************************/
+
 package unifycontrollers.systemuser;
 
 import java.io.IOException;

@@ -1,46 +1,44 @@
-var rowCategoryName;
+var itemCategoryName, itemCategoryID;
 $(document).ready(function() {
     $('#newItemCategory').on('click', function() {
-        $('iframe').attr('src', 'MarketplaceAdmin?pageTransit=goToNewItemCategory&categoryType=marketplace');
+        $('iframe').attr('src', 'MarketplaceAdmin?pageTransit=goToNewItemCategory');
         $('#newItemCategory-iframe').iziModal('open', event);
     });
     
     $('#newItemCategory-iframe').iziModal({
         title: 'New Item Category',
-        subtitle: 'Fill in the information of the new category here',
-        iconClass: 'fa fa-cubes',
+        subtitle: 'Fill in the information of the new item category here',
+        iconClass: 'fa fa-tag',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#337AB7',
-        width: 525,
+        headerColor: '#4D7496',
+        width: 600,
         overlayClose: true,
         iframe : true,
         iframeHeight: 325
     });
     
-    $('#datatable-responsive tbody').on('click', 'tr', function(event) {
-        var $cell= $(event.target).closest('td');
-        if($cell.index() > 0) {
-            var rowData = $(this).children("td").map(function() {
-                return $(this).text();
-            }).get();
-            rowCategoryName = $.trim(rowData[1]);
-            $('iframe').attr('src', 'MarketplaceAdmin?pageTransit=goToViewItemCategoryDetails&urlCategoryName=' + rowCategoryName + '&urlCategoryType=marketplace');
-            $('#editItemCategory-iframe').iziModal('open', event);
-        }
+    $('#itemCategoryListing tbody').on('click', 'tr', function(event) {
+        var rowData = $(this).children("td").map(function() {
+            return $(this).text();
+        }).get();
+        itemCategoryName = $.trim(rowData[1]);
+        itemCategoryID = itemCategoryName.split(';')[1];
+        $('iframe').attr('src', 'MarketplaceAdmin?pageTransit=goToViewItemCategoryDetails&itemCategoryID=' + itemCategoryID);
+        $('#editItemCategory-iframe').iziModal('open', event);
     });
     
     $('#editItemCategory-iframe').iziModal({
         title: 'Edit Item Category',
-        subtitle: 'Administrator may deactivate this item here',
-        iconClass: 'fa fa-cubes',
+        subtitle: 'Administrator may deactivate this item category here',
+        iconClass: 'fa fa-tag',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#337AB7',
-        width: 600,
+        headerColor: '#4D7496',
+        width: 650,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 550
+        iframeHeight: 450
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

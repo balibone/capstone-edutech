@@ -1,3 +1,13 @@
+/***************************************************************************************
+*   Title:                  VoicesAdminMgrBeanRemote.java
+*   Purpose:                LIST OF REMOTE INTERFACE METHODS FOR UNIFY COMPANY REVIEW - ADMIN (EDUBOX)
+*   Created & Modified By:  ZHU XINYI
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+***************************************************************************************/
+
 package unifysessionbeans.admin;
 
 import javax.ejb.Remote;
@@ -28,6 +38,7 @@ public interface VoicesAdminMgrBeanRemote {
     public Vector viewCompanyRequestDetails(String requestCompany, String requestPosterID);
     public boolean solveRequest(String requestCompany, String requestPosterID);
     public boolean rejectRequest(String requestCompany, String requestPosterID);
- 
     
+    /* METHODS FOR UNIFY ADMIN DASHBOARD */
+    public Long getCompanyReviewCount();
 }

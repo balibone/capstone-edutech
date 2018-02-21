@@ -18,7 +18,7 @@
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/leaflet.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/marketplace/EditItemListingSYSCSS.css" rel="stylesheet" type="text/css">
     </head>
 
@@ -151,7 +151,8 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
-                            <%                                String successMessage = (String) request.getAttribute("successMessage");
+                            <%  
+                                String successMessage = (String) request.getAttribute("successMessage");
                                 if (successMessage != null) {
                             %>
                             <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
@@ -330,7 +331,7 @@
         <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/leaflet.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/EditItemListingSYSJS.js" type="text/javascript"></script>
     </body>
 </html>

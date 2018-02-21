@@ -1,3 +1,13 @@
+/***************************************************************************************
+*   Title:                  VoicesAdminController.java
+*   Purpose:                SERVLET FOR UNIFY COMPANY REVIEW - ADMIN (EDUBOX)
+*   Created & Modified By:  ZHU XINYI
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+***************************************************************************************/
+
 package unifycontrollers.admin;
 
 import java.io.File;

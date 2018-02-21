@@ -1,3 +1,13 @@
+/***************************************************************************************
+*   Title:                  VoicesAdminMgrBean.java
+*   Purpose:                LIST OF MANAGER BEAN METHODS FOR UNIFY COMPANY REVIEW - ADMIN (EDUBOX)
+*   Created & Modified By:  ZHU XINYI
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+***************************************************************************************/
+
 package unifysessionbeans.admin;
 
 import unifyentities.voices.CompanyEntity;
@@ -464,6 +474,21 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         return requestStatus;
     }
     
+    /* METHODS FOR UNIFY ADMIN DASHBOARD */
+    @Override
+    public Long getCompanyReviewCount() {
+        Long companyReviewCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(c.reviewID) FROM CompanyReview c");
+        try {
+            companyReviewCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in MarketplaceAdminMgrBean.getCompanyReviewCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return companyReviewCount;
+    }
+    
+    /* MISCELLANEOUS METHODS */
     public CompanyRequestEntity lookupRequest(String requestCompany, String requestPosterID) {
         CompanyRequestEntity cre = new CompanyRequestEntity();
         try {

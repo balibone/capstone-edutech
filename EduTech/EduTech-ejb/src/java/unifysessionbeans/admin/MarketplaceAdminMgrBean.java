@@ -1,3 +1,13 @@
+/***************************************************************************************
+*   Title:                  MarketplaceAdminMgrBean.java
+*   Purpose:                LIST OF MANAGER BEAN METHODS FOR UNIFY MARKETPLACE - ADMIN (EDUBOX)
+*   Created & Modified By:  TAN CHIN WEE WINSTON
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+***************************************************************************************/
+
 package unifysessionbeans.admin;
 
 import javax.ejb.Stateless;
@@ -13,7 +23,6 @@ import java.util.List;
 import java.util.Vector;
 
 import unifyentities.marketplace.ItemEntity;
-import unifyentities.marketplace.ItemTransactionEntity;
 import unifyentities.common.CategoryEntity;
 import unifyentities.common.MessageEntity;
 
@@ -24,20 +33,20 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     
     private CategoryEntity cEntity;
     private ItemEntity iEntity;
-    private ItemTransactionEntity itEntity;
     private MessageEntity mEntity;
     
     private Collection<ItemEntity> itemSet;
 
     @Override
     public List<Vector> viewItemCategoryList(){
-        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'marketplace'");
+        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Marketplace'");
         List<Vector> itemCategoryList = new ArrayList<Vector>();
         
         for (Object o: q.getResultList()){
             CategoryEntity categoryE = (CategoryEntity) o;
             Vector itemCategoryVec = new Vector();
             
+            itemCategoryVec.add(categoryE.getCategoryID());
             itemCategoryVec.add(categoryE.getCategoryImage());
             itemCategoryVec.add(categoryE.getCategoryName());
             itemCategoryVec.add(categoryE.getCategoryDescription());
@@ -48,8 +57,8 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     }
     
     @Override
-    public Vector viewItemCategoryDetails(String urlCategoryName, String urlCategoryType) {
-        cEntity = lookupItemCategory(urlCategoryName, urlCategoryType);
+    public Vector viewItemCategoryDetails(long itemCategoryID) {
+        cEntity = lookupItemCategory(itemCategoryID);
         Vector itemCategoryDetailsVec = new Vector();
         
         if (cEntity != null) {
@@ -65,8 +74,8 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     
     /* VIEW ASSOCIATED ITEM LIST IN A PARTICULAR ITEM CATEGORY */
     @Override
-    public List<Vector> viewAssociatedItemList(String urlCategoryName, String urlCategoryType){
-        cEntity = lookupItemCategory(urlCategoryName, urlCategoryType);
+    public List<Vector> viewAssociatedItemList(long itemCategoryID){
+        cEntity = lookupItemCategory(itemCategoryID);
         
         Query q = em.createQuery("SELECT i FROM Item i WHERE i.categoryEntity.categoryName = :itemCategoryName");
         q.setParameter("itemCategoryName", cEntity.getCategoryName());
@@ -87,41 +96,41 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean createItemCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
+    public String createItemCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
         cEntity = new CategoryEntity();
-        cEntity.createCategory(categoryName, categoryType, categoryDescription, categoryImage);
-        itemSet = new ArrayList<ItemEntity>();
-        cEntity.setItemSet(itemSet);
-        em.persist(cEntity);
-        return true;
+        if(cEntity.createCategory(categoryName, categoryType, categoryDescription, categoryImage)) {
+            itemSet = new ArrayList<ItemEntity>();
+            cEntity.setItemSet(itemSet);
+            em.persist(cEntity);
+            return "Item category has been listed successfully!";
+        } else {
+            return "There were some issues encountered while creating the item category. Please try again.";
+        }
     }
     
     @Override
-    public boolean updateItemCategory(String oldCategoryName, String newCategoryName, String categoryType, 
-            String oldCategoryDescription, String newCategoryDescription, String fileName) {
+    public String updateItemCategory(long itemCategoryID, String categoryName, String categoryDescription, String fileName) {
         /* DOES NOT MATTER WHETHER OR NOT THERE IS ITEMS INSIDE THE ITEM CATEGORY, ADMIN CAN JUST UPDATE THE ITEM CATEGORY DETAILS */
-        boolean icUpdateStatus = true;
-        if (lookupItemCategory(oldCategoryName, categoryType) == null) {
-            icUpdateStatus = false;
+        if (lookupItemCategory(itemCategoryID) == null) {
+            return "Selected item category cannot be found. Please try again.";
         } else {
-            cEntity = lookupItemCategory(oldCategoryName, categoryType);
-            cEntity.setCategoryName(newCategoryName);
-            cEntity.setCategoryDescription(newCategoryDescription);
+            cEntity = lookupItemCategory(itemCategoryID);
+            cEntity.setCategoryName(categoryName);
+            cEntity.setCategoryDescription(categoryDescription);
             cEntity.setCategoryImage(fileName);
             em.merge(cEntity);
+            return "Selected item category has been updated successfully!";
         }
-        return icUpdateStatus;
     }
     
     @Override
-    public String deactivateAnItemCategory(String deactCategoryName, String deactCategoryType) {
+    public String deactivateAnItemCategory(long itemCategoryID) {
         /* DON'T CHANGE THE RETURN STRING (USED FOR SERVLET VALIDATION) */
         boolean itemAvailWithinCat = false;
-        
-        if (lookupItemCategory(deactCategoryName, deactCategoryType) == null) {
-            return "Selected item category cannot be found.";
+        if (lookupItemCategory(itemCategoryID) == null) {
+            return "Selected item category cannot be found. Please try again.";
         } else {
-            cEntity = em.find(CategoryEntity.class, lookupItemCategory(deactCategoryName, deactCategoryType).getCategoryID());
+            cEntity = em.find(CategoryEntity.class, lookupItemCategory(itemCategoryID).getCategoryID());
             itemSet = cEntity.getItemSet();
             
             /* IF THERE IS ITEM INSIDE THE ITEM CATEGORY */
@@ -134,7 +143,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
                     }
                 }
                 if (itemAvailWithinCat == true) {
-                    return "There are currently active items inside this item category. Cannot be deactivated.";
+                    return "There are active items currently inside this item category. Cannot be deactivated.";
                 } else {
                     return "Selected item category has been deactivated successfully!";
                 }
@@ -149,16 +158,15 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean activateAnItemCategory(String actCategoryName, String actCategoryType) {
-        boolean icDeactivateStatus = true;
-        if (lookupItemCategory(actCategoryName, actCategoryType) == null) {
-            icDeactivateStatus = false;
+    public String activateAnItemCategory(long itemCategoryID) {
+        if (lookupItemCategory(itemCategoryID) == null) {
+            return "Selected item category cannot be found. Please try again.";
         } else {
-            cEntity = lookupItemCategory(actCategoryName, actCategoryType);
+            cEntity = lookupItemCategory(itemCategoryID);
             cEntity.setCategoryActiveStatus(true);
             em.merge(cEntity);
+            return "Selected item category has been activated successfully!";
         }
-        return icDeactivateStatus;
     }
     
     @Override
@@ -170,6 +178,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             ItemEntity itemE = (ItemEntity) o;
             Vector itemVec = new Vector();
             
+            itemVec.add(itemE.getItemID());
             itemVec.add(itemE.getItemImage());
             itemVec.add(itemE.getItemName());
             itemVec.add(itemE.getCategoryEntity().getCategoryName());
@@ -182,8 +191,8 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     }
     
     @Override
-    public Vector viewItemDetails(String itemName, String itemSellerID) {
-        iEntity = lookupItem(itemName, itemSellerID);
+    public Vector viewItemDetails(long urlItemID) {
+        iEntity = lookupItem(urlItemID);
         Vector itemDetailsVec = new Vector();
         
         if (iEntity != null) {
@@ -192,50 +201,126 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryName());
             itemDetailsVec.add(iEntity.getUserEntity().getUsername());
             itemDetailsVec.add(iEntity.getItemPrice());
+            itemDetailsVec.add(iEntity.getItemCondition());
             itemDetailsVec.add(iEntity.getItemDescription());
             itemDetailsVec.add(iEntity.getItemStatus());
+            itemDetailsVec.add(iEntity.getItemNumOfLikes());
             itemDetailsVec.add(iEntity.getItemPostingDate());
             itemDetailsVec.add(iEntity.getTradeLocation());
             itemDetailsVec.add(iEntity.getTradeLat());
             itemDetailsVec.add(iEntity.getTradeLong());
+            itemDetailsVec.add(iEntity.getTradeInformation());
             return itemDetailsVec;
         }
         return null;
     }
     
     @Override
-    public boolean deleteAnItem(String hiddenItemName, String hiddenSellerID) {
+    public String deleteAnItem(long urlItemID) {
         /* ADMIN CAN JUST DELETE THE ITEM IMMEDIATELY */
-        boolean itemDeleteStatus = true;
-        if (lookupItem(hiddenItemName, hiddenSellerID) == null) {
-            itemDeleteStatus = false;
+        if (lookupItem(urlItemID) == null) {
+            return "Selected item cannot be found. Please try again.";
         } else {
-            iEntity = lookupItem(hiddenItemName, hiddenSellerID);
+            iEntity = lookupItem(urlItemID);
             em.remove(iEntity);
             em.flush();
             em.clear();
+            return "Selected item has been deleted successfully (A system notification has been sent to the seller)!";
         }
-        return itemDeleteStatus;
     }
     
+    /* METHODS FOR UNIFY ADMIN DASHBOARD */
     @Override
-    public String getItemTransTodayCount() {
-        Query q = em.createQuery("SELECT COUNT(t) FROM ItemTransaction t");
-        return String.valueOf(q.getFirstResult());
+    public Long getItemTransTodayCount() {
+        Long itemTransTodayCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(t.itemTransactionID) FROM ItemTransaction t");
+        try {
+            itemTransTodayCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in MarketplaceAdminMgrBean.getItemTransTodayCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return itemTransTodayCount;
     }
     @Override
-    public String getItemListingCount() {
-        Query q = em.createQuery("SELECT COUNT(i) FROM Item i");
-        return String.valueOf(q.getFirstResult());
+    public Long getActiveItemCategoryListCount() {
+        Long activeItemCategoryListCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.categoryName) FROM Category c WHERE c.categoryType = 'Marketplace' AND c.categoryActiveStatus='1'");
+        try {
+            activeItemCategoryListCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in MarketplaceAdminMgrBean.getActiveItemCategoryListCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return activeItemCategoryListCount;
+    }
+    @Override
+    public Long getInactiveItemCategoryListCount() {
+        Long inactiveItemCategoryListCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.categoryName) FROM Category c WHERE c.categoryType = 'Marketplace' AND c.categoryActiveStatus='0'");
+        try {
+            inactiveItemCategoryListCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in MarketplaceAdminMgrBean.getInactiveItemCategoryListCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return inactiveItemCategoryListCount;
+    }
+    @Override
+    public Long getItemListingCount() {
+        Long itemListingCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(i.itemID) FROM Item i");
+        try {
+            itemListingCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in MarketplaceAdminMgrBean.getItemListingCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return itemListingCount;
+    }
+    @Override
+    public Long getAvailableItemListingCount() {
+        Long availableItemListingCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(i.itemID) FROM Item i WHERE i.itemStatus = 'Available'");
+        try {
+            availableItemListingCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in MarketplaceAdminMgrBean.getAvailableItemListingCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return availableItemListingCount;
+    }
+    @Override
+    public Long getReservedItemListingCount() {
+        Long reservedItemListingCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(i.itemID) FROM Item i WHERE i.itemStatus = 'Reserved'");
+        try {
+            reservedItemListingCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in MarketplaceAdminMgrBean.getReservedItemListingCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return reservedItemListingCount;
+    }
+    @Override
+    public Long getSoldItemListingCount() {
+        Long soldItemListingCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(i.itemID) FROM Item i WHERE i.itemStatus = 'Sold'");
+        try {
+            soldItemListingCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in MarketplaceAdminMgrBean.getSoldItemListingCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return soldItemListingCount;
     }
     
     /* MISCELLANEOUS METHODS */
-    public ItemEntity lookupItem(String itemName, String itemSellerID){
+    public ItemEntity lookupItem(long urlItemID){
         ItemEntity ie = new ItemEntity();
         try{
-            Query q = em.createQuery("SELECT i FROM Item i WHERE i.itemName = :itemName AND i.itemSellerID = :itemSellerID");
-            q.setParameter("itemName", itemName);
-            q.setParameter("itemSellerID", itemSellerID);
+            Query q = em.createQuery("SELECT i FROM Item i WHERE i.itemID = :urlItemID");
+            q.setParameter("urlItemID", urlItemID);
             ie = (ItemEntity)q.getSingleResult();
         }
         catch(EntityNotFoundException enfe){
@@ -250,22 +335,20 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
         }
         return ie;
     }
-    
-    public CategoryEntity lookupItemCategory(String categoryName, String categoryType) {
+    public CategoryEntity lookupItemCategory(long itemCategoryID) {
         CategoryEntity ce = new CategoryEntity();
         try{
-            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryName = :categoryName AND c.categoryType = :categoryType");
-            q.setParameter("categoryName", categoryName);
-            q.setParameter("categoryType", categoryType);
+            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryID = :itemCategoryID");
+            q.setParameter("itemCategoryID", itemCategoryID);
             ce = (CategoryEntity)q.getSingleResult();
         }
         catch(EntityNotFoundException enfe){
-            System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());
+            System.out.println("ERROR: Item category cannot be found. " + enfe.getMessage());
             em.remove(ce);
             ce = null;
         }
         catch(NoResultException nre){
-            System.out.println("ERROR: Category does not exist. " + nre.getMessage());
+            System.out.println("ERROR: Item category does not exist. " + nre.getMessage());
             em.remove(ce);
             ce = null;
         }

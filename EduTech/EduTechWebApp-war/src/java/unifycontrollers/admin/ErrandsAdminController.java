@@ -1,3 +1,13 @@
+/***************************************************************************************
+*   Title:                  ErrandsAdminController.java
+*   Purpose:                SERVLET FOR UNIFY ERRANDS - ADMIN (EDUBOX)
+*   Created & Modified By:  CHEN MENG
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+***************************************************************************************/
+
 package unifycontrollers.admin;
 
 import java.io.File;
@@ -18,25 +28,38 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import unifysessionbeans.admin.ErrandsAdminMgrBeanRemote;
+import unifysessionbeans.admin.UserProfileAdminMgrBeanRemote;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 10,
         maxFileSize = 1024 * 1024 * 50,
         maxRequestSize = 1024 * 1024 * 100
 )
-
 public class ErrandsAdminController extends HttpServlet {
     @EJB
     private ErrandsAdminMgrBeanRemote eamr;
-
+    @EJB
+    private UserProfileAdminMgrBeanRemote uamr;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-
+            request.setAttribute("unifyUserCount", uamr.getUnifyUserCount());
+            
             switch (pageAction) {
+                case "goToViewJobCategoryListing":
+                    request.setAttribute("activeJobCategoryListCount", eamr.getActiveJobCategoryListCount());
+                    request.setAttribute("inactiveJobCategoryListCount", eamr.getInactiveJobCategoryListCount());
+                    request.setAttribute("jobListingCount", eamr.getJobListingCount());
+                    request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
+                    pageAction = "ViewJobCategoryListing";
+                    break;
+                case "goToCreateNewJobCategory":
+                    pageAction = "CreateNewJobCategory";
+                    break;
                 case "goToViewJobListing":
                     request.setAttribute("jobListing", (ArrayList) eamr.getAllJobListing());
                     pageAction = "ViewJobListing";
@@ -58,14 +81,6 @@ public class ErrandsAdminController extends HttpServlet {
                     }
                     request.setAttribute("jobListing", (ArrayList) eamr.getAllJobListing());
                     pageAction = "ViewJobListing";
-                    break;
-                case "goToViewJobCategoryListing":
-                    request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
-                    pageAction = "ViewJobCategoryListing";
-                    break;
-                case "goToCreateNewJobCategory":
-                    request.setAttribute("paramCategoryType", request.getParameter("categoryType"));
-                    pageAction = "CreateNewJobCategory";
                     break;
                 case "newJobCategory":
                     if (createJobCategory(request)) {

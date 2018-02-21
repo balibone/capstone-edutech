@@ -1,6 +1,6 @@
 var center = L.bounds([1.56073, 104.11475], [1.16, 103.502]).getCenter();
-var map = L.map('mapdiv').setView([center.x, center.y], 12);
 var search_marker, icon_popup;
+
 var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png', {
     detectRetina: true,
     maxZoom: 18,
@@ -10,6 +10,7 @@ var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png
 });
 
 $(document).ready(function () {
+    var map = L.map('mapdiv').setView([center.x, center.y], 12);
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     

@@ -1,12 +1,11 @@
 /***************************************************************************************
-*    Title:         ItemReportEntity.java
-*    Purpose:       LIST OF MARKETPLACE-RELATED (ITEM) REPORTS BY THE CAMPUS USERS
-*    Author:        TAN CHIN WEE
-*    Credits:       CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE, ZHU XINYI
-*    Date:          31 JANUARY 2018
-*    Code version:  1.0
-*    Availability:  RESTRICTED
-*
+*   Title:                  ItemReportEntity.java
+*   Purpose:                LIST OF MARKETPLACE-RELATED (ITEM) REPORTS BY THE CAMPUS USERS
+*   Created & Modified By:  TAN CHIN WEE WINSTON
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
 ***************************************************************************************/
 package unifyentities.common;
 

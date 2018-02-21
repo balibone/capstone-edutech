@@ -1,3 +1,13 @@
+/***************************************************************************************
+*   Title:                  ErrandsAdminMgrBean.java
+*   Purpose:                LIST OF MANAGER BEAN METHODS FOR UNIFY ERRANDS - ADMIN (EDUBOX)
+*   Created & Modified By:  CHEN MENG
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+***************************************************************************************/
+
 package unifysessionbeans.admin;
 
 import java.util.ArrayList;
@@ -289,15 +299,54 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
         return transactionList;
     }
     
+    /* METHODS FOR UNIFY ADMIN DASHBOARD */
     @Override
-    public String getErrandsTransTodayCount() {
-        Query q = em.createQuery("SELECT COUNT(t) FROM JobTransaction t");
-        return String.valueOf(q.getFirstResult());
+    public Long getErrandsTransTodayCount() {
+        Long errandsTransTodayCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(t.jobTransactionID) FROM JobTransaction t");
+        try {
+            errandsTransTodayCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in ErrandsAdminMgrBean.getErrandsTransTodayCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return errandsTransTodayCount;
     }
     @Override
-    public String getErrandsListingCount() {
-        Query q = em.createQuery("SELECT COUNT(j) FROM Job j");
-        return String.valueOf(q.getFirstResult());
+    public Long getActiveJobCategoryListCount() {
+        Long activeJobCategoryListCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.categoryName) FROM Category c WHERE c.categoryType = 'Errands' AND c.categoryActiveStatus='1'");
+        try {
+            activeJobCategoryListCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in ErrandsAdminMgrBean.getActiveJobCategoryListCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return activeJobCategoryListCount;
+    }
+    @Override
+    public Long getInactiveJobCategoryListCount() {
+        Long inactiveJobCategoryListCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.categoryName) FROM Category c WHERE c.categoryType = 'Errands' AND c.categoryActiveStatus='0'");
+        try {
+            inactiveJobCategoryListCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in ErrandsAdminMgrBean.getInactiveJobCategoryListCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return inactiveJobCategoryListCount;
+    }
+    @Override
+    public Long getJobListingCount() {
+        Long jobListingCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(j.jobID) FROM Job j");
+        try {
+            jobListingCount = (Long)q.getSingleResult();
+        } catch(Exception ex) {
+            System.out.println("Exception in ErrandsAdminMgrBean.getJobListingCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return jobListingCount;
     }
     
     /* MISCELLANEOUS METHODS */
