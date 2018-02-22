@@ -13,7 +13,7 @@ $(document).ready(function() {
     
     $("#modal-iframe").iziModal({
         title: 'Item Details',
-        subtitle: 'Administrator may deactivate this item here',
+        subtitle: 'Administrator may deactivate this item listing here',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',

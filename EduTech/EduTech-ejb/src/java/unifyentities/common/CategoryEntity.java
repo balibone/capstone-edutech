@@ -58,13 +58,6 @@ public class CategoryEntity implements Serializable {
         this.categoryImage = categoryImage;
         return true;
     }
-    
-    public void createJobCategory(String categoryName, String categoryDescription){
-        this.setCategoryName(categoryName);
-        this.setCategoryType("Errands");
-        this.setCategoryDescription(categoryDescription);
-        this.setCategoryActiveStatus(true);
-    }
 
     /* GETTER METHODS */
     public Long getCategoryID() { return categoryID; }

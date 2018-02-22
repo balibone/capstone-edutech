@@ -1,4 +1,4 @@
-var rowItemName;
+var companyCategoryName, companyCategoryID;
 $(document).ready(function() {
     $('#newCompanyCategory').on('click', function() {
         $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToNewCompanyCategory');
@@ -6,42 +6,40 @@ $(document).ready(function() {
     });
     
     $('#newCompanyCategory-iframe').iziModal({
-        title: 'New Category',
-        subtitle: 'Fill in the information of the new category here',
-        iconClass: 'fa fa-cubes',
+        title: 'New Company Category',
+        subtitle: 'Fill in the information of the new company category here',
+        iconClass: 'fa fa-tag',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#337AB7',
-        width: 525,
+        headerColor: '#4D7496',
+        width: 600,
         overlayClose: true,
         iframe : true,
         iframeHeight: 325
     });
     
     
-    $('#datatable-responsive tbody').on('click', 'tr', function(event) {
-        var $cell= $(event.target).closest('td');
-        if($cell.index() > 0) {
-            var rowData = $(this).children("td").map(function() {
-                return $(this).text();
-            }).get();
-            rowCompanyName = $.trim(rowData[2]);
-            $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToViewCompanyCategoryListDetails&categoryName=' + rowCompanyName + '&categoryType=company');
-            $('#modal-iframe').iziModal('open', event);
-        }
+    $('#companyCategoryListing tbody').on('click', 'tr', function(event) {
+        var rowData = $(this).children("td").map(function() {
+            return $(this).text();
+        }).get();
+        companyCategoryName = $.trim(rowData[1]);
+        companyCategoryID = companyCategoryName.split(';')[1];
+        $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToViewCompanyCategoryDetails&companyCategoryID=' + companyCategoryID);
+        $('#editCompanyCategory-iframe').iziModal('open', event);
     });
     
-    $("#modal-iframe").iziModal({
-        title: 'Category Details',
+    $("#editCompanyCategory-iframe").iziModal({
+        title: 'Edit Company Category Details',
         subtitle: 'Administrator may deactivate this company category here',
-        iconClass: 'fa fa-cubes',
+        iconClass: 'fa fa-tag',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#337AB7',
-        width: 900,
+        headerColor: '#4D7496',
+        width: 650,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 525
+        iframeHeight: 475
     });
     
     

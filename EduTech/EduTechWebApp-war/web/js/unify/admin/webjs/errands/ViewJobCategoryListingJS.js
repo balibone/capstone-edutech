@@ -1,17 +1,17 @@
-var rowCategoryName;
+var jobCategoryName, jobCategoryID;
 $(document).ready(function() {
     $('#newJobCategory').on('click', function() {
-        $('iframe').attr('src', 'ErrandsAdmin?pageTransit=goToCreateNewJobCategory');
+        $('iframe').attr('src', 'ErrandsAdmin?pageTransit=goToNewJobCategory');
         $('#newJobCategory-iframe').iziModal('open', event);
     });
     
     $('#newJobCategory-iframe').iziModal({
         title: 'New Job Category',
         subtitle: 'Fill in the information of the new job category here',
-        iconClass: 'fa fa-cubes',
+        iconClass: 'fa fa-tag',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#337AB7',
+        headerColor: '#4D7496',
         width: 600,
         overlayClose: true,
         iframe : true,
@@ -22,22 +22,23 @@ $(document).ready(function() {
         var rowData = $(this).children("td").map(function() {
             return $(this).text();
         }).get();
-        rowCategoryID = $.trim(rowData[1]);
-        $('iframe').attr('src', 'ErrandsAdmin?pageTransit=goToViewJobCategoryDetails&urlCategoryID=' + rowCategoryID);
+        jobCategoryName = $.trim(rowData[1]);
+        jobCategoryID = jobCategoryName.split(';')[1];
+        $('iframe').attr('src', 'ErrandsAdmin?pageTransit=goToViewJobCategoryDetails&jobCategoryID=' + jobCategoryID);
         $('#editJobCategory-iframe').iziModal('open', event);
     });
     
     $('#editJobCategory-iframe').iziModal({
-        title: 'Edit Job Category',
-        subtitle: 'Administrator may deactivate this category here',
-        iconClass: 'fa fa-cubes',
+        title: 'Edit Job Category Details',
+        subtitle: 'Administrator may deactivate this job category here',
+        iconClass: 'fa fa-tag',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#337AB7',
-        width: 900,
+        headerColor: '#4D7496',
+        width: 650,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 500
+        iframeHeight: 475
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

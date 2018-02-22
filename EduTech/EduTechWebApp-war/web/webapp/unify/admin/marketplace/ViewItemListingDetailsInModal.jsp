@@ -1,6 +1,6 @@
 <!-- ***************************************************************************************
-*   Title:                  ViewItemListingDetails.jsp
-*   Purpose:                DETAILED INFORMATION OF THE SELECTED ITEM LISTING (UNIFY ADMIN)
+*   Title:                  ViewItemListingDetailsInModal.jsp
+*   Purpose:                DETAILED INFORMATION OF THE SELECTED ITEM LISTING WITHIN MODAL (UNIFY ADMIN)
 *   Created & Modified By:  TAN CHIN WEE WINSTON
 *   Date:                   21 FEBRUARY 2018
 *   Code version:           1.0
@@ -27,7 +27,7 @@
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/weblayout/marketplace/ViewItemListingDetailsCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/weblayout/marketplace/ViewItemListingDetailsInModalCSS.css" rel="stylesheet" type="text/css" />
 
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
@@ -45,10 +45,11 @@
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginFormComponentsJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/leaflet/leaflet.js"></script>
-        <script type="text/javascript" src="js/unify/admin/webjs/marketplace/ViewItemListingDetailsJS.js"></script>
+        <script type="text/javascript" src="js/unify/admin/webjs/marketplace/ViewItemListingDetailsInModalJS.js"></script>
     </head>
     <body style="background-color: #FFFFFF;">
-        <%            Vector itemDetailsVec = (Vector) request.getAttribute("itemDetailsVec");
+        <%
+            Vector itemDetailsVec = (Vector) request.getAttribute("itemDetailsVec");
             String itemImage, itemName, itemCategory, itemSellerID, itemPrice, itemCondition, itemDescription;
             itemImage = itemName = itemCategory = itemSellerID = itemPrice = itemCondition = itemDescription = "";
 
@@ -73,6 +74,13 @@
             }
         %>
         <table class="formFields" border="0">
+            <tr>
+                <td colspan="2" style="text-align: left;">
+                    <button class="btn btn-sm" onclick="window.location.href='MarketplaceAdmin?pageTransit=goToViewItemCategoryDetails&itemCategoryID=<%= request.getAttribute("urlItemCategoryID")%>'">
+                        <i class="fa fa-backward"></i>&nbsp;&nbsp;Back to Category List
+                    </button>
+                </td>
+            </tr>
             <tr><td colspan="2" style="text-align: left;"><h3><strong><%= itemName%></strong></h3></td></tr>
             <tr><td colspan="2">&nbsp;</td></tr>
             <tr>

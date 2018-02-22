@@ -11,7 +11,7 @@
 $(document).ready(function () {
     App.init();
     Plugins.init();
-    FormComponents.init()
+    FormComponents.init();
     
     $('.newsticker').newsTicker({
         row_height: 34,

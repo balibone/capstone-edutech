@@ -1,6 +1,6 @@
 <!-- ***************************************************************************************
-*   Title:                  ViewItemCategoryListing.jsp
-*   Purpose:                LIST OF ITEM CATEGORIES (UNIFY ADMIN)
+*   Title:                  ViewJobCategoryListing.jsp
+*   Purpose:                LIST OF JOB CATEGORIES (UNIFY ADMIN)
 *   Created By:             CHEN MENG
 *   Modified By:            TAN CHIN WEE WINSTON
 *   Date:                   21 FEBRUARY 2018
@@ -16,7 +16,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-        <title>Unify Admin - Item Categories</title>
+        <title>Unify Admin - Job Categories</title>
         
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />

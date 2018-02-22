@@ -29,7 +29,7 @@ public class JobReviewEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long jobReviewID;
-    private String jobReviewIndex;
+    private String jobReviewRating;
     private String jobReviewContent;
     
     @Temporal(TemporalType.DATE)
@@ -50,7 +50,7 @@ public class JobReviewEntity implements Serializable {
     
     /* GETTER METHODS */
     public Long getJobReviewID() { return jobReviewID; }
-    public String getJobReviewIndex() { return jobReviewIndex; }
+    public String getJobReviewRating() { return jobReviewRating; }
     public String getJobReviewContent() { return jobReviewContent; }
     public Date getJobReviewDate() { return jobReviewDate; }
     public Long getJobID() { return jobID; }
@@ -61,7 +61,7 @@ public class JobReviewEntity implements Serializable {
     
     /* SETTER METHODS */
     public void setJobReviewID(Long jobReviewID) { this.jobReviewID = jobReviewID; }
-    public void setJobReviewIndex(String jobReviewIndex) { this.jobReviewIndex = jobReviewIndex; }
+    public void setJobReviewRating(String jobReviewRating) { this.jobReviewRating = jobReviewRating; }
     public void setJobReviewContent(String jobReviewContent) { this.jobReviewContent = jobReviewContent; }
     public void setJobReviewDate(Date jobReviewDate) { this.jobReviewDate = jobReviewDate; }
     public void setJobID(Long jobID) { this.jobID = jobID; }

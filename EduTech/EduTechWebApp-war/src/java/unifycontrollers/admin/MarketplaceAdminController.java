@@ -125,7 +125,20 @@ public class MarketplaceAdminController extends HttpServlet {
                     long urlItemID = Long.parseLong(request.getParameter("itemID"));
                     request.setAttribute("urlItemID", urlItemID);
                     request.setAttribute("itemDetailsVec", mamr.viewItemDetails(urlItemID));
+                    request.setAttribute("itemTransList", mamr.viewItemTransactionList(urlItemID));
+                    request.setAttribute("itemReviewList", mamr.viewItemReviewList(urlItemID));
                     pageAction = "ViewItemListingDetails";
+                    break;
+                case "goToViewItemListingDetailsInModal":
+                    long hidItemID = Long.parseLong(request.getParameter("itemID"));
+                    request.setAttribute("urlItemID", hidItemID);
+                    long hidItemCategoryID = Long.parseLong(request.getParameter("itemCategoryID"));
+                    request.setAttribute("urlItemCategoryID", hidItemCategoryID);
+                    
+                    request.setAttribute("itemDetailsVec", mamr.viewItemDetails(hidItemID));
+                    request.setAttribute("itemTransList", mamr.viewItemTransactionList(hidItemID));
+                    request.setAttribute("itemReviewList", mamr.viewItemReviewList(hidItemID));
+                    pageAction = "ViewItemListingDetailsInModal";
                     break;
                 case "deleteAnItem":
                     long hiddenItemID = Long.parseLong(request.getParameter("itemID"));
@@ -161,16 +174,17 @@ public class MarketplaceAdminController extends HttpServlet {
     }
 
     @Override
-    public String getServletInfo() {
-        return "Marketplace (Item) Admin Servlet";
-    }
+    public String getServletInfo() { return "Marketplace (Item) Admin Servlet"; }
 
     private String createItemCategory(HttpServletRequest request) {
         String fileName = "";
         try {
             Part filePart = request.getPart("itemImage");
             fileName = (String) getFileName(filePart);
-
+            if(fileName.contains("\\")) {
+                fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
+            }
+            
             String appPath = request.getServletContext().getRealPath("");
             String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
                     + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
@@ -219,7 +233,10 @@ public class MarketplaceAdminController extends HttpServlet {
             try {
                 Part filePart = request.getPart("itemImage");
                 fileName = (String) getFileName(filePart);
-
+                if(fileName.contains("\\")) {
+                    fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
+                }
+                
                 String appPath = request.getServletContext().getRealPath("");
                 String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
                         + "EduTech" + File.separator + "EduTechWebApp-war_war", "");

@@ -1,9 +1,10 @@
 <!-- ***************************************************************************************
-*   Title:                  ViewItemCategoryDetails.jsp
-*   Purpose:                DETAILED INFORMATION OF THE SELECTED ITEM CATEGORY (UNIFY ADMIN)
-*   Created & Modified By:  TAN CHIN WEE WINSTON
+*   Title:                  ViewCompanyCategoryDetails.jsp
+*   Purpose:                DETAILED INFORMATION OF THE SELECTED COMPANY CATEGORY (UNIFY ADMIN)
+*   Created By:             ZHU XINYI
+*   Modified By:            TAN CHIN WEE WINSTON
 *   Date:                   21 FEBRUARY 2018
-*   Code version:           1.0
+*   Code version:           1.1
 *   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
 **************************************************************************************** -->
 
@@ -15,7 +16,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Unify Admin - Item Category Details</title>
+        <title>Unify Admin - Company Category Details</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
@@ -26,7 +27,7 @@
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/weblayout/marketplace/ViewItemCategoryDetailsCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/weblayout/voices/ViewCompanyCategoryDetailsCSS.css" rel="stylesheet" type="text/css" />
 
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
@@ -43,23 +44,23 @@
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginFormComponentsJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
-        <script src="js/unify/admin/webjs/marketplace/ViewItemCategoryDetailsJS.js" type="text/javascript"></script>
+        <script src="js/unify/admin/webjs/voices/ViewCompanyCategoryDetailsJS.js" type="text/javascript"></script>
     </head>
     <body style="background-color: #FFFFFF;">
         <%  
-            Vector itemCategoryDetailsVec = (Vector) request.getAttribute("itemCategoryDetailsVec");
+            Vector companyCategoryDetailsVec = (Vector) request.getAttribute("companyCategoryDetailsVec");
             String categoryImage, categoryName, categoryType, categoryDescription, categoryActiveStatus, activeStatus;
             categoryImage = categoryName = categoryType = categoryDescription = categoryActiveStatus = activeStatus = "";
 
-            if (itemCategoryDetailsVec != null) {
-                categoryImage = (String) itemCategoryDetailsVec.get(0);
-                categoryName = (String) itemCategoryDetailsVec.get(1);
-                categoryType = (String) itemCategoryDetailsVec.get(2);
-                categoryDescription = (String) itemCategoryDetailsVec.get(3);
-                categoryActiveStatus = (String.valueOf(itemCategoryDetailsVec.get(4)));
+            if (companyCategoryDetailsVec != null) {
+                categoryImage = (String) companyCategoryDetailsVec.get(0);
+                categoryName = (String) companyCategoryDetailsVec.get(1);
+                categoryType = (String) companyCategoryDetailsVec.get(2);
+                categoryDescription = (String) companyCategoryDetailsVec.get(3);
+                categoryActiveStatus = (String.valueOf(companyCategoryDetailsVec.get(4)));
             }
         %>
-        <form id="itemCategoryDetailsForm" action="MarketplaceAdmin" method="POST" enctype="multipart/form-data" target="_parent">
+        <form id="companyCategoryDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
             <table class="formFields" border="0">
                 <tr>
                     <td>
@@ -115,58 +116,57 @@
                 </tr>
                 <tr style="text-align: center;">
                     <td colspan="2">
-                        <input type="hidden" name="pageTransit" value="updateItemCategory"/>
-                        <input type="hidden" name="hiddenItemCategoryID" value="<%= request.getAttribute("urlItemCategoryID")%>"/>
+                        <input type="hidden" name="pageTransit" value="updateCompanyCategory"/>
+                        <input type="hidden" name="hiddenCompanyCategoryID" value="<%= request.getAttribute("urlCompanyCategoryID")%>"/>
                         <input type="hidden" name="imageUploadStatus" id="imageUploadStatus" />
                         <input type="hidden" name="oldCategoryImage"  value="<%= categoryImage%>" />
-                        <button type="button" class="btn btn-primary" onclick="itemCategoryDetailsForm.submit();">Update Item Category</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary" onclick="companyCategoryDetailsForm.submit();">Update Company Category</button>&nbsp;&nbsp;
 
                         <%  if (activeStatus.equals("Active")) {%>
-                        <button type="button" class="btn btn-primary" onclick="window.open('MarketplaceAdmin?pageTransit=deactivateAnItemCategory&hiddenItemCategoryID=<%= request.getAttribute("urlItemCategoryID")%>','_parent')">Deactivate Item Category</button>
+                        <button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=deactivateACompanyCategory&hiddenCompanyCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>','_parent')">Deactivate Company Category</button>
                         <%  } else if (activeStatus.equals("Inactive")) {%>
-                        <button type="button" class="btn btn-primary" onclick="window.open('MarketplaceAdmin?pageTransit=activateAnItemCategory&hiddenItemCategoryID=<%= request.getAttribute("urlItemCategoryID")%>','_parent')">Activate Item Category</button>
+                        <button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=activateACompanyCategory&hiddenCompanyCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>','_parent')">Activate Company Category</button>
                         <%  }   %>
                     </td>
                 </tr>
             </table>
             
             <div style="margin: 40px 20px 0 20px">
-                <h5 style="margin-bottom: 20px;"><strong><u>List of items under this "<%= categoryName%>" category</u></strong></h5>
-                <table id="associatedItemListing" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                <h5 style="margin-bottom: 20px;"><strong><u>List of companies under this "<%= categoryName%>" category</u></strong></h5>
+                <table class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
                     <thead>
                         <tr>
-                            <th data-class="expand">Item Image</th>
-                            <th>Item Name</th>
-                            <th>Seller ID</th>
-                            <th>Item Price</th>
-                            <th data-hide="phone">Item Status</th>
+                            <th data-class="expand">Company Image</th>
+                            <th data-class="expand">Company Name</th>
+                            <th>Company HQ</th>
+                            <th>Company Size</th>
+                            <th data-hide="phone">Company Average Rating</th>
+                            <th data-hide="phone">Company Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%
-                            ArrayList<Vector> associatedItemList = (ArrayList) request.getAttribute("associatedItemList");
-                            if (!associatedItemList.isEmpty()) {
-                                for (int i = 0; i <= associatedItemList.size() - 1; i++) {
-                                    Vector v = associatedItemList.get(i);
-                                    String itemID = String.valueOf(v.get(0));
-                                    String itemCategoryID = String.valueOf(v.get(1));
-                                    String itemImage = String.valueOf(v.get(2));
-                                    String itemName = String.valueOf(v.get(3));
-                                    String itemSellerID = String.valueOf(v.get(4));
-                                    String itemPrice = String.valueOf(v.get(5));
-                                    String itemStatus = String.valueOf(v.get(6));
+                            ArrayList<Vector> associatedCompanyList = (ArrayList) request.getAttribute("associatedCompanyList");
+                            if (!associatedCompanyList.isEmpty()) {
+                                for (int i = 0; i <= associatedCompanyList.size() - 1; i++) {
+                                    Vector v = associatedCompanyList.get(i);
+                                    String companyImage = String.valueOf(v.get(0));
+                                    String companyName = String.valueOf(v.get(1));
+                                    String companyHQ = String.valueOf(v.get(2));
+                                    String companySize = String.valueOf(v.get(3));
+                                    String companyAverageRating = String.valueOf(v.get(4));
+                                    String companyStatus = String.valueOf(v.get(5));
                         %>
                         <tr>
-                            <td><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="max-width: 50px; max-height: 50px;" /></td>
-                            <td><%= itemName%><span style="display: none">;<%= itemID%>;<%= itemCategoryID%></span></td>
-                            <td><%= itemSellerID%></td>
-                            <td>$<%= itemPrice%></td>
-                            <%  if (itemStatus.equals("Available")) {   %>
-                            <td><span class="label label-success"><%= itemStatus%></span></td>
-                            <%  } else if (itemStatus.equals("Reserved")) { %>
-                            <td><span class="label label-warning"><%= itemStatus%></span></td>
-                            <%  } else if (itemStatus.equals("Sold")) { %>
-                            <td><span class="label label-danger"><%= itemStatus%></span></td>
+                            <td><img src="uploads/unify/images/voices/company/<%= companyImage%>" style="max-width: 50px; max-height: 50px;" /></td>
+                            <td><%= companyName%></td>
+                            <td><%= companyHQ%></td>
+                            <td><%= companySize%></td>
+                            <td><%= companyAverageRating%></td>
+                            <%  if (companyStatus.equals("Active")) {   %>
+                            <td><span class="label label-success"><%= companyStatus%></span></td>
+                            <%  } else if (companyStatus.equals("Inactive")) { %>
+                            <td><span class="label label-danger"><%= companyStatus%></span></td>
                             <%  }   %>
                         </tr>
                         <%      }   %>

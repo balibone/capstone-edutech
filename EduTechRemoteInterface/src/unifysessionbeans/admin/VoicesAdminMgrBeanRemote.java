@@ -1,10 +1,11 @@
 /***************************************************************************************
 *   Title:                  VoicesAdminMgrBeanRemote.java
 *   Purpose:                LIST OF REMOTE INTERFACE METHODS FOR UNIFY COMPANY REVIEW - ADMIN (EDUBOX)
-*   Created & Modified By:  ZHU XINYI
+*   Created By:             ZHU XINYI
+*   Modified By:            TAN CHIN WEE WINSTON
 *   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
 *   Date:                   19 FEBRUARY 2018
-*   Code version:           1.0
+*   Code version:           1.1
 *   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
 ***************************************************************************************/
 
@@ -13,13 +14,20 @@ package unifysessionbeans.admin;
 import javax.ejb.Remote;
 import java.util.List;
 import java.util.Vector;
-import java.util.ArrayList;
 
 @Remote
 public interface VoicesAdminMgrBeanRemote {
+    public List<Vector> viewCompanyCategoryList();
+    public String createCompanyCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage);
+    public Vector viewCompanyCategoryDetails(long companyCategoryID);
+    public String deactivateACompanyCategory(long companyCategoryID);
+    public String activateACompanyCategory(long companyCategoryID);
+    public String updateCompanyCategory(long companyCategoryID, String categoryName, String categoryDescription, 
+            String fileName);
+    
     public boolean createCompany(String companyName, String companyWebsite, String companyHQ, int companySize, String companyIndustry, String companyDescription, String companyImage);
     public List<Vector> viewCompanyList();
-    public List<Vector> viewCompanyInCategoryList(String categoryName, String categoryType);
+    public List<Vector> viewAssociatedCompanyList(long companyCategoryID);
     public Vector viewCompanyDetails(String companyName);
     public String deactivateCompany(String companyName);
     public boolean activateCompany(String companyName);
@@ -27,13 +35,7 @@ public interface VoicesAdminMgrBeanRemote {
     public List<Vector> viewReviewList(String reviewedCompany);
     public Vector viewReviewDetails(String reviewedCompany, String reviewPosterID);
     public boolean deleteReview(String reviewedCompany, String reviewPosterID);
-    public List<Vector> viewCompanyCategoryList();
-    public boolean createCompanyCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage);
-    public Vector viewCompanyCategoryDetails(String categoryName, String categoryType);
-    public String deactivateCompanyCategory(String deactCategoryName, String deactCategoryType);
-    public boolean activateCompanyCategory(String actCategoryName, String actCategoryType);
-    public boolean updateCompanyCategory(String oldCategoryName, String newCategoryName, String categoryType, 
-            String oldCategoryDescription, String newCategoryDescription, String fileName);
+    
     public List<Vector> viewCompanyRequestList();
     public Vector viewCompanyRequestDetails(String requestCompany, String requestPosterID);
     public boolean solveRequest(String requestCompany, String requestPosterID);
@@ -41,4 +43,7 @@ public interface VoicesAdminMgrBeanRemote {
     
     /* METHODS FOR UNIFY ADMIN DASHBOARD */
     public Long getCompanyReviewCount();
+    public Long getActiveCompanyCategoryListCount();
+    public Long getInactiveCompanyCategoryListCount();
+    public Long getCompanyListingCount();
 }

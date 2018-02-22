@@ -29,7 +29,7 @@ $(document).ready(function() {
     });
     
     $('#editItemCategory-iframe').iziModal({
-        title: 'Edit Item Category',
+        title: 'Edit Item Category Details',
         subtitle: 'Administrator may deactivate this item category here',
         iconClass: 'fa fa-tag',
         transitionIn: 'transitionIn',
@@ -38,7 +38,7 @@ $(document).ready(function() {
         width: 650,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 450
+        iframeHeight: 475
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

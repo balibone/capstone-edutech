@@ -1,6 +1,6 @@
 <!-- ***************************************************************************************
-*   Title:                  ViewJobDetails.jsp
-*   Purpose:                DETAILED INFORMATION OF THE SELECTED JOB LISTING (UNIFY ADMIN)
+*   Title:                  ViewJobDetailsInModal.jsp
+*   Purpose:                DETAILED INFORMATION OF THE SELECTED JOB LISTING IN MODAL (UNIFY ADMIN)
 *   Created By:             CHEN MENG
 *   Modified By:            TAN CHIN WEE WINSTON
 *   Date:                   21 FEBRUARY 2018
@@ -28,7 +28,7 @@
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/weblayout/errands/ViewJobDetailsCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/weblayout/errands/ViewJobDetailsInModalCSS.css" rel="stylesheet" type="text/css" />
 
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
@@ -46,7 +46,7 @@
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginFormComponentsJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/leaflet/leaflet.js"></script>
-        <script type="text/javascript" src="js/unify/admin/webjs/errands/ViewJobDetailsJS.js"></script>
+        <script type="text/javascript" src="js/unify/admin/webjs/errands/ViewJobDetailsInModalJS.js"></script>
     </head>
     <body style="background-color: #FFFFFF;">
         <%
@@ -82,6 +82,13 @@
             }
         %>
         <table class="formFields" border="0">
+            <tr>
+                <td colspan="2" style="text-align: left;">
+                    <button class="btn btn-sm" onclick="window.location.href='ErrandsAdmin?pageTransit=goToViewJobCategoryDetails&jobCategoryID=<%= request.getAttribute("urlJobCategoryID")%>'">
+                        <i class="fa fa-backward"></i>&nbsp;&nbsp;Back to Category List
+                    </button>
+                </td>
+            </tr>
             <tr><td colspan="2" style="text-align: left;"><h3><strong><%= jobTitle%></strong></h3></td></tr>
             <tr><td colspan="2">&nbsp;</td></tr>
             <tr>

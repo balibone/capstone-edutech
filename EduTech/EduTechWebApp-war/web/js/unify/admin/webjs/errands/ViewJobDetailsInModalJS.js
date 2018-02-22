@@ -14,15 +14,15 @@ $(document).ready(function () {
     Plugins.init();
     FormComponents.init();
     
-    var dbTradeLocation = document.getElementById("dbTradeLocation").value;
-    var dbTradeLat = document.getElementById("dbTradeLat").value;
-    var dbTradeLong = document.getElementById("dbTradeLong").value;
+    var dbJobStartLocation = document.getElementById("dbJobStartLocation").value;
+    var dbJobStartLat = document.getElementById("dbJobStartLat").value;
+    var dbJobStartLong = document.getElementById("dbJobStartLong").value;
     
-    var map = L.map('tradeMap').setView([center.x, center.y], 12);
+    var map = L.map('errandsMap').setView([center.x, center.y], 12);
     map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
     basemap.addTo(map);
     
     if(search_marker) { map.removeLayer(search_marker); }
-    search_marker = L.marker([dbTradeLat, dbTradeLong], { draggable: false });
-    icon_popup = L.popup().setLatLng([dbTradeLat, dbTradeLong]).setContent("Meetup Location: " + dbTradeLocation).openOn(map);
+    search_marker = L.marker([dbJobStartLat, dbJobStartLong], { draggable: false });
+    icon_popup = L.popup().setLatLng([dbJobStartLat, dbJobStartLong]).setContent("Job Start Location: " + dbJobStartLocation).openOn(map);
 });

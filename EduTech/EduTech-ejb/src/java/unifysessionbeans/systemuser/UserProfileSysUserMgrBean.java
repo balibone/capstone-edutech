@@ -43,7 +43,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         
         for (ItemTransactionEntity ite : itemTransactionSet) {
             itemTransDetailsVec.add(ite.getItemBuyerID());
-            itemTransDetailsVec.add(ite.getItemSellerID());
+            itemTransDetailsVec.add(ite.getUserEntity().getUsername());
             itemTransDetailsVec.add(ite.getItemEntity().getItemName());
             itemTransDetailsVec.add(ite.getItemTransactionDate());
             itemTransDetailsVec.add(ite.getItemTransactionPrice());

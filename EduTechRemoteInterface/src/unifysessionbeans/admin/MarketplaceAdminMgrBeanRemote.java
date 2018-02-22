@@ -17,18 +17,19 @@ import javax.ejb.Remote;
 @Remote
 public interface MarketplaceAdminMgrBeanRemote {
     public List<Vector> viewItemCategoryList();
+    public String createItemCategory(String categoryName, String categoryType, String categoryDescription, 
+            String fileName);
     public Vector viewItemCategoryDetails(long itemCategoryID);
     public List<Vector> viewAssociatedItemList(long itemCategoryID);
-    
-    public String createItemCategory(String categoryName, String categoryType, String categoryDescription, 
-            String categoryImage);
     public String updateItemCategory(long itemCategoryID, String categoryName, String categoryDescription, 
             String fileName);
-    public String activateAnItemCategory(long actItemCategoryID);
-    public String deactivateAnItemCategory(long deactItemCategoryID);
+    public String activateAnItemCategory(long itemCategoryID);
+    public String deactivateAnItemCategory(long itemCategoryID);
     
     public List<Vector> viewItemList();
-    public Vector viewItemDetails(long urlItemID);
+    public Vector viewItemDetails(long itemID);
+    public List<Vector> viewItemTransactionList(long itemID);
+    public List<Vector> viewItemReviewList(long itemID);
     public String deleteAnItem(long urlItemID);
     
     /* METHODS FOR UNIFY ADMIN DASHBOARD */

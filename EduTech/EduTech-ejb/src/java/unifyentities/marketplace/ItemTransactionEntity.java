@@ -33,7 +33,6 @@ public class ItemTransactionEntity implements Serializable {
     private Date itemTransactionDate;
     
     /* FOREIGN KEY */
-    private String itemSellerID;
     private String itemBuyerID;
     
     @ManyToOne
@@ -48,7 +47,6 @@ public class ItemTransactionEntity implements Serializable {
     public Long getItemTransactionID() { return itemTransactionID; }
     public Double getItemTransactionPrice() { return itemTransactionPrice; }
     public Date getItemTransactionDate() { return itemTransactionDate; }
-    public String getItemSellerID() { return itemSellerID; }
     public String getItemBuyerID() { return itemBuyerID; }
     
     public UserEntity getUserEntity() { return userEntity; }
@@ -58,7 +56,6 @@ public class ItemTransactionEntity implements Serializable {
     public void setItemTransactionID(Long itemTransactionID) { this.itemTransactionID = itemTransactionID; }
     public void setItemTransactionPrice(Double itemTransactionPrice) { this.itemTransactionPrice = itemTransactionPrice; }
     public void setItemTransactionDate(Date itemTransactionDate) { this.itemTransactionDate = itemTransactionDate; }
-    public void setItemSellerID(String itemSellerID) { this.itemSellerID = itemSellerID; }
     public void setItemBuyerID(String itemBuyerID) { this.itemBuyerID = itemBuyerID; }
     
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

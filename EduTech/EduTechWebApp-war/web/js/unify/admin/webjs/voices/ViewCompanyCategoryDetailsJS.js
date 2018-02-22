@@ -1,3 +1,9 @@
+$(document).ready(function () {
+    App.init();
+    Plugins.init();
+    FormComponents.init();
+});
+
 /* FOR PROFILE PICTURE UPLOAD TO SYSTEM */
 function previewImage(event) {
     var reader = new FileReader();
