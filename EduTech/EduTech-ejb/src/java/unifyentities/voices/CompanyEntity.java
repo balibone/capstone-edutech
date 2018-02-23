@@ -30,7 +30,6 @@ import unifyentities.common.TagEntity;
 
 @Entity(name = "Company")
 public class CompanyEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long companyID;
@@ -41,6 +40,7 @@ public class CompanyEntity implements Serializable {
     private String companyHQ;
     private String companyStatus;
     private String companyDescription;
+    private String companyAddress;
     private int companySize;
     
     @ManyToOne
@@ -52,17 +52,18 @@ public class CompanyEntity implements Serializable {
     
     public CompanyEntity() { this.setCompanyID(System.nanoTime()); }
 
-    public void create(String companyName, String companyWebsite, String companyHQ, int companySize, 
-            CategoryEntity categoryEntity, String companyDescription, String companyImage) {
-      this.companyName = companyName;
-      this.companyAverageRating = 0.00;
-      this.companyWebsite = companyWebsite;
-      this.companyHQ = companyHQ;
-      this.companySize = companySize;
-      this.categoryEntity = categoryEntity;
-      this.companyStatus = "Active";
-      this.companyDescription = companyDescription;
-      this.companyImage = companyImage;
+    public boolean createCompany(String companyName, int companySize, String companyWebsite, String companyHQ, 
+            String companyDescription, String companyAddress, String fileName) {
+        this.companyName = companyName;
+        this.companyAverageRating = 0.00;
+        this.companyImage = fileName;
+        this.companyWebsite = companyWebsite;
+        this.companyHQ = companyHQ;
+        this.companyStatus = "Active";
+        this.companyDescription = companyDescription;
+        this.companyAddress = companyAddress;
+        this.companySize = companySize;
+        return true;
     }
 
     /* GETTER METHODS */
@@ -75,6 +76,7 @@ public class CompanyEntity implements Serializable {
     public String getCompanyHQ() { return companyHQ; }
     public String getCompanyStatus() {return companyStatus; }
     public String getCompanyDescription() {return companyDescription; }
+    public String getCompanyAddress() { return companyAddress; }
     
     public CategoryEntity getCategoryEntity() { return categoryEntity; }
     public Collection<CompanyReviewEntity> getCompanyReviewSet() { return companyReviewSet; }
@@ -90,6 +92,7 @@ public class CompanyEntity implements Serializable {
     public void setCompanyHQ(String companyHQ) { this.companyHQ = companyHQ; }
     public void setCompanyStatus(String companyStatus) { this.companyStatus = companyStatus; }
     public void setCompanyDescription(String companyDescription) { this.companyDescription = companyDescription; }
+    public void setCompanyAddress(String companyAddress) { this.companyAddress = companyAddress; }
     
     public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
     public void setCompanyReviewSet(Collection<CompanyReviewEntity> companyReviewSet) { this.companyReviewSet = companyReviewSet; }

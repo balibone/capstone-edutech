@@ -154,16 +154,8 @@
     
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - VOICES (JSP) -->
     <servlet>
-        <servlet-name>ViewCompanyList</servlet-name>
-        <jsp-file>/webapp/unify/admin/voices/ViewCompanyList.jsp</jsp-file>
-    </servlet>
-    <servlet>
         <servlet-name>ViewCompanyListDetails</servlet-name>
         <jsp-file>/webapp/unify/admin/voices/ViewCompanyListDetails.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewCompany</servlet-name>
-        <jsp-file>/webapp/unify/admin/voices/NewCompany.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>ViewReviewList</servlet-name>
@@ -176,6 +168,9 @@
     <servlet><servlet-name>ViewCompanyCategoryList</servlet-name><jsp-file>/webapp/unify/admin/voices/ViewCompanyCategoryList.jsp</jsp-file></servlet>
     <servlet><servlet-name>NewCompanyCategory</servlet-name><jsp-file>/webapp/unify/admin/voices/NewCompanyCategory.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewCompanyCategoryDetails</servlet-name><jsp-file>/webapp/unify/admin/voices/ViewCompanyCategoryDetails.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewCompanyInModal</servlet-name><jsp-file>/webapp/unify/admin/voices/NewCompanyInModal.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewCompanyList</servlet-name><jsp-file>/webapp/unify/admin/voices/ViewCompanyList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewCompany</servlet-name><jsp-file>/webapp/unify/admin/voices/NewCompany.jsp</jsp-file></servlet>
     <servlet>
         <servlet-name>ViewCompanyReviewList</servlet-name>
         <jsp-file>/webapp/unify/admin/voices/ViewCompanyReviewList.jsp</jsp-file>

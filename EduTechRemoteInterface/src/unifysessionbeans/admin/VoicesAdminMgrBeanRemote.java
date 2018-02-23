@@ -18,6 +18,7 @@ import java.util.Vector;
 @Remote
 public interface VoicesAdminMgrBeanRemote {
     public List<Vector> viewCompanyCategoryList();
+    public String populateCompanyIndustry();
     public String createCompanyCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage);
     public Vector viewCompanyCategoryDetails(long companyCategoryID);
     public String deactivateACompanyCategory(long companyCategoryID);
@@ -25,8 +26,9 @@ public interface VoicesAdminMgrBeanRemote {
     public String updateCompanyCategory(long companyCategoryID, String categoryName, String categoryDescription, 
             String fileName);
     
-    public boolean createCompany(String companyName, String companyWebsite, String companyHQ, int companySize, String companyIndustry, String companyDescription, String companyImage);
     public List<Vector> viewCompanyList();
+    public String createCompany(String companyIndustry, String companyName, int companySize, String companyWebsite, 
+            String companyHQ, String companyDescription, String companyAddress, String fileName);
     public List<Vector> viewAssociatedCompanyList(long companyCategoryID);
     public Vector viewCompanyDetails(String companyName);
     public String deactivateCompany(String companyName);
@@ -46,4 +48,6 @@ public interface VoicesAdminMgrBeanRemote {
     public Long getActiveCompanyCategoryListCount();
     public Long getInactiveCompanyCategoryListCount();
     public Long getCompanyListingCount();
+    public Long getActiveCompanyListingCount();
+    public Long getInactiveCompanyListingCount();
 }

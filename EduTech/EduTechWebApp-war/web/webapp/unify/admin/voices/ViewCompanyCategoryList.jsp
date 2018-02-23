@@ -191,7 +191,7 @@
                                     <h4><i class="fa fa-reorder"></i>&nbsp;Company Category Listing</h4>
                                     <div class="toolbar no-padding">
                                         <div class="btn-group">
-                                            <span id="newCompanyCategory" class="btn btn-xs"><i class="fa fa-plus"></i>&nbsp;New Item Category</span>
+                                            <span id="newCompanyCategory" class="btn btn-xs"><i class="fa fa-plus"></i>&nbsp;New Company Category</span>
                                         </div>
                                     </div>
                                 </div>

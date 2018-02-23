@@ -63,6 +63,19 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     }
 
     @Override
+    public String populateCompanyIndustry() {
+        String companyIndustryStr = "";
+        Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'Voices' ");
+
+        for (Object o : q.getResultList()) {
+            CategoryEntity ce = (CategoryEntity) o;
+            companyIndustryStr += ce.getCategoryName() + ";";
+        }
+        companyIndustryStr = companyIndustryStr.substring(0, companyIndustryStr.length()-1);
+        return companyIndustryStr;
+    }
+    
+    @Override
     public String createCompanyCategory(String categoryName, String categoryType, String categoryDescription, String fileName) {
         cEntity = new CategoryEntity();
         if (cEntity.createCategory(categoryName, categoryType, categoryDescription, fileName)) {
@@ -150,43 +163,6 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     }
 
     @Override
-    public boolean createCompany(String companyName, String companyWebsite, String companyHQ, int companySize, String companyIndustry, String companyDescription, String companyImage) {
-        compEntity = new CompanyEntity();
-        boolean createCompanyStatus = false;
-
-        /* companyIndustry = "CATEGORY NAME" */
-        if (lookupCompanyCategory(companyIndustry, categoryType) != null) {
-            cEntity = lookupCompanyCategory(companyIndustry, categoryType);
-            compEntity.create(companyName, companyWebsite, companyHQ, companySize, cEntity, companyDescription, companyImage);
-
-            companyReviewList = new ArrayList<CompanyReviewEntity>();
-            compEntity.setCompanyReviewSet(companyReviewList);
-            em.persist(compEntity);
-            createCompanyStatus = true;
-        }
-        return createCompanyStatus;
-    }
-
-    @Override
-    public List<Vector> viewCompanyList() {
-        Query q = em.createQuery("SELECT c from Company c");
-        List<Vector> companyList = new ArrayList<Vector>();
-
-        for (Object o : q.getResultList()) {
-            CompanyEntity ce = (CompanyEntity) o;
-            Vector companyVec = new Vector();
-
-            companyVec.add(ce.getCompanyName());
-            companyVec.add(ce.getCompanyAverageRating());
-            companyVec.add(ce.getCompanyStatus());
-            companyVec.add(ce.getCategoryEntity().getCategoryName());
-            companyVec.add(ce.getCompanyImage());
-            companyList.add(companyVec);
-        }
-        return companyList;
-    }
-
-    @Override
     public List<Vector> viewAssociatedCompanyList(long companyCategoryID) {
         cEntity = lookupCompanyCategory(companyCategoryID);
         List<Vector> companyList = new ArrayList<Vector>();
@@ -226,7 +202,43 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         }
         return companyList;
     }
+    
+    @Override
+    public List<Vector> viewCompanyList() {
+        Query q = em.createQuery("SELECT c from Company c");
+        List<Vector> companyList = new ArrayList<Vector>();
 
+        for (Object o : q.getResultList()) {
+            CompanyEntity ce = (CompanyEntity) o;
+            Vector companyVec = new Vector();
+
+            companyVec.add(ce.getCompanyID());
+            companyVec.add(ce.getCompanyImage());
+            companyVec.add(ce.getCompanyName());
+            companyVec.add(ce.getCompanyHQ());
+            companyVec.add(ce.getCompanySize());
+            companyVec.add(ce.getCompanyAverageRating());
+            companyVec.add(ce.getCompanyStatus());
+            companyList.add(companyVec);
+        }
+        return companyList;
+    }
+    
+    @Override
+    public String createCompany(String companyIndustry, String companyName, int companySize, String companyWebsite, 
+            String companyHQ, String companyDescription, String companyAddress, String fileName) {
+        compEntity = new CompanyEntity();
+        cEntity = lookupCompanyCategory(companyIndustry);
+        if (compEntity.createCompany(companyName, companySize, companyWebsite, companyHQ, companyDescription, 
+                companyAddress, fileName)) {
+            compEntity.setCategoryEntity(cEntity);
+            em.persist(compEntity);
+            return "Company has been created successfully!";
+        } else {
+            return "There were some issues encountered while creating the company. Please try again.";
+        }
+    }
+    
     @Override
     public Vector viewCompanyDetails(String companyName) {
         compEntity = lookupCompany(companyName);
@@ -522,6 +534,32 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         }
         return companyListingCount;
     }
+    
+    @Override
+    public Long getActiveCompanyListingCount() {
+        Long activeCompanyListingCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(c.companyID) FROM Company c WHERE c.companyStatus='Active'");
+        try {
+            activeCompanyListingCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in VoicesAdminMgrBean.getActiveCompanyListingCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return activeCompanyListingCount;
+    }
+    
+    @Override
+    public Long getInactiveCompanyListingCount() {
+        Long inactiveCompanyListingCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(c.companyID) FROM Company c WHERE c.companyStatus='Inactive'");
+        try {
+            inactiveCompanyListingCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in VoicesAdminMgrBean.getInactiveCompanyListingCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return inactiveCompanyListingCount;
+    }
 
     /* MISCELLANEOUS METHODS */
     public CategoryEntity lookupCompanyCategory(long companyCategoryID) {
@@ -529,6 +567,24 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         try {
             Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryID = :companyCategoryID");
             q.setParameter("companyCategoryID", companyCategoryID);
+            ce = (CategoryEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());
+            em.remove(ce);
+            ce = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Category does not exist. " + nre.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        return ce;
+    }
+    
+    public CategoryEntity lookupCompanyCategory(String companyIndustry) {
+        CategoryEntity ce = new CategoryEntity();
+        try {
+            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryName = :companyIndustry");
+            q.setParameter("companyIndustry", companyIndustry);
             ce = (CategoryEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());

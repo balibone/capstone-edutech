@@ -117,12 +117,40 @@ public class VoicesAdminController extends HttpServlet {
                     pageAction = "ViewCompanyCategoryList";
                     break;
                 case "goToViewCompanyList":
-                    data = (ArrayList) vamr.viewCompanyList();
-                    request.setAttribute("data", data);
+                    request.setAttribute("activeCompanyListingCount", vamr.getActiveCompanyListingCount());
+                    request.setAttribute("inactiveCompanyListingCount", vamr.getInactiveCompanyListingCount());
+                    request.setAttribute("companyList", (ArrayList) vamr.viewCompanyList());
                     pageAction = "ViewCompanyList";
                     break;
                 case "goToNewCompany":
+                    request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
                     pageAction = "NewCompany";
+                    break;
+                case "createCompany":
+                    responseMessage = createCompany(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("activeCompanyListingCount", vamr.getActiveCompanyListingCount());
+                    request.setAttribute("inactiveCompanyListingCount", vamr.getInactiveCompanyListingCount());
+                    request.setAttribute("companyList", (ArrayList) vamr.viewCompanyList());
+                    pageAction = "ViewCompanyList";
+                    break;
+                case "goToNewCompanyInModal":
+                    long companyCategoryID = Long.parseLong(request.getParameter("companyCategoryID"));
+                    request.setAttribute("companyCategoryID", companyCategoryID);
+                    request.setAttribute("companyIndustry", request.getParameter("categoryName"));
+                    pageAction = "NewCompanyInModal";
+                    break;
+                case "createCompanyInModal":
+                    responseMessage = createCompanyInModal(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("activeCompanyListingCount", vamr.getActiveCompanyListingCount());
+                    request.setAttribute("inactiveCompanyListingCount", vamr.getInactiveCompanyListingCount());
+                    request.setAttribute("companyList", (ArrayList) vamr.viewCompanyList());
+                    pageAction = "ViewCompanyList";
                     break;
                 case "goToAddCompany":
                     String posterID = (String) request.getParameter("requestPosterID");
@@ -133,23 +161,15 @@ public class VoicesAdminController extends HttpServlet {
                     request.setAttribute("requestIndustry", addRequestIndustry);
                     pageAction = "AddCompany";
                     break;
-                case "newCompany":
-                    if (addCompany(request)) {
-                        request.setAttribute("successMessage", "Company has been added successfully.");
-                    } else {
-                        request.setAttribute("errorMessage", "One or more fields are invalid. Please check again.");
-                    }
-                    request.setAttribute("data", (ArrayList) vamr.viewCompanyList());
-                    pageAction = "ViewCompanyList";
-                    break;
                  case "addCompany":
                     String newRequestCompany = (String) request.getParameter("hiddenRequestCompany");
                     String newRequestPosterID = (String) request.getParameter("hiddenRequestPosterID");
+                    /*
                     if (addCompany(request)) {
                         request.setAttribute("successMessage", "Company has been added successfully.");
                     } else {
                         request.setAttribute("errorMessage", "One or more fields are invalid. Please check again.");
-                    }
+                    }*/
                     vamr.solveRequest(newRequestCompany, newRequestPosterID);
                     request.setAttribute("requestListVec", (ArrayList) vamr.viewCompanyRequestList());
                     pageAction = "ViewCompanyRequestList";
@@ -252,7 +272,6 @@ public class VoicesAdminController extends HttpServlet {
             log("Exception in VoicesAdminController: processRequest()");
             ex.printStackTrace();
         }
-
     }
     
     private String createCompanyCategory(HttpServletRequest request) {
@@ -365,8 +384,7 @@ public class VoicesAdminController extends HttpServlet {
         return vamr.updateCompanyCategory(companyCategoryID, categoryName, categoryDescription, fileName);
     }
     
-    private boolean addCompany(HttpServletRequest request) {
-        boolean addCompanyStatus = false;
+    private String createCompany(HttpServletRequest request) {
         String fileName = "";
         try {
             Part filePart = request.getPart("companyImage");
@@ -410,16 +428,74 @@ public class VoicesAdminController extends HttpServlet {
             ex.printStackTrace();
             fileName = "";
         }
+        
+        String companyIndustry = request.getParameter("companyIndustry");
         String companyName = request.getParameter("companyName");
+        String companySize = request.getParameter("companySize");
         String companyWebsite = request.getParameter("companyWebsite");
         String companyHQ = request.getParameter("companyHQ");
-        String companySize = request.getParameter("companySize");
-        String companyIndustry = request.getParameter("companyIndustry");
         String companyDescription = request.getParameter("companyDescription");
+        String companyAddress = request.getParameter("companyAddress");
         
-        vamr.createCompany(companyName, companyWebsite, companyHQ, Integer.parseInt(companySize), companyIndustry, companyDescription, fileName);
-        addCompanyStatus = true;
-        return addCompanyStatus;
+        return vamr.createCompany(companyIndustry, companyName, Integer.parseInt(companySize), 
+                companyWebsite, companyHQ, companyDescription, companyAddress, fileName);
+    }
+    
+    private String createCompanyInModal(HttpServletRequest request) {
+        String fileName = "";
+        try {
+            Part filePart = request.getPart("companyImage");
+            fileName = (String) getFileName(filePart);
+            if(fileName.contains("\\")) {
+                fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
+            }
+                    
+            String appPath = request.getServletContext().getRealPath("");
+            String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
+                    + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+            String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
+                    + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "voices"
+                    + File.separator + "company" + File.separator;
+            
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            
+            try {
+                File outputFilePath = new File(imageDir + fileName);
+                inputStream = filePart.getInputStream();
+                outputStream = new FileOutputStream(outputFilePath);
+
+                int read = 0;
+                final byte[] bytes = new byte[1024];
+                while ((read = inputStream.read(bytes)) != -1) {
+                    outputStream.write(bytes, 0, read);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                fileName = "";
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fileName = "";
+        }
+        
+        String companyIndustry = request.getParameter("urlCompanyIndustry");
+        String companyName = request.getParameter("companyName");
+        String companySize = request.getParameter("companySize");
+        String companyWebsite = request.getParameter("companyWebsite");
+        String companyHQ = request.getParameter("companyHQ");
+        String companyDescription = request.getParameter("companyDescription");
+        String companyAddress = request.getParameter("companyAddress");
+        
+        return vamr.createCompany(companyIndustry, companyName, Integer.parseInt(companySize), 
+                companyWebsite, companyHQ, companyDescription, companyAddress, fileName);
     }
     
     private boolean updateCompany(HttpServletRequest request) {

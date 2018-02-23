@@ -36,10 +36,10 @@ $(document).ready(function() {
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#4D7496',
-        width: 650,
+        width: 725,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 475
+        iframeHeight: 425
     });
     
     

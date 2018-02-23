@@ -4,8 +4,8 @@
         width: 95%;
         margin: 20px 25px 0 20px;
     }
-    .formFields tr td:first-child { width: 32%; vertical-align: top; }
-    .formFields tr td:last-child { width: 68%; vertical-align: top; }
+    .formFields tr td:first-child { width: 29%; vertical-align: top; }
+    .formFields tr td:last-child { width: 71%; vertical-align: top; }
 }
 @media only screen and (max-width: 30em) {
     .formFields td {

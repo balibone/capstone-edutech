@@ -63,6 +63,13 @@
         <form id="companyCategoryDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
             <table class="formFields" border="0">
                 <tr>
+                    <td colspan="2" style="text-align: right;">
+                        <button class="btn btn-sm" onclick="window.location.href='VoicesAdmin?pageTransit=goToNewCompanyInModal&companyCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>&categoryName=<%= categoryName%>'">
+                            <i class="fa fa-forward"></i>&nbsp;&nbsp;Add New Company
+                        </button>
+                    </td>
+                </tr>
+                <tr>
                     <td>
                         <div class="form-group">
                             <div class="image-upload">

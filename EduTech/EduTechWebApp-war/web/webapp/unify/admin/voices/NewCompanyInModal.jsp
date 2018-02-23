@@ -1,6 +1,6 @@
 <!-- ***************************************************************************************
-*   Title:                  NewCompany.jsp
-*   Purpose:                CREATION OF NEW COMPANY (UNIFY ADMIN)
+*   Title:                  NewCompanyInModal.jsp
+*   Purpose:                CREATION OF NEW COMPANY IN MODAL (UNIFY ADMIN)
 *   Created By:             ZHU XINYI
 *   Modified By:            TAN CHIN WEE WINSTON
 *   Date:                   21 FEBRUARY 2018
@@ -24,7 +24,7 @@
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/easy-autocomplete/easy-autocomplete.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/weblayout/voices/NewCompanyCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/weblayout/voices/NewCompanyInModalCSS.css" rel="stylesheet" type="text/css" />
 
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
@@ -41,11 +41,19 @@
         <script type="text/javascript" src="js/unify/admin/basejs/easy-autocomplete/jquery.easy-autocomplete.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/easy-autocomplete/jquery.easy-autocomplete.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/validator-v1.1.0.js"></script>
-        <script type="text/javascript" src="js/unify/admin/webjs/voices/NewCompanyJS.js"></script> 
+        <script type="text/javascript" src="js/unify/admin/webjs/voices/NewCompanyInModalJS.js"></script> 
     </head>
     <body style="background-color: #FFFFFF;">
         <form action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
             <table border="0">
+                <tr>
+                    <td colspan="3" style="text-align: left;">
+                        <button class="btn btn-sm" onclick="window.location.href='VoicesAdmin?pageTransit=goToViewCompanyCategoryDetails&companyCategoryID=<%= request.getAttribute("companyCategoryID")%>'">
+                            <i class="fa fa-backward"></i>&nbsp;&nbsp;Back to Company Category
+                        </button>
+                    </td>
+                </tr>
+                <tr><td colspan="3">&nbsp;</td></tr>
                 <tr>
                     <td rowspan="4" style="width: 25%;">
                         <div class="form-group">
@@ -60,12 +68,8 @@
                     </td>
                     <td colspan="2">
                         <div class="form-group">
-                            <div class="input-group">
-                                <input type="hidden" id="dbCompanyIndustry" value="<%= request.getAttribute("companyIndustryStr")%>" />
-                                <select class="form-control" id="companyIndustry" name="companyIndustry">
-                                    <option value="" disabled selected>-- Select Company Industry --</option>
-                                </select>
-                            </div>
+                            <input type="hidden" name="urlCompanyIndustry" value="<%= request.getAttribute("companyIndustry")%>" />
+                            <label class="control-label">Company Industry:&nbsp;&nbsp;<u><%= request.getAttribute("companyIndustry")%></u></label>
                         </div>
                     </td>
                 </tr>
@@ -127,7 +131,7 @@
                     <td colspan="3">
                         <div class="form-group">
                             <div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
-                                <input type="hidden" name="pageTransit" value="createCompany"/>
+                                <input type="hidden" name="pageTransit" value="createCompanyInModal"/>
                                 <button type="submit" class="btn btn-primary">Create Company</button>
                             </div>
                         </div>
