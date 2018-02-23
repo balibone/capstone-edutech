@@ -40,7 +40,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     private CompanyReviewEntity companyReviewEntity;
     private CompanyRequestEntity companyRequestEntity;
     private CategoryEntity cEntity;
-    private Collection<CompanyReviewEntity> companyReviewList;
+    private Collection<CompanyReviewEntity> companyReviewSet;
     private Collection<CompanyEntity> companySet;
 
     @Override
@@ -173,6 +173,8 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                 for (CompanyEntity ce : companySet) {
                     Vector companyDetails = new Vector();
                     
+                    companyDetails.add(ce.getCompanyID());
+                    companyDetails.add(ce.getCategoryEntity().getCategoryID());
                     companyDetails.add(ce.getCompanyImage());
                     companyDetails.add(ce.getCompanyName());
                     companyDetails.add(ce.getCompanyHQ());
@@ -190,6 +192,8 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                     CompanyEntity ce = (CompanyEntity) o;
                     Vector companyVec = new Vector();
 
+                    companyVec.add(ce.getCompanyID());
+                    companyVec.add(ce.getCategoryEntity().getCategoryID());
                     companyVec.add(ce.getCompanyImage());
                     companyVec.add(ce.getCompanyName());
                     companyVec.add(ce.getCompanyHQ());
@@ -240,140 +244,125 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     }
     
     @Override
-    public Vector viewCompanyDetails(String companyName) {
-        compEntity = lookupCompany(companyName);
+    public Vector viewCompanyDetails(long companyID) {
+        compEntity = lookupCompany(companyID);
         Vector companyDetailsVec = new Vector();
 
         if (compEntity != null) {
             companyDetailsVec.add(compEntity.getCompanyName());
+            companyDetailsVec.add(compEntity.getCompanyImage());
+            companyDetailsVec.add(compEntity.getCategoryEntity().getCategoryName());
+            companyDetailsVec.add(compEntity.getCompanyAverageRating());
+            companyDetailsVec.add(compEntity.getCompanyStatus());
             companyDetailsVec.add(compEntity.getCompanyWebsite());
             companyDetailsVec.add(compEntity.getCompanyHQ());
-            companyDetailsVec.add(compEntity.getCompanyAverageRating());
             companyDetailsVec.add(compEntity.getCompanySize());
-            companyDetailsVec.add(compEntity.getCompanyStatus());
-            companyDetailsVec.add(compEntity.getCategoryEntity().getCategoryName());
             companyDetailsVec.add(compEntity.getCompanyDescription());
-            companyDetailsVec.add(compEntity.getCompanyImage());
+            companyDetailsVec.add(compEntity.getCompanyAddress());
         }
         return companyDetailsVec;
     }
 
     @Override
-    public String deactivateCompany(String companyName) {
-        if (lookupCompany(companyName) == null) {
-            return "Selected company cannot be found.";
-        } else {
-            compEntity = lookupCompany(companyName);
-            companyReviewList = compEntity.getCompanyReviewSet();
-            compEntity.setCompanyStatus("Inactive");
-            em.merge(compEntity);
-            return "Selected company category has been deactivated successfully!";
-        }
-    }
+    public List<Vector> viewAssociatedReviewList(long companyID) {
+        compEntity = lookupCompany(companyID);
+        List<Vector> companyReviewList = new ArrayList<Vector>();
+        
+        if (compEntity.getCompanyReviewSet()!= null) {
+            companyReviewSet = compEntity.getCompanyReviewSet();
+            if (!companyReviewSet.isEmpty()) {
+                for (CompanyReviewEntity cre : companyReviewSet) {
+                    Vector companyReviewDetails = new Vector();
+                    
+                    companyReviewDetails.add(cre.getReviewDate());
+                    companyReviewDetails.add(cre.getUserEntity().getUsername());
+                    companyReviewDetails.add(cre.getReviewTitle());
+                    companyReviewDetails.add(cre.getReviewPros());
+                    companyReviewDetails.add(cre.getReviewCons());
+                    companyReviewDetails.add(cre.getReviewEmpType());
+                    companyReviewDetails.add(cre.getReviewSalaryRange());
+                    companyReviewDetails.add(cre.getReviewRating());
+                    companyReviewDetails.add(cre.getReviewThumbsUp());
+                    companyReviewList.add(companyReviewDetails);
+                }
+            } else {
+                Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.companyEntity.companyID = :companyID");
+                q.setParameter("companyID", compEntity.getCompanyID());
 
-    @Override
-    public boolean activateCompany(String companyName) {
-        boolean companyActivateStatus = true;
-        if (lookupCompany(companyName) == null) {
-            companyActivateStatus = false;
-        } else {
-            compEntity = lookupCompany(companyName);
-            compEntity.setCompanyStatus("Active");
-            em.merge(compEntity);
+                for (Object o : q.getResultList()) {
+                    CompanyReviewEntity cre = (CompanyReviewEntity) o;
+                    Vector companyReviewVec = new Vector();
+                    
+                    companyReviewVec.add(cre.getReviewDate());
+                    companyReviewVec.add(cre.getUserEntity().getUsername());
+                    companyReviewVec.add(cre.getReviewTitle());
+                    companyReviewVec.add(cre.getReviewPros());
+                    companyReviewVec.add(cre.getReviewCons());
+                    companyReviewVec.add(cre.getReviewEmpType());
+                    companyReviewVec.add(cre.getReviewSalaryRange());
+                    companyReviewVec.add(cre.getReviewRating());
+                    companyReviewVec.add(cre.getReviewThumbsUp());
+                    companyReviewList.add(companyReviewVec);
+                }
+            }
         }
-        return companyActivateStatus;
+        return companyReviewList;
     }
-
+    
     @Override
-    public boolean updateCompany(String oldCompanyName, String companyName, String companyWebsite, String companyHQ, int companySize, String companyIndustry, String companyDescription, String companyImage) {
-        boolean companyUpdateStatus = true;
-        if (lookupCompany(oldCompanyName) == null) {
-            companyUpdateStatus = false;
-        } else if (lookupCompanyCategory(companyIndustry, categoryType) == null) {
-            companyUpdateStatus = false;
+    public String updateCompany(long companyID, String companyName, String companyIndustry, String companyWebsite, 
+            String companyHQ, int companySize, String companyDescription, String companyAddress, String fileName) {
+        /* DOES NOT MATTER WHETHER THE COMPANY IS LISTED OR NOT, ADMIN CAN JUST UPDATE THE COMPANY DETAILS */
+        cEntity = lookupCompanyCategory(companyIndustry);
+        if (lookupCompany(companyID) == null) {
+            return "Selected company cannot be found. Please try again.";
         } else {
-            cEntity = lookupCompanyCategory(companyIndustry, categoryType);
-            compEntity = lookupCompany(oldCompanyName);
+            compEntity = lookupCompany(companyID);
             compEntity.setCompanyName(companyName);
+            compEntity.setCategoryEntity(cEntity);
             compEntity.setCompanyWebsite(companyWebsite);
             compEntity.setCompanyHQ(companyHQ);
             compEntity.setCompanySize(companySize);
-            compEntity.setCategoryEntity(cEntity);
             compEntity.setCompanyDescription(companyDescription);
-            compEntity.setCompanyImage(companyImage);
+            compEntity.setCompanyAddress(companyAddress);
+            compEntity.setCompanyImage(fileName);
             em.merge(compEntity);
+            return "Selected company has been updated successfully!";
         }
-        return companyUpdateStatus;
+    }
+    
+    @Override
+    public String deactivateACompany(long companyID) {
+        if (lookupCompany(companyID) == null) {
+            return "Selected company cannot be found. Please try again.";
+        } else {
+            compEntity = lookupCompany(companyID);
+            compEntity.setCompanyStatus("Inactive");
+            em.merge(compEntity);
+            return "Selected company has been deactivated successfully!";
+        }
     }
 
     @Override
-    public List<Vector> viewReviewList(String reviewedCompany) {
-        compEntity = lookupCompany(reviewedCompany);
-        Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.companyEntity = :reviewedCompany");
-        q.setParameter("reviewedCompany", compEntity);
-
-        List<Vector> reviewList = new ArrayList<Vector>();
-        for (Object o : q.getResultList()) {
-            CompanyReviewEntity cr = (CompanyReviewEntity) o;
-            Vector cri = new Vector();
-            cri.add(cr.getReviewTitle());
-            cri.add(cr.getCompanyEntity().getCompanyName());
-            cri.add(cr.getReviewPosterID());
-            cri.add(cr.getReviewDate());
-            reviewList.add(cri);
+    public String activateACompany(long companyID) {
+        if (lookupCompany(companyID) == null) {
+            return "Selected company cannot be found. Please try again.";
+        } else {
+            compEntity = lookupCompany(companyID);
+            compEntity.setCompanyStatus("Active");
+            em.merge(compEntity);
+            return "Selected company has been activated successfully!";
         }
-        return reviewList;
     }
 
     @Override
-    public Vector viewReviewDetails(String reviewTitle, String reviewedCompany) {
-        companyReviewEntity = lookupReview(reviewTitle, reviewedCompany);
-        Vector reviewDetailsVec = new Vector();
-
-        if (companyReviewEntity != null) {
-            reviewDetailsVec.add(companyReviewEntity.getReviewID());
-            reviewDetailsVec.add(companyReviewEntity.getReviewTitle());
-            reviewDetailsVec.add(companyReviewEntity.getReviewRating());
-            reviewDetailsVec.add(companyReviewEntity.getReviewPros());
-            reviewDetailsVec.add(companyReviewEntity.getReviewCons());
-            reviewDetailsVec.add(companyReviewEntity.getReviewEmpType());
-            reviewDetailsVec.add(companyReviewEntity.getReviewThumbsUp());
-            reviewDetailsVec.add(companyReviewEntity.getReviewSalaryRange());
-            reviewDetailsVec.add(companyReviewEntity.getCompanyEntity().getCompanyName());
-            reviewDetailsVec.add(companyReviewEntity.getReviewDate());
-            reviewDetailsVec.add(companyReviewEntity.getReviewPosterID());
-        }
-        return reviewDetailsVec;
-    }
-
-    public CompanyReviewEntity lookupReview(String reviewedCompany, String reviewPosterID) {
-        CompanyReviewEntity cre = new CompanyReviewEntity();
-        try {
-            compEntity = lookupCompany(reviewedCompany);
-            Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.companyEntity = :reviewedCompany AND cr.reviewPosterID = :reviewPosterID");
-            q.setParameter("reviewedCompany", compEntity);
-            q.setParameter("reviewPosterID", reviewPosterID);
-            cre = (CompanyReviewEntity) q.getSingleResult();
-        } catch (EntityNotFoundException enfe) {
-            System.out.println("ERROR: Company review cannot be found. " + enfe.getMessage());
-            em.remove(cre);
-            cre = null;
-        } catch (NoResultException nre) {
-            System.out.println("ERROR: Company review does not exist. " + nre.getMessage());
-            em.remove(cre);
-            cre = null;
-        }
-        return cre;
-    }
-
-    @Override
-    public boolean deleteReview(String reviewedCompany, String reviewPosterID) {
+    public boolean deleteReview(long reviewedCompanyID, String reviewPosterID) {
         boolean reviewDeleteStatus = false;
-        compEntity = lookupCompany(reviewedCompany);
-        companyReviewList = compEntity.getCompanyReviewSet();
+        compEntity = lookupCompany(reviewedCompanyID);
+        companyReviewSet = compEntity.getCompanyReviewSet();
 
-        for (int i = 0; i < companyReviewList.size(); i++) {
-            companyReviewEntity = (CompanyReviewEntity) companyReviewList.toArray()[i];
+        for (int i = 0; i < companyReviewSet.size(); i++) {
+            companyReviewEntity = (CompanyReviewEntity) companyReviewSet.toArray()[i];
             if (companyReviewEntity.getReviewPosterID().equals(reviewPosterID)) {
                 compEntity.getCompanyReviewSet().remove(companyReviewEntity);
                 em.remove(companyReviewEntity);
@@ -382,44 +371,6 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             }
         }
         return reviewDeleteStatus;
-    }
-
-    /* MISCELLANEOUS METHODS */
-    public CompanyEntity lookupCompany(String companyName) {
-        CompanyEntity ce = new CompanyEntity();
-        try {
-            Query q = em.createQuery("SELECT c FROM Company c WHERE c.companyName = :companyName");
-            q.setParameter("companyName", companyName);
-            ce = (CompanyEntity) q.getSingleResult();
-        } catch (EntityNotFoundException enfe) {
-            System.out.println("ERROR: Item cannot be found. " + enfe.getMessage());
-            em.remove(ce);
-            ce = null;
-        } catch (NoResultException nre) {
-            System.out.println("ERROR: Item does not exist. " + nre.getMessage());
-            em.remove(ce);
-            ce = null;
-        }
-        return ce;
-    }
-
-    public CategoryEntity lookupCompanyCategory(String companyIndustry, String categoryType) {
-        /* companyIndustry = CATEGORY NAME */
-        CategoryEntity ce = new CategoryEntity();
-        try {
-            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryName = :categoryName");
-            q.setParameter("categoryName", companyIndustry);
-            ce = (CategoryEntity) q.getSingleResult();
-        } catch (EntityNotFoundException enfe) {
-            System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());
-            em.remove(ce);
-            ce = null;
-        } catch (NoResultException nre) {
-            System.out.println("ERROR: Category does not exist. " + nre.getMessage());
-            em.remove(ce);
-            ce = null;
-        }
-        return ce;
     }
 
     @Override
@@ -562,6 +513,24 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     }
 
     /* MISCELLANEOUS METHODS */
+    public CompanyEntity lookupCompany(long companyID) {
+        CompanyEntity ce = new CompanyEntity();
+        try {
+            Query q = em.createQuery("SELECT c FROM Company c WHERE c.companyID = :companyID");
+            q.setParameter("companyID", companyID);
+            ce = (CompanyEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Item cannot be found. " + enfe.getMessage());
+            em.remove(ce);
+            ce = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Item does not exist. " + nre.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        return ce;
+    }
+    
     public CategoryEntity lookupCompanyCategory(long companyCategoryID) {
         CategoryEntity ce = new CategoryEntity();
         try {

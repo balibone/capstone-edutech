@@ -1,6 +1,6 @@
 <!-- ***************************************************************************************
-*   Title:                  ViewCompanyListDetails.jsp
-*   Purpose:                DETAILED INFORMATION OF THE SELECTED COMPANY (UNIFY ADMIN)
+*   Title:                  ViewCompanyListDetailsInModal.jsp
+*   Purpose:                DETAILED INFORMATION OF THE SELECTED COMPANY IN MODAL (UNIFY ADMIN)
 *   Created By:             ZHU XINYI
 *   Modified By:            TAN CHIN WEE WINSTON
 *   Date:                   21 FEBRUARY 2018
@@ -29,7 +29,7 @@
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/easy-autocomplete/easy-autocomplete.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/weblayout/voices/ViewCompanyListDetailsCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/weblayout/voices/ViewCompanyListDetailsInModalCSS.css" rel="stylesheet" type="text/css" />
 
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
@@ -49,7 +49,7 @@
         <script type="text/javascript" src="js/unify/admin/basejs/easy-autocomplete/jquery.easy-autocomplete.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/easy-autocomplete/jquery.easy-autocomplete.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/leaflet/leaflet.js"></script>
-        <script type="text/javascript" src="js/unify/admin/webjs/voices/ViewCompanyListDetailsJS.js"></script>
+        <script type="text/javascript" src="js/unify/admin/webjs/voices/ViewCompanyListDetailsInModalJS.js"></script>
     </head>
     <body style="background-color: #FFFFFF;">
         <%
@@ -75,6 +75,14 @@
         %>
         <form id="companyDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
             <table class="formFields" border="0">
+                <tr>
+                    <td colspan="2" style="text-align: left;">
+                        <button class="btn btn-sm" onclick="window.location.href='VoicesAdmin?pageTransit=goToViewCompanyCategoryDetails&companyCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>'">
+                            <i class="fa fa-backward"></i>&nbsp;&nbsp;Back to Industry Details
+                        </button>
+                    </td>
+                </tr>
+                <tr><td colspan="2">&nbsp;</td></tr>
                 <tr>
                     <td colspan="2" style="text-align: left;">
                         <input type="hidden" name="oldCompanyName" value="<%= companyName%>" />

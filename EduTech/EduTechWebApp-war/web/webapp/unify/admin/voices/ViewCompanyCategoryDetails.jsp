@@ -63,7 +63,7 @@
         <form id="companyCategoryDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
             <table class="formFields" border="0">
                 <tr>
-                    <td colspan="2" style="text-align: right;">
+                    <td colspan="2" style="vertical-align: middle; text-align: right;">
                         <button class="btn btn-sm" onclick="window.location.href='VoicesAdmin?pageTransit=goToNewCompanyInModal&companyCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>&categoryName=<%= categoryName%>'">
                             <i class="fa fa-forward"></i>&nbsp;&nbsp;Add New Company
                         </button>
@@ -140,7 +140,7 @@
             
             <div style="margin: 40px 20px 0 20px">
                 <h5 style="margin-bottom: 20px;"><strong><u>List of companies under this "<%= categoryName%>" category</u></strong></h5>
-                <table class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                <table id="associatedCompanyList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
                     <thead>
                         <tr>
                             <th data-class="expand">Company Image</th>
@@ -157,16 +157,18 @@
                             if (!associatedCompanyList.isEmpty()) {
                                 for (int i = 0; i <= associatedCompanyList.size() - 1; i++) {
                                     Vector v = associatedCompanyList.get(i);
-                                    String companyImage = String.valueOf(v.get(0));
-                                    String companyName = String.valueOf(v.get(1));
-                                    String companyHQ = String.valueOf(v.get(2));
-                                    String companySize = String.valueOf(v.get(3));
-                                    String companyAverageRating = String.valueOf(v.get(4));
-                                    String companyStatus = String.valueOf(v.get(5));
+                                    String companyID = String.valueOf(v.get(0));
+                                    String companyCategoryID = String.valueOf(v.get(1));
+                                    String companyImage = String.valueOf(v.get(2));
+                                    String companyName = String.valueOf(v.get(3));
+                                    String companyHQ = String.valueOf(v.get(4));
+                                    String companySize = String.valueOf(v.get(5));
+                                    String companyAverageRating = String.valueOf(v.get(6));
+                                    String companyStatus = String.valueOf(v.get(7));
                         %>
                         <tr>
                             <td><img src="uploads/unify/images/voices/company/<%= companyImage%>" style="max-width: 50px; max-height: 50px;" /></td>
-                            <td><%= companyName%></td>
+                            <td><%= companyName%><span style="display: none">;<%= companyID%>;<%= companyCategoryID%></span></td>
                             <td><%= companyHQ%></td>
                             <td><%= companySize%></td>
                             <td><%= companyAverageRating%></td>

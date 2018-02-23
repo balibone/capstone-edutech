@@ -209,7 +209,7 @@
                                             <%  
                                                 ArrayList<Vector> companyList = (ArrayList) request.getAttribute("companyList");
                                                 if (!companyList.isEmpty()) {
-                                                    for (int i = 0; i <= companyList.size() - 1; i++) {
+                                                    for (int i = 0; i <= companyList.size()-1; i++) {
                                                         Vector v = companyList.get(i);
                                                         String companyID = String.valueOf(v.get(0));
                                                         String companyImage = String.valueOf(v.get(1));

@@ -179,7 +179,7 @@
                                 <tr>
                                     <td><%= jobTransDate%></td>
                                     <td><%= jobTransPosterID%></td>
-                                    <td><%= jobTransTakerID%></td>>
+                                    <td><%= jobTransTakerID%></td>
                                     <td>$<%= jobTransRate%>/<%= jobTransRateType%></td>
                                 </tr>
                                 <%      }   %>

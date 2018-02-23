@@ -1,4 +1,4 @@
-var rowItemName;
+var companyName, companyID;
 $(document).ready(function() {
     $('#newCompany').on('click', function() {
         $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToNewCompany');
@@ -23,14 +23,15 @@ $(document).ready(function() {
         var rowData = $(this).children("td").map(function() {
             return $(this).text();
         }).get();
-        rowCompanyName = $.trim(rowData[1]);
-        $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToViewCompanyListDetails&companyName=' + rowCompanyName /*+ '&itemSellerID=' + rowSellerID*/);
-        $('#modal-iframe').iziModal('open', event);
+        companyName = $.trim(rowData[1]);
+        companyID = companyName.split(';')[1];
+        $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToViewCompanyListDetails&companyID=' + companyID);
+        $('#editCompanyDetails-iframe').iziModal('open', event);
     });
     
     $("#editCompanyDetails-iframe").iziModal({
         title: 'Company Details',
-        subtitle: 'Administrator may deactivate this company here',
+        subtitle: 'Administrator may edit the company information and deactivate the company here',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',

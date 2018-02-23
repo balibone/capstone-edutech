@@ -166,7 +166,7 @@
                                 <tr>
                                     <td><%= itemTransDate%></td>
                                     <td><%= itemTransSellerID%></td>
-                                    <td><%= itemTransBuyerID%></td>>
+                                    <td><%= itemTransBuyerID%></td>
                                     <td>$<%= itemListingPriceTrans%></td>
                                     <td>$<%= itemTransPrice%></td>
                                 </tr>

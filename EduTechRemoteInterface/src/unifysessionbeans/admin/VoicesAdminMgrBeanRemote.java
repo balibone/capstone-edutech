@@ -30,13 +30,14 @@ public interface VoicesAdminMgrBeanRemote {
     public String createCompany(String companyIndustry, String companyName, int companySize, String companyWebsite, 
             String companyHQ, String companyDescription, String companyAddress, String fileName);
     public List<Vector> viewAssociatedCompanyList(long companyCategoryID);
-    public Vector viewCompanyDetails(String companyName);
-    public String deactivateCompany(String companyName);
-    public boolean activateCompany(String companyName);
-    public boolean updateCompany(String oldCompanyName, String companyName, String companyWebsite, String companyHQ, int companySize, String companyIndustry, String companyDescription, String companyImage);
-    public List<Vector> viewReviewList(String reviewedCompany);
-    public Vector viewReviewDetails(String reviewedCompany, String reviewPosterID);
-    public boolean deleteReview(String reviewedCompany, String reviewPosterID);
+    public Vector viewCompanyDetails(long companyID);
+    public List<Vector> viewAssociatedReviewList(long companyID);
+    public String deactivateACompany(long companyID);
+    public String activateACompany(long companyID);
+    public String updateCompany(long companyID, String companyName, String companyIndustry, String companyWebsite, 
+            String companyHQ, int companySize, String companyDescription, String companyAddress, String fileName);
+    
+    public boolean deleteReview(long reviewedCompanyID, String reviewPosterID);
     
     public List<Vector> viewCompanyRequestList();
     public Vector viewCompanyRequestDetails(String requestCompany, String requestPosterID);

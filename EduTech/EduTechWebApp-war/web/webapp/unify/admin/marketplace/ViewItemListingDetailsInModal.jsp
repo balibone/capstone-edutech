@@ -77,7 +77,7 @@
             <tr>
                 <td colspan="2" style="text-align: left;">
                     <button class="btn btn-sm" onclick="window.location.href='MarketplaceAdmin?pageTransit=goToViewItemCategoryDetails&itemCategoryID=<%= request.getAttribute("urlItemCategoryID")%>'">
-                        <i class="fa fa-backward"></i>&nbsp;&nbsp;Back to Category List
+                        <i class="fa fa-backward"></i>&nbsp;&nbsp;Back to Item Category Details
                     </button>
                 </td>
             </tr>
@@ -174,7 +174,7 @@
                                 <tr>
                                     <td><%= itemTransDate%></td>
                                     <td><%= itemTransSellerID%></td>
-                                    <td><%= itemTransBuyerID%></td>>
+                                    <td><%= itemTransBuyerID%></td>
                                     <td>$<%= itemListingPriceTrans%></td>
                                     <td>$<%= itemTransPrice%></td>
                                 </tr>

@@ -85,7 +85,7 @@
             <tr>
                 <td colspan="2" style="text-align: left;">
                     <button class="btn btn-sm" onclick="window.location.href='ErrandsAdmin?pageTransit=goToViewJobCategoryDetails&jobCategoryID=<%= request.getAttribute("urlJobCategoryID")%>'">
-                        <i class="fa fa-backward"></i>&nbsp;&nbsp;Back to Category List
+                        <i class="fa fa-backward"></i>&nbsp;&nbsp;Back to Job Category Details
                     </button>
                 </td>
             </tr>
@@ -186,7 +186,7 @@
                                 <tr>
                                     <td><%= jobTransDate%></td>
                                     <td><%= jobTransPosterID%></td>
-                                    <td><%= jobTransTakerID%></td>>
+                                    <td><%= jobTransTakerID%></td>
                                     <td>$<%= jobTransRate%>/<%= jobTransRateType%></td>
                                 </tr>
                                 <%      }   %>
