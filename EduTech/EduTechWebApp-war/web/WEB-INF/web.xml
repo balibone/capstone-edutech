@@ -174,7 +174,7 @@
     <servlet><servlet-name>ViewCompanyList</servlet-name><jsp-file>/webapp/unify/admin/voices/ViewCompanyList.jsp</jsp-file></servlet>
     <servlet><servlet-name>NewCompany</servlet-name><jsp-file>/webapp/unify/admin/voices/NewCompany.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewCompanyListDetails</servlet-name><jsp-file>/webapp/unify/admin/voices/ViewCompanyListDetails.jsp</jsp-file></servlet>
-    <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - TAGS (JSP) -->
+    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - TAGS (JSP) -->
     <servlet>
         <servlet-name>EditTag</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/EditTag.jsp</jsp-file>
@@ -191,37 +191,37 @@
         <servlet-name>TagListing</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/TagListing.jsp</jsp-file>
     </servlet>
+    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - MARKETPLACE REPORTS (JSP) -->
     <servlet>
         <servlet-name>ReportedMarketplaceListing</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceListing.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>ReportedMarketplaceDetails</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetails.jsp</jsp-file>
-    </servlet>
-    <servlet>
         <servlet-name>ReportedMarketplaceDetails2</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetails2.jsp</jsp-file>
     </servlet>
+    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - JOB REVIEW REPORTS (JSP) -->
+    <servlet>
+        <servlet-name>ReportedErrandsReviewListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandsReviewListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportedErrandReviewDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandReviewDetails.jsp</jsp-file>
+    </servlet>
+    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - JOB REPORTS (JSP) -->
     <servlet>
         <servlet-name>ReportedErrandsListing</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandsListing.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>ReportedErrandDetails</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetails.jsp</jsp-file>
-    </servlet>
-    <servlet>
         <servlet-name>ReportedErrandDetails2</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetails2.jsp</jsp-file>
     </servlet>
+    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - COMPANY REVIEW REPORTS (JSP) -->
     <servlet>
         <servlet-name>ReportedReviewListing</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewListing.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedReviewDetails</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetails.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>ReportedReviewDetails2</servlet-name>
@@ -234,6 +234,15 @@
     <servlet>
         <servlet-name>AllReportedListing2</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing2.jsp</jsp-file>
+    </servlet>
+    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - EVENT REQUESTS (JSP) -->
+    <servlet>
+        <servlet-name>EventRequest</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/EventRequest.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>EventRequestDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/EventRequestDetails.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>ViewCompanyCategoryList</servlet-name>
@@ -285,7 +294,23 @@
     <servlet><servlet-name>UserProfile</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file></servlet>
     
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    
+    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
+    <servlet>
+        <servlet-name>ViewJobDetailsInCategory</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobDetailsInCategory.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobTransactionListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobTransactionListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobCategoryListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobCategoryListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobDetails.jsp</jsp-file>
+    </servlet>
     
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet-mapping><servlet-name>CommonInfra</servlet-name><url-pattern>/CommonInfra</url-pattern></servlet-mapping>

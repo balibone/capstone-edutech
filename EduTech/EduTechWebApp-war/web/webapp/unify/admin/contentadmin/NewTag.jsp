@@ -21,7 +21,7 @@
 
                         <%-- form field 1 --%>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
-                            <input type="text" class="form-control has-feedback-left" placeholder="Tag Name" name="tagName" />
+                            <input type="text" class="form-control has-feedback-left" required="required" placeholder="Tag Name" name="tagName" />
                             <span class="fa fa-info form-control-feedback left" aria-hidden="true"></span>
                         </div>
 
@@ -34,7 +34,7 @@
                                 &nbsp;&nbsp;
                                 
                                 <%-- field 2 --%>
-                                <select id="tagType" name="tagType" style="height: 25px;">
+                                <select id="tagType" name="tagType" style="height: 25px;" required="required">
                                     <option></option>
                                     <option value="Errand">Errand</option>
                                     <option value="Marketplace">Marketplace</option>
@@ -63,6 +63,7 @@
             <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
             <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
             <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
-
+            <!-- validator -->
+            <script src=".js/unify/admin/basejs/validator-v1.1.0.js"></script>
     </body>
 </html>

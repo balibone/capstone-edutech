@@ -24,6 +24,10 @@ import unifyentities.common.JobReportEntity;
 import unifyentities.voices.CompanyReviewEntity;
 import unifyentities.marketplace.ItemEntity;
 import unifyentities.errands.JobEntity;
+import unifyentities.errands.JobReviewEntity;
+import unifyentities.common.JobReviewReportEntity;
+import unifyentities.common.EventRequestEntity;
+import unifyentities.event.EventEntity;
 
 @Stateless
 public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
@@ -38,6 +42,10 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     private CompanyReviewEntity crEntity;
     private ItemEntity iEntity;
     private JobEntity jEntity;
+    private JobReviewEntity jreEntity;
+    private JobReviewReportEntity jrrEntity;
+    private EventRequestEntity erEntity;
+    private EventEntity eEntity;
 
     //reported marketplace items related
     public ItemReportEntity lookupMarketplace(String marketplaceReportID) {
@@ -113,6 +121,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
         irEntity = lookupMarketplace(reportID);
         irEntity.setItemReportStatus("Resolved");
+        irEntity.setItemReviewedDate();
         em.merge(irEntity);
         return success;
     }
@@ -124,6 +133,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
         irEntity = lookupMarketplace(reportID);
         irEntity.setItemReportStatus("Unresolved");
+        irEntity.setItemReviewedDate();
         em.merge(irEntity);
         return success;
     }
@@ -187,6 +197,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             marketplaceDetails.add(irEntity.getItemID());
             marketplaceDetails.add(irEntity.getItemPosterID());
             marketplaceDetails.add(irEntity.getItemReporterID());
+            marketplaceDetails.add(irEntity.getItemReviewedDate());
             System.out.println("ADDED ITEM REPORT DETAILS");
             //from item entity
             if (lookupMarketplaceItem(irEntity.getItemID()) != null) {
@@ -264,6 +275,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reviewReportDetails.add(crrEntity.getReviewID());
             reviewReportDetails.add(crrEntity.getReviewPosterID());
             reviewReportDetails.add(crrEntity.getReviewReporterID());
+            reviewReportDetails.add(crrEntity.getReviewReviewedDate());
             System.out.println("ADDED REVIEW REPORT DETAILS");
             //from review entity
             if (lookupReview(crrEntity.getReviewID()) != null) {
@@ -326,6 +338,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
         crrEntity = lookupReportedReview(reportID);
         crrEntity.setReviewReportStatus("Resolved");
+        crrEntity.setReviewReviewedDate();
         em.merge(crrEntity);
         return success;
     }
@@ -337,6 +350,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
         crrEntity = lookupReportedReview(reportID);
         crrEntity.setReviewReportStatus("Unresolved");
+        crrEntity.setReviewReviewedDate();
         em.merge(crrEntity);
         return success;
     }
@@ -443,6 +457,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
         jrEntity = lookupReportedErrand(reportID);
         jrEntity.setJobReportStatus("Resolved");
+        jrEntity.setJobReviewedDate();
         em.merge(jrEntity);
         return success;
     }
@@ -454,6 +469,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
         jrEntity = lookupReportedErrand(reportID);
         jrEntity.setJobReportStatus("Unresolved");
+        jrEntity.setJobReviewedDate();
         em.merge(jrEntity);
         return success;
     }
@@ -517,6 +533,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             errandDetails.add(jrEntity.getJobID());
             errandDetails.add(jrEntity.getJobPosterID());
             errandDetails.add(jrEntity.getJobReporterID());
+            errandDetails.add(jrEntity.getJobReviewedDate());
             System.out.println("ADDED ERRAND REPORT DETAILS");
             //from job entity
             if (lookupJob(jrEntity.getJobID()) != null) {
@@ -533,6 +550,151 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         return null;
     }
 
+    //reported jobs review related
+    @Override
+    public List<Vector> viewReportedErrandsReviewListing() {
+        Query q = em.createQuery("SELECT i FROM JobReviewReport i");
+        List<Vector> reportedList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+
+        for (Object o : q.getResultList()) {
+            JobReviewReportEntity reportedE = (JobReviewReportEntity) o;
+            Vector reportedVec = new Vector();
+            reportedVec.add(reportedE.getJobReviewReportID());
+            reportedVec.add(reportedE.getJobReviewReportStatus());
+            reportedVec.add(reportedE.getJobReviewReportDescription());
+            reportedVec.add(df.format(reportedE.getJobReviewReportDate()));
+            reportedVec.add(reportedE.getJobReviewID());
+            reportedVec.add(reportedE.getJobReviewPosterID());
+            reportedVec.add(reportedE.getJobReviewReporterID());
+            reportedList.add(reportedVec);
+            
+        }
+        return reportedList;
+    }
+    
+    @Override
+    public Vector viewErrandReviewDetails(String errandReviewReportID) {
+        jrrEntity = lookupReportedErrandReview(errandReviewReportID);
+        Vector errandReviewDetails = new Vector();
+
+        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+
+        if (jrrEntity != null) {
+            //from reported errand entity    
+            errandReviewDetails.add(jrrEntity.getJobReviewReportID());
+            errandReviewDetails.add(jrrEntity.getJobReviewReportStatus());
+            errandReviewDetails.add(jrrEntity.getJobReviewReportDescription());
+            errandReviewDetails.add(df.format(jrrEntity.getJobReviewReportDate()));
+            errandReviewDetails.add(jrrEntity.getJobReviewID());
+            errandReviewDetails.add(jrrEntity.getJobReviewPosterID());
+            errandReviewDetails.add(jrrEntity.getJobReviewReporterID());
+            errandReviewDetails.add(jrrEntity.getJobReviewReviewedDate());
+            System.out.println("ADDED ERRAND REVIEW REPORT DETAILS");
+            //from job entity
+            if (lookupJobReview(jrrEntity.getJobReviewID()) != null) {
+                jreEntity = lookupJobReview(jrrEntity.getJobReviewID());
+                errandReviewDetails.add(jreEntity.getJobReviewIndex());
+                errandReviewDetails.add(jreEntity.getJobReviewContent());
+                System.out.println("ADDED ERRAND REVIEW DETAILS");
+
+                return errandReviewDetails;
+            }
+            return errandReviewDetails;
+        }
+        return null;
+    }
+    
+    public JobReviewEntity lookupJobReview(Long jobReviewID) {
+        JobReviewEntity jre = new JobReviewEntity();
+        try {
+            Query q = em.createQuery("SELECT c FROM JobReview c WHERE c.jobReviewID = :jobReviewID");
+            q.setParameter("jobReviewID", jobReviewID);
+            jre = (JobReviewEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Job Review cannot be found. " + enfe.getMessage());
+            em.remove(jre);
+            jre = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Job Review does not exist. " + nre.getMessage());
+            em.remove(jre);
+            jre = null;
+        }
+        return jre;
+    }
+    
+    public JobReviewReportEntity lookupReportedErrandReview(String jobReviewReportID) {
+        JobReviewReportEntity jrre = new JobReviewReportEntity();
+        Long jobReviewReportIDNum = Long.valueOf(jobReviewReportID);
+        try {
+            Query q = em.createQuery("SELECT c FROM JobReviewReport c WHERE c.jobReviewReportID = :jobReviewReportID");
+            q.setParameter("jobReviewReportID", jobReviewReportIDNum);
+            jrre = (JobReviewReportEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Errand Review cannot be found. " + enfe.getMessage());
+            em.remove(jrre);
+            jrre = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Errand Review does not exist. " + nre.getMessage());
+            em.remove(jrre);
+            jrre = null;
+        }
+        return jrre;
+    }
+    
+    @Override
+    public boolean resolveErrandReview(String reportID) {
+
+        boolean success = true;
+
+        jrrEntity = lookupReportedErrandReview(reportID);
+        jrrEntity.setJobReviewReportStatus("Resolved");
+        jrrEntity.setJobReviewReviewedDate();
+        em.merge(jrrEntity);
+        return success;
+    }
+    
+    @Override
+    public boolean unresolveErrandReview(String reportID) {
+
+        boolean success = true;
+
+        jrrEntity = lookupReportedErrandReview(reportID);
+        jrrEntity.setJobReviewReportStatus("Unresolved");
+        jrrEntity.setJobReviewReviewedDate();
+        em.merge(jrrEntity);
+        return success;
+    }
+    
+    @Override
+    public boolean deleteJobReview(String jobReviewID) {
+        boolean jobDeleteStatus = false;
+
+        double jobReviewIDNum = Double.parseDouble(jobReviewID);
+
+        try {
+            Query q = em.createQuery("SELECT i FROM JobReview i WHERE i.jobReviewID = :jobReviewID");
+            q.setParameter("jobReviewID", jobReviewIDNum);
+
+            jreEntity = (JobReviewEntity) q.getSingleResult();
+
+            em.remove(jreEntity);
+            em.flush();
+            em.clear();
+            return jobDeleteStatus = true;
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Job review to be deleted cannot be found. " + enfe.getMessage());
+            em.remove(jreEntity);
+            return jobDeleteStatus;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Job review to be deleted does not exist. " + nre.getMessage());
+            em.remove(jreEntity);
+            return jobDeleteStatus;
+        }
+
+    }
+    
     //tags related
     public TagEntity lookupTag(String tagID) {
         TagEntity te = new TagEntity();
@@ -625,6 +787,124 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         return tagList;
     }
 
+    //event related
+    @Override
+    public List<Vector> viewEventRequestListing() {
+        Query q = em.createQuery("SELECT i FROM EventRequest i");
+        List<Vector> requestList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("d MMMM yyyy, hh:mm aaa");
+
+        for (Object o : q.getResultList()) {
+            EventRequestEntity requestE = (EventRequestEntity) o;
+            Vector requestVec = new Vector();
+            
+            uEntity = requestE.getUserEntity();
+            String username = uEntity.getUsername();
+
+            requestVec.add(requestE.getEventRequestID());
+            requestVec.add(requestE.getEventRequestStatus());
+            
+            requestVec.add(df.format(requestE.getEventRequestDate()));
+            requestVec.add(username);
+            
+            requestList.add(requestVec);
+        }
+        return requestList;
+    }
+
+    @Override
+    public Vector viewEventRequestDetails(String requestID) {
+        erEntity = lookupRequestedEvent(requestID);
+        Vector requestDetails = new Vector();
+
+        DateFormat df = new SimpleDateFormat("d MMMM yyyy, hh:mm aaa");
+        //DateFormat df2 = new SimpleDateFormat("d MMMM yyyy");
+
+        if (erEntity != null) {
+            uEntity = erEntity.getUserEntity();
+            String username = uEntity.getUsername();
+            
+            requestDetails.add(erEntity.getEventRequestID());
+            requestDetails.add(erEntity.getEventRequestStatus());
+            requestDetails.add(df.format(erEntity.getEventRequestDate()));
+            requestDetails.add(username);
+            
+            requestDetails.add(erEntity.getEventRequestDescription());
+            requestDetails.add(erEntity.getEventRequestVenue());
+            requestDetails.add(df.format(erEntity.getEventRequestStartDateTime()));
+            requestDetails.add(df.format(erEntity.getEventRequestEndDateTime()));
+            
+            requestDetails.add(df.format(erEntity.getEventReviewedDate()));
+            
+            System.out.println("ADDED EVENT REQUEST DETAILS");
+
+            return requestDetails;
+        }
+        return null;
+    }
+    
+    public EventRequestEntity lookupRequestedEvent(String requestID) {
+        EventRequestEntity jre = new EventRequestEntity();
+        Long eventRequestIDNum = Long.valueOf(requestID);
+        try {
+            Query q = em.createQuery("SELECT c FROM EventRequest c WHERE c.eventRequestID = :eventRequestID");
+            q.setParameter("eventRequestID", eventRequestIDNum);
+            jre = (EventRequestEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Event requested cannot be found. " + enfe.getMessage());
+            em.remove(jre);
+            jre = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Event requested does not exist. " + nre.getMessage());
+            em.remove(jre);
+            jre = null;
+        }
+        return jre;
+    }
+    
+    @Override
+    public boolean approveEventRequest(String requestID) {
+
+        boolean success = true;
+
+        //set event request to approved
+        
+        erEntity = lookupRequestedEvent(requestID);
+        erEntity.setEventRequestStatus("Approved");
+        erEntity.setEventReviewedDate();
+        em.merge(erEntity);
+        System.out.println("Event Request Approved");
+        
+        //create event in event entity
+        eEntity = new EventEntity();
+        eEntity.createEvent(erEntity.getEventRequestDescription(), erEntity.getEventRequestVenue(), 
+                erEntity.getEventRequestStartDateTime(), erEntity.getEventRequestEndDateTime(), erEntity.getUserEntity());
+        em.persist(eEntity);
+        System.out.println("Event Created");
+        
+        return success;
+    }
+    
+    @Override
+    public boolean rejectEventRequest(String requestID) {
+
+        boolean success = true;
+
+        //set event request to approved
+        
+        erEntity = lookupRequestedEvent(requestID);
+        erEntity.setEventRequestStatus("Rejected");
+        erEntity.setEventReviewedDate();
+        em.merge(erEntity);
+        System.out.println("Event Request Rejected");
+       
+        
+        
+        return success;
+    }
+    
+    //redundant
     @Override
     public boolean empLogin(String userEmail, String userPassword) {
         String hashedPassword = "";

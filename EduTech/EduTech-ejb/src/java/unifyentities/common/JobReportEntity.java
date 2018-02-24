@@ -29,8 +29,11 @@ public class JobReportEntity implements Serializable {
     private String jobReportStatus;
     private String jobReportDescription;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date jobReportDate;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date jobReviewedDate;
     
     /* FOREIGN KEY */
     private Long jobID;
@@ -52,6 +55,7 @@ public class JobReportEntity implements Serializable {
     public String getJobPosterID() { return jobPosterID; }
     public String getJobReporterID() { return jobReporterID; }
     public UserEntity getUserEntity() { return userEntity; }
+    public Date getJobReviewedDate() { return jobReviewedDate; }
     
     /* SETTER METHODS */
     public void setJobReportID(Long jobReportID) { this.jobReportID = jobReportID; }
@@ -62,4 +66,5 @@ public class JobReportEntity implements Serializable {
     public void setJobPosterID(String jobPosterID) { this.jobPosterID = jobPosterID; }
     public void setJobReporterID(String jobReporterID) { this.jobReporterID = jobReporterID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setJobReviewedDate() { this.jobReviewedDate = new Date(); }
 }

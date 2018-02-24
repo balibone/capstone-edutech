@@ -7,7 +7,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Admin - Tags Listing</title>
+        <title>Unify Admin - Errands Review Reported Listing</title>
 
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -17,8 +17,6 @@
         <link href="css/unify/admin/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/dataTable/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/dataTable/responsive.bootstrap.min.css" rel="stylesheet" type="text/css">
-
-        <link rel="stylesheet" type="text/css" href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.min.css">
     </head>
 
     <body class="nav-md">
@@ -195,21 +193,16 @@
                     </div>
                 </div>
 
-                <%-- content --%>
                 <div class="right_col" role="main">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_title">
-                                <a href = "ContentAdmin?pageTransit=goToTagListing"><h2 class="bodyHeader">Tags Listing</h2></a>
-
-                                <ul class="nav navbar-right panel_toolbox">
-                                    <li id="newTag"><i class="fa fa-plus"></i>&nbsp;&nbsp;New Tag</li>
-                                </ul>
+                                <a href = "ContentAdmin?pageTransit=goToReportedErrandsReviewListing"><h2 class="bodyHeader">Errands Review Reported Listing</h2></a>
 
                                 <div class="clearfix"></div>
                             </div>
-
-                            <%-- alert after adding/deleting tag --%>
+                            
+                            <%-- alert after updating report status --%>
                             <div class="x_content">
                                 <%
                                     String successMessage = (String) request.getAttribute("successMessage");
@@ -230,41 +223,49 @@
                                 </div>
                                 <%  } %>
 
-                                <%-- datatable --%>
+
                                 <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>Tag ID</th>
-                                            <th>Tag Name</th>
-                                            <th>Tag Type</th>
-                                            <th>Edit / Delete</th>
+                                            <th>Report ID</th>
+                                            <th>Report Status</th>
+                                            
+                                            <th>Report Date</th>
+                                            <th>Reported Errand Review ID</th>
+                                            <th>Reported Review Poster ID</th>
+                                            <th>Reported Reporter ID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <%
-                                            ArrayList<Vector> tagList = (ArrayList) request.getAttribute("tagList");
-                                            if (tagList.isEmpty()) {
+                                            ArrayList<Vector> reportList = (ArrayList) request.getAttribute("reportErrandsReviewList");
+                                            if (reportList.isEmpty()) {
                                         %>
 
                                         <tr>
-                                            <td colspan="4" style="text-align: center;">There are no tags available.</td>
+                                            <td colspan="8" style="text-align: center;">There are no reported errands review available.</td>
                                         </tr>
                                         <%
                                         } else {
-                                            for (int i = 0; i <= tagList.size() - 1; i++) {
-                                                Vector v = tagList.get(i);
-                                                String tagID = String.valueOf(v.get(0));
-                                                String tagName = String.valueOf(v.get(1));
-                                                String tagType = String.valueOf(v.get(2));
-                                                String tagRowIDEdit = "tagItemEdit" + tagID;
-                                                String tagRowIDDelete = "tagItemDelete" + tagID;
+                                            for (int i = 0; i <= reportList.size() - 1; i++) {
+                                                Vector v = reportList.get(i);
+                                                String reportID = String.valueOf(v.get(0));
+                                                String reportStatus = String.valueOf(v.get(1));
+                                                String reportDescription = String.valueOf(v.get(2));
+                                                String reportDate = String.valueOf(v.get(3));
+                                                String reportedErrandID = String.valueOf(v.get(4));
+                                                String reportedPosterID = String.valueOf(v.get(5));
+                                                String reportedReporterID = String.valueOf(v.get(6));
                                         %>
                                         <tr>
 
-                                            <td><%= tagID%></td>
-                                            <td><%= tagName%></td>
-                                            <td><%= tagType%></td>
-                                            <td><button id="<%= tagRowIDEdit %>">Edit </button>  <button id="<%= tagRowIDDelete %>">Delete </button></td>
+                                            <td><%= reportID%></td>
+                                            <td><%= reportStatus%></td>
+                                            
+                                            <td><%= reportDate%></td>
+                                            <td><%= reportedErrandID%></td>
+                                            <td><%= reportedPosterID%></td>
+                                            <td><%= reportedReporterID%></td>
                                         </tr>
                                         <%      }   %>
                                         <%  }%>
@@ -275,9 +276,7 @@
                     </div>
                 </div>
 
-                <%-- iframes --%>
-                <div id="newTag-iframe"></div>
-                <div id="editTag-iframe"></div>
+                <div id="viewErrandReview-iframe"></div>
                 <div id="adminFooter"></div>
             </div>
         </div>
@@ -288,13 +287,12 @@
         <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/UnifyAdminCommonJS.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/iziModal.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/webjs/contentadmin/TagListingJS.js" type="text/javascript"></script>
+
+        <script src="js/unify/admin/webjs/contentadmin/ReportedErrandsReviewListingJS.js" type="text/javascript"></script>
 
         <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.bootstrap.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.min.js" type="text/javascript"></script>
-        
-        <script type="text/javascript" language="javascript" src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
     </body>
 </html>

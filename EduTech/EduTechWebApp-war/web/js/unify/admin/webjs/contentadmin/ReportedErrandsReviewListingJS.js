@@ -9,13 +9,13 @@ $(document).ready(function() {
                 return $(this).text();
             }).get();
             rowCategoryName = $.trim(rowData[0]);
-            $('iframe').attr('src', 'ContentAdmin?pageTransit=goToReportedReviewDetails2&reviewView=' + rowCategoryName );
-            $('#viewReview-iframe').iziModal('open', event);
+            $('iframe').attr('src', 'ContentAdmin?pageTransit=goToReportedErrandReviewDetails&errandReviewView=' + rowCategoryName );
+            $('#viewErrandReview-iframe').iziModal('open', event);
         }
     });
     
-    $('#viewReview-iframe').iziModal({
-        title: 'Company Review Report',
+    $('#viewErrandReview-iframe').iziModal({
+        title: 'Errand Review Report',
         subtitle: 'Administrator may update report status here',
         iconClass: 'fa fa-wpforms',
         transitionIn: 'transitionIn',
@@ -23,7 +23,8 @@ $(document).ready(function() {
         headerColor: '#337AB7',
         width: 540,
         overlayClose: true,
-        iframe : true
+        iframe : true,
+        iframeHeight: 400
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

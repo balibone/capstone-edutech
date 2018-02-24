@@ -122,6 +122,47 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListing());
                     pageAction = "ReportedErrandsListing";
                     break;
+                //reported job reviews
+                case "goToReportedErrandsReviewListing":
+                    request.setAttribute("emailID", emailID);
+                    request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    pageAction = "ReportedErrandsReviewListing";
+                    break;  
+                case "goToReportedErrandReviewDetails":
+                    String errandReviewReportIDView = request.getParameter("errandReviewView");
+                    request.setAttribute("reportedErrandsReviewVec", camr.viewErrandReviewDetails(errandReviewReportIDView));
+                    pageAction = "ReportedErrandReviewDetails";
+                    break;
+                case "resolveErrandReviewReport":
+                    if (updateErrandReviewReport(request)) {
+                        request.setAttribute("successMessage", "Selected report has been set to <b>resolved</b>.");
+                    } else {
+                        request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
+                    }
+                    request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    pageAction = "ReportedErrandsReviewListing";
+                    break;
+                case "resolveDeleteErrandReviewReport":
+                    String deleteJobReviewID = request.getParameter("reportedErrandID");
+                    if (updateErrandReviewReport(request)) {
+                        if(camr.deleteJobReview(deleteJobReviewID)){
+                        request.setAttribute("successMessage", "Selected report has been set to <b>resolved</b> and <b>job review deleted</b>.");
+                        }
+                    } else {
+                        request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
+                    }
+                    request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    pageAction = "ReportedErrandsReviewListing";
+                    break;
+                case "unresolveErrandReviewReport":
+                    if (updateErrandReviewReport(request)) {
+                        request.setAttribute("successMessage", "Selected report has been reverted to <b>unresolved</b>.");
+                    } else {
+                        request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
+                    }
+                    request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    pageAction = "ReportedErrandsReviewListing";
+                    break;
                 //reported company reviews
                 case "goToReportedReviewListing":
                     request.setAttribute("emailID", emailID);
@@ -226,6 +267,41 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("emailID", emailID);
                     pageAction = "NewTag";
                     break;
+                //event related
+                case "goToEventRequest":
+                    request.setAttribute("emailID", emailID);
+                    request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListing());
+                    pageAction = "EventRequest";
+                    break;
+                case "goToEventRequestDetails":
+                    String eventRequestDetails = request.getParameter("requestView");
+                    request.setAttribute("eventRequestVec", camr.viewEventRequestDetails(eventRequestDetails));
+                    pageAction = "EventRequestDetails";
+                    break;
+                case "approveEventRequest":
+                    String approveEventRequestID = request.getParameter("requestID");
+                    if (camr.approveEventRequest(approveEventRequestID)) {
+                        
+                        request.setAttribute("successMessage", "Selected event has been set to <b>approved</b> and <b>event has been created</b>.");
+                        
+                    } else {
+                        request.setAttribute("errorMessage", "Selected event cannot be updated. Please try again.");
+                    }
+                    request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListing());
+                    pageAction = "EventRequest";
+                    break;
+                case "rejectEventRequest":
+                    String rejectEventRequestID = request.getParameter("requestID");
+                    if (camr.rejectEventRequest(rejectEventRequestID)) {
+                        
+                        request.setAttribute("successMessage", "Selected event has been <b>rejected</b>.");
+                        
+                    } else {
+                        request.setAttribute("errorMessage", "Selected event cannot be updated. Please try again.");
+                    }
+                    request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListing());
+                    pageAction = "EventRequest";
+                    break;
                 default:
                     break;
             }
@@ -286,6 +362,24 @@ public class ContentAdminController extends HttpServlet {
         
         return reportUpdateStatus;
     }
+    
+    private boolean updateErrandReviewReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+        String reportCurrentStatus = request.getParameter("reportStatus");
+        
+        if (reportCurrentStatus.equals("Unresolved")){
+        camr.resolveErrandReview(reportStatusUpdate);
+        reportUpdateStatus = true;
+        }
+        else if (reportCurrentStatus.equals("Resolved")){
+        camr.unresolveErrandReview(reportStatusUpdate);
+        reportUpdateStatus = true;
+        }
+        
+        return reportUpdateStatus;
+    }
 
     private boolean updateMarketplaceReport(HttpServletRequest request) {
         boolean reportUpdateStatus = false;
@@ -322,6 +416,7 @@ public class ContentAdminController extends HttpServlet {
         
         return reportUpdateStatus;
     }
+    
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

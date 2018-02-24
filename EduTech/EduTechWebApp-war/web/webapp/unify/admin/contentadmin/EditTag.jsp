@@ -43,7 +43,7 @@
                         <%-- field 2 --%> 
                         <div class="col-md-3 col-sm-3 col-xs-12 form-group" style="margin-top: 7px;">
                             <label>Tag Name:&nbsp;&nbsp;</label>
-                            <input type="text" font color = "black" value="<%= tagName%>" name="tagName" />
+                            <input type="text" required="required" font color = "black" value="<%= tagName%>" name="tagName" />
                         </div>
              
                         <%-- dropdown --%>
@@ -55,7 +55,7 @@
                                 &nbsp;&nbsp;
                                 
                                 <%-- field 2 --%>
-                                <select id="tagType" name="tagType" style="height: 25px;">
+                                <select id="tagType" name="tagType" style="height: 25px;" required="required">
                                     <option selected disabled hidden><%= tagType%></option>
                                     <option value="Errand">Errand</option>
                                     <option value="Marketplace">Marketplace</option>
@@ -90,6 +90,8 @@
             <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
             <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
             <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
+            <!-- validator -->
+            <script src=".js/unify/admin/basejs/validator-v1.1.0.js"></script>
 
     </body>
 </html>

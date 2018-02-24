@@ -15,49 +15,36 @@
 
 
         <%
-            Vector reportListVec = (Vector) request.getAttribute("reportedMarketplaceVec");
-            String reportID, reportStatus, reportDescription, reportDate, reportedItemID,
-                    reportedPosterID, reportedReporterID, itemName, itemDescription, itemImage, reviewedDate;
-            reportID = reportStatus = reportDescription = reportDate = reportedItemID = reportedPosterID = reportedReporterID
-                    = itemName = itemDescription = itemImage = reviewedDate = "";
+            Vector reportListVec = (Vector) request.getAttribute("reportedErrandsReviewVec");
+            String reportID, reportStatus, reportDescription, reportDate, reportedErrandID,
+                    reportedPosterID, reportedReporterID, jobTitle, jobDescription, reviewedDate;
+            reportID = reportStatus = reportDescription = reportDate = reportedErrandID = reportedPosterID = reportedReporterID
+                    = jobTitle = jobDescription = reviewedDate = "";
             if (reportListVec != null) {
                 reportID = (String.valueOf(reportListVec.get(0)));
                 reportStatus = (String.valueOf(reportListVec.get(1)));
                 reportDescription = (String.valueOf(reportListVec.get(2)));
                 reportDate = (String.valueOf(reportListVec.get(3)));
-                reportedItemID = (String.valueOf(reportListVec.get(4)));
+                reportedErrandID = (String.valueOf(reportListVec.get(4)));
                 reportedPosterID = (String.valueOf(reportListVec.get(5)));
                 reportedReporterID = (String.valueOf(reportListVec.get(6)));
                 reviewedDate = (String.valueOf(reportListVec.get(7)));
                 if (reportListVec.size() > 8) {
-                    itemName = (String.valueOf(reportListVec.get(8)));
-                    itemDescription = (String.valueOf(reportListVec.get(9)));
-                    itemImage = (String.valueOf(reportListVec.get(10)));
+                    jobTitle = (String.valueOf(reportListVec.get(8)));
+                    jobDescription = (String.valueOf(reportListVec.get(9)));
                 }
             }
         %>
-        <div class="row" style="visibility: visible; margin: 30px 50px 0 50px; background-color: #fff;">
-
-        </div>
+        <br>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bodyContent">
             <div id="formContent">
-                <form action="ContentAdmin?pageTransit=goToReportedMarketplaceListing" method="GET" enctype="multipart/form-data" target="_parent">
+                <form action="ContentAdmin?pageTransit=goToReportedErrandsReviewListing" method="GET" enctype="multipart/form-data" target="_parent">
 
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                         <%--- to display item when found --%>
                         <%
                             if (reportListVec.size() > 8) {
                         %>
-                        <%-- display image of marketplace item --%>
-                        <div class="col-sm-5 col-md-5 gallery-holder">
-                            <div class="single-product-gallery">
-                                <div class="owl-item" style="width: 336px;">
-                                    <div class="single-product-gallery-item">
-                                        <img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="max-width: 251px; min-width: 251px; max-height: 256px; min-height: 256px;" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Report ID:&nbsp;&nbsp;<u><%= reportID%></u></label>
                         </div>
@@ -75,56 +62,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Reported Item ID:&nbsp;&nbsp;<%= reportedItemID%></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Reported Errand ID:&nbsp;&nbsp;<%= reportedErrandID%></label>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Item Poster:&nbsp;&nbsp;<%= reportedPosterID%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Reporter:&nbsp;&nbsp;<%= reportedReporterID%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>RELEVANT MARKETPLACE ITEM DETAILS</u></b></font></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name:&nbsp;&nbsp;<%= itemName%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Description:&nbsp;&nbsp;<%= itemDescription%></label>
-                        </div>
-
-                        <%
-                        } else {
-                        %>
-
-                        <%--- to display when item not found --%>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report ID:&nbsp;&nbsp;<u><%= reportID%></u></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;<%= reportStatus%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Description:&nbsp;&nbsp;<%= reportDescription%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Date:&nbsp;&nbsp;<%= reportDate%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Reported Item ID:&nbsp;&nbsp;<%= reportedItemID%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Item Poster:&nbsp;&nbsp;<%= reportedPosterID%></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Errand Poster:&nbsp;&nbsp;<%= reportedPosterID%></label>
                         </div>
 
                         <div class="form-group">
@@ -132,16 +74,58 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>RELEVANT MARKETPLACE ITEM DETAILS</u></b></font></label>
+                            <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>RELEVANT JOB REVIEW DETAILS</u></b></font></label>
                         </div>
                         
                         <div class="form-group">
-                            <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"><b>ITEM HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Job Title:&nbsp;&nbsp;<%= jobTitle%></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Job Description:&nbsp;&nbsp;<%= jobDescription%></label>
+                        </div>
+                        <%
+                        } else {
+                        %>
+                        <%--- to display when errand not found --%>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report ID:&nbsp;&nbsp;<u><%= reportID%></u></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;<%= reportStatus%></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Description&nbsp;&nbsp;<%= reportDescription%></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Date&nbsp;&nbsp;<%= reportDate%></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Reported Errand Review ID&nbsp;&nbsp;<%= reportedErrandID%></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Errand Poster&nbsp;&nbsp;<%= reportedPosterID%></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Reporter&nbsp;&nbsp;<%= reportedReporterID%></label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>RELEVANT JOB REVIEW DETAILS</u></b></font></label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><font color = "red"><b>ERRAND REVIEW HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
                         </div>
                         <%
                             }
                         %>
-
                     </div>
             </div>
             <div class="ln_solid"></div>
@@ -150,34 +134,34 @@
                     <table border="0" style="margin: auto;">
                         <tr>
                             <%
-                                if (reportStatus.equals("Unresolved") && !itemName.equals("")) {
+                            if (reportStatus.equals("Unresolved") && !jobTitle.equals("")) {
                             %>
                             <%-- resolve and do nothing --%>
                             <td>
-                                <form action="ContentAdmin?pageTransit=goToReportedMarketplaceListing" method="GET" target="_parent">
-                                    <input type="hidden" name="pageTransit" value="resolveMarketplaceReport"/>
+                                <form action="ContentAdmin?pageTransit=goToReportedErrandsReviewListing" method="GET" target="_parent">
+                                    <input type="hidden" name="pageTransit" value="resolveErrandReviewReport"/>
                                     <input type="hidden" name="reportID" value="<%= reportID%>" />
                                     <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                     <button type="submit" class="btn btn-primary">Resolved (Do Nothing)</button>
                                 </form>
                             </td>
-                            <%-- resolve and delete item --%>
+                            <%-- resolve and delete errand --%>
                             <td>
-                                <form action="ContentAdmin?pageTransit=goToReportedMarketplaceListing" method="GET" target="_parent">
-                                    <input type="hidden" name="pageTransit" value="resolveDeleteMarketplaceReport"/>
+                                <form action="ContentAdmin?pageTransit=goToReportedErrandsReviewListing" method="GET" target="_parent">
+                                    <input type="hidden" name="pageTransit" value="resolveDeleteErrandReviewReport"/>
                                     <input type="hidden" name="reportID" value="<%= reportID%>" />
                                     <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
-                                    <input type="hidden" name="reportedItemID" value="<%= reportedItemID%>" />
-                                    <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm deletion?')">Delete Item & Resolve</button>
+                                    <input type="hidden" name="reportedErrandID" value="<%= reportedErrandID%>" />
+                                    <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm deletion?')">Delete Errand & Resolve</button>
                                 </form>
                             </td>
                             <%
-                            } else if (reportStatus.equals("Unresolved") && itemName.equals("")) {
+                            } else if (reportStatus.equals("Unresolved") && jobTitle.equals("")) {
                             %>
                             <%-- resolve and do nothing --%>
                             <td>
-                                <form action="ContentAdmin?pageTransit=goToReportedMarketplaceListing" method="GET" target="_parent">
-                                    <input type="hidden" name="pageTransit" value="resolveMarketplaceReport"/>
+                                <form action="ContentAdmin?pageTransit=goToReportedErrandsReviewListing" method="GET" target="_parent">
+                                    <input type="hidden" name="pageTransit" value="resolveErrandReviewReport"/>
                                     <input type="hidden" name="reportID" value="<%= reportID%>" />
                                     <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                     <button type="submit" class="btn btn-primary">Resolved (Do Nothing)</button>
@@ -189,7 +173,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
                         </div>
-
+                        
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Resolved On:&nbsp;&nbsp;<%= reviewedDate%></label>
                         </div>

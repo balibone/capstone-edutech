@@ -9,15 +9,15 @@ $(document).ready(function() {
                 return $(this).text();
             }).get();
             rowCategoryName = $.trim(rowData[0]);
-            $('iframe').attr('src', 'ContentAdmin?pageTransit=goToReportedReviewDetails2&reviewView=' + rowCategoryName );
-            $('#viewReview-iframe').iziModal('open', event);
+            $('iframe').attr('src', 'ContentAdmin?pageTransit=goToEventRequestDetails&requestView=' + rowCategoryName );
+            $('#viewRequest-iframe').iziModal('open', event);
         }
     });
     
-    $('#viewReview-iframe').iziModal({
-        title: 'Company Review Report',
-        subtitle: 'Administrator may update report status here',
-        iconClass: 'fa fa-wpforms',
+    $('#viewRequest-iframe').iziModal({
+        title: 'Event Request Details',
+        subtitle: 'Administrator may approve or reject event here',
+        iconClass: 'fa fa-calendar',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#337AB7',

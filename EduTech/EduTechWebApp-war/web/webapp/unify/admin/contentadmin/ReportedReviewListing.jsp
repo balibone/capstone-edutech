@@ -72,8 +72,10 @@
                                         <ul class="nav child_menu">
                                             <li><a href="ContentAdmin?pageTransit=goToReportedMarketplaceListing">Marketplace Reports</a></li>
                                             <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing">Errands Reports</a></li>
+                                            <li><a href="ContentAdmin?pageTransit=goToReportedErrandsReviewListing">Errands Review Reports</a></li>
                                             <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing">Company Review Reports</a></li>
                                             <li><a href="ContentAdmin?pageTransit=goToAllReportedListing">All Reports</a></li>
+                                            <li><a href="ContentAdmin?pageTransit=goToEventRequest">Event Requests</a></li>
                                         </ul>
                                     </li>
                                 </ul>
