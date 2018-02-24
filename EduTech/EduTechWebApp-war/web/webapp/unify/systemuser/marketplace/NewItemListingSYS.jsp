@@ -18,10 +18,10 @@
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/leaflet.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/marketplace/NewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
     </head>
-
+    
     <body class="nav-md">
         <!-- MOBILE SIDE NAVIGATION -->
         <nav class="offcanvas">
@@ -323,7 +323,7 @@
 
         <script src="js/unify/systemuser/webjs/marketplace/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/custom.min.js"></script>
-        <script src="js/unify/systemuser/basejs/leaflet.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/NewItemListingSYSJS.js" type="text/javascript"></script>
     </body>
 </html>

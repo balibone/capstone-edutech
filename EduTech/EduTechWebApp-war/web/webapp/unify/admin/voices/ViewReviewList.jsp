@@ -50,6 +50,7 @@
                                         <ul class="nav child_menu">
                                             <li><a href="MarketplaceAdmin?pageTransit=goToViewItemCategoryListing">Item Categories</a></li>
                                             <li><a href="MarketplaceAdmin?pageTransit=goToViewItemListing">Item Listing</a></li>
+                                            <li><a href="MarketplaceAdmin?pageTransit=goToViewItemTransactionList"><i class="fa fa-book"></i>&nbsp;Item Transactions</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-edit"></i>&nbsp;Errands (Jobs)&nbsp;<span class="fa fa-chevron-down"></span></a>

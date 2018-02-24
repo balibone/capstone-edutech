@@ -13,16 +13,15 @@
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
-        <link href="css/commoninfrastructure/admin/baselayout/CommonAdminBaseCSS.css" rel="stylesheet" type="text/css">
-        
+        <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/dataTable/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/dataTable/responsive.bootstrap.min.css" rel="stylesheet" type="text/css">
+        <!-- NProgress -->
+        <link href="css/commoninfrastructure/admin/weblayout/nprogress.css" rel="stylesheet">
+        <!-- iCheck -->
+        <link href="css/commoninfrastructure/admin/weblayout/green.css" rel="stylesheet">
         <!-- iziModal -->
         <link href="css/unify/admin/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
-        <!-- Datatables -->
-        <link href="css/commoninfrastructure/admin/weblayout/dataTables.bootstrap.min.css" rel="stylesheet">
-        <link href="css/commoninfrastructure/admin/weblayout/buttons.bootstrap.min.css" rel="stylesheet">
-        <link href="css/commoninfrastructure/admin/weblayout/fixedHeader.bootstrap.min.css" rel="stylesheet">
-        <link href="css/commoninfrastructure/admin/weblayout/responsive.bootstrap.min.css" rel="stylesheet">
-        <link href="css/commoninfrastructure/admin/weblayout/scroller.bootstrap.min.css" rel="stylesheet">
         <!--Font Awesome 5 JS-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
@@ -42,7 +41,7 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <table id="datatable-responsive" class="table table-striped table-bordered table-condensed table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th class="w_20">Photo</th>
@@ -83,19 +82,7 @@
 
         <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/dataTables.buttons.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/buttons.bootstrap.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/buttons.flash.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/buttons.html5.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/buttons.print.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/dataTables.fixedHeader.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/dataTables.keyTable.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/dataTables.responsive.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/responsive.bootstrap.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/dataTables.scroller.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/jszip.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/pdfmake.min.js"></script>
-        <script src="js/commoninfrastructure/admin/webjs/dataTables/vfs_fonts.js"></script>
         <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.bootstrap.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.min.js" type="text/javascript"></script>
     </body>
 </html>

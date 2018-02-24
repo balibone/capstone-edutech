@@ -32,7 +32,6 @@ If Cancel is pressed, session timer will continue running and eventually timeout
 <script>
     var timeToDecide = 10; // Give client these number of seconds to choose.
     console.log(<%=session.getMaxInactiveInterval()%>);
-    setTimeout(function(){alert('Your session has expired.'); window.location.replace("CommonInfra?pageTransit=goToLogout&sessionExpire=true");},(<%=session.getMaxInactiveInterval()%>)*1000);
     setTimeout(alertTimeout, (<%=session.getMaxInactiveInterval()%> - timeToDecide) * 1000);
     function alertTimeout(){
         //renew boolean
@@ -44,5 +43,5 @@ If Cancel is pressed, session timer will continue running and eventually timeout
             console.log(window.location);
         }
     }
-    
+    setTimeout(function(){alert('Your session has expired.'); window.location.replace("CommonInfra?pageTransit=goToLogout&sessionExpire=true");},(<%=session.getMaxInactiveInterval()%>)*1000);
 </script>
