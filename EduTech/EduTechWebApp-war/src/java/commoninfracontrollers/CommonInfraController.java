@@ -14,27 +14,26 @@ import javax.servlet.http.HttpServletResponse;
 import sessionbeans.CommonInfraMgrBeanRemote;
 
 public class CommonInfraController extends HttpServlet {
-
     @EJB
     private CommonInfraMgrBeanRemote cir;
     @EJB
     private SystemAdminMgrBeanRemote sam;
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-
+            
             switch (pageAction) {
                 case "loginToSys":
                     String enteredUsername = request.getParameter("username");
                     System.out.println(enteredUsername);
                     String userPassword = request.getParameter("userPassword");
-                    if (cir.empLogin(enteredUsername, userPassword)) {
+                    if(cir.empLogin(enteredUsername, userPassword)) {
                         // Creates new Cookie for the logged in user. 
-                        Cookie newCookie = new Cookie("username", enteredUsername);
+                        Cookie newCookie = new Cookie("username",enteredUsername);
                         // non-persistent cookie that will be deleted when browser closes.
                         newCookie.setMaxAge(-1);
                         //Insert user type data into "usertype" cookie using systemadminbean's get userinfo method
@@ -50,27 +49,32 @@ public class CommonInfraController extends HttpServlet {
                         * There is also no more need to pass request attributes on first log in as response.sendRedirect triggers a fresh http request,
                         * where the cookies will already be available for checking. 
                         * Working as intended, please do not remove :)
-                         */
+                        */
                         response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding");
-                    } else {
+                    }
+                    else{
                         request.setAttribute("sysMessage", "<strong>Incorrect username or password. Please try again.</strong>");
-                        pageAction = "IntegratedSPLogin";
+                        pageAction = "IntegratedSPLogin";                   
                     }
                     break;
                 case "goToLogout":
                     //Delete all of client's cookies 
                     //Delete username cookie
-                    Cookie username = new Cookie("username", "");//overwrite existing cookie  
+                    Cookie username = new Cookie("username","");//overwrite existing cookie  
                     username.setMaxAge(0);//changing the maximum age to 0 seconds. AKA deleting cookie  
                     response.addCookie(username);//update this cookie by adding it to response. 
                     //Delete userType cookie
-                    Cookie userType = new Cookie("userType", "");//overwrite existing cookie  
+                    Cookie userType = new Cookie("userType","");//overwrite existing cookie  
                     userType.setMaxAge(0);//changing the maximum age to 0 seconds. AKA deleting cookie  
                     response.addCookie(userType);//update this cookie by adding it to response.
-
+                    
                     String sessionInvalid = request.getParameter("sessionInvalid");
-                    if (sessionInvalid != null && sessionInvalid.equals("true")) {
+                    String sessionExpire = request.getParameter("sessionExpire");
+                    if(sessionInvalid!=null && sessionInvalid.equals("true")){
                         request.setAttribute("sysMessage", "<strong>Invalid session. Please login again.</strong>");
+                    }
+                    if(sessionExpire!=null && sessionExpire.equals("true")){
+                        request.setAttribute("sysMessage", "<strong>You session has expired. Please login again.</strong>");
                     }
                     pageAction = "IntegratedSPLogin";
                     break;
@@ -78,36 +82,36 @@ public class CommonInfraController extends HttpServlet {
                     //check logged in user's type and respond with correct landing page.
                     Cookie[] cookies = request.getCookies();
                     String uType = null;
-                    if (cookies != null) {
-                        for (Cookie c : cookies) {
-                            if (c.getName().equals("userType") && !c.getValue().equals("")) {
+                    if(cookies!=null){
+                        for(Cookie c : cookies){
+                            if(c.getName().equals("userType") && !c.getValue().equals("")){
                                 uType = c.getValue();
                             }
                         }
                     }
-                    if (uType != null) {
-                        switch (uType) {
+                    if(uType != null){
+                        switch(uType){
                             case "superadmin":
-                                pageAction = "SystemAdminLanding";
+                                pageAction="SystemAdminLanding";
                                 break;
                             case "dualadmin":
-                                pageAction = "DualAdminLanding";
+                                pageAction="DualAdminLanding";
                                 break;
                             case "unifyadmin":
-                                pageAction = "UnifyAdminLanding";
+                                pageAction="UnifyAdminLanding";
                                 break;
                             case "edutechadmin":
-                                pageAction = "EduTechAdminLanding";
+                                pageAction="EduTechAdminLanding";
                                 break;
                             case "student":
                             case "instructor":
-                                pageAction = "SystemUserLanding";
+                                pageAction="SystemUserLanding";
                                 break;
                             default:
                                 break;
                         }
-                    } else {
-                        // user type cookie is invalid. redirect to logout page
+                    }else{
+                        //user type cookie is invalid. redirect to logout page
                         response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
                     }
                     break;
@@ -124,12 +128,13 @@ public class CommonInfraController extends HttpServlet {
                     break;
             }
             dispatcher = servletContext.getNamedDispatcher(pageAction);
-            dispatcher.forward(request, response);
-        } catch (Exception ex) {
+            dispatcher.forward(request, response);       
+        }
+        catch(Exception ex) {
             log("Exception in CommonInfraController: processRequest()");
             ex.printStackTrace();
         }
-
+    
     }
 
     @Override
@@ -143,7 +148,5 @@ public class CommonInfraController extends HttpServlet {
     }
 
     @Override
-    public String getServletInfo() {
-        return "Common Infrastructure Servlet";
-    }
+    public String getServletInfo() { return "Common Infrastructure Servlet"; }
 }

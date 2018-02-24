@@ -48,6 +48,8 @@ public class EduTechAdminController extends HttpServlet {
             //instantiate variables used in switch statement
             String id = "";
             ArrayList userInfo = new ArrayList();
+            ArrayList semesterInfo = new ArrayList();
+            ArrayList moduleInfo = new ArrayList();
             String msg = "";
             boolean success = false;
             
@@ -78,6 +80,88 @@ public class EduTechAdminController extends HttpServlet {
                     userInfo = sam.getUserInfo(id);
                     request.setAttribute("userInfo", userInfo);
                     pageAction = "ViewUserModal";
+                    break;
+                case "ModuleList":
+                    request.setAttribute("moduleList", eam.getAllModules());
+                    pageAction = "ModuleList";
+                    break;
+                case "NewModule":
+                    request.setAttribute("semesterList", eam.getAllSemesters());
+                    pageAction = "NewModule";
+                    break;
+                case "createModule":
+                    String moduleCode = request.getParameter("moduleCode");
+                    String name = request.getParameter("name");
+                    Long modularCredit = Long.valueOf(request.getParameter("modularCredit"));
+                    String description = request.getParameter("description");
+                    Long semID = Long.valueOf(request.getParameter("semID"));
+                    try{
+                        if(eam.createModule(moduleCode,name,modularCredit,description,semID)){
+                            request.setAttribute("msg", "Module successfully created.");
+                            request.setAttribute("success", true);
+                        }else{
+                            request.setAttribute("msg", "Error creating Module.");
+                            request.setAttribute("success", false);
+                        }
+                    }catch(Exception e){
+                        request.setAttribute("msg", "Error creating Module. Module Code already exists.");
+                        request.setAttribute("success", false);
+                        System.out.println(e.getMessage());
+                    }
+                    request.setAttribute("semesterList", eam.getAllSemesters());
+                    pageAction = "NewModule";
+                    break;
+                case "deleteModule":
+                    id = request.getParameter("id");
+                    eam.deactivateModule(id);
+                    request.setAttribute("moduleList", eam.getAllModules());
+                    pageAction = "ModuleList";
+                    break;
+                case "SemesterList":
+                    request.setAttribute("semesterList", eam.getAllSemesters());
+                    pageAction = "SemesterList";
+                    break;
+                case "NewSemester":
+                    pageAction = "NewSemester";
+                    break;
+                case "createSemester":
+                    if(eam.createSemester(request.getParameter("title"),request.getParameter("startDate"),request.getParameter("endDate"))){
+                        request.setAttribute("msg", "Semester successfully created.");
+                        request.setAttribute("success", true);
+                    }else{
+                        request.setAttribute("msg", "Error creating Semester.");
+                        request.setAttribute("success", false);
+                    }
+                    pageAction = "NewSemester";
+                    break;
+                case "ViewSemester":
+                    id = request.getParameter("id");
+                    semesterInfo = eam.getSemesterInfo(id);
+                    request.setAttribute("semesterInfo", semesterInfo);
+                    pageAction = "ViewSemesterModal";
+                    break;
+                case "EditSemester":
+                    id = request.getParameter("id");
+                    semesterInfo = eam.getSemesterInfo(id);
+                    request.setAttribute("semesterInfo", semesterInfo);
+                    pageAction = "EditSemester";
+                    break;
+                case "editSemester":
+                    if(eam.editSemester(request.getParameter("title"),request.getParameter("startDate")
+                            ,request.getParameter("endDate"),request.getParameter("id"))){
+                        request.setAttribute("msg", "Semester successfully edited.");
+                        request.setAttribute("success", true);
+                    }else{
+                        request.setAttribute("msg", "Error editing Semester.");
+                        request.setAttribute("success", false);
+                    }
+                    pageAction = "EditSemester";
+                    break;
+                case "deleteSemester":
+                    id = request.getParameter("id");
+                    eam.deactivateSemester(id);
+                    request.setAttribute("semesterList", eam.getAllSemesters());
+                    pageAction = "SemesterList";
                     break;
             }
             dispatcher = context.getNamedDispatcher(pageAction);

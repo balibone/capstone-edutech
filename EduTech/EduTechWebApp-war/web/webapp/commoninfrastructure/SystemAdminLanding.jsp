@@ -11,6 +11,7 @@
         <link href="css/commoninfrastructure/dashboard/baselayout/basetemplate.css" rel="stylesheet" type="text/css">
         <link href="css/commoninfrastructure/dashboard/baselayout/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="css/commoninfrastructure/dashboard/baselayout/CommonCSS.css" rel="stylesheet" type="text/css">
+        
     </head>
     <body onload="establishTime(); setInterval('updateTime()', 1000)" class="wk wk3" id="page" style="background-image: url('images/homepage.jpg');">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -57,7 +58,7 @@
                 <a class="students" href="SystemAdmin?pageTransit=SystemAdminDashboard">
                     <span class="user-container"><span class="mainpage-button-text">System Admin</span></span></a>
                 <br>
-                <a class="employers" href="CommonInfra?pageTransit=goToEdutechAdmin">
+                <a class="employers" href="EduTechAdmin?pageTransit=EduTechAdminDashboard">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Admin</span></span></a>
                 <a class="faculty" href="CommonInfra?pageTransit=goToEdutechPortal">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Portal</span></span></a>
