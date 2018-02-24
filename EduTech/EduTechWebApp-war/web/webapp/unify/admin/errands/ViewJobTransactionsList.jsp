@@ -1,5 +1,5 @@
 <!-- ***************************************************************************************
-*   Title:                  ViewJobTransactionListing.jsp
+*   Title:                  ViewJobTransactionsList.jsp
 *   Purpose:                LIST OF JOB TRANSACTIONS (UNIFY ADMIN)
 *   Created By:             CHEN MENG
 *   Modified By:            TAN CHIN WEE WINSTON
@@ -91,6 +91,7 @@
                             <ul class="sub-menu">
                                 <li><a href="MarketplaceAdmin?pageTransit=goToViewItemCategoryListing"><i class="fa fa-bookmark"></i>&nbsp;Item Categories</a></li>
                                 <li><a href="MarketplaceAdmin?pageTransit=goToViewItemListing"><i class="fa fa-th-list"></i>&nbsp;Item Listing</a></li>
+                                <li><a href="MarketplaceAdmin?pageTransit=goToViewItemTransactionList"><i class="fa fa-book"></i>&nbsp;Item Transactions</a></li>
                             </ul>
                         </li>
                         <li class="current">

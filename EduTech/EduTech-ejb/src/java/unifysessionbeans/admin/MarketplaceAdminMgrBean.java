@@ -11,7 +11,6 @@
  */
 package unifysessionbeans.admin;
 
-import commoninfrastructure.UserEntity;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -29,7 +28,7 @@ import unifyentities.marketplace.ItemReviewEntity;
 import unifyentities.marketplace.ItemTransactionEntity;
 import unifyentities.common.CategoryEntity;
 import unifyentities.common.MessageEntity;
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 
 @Stateless
 public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
@@ -239,7 +238,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     }
 
     @Override
-    public List<Vector> viewItemTransactionList(long itemID) {
+    public List<Vector> viewAssociatedItemTransactionList(long itemID) {
         iEntity = lookupItem(itemID);
         List<Vector> itemTransList = new ArrayList<Vector>();
 
@@ -278,7 +277,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     }
 
     @Override
-    public List<Vector> viewItemReviewList(long itemID) {
+    public List<Vector> viewAssociatedItemReviewList(long itemID) {
         iEntity = lookupItem(itemID);
         List<Vector> itemReviewList = new ArrayList<Vector>();
 
@@ -328,6 +327,27 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
         }
     }
 
+    @Override
+    public List<Vector> viewItemTransactionList() {
+        Query q = em.createQuery("SELECT t FROM ItemTransaction t");
+        List<Vector> itemTransList = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            ItemTransactionEntity itemTransE = (ItemTransactionEntity) o;
+            Vector itemTransVec = new Vector();
+
+            itemTransVec.add(itemTransE.getItemEntity().getItemID());
+            itemTransVec.add(itemTransE.getItemTransactionDate());
+            /* WE ASSUME THAT THE ITEM SELLER IS THE ONE WHO CREATES THE TRANSACTION */
+            itemTransVec.add(itemTransE.getUserEntity().getUsername());
+            itemTransVec.add(itemTransE.getItemBuyerID());
+            itemTransVec.add(itemTransE.getItemEntity().getItemPrice());
+            itemTransVec.add(itemTransE.getItemTransactionPrice());
+            itemTransList.add(itemTransVec);
+        }
+        return itemTransList;
+    }
+    
     /* METHODS FOR UNIFY ADMIN DASHBOARD */
     @Override
     public Long getItemTransTodayCount() {
@@ -340,6 +360,19 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             ex.printStackTrace();
         }
         return itemTransTodayCount;
+    }
+    
+    @Override
+    public Long getItemTransactionListCount() {
+        Long itemTransCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(t.itemTransactionID) FROM ItemTransaction t");
+        try {
+            itemTransCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in MarketplaceAdminMgrBean.getItemTransactionListCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return itemTransCount;
     }
 
     @Override

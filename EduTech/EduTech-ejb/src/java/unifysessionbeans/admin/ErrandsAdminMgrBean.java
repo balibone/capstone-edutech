@@ -27,7 +27,7 @@ import unifyentities.common.CategoryEntity;
 import unifyentities.errands.JobEntity;
 import unifyentities.errands.JobReviewEntity;
 import unifyentities.errands.JobTransactionEntity;
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 
 @Stateless
 public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {

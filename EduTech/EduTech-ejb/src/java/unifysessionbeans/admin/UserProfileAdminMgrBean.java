@@ -18,7 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 

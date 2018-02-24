@@ -151,6 +151,7 @@
     <servlet><servlet-name>ViewItemListing</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemListing.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewItemListingDetails</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemListingDetails.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewItemListingDetailsInModal</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemListingDetailsInModal.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewItemTransactionsList</servlet-name><jsp-file>/webapp/unify/admin/marketplace/ViewItemTransactionsList.jsp</jsp-file></servlet>
     
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - USERPROFILE (JSP) -->
     <servlet><servlet-name>UnifyAdminDashboard</servlet-name><jsp-file>/webapp/unify/admin/UnifyAdminDashboard.jsp</jsp-file></servlet>

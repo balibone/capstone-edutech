@@ -1,8 +1,8 @@
 <!-- ***************************************************************************************
-*   Title:                  ViewItemCategoryListing.jsp
-*   Purpose:                LIST OF ITEM CATEGORIES (UNIFY ADMIN)
+*   Title:                  ViewItemTransactionsList.jsp
+*   Purpose:                LIST OF ITEM TRANSACTIONS (UNIFY ADMIN)
 *   Created & Modified By:  TAN CHIN WEE WINSTON
-*   Date:                   21 FEBRUARY 2018
+*   Date:                   24 FEBRUARY 2018
 *   Code version:           1.0
 *   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
 **************************************************************************************** -->
@@ -15,8 +15,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-        <title>Unify Admin - Item Categories</title>
-        
+        <title>Unify Admin - Item Transactions</title>
+
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css" />
@@ -27,7 +27,7 @@
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
-        
+
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/bootstrap-v3.1.1.min.js"></script>
@@ -46,7 +46,7 @@
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.newsTicker.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/iziModal.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/webjs/marketplace/ViewItemCategoryListingJS.js"></script>
+        <script type="text/javascript" src="js/unify/admin/webjs/marketplace/ViewItemTransactionsListJS.js"></script>
     </head>
     <body onload="establishTime(); setInterval('updateTime()', 1000)">
         <header class="header navbar navbar-fixed-top" role="banner">
@@ -128,7 +128,7 @@
                 </div>
                 <div id="divider" class="resizeable"></div>
             </div>
-            
+
             <div id="content">
                 <div class="container">
                     <div class="crumbs">
@@ -136,11 +136,11 @@
                             <li><i class="fa fa-home"></i><a href="ProfileAdmin?pageTransit=goToUnifyAdmin">Dashboard</a></li>
                             <li class="current">
                                 <i class="fa fa-bookmark"></i>
-                                <a href="MarketplaceAdmin?pageTransit=goToViewItemCategoryListing">Marketplace (Item Categories)</a>
+                                <a href="MarketplaceAdmin?pageTransit=goToViewItemTransactionList">Marketplace (Item Transactions)</a>
                             </li>
                         </ul>
                         <ul class="crumb-buttons">
-                            <li class="dropdown"><a href="#" data-toggle="dropdown"><i class="fa fa-user"></i><span>Users<strong>&nbsp;(<%= request.getAttribute("unifyUserCount") %>)</strong></span><i class="icon-angle-down left-padding"></i></a> 
+                            <li class="dropdown"><a href="#" data-toggle="dropdown"><i class="fa fa-user"></i><span>Users<strong>&nbsp;(<%= request.getAttribute("unifyUserCount")%>)</strong></span><i class="icon-angle-down left-padding"></i></a> 
                                 <ul class="dropdown-menu pull-right">
                                     <li><a href="ProfileAdmin?pageTransit=goToUnifyUserList"><i class="fa fa-user"></i>View User List</a></li>
                                 </ul> 
@@ -150,100 +150,66 @@
                     </div>
                     <div class="page-header">
                         <div class="page-title">
-                            <h3>Item Categories</h3><span>Click on each item category to view the associated list of items.</span>
+                            <h3>Item Transactions</h3><span>Click on each of the item transactions to view the associated item details.</span>
                         </div>
                         <ul class="page-stats">
                             <li>
-                                <div class="summary"><span>Active Categories</span><h3><%= request.getAttribute("activeItemCategoryListCount")%></h3></div>
-                                <div id="sparkline-bar2" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
-                            </li>
-                            <li>
-                                <div class="summary"><span>Inactive Categories</span><h3><%= request.getAttribute("inactiveItemCategoryListCount")%></h3></div>
-                                <div id="sparkline-bar" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
-                            </li>
-                            <li>
-                                <div class="summary"><span>Item Listings</span><h3><%= request.getAttribute("itemListingCount")%></h3></div>
+                                <div class="summary"><span>Item Transactions Count</span><h3><%= request.getAttribute("itemTransactionListCount")%></h3></div>
                                 <div id="sparkline-bar3" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
                             </li>
                         </ul>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <%
-                                String successMessage = (String) request.getAttribute("successMessage");
-                                if (successMessage != null) {
-                            %>
-                            <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
-                                <button type="button" class="close" id="closeSuccess">&times;</button><%= successMessage %>
-                            </div>
-                            <%  } %>
-                            <%
-                                String errorMessage = (String) request.getAttribute("errorMessage");
-                                if (errorMessage != null) {
-                            %>
-                            <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
-                                <button type="button" class="close" id="closeError">&times;</button><%= errorMessage %>
-                            </div>
-                            <%  } %>
-                            
                             <div class="widget box">
                                 <div class="widget-header">
-                                    <h4><i class="fa fa-reorder"></i>&nbsp;Item Category Listing</h4>
+                                    <h4><i class="fa fa-reorder"></i>&nbsp;Item Transactions List</h4>
                                     <div class="toolbar no-padding">
                                         <div class="btn-group">
-                                            <span id="newItemCategory" class="btn btn-xs"><i class="fa fa-plus"></i>&nbsp;New Item Category</span>
+                                            <!-- SUPPORT BAR --><span>&nbsp;</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="widget-content no-padding">
-                                    <table id="itemCategoryListing" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                    <table id="itemTransactionList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
                                         <thead>
                                             <tr>
-                                                <th data-class="expand">Category Image</th>
-                                                <th>Category Name</th>
-                                                <th data-hide="phone">Category Description</th>
-                                                <th data-hide="phone,tablet">Category Active Status</th>
+                                                <th data-class="expand">Transaction Date</th>
+                                                <th data-class="expand">Seller ID</th>
+                                                <th data-class="expand">Buyer ID</th>
+                                                <th data-hide="phone">Listing Price</th>
+                                                <th data-hide="phone">Transaction Price</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <%
-                                                String activeStatus = "";
-                                                ArrayList<Vector> itemCategoryList = (ArrayList) request.getAttribute("itemCategoryList");
-                                                if (!itemCategoryList.isEmpty()) {
-                                                    for (int i = 0; i <= itemCategoryList.size()-1; i++) {
-                                                        Vector v = itemCategoryList.get(i);
-                                                        String categoryID = String.valueOf(v.get(0));
-                                                        String categoryImage = String.valueOf(v.get(1));
-                                                        String categoryName = String.valueOf(v.get(2));
-                                                        String categoryDescription = String.valueOf(v.get(3));
-                                                        String categoryActiveStatus = String.valueOf(v.get(4));
+                                                ArrayList<Vector> itemTransactionList = (ArrayList) request.getAttribute("itemTransactionList");
+                                                if (!itemTransactionList.isEmpty()) {
+                                                    for (int i = 0; i <= itemTransactionList.size() - 1; i++) {
+                                                        Vector v = itemTransactionList.get(i);
+                                                        String itemID = String.valueOf(v.get(0));
+                                                        String itemTransDate = String.valueOf(v.get(1));
+                                                        String itemTransSellerID = String.valueOf(v.get(2));
+                                                        String itemTransBuyerID = String.valueOf(v.get(3));
+                                                        String itemListingPriceTrans = String.valueOf(v.get(4));
+                                                        String itemTransPrice = String.valueOf(v.get(5));
                                             %>
                                             <tr>
-                                                <td><img src="uploads/unify/images/common/category/<%= categoryImage%>" style="width: 50px; height: 50px;" /></td>
-                                                <td><%= categoryName%><span style="display: none;">;<%= categoryID%></span></td>
-                                                <td><%= categoryDescription%></td>
-                                                <% 
-                                                    if (categoryActiveStatus.equals("false")) {
-                                                        activeStatus = "Inactive";
-                                                %>
-                                                <td><span class="label label-danger"><%= activeStatus%></span></td>
-                                                <%
-                                                    } else if (categoryActiveStatus.equals("true")) {
-                                                        activeStatus = "Active";
-                                                %>
-                                                <td><span class="label label-success"><%= activeStatus%></span></td>
-                                                <%  }   %>
+                                                <td><%= itemTransDate%><span style="display: none;">;<%= itemID%></span></td>
+                                                <td><%= itemTransSellerID%></td>
+                                                <td><%= itemTransBuyerID%></td>
+                                                <td>$<%= itemListingPriceTrans%></td>
+                                                <td>$<%= itemTransPrice%></td>
                                             </tr>
                                             <%      }   %>
-                                            <%  }   %>
+                                            <%  }%>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="newItemCategory-iframe"></div>
-                    <div id="editItemCategory-iframe"></div>
+                    <div id="itemListingDetails-iframe"></div>
                 </div>
             </div>
         </div>
