@@ -17,7 +17,7 @@
         <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/leaflet.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/marketplace/ViewItemDetailsSYSCSS.css" rel="stylesheet" type="text/css">
     </head>
@@ -383,7 +383,7 @@
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/ViewItemDetailsSYSJS.js" type="text/javascript"></script>
     </body>
 </html>

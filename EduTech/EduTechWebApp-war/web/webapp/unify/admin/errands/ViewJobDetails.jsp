@@ -1,229 +1,255 @@
-<!-- ***************************************************************************************
-*   Title:                  ViewJobDetails.jsp
-*   Purpose:                DETAILED INFORMATION OF THE SELECTED JOB LISTING (UNIFY ADMIN)
-*   Created By:             CHEN MENG
-*   Modified By:            TAN CHIN WEE WINSTON
-*   Date:                   21 FEBRUARY 2018
-*   Code version:           1.1
-*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
-**************************************************************************************** -->
-
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Vector"%>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Unify Admin - Job Listing Details</title>
-
-        <!-- CASCADING STYLESHEET -->
-        <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/UnifyAdminPlugins.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/plugin/datatables.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/plugin/datatables_bootstrap.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/weblayout/errands/ViewJobDetailsCSS.css" rel="stylesheet" type="text/css" />
-
-        <!-- JAVASCRIPT -->
-        <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/bootstrap-v3.1.1.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/lodash.compat-v2.0.0.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/breakpoints-v1.0.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll-v1.3.1.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll.horizontal-v0.6.5.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/jquery.sparkline-v2.1.2.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/jquery.dataTables-v1.9.4.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/dataTables.responsive-v0.1.2.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminAppJS.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginJS.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginFormComponentsJS.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/leaflet/leaflet.js"></script>
-        <script type="text/javascript" src="js/unify/admin/webjs/errands/ViewJobDetailsJS.js"></script>
+        <title>Unify Admin - View Job Details</title>
+        
+        <!-- CASCADING STYLESHEET (CSS) -->
+        <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/weblayout/marketplace/ViewItemListingDetailsCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/weblayout/errands/ViewTransactionDetailsCSS.css" rel="stylesheet" type="text/css">
     </head>
-    <body style="background-color: #FFFFFF;">
+    <body>
         <%
-            Vector jobDetailsVec = (Vector) request.getAttribute("jobDetailsVec");
-            String jobImage, jobTitle, jobCategory, jobPosterID, jobRate, jobRateType, jobDescription;
-            jobImage = jobTitle = jobCategory = jobPosterID = jobRate = jobRateType = jobDescription = "";
-
-            String jobStatus, jobNumOfLikes, jobPostingDate, jobWorkDate;
-            jobStatus = jobNumOfLikes = jobPostingDate = jobWorkDate = "";
-
-            String jobStartLocation, jobStartLat, jobStartLong, jobEndLocation, jobEndLat, jobEndLong, jobInformation;
-            jobStartLocation = jobStartLat = jobStartLong = jobEndLocation = jobEndLat = jobEndLong = jobInformation = "";
+            Vector jobDetailsVec = (Vector) request.getAttribute("jobDetails");
+            String jobImage, jobID, jobStatus, jobCategory, jobTitle, jobDescription, jobStartLoc, jobEndLoc, jobRateType, jobRate, jobPosterID, jobTakerID, jobWorkDate;
+            jobImage = jobID = jobStatus = jobCategory = jobTitle = jobDescription = jobStartLoc = jobEndLoc = jobRateType = jobRate = jobPosterID = jobTakerID = jobWorkDate= "";
             
             if (jobDetailsVec != null) {
                 jobImage = (String) jobDetailsVec.get(0);
-                jobTitle = (String) jobDetailsVec.get(1);
-                jobCategory = (String) jobDetailsVec.get(2);
-                jobPosterID = (String.valueOf(jobDetailsVec.get(3)));
-                jobRate = (String.valueOf(jobDetailsVec.get(4)));
-                jobRateType = (String) jobDetailsVec.get(5);
-                jobDescription = (String) jobDetailsVec.get(6);
-                jobStatus = (String) jobDetailsVec.get(7);
-                jobNumOfLikes = (String.valueOf(jobDetailsVec.get(8)));
-                jobPostingDate = (String.valueOf(jobDetailsVec.get(9)));
-                jobWorkDate = (String.valueOf(jobDetailsVec.get(10)));
-                jobStartLocation = (String) jobDetailsVec.get(11);
-                jobStartLat = (String) jobDetailsVec.get(12);
-                jobStartLong = (String) jobDetailsVec.get(13);
-                jobEndLocation = (String) jobDetailsVec.get(14);
-                jobEndLat = (String) jobDetailsVec.get(15);
-                jobEndLong = (String) jobDetailsVec.get(16);
-                jobInformation = (String) jobDetailsVec.get(17);
+                jobID = (String.valueOf(jobDetailsVec.get(1)));
+                jobStatus = (String)jobDetailsVec.get(2);
+                jobCategory = (String.valueOf(jobDetailsVec.get(3)));
+                jobTitle = (String) jobDetailsVec.get(4);
+                jobDescription = (String)jobDetailsVec.get(5);
+                jobStartLoc = (String)jobDetailsVec.get(6);
+                jobEndLoc = (String)jobDetailsVec.get(7);
+                jobRateType = (String)jobDetailsVec.get(8);
+                jobRate = (String.valueOf(jobDetailsVec.get(9)));
+                jobPosterID = (String.valueOf(jobDetailsVec.get(10)));
+                jobWorkDate = (String.valueOf(jobDetailsVec.get(11)));
             }
         %>
-        <table class="formFields" border="0">
-            <tr><td colspan="2" style="text-align: left;"><h3><strong><%= jobTitle%></strong></h3></td></tr>
-            <tr><td colspan="2">&nbsp;</td></tr>
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <div class="image-upload">
-                            <img id="output-image" src="uploads/unify/images/errands/job/<%= jobImage%>" />
+        <div class="row" style="visibility: visible; margin: 30px 50px 0 50px; background-color: #fff;">
+            <div class="col-sm-5 col-md-5 gallery-holder">
+                <div class="single-product-gallery">
+                    <div class="owl-item" style="width: 36px;">
+                        <div class="single-product-gallery-item">
+                            <img src="uploads/unify/images/errands/job/<%= jobImage %>" style="max-width: 251px; min-width: 251px; max-height: 256px; min-height: 256px;" />
                         </div>
-                        <label><%= jobNumOfLikes%>&nbsp;Likes</label>
                     </div>
-                </td>
-                <td>
-                    <table id="itemInfoTD" class="table-no-inner-border">
-                        <tr><td>Job Category:</td><td><strong><%= jobCategory%></strong></td></tr>
-                        <%  if (jobStatus.equals("Available")) {%>
-                        <tr><td>Job Status:</td><td><span class="label label-success"><%= jobStatus%></span></td></tr>
-                        <%  } else if (jobStatus.equals("Reserved")) {%>
-                        <tr><td>Job Status:</td><td><span class="label label-warning"><%= jobStatus%></span></td></tr>
-                        <%  } else if (jobStatus.equals("Completed")) {%>
-                        <tr><td>Job Status:</td><td><span class="label label-danger"><%= jobStatus%></span></td></tr>
-                        <%  }%>
-                        <tr><td>Job Rate:</td><td><strong>$<%= jobRate%>/<%= jobRateType%></strong></td></tr>
-                        <tr><td>Job Work Date:</td><td><strong><%= jobWorkDate%></strong></td></tr>
-                        <tr><td colspan="2">Job Description:<br/><strong><%= jobDescription%></strong></td></tr>
-                    </table>
-                </td>
-            </tr>
-            <tr style="text-align: center;">
-                <td colspan="2">
-                    <button type="button" class="btn btn-primary" onclick="return window.open('ErrandsAdmin?pageTransit=deleteAJob&jobID=<%= request.getAttribute("urlJobID")%>', '_parent')">Delete Job</button>&nbsp;&nbsp;
-                </td>
-            </tr>
-        </table>
-
-        <div style="margin: 30px 20px 0 20px">
-            <div class="tabbable tabbable-custom">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#jobInfo" data-toggle="tab">Errands Information</a></li>
-                    <li><a href="#transactionList" data-toggle="tab">Transaction List</a></li>
-                    <li><a href="#jobReviews" data-toggle="tab">Job Reviews</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="jobInfo">
-                        <table class="table table-hover table-bordered">
-                            <tr>
-                                <td>Job Poster ID</td>
-                                <td><%= jobPosterID%></td>
-                            </tr>
-                            <tr>
-                                <td>Job Posting Date</td>
-                                <td><%= jobPostingDate%></td>
-                            </tr>
-                            <tr>
-                                <td>Job Route</td>
-                                <td>
-                                    <input type="hidden" id="dbJobStartLocation" value="<%= jobStartLocation%>" />
-                                    <input type="hidden" id="dbJobStartLat" value="<%= jobStartLat%>" />
-                                    <input type="hidden" id="dbJobStartLong" value="<%= jobStartLong%>" />
-                                    <input type="hidden" id="dbJobEndLocation" value="<%= jobEndLocation%>" />
-                                    <input type="hidden" id="dbJobEndLat" value="<%= jobEndLat%>" />
-                                    <input type="hidden" id="dbJobEndLong" value="<%= jobEndLong%>" />
-                                    Job Start Location: <strong><%= jobStartLocation%></strong><br/>
-                                    Job End Location: <strong><%= jobEndLocation%></strong><br/>
-                                    <div id="errandsMap" style="width: auto; height: 300px; margin-top: 10px;"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Job Information</td>
-                                <td><%= jobInformation%></td>
-                            </tr>
-                        </table>
+                </div>
+            </div>   
+            <div class="col-sm-7 col-md-7 product-info-block">
+                <div class="product-info">
+                    <h1 class="name"><%= jobTitle %></h1><br/>
+                    <div class="stock-container">
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Job ID:&nbsp;</span></div></div>
+                        <div class="col-sm-9"><div class="stock-box"><%= jobID %></div></div>
+                        <br/>
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Job Status:&nbsp;</span></div></div>
+                        <div class="col-sm-9"><div class="stock-box"><%= jobStatus %></div></div>
+                        <br/>
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Category:&nbsp;</span></div></div>
+                        <div class="col-sm-9"><div class="stock-box"><%= jobCategory %></div></div>
+                        <br/>
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Rate Type:&nbsp;</span></div></div>
+                        <div class="col-sm-9"><div class="stock-box"><%= jobRateType %></div></div>
+                        <br/>
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Start Location:&nbsp;</span></div></div>
+                        <div class="col-sm-9"><div class="stock-box"><%= jobStartLoc %></div></div>
+                        <br/>
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">End Location:&nbsp;</span></div></div>
+                        <div class="col-sm-9"><div class="stock-box"><%= jobEndLoc %></div></div>
+                        <br/>
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Poster ID:&nbsp;</span></div></div>
+                        <div class="col-sm-9"><div class="stock-box"><%= jobPosterID %></div></div>
+                        <br/>
+                        <div class="col-sm-3"><div class="stock-box"><span class="label">Work Date:&nbsp;</span></div></div>
+                        <div class="col-sm-9"><div class="stock-box"><%= jobWorkDate %></div></div>
                     </div>
-                    <div class="tab-pane" id="transactionList">
-                        <table class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
-                            <thead>
-                                <tr>
-                                    <th data-class="expand">Transaction Date</th>
-                                    <th data-class="expand">Job Poster ID</th>
-                                    <th data-class="expand">Job Taker ID</th>
-                                    <th data-hide="phone">Job Rate</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%
-                                    ArrayList<Vector> jobTransList = (ArrayList) request.getAttribute("jobTransList");
-                                    if (!jobTransList.isEmpty()) {
-                                        for (int i = 0; i <= jobTransList.size() - 1; i++) {
-                                            Vector v = jobTransList.get(i);
-                                            String jobTransDate = String.valueOf(v.get(0));
-                                            String jobTransPosterID = String.valueOf(v.get(1));
-                                            String jobTransTakerID = String.valueOf(v.get(2));
-                                            String jobTransRate = String.valueOf(v.get(3));
-                                            String jobTransRateType = String.valueOf(v.get(4));
-                                %>
-                                <tr>
-                                    <td><%= jobTransDate%></td>
-                                    <td><%= jobTransPosterID%></td>
-                                    <td><%= jobTransTakerID%></td>
-                                    <td>$<%= jobTransRate%>/<%= jobTransRateType%></td>
-                                </tr>
-                                <%      }   %>
-                                <%  }   %>
-                            </tbody>
-                        </table>
+                    <div class="description-container m-t-20">
+                        <%= jobDescription %><br/>
                     </div>
-                    <div class="tab-pane" id="jobReviews">
-                        <table class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
-                            <thead>
-                                <tr>
-                                    <th data-class="expand">Review Date</th>
-                                    <th data-class="expand">Reviewer ID</th>
-                                    <th data-class="expand">Receiver ID</th>
-                                    <th data-hide="phone">Review Rating</th>
-                                    <th data-hide="phone">Review Content</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%
-                                    ArrayList<Vector> jobReviewList = (ArrayList) request.getAttribute("jobReviewList");
-                                    if (!jobReviewList.isEmpty()) {
-                                        for (int i = 0; i <= jobReviewList.size() - 1; i++) {
-                                            Vector v = jobReviewList.get(i);
-                                            String jobReviewDate = String.valueOf(v.get(0));
-                                            String jobReviewerID = String.valueOf(v.get(1));
-                                            String jobReviewReceiverID = String.valueOf(v.get(2));
-                                            String jobReviewRating = String.valueOf(v.get(3));
-                                            String jobReviewContent = String.valueOf(v.get(4));
-                                %>
-                                <tr>
-                                    <td><%= jobReviewDate%></td>
-                                    <td><%= jobReviewerID%></td>
-                                    <td><%= jobReviewReceiverID%></td>
-                                    <td><%= jobReviewRating%></td>
-                                    <td><%= jobReviewContent%></td>
-                                </tr>
-                                <%      }   %>
-                                <%  }   %>
-                            </tbody>
-                        </table>
+                    <div class="price-container m-t-20">
+                        <div class="col-sm-6">
+                            <div class="price-box"><span class="price">$<%= jobRate %></span></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+                        
+
+    <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Transaction')">Transaction</button>
+    <button class="tablinks" onclick="openCity(event, 'Reviews')">Reviews</button>
+     </div>
+ 
+  <div id="Transaction" class="tabcontent" style="margin-left: 20px; margin-right: 20px" >
+      <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" >
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Transaction Date</th>
+                            <th>Poster ID</th>
+                            <th>Taker ID</th>
+                        </tr>
+                    </thead>
+         <%    ArrayList<Vector> transactionList = (ArrayList)request.getAttribute("jobTransaction");
+        String transactionID, transactionDate, posterID, takerID;
+        transactionID = transactionDate = posterID = takerID ="";
+        if(transactionList.size() > 0){
+            for(int i=0; i<transactionList.size(); i++){
+                Vector transaction = (Vector)transactionList.get(i);
+                transactionID = String.valueOf(transaction.get(0));
+                transactionDate = String.valueOf(transaction.get(1));
+                posterID = String.valueOf(transaction.get(2));
+                takerID = String.valueOf(transaction.get(3));
+        %>    
+                <tbody>
+                                        <tr>
+                                            <td><%= transactionID%></td>
+                                            <td><%= transactionDate%></td>
+                                            <td><%= posterID%></td>
+                                            <td><%= takerID%></td>
+                                        </tr>
+               
+       <%  }
+                }else{
+       %>
+
+        <% }
+        %>
+        </tbody>
+       </table>
+      </div>
+      
+       <div id="Reviews" class="tabcontent">
+        <%--<div id="datatable-responsive_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+           <div class="row">
+               <div class="col-sm-6">
+                   <div class="dataTables_length" id="datatable-responsive_length">
+                       <label>Show <select name="datatable-responsive_length" aria-controls="datatable-responsive" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div>
+               <div class="col-sm-6">
+                   <div id="datatable-responsive_filter" class="dataTables_filter">
+                       <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable-responsive"></label></div></div>
+           </div> --%>
+            <div id="search-box">
+                <span id="search-text"> Search: </span> 
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="" title="Type in a name">
+            </div>
+            <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="margin-top: 8px">
+                    <thead>
+                        <tr>
+                            <th>Review ID</th>
+                            <th>Review Index</th>
+                            <th>Review Content</th>
+                            <th>Reviewer ID</th>
+                            <th>Receiver ID</th>
+                            <th>Review Date</th>
+                        </tr>
+                    </thead>
+           <%
+               String reviewID, reviewIndex, reviewContent, reviewerID, receiverID, reviewDate;
+               reviewID = reviewIndex = reviewContent = reviewerID = receiverID = reviewDate = "";
+               ArrayList<Vector> reviews = (ArrayList)request.getAttribute("jobReviews");
+               if(reviews.size()>0){
+                   for(int i=0; i<reviews.size(); i++){
+                       Vector v = reviews.get(i);       
+                       reviewID = String.valueOf(v.get(0));
+                       reviewIndex = String.valueOf(v.get(1));
+                       reviewContent = (String) v.get(2);
+                       reviewerID = String.valueOf(v.get(3));
+                       receiverID = String.valueOf(v.get(4));
+                       reviewDate = String.valueOf(v.get(5));
+            %>
+
+                                    <tbody>
+                                        <tr>
+                                            <td><%= reviewID%></td>
+                                            <td><%= reviewIndex%></td>
+                                            <td><%= reviewContent%></td>
+                                            <td><%= reviewerID%></td>
+                                            <td><%= receiverID%></td>
+                                            <td><%= reviewDate%></td>
+                                        </tr>
+                                      
+           <%
+                   }
+               }
+               else{
+            %>
+ 
+               <%
+            }
+            
+           %>
+           </tbody>
+       </table>
+    </div>
+
+                        
+        <div class="form-group" style="margin-top: 12px; margin-left: 40%; margin-bottom: 20px">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <table border="0" style="margin-left: 50;">
+                    <tr>
+                        <td>
+                            <form action="ErrandsAdmin" method="POST" target="_parent" onsubmit="return confirm('Do you really want to delete this job listing?');">
+                                <input type="hidden" name="pageTransit" value="deleteAJobListing" />
+                                <input type="hidden" name="hiddenJobID" value="<%= jobID %>" />
+                                <button type="submit" class="btn btn-primary">Delete Item</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>             
+        
+        <!-- JAVASCRIPT (JS) -->
+        <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/UnifyAdminCommonJS.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/iziModal.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/webjs/errands/ViewTransactionDetailsJS.js" type="text/javascript"></script>
+        
+        <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.bootstrap.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.min.js" type="text/javascript"></script>
+        
+        <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, j, found;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("datatable-table");
+            tr = table.getElementsByTagName("tr");
+  
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                found = false;
+                for (j = 0; j < td.length; j++) {
+                    var cell = td[j];
+                    if (cell) {
+                        if (cell.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                        } else {
+                        }   
+                    }
+                }
+                if(found==true){
+                    tr[i].style.display = "";
+                }else{
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+</script>
     </body>
 </html>

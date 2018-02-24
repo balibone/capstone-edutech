@@ -1,14 +1,3 @@
-<!-- ***************************************************************************************
-*   Title:                  NewCompanyCategory.jsp
-*   Purpose:                CREATION OF NEW COMPANY CATEGORY (UNIFY ADMIN)
-*   Created By:             ZHU XINYI
-*   Modified By:            TAN CHIN WEE WINSTON
-*   Date:                   21 FEBRUARY 2018
-*   Code version:           1.1
-*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
-**************************************************************************************** -->
-
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,63 +5,48 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Unify Admin - New Company Category</title>
 
-        <!-- CASCADING STYLESHEET -->
-        <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/open-sans-font.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/weblayout/voices/NewCompanyCategoryCSS.css" rel="stylesheet" type="text/css" />
-
-        <!-- JAVASCRIPT -->
-        <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/bootstrap-v3.1.1.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll-v1.3.1.min.js"></script>
-        <script src="js/unify/admin/basejs/validator-v1.1.0.js" type="text/javascript"></script>
-        <script src="js/unify/admin/webjs/voices/NewCompanyCategoryJS.js" type="text/javascript"></script> 
+        <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/weblayout/marketplace/NewItemCategoryCSS.css" rel="stylesheet" type="text/css">
     </head>
-    <body style="background-color: #FFFFFF;">
-        <form action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
-            <table border="0">
-                <tr>
-                    <td>
-                        <div class="form-group">
-                            <div class="image-upload">
-                                <img id="output-image" />
-                            </div>
-                            <label for="file-upload" class="btn btn-default btn-sm btn-block" style="margin-top: 10px; width: 151px;">
-                                <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
-                            </label>
-                            <input id="file-upload" name="itemImage" type="file" accept="image/*" required="required" onchange="javascript: previewImage(event)" />
+    <body style="background-color: transparent;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bodyContent">
+            <div id="formContent">
+                <form action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
+                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="image-upload">
+                            <img id="output-image" />
                         </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <label class="control-label">Category Type:&nbsp;&nbsp;<u>Voices</u></label>
+                        <label for="file-upload" class="btn btn-outline btn-primary btn-sm btn-block" style="margin-top: 10px;">
+                            <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
+                        </label>
+                        <input id="file-upload" name="categoryImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" /> 
+                    </div> 
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
+                            <input type="text" class="form-control has-feedback-left" placeholder="Category Name" name="categoryName" required="required"/>
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-bookmark"></i></span>
-                                <input type="text" class="form-control" placeholder="Company Category Name (Required)" required="required" name="categoryName" />
-                            </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
+                            <textarea rows="5" class="form-control has-feedback-left" placeholder="Category Description" name="categoryDescription" required="required"></textarea>
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-bookmark"></i></span>
-                                <textarea rows="5" class="form-control" placeholder="Company Category Description (Required)" required="required" name="categoryDescription"></textarea>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="form-group" style="text-align: center;">
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                <input type="hidden" name="pageTransit" value="createCompanyCategory"/>
-                                <button type="submit" class="btn btn-primary">Create Company Category</button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                    </div>
+            </div>
+            <div class="ln_solid"></div>
+            <div class="form-group" style="text-align: center;">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <input type="hidden" name="pageTransit" value="addCompanyCategory"/>
+                    <button type="submit" class="btn btn-primary">Add Company Category</button>
+                </div></form>
+            </div>
+        </div>
+
+        <!-- JAVASCRIPT (JS) -->
+        <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
+        <script src="js/unify/admin/webjs/voices/NewCompanyJS.js" type="text/javascript"></script>
     </body>
 </html>

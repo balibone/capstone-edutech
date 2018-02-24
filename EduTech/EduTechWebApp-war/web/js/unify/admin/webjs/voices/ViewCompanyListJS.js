@@ -1,4 +1,4 @@
-var companyName, companyID;
+var rowItemName;
 $(document).ready(function() {
     $('#newCompany').on('click', function() {
         $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToNewCompany');
@@ -11,35 +11,37 @@ $(document).ready(function() {
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#4D7496',
-        width: 775,
+        headerColor: '#337AB7',
+        width: 525,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 350
+        iframeHeight: 325
     });
     
     
-    $('#companyList tbody').on('click', 'tr', function(event) {
-        var rowData = $(this).children("td").map(function() {
-            return $(this).text();
-        }).get();
-        companyName = $.trim(rowData[1]);
-        companyID = companyName.split(';')[1];
-        $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToViewCompanyListDetails&companyID=' + companyID);
-        $('#editCompanyDetails-iframe').iziModal('open', event);
+    $('#datatable-responsive tbody').on('click', 'tr', function(event) {
+        var $cell= $(event.target).closest('td');
+        if($cell.index() > 0) {
+            var rowData = $(this).children("td").map(function() {
+                return $(this).text();
+            }).get();
+            rowCompanyName = $.trim(rowData[1]);
+            $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToViewCompanyListDetails&companyName=' + rowCompanyName /*+ '&itemSellerID=' + rowSellerID*/);
+            $('#modal-iframe').iziModal('open', event);
+        }
     });
     
-    $("#editCompanyDetails-iframe").iziModal({
+    $("#modal-iframe").iziModal({
         title: 'Company Details',
-        subtitle: 'Administrator may edit the company information and deactivate the company here',
+        subtitle: 'Administrator may deactivate this company here',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#4D7496',
-        width: 650,
+        headerColor: '#337AB7',
+        width: 900,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 475
+        iframeHeight: 525
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

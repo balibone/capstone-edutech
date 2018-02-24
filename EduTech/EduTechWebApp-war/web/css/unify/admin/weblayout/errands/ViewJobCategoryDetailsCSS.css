@@ -1,25 +1,9 @@
-@media only screen and (min-width: 31em) {
-    .formFields {
-        border-spacing: 0;
-        width: 95%;
-        margin: 20px 25px 0 20px;
-    }
-    .formFields tr td:first-child { width: 32%; vertical-align: top; }
-    .formFields tr td:last-child { width: 68%; vertical-align: top; }
-}
-@media only screen and (max-width: 30em) {
-    .formFields td {
-        display: block;
-        clear: both;
-        margin: 20px 0 0 20px;
-    }
-    .formFields tr td:first-child { width: 100%; vertical-align: top; }
-    .formFields tr td:last-child { width: 100%; vertical-align: top; }
-}
+#bodyContent { margin-top: 20px; }
+#formContent { padding-left: 10px; }
 
 input[type="file"] { display: none; }
-.image-upload { border: 3px dashed #D6D6D6; background-color: #FAFAFA; max-width: 151px; min-width: 151px; max-height: 156px; min-height: 156px;}
-#output-image { max-width: 145px; min-width: 145px; max-height: 150px; min-height: 150px; }
+.image-upload { border: 3px dashed #D6D6D6; background-color: #FAFAFA; max-width: 240px; min-width: 240px; max-height: 166px; min-height: 166px;}
+#output-image { max-width: 234px; min-width: 234px; max-height: 160px; min-height: 160px; }
 
 #image-button{
     display: block;
@@ -33,23 +17,23 @@ input[type="file"] { display: none; }
 *::before{box-sizing:border-box; -ms-box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
 
 #modal-iframe .icon-close{
-    background: #FFF;
-    margin-bottom: 10px;
-    position: absolute;
-    right: -8px;
-    top: -8px;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    border: 0;
-    color: #a9a9a9;
-    cursor: pointer;
+  background: #FFF;
+  margin-bottom: 10px;
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  color: #a9a9a9;
+  cursor: pointer;
 }
 #modal-iframe .icon-close:hover, #modal-custom .icon-close:focus{
-    color: black;
+  color: black;
 }
 #modal-iframe.hasScroll .icon-close{
-    display: none;
+  display: none;
 }

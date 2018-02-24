@@ -1,32 +1,3 @@
-$(document).ready(function() {
-    App.init();
-    Plugins.init();
-    FormComponents.init();
-    
-    var dbCompanyIndustry = $('#dbCompanyIndustry').val();
-    var splitResult = dbCompanyIndustry.split(';');
-    splitResult.forEach(function (industryEntry) {
-        $('#companyIndustry').append($('<option>', {value: industryEntry, text: industryEntry}));
-    });
-
-    var oldCompanyIndustry = $('#oldCompanyIndustry').val();
-    $('#companyIndustry option[value="' + oldCompanyIndustry + '"]').attr('selected', true);
-    
-    var options = {
-        url: "resources/countries.json",
-        getValue: "name",
-        list: {
-            match: {enabled: true}
-        },
-        theme: "square"
-    };
-    $("#companyHQ").easyAutocomplete(options);
-    
-    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
-    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
-    
-});
-
 /* FOR PROFILE PICTURE UPLOAD TO SYSTEM */
 function previewImage(event) {
     var reader = new FileReader();
@@ -37,3 +8,38 @@ function previewImage(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
 }
+
+var rowReviewedCompany;
+var rowReviewPosterID;
+$(document).ready(function() {
+    $('#datatable-responsive tbody').on('click', 'tr', function(event) {
+        var $cell= $(event.target).closest('td');
+        if($cell.index() > 0 && $cell.index() < 4) {
+            var rowData = $(this).children("td").map(function() {
+                return $(this).text();
+            }).get();
+            rowReviewedCompany =$.trim(rowData[1]);
+            rowReviewPosterID = $.trim(rowData[2]);
+            $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToViewReviewListDetails&reviewedCompany=' + rowReviewedCompany + '&reviewPosterID=' + rowReviewPosterID);
+            $('#reviewDetails-iframe').iziModal('open', event);
+        }
+    });
+    
+    $("#reviewDetails-iframe").iziModal({
+        iconColor: '#337AB7',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        width: 540, 
+        overlayClose: true,
+        overlayColor: 'rgba(0, 0, 0, 0.6)',
+        iframe : true,
+        iframeHeight: 400,
+        history: false,
+        navigateCaption: true,
+        navigateArrows: false
+    });
+    
+    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
+    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
+    
+});

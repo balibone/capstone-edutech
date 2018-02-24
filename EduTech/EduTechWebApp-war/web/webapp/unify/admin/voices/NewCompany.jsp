@@ -1,13 +1,3 @@
-<!-- ***************************************************************************************
-*   Title:                  NewCompany.jsp
-*   Purpose:                CREATION OF NEW COMPANY (UNIFY ADMIN)
-*   Created By:             ZHU XINYI
-*   Modified By:            TAN CHIN WEE WINSTON
-*   Date:                   21 FEBRUARY 2018
-*   Code version:           1.1
-*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
-**************************************************************************************** -->
-
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,124 +6,64 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Unify Admin - New Company</title>
 
-        <!-- CASCADING STYLESHEET -->
-        <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/UnifyAdminPlugins.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/easy-autocomplete/easy-autocomplete.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/weblayout/voices/NewCompanyCSS.css" rel="stylesheet" type="text/css" />
-
-        <!-- JAVASCRIPT -->
-        <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/bootstrap-v3.1.1.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/lodash.compat-v2.0.0.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/breakpoints-v1.0.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll-v1.3.1.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll.horizontal-v0.6.5.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/jquery.sparkline-v2.1.2.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminAppJS.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginJS.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginFormComponentsJS.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/easy-autocomplete/jquery.easy-autocomplete.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/easy-autocomplete/jquery.easy-autocomplete.min.js"></script>
-        <script type="text/javascript" src="js/unify/admin/basejs/validator-v1.1.0.js"></script>
-        <script type="text/javascript" src="js/unify/admin/webjs/voices/NewCompanyJS.js"></script> 
+        <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/weblayout/voices/NewCompanyCSS.css" rel="stylesheet" type="text/css">
     </head>
-    <body style="background-color: #FFFFFF;">
-        <form action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
-            <table border="0">
-                <tr>
-                    <td rowspan="4" style="width: 25%;">
-                        <div class="form-group">
-                            <div class="image-upload">
-                                <img id="output-image" />
-                            </div>
-                            <label for="file-upload" class="btn btn-default btn-sm btn-block" style="margin-top: 10px; width: 151px;">
-                                <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
-                            </label>
-                            <input id="file-upload" name="companyImage" type="file" accept="image/*" required="required" onchange="javascript: previewImage(event)" />
+    <body style="background-color: transparent;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bodyContent">
+            <div id="formContent">
+                <form action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
+                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="image-upload">
+                            <img id="output-image" />
                         </div>
-                    </td>
-                    <td colspan="2">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="hidden" id="dbCompanyIndustry" value="<%= request.getAttribute("companyIndustryStr")%>" />
-                                <select class="form-control" id="companyIndustry" name="companyIndustry">
-                                    <option value="" disabled selected>-- Select Company Industry --</option>
-                                </select>
-                            </div>
+                        <label for="file-upload" class="btn btn-outline btn-primary btn-sm btn-block" style="margin-top: 10px;">
+                            <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
+                        </label>
+                        <input id="file-upload" name="companyImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" /> 
+                    </div> 
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
+                            <input type="text" class="form-control has-feedback-left" placeholder="Company Name" name="companyName" required="required"/>
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-building"></i></span>
-                                <input type="text" class="form-control" placeholder="Company Name (Required)" required="required" name="companyName" />
-                            </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
+                            <input type="text" class="form-control has-feedback-left" placeholder="Company Website" name="companyWebsite" required="required"/>
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <input type="text" class="form-control" placeholder="Company Size (Required)" required="required" name="companySize" />
-                            </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
+                            <input type="text" class="form-control has-feedback-left" placeholder="Company Headquarter" name="companyHQ" required="required"/>
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                                <input type="text" class="form-control" placeholder="Company Website" name="companyWebsite" />
-                            </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
+                            <input type="number" class="form-control has-feedback-left" placeholder="Company Size" name="companySize" required="required"/>
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-flag"></i></span>
-                                <input type="text" class="form-control" placeholder="Company HQ (Required)" required="required" id="companyHQ" name="companyHQ" />
-                            </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
+                            <input type="text" class="form-control has-feedback-left" placeholder="Company Industry" name="companyIndustry" required="required"/>
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-book"></i></span>
-                                <textarea rows="5" cols="30" class="form-control" placeholder="Company Description (Required)" required="required" name="companyDescription"></textarea>
-                            </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" style="margin-top: 7px;">
+                            <textarea rows="5" class="form-control has-feedback-left" placeholder="Company Description" name="companyDescription"required="required"></textarea>
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
-                                <textarea rows="5" cols="30" class="form-control" placeholder="Company Address (Required)" required="required" name="companyAddress"></textarea>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <div class="form-group">
-                            <div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
-                                <input type="hidden" name="pageTransit" value="createCompany"/>
-                                <button type="submit" class="btn btn-primary">Create Company</button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                    </div>
+            </div>
+            <div class="ln_solid"></div>
+            <div class="form-group" style="text-align: center;">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <input type="hidden" name="pageTransit" value="newCompany"/>
+                    <button type="submit" class="btn btn-primary">Add Company</button>
+                </div></form>
+            </div>
+        </div>
+
+        <!-- JAVASCRIPT (JS) -->
+        <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
+        <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
+        <script src="js/unify/admin/webjs/voices/NewCompanyJS.js" type="text/javascript"></script>
     </body>
 </html>
