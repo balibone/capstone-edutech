@@ -1,3 +1,13 @@
+/***************************************************************************************
+*   Title:                  MarketplaceAdminController.java
+*   Purpose:                SERVLET FOR UNIFY MARKETPLACE - ADMIN (EDUBOX)
+*   Created & Modified By:  TAN CHIN WEE WINSTON
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+***************************************************************************************/
+
 package unifycontrollers.admin;
 
 import java.io.IOException;
@@ -18,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import unifysessionbeans.admin.MarketplaceAdminMgrBeanRemote;
+import unifysessionbeans.admin.UserProfileAdminMgrBeanRemote;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 10,
@@ -27,6 +38,8 @@ import unifysessionbeans.admin.MarketplaceAdminMgrBeanRemote;
 public class MarketplaceAdminController extends HttpServlet {
     @EJB
     private MarketplaceAdminMgrBeanRemote mamr;
+    @EJB
+    private UserProfileAdminMgrBeanRemote uamr;
     String responseMessage = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,83 +48,107 @@ public class MarketplaceAdminController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-
+            request.setAttribute("unifyUserCount", uamr.getUnifyUserCount());
+            
             switch (pageAction) {
                 case "goToViewItemCategoryListing":
+                    request.setAttribute("activeItemCategoryListCount", mamr.getActiveItemCategoryListCount());
+                    request.setAttribute("inactiveItemCategoryListCount", mamr.getInactiveItemCategoryListCount());
+                    request.setAttribute("itemListingCount", mamr.getItemListingCount());
                     request.setAttribute("itemCategoryList", (ArrayList) mamr.viewItemCategoryList());
                     pageAction = "ViewItemCategoryListing";
                     break;
                 case "goToViewItemCategoryDetails":
-                    String urlCategoryName = request.getParameter("urlCategoryName");
-                    String urlCategoryType = request.getParameter("urlCategoryType");
-                    request.setAttribute("itemCategoryName", urlCategoryName);
-                    request.setAttribute("itemCategoryDetailsVec", mamr.viewItemCategoryDetails(urlCategoryName, urlCategoryType));
-                    request.setAttribute("associateditemList", (ArrayList) mamr.viewAssociatedItemList(urlCategoryName, urlCategoryType));
+                    long urlItemCategoryID = Long.parseLong(request.getParameter("itemCategoryID"));
+                    request.setAttribute("urlItemCategoryID", urlItemCategoryID);
+                    request.setAttribute("itemCategoryDetailsVec", mamr.viewItemCategoryDetails(urlItemCategoryID));
+                    request.setAttribute("associatedItemList", (ArrayList) mamr.viewAssociatedItemList(urlItemCategoryID));
                     pageAction = "ViewItemCategoryDetails";
                     break;
                 case "goToNewItemCategory":
-                    request.setAttribute("paramCategoryType", request.getParameter("categoryType"));
                     pageAction = "NewItemCategory";
                     break;
                 case "createItemCategory":
-                    if (createItemCategory(request)) {
-                        request.setAttribute("successMessage", "Item Category has been created successfully.");
-                    } else {
-                        request.setAttribute("errorMessage", "One or more fields are invalid. Please check again.");
-                    }
+                    responseMessage = createItemCategory(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("activeItemCategoryListCount", mamr.getActiveItemCategoryListCount());
+                    request.setAttribute("inactiveItemCategoryListCount", mamr.getInactiveItemCategoryListCount());
+                    request.setAttribute("itemListingCount", mamr.getItemListingCount());
                     request.setAttribute("itemCategoryList", (ArrayList) mamr.viewItemCategoryList());
                     pageAction = "ViewItemCategoryListing";
                     break;
                 case "updateItemCategory":
-                    if(updateItemCategory(request)) {
-                        request.setAttribute("successMessage", "Selected item category has been updated successfully.");
-                    } else {
-                        request.setAttribute("errorMessage", "Selected item category cannot be updated. Please check the inventory log.");
-                    }
+                    responseMessage = updateItemCategory(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("activeItemCategoryListCount", mamr.getActiveItemCategoryListCount());
+                    request.setAttribute("inactiveItemCategoryListCount", mamr.getInactiveItemCategoryListCount());
+                    request.setAttribute("itemListingCount", mamr.getItemListingCount());
                     request.setAttribute("itemCategoryList", (ArrayList) mamr.viewItemCategoryList());
                     pageAction = "ViewItemCategoryListing";
                     break;
                 case "deactivateAnItemCategory":
-                    String deactCategoryName = request.getParameter("hiddenCategoryName");
-                    String deactCategoryType = request.getParameter("hiddenCategoryType");
-                    
-                    responseMessage = mamr.deactivateAnItemCategory(deactCategoryName, deactCategoryType);
+                    long deactItemCategoryID = Long.parseLong(request.getParameter("hiddenItemCategoryID"));
+                    responseMessage = mamr.deactivateAnItemCategory(deactItemCategoryID);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
+                    request.setAttribute("activeItemCategoryListCount", mamr.getActiveItemCategoryListCount());
+                    request.setAttribute("inactiveItemCategoryListCount", mamr.getInactiveItemCategoryListCount());
+                    request.setAttribute("itemListingCount", mamr.getItemListingCount());
                     request.setAttribute("itemCategoryList", (ArrayList) mamr.viewItemCategoryList());
                     pageAction = "ViewItemCategoryListing";
                     break;
                 case "activateAnItemCategory":
-                    String actCategoryName = request.getParameter("hiddenCategoryName");
-                    String actCategoryType = request.getParameter("hiddenCategoryType");
-                    if (mamr.activateAnItemCategory(actCategoryName, actCategoryType)) {
-                        request.setAttribute("successMessage", "Selected item category has been activated successfully.");
-                    } else {
-                        request.setAttribute("errorMessage", "Selected item category cannot be activated. Please try again later.");
-                    }
+                    long actItemCategoryID = Long.parseLong(request.getParameter("hiddenItemCategoryID"));
+                    responseMessage = mamr.activateAnItemCategory(actItemCategoryID);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("activeItemCategoryListCount", mamr.getActiveItemCategoryListCount());
+                    request.setAttribute("inactiveItemCategoryListCount", mamr.getInactiveItemCategoryListCount());
+                    request.setAttribute("itemListingCount", mamr.getItemListingCount());
                     request.setAttribute("itemCategoryList", (ArrayList) mamr.viewItemCategoryList());
                     pageAction = "ViewItemCategoryListing";
                     break;
                 case "goToViewItemListing":
+                    request.setAttribute("availableItemListingCount", mamr.getAvailableItemListingCount());
+                    request.setAttribute("reservedItemListingCount", mamr.getReservedItemListingCount());
+                    request.setAttribute("soldItemListingCount", mamr.getSoldItemListingCount());
                     request.setAttribute("itemList", (ArrayList) mamr.viewItemList());
                     pageAction = "ViewItemListing";
                     break;
                 case "goToViewItemListingDetails":
-                    String itemName = request.getParameter("itemName");
-                    String itemSellerID = request.getParameter("itemSellerID");
-                    request.setAttribute("itemDetailsVec", mamr.viewItemDetails(itemName, itemSellerID));
+                    long urlItemID = Long.parseLong(request.getParameter("itemID"));
+                    request.setAttribute("urlItemID", urlItemID);
+                    request.setAttribute("itemDetailsVec", mamr.viewItemDetails(urlItemID));
+                    request.setAttribute("itemTransList", mamr.viewItemTransactionList(urlItemID));
+                    request.setAttribute("itemReviewList", mamr.viewItemReviewList(urlItemID));
                     pageAction = "ViewItemListingDetails";
                     break;
+                case "goToViewItemListingDetailsInModal":
+                    long hidItemID = Long.parseLong(request.getParameter("itemID"));
+                    request.setAttribute("urlItemID", hidItemID);
+                    long hidItemCategoryID = Long.parseLong(request.getParameter("itemCategoryID"));
+                    request.setAttribute("urlItemCategoryID", hidItemCategoryID);
+                    
+                    request.setAttribute("itemDetailsVec", mamr.viewItemDetails(hidItemID));
+                    request.setAttribute("itemTransList", mamr.viewItemTransactionList(hidItemID));
+                    request.setAttribute("itemReviewList", mamr.viewItemReviewList(hidItemID));
+                    pageAction = "ViewItemListingDetailsInModal";
+                    break;
                 case "deleteAnItem":
-                    String hiddenItemName = request.getParameter("hiddenItemName");
-                    String hiddenSellerID = request.getParameter("hiddenSellerID");
-                    if (mamr.deleteAnItem(hiddenItemName, hiddenSellerID)) {
-                        mamr.createSystemMessage(hiddenItemName, hiddenSellerID);
-                        request.setAttribute("successMessage", "Selected item has been deleted successfully. A system notification has been sent to the seller");
-                    } else {
-                        request.setAttribute("errorMessage", "Selected item cannot be deleted. Please try again later.");
-                    }
+                    long hiddenItemID = Long.parseLong(request.getParameter("itemID"));
+                    responseMessage = mamr.deleteAnItem(hiddenItemID);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("availableItemListingCount", mamr.getAvailableItemListingCount());
+                    request.setAttribute("reservedItemListingCount", mamr.getReservedItemListingCount());
+                    request.setAttribute("soldItemListingCount", mamr.getSoldItemListingCount());
                     request.setAttribute("itemList", (ArrayList) mamr.viewItemList());
                     pageAction = "ViewItemListing";
                     break;
@@ -137,17 +174,17 @@ public class MarketplaceAdminController extends HttpServlet {
     }
 
     @Override
-    public String getServletInfo() {
-        return "Marketplace (Item) Admin Servlet";
-    }
+    public String getServletInfo() { return "Marketplace (Item) Admin Servlet"; }
 
-    private boolean createItemCategory(HttpServletRequest request) {
-        boolean itemCategoryCreateStatus = false;
+    private String createItemCategory(HttpServletRequest request) {
         String fileName = "";
         try {
             Part filePart = request.getPart("itemImage");
             fileName = (String) getFileName(filePart);
-
+            if(fileName.contains("\\")) {
+                fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
+            }
+            
             String appPath = request.getServletContext().getRealPath("");
             String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
                     + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
@@ -183,17 +220,12 @@ public class MarketplaceAdminController extends HttpServlet {
             fileName = "";
         }
         String categoryName = request.getParameter("categoryName");
-        String categoryType = request.getParameter("hiddenCategoryType");
         String categoryDescription = request.getParameter("categoryDescription");
 
-        if (mamr.createItemCategory(categoryName, categoryType, categoryDescription, fileName)) {
-            itemCategoryCreateStatus = true;
-        }
-        return itemCategoryCreateStatus;
+        return mamr.createItemCategory(categoryName, "Marketplace", categoryDescription, fileName);
     }
     
-    private boolean updateItemCategory(HttpServletRequest request) {
-        boolean itemCategoryUpdateStatus = false;
+    private String updateItemCategory(HttpServletRequest request) {
         String fileName = "";
         String imageUploadStatus = request.getParameter("imageUploadStatus");
         
@@ -201,7 +233,10 @@ public class MarketplaceAdminController extends HttpServlet {
             try {
                 Part filePart = request.getPart("itemImage");
                 fileName = (String) getFileName(filePart);
-
+                if(fileName.contains("\\")) {
+                    fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
+                }
+                
                 String appPath = request.getServletContext().getRealPath("");
                 String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
                         + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
@@ -238,20 +273,15 @@ public class MarketplaceAdminController extends HttpServlet {
             }
         } else { fileName = request.getParameter("oldCategoryImage"); }
         
-        String oldCategoryName = request.getParameter("oldCategoryName");
+        long itemCategoryID = Long.parseLong(request.getParameter("hiddenItemCategoryID"));
+        String categoryName = request.getParameter("oldCategoryName");
         String newCategoryName = request.getParameter("categoryName");
-        String categoryType = request.getParameter("hiddenCategoryType");
-        String oldCategoryDescription = request.getParameter("oldCategoryDescription");
+        String categoryDescription = request.getParameter("oldCategoryDescription");
         String newCategoryDescription = request.getParameter("categoryDescription");
 
-        if(newCategoryName.equals("")) { newCategoryName = oldCategoryName; }
-        if(newCategoryDescription.equals("")) { newCategoryDescription = oldCategoryDescription; }
-        
-        if (mamr.updateItemCategory(oldCategoryName, newCategoryName, categoryType, oldCategoryDescription, 
-                newCategoryDescription, fileName)) {
-            itemCategoryUpdateStatus = true;
-        }
-        return itemCategoryUpdateStatus;
+        if(!newCategoryName.equals("")) { categoryName = newCategoryName; }
+        if(!newCategoryDescription.equals("")) { categoryDescription = newCategoryDescription; }
+        return mamr.updateItemCategory(itemCategoryID, categoryName, categoryDescription, fileName);
     }
 
     private String getFileName(final Part part) {

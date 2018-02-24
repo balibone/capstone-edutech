@@ -1,12 +1,11 @@
 /***************************************************************************************
-*    Title:         CategoryEntity.java
-*    Purpose:       LIST OF CATEGORIES (FOR NAVIGATION - MARKETPLACE, COMPANY REVIEW, JOB/ERRANDS REVIEW)
-*    Author:        TAN CHIN WEE
-*    Credits:       CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE, ZHU XINYI
-*    Date:          31 JANUARY 2018
-*    Code version:  1.0
-*    Availability:  RESTRICTED
-*
+*   Title:                  CategoryEntity.java
+*   Purpose:                LIST OF CATEGORIES (FOR NAVIGATION - MARKETPLACE, COMPANY REVIEW, JOB/ERRANDS REVIEW)
+*   Created & Modified By:  TAN CHIN WEE WINSTON
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
 ***************************************************************************************/
 package unifyentities.common;
 
@@ -52,18 +51,12 @@ public class CategoryEntity implements Serializable {
     }
     
     /* MISCELLANEOUS METHODS */
-    public void createCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
+    public boolean createCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
         this.categoryName = categoryName;
         this.categoryType = categoryType;
         this.categoryDescription = categoryDescription;
         this.categoryImage = categoryImage;
-    }
-    
-    public void createJobCategory(String categoryName, String categoryDescription){
-        this.setCategoryName(categoryName);
-        this.setCategoryType("Errands");
-        this.setCategoryDescription(categoryDescription);
-        this.setCategoryActiveStatus(true);
+        return true;
     }
 
     /* GETTER METHODS */

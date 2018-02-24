@@ -27,15 +27,13 @@ public class ItemReviewEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long itemReviewID;
-    private String itemReviewIndex;
+    private String itemReviewRating;
     private String itemReviewContent;
     
     @Temporal(TemporalType.DATE)
     private Date itemReviewDate;
     
     /* FOREIGN KEY */
-    private Long itemID;
-    private String itemReviewerID;
     private String itemReceiverID;
     
     @ManyToOne
@@ -48,22 +46,18 @@ public class ItemReviewEntity implements Serializable {
     
     /* GETTER METHODS */
     public Long getItemReviewID() { return itemReviewID; }
-    public String getItemReviewIndex() { return itemReviewIndex; }
+    public String getItemReviewRating() { return itemReviewRating; }
     public String getItemReviewContent() { return itemReviewContent; }
     public Date getItemReviewDate() { return itemReviewDate; }
-    public Long getItemID() { return itemID; }
-    public String getItemReviewerID() { return itemReviewerID; }
     public String getItemReceiverID() { return itemReceiverID; }
     public ItemEntity getItemEntity() { return itemEntity; }
     public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
     public void setItemReviewID(Long itemReviewID) { this.itemReviewID = itemReviewID; }
-    public void setItemReviewIndex(String itemReviewIndex) { this.itemReviewIndex = itemReviewIndex; }
+    public void setItemReviewRating(String itemReviewRating) { this.itemReviewRating = itemReviewRating; }
     public void setItemReviewContent(String itemReviewContent) { this.itemReviewContent = itemReviewContent; }
     public void setItemReviewDate(Date itemReviewDate) { this.itemReviewDate = itemReviewDate; }
-    public void setItemID(Long itemID) { this.itemID = itemID; }
-    public void setItemReviewerID(String itemReviewerID) { this.itemReviewerID = itemReviewerID; }
     public void setItemReceiverID(String itemReceiverID) { this.itemReceiverID = itemReceiverID; }
     public void setItemEntity(ItemEntity itemEntity) { this.itemEntity = itemEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

@@ -1,12 +1,11 @@
 /***************************************************************************************
-*    Title:         JobEntity.java
-*    Purpose:       JOBS POSTED BY CAMPUS USERS
-*    Author:        TAN CHIN WEE
-*    Credits:       CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE, ZHU XINYI
-*    Date:          31 JANUARY 2018
-*    Code version:  1.0
-*    Availability:  RESTRICTED
-*
+*   Title:                  JobEntity.java
+*   Purpose:                JOBS POSTED BY CAMPUS USERS
+*   Created & Modified By:  TAN CHIN WEE WINSTON
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
 ***************************************************************************************/
 package unifyentities.errands;
 
@@ -41,23 +40,24 @@ public class JobEntity implements Serializable {
     private String jobTitle;
     private String jobDescription;
     private String jobStartLocation;
-    private Double jobStartLat;
-    private Double jobStartLong;
+    private String jobStartLat;
+    private String jobStartLong;
     private String jobEndLocation;
-    private Double jobEndLat;
-    private Double jobEndLong;
+    private String jobEndLat;
+    private String jobEndLong;
+    private String jobInformation;
     @Temporal(TemporalType.DATE)
     private Date jobWorkDate;
     private Double jobRate;
     private String jobRateType;
     private String jobImage;
     private String jobStatus;
+    private int jobNumOfLikes;
 
     @Temporal(TemporalType.DATE)
     private Date jobPostDate;
 
     /* FOREIGN KEY */
-    private String jobPosterID;
     private String jobTakerID;
 
     @ManyToOne
@@ -79,18 +79,19 @@ public class JobEntity implements Serializable {
     public String getJobTitle() { return jobTitle; }
     public String getJobDescription() { return jobDescription; }
     public String getJobStartLocation() { return jobStartLocation; }
-    public Double getJobStartLat() { return jobStartLat; }
-    public Double getJobStartLong() { return jobStartLong; }
+    public String getJobStartLat() { return jobStartLat; }
+    public String getJobStartLong() { return jobStartLong; }
     public String getJobEndLocation() { return jobEndLocation; }
-    public Double getJobEndLat() { return jobEndLat; }
-    public Double getJobEndLong() { return jobEndLong; }
+    public String getJobEndLat() { return jobEndLat; }
+    public String getJobEndLong() { return jobEndLong; }
+    public String getJobInformation() { return jobInformation; }
     public Date getJobWorkDate() { return jobWorkDate; }
     public Double getJobRate() { return jobRate; }
     public String getJobRateType() { return jobRateType; }
     public String getJobImage() { return jobImage; }
     public String getJobStatus() { return jobStatus; }
+    public int getJobNumOfLikes() { return jobNumOfLikes; }
     public Date getJobPostDate() { return jobPostDate; }
-    public String getJobPosterID() { return jobPosterID; }
     public String getJobTakerID() { return jobTakerID; }
     
     public CategoryEntity getCategoryEntity() { return categoryEntity; }
@@ -104,18 +105,19 @@ public class JobEntity implements Serializable {
     public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
     public void setJobDescription(String jobDescription) { this.jobDescription = jobDescription; }
     public void setJobStartLocation(String jobStartLocation) { this.jobStartLocation = jobStartLocation; }
-    public void setJobStartLat(Double jobStartLat) { this.jobStartLat = jobStartLat; }
-    public void setJobStartLong(Double jobStartLong) { this.jobStartLong = jobStartLong; }
+    public void setJobStartLat(String jobStartLat) { this.jobStartLat = jobStartLat; }
+    public void setJobStartLong(String jobStartLong) { this.jobStartLong = jobStartLong; }
     public void setJobEndLocation(String jobEndLocation) { this.jobEndLocation = jobEndLocation; }
-    public void setJobEndLat(Double jobEndLat) { this.jobEndLat = jobEndLat; }
-    public void setJobEndLong(Double jobEndLong) { this.jobEndLong = jobEndLong; }
+    public void setJobEndLat(String jobEndLat) { this.jobEndLat = jobEndLat; }
+    public void setJobEndLong(String jobEndLong) { this.jobEndLong = jobEndLong; }
+    public void setJobInformation(String jobInformation) { this.jobInformation = jobInformation; }
     public void setJobWorkDate(Date jobWorkDate) { this.jobWorkDate = jobWorkDate; }
     public void setJobRate(Double jobRate) { this.jobRate = jobRate; }
     public void setJobRateType(String jobRateType) { this.jobRateType = jobRateType; }
     public void setJobImage(String jobImage) { this.jobImage = jobImage; }
-    public void setJobPostDate(Date jobPostDate) { this.jobPostDate = jobPostDate; }
     public void setJobStatus(String jobStatus) { this.jobStatus = jobStatus; }
-    public void setJobPosterID(String jobPosterID) { this.jobPosterID = jobPosterID; }
+    public void setJobNumOfLikes(int jobNumOfLikes) { this.jobNumOfLikes = jobNumOfLikes; }
+    public void setJobPostDate(Date jobPostDate) { this.jobPostDate = jobPostDate; }
     public void setJobTakerID(String jobTakerID) { this.jobTakerID = jobTakerID; }
     
     public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }

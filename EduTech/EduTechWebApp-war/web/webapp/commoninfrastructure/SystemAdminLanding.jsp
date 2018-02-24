@@ -62,7 +62,7 @@
                 <a class="faculty" href="CommonInfra?pageTransit=goToEdutechPortal">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Portal</span></span></a>
                 <br>
-                <a class="students" href="CommonInfra?pageTransit=goToUnifyAdmin">
+                <a class="students" href="ProfileAdmin?pageTransit=goToUnifyAdmin">
                     <span class="user-container"><span class="mainpage-button-text">Unify Admin</span></span></a>
                 <a class="students" href="ProfileSysUser?pageTransit=goToUnifyUserAccount&userID=<%= loggedInUsername %>">
                     <span class="user-container"><span class="mainpage-button-text">Unify Portal</span></span></a>

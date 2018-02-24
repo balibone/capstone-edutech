@@ -29,15 +29,13 @@ public class JobReviewEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long jobReviewID;
-    private String jobReviewIndex;
+    private String jobReviewRating;
     private String jobReviewContent;
     
     @Temporal(TemporalType.DATE)
     private Date jobReviewDate;
     
     /* FOREIGN KEY */
-    private Long jobID;
-    private String jobReviewerID;
     private String jobReceiverID;
     
     @ManyToOne
@@ -50,22 +48,18 @@ public class JobReviewEntity implements Serializable {
     
     /* GETTER METHODS */
     public Long getJobReviewID() { return jobReviewID; }
-    public String getJobReviewIndex() { return jobReviewIndex; }
+    public String getJobReviewRating() { return jobReviewRating; }
     public String getJobReviewContent() { return jobReviewContent; }
     public Date getJobReviewDate() { return jobReviewDate; }
-    public Long getJobID() { return jobID; }
-    public String getJobReviewerID() { return jobReviewerID; }
     public String getJobReceiverID() { return jobReceiverID; }
     public JobEntity getJobEntity() { return jobEntity; }
     public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
     public void setJobReviewID(Long jobReviewID) { this.jobReviewID = jobReviewID; }
-    public void setJobReviewIndex(String jobReviewIndex) { this.jobReviewIndex = jobReviewIndex; }
+    public void setJobReviewRating(String jobReviewRating) { this.jobReviewRating = jobReviewRating; }
     public void setJobReviewContent(String jobReviewContent) { this.jobReviewContent = jobReviewContent; }
     public void setJobReviewDate(Date jobReviewDate) { this.jobReviewDate = jobReviewDate; }
-    public void setJobID(Long jobID) { this.jobID = jobID; }
-    public void setJobReviewerID(String jobReviewerID) { this.jobReviewerID = jobReviewerID; }
     public void setJobReceiverID(String jobReceiverID) { this.jobReceiverID = jobReceiverID; }
     public void setJobEntity(JobEntity jobEntity) { this.jobEntity = jobEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

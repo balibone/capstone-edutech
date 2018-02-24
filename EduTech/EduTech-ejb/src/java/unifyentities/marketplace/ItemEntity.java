@@ -59,7 +59,7 @@ public class ItemEntity implements Serializable {
     @OneToMany(mappedBy = "itemEntity")
     private Collection<ItemReviewEntity> itemReviewSet = new ArrayList<ItemReviewEntity>();
     @OneToMany(mappedBy = "itemEntity")
-    private Set<ItemTransactionEntity> itemTransactionSet = new HashSet<ItemTransactionEntity>();
+    private Collection<ItemTransactionEntity> itemTransactionSet = new ArrayList<ItemTransactionEntity>();
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy = "itemSet")
     private Set<TagEntity> tagSet = new HashSet<TagEntity>();
     
@@ -101,7 +101,7 @@ public class ItemEntity implements Serializable {
     public CategoryEntity getCategoryEntity() { return categoryEntity; }
     public UserEntity getUserEntity() { return userEntity; }
     public Collection<ItemReviewEntity> getItemReviewSet() { return itemReviewSet; }
-    public Set<ItemTransactionEntity> getItemTransactionSet() { return itemTransactionSet; }
+    public Collection<ItemTransactionEntity> getItemTransactionSet() { return itemTransactionSet; }
     public Set<TagEntity> getTagSet() { return tagSet; }
     
     /* SETTER METHODS */
@@ -122,6 +122,6 @@ public class ItemEntity implements Serializable {
     public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
     public void setItemReviewSet(Collection<ItemReviewEntity> itemReviewSet) { this.itemReviewSet = itemReviewSet; }
-    public void setItemTransactionSet(Set<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
+    public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
     public void setTagSet(Set<TagEntity> tagSet) { this.tagSet = tagSet; }
 }
