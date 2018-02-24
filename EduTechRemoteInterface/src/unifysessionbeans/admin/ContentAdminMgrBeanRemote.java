@@ -1,3 +1,14 @@
+/***************************************************************************************
+*   Title:                  ContentAdminMgrBeanRemote.java
+*   Purpose:                LIST OF REMOTE INTERFACE METHODS FOR UNIFY CONTENT ADMINISTRATION - ADMIN (EDUBOX)
+*   Created By:             NIGEL LEE TJON YI
+*   Modified By:            TAN CHIN WEE WINSTON
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   24 FEBRUARY 2018
+*   Code version:           1.1
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+***************************************************************************************/
+
 package unifysessionbeans.admin;
 
 import java.util.List;
