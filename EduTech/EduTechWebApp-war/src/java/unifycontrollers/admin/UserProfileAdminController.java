@@ -60,9 +60,17 @@ public class UserProfileAdminController extends HttpServlet {
                     pageAction = "UnifyUserList";
                     break;
                 case "goToUnifyUserProfile":
+                    String username = request.getParameter("username");
                     request.setAttribute("unifyUserCount", uamr.getUnifyUserCount());
                     request.setAttribute("activeUnifyUserCount", uamr.getActiveUnifyUserCount());
                     request.setAttribute("inactiveUnifyUserCount", uamr.getInactiveUnifyUserCount());
+                    
+                    request.setAttribute("userOverviewVec", uamr.viewUserOverviewDetails(username));
+                    request.setAttribute("userItemList", mamr.viewUserItemList(username));
+                    request.setAttribute("userItemTransactionList", mamr.viewUserItemTransactionList(username));
+                    request.setAttribute("userErrandsList", eamr.viewUserErrandsList(username));
+                    request.setAttribute("userErrandsTransactionList", eamr.viewUserErrandsTransactionList(username));
+                    request.setAttribute("userCompanyReviewsList", vamr.viewUserCompanyReviewsList(username));
                     pageAction = "UnifyUserProfile";
                     break;
                 default:

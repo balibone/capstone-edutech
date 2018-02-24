@@ -37,8 +37,6 @@ public class JobTransactionEntity implements Serializable {
     private Date jobTransactionDate;
 
     /* FOREIGN KEY */
-    private Long jobID;
-    private String jobPosterID;
     private String jobTakerID;
 
     @ManyToOne
@@ -55,8 +53,6 @@ public class JobTransactionEntity implements Serializable {
     public Double getJobTransactionRate() { return jobTransactionRate; }
     public String getJobTransactionRateType() { return jobTransactionRateType; }
     public Date getJobTransactionDate() { return jobTransactionDate; }
-    public Long getJobID() { return jobID; }
-    public String getJobPosterID() { return jobPosterID; }
     public String getJobTakerID() { return jobTakerID; }
     public JobEntity getJobEntity() { return jobEntity; }
     public UserEntity getUserEntity() { return userEntity; }
@@ -67,8 +63,6 @@ public class JobTransactionEntity implements Serializable {
     public void setJobTransactionRate(Double jobTransactionRate) { this.jobTransactionRate = jobTransactionRate; }
     public void setJobTransactionRateType(String jobTransactionRateType) { this.jobTransactionRateType = jobTransactionRateType; }
     public void setJobTransactionDate(Date jobTransactionDate) { this.jobTransactionDate = jobTransactionDate; }
-    public void setJobID(Long jobID) { this.jobID = jobID; }
-    public void setJobPosterID(String jobPosterID) { this.jobPosterID = jobPosterID; }
     public void setJobTakerID(String jobTakerID) { this.jobTakerID = jobTakerID; }
     public void setJobEntity(JobEntity jobEntity) { this.jobEntity = jobEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

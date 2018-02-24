@@ -43,4 +43,8 @@ public interface ErrandsAdminMgrBeanRemote {
     public Long getAvailableJobListingCount();
     public Long getReservedJobListingCount();
     public Long getCompletedJobListingCount();
+    
+    /* METHODS FOR UNIFY USER PROFILE */
+    public List<Vector> viewUserErrandsList(String username);
+    public List<Vector> viewUserErrandsTransactionList(String username);
 }

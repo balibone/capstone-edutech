@@ -22,4 +22,7 @@ public interface UserProfileAdminMgrBeanRemote {
     public Long getUnifyUserCount();
     public Long getActiveUnifyUserCount();
     public Long getInactiveUnifyUserCount();
+    
+    /* METHODS FOR UNIFY USER PROFILE */
+    public Vector viewUserOverviewDetails(String username);
 }

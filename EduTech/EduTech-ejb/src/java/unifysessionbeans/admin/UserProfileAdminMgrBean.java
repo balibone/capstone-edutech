@@ -19,11 +19,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import commoninfrastructure.UserEntity;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 
 @Stateless
 public class UserProfileAdminMgrBean implements UserProfileAdminMgrBeanRemote {
     @PersistenceContext
     private EntityManager em;
+    private UserEntity uEntity;
     
     @Override
     public List<Vector> viewUnifyUserList() {
@@ -80,5 +83,40 @@ public class UserProfileAdminMgrBean implements UserProfileAdminMgrBeanRemote {
             ex.printStackTrace();
         }
         return inactiveUnifyUserCount;
+    }
+    
+    /* METHODS FOR UNIFY USER PROFILE */
+    @Override
+    public Vector viewUserOverviewDetails(String username) {
+        uEntity = lookupUnifyUser(username);
+        Vector userOverviewDetailsVec = new Vector();
+
+        if (uEntity != null) {
+            userOverviewDetailsVec.add(uEntity.getImgFileName());
+            userOverviewDetailsVec.add(uEntity.getUsername());
+            userOverviewDetailsVec.add(uEntity.getUserSalutation());
+            userOverviewDetailsVec.add(uEntity.getUserFirstName());
+            userOverviewDetailsVec.add(uEntity.getUserLastName());
+            userOverviewDetailsVec.add(uEntity.getUserActiveStatus());
+        }
+        return userOverviewDetailsVec;
+    }
+    
+    public UserEntity lookupUnifyUser(String username) {
+        UserEntity ue = new UserEntity();
+        try {
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: System User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: System User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
     }
 }

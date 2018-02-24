@@ -34,7 +34,6 @@ public class ItemReviewEntity implements Serializable {
     private Date itemReviewDate;
     
     /* FOREIGN KEY */
-    private Long itemID;
     private String itemReceiverID;
     
     @ManyToOne
@@ -50,7 +49,6 @@ public class ItemReviewEntity implements Serializable {
     public String getItemReviewRating() { return itemReviewRating; }
     public String getItemReviewContent() { return itemReviewContent; }
     public Date getItemReviewDate() { return itemReviewDate; }
-    public Long getItemID() { return itemID; }
     public String getItemReceiverID() { return itemReceiverID; }
     public ItemEntity getItemEntity() { return itemEntity; }
     public UserEntity getUserEntity() { return userEntity; }
@@ -60,7 +58,6 @@ public class ItemReviewEntity implements Serializable {
     public void setItemReviewRating(String itemReviewRating) { this.itemReviewRating = itemReviewRating; }
     public void setItemReviewContent(String itemReviewContent) { this.itemReviewContent = itemReviewContent; }
     public void setItemReviewDate(Date itemReviewDate) { this.itemReviewDate = itemReviewDate; }
-    public void setItemID(Long itemID) { this.itemID = itemID; }
     public void setItemReceiverID(String itemReceiverID) { this.itemReceiverID = itemReceiverID; }
     public void setItemEntity(ItemEntity itemEntity) { this.itemEntity = itemEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

@@ -12,9 +12,6 @@
  */
 package unifysessionbeans.admin;
 
-import unifyentities.voices.CompanyEntity;
-import unifyentities.voices.CompanyReviewEntity;
-import unifyentities.common.CategoryEntity;
 import javax.ejb.Stateless;
 
 import javax.persistence.EntityManager;
@@ -27,22 +24,26 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import unifyentities.common.CategoryEntity;
+import unifyentities.voices.CompanyEntity;
+import unifyentities.voices.CompanyReviewEntity;
 import unifyentities.voices.CompanyRequestEntity;
+import commoninfrastructure.UserEntity;
 
 @Stateless
 public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
-
     @PersistenceContext
     private EntityManager em;
-    String categoryType = "voices";
 
+    private CategoryEntity cEntity;
     private CompanyEntity compEntity;
     private CompanyReviewEntity companyReviewEntity;
+    private UserEntity uEntity;
     private CompanyRequestEntity companyRequestEntity;
-    private CategoryEntity cEntity;
     private Collection<CompanyReviewEntity> companyReviewSet;
     private Collection<CompanyEntity> companySet;
-
+    
     @Override
     public List<Vector> viewCompanyCategoryList() {
         Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'Voices' ");
@@ -275,6 +276,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                     Vector companyReviewDetails = new Vector();
                     
                     companyReviewDetails.add(cre.getReviewDate());
+                    /* WE ASSUME THAT THE PERSON WHO POST THE REVIEW IS THE ONE WHO CREATES THE RECORD */
                     companyReviewDetails.add(cre.getUserEntity().getUsername());
                     companyReviewDetails.add(cre.getReviewTitle());
                     companyReviewDetails.add(cre.getReviewPros());
@@ -294,6 +296,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                     Vector companyReviewVec = new Vector();
                     
                     companyReviewVec.add(cre.getReviewDate());
+                    /* WE ASSUME THAT THE PERSON WHO POST THE REVIEW IS THE ONE WHO CREATES THE RECORD */
                     companyReviewVec.add(cre.getUserEntity().getUsername());
                     companyReviewVec.add(cre.getReviewTitle());
                     companyReviewVec.add(cre.getReviewPros());
@@ -355,6 +358,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         }
     }
 
+    /* HAVEN'T DO YET */
     @Override
     public boolean deleteReview(long reviewedCompanyID, String reviewPosterID) {
         boolean reviewDeleteStatus = false;
@@ -363,7 +367,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
 
         for (int i = 0; i < companyReviewSet.size(); i++) {
             companyReviewEntity = (CompanyReviewEntity) companyReviewSet.toArray()[i];
-            if (companyReviewEntity.getReviewPosterID().equals(reviewPosterID)) {
+            if (companyReviewEntity.getReviewReceiverID().equals(reviewPosterID)) {
                 compEntity.getCompanyReviewSet().remove(companyReviewEntity);
                 em.remove(companyReviewEntity);
                 em.merge(compEntity);
@@ -373,6 +377,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         return reviewDeleteStatus;
     }
 
+    /* HAVEN'T DO YET */
     @Override
     public List<Vector> viewCompanyRequestList() {
         Query q = em.createQuery("SELECT cr from CompanyRequest cr");
@@ -393,6 +398,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         return requestList;
     }
 
+    /* HAVEN'T DO YET */
     @Override
     public Vector viewCompanyRequestDetails(String requestCompany, String requestPosterID) {
         companyRequestEntity = lookupRequest(requestCompany, requestPosterID);
@@ -409,6 +415,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         return requestDetailsVec;
     }
 
+    /* HAVEN'T DO YET */
     @Override
     public boolean solveRequest(String requestCompany, String requestPosterID) {
         boolean requestStatus = false;
@@ -421,6 +428,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         return requestStatus;
     }
 
+    /* HAVEN'T DO YET */
     @Override
     public boolean rejectRequest(String requestCompany, String requestPosterID) {
         boolean requestStatus = false;
@@ -512,6 +520,35 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         return inactiveCompanyListingCount;
     }
 
+    /* METHODS FOR UNIFY USER PROFILE */
+    @Override
+    public List<Vector> viewUserCompanyReviewsList(String username) {
+        uEntity = lookupSystemUser(username);
+        List<Vector> userCompanyReviewsList = new ArrayList<Vector>();
+        
+        Query q = em.createQuery("SELECT r FROM CompanyReview r WHERE r.userEntity.username = :username OR r.reviewReceiverID = :username");
+        q.setParameter("username", uEntity.getUsername());
+
+        for (Object o : q.getResultList()) {
+            CompanyReviewEntity companyReviewE = (CompanyReviewEntity) o;
+            Vector companyReviewVec = new Vector();
+
+            companyReviewVec.add(companyReviewE.getCompanyEntity().getCompanyID());
+            companyReviewVec.add(companyReviewE.getReviewDate());
+            /* WE ASSUME THAT THE PERSON WHO POST THE REVIEW IS THE ONE WHO CREATES THE RECORD */
+            companyReviewVec.add(companyReviewE.getUserEntity().getUsername());
+            companyReviewVec.add(companyReviewE.getReviewTitle());
+            companyReviewVec.add(companyReviewE.getReviewPros());
+            companyReviewVec.add(companyReviewE.getReviewCons());
+            companyReviewVec.add(companyReviewE.getReviewEmpType());
+            companyReviewVec.add(companyReviewE.getReviewSalaryRange());
+            companyReviewVec.add(companyReviewE.getReviewRating());
+            companyReviewVec.add(companyReviewE.getReviewThumbsUp());
+            userCompanyReviewsList.add(companyReviewVec);
+        }
+        return userCompanyReviewsList;
+    }
+    
     /* MISCELLANEOUS METHODS */
     public CompanyEntity lookupCompany(long companyID) {
         CompanyEntity ce = new CompanyEntity();
@@ -584,5 +621,23 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             cre = null;
         }
         return cre;
+    }
+    
+    public UserEntity lookupSystemUser(String username) {
+        UserEntity ue = new UserEntity();
+        try {
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: System User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: System User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
     }
 }

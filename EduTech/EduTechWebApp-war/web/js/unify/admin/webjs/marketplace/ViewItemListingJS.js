@@ -1,5 +1,5 @@
 var itemName, itemID;
-var rowSellerID;
+
 $(document).ready(function() {
     $('#itemListing tbody').on('click', 'tr', function(event) {
         var rowData = $(this).children("td").map(function() {
@@ -12,7 +12,7 @@ $(document).ready(function() {
     });
     
     $("#modal-iframe").iziModal({
-        title: 'Item Details',
+        title: 'Item Listing Details',
         subtitle: 'Administrator may deactivate this item listing here',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',

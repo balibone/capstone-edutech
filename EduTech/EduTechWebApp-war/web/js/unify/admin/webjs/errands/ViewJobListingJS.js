@@ -11,7 +11,7 @@ $(document).ready(function() {
     });
     
     $("#viewJobDetails-iframe").iziModal({
-        title: 'Job Details',
+        title: 'Job Listing Details',
         subtitle: 'Administrator may delete this job listing here',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',

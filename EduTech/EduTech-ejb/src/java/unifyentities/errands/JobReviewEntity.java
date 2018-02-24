@@ -36,7 +36,6 @@ public class JobReviewEntity implements Serializable {
     private Date jobReviewDate;
     
     /* FOREIGN KEY */
-    private Long jobID;
     private String jobReceiverID;
     
     @ManyToOne
@@ -52,7 +51,6 @@ public class JobReviewEntity implements Serializable {
     public String getJobReviewRating() { return jobReviewRating; }
     public String getJobReviewContent() { return jobReviewContent; }
     public Date getJobReviewDate() { return jobReviewDate; }
-    public Long getJobID() { return jobID; }
     public String getJobReceiverID() { return jobReceiverID; }
     public JobEntity getJobEntity() { return jobEntity; }
     public UserEntity getUserEntity() { return userEntity; }
@@ -62,7 +60,6 @@ public class JobReviewEntity implements Serializable {
     public void setJobReviewRating(String jobReviewRating) { this.jobReviewRating = jobReviewRating; }
     public void setJobReviewContent(String jobReviewContent) { this.jobReviewContent = jobReviewContent; }
     public void setJobReviewDate(Date jobReviewDate) { this.jobReviewDate = jobReviewDate; }
-    public void setJobID(Long jobID) { this.jobID = jobID; }
     public void setJobReceiverID(String jobReceiverID) { this.jobReceiverID = jobReceiverID; }
     public void setJobEntity(JobEntity jobEntity) { this.jobEntity = jobEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

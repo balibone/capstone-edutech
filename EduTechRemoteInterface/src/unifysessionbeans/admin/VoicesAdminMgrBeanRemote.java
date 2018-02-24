@@ -51,4 +51,7 @@ public interface VoicesAdminMgrBeanRemote {
     public Long getCompanyListingCount();
     public Long getActiveCompanyListingCount();
     public Long getInactiveCompanyListingCount();
+    
+    /* METHODS FOR UNIFY USER PROFILE */
+    public List<Vector> viewUserCompanyReviewsList(String username);
 }

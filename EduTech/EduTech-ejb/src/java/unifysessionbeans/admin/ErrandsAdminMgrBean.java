@@ -27,6 +27,7 @@ import unifyentities.common.CategoryEntity;
 import unifyentities.errands.JobEntity;
 import unifyentities.errands.JobReviewEntity;
 import unifyentities.errands.JobTransactionEntity;
+import commoninfrastructure.UserEntity;
 
 @Stateless
 public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
@@ -34,8 +35,9 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
     @PersistenceContext
     private EntityManager em;
 
-    private JobEntity jEntity;
     private CategoryEntity cEntity;
+    private JobEntity jEntity;
+    private UserEntity uEntity;
     private Collection<JobEntity> jobSet;
     private Collection<JobReviewEntity> jobReviewSet;
     private Collection<JobTransactionEntity> jobTransactionSet;
@@ -468,6 +470,77 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
         return completedJobListingCount;
     }
 
+    /* METHODS FOR UNIFY USER PROFILE */
+    @Override
+    public List<Vector> viewUserErrandsList(String username) {
+        uEntity = lookupSystemUser(username);
+        List<Vector> userErrandsList = new ArrayList<Vector>();
+
+        if (uEntity.getJobSet() != null) {
+            jobSet = uEntity.getJobSet();
+            if (!jobSet.isEmpty()) {
+                for (JobEntity je : jobSet) {
+                    Vector jobDetails = new Vector();
+                    
+                    jobDetails.add(je.getJobID());
+                    jobDetails.add(je.getJobImage());
+                    jobDetails.add(je.getJobTitle());
+                    jobDetails.add(je.getCategoryEntity().getCategoryName());
+                    jobDetails.add(je.getUserEntity().getUsername());
+                    jobDetails.add(je.getJobTakerID());
+                    jobDetails.add(je.getJobRate());
+                    jobDetails.add(je.getJobRateType());
+                    jobDetails.add(je.getJobStatus());
+                    userErrandsList.add(jobDetails);
+                }
+            } else {
+                Query q = em.createQuery("SELECT j FROM Job j WHERE j.userEntity.username = :username");
+                q.setParameter("username", uEntity.getUsername());
+
+                for (Object o : q.getResultList()) {
+                    JobEntity jobE = (JobEntity) o;
+                    Vector jobVec = new Vector();
+
+                    jobVec.add(jobE.getJobID());
+                    jobVec.add(jobE.getJobImage());
+                    jobVec.add(jobE.getJobTitle());
+                    jobVec.add(jobE.getCategoryEntity().getCategoryName());
+                    jobVec.add(jobE.getUserEntity().getUsername());
+                    jobVec.add(jobE.getJobTakerID());
+                    jobVec.add(jobE.getJobRate());
+                    jobVec.add(jobE.getJobRateType());
+                    jobVec.add(jobE.getJobStatus());
+                    userErrandsList.add(jobVec);
+                }
+            }
+        }
+        return userErrandsList;
+    }
+    
+    @Override
+    public List<Vector> viewUserErrandsTransactionList(String username) {
+        uEntity = lookupSystemUser(username);
+        List<Vector> userErrandsTransList = new ArrayList<Vector>();
+        
+        Query q = em.createQuery("SELECT t FROM JobTransaction t WHERE t.userEntity.username = :username OR t.jobTakerID = :username");
+        q.setParameter("username", uEntity.getUsername());
+
+        for (Object o : q.getResultList()) {
+            JobTransactionEntity jobTransE = (JobTransactionEntity) o;
+            Vector jobTransVec = new Vector();
+
+            jobTransVec.add(jobTransE.getJobEntity().getJobID());
+            jobTransVec.add(jobTransE.getJobTransactionDate());
+            /* WE ASSUME THAT THE JOB POSTER IS THE ONE WHO CREATES THE TRANSACTION */
+            jobTransVec.add(jobTransE.getUserEntity().getUsername());
+            jobTransVec.add(jobTransE.getJobTakerID());
+            jobTransVec.add(jobTransE.getJobTransactionRate());
+            jobTransVec.add(jobTransE.getJobTransactionRateType());
+            userErrandsTransList.add(jobTransVec);
+        }
+        return userErrandsTransList;
+    }
+    
     /* MISCELLANEOUS METHODS */
     public JobEntity lookupJob(long jobID) {
         JobEntity je = new JobEntity();
@@ -503,5 +576,23 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             ce = null;
         }
         return ce;
+    }
+    
+    public UserEntity lookupSystemUser(String username) {
+        UserEntity ue = new UserEntity();
+        try {
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: System User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: System User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
     }
 }

@@ -11,6 +11,7 @@
  */
 package unifysessionbeans.admin;
 
+import commoninfrastructure.UserEntity;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -28,17 +29,18 @@ import unifyentities.marketplace.ItemReviewEntity;
 import unifyentities.marketplace.ItemTransactionEntity;
 import unifyentities.common.CategoryEntity;
 import unifyentities.common.MessageEntity;
+import commoninfrastructure.UserEntity;
 
 @Stateless
 public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
-
     @PersistenceContext
     private EntityManager em;
 
     private CategoryEntity cEntity;
     private ItemEntity iEntity;
     private MessageEntity mEntity;
-
+    private UserEntity uEntity;
+    
     private Collection<ItemEntity> itemSet;
     private Collection<ItemTransactionEntity> itemTransactionSet;
     private Collection<ItemReviewEntity> itemReviewSet;
@@ -247,7 +249,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
                 for (ItemTransactionEntity ite : itemTransactionSet) {
                     Vector itemTransDetails = new Vector();
                     itemTransDetails.add(ite.getItemTransactionDate());
-                    /* WE ASSUME THAT THE SELLER IS THE ONE WHO CREATES THE TRANSACTION */
+                    /* WE ASSUME THAT THE ITEM SELLER IS THE ONE WHO CREATES THE TRANSACTION */
                     itemTransDetails.add(ite.getUserEntity().getUsername());
                     itemTransDetails.add(ite.getItemBuyerID());
                     itemTransDetails.add(ite.getItemEntity().getItemPrice());
@@ -263,7 +265,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
                     Vector itemTransVec = new Vector();
 
                     itemTransVec.add(itemTransE.getItemTransactionDate());
-                    /* WE ASSUME THAT THE SELLER IS THE ONE WHO CREATES THE TRANSACTION */
+                    /* WE ASSUME THAT THE ITEM SELLER IS THE ONE WHO CREATES THE TRANSACTION */
                     itemTransVec.add(itemTransE.getUserEntity().getUsername());
                     itemTransVec.add(itemTransE.getItemBuyerID());
                     itemTransVec.add(itemTransE.getItemEntity().getItemPrice());
@@ -418,6 +420,73 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
         return soldItemListingCount;
     }
 
+    /* METHODS FOR UNIFY USER PROFILE */
+    @Override
+    public List<Vector> viewUserItemList(String username) {
+        uEntity = lookupSystemUser(username);
+        List<Vector> userItemList = new ArrayList<Vector>();
+
+        if (uEntity.getJobSet() != null) {
+            itemSet = uEntity.getItemSet();
+            if (!itemSet.isEmpty()) {
+                for (ItemEntity ie : itemSet) {
+                    Vector itemDetails = new Vector();
+                    
+                    itemDetails.add(ie.getItemID());
+                    itemDetails.add(ie.getItemImage());
+                    itemDetails.add(ie.getItemName());
+                    itemDetails.add(ie.getCategoryEntity().getCategoryName());
+                    itemDetails.add(ie.getUserEntity().getUsername());
+                    itemDetails.add(ie.getItemPrice());
+                    itemDetails.add(ie.getItemStatus());
+                    userItemList.add(itemDetails);
+                }
+            } else {
+                Query q = em.createQuery("SELECT i FROM Item i WHERE i.userEntity.username = :username");
+                q.setParameter("username", uEntity.getUsername());
+
+                for (Object o : q.getResultList()) {
+                    ItemEntity itemE = (ItemEntity) o;
+                    Vector itemVec = new Vector();
+
+                    itemVec.add(itemE.getItemID());
+                    itemVec.add(itemE.getCategoryEntity().getCategoryID());
+                    itemVec.add(itemE.getItemImage());
+                    itemVec.add(itemE.getItemName());
+                    itemVec.add(itemE.getUserEntity().getUsername());
+                    itemVec.add(itemE.getItemPrice());
+                    itemVec.add(itemE.getItemStatus());
+                    userItemList.add(itemVec);
+                }
+            }
+        }
+        return userItemList;
+    }
+    
+    @Override
+    public List<Vector> viewUserItemTransactionList(String username) {
+        uEntity = lookupSystemUser(username);
+        List<Vector> userItemTransList = new ArrayList<Vector>();
+        
+        Query q = em.createQuery("SELECT t FROM ItemTransaction t WHERE t.userEntity.username = :username OR t.itemBuyerID = :username");
+        q.setParameter("username", uEntity.getUsername());
+
+        for (Object o : q.getResultList()) {
+            ItemTransactionEntity itemTransE = (ItemTransactionEntity) o;
+            Vector itemTransVec = new Vector();
+
+            itemTransVec.add(itemTransE.getItemEntity().getItemID());
+            itemTransVec.add(itemTransE.getItemTransactionDate());
+            /* WE ASSUME THAT THE ITEM SELLER IS THE ONE WHO CREATES THE TRANSACTION */
+            itemTransVec.add(itemTransE.getUserEntity().getUsername());
+            itemTransVec.add(itemTransE.getItemBuyerID());
+            itemTransVec.add(itemTransE.getItemEntity().getItemPrice());
+            itemTransVec.add(itemTransE.getItemTransactionPrice());
+            userItemTransList.add(itemTransVec);
+        }
+        return userItemTransList;
+    }
+    
     /* MISCELLANEOUS METHODS */
     public ItemEntity lookupItem(long urlItemID) {
         ItemEntity ie = new ItemEntity();
@@ -453,6 +522,24 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             ce = null;
         }
         return ce;
+    }
+    
+    public UserEntity lookupSystemUser(String username) {
+        UserEntity ue = new UserEntity();
+        try {
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: System User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: System User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
     }
 
     @Override

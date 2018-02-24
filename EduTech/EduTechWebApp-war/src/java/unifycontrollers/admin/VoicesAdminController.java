@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.annotation.MultipartConfig;
 import java.util.ArrayList;
-import java.util.Vector;
 import javax.servlet.http.Part;
 import unifysessionbeans.admin.UserProfileAdminMgrBeanRemote;
 
@@ -238,7 +237,6 @@ public class VoicesAdminController extends HttpServlet {
                     break; 
                 case "deleteReview":
                     String DelReviewedCompany = request.getParameter("hiddenReviewedCompany");
-                    System.out.println(DelReviewedCompany);
                     String DelReviewPosterID = request.getParameter("hiddenReviewPosterID");
                     System.out.println(DelReviewPosterID);
                     if (vamr.deleteReview(DelReviewedCompany, DelReviewPosterID)) {
