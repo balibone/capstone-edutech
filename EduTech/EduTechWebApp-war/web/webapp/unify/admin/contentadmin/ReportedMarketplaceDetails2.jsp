@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Unify Admin</title>
 
-        <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
 
@@ -48,7 +48,9 @@
                         <%
                             if (reportListVec.size() > 8) {
                         %>
+                        
                         <%-- display image of marketplace item --%>
+                        <div style ="display: inline-table">
                         <div class="col-sm-5 col-md-5 gallery-holder">
                             <div class="single-product-gallery">
                                 <div class="owl-item" style="width: 336px;">
@@ -58,6 +60,10 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
+
+                        <%-- display rest of item information --%>
+                        <div style ="display: inline-table">  
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Report ID:&nbsp;&nbsp;<u><%= reportID%></u></label>
                         </div>
@@ -97,7 +103,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Description:&nbsp;&nbsp;<%= itemDescription%></label>
                         </div>
-
+                        </div>
                         <%
                         } else {
                         %>

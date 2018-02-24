@@ -10,11 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import unifysessionbeans.admin.ContentAdminMgrBeanRemote;
 import java.util.ArrayList;
+import unifysessionbeans.admin.UserProfileAdminMgrBeanRemote;
 
 public class ContentAdminController extends HttpServlet {
 
     @EJB
     private ContentAdminMgrBeanRemote camr;
+    
+    @EJB
+    private UserProfileAdminMgrBeanRemote uamr;
 
     String emailID = "";
 
@@ -24,6 +28,7 @@ public class ContentAdminController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
+            request.setAttribute("unifyUserCount", uamr.getUnifyUserCount());
 
             switch (pageAction) {
                 case "goToReportedListing":
@@ -34,6 +39,8 @@ public class ContentAdminController extends HttpServlet {
                 case "goToReportedMarketplaceListing":
                     request.setAttribute("emailID", emailID);
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("unresolvedItemReportCount", camr.getUnresolvedItemReportCount());
+                    request.setAttribute("resolvedItemReportCount", camr.getResolvedItemReportCount());
                     pageAction = "ReportedMarketplaceListing";
                     break;
                 case "goToReportedMarketplaceDetails":
@@ -53,6 +60,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("unresolvedItemReportCount", camr.getUnresolvedItemReportCount());
+                    request.setAttribute("resolvedItemReportCount", camr.getResolvedItemReportCount());
                     pageAction = "ReportedMarketplaceListing";
                     break;
                 case "resolveDeleteMarketplaceReport":
@@ -65,6 +74,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected item cannot be updated. Please try again.");
                     }
                    request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                   request.setAttribute("unresolvedItemReportCount", camr.getUnresolvedItemReportCount());
+                    request.setAttribute("resolvedItemReportCount", camr.getResolvedItemReportCount());
                     pageAction = "ReportedMarketplaceListing";
                     break;
                 case "unresolveMarketplaceReport":
@@ -74,6 +85,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("unresolvedItemReportCount", camr.getUnresolvedItemReportCount());
+                    request.setAttribute("resolvedItemReportCount", camr.getResolvedItemReportCount());
                     pageAction = "ReportedMarketplaceListing";
                     break;
                 //reported jobs 
@@ -84,6 +97,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListing());
+                    request.setAttribute("unresolvedErrandsReportCount", camr.getUnresolvedErrandsReportCount());
+                    request.setAttribute("resolvedErrandsReportCount", camr.getResolvedErrandsReportCount());
                     pageAction = "ReportedErrandsListing";
                     break;
                 case "resolveDeleteErrandReport":
@@ -96,6 +111,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected job cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListing());
+                    request.setAttribute("unresolvedErrandsReportCount", camr.getUnresolvedErrandsReportCount());
+                    request.setAttribute("resolvedErrandsReportCount", camr.getResolvedErrandsReportCount());
                     pageAction = "ReportedErrandsListing";
                     break;
                 case "unresolveErrandReport":
@@ -105,6 +122,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListing());
+                    request.setAttribute("unresolvedErrandsReportCount", camr.getUnresolvedErrandsReportCount());
+                    request.setAttribute("resolvedErrandsReportCount", camr.getResolvedErrandsReportCount());
                     pageAction = "ReportedErrandsListing";
                     break;
                 case "goToReportedErrandDetails":
@@ -120,12 +139,16 @@ public class ContentAdminController extends HttpServlet {
                 case "goToReportedErrandsListing":
                     request.setAttribute("emailID", emailID);
                     request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListing());
+                    request.setAttribute("unresolvedErrandsReportCount", camr.getUnresolvedErrandsReportCount());
+                    request.setAttribute("resolvedErrandsReportCount", camr.getResolvedErrandsReportCount());
                     pageAction = "ReportedErrandsListing";
                     break;
                 //reported job reviews
                 case "goToReportedErrandsReviewListing":
                     request.setAttribute("emailID", emailID);
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    request.setAttribute("unresolvedErrandsReviewReportCount", camr.getUnresolvedErrandsReviewReportCount());
+                    request.setAttribute("resolvedErrandsReviewReportCount", camr.getResolvedErrandsReviewReportCount());
                     pageAction = "ReportedErrandsReviewListing";
                     break;  
                 case "goToReportedErrandReviewDetails":
@@ -140,6 +163,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    request.setAttribute("unresolvedErrandsReviewReportCount", camr.getUnresolvedErrandsReviewReportCount());
+                    request.setAttribute("resolvedErrandsReviewReportCount", camr.getResolvedErrandsReviewReportCount());
                     pageAction = "ReportedErrandsReviewListing";
                     break;
                 case "resolveDeleteErrandReviewReport":
@@ -152,6 +177,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    request.setAttribute("unresolvedErrandsReviewReportCount", camr.getUnresolvedErrandsReviewReportCount());
+                    request.setAttribute("resolvedErrandsReviewReportCount", camr.getResolvedErrandsReviewReportCount());
                     pageAction = "ReportedErrandsReviewListing";
                     break;
                 case "unresolveErrandReviewReport":
@@ -161,12 +188,16 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    request.setAttribute("unresolvedErrandsReviewReportCount", camr.getUnresolvedErrandsReviewReportCount());
+                    request.setAttribute("resolvedErrandsReviewReportCount", camr.getResolvedErrandsReviewReportCount());
                     pageAction = "ReportedErrandsReviewListing";
                     break;
                 //reported company reviews
                 case "goToReportedReviewListing":
                     request.setAttribute("emailID", emailID);
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
+                    request.setAttribute("unresolvedCompanyReviewReportCount", camr.getUnresolvedCompanyReviewReportCount());
+                    request.setAttribute("resolvedCompanyReviewReportCount", camr.getResolvedCompanyReviewReportCount());
                     pageAction = "ReportedReviewListing";
                     break;
                 case "goToReportedReviewDetails":
@@ -186,6 +217,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
+                     request.setAttribute("unresolvedCompanyReviewReportCount", camr.getUnresolvedCompanyReviewReportCount());
+                    request.setAttribute("resolvedCompanyReviewReportCount", camr.getResolvedCompanyReviewReportCount());
                     pageAction = "ReportedReviewListing";
                     break;
                 case "resolveDeleteReviewReport":
@@ -198,6 +231,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
+                     request.setAttribute("unresolvedCompanyReviewReportCount", camr.getUnresolvedCompanyReviewReportCount());
+                    request.setAttribute("resolvedCompanyReviewReportCount", camr.getResolvedCompanyReviewReportCount());
                     pageAction = "ReportedReviewListing";
                     break;
                 case "unresolveReviewReport":
@@ -207,6 +242,8 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
+                     request.setAttribute("unresolvedCompanyReviewReportCount", camr.getUnresolvedCompanyReviewReportCount());
+                    request.setAttribute("resolvedCompanyReviewReportCount", camr.getResolvedCompanyReviewReportCount());
                     pageAction = "ReportedReviewListing";
                     break;
                 case "goToAllReportedListing":
@@ -271,6 +308,10 @@ public class ContentAdminController extends HttpServlet {
                 case "goToEventRequest":
                     request.setAttribute("emailID", emailID);
                     request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListing());
+                    request.setAttribute("pendingEventRequestCount", camr.getPendingEventRequestCount());
+                    request.setAttribute("approvedEventRequestCount", camr.getApprovedEventRequestCount());
+                    request.setAttribute("rejectedEventRequestCount", camr.getRejectedEventRequestCount());
+                    
                     pageAction = "EventRequest";
                     break;
                 case "goToEventRequestDetails":
@@ -288,6 +329,9 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected event cannot be updated. Please try again.");
                     }
                     request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListing());
+                    request.setAttribute("pendingEventRequestCount", camr.getPendingEventRequestCount());
+                    request.setAttribute("approvedEventRequestCount", camr.getApprovedEventRequestCount());
+                    request.setAttribute("rejectedEventRequestCount", camr.getRejectedEventRequestCount());
                     pageAction = "EventRequest";
                     break;
                 case "rejectEventRequest":
@@ -300,6 +344,9 @@ public class ContentAdminController extends HttpServlet {
                         request.setAttribute("errorMessage", "Selected event cannot be updated. Please try again.");
                     }
                     request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListing());
+                    request.setAttribute("pendingEventRequestCount", camr.getPendingEventRequestCount());
+                    request.setAttribute("approvedEventRequestCount", camr.getApprovedEventRequestCount());
+                    request.setAttribute("rejectedEventRequestCount", camr.getRejectedEventRequestCount());
                     pageAction = "EventRequest";
                     break;
                 default:
