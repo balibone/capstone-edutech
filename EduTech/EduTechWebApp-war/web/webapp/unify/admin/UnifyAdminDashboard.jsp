@@ -102,7 +102,7 @@
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-tag"></i>&nbsp;Tags</a>
                             <ul class="sub-menu">
-                                <li><a href="#"><i class="fa fa-tags"></i>&nbsp;Tag List</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToTagListing"><i class="fa fa-tags"></i>&nbsp;Tag List</a></li>
                             </ul>
                         </li>
                         <li>

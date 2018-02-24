@@ -34,7 +34,6 @@ public class CompanyReviewEntity implements Serializable {
     private String reviewEmpType;
     private int reviewThumbsUp;
     private String reviewSalaryRange;
-    private String reviewCompanyName;
 
     @Temporal(TemporalType.DATE)
     private Date reviewDate;

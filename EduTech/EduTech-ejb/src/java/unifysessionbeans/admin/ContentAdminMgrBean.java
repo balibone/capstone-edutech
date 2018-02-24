@@ -1,7 +1,18 @@
+/**
+ * *************************************************************************************
+ *   Title:                  ContentAdminMgrBean.java
+ *   Purpose:                LIST OF MANAGER BEAN METHODS FOR UNIFY ERRANDS - ADMIN (EDUBOX)
+ *   Created By:             NIGEL LEE TJON YI
+ *   Modified By:            TAN CHIN WEE WINSTON
+ *   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+ *   Date:                   24 FEBRUARY 2018
+ *   Code version:           1.1
+ *   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+ **************************************************************************************
+ */
+
 package unifysessionbeans.admin;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,7 +43,6 @@ import unifyentities.voices.CompanyEntity;
 
 @Stateless
 public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
-
     @PersistenceContext
     private EntityManager em;
     private UserEntity uEntity;
@@ -49,6 +59,60 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     private EventEntity eEntity;
     private CompanyEntity cEntity;
 
+    @Override
+    public List<Vector> viewTagListing() {
+        Query q = em.createQuery("SELECT t FROM Tag t");
+        List<Vector> tagList = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            TagEntity tagE = (TagEntity) o;
+            Vector tagVec = new Vector();
+
+            tagVec.add(tagE.getTagID());
+            tagVec.add(tagE.getTagName());
+            tagVec.add(tagE.getTagType());
+            tagList.add(tagVec);
+        }
+        return tagList;
+    }
+    
+    @Override
+    public String createTag(String tagName, String tagType) {
+        tEntity = new TagEntity();
+        if (tEntity.createTag(tagName, tagType)) {
+            em.persist(tEntity);
+            return "The tag has been created successfully!";
+        } else {
+            return "There were some issues encountered while creating the tag. Please try again.";
+        }
+    }
+    
+    @Override
+    public Vector viewTagDetails(String tagID) {
+        tEntity = lookupTag(tagID);
+        Vector tagDetailsVec = new Vector();
+
+        if (tEntity != null) {
+            tagDetailsVec.add(tEntity.getTagID());
+            tagDetailsVec.add(tEntity.getTagName());
+            tagDetailsVec.add(tEntity.getTagType());
+        }
+        return tagDetailsVec;
+    }
+    
+    @Override
+    public String updateTag(String tagID, String tagName, String tagType) {
+        if (lookupTag(tagID) == null) {
+            return "Selected tag cannot be found. Please try again.";
+        } else {
+            tEntity = lookupTag(tagID);
+            tEntity.setTagName(tagName);
+            tEntity.setTagType(tagType);
+            em.merge(tEntity);
+            return "Selected tag has been updated successfully!";
+        }
+    }
+    
     //reported marketplace items related
     public ItemReportEntity lookupMarketplace(String marketplaceReportID) {
         ItemReportEntity ire = new ItemReportEntity();
@@ -113,12 +177,10 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             em.remove(iEntity);
             return itemDeleteStatus;
         }
-
     }
 
     @Override
     public boolean resolveMarketplace(String reportID) {
-
         boolean success = true;
 
         irEntity = lookupMarketplace(reportID);
@@ -130,7 +192,6 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
     @Override
     public boolean unresolveMarketplace(String reportID) {
-
         boolean success = true;
 
         irEntity = lookupMarketplace(reportID);
@@ -308,9 +369,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             //from review entity
             if (lookupReview(crrEntity.getReviewID()) != null) {
                 crEntity = lookupReview(crrEntity.getReviewID());
-                cEntity = crEntity.getCompanyEntity();
-                String companyName = cEntity.getCompanyName();
-                reviewReportDetails.add(companyName);
+                reviewReportDetails.add(crEntity.getCompanyEntity().getCompanyName());
                 reviewReportDetails.add(crEntity.getReviewTitle());
                 reviewReportDetails.add(crEntity.getReviewPros());
                 reviewReportDetails.add(crEntity.getReviewCons());
@@ -677,7 +736,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             //from job entity
             if (lookupJobReview(jrrEntity.getJobReviewID()) != null) {
                 jreEntity = lookupJobReview(jrrEntity.getJobReviewID());
-                //errandReviewDetails.add(jreEntity.getJobReviewIndex());
+                errandReviewDetails.add(jreEntity.getJobReviewRating());
                 errandReviewDetails.add(jreEntity.getJobReviewContent());
                 System.out.println("ADDED ERRAND REVIEW DETAILS");
 
@@ -802,97 +861,18 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return resolvedErrandsReviewReportCount;
     }
-    
-    //tags related
-    public TagEntity lookupTag(String tagID) {
-        TagEntity te = new TagEntity();
-        Long tagIDNum = Long.valueOf(tagID);
-        try {
-            Query q = em.createQuery("SELECT c FROM Tag c WHERE c.tagID = :tagID");
-            q.setParameter("tagID", tagIDNum);
-            te = (TagEntity) q.getSingleResult();
-        } catch (EntityNotFoundException enfe) {
-            System.out.println("ERROR: Tag cannot be found. " + enfe.getMessage());
-            em.remove(te);
-            te = null;
-        } catch (NoResultException nre) {
-            System.out.println("ERROR: Tag does not exist. " + nre.getMessage());
-            em.remove(te);
-            te = null;
+
+    @Override
+    public String deleteTag(String tagID) {
+        if (lookupTag(tagID) == null) {
+            return "Selected tag cannot be found. Please try again.";
+        } else {
+            tEntity = lookupTag(tagID);
+            em.remove(tEntity);
+            em.flush();
+            em.clear();
+            return "Selected tag has been deleted successfully!";
         }
-        return te;
-    }
-
-    @Override
-    public boolean updateTag(String tagID, String tagName, String tagType) {
-
-        boolean success = true;
-
-        tEntity = lookupTag(tagID);
-        tEntity.setTagName(tagName);
-        tEntity.setTagType(tagType);
-        em.merge(tEntity);
-        return success;
-
-    }
-
-    @Override
-    public boolean deleteTag(String tagID) {
-        boolean tagDeleteStatus = true;
-
-        double tagIDNum = Double.parseDouble(tagID);
-
-        Query q = em.createQuery("SELECT i FROM Tag i WHERE i.tagID = :tagID");
-        q.setParameter("tagID", tagIDNum);
-
-        tEntity = (TagEntity) q.getSingleResult();
-
-        em.remove(tEntity);
-        em.flush();
-        em.clear();
-        return tagDeleteStatus;
-    }
-
-    @Override
-    public boolean createTag(String tagName, String tagType) {
-
-        tEntity = new TagEntity();
-        tEntity.createTag(tagName, tagType);
-        em.persist(tEntity);
-        return true;
-    }
-
-    @Override
-    public Vector viewTagDetails2(String tagID) {
-        tEntity = lookupTag(tagID);
-        Vector tagDetails = new Vector();
-
-        if (tEntity != null) {
-            tagDetails.add(tEntity.getTagID());
-            tagDetails.add(tEntity.getTagName());
-            tagDetails.add(tEntity.getTagType());
-
-            return tagDetails;
-        }
-        return null;
-    }
-
-    @Override
-    public List<Vector> viewTagListing() {
-        Query q = em.createQuery("SELECT t FROM Tag t");
-        List<Vector> tagList = new ArrayList<Vector>();
-
-        for (Object o : q.getResultList()) {
-            TagEntity tagE = (TagEntity) o;
-            Vector tagVec = new Vector();
-
-            tagVec.add(tagE.getTagID());
-            tagVec.add(tagE.getTagName());
-            tagVec.add(tagE.getTagType());
-
-            tagList.add(tagVec);
-        }
-        return tagList;
     }
 
     //event related
@@ -996,18 +976,12 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     
     @Override
     public boolean rejectEventRequest(String requestID) {
-
         boolean success = true;
-
-        //set event request to approved
-        
         erEntity = lookupRequestedEvent(requestID);
         erEntity.setEventRequestStatus("Rejected");
         erEntity.setEventReviewedDate();
         em.merge(erEntity);
         System.out.println("Event Request Rejected");
-       
-        
         
         return success;
     }
@@ -1051,70 +1025,38 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         return rejectedEventRequestCount;
     }
     
-    //redundant
-    @Override
-    public boolean empLogin(String userEmail, String userPassword) {
-        String hashedPassword = "";
+    /* MISCELLANEOUS METHODS */
+    public TagEntity lookupTag(String tagID) {
+        TagEntity te = new TagEntity();
+        Long tagIDNum = Long.parseLong(tagID);
+        
         try {
-            hashedPassword = encodePassword(userPassword);
-        } catch (NoSuchAlgorithmException ex) {
+            Query q = em.createQuery("SELECT c FROM Tag c WHERE c.tagID = :tagID");
+            q.setParameter("tagID", tagIDNum);
+            te = (TagEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Tag cannot be found. " + enfe.getMessage());
+            em.remove(te);
+            te = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Tag does not exist. " + nre.getMessage());
+            em.remove(te);
+            te = null;
+        }
+        return te;
+    }
+    
+    /* METHODS FOR UNIFY ADMIN DASHBOARD */
+    @Override
+    public Long getTagsListCount() {
+        Long tagsListCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(t.tagID) FROM Tag t");
+        try {
+            tagsListCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getTagsListCount().getSingleResult()");
             ex.printStackTrace();
         }
-
-        uEntity = new UserEntity();
-        try {
-            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.userEmail = :userEmail");
-            q.setParameter("userEmail", userEmail);
-            uEntity = (UserEntity) q.getSingleResult();
-        } catch (EntityNotFoundException enfe) {
-            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
-            em.remove(uEntity);
-            uEntity = null;
-        } catch (NoResultException nre) {
-            System.out.println("ERROR: User does not exist. " + nre.getMessage());
-            em.remove(uEntity);
-            uEntity = null;
-        }
-        if (uEntity == null) {
-            return false;
-        }
-        // if(uEntity.getUserPassword().equals(hashedPassword)) { return true; }
-        if (uEntity.getUserPassword().equals(userPassword)) {
-            return true;
-        }
-        return false;
-    }
-
-    public UserEntity lookupUser(String userEmail) {
-        UserEntity ue = new UserEntity();
-        try {
-            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.userEmail = :userEmail");
-            q.setParameter("userEmail", userEmail);
-            ue = (UserEntity) q.getSingleResult();
-        } catch (EntityNotFoundException enfe) {
-            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
-            em.remove(ue);
-            ue = null;
-        } catch (NoResultException nre) {
-            System.out.println("ERROR: User does not exist. " + nre.getMessage());
-            em.remove(ue);
-            ue = null;
-        }
-        return ue;
-    }
-
-    public String encodePassword(String password) throws NoSuchAlgorithmException {
-        String hashedValue = "";
-
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(password.getBytes());
-        byte[] bytes = md.digest();
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < bytes.length; i++) {
-            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            hashedValue = sb.toString();
-        }
-        return hashedValue;
+        return tagsListCount;
     }
 }

@@ -120,10 +120,7 @@
         <servlet-name>ViewUserModal</servlet-name>
         <jsp-file>/webapp/edutech/admin/users/ViewUserModal.jsp</jsp-file>
     </servlet>
-    <servlet>
-        <servlet-name>ContentAdmin</servlet-name>
-        <servlet-class>unifycontrollers.admin.ContentAdminController</servlet-class>
-    </servlet>
+    <servlet><servlet-name>ContentAdmin</servlet-name><servlet-class>unifycontrollers.admin.ContentAdminController</servlet-class></servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN (JSP) -->
     <servlet>
         <servlet-name>ETAInstructorList</servlet-name>
@@ -175,23 +172,13 @@
     <servlet><servlet-name>ViewCompanyList</servlet-name><jsp-file>/webapp/unify/admin/voices/ViewCompanyList.jsp</jsp-file></servlet>
     <servlet><servlet-name>NewCompany</servlet-name><jsp-file>/webapp/unify/admin/voices/NewCompany.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewCompanyListDetails</servlet-name><jsp-file>/webapp/unify/admin/voices/ViewCompanyListDetails.jsp</jsp-file></servlet>
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - TAGS (JSP) -->
-    <servlet>
-        <servlet-name>EditTag</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/EditTag.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteTag</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/DeleteTag.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewTag</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/NewTag.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>TagListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/TagListing.jsp</jsp-file>
-    </servlet>
+    <servlet><servlet-name>EditTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/EditTag.jsp</jsp-file></servlet>
+    <servlet><servlet-name>DeleteTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/DeleteTag.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/NewTag.jsp</jsp-file></servlet>
+    <servlet><servlet-name>TagListing</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/TagListing.jsp</jsp-file></servlet>
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - MARKETPLACE REPORTS (JSP) -->
     <servlet>
         <servlet-name>ReportedMarketplaceListing</servlet-name>
@@ -287,15 +274,8 @@
     <servlet><servlet-name>UserProfile</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file></servlet>
     
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
-    <servlet>
-        <servlet-name>ViewJobDetailsInCategory</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobDetailsInCategory.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewJobTransactionListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobTransactionListing.jsp</jsp-file>
-    </servlet>
+    
+    
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet-mapping><servlet-name>CommonInfra</servlet-name><url-pattern>/CommonInfra</url-pattern></servlet-mapping>
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->
@@ -308,11 +288,8 @@
     <servlet-mapping><servlet-name>ErrandsAdmin</servlet-name><url-pattern>/ErrandsAdmin</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>MarketplaceAdmin</servlet-name><url-pattern>/MarketplaceAdmin</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>VoicesAdmin</servlet-name><url-pattern>/VoicesAdmin</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>ContentAdmin</servlet-name><url-pattern>/ContentAdmin</url-pattern></servlet-mapping>
     
-    <servlet-mapping>
-        <servlet-name>ContentAdmin</servlet-name>
-        <url-pattern>/ContentAdmin</url-pattern>
-    </servlet-mapping>
     <!-- URL MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
     <servlet-mapping><servlet-name>ProfileSysUser</servlet-name><url-pattern>/ProfileSysUser</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>ErrandsSysUser</servlet-name><url-pattern>/ErrandsSysUser</url-pattern></servlet-mapping>

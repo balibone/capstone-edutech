@@ -49,9 +49,10 @@ public class TagEntity implements Serializable {
     private Collection<ItemEntity> itemSet = new ArrayList<ItemEntity>();
     
     /* MISCELLANEOUS METHODS */
-    public void createTag(String tagName, String tagType) {
+    public boolean createTag(String tagName, String tagType) {
         this.tagName = tagName;
         this.tagType = tagType;
+        return true;
     }
     
     /* GETTER METHODS */
