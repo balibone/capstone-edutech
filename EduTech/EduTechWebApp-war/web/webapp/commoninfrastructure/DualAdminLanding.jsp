@@ -55,7 +55,7 @@
                 <h1 class="page-title">Welcome to EduBox!</h1>
             </div>
             <div id="wherechoices"> 
-                <a class="employers" href="CommonInfra?pageTransit=goToEdutechAdmin">
+                <a class="employers" href="EduTechAdmin?pageTransit=EduTechAdminDashboard">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Admin</span></span></a>
                 
                 <a class="faculty" href="CommonInfra?pageTransit=goToEdutechPortal">
