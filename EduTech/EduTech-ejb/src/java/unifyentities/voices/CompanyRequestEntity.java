@@ -1,3 +1,14 @@
+/***************************************************************************************
+*    Title:         CompanyRequestEntity.java
+*    Purpose:       CAMPUS USERS CAN REVIEW JOBS (INTERN/FULLTIME/PARTIME) OF A PARTICULAR COMPANY
+*    Created By:    ZHU XINYI
+*    Modified By:   TAN CHIN WEE WINSTON
+*    Credits:       CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE, ZHU XINYI
+*    Date:          24 FEBRUARY 2018
+*    Code version:  1.1
+*    Availability:  RESTRICTED
+*
+***************************************************************************************/
 package unifyentities.voices;
 
 import commoninfrastructureentities.UserEntity; 
@@ -11,7 +22,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-
 
 @Entity(name = "CompanyRequest")
 public class CompanyRequestEntity implements Serializable {
@@ -35,8 +45,6 @@ public class CompanyRequestEntity implements Serializable {
     public void creationDate() { this.requestDate = new Date(); }
 
     public CompanyRequestEntity() { this.setRequestID(System.nanoTime()); }
-    
-    
 
     public Long getRequestID() { return requestID; }
     public String getRequestCompany() { return requestCompany; }
