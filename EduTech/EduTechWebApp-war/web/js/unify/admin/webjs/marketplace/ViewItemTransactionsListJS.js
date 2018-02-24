@@ -1,19 +1,19 @@
-var itemName, itemID;
+var itemTransDate, itemID;
 
 $(document).ready(function() {
-    $('#itemListing tbody').on('click', 'tr', function(event) {
+    $('#itemTransactionList tbody').on('click', 'tr', function(event) {
         var rowData = $(this).children("td").map(function() {
             return $(this).text();
         }).get();
-        itemName = $.trim(rowData[1]);
-        itemID = itemName.split(';')[1];
+        itemTransDate = $.trim(rowData[0]);
+        itemID = itemTransDate.split(';')[1];
         $('iframe').attr('src', 'MarketplaceAdmin?pageTransit=goToViewItemListingDetails&itemID=' + itemID);
-        $('#modal-iframe').iziModal('open', event);
+        $('#itemListingDetails-iframe').iziModal('open', event);
     });
     
-    $("#modal-iframe").iziModal({
+    $("#itemListingDetails-iframe").iziModal({
         title: 'Item Listing Details',
-        subtitle: 'Administrator may deactivate this item listing here',
+        subtitle: 'Item listing details of the completed marketplace transaction',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
