@@ -6,13 +6,17 @@ import javax.ejb.Remote;
 
 @Remote
 public interface ContentAdminMgrBeanRemote {
-public boolean empLogin(String empNRIC, String empPassword);
-public List<Vector> viewReportedMarketplaceListing();
-public List<Vector> viewReportedReviewListing();    
-public List<Vector> viewReportedErrandsListing();    
-public List<Vector> viewTagListing();   
-public List<Vector> viewEventRequestListing();   
-
+    /* TAGS */
+    public List<Vector> viewTagListing();
+    public String createTag(String tagName, String tagType);
+    public Vector viewTagDetails(String tagID);
+    public String updateTag(String tagID, String tagName, String tagType);
+    public String deleteTag(String tagID);
+    
+    public List<Vector> viewReportedMarketplaceListing();
+    public List<Vector> viewReportedReviewListing();
+    public List<Vector> viewReportedErrandsListing();
+    public List<Vector> viewEventRequestListing();
 //jobs related
 public Vector viewErrandDetails(String errandReportID);
 public Vector viewErrandDetails2(String errandReportID);
@@ -45,11 +49,6 @@ public boolean unresolveReview(String reportID);
 public boolean deleteReview(String reviewID);
 public Long getUnresolvedCompanyReviewReportCount();
 public Long getResolvedCompanyReviewReportCount();
-//tags related
-public Vector viewTagDetails2(String tagID);
-public boolean createTag(String tagName, String tagType);
-public boolean deleteTag(String tagID);
-public boolean updateTag(String tagID, String tagName, String tagType);
 //event related
 public Vector viewEventRequestDetails(String requestID);
 public boolean approveEventRequest(String requestID);
@@ -57,5 +56,7 @@ public boolean rejectEventRequest(String requestID);
 public Long getPendingEventRequestCount();
 public Long getApprovedEventRequestCount();
 public Long getRejectedEventRequestCount();
-}
 
+    /* METHODS FOR UNIFY ADMIN DASHBOARD */
+    public Long getTagsListCount();
+}
