@@ -213,10 +213,7 @@
     <servlet-mapping><servlet-name>CommonInfra</servlet-name><url-pattern>/CommonInfra</url-pattern></servlet-mapping>
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->
     <!-- URL MAPPING - EDUTECH - ADMIN (SERVLET) -->
-    <servlet-mapping>
-        <servlet-name>EduTechAdmin</servlet-name>
-        <url-pattern>/EduTechAdmin</url-pattern>
-    </servlet-mapping>
+    <servlet-mapping><servlet-name>EduTechAdmin</servlet-name><url-pattern>/EduTechAdmin</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>SystemAdmin</servlet-name><url-pattern>/SystemAdmin</url-pattern></servlet-mapping>
     
     <!-- URL MAPPING - UNIFY - ADMIN (SERVLET) -->
