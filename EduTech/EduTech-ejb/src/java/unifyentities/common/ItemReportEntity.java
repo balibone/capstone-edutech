@@ -29,12 +29,16 @@ public class ItemReportEntity implements Serializable {
     private String itemReportStatus;
     private String itemReportDescription;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date itemReportDate;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date itemReviewedDate;
     
     /* FOREIGN KEY */
     private Long itemID;
     private String itemPosterID;
+    private String itemReporterID;
     
     @ManyToOne
     private UserEntity userEntity;
@@ -47,16 +51,20 @@ public class ItemReportEntity implements Serializable {
     public String getItemReportStatus() { return itemReportStatus; }
     public String getItemReportDescription() { return itemReportDescription; }
     public Date getItemReportDate() { return itemReportDate; }
+    public Date getItemReviewedDate() { return itemReviewedDate; }
     public Long getItemID() { return itemID; }
     public String getItemPosterID() { return itemPosterID; }
     public UserEntity getUserEntity() { return userEntity; }
+    public String getItemReporterID() { return itemReporterID; }
     
     /* SETTER METHODS */
     public void setItemReportID(Long itemReportID) { this.itemReportID = itemReportID; }
     public void setItemReportStatus(String itemReportStatus) { this.itemReportStatus = itemReportStatus; }
     public void setItemReportDescription(String itemReportDescription) { this.itemReportDescription = itemReportDescription; }
     public void setItemReportDate(Date itemReportDate) { this.itemReportDate = itemReportDate; }
+    public void setItemReviewedDate() { this.itemReviewedDate = new Date(); }
     public void setItemID(Long itemID) { this.itemID = itemID; }
     public void setItemPosterID(String itemPosterID) { this.itemPosterID = itemPosterID; }
+    public void setItemReporterID(String itemReporterID) { this.itemReporterID = itemReporterID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }
