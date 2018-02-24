@@ -114,15 +114,17 @@
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-tag"></i>&nbsp;Tags</a>
                             <ul class="sub-menu">
-                                <li><a href="#"><i class="fa fa-tags"></i>&nbsp;Tag List</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToTagListing"><i class="fa fa-tags"></i>&nbsp;Tag List</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
                             <ul class="sub-menu">
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i>&nbsp;Marketplace File Report</a></li>
-                                <li><a href="#"><i class="fa fa-shopping-bag"></i>&nbsp;Errands File Report</a></li>
-                                <li><a href="#"><i class="fa fa-building"></i>&nbsp;Company Review File Reports</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToReportedErrandsReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Review Reports</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToReportedMarketplaceListing"><i class="fa fa-wpforms"></i>&nbsp;Marketplace Reports</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToEventRequest"><i class="fa fa-calendar"></i>&nbsp;Event Requests</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 //imported entities
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import unifyentities.common.TagEntity;
 import unifyentities.common.CompanyReviewReportEntity;
 import unifyentities.common.ItemReportEntity;
@@ -28,6 +28,7 @@ import unifyentities.errands.JobReviewEntity;
 import unifyentities.common.JobReviewReportEntity;
 import unifyentities.common.EventRequestEntity;
 import unifyentities.event.EventEntity;
+import unifyentities.voices.CompanyEntity;
 
 @Stateless
 public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
@@ -46,6 +47,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     private JobReviewReportEntity jrrEntity;
     private EventRequestEntity erEntity;
     private EventEntity eEntity;
+    private CompanyEntity cEntity;
 
     //reported marketplace items related
     public ItemReportEntity lookupMarketplace(String marketplaceReportID) {
@@ -214,6 +216,32 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return null;
     }
+    
+    @Override
+    public Long getUnresolvedItemReportCount() {
+        Long unresolvedItemReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.itemID) FROM ItemReport c WHERE c.itemReportStatus='Unresolved'");
+        try {
+            unresolvedItemReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getUnresolvedItemReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return unresolvedItemReportCount;
+    }
+    
+    @Override
+    public Long getResolvedItemReportCount() {
+        Long resolvedItemReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.itemID) FROM ItemReport c WHERE c.itemReportStatus='Resolved'");
+        try {
+            resolvedItemReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getResolvedItemReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return resolvedItemReportCount;
+    }
 
     //reported company reviews related
     @Override
@@ -280,7 +308,9 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             //from review entity
             if (lookupReview(crrEntity.getReviewID()) != null) {
                 crEntity = lookupReview(crrEntity.getReviewID());
-                reviewReportDetails.add(crEntity.getReviewCompanyName());
+                cEntity = crEntity.getCompanyEntity();
+                String companyName = cEntity.getCompanyName();
+                reviewReportDetails.add(companyName);
                 reviewReportDetails.add(crEntity.getReviewTitle());
                 reviewReportDetails.add(crEntity.getReviewPros());
                 reviewReportDetails.add(crEntity.getReviewCons());
@@ -381,6 +411,32 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             return reviewDeleteStatus;
         }
 
+    }
+    
+    @Override
+    public Long getUnresolvedCompanyReviewReportCount() {
+        Long unresolvedCompanyReviewReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.reviewReportID) FROM CompanyReviewReport c WHERE c.reviewReportStatus='Unresolved'");
+        try {
+            unresolvedCompanyReviewReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getUnresolvedCompanyReviewReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return unresolvedCompanyReviewReportCount;
+    }
+    
+    @Override
+    public Long getResolvedCompanyReviewReportCount() {
+        Long resolvedCompanyReviewReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.reviewReportID) FROM CompanyReviewReport c WHERE c.reviewReportStatus='Resolved'");
+        try {
+            resolvedCompanyReviewReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getResolvedCompanyReviewReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return resolvedCompanyReviewReportCount;
     }
 
     //reported jobs related
@@ -549,6 +605,32 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return null;
     }
+    
+    @Override
+    public Long getUnresolvedErrandsReportCount() {
+        Long unresolvedErrandsReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReportID) FROM JobReport c WHERE c.jobReportStatus='Unresolved'");
+        try {
+            unresolvedErrandsReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getUnresolvedErrandsReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return unresolvedErrandsReportCount;
+    }
+    
+    @Override
+    public Long getResolvedErrandsReportCount() {
+        Long resolvedErrandsReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReportID) FROM JobReport c WHERE c.jobReportStatus='Resolved'");
+        try {
+            resolvedErrandsReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getResolvedErrandsReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return resolvedErrandsReportCount;
+    }
 
     //reported jobs review related
     @Override
@@ -595,7 +677,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             //from job entity
             if (lookupJobReview(jrrEntity.getJobReviewID()) != null) {
                 jreEntity = lookupJobReview(jrrEntity.getJobReviewID());
-                errandReviewDetails.add(jreEntity.getJobReviewIndex());
+                //errandReviewDetails.add(jreEntity.getJobReviewIndex());
                 errandReviewDetails.add(jreEntity.getJobReviewContent());
                 System.out.println("ADDED ERRAND REVIEW DETAILS");
 
@@ -693,6 +775,32 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             return jobDeleteStatus;
         }
 
+    }
+    
+    @Override
+    public Long getUnresolvedErrandsReviewReportCount() {
+        Long unresolvedErrandsReviewReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReviewReportID) FROM JobReviewReport c WHERE c.jobReviewReportStatus='Unresolved'");
+        try {
+            unresolvedErrandsReviewReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getUnresolvedErrandsReviewReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return unresolvedErrandsReviewReportCount;
+    }
+    
+    @Override
+    public Long getResolvedErrandsReviewReportCount() {
+        Long resolvedErrandsReviewReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReviewReportID) FROM JobReviewReport c WHERE c.jobReviewReportStatus='Resolved'");
+        try {
+            resolvedErrandsReviewReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getResolvedErrandsReviewReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return resolvedErrandsReviewReportCount;
     }
     
     //tags related
@@ -902,6 +1010,45 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         
         
         return success;
+    }
+    
+    @Override
+    public Long getPendingEventRequestCount() {
+        Long pendingEventRequestCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.eventRequestID) FROM EventRequest c WHERE c.eventRequestStatus='Pending'");
+        try {
+            pendingEventRequestCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getPendingEventRequestCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return pendingEventRequestCount;
+    }
+    
+    @Override
+    public Long getApprovedEventRequestCount() {
+        Long approvedEventRequestCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.eventRequestID) FROM EventRequest c WHERE c.eventRequestStatus='Approved'");
+        try {
+            approvedEventRequestCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getApprovedEventRequestCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return approvedEventRequestCount;
+    }
+    
+    @Override
+    public Long getRejectedEventRequestCount() {
+        Long rejectedEventRequestCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.eventRequestID) FROM EventRequest c WHERE c.eventRequestStatus='Rejected'");
+        try {
+            rejectedEventRequestCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getRejectedEventRequestCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return rejectedEventRequestCount;
     }
     
     //redundant

@@ -1,3 +1,4 @@
+<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.Vector"%>
 <!DOCTYPE html>
@@ -6,16 +7,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Unify Admin</title>
 
-        <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css" />
 
     </head>
     <body style="background-color: white;">
 
 
-        <%
-            Vector eventRequestVec = (Vector) request.getAttribute("eventRequestVec");
+        <%            Vector eventRequestVec = (Vector) request.getAttribute("eventRequestVec");
             String requestID, requestStatus, requestDate, requesterID, requestDescription,
                     requestVenue, requestStartDateTime, requestEndDateTime, requestReviewedDate;
             requestID = requestStatus = requestDate = requesterID = requestDescription
@@ -30,7 +30,7 @@
                 requestVenue = (String.valueOf(eventRequestVec.get(5)));
                 requestStartDateTime = (String.valueOf(eventRequestVec.get(6)));
                 requestEndDateTime = (String.valueOf(eventRequestVec.get(7)));
-                
+
                 requestReviewedDate = (String.valueOf(eventRequestVec.get(8)));
             }
         %>
@@ -57,7 +57,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Requestor ID:&nbsp;&nbsp;<%= requesterID%></label>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>REQUESTED EVENT DETAILS</u></b></font></label>
                         </div>
@@ -82,11 +82,10 @@
 
             </div>
 
-
-
             <div class="ln_solid"></div>
+            
             <div class="form-group">
-                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <table border="0" style="margin: auto;">
                         <tr>
                             <%
@@ -117,13 +116,13 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
                         </div>
                         <%
-                            if(requestStatus.equals("Approved")){
+                            if (requestStatus.equals("Approved")) {
                         %>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Request Approved On:&nbsp;&nbsp;<%= requestReviewedDate%></label>
                         </div>
                         <%
-                            }else if(requestStatus.equals("Rejected")){
+                        } else if (requestStatus.equals("Rejected")) {
                         %>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Request Rejected On:&nbsp;&nbsp;<%= requestReviewedDate%></label>
@@ -138,9 +137,9 @@
         </div>
 
         <!-- JAVASCRIPT (JS) -->
-        <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/bootstrap-v3.1.1.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
 
     </body>
 </html>
