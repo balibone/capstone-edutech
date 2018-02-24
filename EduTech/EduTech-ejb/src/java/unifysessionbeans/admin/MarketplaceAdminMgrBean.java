@@ -11,7 +11,6 @@
  */
 package unifysessionbeans.admin;
 
-import commoninfrastructure.UserEntity;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;

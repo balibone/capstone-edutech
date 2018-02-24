@@ -986,10 +986,6 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         return success;
     }
     
-    /* MISCELLANEOUS METHODS */
-    public TagEntity lookupTag(String tagID) {
-        TagEntity te = new TagEntity();
-        Long tagIDNum = Long.parseLong(tagID);
     @Override
     public Long getPendingEventRequestCount() {
         Long pendingEventRequestCount = new Long(0);
@@ -1029,6 +1025,11 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         return rejectedEventRequestCount;
     }
     
+    /* MISCELLANEOUS METHODS */
+    public TagEntity lookupTag(String tagID) {
+        TagEntity te = new TagEntity();
+        Long tagIDNum = Long.parseLong(tagID);
+        
         try {
             Query q = em.createQuery("SELECT c FROM Tag c WHERE c.tagID = :tagID");
             q.setParameter("tagID", tagIDNum);
