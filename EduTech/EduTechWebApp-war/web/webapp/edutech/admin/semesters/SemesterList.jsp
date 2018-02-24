@@ -11,7 +11,7 @@
         <title>EduTech Admin - Semesters</title>
             
         <!-- CASCADING STYLESHEET (CSS) -->
-        <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
         <link href="css/commoninfrastructure/admin/baselayout/CommonAdminBaseCSS.css" rel="stylesheet" type="text/css">
         <!-- iziModal -->
@@ -22,10 +22,6 @@
         <link href="css/commoninfrastructure/admin/weblayout/fixedHeader.bootstrap.min.css" rel="stylesheet">
         <link href="css/commoninfrastructure/admin/weblayout/responsive.bootstrap.min.css" rel="stylesheet">
         <link href="css/commoninfrastructure/admin/weblayout/scroller.bootstrap.min.css" rel="stylesheet">
-        <!--Font Awesome 5 JS-->
-        <script defer src="fonts/fa5/fontawesome-all.js"></script>
-        <script defer src="fonts/fa5/fa-v4-shims.js"></script>
-            
         <!--Font Awesome 5 JS-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
@@ -107,7 +103,7 @@
         <script src="js/commoninfrastructure/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
         <!--iziModal-->
-        <script src="js/unify/admin/basejs/iziModal.min.js"></script>
+        <script src="js/commoninfrastructure/admin/basejs/iziModal.min.js" type="text/javascript"></script>
         <!-- FastClick -->
         <script src="js/commoninfrastructure/admin/webjs/fastclick.js"></script>
         <!-- NProgress -->
@@ -130,7 +126,6 @@
         <script src="js/commoninfrastructure/admin/webjs/dataTables/jszip.min.js"></script>
         <script src="js/commoninfrastructure/admin/webjs/dataTables/pdfmake.min.js"></script>
         <script src="js/commoninfrastructure/admin/webjs/dataTables/vfs_fonts.js"></script>
-        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.bootstrap.js"></script>
         <!--Page specific JS-->
         <script src="js/edutech/admin/webjs/semesters/SemesterListJS.js"></script>
 

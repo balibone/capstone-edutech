@@ -11,10 +11,9 @@
         <title>EduTech Admin - Students</title>
         
         <!-- CASCADING STYLESHEET (CSS) -->
-        <link href="css/unify/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
         <link href="css/commoninfrastructure/admin/baselayout/CommonAdminBaseCSS.css" rel="stylesheet" type="text/css">
-        
         <!-- iziModal -->
         <link href="css/unify/admin/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <!-- Datatables -->
@@ -75,14 +74,14 @@
             </div>
         </div>
         <!-- JAVASCRIPT (JS) -->
-        <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/iziModal.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/admin/basejs/CommonAdminBaseJS.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/admin/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/edutech/admin/webjs/users/StudentListJS.js" type="text/javascript"></script>
 
         <script src="https://colorlib.com/polygon/vendors/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/admin/webjs/dataTables/dataTables.bootstrap.min.js"></script>
         <script src="js/commoninfrastructure/admin/webjs/dataTables/dataTables.buttons.min.js"></script>
         <script src="js/commoninfrastructure/admin/webjs/dataTables/buttons.bootstrap.min.js"></script>
         <script src="js/commoninfrastructure/admin/webjs/dataTables/buttons.flash.min.js"></script>
@@ -96,6 +95,5 @@
         <script src="js/commoninfrastructure/admin/webjs/dataTables/jszip.min.js"></script>
         <script src="js/commoninfrastructure/admin/webjs/dataTables/pdfmake.min.js"></script>
         <script src="js/commoninfrastructure/admin/webjs/dataTables/vfs_fonts.js"></script>
-        <script src="js/unify/admin/basejs/dataTable/dataTables.responsive.bootstrap.js" type="text/javascript"></script>
     </body>
 </html>
