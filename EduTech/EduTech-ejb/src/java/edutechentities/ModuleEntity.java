@@ -5,12 +5,15 @@
  */
 package edutechentities;
 
+import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -22,11 +25,12 @@ public class ModuleEntity implements Serializable {
     @Id
     private String moduleCode;
     private String name;
-    //private Collection<ScheduleItem> keyDates;
+    @OneToMany
+    private Collection<ScheduleItemEntity> keyDates;
     private Long modularCredit;
     private String description;
-    //private Collection<UserEntity> instructors;
-    //private Collection<UserEntity> students;
+    @OneToMany
+    private Collection<UserEntity> users;
     //private Collection<LessonEntity> lessons;
     @ManyToOne
     private SemesterEntity semester;
@@ -106,6 +110,20 @@ public class ModuleEntity implements Serializable {
         return "edutechentities.ModuleEntity[ id=" + getModuleCode() + " ]";
     }
 
+    public Collection<ScheduleItemEntity> getKeyDates() {
+        return keyDates;
+    }
 
+    public void setKeyDates(Collection<ScheduleItemEntity> keyDates) {
+        this.keyDates = keyDates;
+    }
+
+    public Collection<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<UserEntity> users) {
+        this.users = users;
+    }
     
 }

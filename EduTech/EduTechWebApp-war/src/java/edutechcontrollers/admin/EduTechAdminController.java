@@ -111,9 +111,15 @@ public class EduTechAdminController extends HttpServlet {
                     request.setAttribute("semesterList", eam.getAllSemesters());
                     pageAction = "NewModule";
                     break;
+                case "ViewSemester":
+                    id = request.getParameter("id");
+                    moduleInfo = eam.getModuleInfo(id);
+                    request.setAttribute("moduleInfo", moduleInfo);
+                    pageAction = "ViewModuleModal";
+                    break;
                 case "deleteModule":
                     id = request.getParameter("id");
-                    eam.deactivateModule(id);
+                    eam.deleteModule(id);
                     request.setAttribute("moduleList", eam.getAllModules());
                     pageAction = "ModuleList";
                     break;
@@ -134,11 +140,11 @@ public class EduTechAdminController extends HttpServlet {
                     }
                     pageAction = "NewSemester";
                     break;
-                case "ViewSemester":
+                case "ViewModule":
                     id = request.getParameter("id");
-                    semesterInfo = eam.getSemesterInfo(id);
-                    request.setAttribute("semesterInfo", semesterInfo);
-                    pageAction = "ViewSemesterModal";
+                    moduleInfo = eam.getModuleInfo(id);
+                    request.setAttribute("moduleInfo", moduleInfo);
+                    pageAction = "ViewModuleModal";
                     break;
                 case "EditSemester":
                     id = request.getParameter("id");
@@ -159,7 +165,7 @@ public class EduTechAdminController extends HttpServlet {
                     break;
                 case "deleteSemester":
                     id = request.getParameter("id");
-                    eam.deactivateSemester(id);
+                    eam.deleteSemester(id);
                     request.setAttribute("semesterList", eam.getAllSemesters());
                     pageAction = "SemesterList";
                     break;

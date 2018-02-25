@@ -5,7 +5,9 @@
  */
 package edutechsessionbeans.admin;
 
+import commoninfrastructureentities.UserEntity;
 import edutechentities.ModuleEntity;
+import edutechentities.ScheduleItemEntity;
 import edutechentities.SemesterEntity;
 import java.text.DateFormat;
 import java.text.FieldPosition;
@@ -13,6 +15,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -115,9 +118,9 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     }
 
     @Override
-    public void deactivateSemester(String id) {
+    public void deleteSemester(String id) {
         SemesterEntity sem = em.find(SemesterEntity.class, Long.valueOf(id));
-        sem.setActiveStatus(Boolean.FALSE);
+        em.remove(sem);
     }
 
     @Override
@@ -172,7 +175,50 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     }
 
     @Override
-    public void deactivateModule(String id) {
-        em.find(ModuleEntity.class,id).setActiveStatus(Boolean.FALSE);
+    public void deleteModule(String id) {
+        em.remove(em.find(ModuleEntity.class,id));
+    }
+
+    @Override
+    public ArrayList getModuleInfo(String id) {
+        ArrayList modInfo = new ArrayList();
+        ModuleEntity mod = em.find(ModuleEntity.class, id);
+        modInfo.add(String.valueOf(mod.getModuleCode()));
+        modInfo.add(String.valueOf(mod.getName()));
+        modInfo.add(String.valueOf(mod.getModularCredit()));
+        modInfo.add(String.valueOf(mod.getSemester().getTitle()));
+        modInfo.add(String.valueOf(mod.getDescription()));
+        //get list of users for this module
+        Collection users = mod.getUsers();
+        //store information of all users in this module
+        ArrayList userInfoList = new ArrayList();
+        for(Object o : users){
+            UserEntity user = (UserEntity)o;
+            //only extract module info if user is active.
+            if(user.getUserActiveStatus()){
+                ArrayList userInfo = new ArrayList();
+                userInfo.add(user.getUsername());
+                userInfo.add(user.getUserSalutation()+" "+user.getUserFirstName()+" "+user.getUserLastName());
+                userInfoList.add(userInfo);
+            }
+        }
+
+        modInfo.add(userInfoList);
+        modInfo.add(userInfoList.size());
+        
+        Collection keyDates = mod.getKeyDates();
+        //store information of all users in this module
+        ArrayList eventInfoList = new ArrayList();
+        for(Object o : keyDates){
+            ScheduleItemEntity event = (ScheduleItemEntity)o;
+            ArrayList eventInfo = new ArrayList();
+            eventInfo.add(event.getTitle());
+            eventInfo.add(event.getStart());
+            eventInfo.add(event.getEnd());
+            eventInfoList.add(eventInfo);
+        }
+        
+        modInfo.add(eventInfoList);
+        return modInfo;
     }
 }
