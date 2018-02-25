@@ -48,61 +48,63 @@
                         <%
                             if (reportListVec.size() > 8) {
                         %>
-                        
+
                         <%-- display image of marketplace item --%>
                         <div style ="display: inline-table">
-                        <div class="col-sm-5 col-md-5 gallery-holder">
-                            <div class="single-product-gallery">
-                                <div class="owl-item" style="width: 336px;">
-                                    <div class="single-product-gallery-item">
-                                        <img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="max-width: 251px; min-width: 251px; max-height: 256px; min-height: 256px;" />
+                            <div class="col-sm-5 col-md-5 gallery-holder">
+                                <div class="single-product-gallery">
+                                    <div class="owl-item" style="width: 336px;">
+                                        <div class="single-product-gallery-item">
+                                            <img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="max-width: 251px; min-width: 251px; max-height: 256px; min-height: 256px;" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        </div>
 
                         <%-- display rest of item information --%>
                         <div style ="display: inline-table">  
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report ID:&nbsp;&nbsp;<u><%= reportID%></u></label>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Report ID:&nbsp;&nbsp;<u><%= reportID%></u></label>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;<%= reportStatus%></label>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;<%= reportStatus%></label>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Description:&nbsp;&nbsp;<%= reportDescription%></label>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Description:&nbsp;&nbsp;<%= reportDescription%></label>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Date:&nbsp;&nbsp;<%= reportDate%></label>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Date:&nbsp;&nbsp;<%= reportDate%></label>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Reported Item ID:&nbsp;&nbsp;<%= reportedItemID%></label>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Reported Item ID:&nbsp;&nbsp;<%= reportedItemID%></label>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Item Poster:&nbsp;&nbsp;<%= reportedPosterID%></label>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Item Poster:&nbsp;&nbsp;<%= reportedPosterID%></label>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Reporter:&nbsp;&nbsp;<%= reportedReporterID%></label>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Reporter:&nbsp;&nbsp;<%= reportedReporterID%></label>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>RELEVANT MARKETPLACE ITEM DETAILS</u></b></font></label>
-                        </div>
+                            <hr width="80%">
+                            
+                            <div class="form-group">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>RELEVANT MARKETPLACE ITEM DETAILS</u></b></font></label>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name:&nbsp;&nbsp;<%= itemName%></label>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name:&nbsp;&nbsp;<%= itemName%></label>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Description:&nbsp;&nbsp;<%= itemDescription%></label>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Description:&nbsp;&nbsp;<%= itemDescription%></label>
+                            </div>
                         </div>
                         <%
                         } else {
@@ -137,19 +139,22 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Reporter:&nbsp;&nbsp;<%= reportedReporterID%></label>
                         </div>
 
+                        <hr width="80%">
+
                         <div class="form-group">
                             <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>RELEVANT MARKETPLACE ITEM DETAILS</u></b></font></label>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"><b>ITEM HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
                         </div>
                         <%
                             }
                         %>
-
+                        <hr width="0%">
                     </div>
             </div>
+            <hr width="80%">
             <div class="ln_solid"></div>
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -209,8 +214,8 @@
         </div>
 
         <!-- JAVASCRIPT (JS) -->
-        <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/bootstrap-v3.1.1.min.js"></script>
         <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
 
     </body>

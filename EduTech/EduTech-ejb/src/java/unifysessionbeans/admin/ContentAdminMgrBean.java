@@ -153,8 +153,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
-    public boolean deleteItem(String itemID) {
-        boolean itemDeleteStatus = false;
+    public String deleteItem(String itemID) {
+        //boolean itemDeleteStatus = false;
 
         double itemIDNum = Double.parseDouble(itemID);
 
@@ -167,38 +167,51 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             em.remove(iEntity);
             em.flush();
             em.clear();
-            return itemDeleteStatus = true;
+            return "Item has been deleted!";
+            //return itemDeleteStatus = true;
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: Item to be deleted cannot be found. " + enfe.getMessage());
             em.remove(iEntity);
-            return itemDeleteStatus;
+            return "Item to be deleted could not be found";
+            //return itemDeleteStatus;
         } catch (NoResultException nre) {
             System.out.println("ERROR: Item to be deleted does not exist. " + nre.getMessage());
             em.remove(iEntity);
-            return itemDeleteStatus;
+            return "Item to be deleted does not exist";
+            //return itemDeleteStatus;
         }
     }
 
     @Override
-    public boolean resolveMarketplace(String reportID) {
-        boolean success = true;
-
-        irEntity = lookupMarketplace(reportID);
-        irEntity.setItemReportStatus("Resolved");
-        irEntity.setItemReviewedDate();
-        em.merge(irEntity);
-        return success;
+    public String resolveMarketplace(String reportID) {
+        //boolean success = true;
+        try {
+            irEntity = lookupMarketplace(reportID);
+            irEntity.setItemReportStatus("Resolved");
+            irEntity.setItemReviewedDate();
+            em.merge(irEntity);
+            return "Item report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving item report";
+        }
+        //return success;
     }
 
     @Override
-    public boolean unresolveMarketplace(String reportID) {
-        boolean success = true;
-
-        irEntity = lookupMarketplace(reportID);
-        irEntity.setItemReportStatus("Unresolved");
-        irEntity.setItemReviewedDate();
-        em.merge(irEntity);
-        return success;
+    public String unresolveMarketplace(String reportID) {
+        //boolean success = true;
+        try {
+            irEntity = lookupMarketplace(reportID);
+            irEntity.setItemReportStatus("Unresolved");
+            irEntity.setItemReviewedDate();
+            em.merge(irEntity);
+            return "Item report has been unresolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error unresolving item report";
+        }
+//return success;
     }
 
     @Override
@@ -277,7 +290,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return null;
     }
-    
+
     @Override
     public Long getUnresolvedItemReportCount() {
         Long unresolvedItemReportCount = new Long(0);
@@ -290,7 +303,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return unresolvedItemReportCount;
     }
-    
+
     @Override
     public Long getResolvedItemReportCount() {
         Long resolvedItemReportCount = new Long(0);
@@ -421,32 +434,42 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
-    public boolean resolveReview(String reportID) {
+    public String resolveReview(String reportID) {
 
-        boolean success = true;
-
-        crrEntity = lookupReportedReview(reportID);
-        crrEntity.setReviewReportStatus("Resolved");
-        crrEntity.setReviewReviewedDate();
-        em.merge(crrEntity);
-        return success;
+        //boolean success = true;
+        try {
+            crrEntity = lookupReportedReview(reportID);
+            crrEntity.setReviewReportStatus("Resolved");
+            crrEntity.setReviewReviewedDate();
+            em.merge(crrEntity);
+            return "Company review report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving company review report";
+        }
+//return success;
     }
 
     @Override
-    public boolean unresolveReview(String reportID) {
+    public String unresolveReview(String reportID) {
 
-        boolean success = true;
-
-        crrEntity = lookupReportedReview(reportID);
-        crrEntity.setReviewReportStatus("Unresolved");
-        crrEntity.setReviewReviewedDate();
-        em.merge(crrEntity);
-        return success;
+        //boolean success = true;
+        try {
+            crrEntity = lookupReportedReview(reportID);
+            crrEntity.setReviewReportStatus("Unresolved");
+            crrEntity.setReviewReviewedDate();
+            em.merge(crrEntity);
+            return "Company review report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving company review report";
+        }
+        //return success;
     }
 
     @Override
-    public boolean deleteReview(String reviewID) {
-        boolean reviewDeleteStatus = false;
+    public String deleteReview(String reviewID) {
+        //boolean reviewDeleteStatus = false;
 
         double reviewIDNum = Double.parseDouble(reviewID);
 
@@ -459,19 +482,22 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             em.remove(crEntity);
             em.flush();
             em.clear();
-            return reviewDeleteStatus = true;
+            return "Company review has been deleted!";
+            //return reviewDeleteStatus = true;
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: Review to be deleted cannot be found. " + enfe.getMessage());
             em.remove(crEntity);
-            return reviewDeleteStatus;
+            return "Company review to be deleted could not be found";
+            //return reviewDeleteStatus;
         } catch (NoResultException nre) {
             System.out.println("ERROR: Review to be deleted does not exist. " + nre.getMessage());
             em.remove(crEntity);
-            return reviewDeleteStatus;
+            return "Company review to be deleted does not exist";
+            //return reviewDeleteStatus;
         }
 
     }
-    
+
     @Override
     public Long getUnresolvedCompanyReviewReportCount() {
         Long unresolvedCompanyReviewReportCount = new Long(0);
@@ -484,7 +510,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return unresolvedCompanyReviewReportCount;
     }
-    
+
     @Override
     public Long getResolvedCompanyReviewReportCount() {
         Long resolvedCompanyReviewReportCount = new Long(0);
@@ -538,8 +564,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
-    public boolean deleteJob(String jobID) {
-        boolean jobDeleteStatus = false;
+    public String deleteJob(String jobID) {
+        //boolean jobDeleteStatus = false;
 
         double jobIDNum = Double.parseDouble(jobID);
 
@@ -552,41 +578,55 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             em.remove(jEntity);
             em.flush();
             em.clear();
-            return jobDeleteStatus = true;
+            //return jobDeleteStatus = true;
+            return "Job has been deleted!";
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: Job to be deleted cannot be found. " + enfe.getMessage());
             em.remove(jEntity);
-            return jobDeleteStatus;
+            return "Job to be deleted could not be found";
+            //return jobDeleteStatus;
         } catch (NoResultException nre) {
             System.out.println("ERROR: Job to be deleted does not exist. " + nre.getMessage());
             em.remove(jEntity);
-            return jobDeleteStatus;
+            return "Job to be deleted does not exist";
+            //return jobDeleteStatus;
         }
 
     }
 
     @Override
-    public boolean resolveErrand(String reportID) {
+    public String resolveErrand(String reportID) {
 
-        boolean success = true;
-
-        jrEntity = lookupReportedErrand(reportID);
-        jrEntity.setJobReportStatus("Resolved");
-        jrEntity.setJobReviewedDate();
-        em.merge(jrEntity);
-        return success;
+        //boolean success = true;
+        try {
+            jrEntity = lookupReportedErrand(reportID);
+            jrEntity.setJobReportStatus("Resolved");
+            jrEntity.setJobReviewedDate();
+            em.merge(jrEntity);
+            return "Errand report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving errand report";
+        }
+        //return success;
     }
 
     @Override
-    public boolean unresolveErrand(String reportID) {
+    public String unresolveErrand(String reportID) {
 
-        boolean success = true;
+        //boolean success = true;
+        try {
+            jrEntity = lookupReportedErrand(reportID);
+            jrEntity.setJobReportStatus("Unresolved");
+            jrEntity.setJobReviewedDate();
+            em.merge(jrEntity);
+            return "Errand has been unresolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error unresolving errand";
+        }
 
-        jrEntity = lookupReportedErrand(reportID);
-        jrEntity.setJobReportStatus("Unresolved");
-        jrEntity.setJobReviewedDate();
-        em.merge(jrEntity);
-        return success;
+        //return success;
     }
 
     @Override
@@ -664,7 +704,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return null;
     }
-    
+
     @Override
     public Long getUnresolvedErrandsReportCount() {
         Long unresolvedErrandsReportCount = new Long(0);
@@ -677,7 +717,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return unresolvedErrandsReportCount;
     }
-    
+
     @Override
     public Long getResolvedErrandsReportCount() {
         Long resolvedErrandsReportCount = new Long(0);
@@ -710,11 +750,11 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getJobReviewPosterID());
             reportedVec.add(reportedE.getJobReviewReporterID());
             reportedList.add(reportedVec);
-            
+
         }
         return reportedList;
     }
-    
+
     @Override
     public Vector viewErrandReviewDetails(String errandReviewReportID) {
         jrrEntity = lookupReportedErrandReview(errandReviewReportID);
@@ -746,7 +786,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return null;
     }
-    
+
     public JobReviewEntity lookupJobReview(Long jobReviewID) {
         JobReviewEntity jre = new JobReviewEntity();
         try {
@@ -764,7 +804,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return jre;
     }
-    
+
     public JobReviewReportEntity lookupReportedErrandReview(String jobReviewReportID) {
         JobReviewReportEntity jrre = new JobReviewReportEntity();
         Long jobReviewReportIDNum = Long.valueOf(jobReviewReportID);
@@ -783,34 +823,45 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return jrre;
     }
-    
+
     @Override
-    public boolean resolveErrandReview(String reportID) {
+    public String resolveErrandReview(String reportID) {
 
-        boolean success = true;
+        //boolean success = true;
+        try {
+            jrrEntity = lookupReportedErrandReview(reportID);
+            jrrEntity.setJobReviewReportStatus("Resolved");
+            jrrEntity.setJobReviewReviewedDate();
+            em.merge(jrrEntity);
+            return "Errand review report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving errand review report";
+        }
 
-        jrrEntity = lookupReportedErrandReview(reportID);
-        jrrEntity.setJobReviewReportStatus("Resolved");
-        jrrEntity.setJobReviewReviewedDate();
-        em.merge(jrrEntity);
-        return success;
+        //return success;
     }
-    
+
     @Override
-    public boolean unresolveErrandReview(String reportID) {
+    public String unresolveErrandReview(String reportID) {
 
-        boolean success = true;
-
-        jrrEntity = lookupReportedErrandReview(reportID);
-        jrrEntity.setJobReviewReportStatus("Unresolved");
-        jrrEntity.setJobReviewReviewedDate();
-        em.merge(jrrEntity);
-        return success;
+        //boolean success = true;
+        try {
+            jrrEntity = lookupReportedErrandReview(reportID);
+            jrrEntity.setJobReviewReportStatus("Unresolved");
+            jrrEntity.setJobReviewReviewedDate();
+            em.merge(jrrEntity);
+            return "Errand review report has been unresolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error unresolving errand review report";
+        }
+        //return success;
     }
-    
+
     @Override
-    public boolean deleteJobReview(String jobReviewID) {
-        boolean jobDeleteStatus = false;
+    public String deleteJobReview(String jobReviewID) {
+        //boolean jobDeleteStatus = false;
 
         double jobReviewIDNum = Double.parseDouble(jobReviewID);
 
@@ -823,19 +874,22 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             em.remove(jreEntity);
             em.flush();
             em.clear();
-            return jobDeleteStatus = true;
+            return "Job review has been deleted!";
+            //return jobDeleteStatus = true;
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: Job review to be deleted cannot be found. " + enfe.getMessage());
             em.remove(jreEntity);
-            return jobDeleteStatus;
+            return "Job review to be deleted could not be found";
+            //return jobDeleteStatus;
         } catch (NoResultException nre) {
             System.out.println("ERROR: Job review to be deleted does not exist. " + nre.getMessage());
             em.remove(jreEntity);
-            return jobDeleteStatus;
+            return "Job review to be deleted does not exist";
+            //return jobDeleteStatus;
         }
 
     }
-    
+
     @Override
     public Long getUnresolvedErrandsReviewReportCount() {
         Long unresolvedErrandsReviewReportCount = new Long(0);
@@ -848,7 +902,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return unresolvedErrandsReviewReportCount;
     }
-    
+
     @Override
     public Long getResolvedErrandsReviewReportCount() {
         Long resolvedErrandsReviewReportCount = new Long(0);
@@ -886,16 +940,16 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         for (Object o : q.getResultList()) {
             EventRequestEntity requestE = (EventRequestEntity) o;
             Vector requestVec = new Vector();
-            
+
             uEntity = requestE.getUserEntity();
             String username = uEntity.getUsername();
 
             requestVec.add(requestE.getEventRequestID());
             requestVec.add(requestE.getEventRequestStatus());
-            
+
             requestVec.add(df.format(requestE.getEventRequestDate()));
             requestVec.add(username);
-            
+
             requestList.add(requestVec);
         }
         return requestList;
@@ -912,26 +966,26 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         if (erEntity != null) {
             uEntity = erEntity.getUserEntity();
             String username = uEntity.getUsername();
-            
+
             requestDetails.add(erEntity.getEventRequestID());
             requestDetails.add(erEntity.getEventRequestStatus());
             requestDetails.add(df.format(erEntity.getEventRequestDate()));
             requestDetails.add(username);
-            
+
             requestDetails.add(erEntity.getEventRequestDescription());
             requestDetails.add(erEntity.getEventRequestVenue());
             requestDetails.add(df.format(erEntity.getEventRequestStartDateTime()));
             requestDetails.add(df.format(erEntity.getEventRequestEndDateTime()));
-            
+
             requestDetails.add(df.format(erEntity.getEventReviewedDate()));
-            
+
             System.out.println("ADDED EVENT REQUEST DETAILS");
 
             return requestDetails;
         }
         return null;
     }
-    
+
     public EventRequestEntity lookupRequestedEvent(String requestID) {
         EventRequestEntity jre = new EventRequestEntity();
         Long eventRequestIDNum = Long.valueOf(requestID);
@@ -950,42 +1004,52 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return jre;
     }
-    
+
     @Override
-    public boolean approveEventRequest(String requestID) {
+    public String approveEventRequest(String requestID) {
 
-        boolean success = true;
-
+        //boolean success = true;
         //set event request to approved
-        
-        erEntity = lookupRequestedEvent(requestID);
-        erEntity.setEventRequestStatus("Approved");
-        erEntity.setEventReviewedDate();
-        em.merge(erEntity);
-        System.out.println("Event Request Approved");
-        
-        //create event in event entity
-        eEntity = new EventEntity();
-        eEntity.createEvent(erEntity.getEventRequestDescription(), erEntity.getEventRequestVenue(), 
-                erEntity.getEventRequestStartDateTime(), erEntity.getEventRequestEndDateTime(), erEntity.getUserEntity());
-        em.persist(eEntity);
-        System.out.println("Event Created");
-        
-        return success;
+        try {
+            erEntity = lookupRequestedEvent(requestID);
+            erEntity.setEventRequestStatus("Approved");
+            erEntity.setEventReviewedDate();
+            em.merge(erEntity);
+            System.out.println("Event Request Approved");
+
+            //create event in event entity
+            eEntity = new EventEntity();
+            eEntity.createEvent(erEntity.getEventRequestDescription(), erEntity.getEventRequestVenue(),
+                    erEntity.getEventRequestStartDateTime(), erEntity.getEventRequestEndDateTime(), erEntity.getUserEntity());
+            em.persist(eEntity);
+            System.out.println("Event Created");
+            return "Event has been approved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error approving event request";
+        }
+        //return success;
     }
-    
+
     @Override
-    public boolean rejectEventRequest(String requestID) {
-        boolean success = true;
-        erEntity = lookupRequestedEvent(requestID);
-        erEntity.setEventRequestStatus("Rejected");
-        erEntity.setEventReviewedDate();
-        em.merge(erEntity);
-        System.out.println("Event Request Rejected");
-        
-        return success;
+    public String rejectEventRequest(String requestID) {
+
+        //boolean success = true;
+        //set event request to approved
+        try {
+            erEntity = lookupRequestedEvent(requestID);
+            erEntity.setEventRequestStatus("Rejected");
+            erEntity.setEventReviewedDate();
+            em.merge(erEntity);
+            System.out.println("Event Request Rejected");
+            return "Event has been rejected!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error rejecting event request";
+        }
+        //return success;
     }
-    
+
     @Override
     public Long getPendingEventRequestCount() {
         Long pendingEventRequestCount = new Long(0);
@@ -998,7 +1062,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return pendingEventRequestCount;
     }
-    
+
     @Override
     public Long getApprovedEventRequestCount() {
         Long approvedEventRequestCount = new Long(0);
@@ -1011,7 +1075,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return approvedEventRequestCount;
     }
-    
+
     @Override
     public Long getRejectedEventRequestCount() {
         Long rejectedEventRequestCount = new Long(0);

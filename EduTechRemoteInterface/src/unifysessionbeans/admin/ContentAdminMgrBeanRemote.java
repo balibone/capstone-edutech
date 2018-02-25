@@ -31,39 +31,39 @@ public interface ContentAdminMgrBeanRemote {
 //jobs related
 public Vector viewErrandDetails(String errandReportID);
 public Vector viewErrandDetails2(String errandReportID);
-public boolean resolveErrand(String reportID);
-public boolean unresolveErrand(String reportID);
-public boolean deleteJob(String jobID);
+public String resolveErrand(String reportID);
+public String unresolveErrand(String reportID);
+public String deleteJob(String jobID);
 public Long getUnresolvedErrandsReportCount();
 public Long getResolvedErrandsReportCount();
 //jobs review related
 public List<Vector> viewReportedErrandsReviewListing();
 public Vector viewErrandReviewDetails(String errandReviewReportID);
-public boolean resolveErrandReview(String reportReviewID);
-public boolean unresolveErrandReview(String reportReviewID);
-public boolean deleteJobReview(String jobReviewID);
+public String resolveErrandReview(String reportReviewID);
+public String unresolveErrandReview(String reportReviewID);
+public String deleteJobReview(String jobReviewID);
 public Long getUnresolvedErrandsReviewReportCount();
 public Long getResolvedErrandsReviewReportCount();
 //marketplace related
 public Vector viewMarketplaceDetails(String marketplaceReportID);
 public Vector viewMarketplaceDetails2(String marketplaceReportID);
-public boolean resolveMarketplace(String reportID);
-public boolean unresolveMarketplace(String reportID);
-public boolean deleteItem(String itemID);
+public String resolveMarketplace(String reportID);
+public String unresolveMarketplace(String reportID);
+public String deleteItem(String itemID);
 public Long getUnresolvedItemReportCount();
 public Long getResolvedItemReportCount();
 //company reviews related
 public Vector viewReviewDetails(String reviewReportID);
 public Vector viewReviewDetails2(String reviewReportID);
-public boolean resolveReview(String reportID);
-public boolean unresolveReview(String reportID);
-public boolean deleteReview(String reviewID);
+public String resolveReview(String reportID);
+public String unresolveReview(String reportID);
+public String deleteReview(String reviewID);
 public Long getUnresolvedCompanyReviewReportCount();
 public Long getResolvedCompanyReviewReportCount();
 //event related
 public Vector viewEventRequestDetails(String requestID);
-public boolean approveEventRequest(String requestID);
-public boolean rejectEventRequest(String requestID);
+public String approveEventRequest(String requestID);
+public String rejectEventRequest(String requestID);
 public Long getPendingEventRequestCount();
 public Long getApprovedEventRequestCount();
 public Long getRejectedEventRequestCount();

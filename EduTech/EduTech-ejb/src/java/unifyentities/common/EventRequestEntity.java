@@ -18,6 +18,7 @@ public class EventRequestEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long eventRequestID;
+    //status is set to 'Pending', 'Approved' or 'Rejected'
     private String eventRequestStatus;
     private String eventRequestDescription;
     @Temporal(TemporalType.TIMESTAMP)
