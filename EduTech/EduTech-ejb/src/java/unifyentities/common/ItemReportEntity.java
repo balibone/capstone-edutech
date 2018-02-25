@@ -26,6 +26,7 @@ public class ItemReportEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long itemReportID;
+    //status is set to 'Unresolved' or 'Resolved'
     private String itemReportStatus;
     private String itemReportDescription;
     

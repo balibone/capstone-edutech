@@ -77,6 +77,8 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Reporter:&nbsp;&nbsp;<%= reportedReporterID%></label>
                         </div>
 
+                        <hr width="80%">
+                        
                         <div class="form-group">
                             <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>RELEVANT COMPANY REVIEW DETAILS</u></b></font></label>
                         </div>
@@ -129,23 +131,26 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Reporter:&nbsp;&nbsp;<%= reportedReporterID%></label>
                         </div>
 
+                        <br>
+                        <hr width="80%">
+
                         <div class="form-group">
                             <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>RELEVANT COMPANY REVIEW DETAILS</u></b></font></label>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"> <b>REVIEW HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
                         </div>
                         <%
                             }
                         %> 
-
+                        <hr width="0%">
                     </div>
 
             </div>
 
 
-
+            <hr width="80%">
             <div class="ln_solid"></div>
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -206,8 +211,8 @@
         </div>
 
         <!-- JAVASCRIPT (JS) -->
-        <script src="js/unify/admin/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
-        <script src="js/unify/admin/basejs/bootstrap-v3.3.6.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/bootstrap-v3.1.1.min.js"></script>
         <script src="js/unify/admin/basejs/UnifyAdminBaseJS.js" type="text/javascript"></script>
 
     </body>

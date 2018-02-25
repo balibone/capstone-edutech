@@ -26,6 +26,7 @@ public class CompanyReviewReportEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long reviewReportID;
+    //status is set to 'Unresolved' or 'Resolved'
     private String reviewReportStatus;
     private String reviewReportDescription;
     

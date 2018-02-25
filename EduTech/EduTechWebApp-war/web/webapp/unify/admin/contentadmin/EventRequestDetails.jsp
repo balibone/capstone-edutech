@@ -57,7 +57,11 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Requestor ID:&nbsp;&nbsp;<%= requesterID%></label>
                         </div>
-
+                        
+                        <hr width="0%">
+                        
+                        <hr width="80%">
+                        
                         <div class="form-group">
                             <label class="control-label col-md-12 col-sm-12 col-xs-12"><b><u>REQUESTED EVENT DETAILS</u></b></font></label>
                         </div>
@@ -77,13 +81,14 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Requested End Date & Time of Event:&nbsp;&nbsp;<%= requestEndDateTime%></label>
                         </div>
-
+                        <hr width="0%">
                     </div>
 
             </div>
 
+            <hr width="80%">
             <div class="ln_solid"></div>
-            
+
             <div class="form-group">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <table border="0" style="margin: auto;">
@@ -110,7 +115,7 @@
                                 </form>
                             </td>
                             <%
-                            } else {
+                            } else
                             %>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
@@ -128,7 +133,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Request Rejected On:&nbsp;&nbsp;<%= requestReviewedDate%></label>
                         </div>
                         <%
-                            }}
+                            }
                         %>   
                         </tr>
                     </table>
