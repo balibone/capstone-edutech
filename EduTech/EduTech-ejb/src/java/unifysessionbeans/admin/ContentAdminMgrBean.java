@@ -10,7 +10,6 @@
  *   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
  **************************************************************************************
  */
-
 package unifysessionbeans.admin;
 
 import java.text.DateFormat;
@@ -43,6 +42,7 @@ import unifyentities.voices.CompanyEntity;
 
 @Stateless
 public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
+
     @PersistenceContext
     private EntityManager em;
     private UserEntity uEntity;
@@ -75,18 +75,22 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return tagList;
     }
-    
+
     @Override
     public String createTag(String tagName, String tagType) {
         tEntity = new TagEntity();
-        if (tEntity.createTag(tagName, tagType)) {
-            em.persist(tEntity);
-            return "The tag has been created successfully!";
+        if (lookupTagNameType(tagName, tagType) == null) {
+            if (tEntity.createTag(tagName, tagType)) {
+                em.persist(tEntity);
+                return "The tag has been created successfully!";
+            } else {
+                return "There were some issues encountered while creating the tag. Please try again.";
+            }
         } else {
-            return "There were some issues encountered while creating the tag. Please try again.";
+            return "Tag name already exists for tag type selected.";
         }
     }
-    
+
     @Override
     public Vector viewTagDetails(String tagID) {
         tEntity = lookupTag(tagID);
@@ -99,20 +103,26 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return tagDetailsVec;
     }
-    
+
     @Override
     public String updateTag(String tagID, String tagName, String tagType) {
         if (lookupTag(tagID) == null) {
             return "Selected tag cannot be found. Please try again.";
         } else {
-            tEntity = lookupTag(tagID);
-            tEntity.setTagName(tagName);
-            tEntity.setTagType(tagType);
-            em.merge(tEntity);
-            return "Selected tag has been updated successfully!";
+            if (lookupTagNameType(tagName, tagType) == null) {
+                tEntity = lookupTag(tagID);
+                tEntity.setTagName(tagName);
+                tEntity.setTagType(tagType);
+                em.merge(tEntity);
+                return "Selected tag has been updated successfully!";
+            }
+            if (tEntity.getTagName().equals(tagName)&&tEntity.getTagType().equals(tagType)) {
+                return "Selected tag has no changes made.";
+            }
+            return "Tag name already exists for tag type selected.";
         }
     }
-    
+
     //reported marketplace items related
     public ItemReportEntity lookupMarketplace(String marketplaceReportID) {
         ItemReportEntity ire = new ItemReportEntity();
@@ -1088,12 +1098,12 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return rejectedEventRequestCount;
     }
-    
+
     /* MISCELLANEOUS METHODS */
     public TagEntity lookupTag(String tagID) {
         TagEntity te = new TagEntity();
         Long tagIDNum = Long.parseLong(tagID);
-        
+
         try {
             Query q = em.createQuery("SELECT c FROM Tag c WHERE c.tagID = :tagID");
             q.setParameter("tagID", tagIDNum);
@@ -1109,7 +1119,28 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return te;
     }
-    
+
+    public TagEntity lookupTagNameType(String tagName, String tagType) {
+        TagEntity te = new TagEntity();
+        //Long tagIDNum = Long.parseLong(tagID);
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Tag c WHERE c.tagName = :tagName AND c.tagType = :tagType");
+            q.setParameter("tagName", tagName);
+            q.setParameter("tagType", tagType);
+            te = (TagEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Tag cannot be found. " + enfe.getMessage());
+            em.remove(te);
+            te = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Tag does not exist. " + nre.getMessage());
+            em.remove(te);
+            te = null;
+        }
+        return te;
+    }
+
     /* METHODS FOR UNIFY ADMIN DASHBOARD */
     @Override
     public Long getTagsListCount() {
