@@ -36,7 +36,7 @@ $(document).ready(function() {
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#4D7496',
-        width: 650,
+        width: 750,
         overlayClose: true,
         iframe : true,
         iframeHeight: 475

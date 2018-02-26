@@ -46,6 +46,7 @@
     <body style="background-color: #FFFFFF;">
         <form action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
             <table border="0">
+                <% if(request.getAttribute("companyCategoryID") != null) { %>
                 <tr>
                     <td colspan="3" style="text-align: left;">
                         <button class="btn btn-sm" onclick="window.location.href='VoicesAdmin?pageTransit=goToViewCompanyCategoryDetails&companyCategoryID=<%= request.getAttribute("companyCategoryID")%>'">
@@ -53,6 +54,7 @@
                         </button>
                     </td>
                 </tr>
+                <% } %>
                 <tr><td colspan="3">&nbsp;</td></tr>
                 <tr>
                     <td rowspan="4" style="width: 25%;">
@@ -68,8 +70,8 @@
                     </td>
                     <td colspan="2">
                         <div class="form-group">
-                            <input type="hidden" name="urlCompanyIndustry" value="<%= request.getAttribute("companyIndustry")%>" />
-                            <label class="control-label">Company Industry:&nbsp;&nbsp;<u><%= request.getAttribute("companyIndustry")%></u></label>
+                            <input type="hidden" name="urlCompanyIndustry" value="<%= request.getAttribute("requestCompanyIndustry")%>" />
+                            <label class="control-label">Company Industry:&nbsp;&nbsp;<u><%= request.getAttribute("requestCompanyIndustry")%></u></label>
                         </div>
                     </td>
                 </tr>
@@ -78,7 +80,12 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                                <% if(request.getAttribute("requestCompanyName")!=null) { %>
+                                <input type="hidden" name="oldCompanyName" value="<%= request.getAttribute("requestCompanyName")%>" />
+                                <input type="text" name="companyName" placeholder="<%= request.getAttribute("requestCompanyName")%>" style="font-weight: bold; font-size: 24px;" />
+                                <% } else { %>
                                 <input type="text" class="form-control" placeholder="Company Name (Required)" required="required" name="companyName" />
+                                <% } %>
                             </div>
                         </div>
                     </td>
@@ -131,7 +138,13 @@
                     <td colspan="3">
                         <div class="form-group">
                             <div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
+                                <% if(request.getAttribute("companyCategoryID") != null) { %>
                                 <input type="hidden" name="pageTransit" value="createCompanyInModal"/>
+                                <% } else { 
+                                String requestPoster = request.getParameter("requestPoster");%>
+                                <input type="hidden" name="pageTransit" value="createCompanyfromRequest"/>
+                                <input type="hidden" name="requestPoster" value=<%= requestPoster%>/>
+                                <% } %>
                                 <button type="submit" class="btn btn-primary">Create Company</button>
                             </div>
                         </div>
