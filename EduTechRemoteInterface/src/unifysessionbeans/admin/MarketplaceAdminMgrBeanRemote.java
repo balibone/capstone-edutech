@@ -28,12 +28,14 @@ public interface MarketplaceAdminMgrBeanRemote {
     
     public List<Vector> viewItemList();
     public Vector viewItemDetails(long itemID);
-    public List<Vector> viewItemTransactionList(long itemID);
-    public List<Vector> viewItemReviewList(long itemID);
+    public List<Vector> viewAssociatedItemTransactionList(long itemID);
+    public List<Vector> viewAssociatedItemReviewList(long itemID);
     public String deleteAnItem(long urlItemID);
+    public List<Vector> viewItemTransactionList();
     
     /* METHODS FOR UNIFY ADMIN DASHBOARD */
     public Long getItemTransTodayCount();
+    public Long getItemTransactionListCount();
     public Long getActiveItemCategoryListCount();
     public Long getInactiveItemCategoryListCount();
     public Long getItemListingCount();

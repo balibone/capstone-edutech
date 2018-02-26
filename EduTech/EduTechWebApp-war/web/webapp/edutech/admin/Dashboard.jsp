@@ -28,6 +28,8 @@
                 <!-- page content -->
                 <div class="right_col" role="main">
                     <div class="">
+                        
+                        <!--Active Users-->
                         <div class="x_panel">
                             <div class="x_title"><h2><i class="fas fa-globe"></i> Active Users</h2>                                        
                                 <div class="clearfix"></div>
@@ -45,20 +47,44 @@
                                         <h3>Instructors</h3>
                                     </div>
                                 </div>
-                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("moduleCount")%></div>
-                                        <h3>Modules</h3>
+                            </div>
+                        </div>
+                        <!--Current Semester-->
+                        <div class="x_panel">
+                                <div class="x_title">
+                                    <h2><i class="fas fa-calendar-alt"></i> Current Semester</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div class="bs-example" data-example-id="simple-jumbotron">
+                                        <div class="jumbotron">
+                                            <h1>AY17/18 <small>Semester 2</small></h1>
+                                            <p>There are 8 active modules in this semester.</p>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        <!--Semester & Modules-->
+                        <div class="x_panel">
+                            <div class="x_title"><h2><i class="fas fa-book"></i> Semesters & Modules</h2>                                        
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="row top_tiles ">
                                 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <div class="tile-stats">
                                         <div class="count"><%=request.getAttribute("semesterCount")%></div>
                                         <h3>Semesters</h3>
                                     </div>
                                 </div>
+                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="tile-stats">
+                                        <div class="count"><%=request.getAttribute("moduleCount")%></div>
+                                        <h3>Modules</h3>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <!-- /page content -->

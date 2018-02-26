@@ -125,8 +125,8 @@ public class MarketplaceAdminController extends HttpServlet {
                     long urlItemID = Long.parseLong(request.getParameter("itemID"));
                     request.setAttribute("urlItemID", urlItemID);
                     request.setAttribute("itemDetailsVec", mamr.viewItemDetails(urlItemID));
-                    request.setAttribute("itemTransList", mamr.viewItemTransactionList(urlItemID));
-                    request.setAttribute("itemReviewList", mamr.viewItemReviewList(urlItemID));
+                    request.setAttribute("itemTransList", mamr.viewAssociatedItemTransactionList(urlItemID));
+                    request.setAttribute("itemReviewList", mamr.viewAssociatedItemReviewList(urlItemID));
                     pageAction = "ViewItemListingDetails";
                     break;
                 case "goToViewItemListingDetailsInModal":
@@ -136,8 +136,8 @@ public class MarketplaceAdminController extends HttpServlet {
                     request.setAttribute("urlItemCategoryID", hidItemCategoryID);
                     
                     request.setAttribute("itemDetailsVec", mamr.viewItemDetails(hidItemID));
-                    request.setAttribute("itemTransList", mamr.viewItemTransactionList(hidItemID));
-                    request.setAttribute("itemReviewList", mamr.viewItemReviewList(hidItemID));
+                    request.setAttribute("itemTransList", mamr.viewAssociatedItemTransactionList(hidItemID));
+                    request.setAttribute("itemReviewList", mamr.viewAssociatedItemReviewList(hidItemID));
                     pageAction = "ViewItemListingDetailsInModal";
                     break;
                 case "deleteAnItem":
@@ -151,6 +151,11 @@ public class MarketplaceAdminController extends HttpServlet {
                     request.setAttribute("soldItemListingCount", mamr.getSoldItemListingCount());
                     request.setAttribute("itemList", (ArrayList) mamr.viewItemList());
                     pageAction = "ViewItemListing";
+                    break;
+                case "goToViewItemTransactionList":
+                    request.setAttribute("itemTransactionListCount", mamr.getItemTransactionListCount());
+                    request.setAttribute("itemTransactionList", (ArrayList) mamr.viewItemTransactionList());
+                    pageAction = "ViewItemTransactionsList";
                     break;
                 default:
                     break;

@@ -26,15 +26,20 @@ public class JobReportEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long jobReportID;
+    //status is set to 'Unresolved' or 'Resolved'
     private String jobReportStatus;
     private String jobReportDescription;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date jobReportDate;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date jobReviewedDate;
     
     /* FOREIGN KEY */
     private Long jobID;
     private String jobPosterID;
+    private String jobReporterID;
     
     @ManyToOne
     private UserEntity userEntity;
@@ -49,7 +54,9 @@ public class JobReportEntity implements Serializable {
     public Date getJobReportDate() { return jobReportDate; }
     public Long getJobID() { return jobID; }
     public String getJobPosterID() { return jobPosterID; }
+    public String getJobReporterID() { return jobReporterID; }
     public UserEntity getUserEntity() { return userEntity; }
+    public Date getJobReviewedDate() { return jobReviewedDate; }
     
     /* SETTER METHODS */
     public void setJobReportID(Long jobReportID) { this.jobReportID = jobReportID; }
@@ -58,5 +65,7 @@ public class JobReportEntity implements Serializable {
     public void setJobReportDate(Date jobReportDate) { this.jobReportDate = jobReportDate; }
     public void setJobID(Long jobID) { this.jobID = jobID; }
     public void setJobPosterID(String jobPosterID) { this.jobPosterID = jobPosterID; }
+    public void setJobReporterID(String jobReporterID) { this.jobReporterID = jobReporterID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setJobReviewedDate() { this.jobReviewedDate = new Date(); }
 }

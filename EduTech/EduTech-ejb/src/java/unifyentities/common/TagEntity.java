@@ -48,6 +48,13 @@ public class TagEntity implements Serializable {
     @JoinTable(name="TAGMMBI_ITEMMMBI")
     private Collection<ItemEntity> itemSet = new ArrayList<ItemEntity>();
     
+    /* MISCELLANEOUS METHODS */
+    public boolean createTag(String tagName, String tagType) {
+        this.tagName = tagName;
+        this.tagType = tagType;
+        return true;
+    }
+    
     /* GETTER METHODS */
     public Long getTagID() { return tagID; }
     public String getTagName() { return tagName; }

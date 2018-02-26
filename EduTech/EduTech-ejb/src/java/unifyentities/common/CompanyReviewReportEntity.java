@@ -26,16 +26,20 @@ public class CompanyReviewReportEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long reviewReportID;
+    //status is set to 'Unresolved' or 'Resolved'
     private String reviewReportStatus;
     private String reviewReportDescription;
     
     @Temporal(TemporalType.DATE)
     private Date reviewReportDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date reviewReviewedDate;
     
     /* FOREIGN KEY */
     private String reviewReporterID;
     private String reviewPosterID;
-    
+    private String reviewID;
+        
     @ManyToOne
     private UserEntity userEntity;
     
@@ -47,8 +51,10 @@ public class CompanyReviewReportEntity implements Serializable {
     public String getReviewReportStatus() { return reviewReportStatus; }
     public String getReviewReportDescription() { return reviewReportDescription; }
     public Date getReviewReportDate() { return reviewReportDate; }
+    public Date getReviewReviewedDate() { return reviewReviewedDate; }
     public String getReviewReporterID() { return reviewReporterID; }
     public String getReviewPosterID() { return reviewPosterID; }
+    public String getReviewID() { return reviewID; }
     public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
@@ -56,7 +62,9 @@ public class CompanyReviewReportEntity implements Serializable {
     public void setReviewReportStatus(String reviewReportStatus) { this.reviewReportStatus = reviewReportStatus; }
     public void setReviewReportDescription(String reviewReportDescription) { this.reviewReportDescription = reviewReportDescription; }
     public void setReviewReportDate(Date reviewReportDate) { this.reviewReportDate = reviewReportDate; }
+    public void setReviewReviewedDate() { this.reviewReviewedDate = new Date(); }
     public void setReviewReporterID(String reviewReporterID) { this.reviewReporterID = reviewReporterID; }
     public void setReviewPosterID(String reviewPosterID) { this.reviewPosterID = reviewPosterID; }
+    public void setReviewID(String reviewID) { this.reviewID = reviewID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

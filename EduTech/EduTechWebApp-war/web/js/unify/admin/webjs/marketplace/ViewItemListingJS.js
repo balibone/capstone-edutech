@@ -20,7 +20,7 @@ $(document).ready(function() {
         headerColor: '#4D7496',
         width: 650,
         overlayClose: true,
-        iframe : true,
+        iframe: true,
         iframeHeight: 450
     });
     

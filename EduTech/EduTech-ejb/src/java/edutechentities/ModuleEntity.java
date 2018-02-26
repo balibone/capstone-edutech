@@ -32,6 +32,18 @@ public class ModuleEntity implements Serializable {
     private SemesterEntity semester;
     private Boolean activeStatus;
 
+    public ModuleEntity() {
+    }
+
+    public ModuleEntity(String moduleCode, String name, Long modularCredit, String description, SemesterEntity semester) {
+        this.moduleCode = moduleCode;
+        this.name = name;
+        this.modularCredit = modularCredit;
+        this.description = description;
+        this.semester = semester;
+        this.activeStatus = true;
+    }
+
     public Long getModularCredit() {
         return modularCredit;
     }

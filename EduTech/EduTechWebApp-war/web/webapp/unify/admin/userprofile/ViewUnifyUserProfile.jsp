@@ -106,6 +106,7 @@
                             <ul class="sub-menu">
                                 <li><a href="MarketplaceAdmin?pageTransit=goToViewItemCategoryListing"><i class="fa fa-bookmark"></i>&nbsp;Item Categories</a></li>
                                 <li><a href="MarketplaceAdmin?pageTransit=goToViewItemListing"><i class="fa fa-th-list"></i>&nbsp;Item Listing</a></li>
+                                <li><a href="MarketplaceAdmin?pageTransit=goToViewItemTransactionList"><i class="fa fa-book"></i>&nbsp;Item Transactions</a></li>
                             </ul>
                         </li>
                         <li>
@@ -127,15 +128,17 @@
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-tag"></i>&nbsp;Tags</a>
                             <ul class="sub-menu">
-                                <li><a href="#"><i class="fa fa-tags"></i>&nbsp;Tag List</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToTagListing"><i class="fa fa-tags"></i>&nbsp;Tag List</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
                             <ul class="sub-menu">
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i>&nbsp;Marketplace File Report</a></li>
-                                <li><a href="#"><i class="fa fa-shopping-bag"></i>&nbsp;Errands File Report</a></li>
-                                <li><a href="#"><i class="fa fa-building"></i>&nbsp;Company Review File Reports</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToReportedErrandsReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Review Reports</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToReportedMarketplaceListing"><i class="fa fa-wpforms"></i>&nbsp;Marketplace Reports</a></li>
+                                <li><a href="ContentAdmin?pageTransit=goToEventRequest"><i class="fa fa-calendar"></i>&nbsp;Event Requests</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -162,9 +165,32 @@
                         </ul>
                     </div>
                     <div class="page-header">
-                        <div class="page-title">
-                            <h3>Unify User Profile&nbsp;(<%= userFirstName%>&nbsp;<%= userLastName%>)</h3>
-                            <span>Profile Information, Marketplace Transactions, Errands Transactions, Company Reviews</span>
+                        <div style="float: left; padding: 10px 0 10px 0;">
+                            <h3>Unify User Profile&nbsp;(<%= userSalutation%>&nbsp;<%= userFirstName%>&nbsp;<%= userLastName%>)</h3>
+                            <div style="padding-top:20px;">
+                                <div class="col-md-5">
+                                    <div class="list-group">
+                                        <img src="uploads/commoninfrastructure/admin/images/<%= userProfileImage%>" style="width: 100px; height: 100px;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <span style="font-size: 13px;;">
+                                        Username:&nbsp;<strong><u><%= username%></u></strong><br/>
+                                        User Status:&nbsp;
+                                        <%  
+                                            if (userActiveStatus.equals("true")) {
+                                                activeStatus = "Active";
+                                        %>
+                                        <span class="label label-success" style="display:inline;"><%= activeStatus%></span>
+                                        <%  
+                                            } else if (userActiveStatus.equals("false")) {
+                                                activeStatus = "Inactive";
+                                        %>
+                                        <span class="label label-danger" style="display:inline;"><%= activeStatus%></span>
+                                        <%  }   %>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <ul class="page-stats">
                             <li>
@@ -181,323 +207,261 @@
                         <div class="col-md-12">
                             <div class="tabbable tabbable-custom tabbable-full-width">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#overviewTab" data-toggle="tab">Overview</a></li>
-                                    <li><a href="#marketplaceTab" data-toggle="tab">Marketplace</a></li>
+                                    <li class="active"><a href="#marketplaceTab" data-toggle="tab">Marketplace</a></li>
                                     <li><a href="#errandsTab" data-toggle="tab">Errands</a></li>
                                     <li><a href="#companyReviewsTab" data-toggle="tab">Company Reviews</a></li>
                                 </ul>
                                 <div class="tab-content row">
-                                    <div class="tab-pane active" id="overviewTab">
-                                        <div class="col-md-2">
-                                            <div class="list-group">
-                                                <li class="list-group-item">
-                                                    <img src="uploads/commoninfrastructure/admin/images/<%= userProfileImage%>" style="width: 151px; height: 151px;" />
-                                                </li>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-10">
+                                    <div class="tab-pane active" id="marketplaceTab">
+                                        <div class="col-md-12">
                                             <div class="row profile-info">
-                                                <div class="col-md-7">
-                                                    <h1><%= userFirstName%>&nbsp;<%= userLastName%>&nbsp;(<%= userSalutation%>)</h1>
-                                                    <div class="form-group">
-                                                        <label class="col-md-3">Username:</label>
-                                                        <label class="col-md-9"><u><%= username%></u></label>
+                                                <div class="col-md-12">
+                                                    <div class="widget">
+                                                        <div class="widget-header"><h4>Item Listings</h4></div>
+                                                        <div class="widget-content">
+                                                            <table id="userItemList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th data-class="expand">Item Image</th>
+                                                                        <th>Item Name</th>
+                                                                        <th>Item Category</th>
+                                                                        <th data-hide="expand">Seller ID</th>
+                                                                        <th>Item Price</th>
+                                                                        <th data-hide="phone">Item Status</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <%
+                                                                        ArrayList<Vector> userItemList = (ArrayList) request.getAttribute("userItemList");
+                                                                        if (!userItemList.isEmpty()) {
+                                                                            for (int i = 0; i <= userItemList.size() - 1; i++) {
+                                                                                Vector v = userItemList.get(i);
+                                                                                String itemID = String.valueOf(v.get(0));
+                                                                                String itemImage = String.valueOf(v.get(1));
+                                                                                String itemName = String.valueOf(v.get(2));
+                                                                                String itemCategoryName = String.valueOf(v.get(3));
+                                                                                String itemSellerID = String.valueOf(v.get(4));
+                                                                                String itemPrice = String.valueOf(v.get(5));
+                                                                                String itemStatus = String.valueOf(v.get(6));
+                                                                    %>
+                                                                    <tr>
+                                                                        <td><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width: 50px; height: 50px;" /></td>
+                                                                        <td><%= itemName%><span style="display: none;">;<%= itemID%></span></td>
+                                                                        <td><%= itemCategoryName%></td>
+                                                                        <td><%= itemSellerID%></td>
+                                                                        <td>$<%= itemPrice%></td>
+                                                                        <%  if (itemStatus.equals("Available")) {%>
+                                                                        <td><span class="label label-success"><%= itemStatus%></span></td>
+                                                                            <%  } else if (itemStatus.equals("Reserved")) {%>
+                                                                        <td><span class="label label-warning"><%= itemStatus%></span></td>
+                                                                            <%  } else if (itemStatus.equals("Sold")) {%>
+                                                                        <td><span class="label label-danger"><%= itemStatus%></span></td>
+                                                                            <%  }   %>
+                                                                    </tr>
+                                                                    <%      }   %>
+                                                                    <%  }   %>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label class="col-md-3">User Status:</label>
-                                                        <%  
-                                                            if (userActiveStatus.equals("true")) {
-                                                                activeStatus = "Active";
-                                                        %>
-                                                        <label class="col-md-9"><span class="label label-success"><%= activeStatus%></span></label>
-                                                        <%  
-                                                            } else if (userActiveStatus.equals("false")) {
-                                                                activeStatus = "Inactive";
-                                                        %>
-                                                        <label class="col-md-9"><span class="label label-danger"><%= activeStatus%></span></label>
-                                                        <%  }   %>
+                                                </div>
+                                                <div class="col-md-12 form-vertical no-margin">
+                                                    <div class="widget">
+                                                        <div class="widget-header"><h4>Item Transactions</h4></div>
+                                                        <div class="widget-content">
+                                                            <table id="userItemTransactionList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th data-class="expand">Transaction Date</th>
+                                                                        <th data-class="expand">Seller ID</th>
+                                                                        <th data-class="expand">Buyer ID</th>
+                                                                        <th data-hide="phone">Listing Price</th>
+                                                                        <th data-hide="phone">Transaction Price</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <%
+                                                                        ArrayList<Vector> userItemTransactionList = (ArrayList) request.getAttribute("userItemTransactionList");
+                                                                        if (!userItemTransactionList.isEmpty()) {
+                                                                            for (int i = 0; i <= userItemTransactionList.size() - 1; i++) {
+                                                                                Vector v = userItemTransactionList.get(i);
+                                                                                String itemID = String.valueOf(v.get(0));
+                                                                                String itemTransDate = String.valueOf(v.get(1));
+                                                                                String itemTransSellerID = String.valueOf(v.get(2));
+                                                                                String itemTransBuyerID = String.valueOf(v.get(3));
+                                                                                String itemListingPriceTrans = String.valueOf(v.get(4));
+                                                                                String itemTransPrice = String.valueOf(v.get(5));
+                                                                    %>
+                                                                    <tr>
+                                                                        <td><%= itemTransDate%><span style="display: none;">;<%= itemID%></span></td>
+                                                                        <td><%= itemTransSellerID%></td>
+                                                                        <td><%= itemTransBuyerID%></td>
+                                                                        <td>$<%= itemListingPriceTrans%></td>
+                                                                        <td>$<%= itemTransPrice%></td>
+                                                                    </tr>
+                                                                    <%      }   %>
+                                                                    <%  }%>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="marketplaceTab">
-                                        <div class="col-md-2">
-                                            <div class="list-group">
-                                                <li class="list-group-item">
-                                                    <img src="uploads/commoninfrastructure/admin/images/<%= userProfileImage%>" style="width: 151px; height: 151px;" />
-                                                </li>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="row profile-info">
-                                                <form class="form-horizontal" action="#">
-                                                    <div class="col-md-12">
-                                                        <div class="widget">
-                                                            <div class="widget-header"><h4>Item Listings</h4></div>
-                                                            <div class="widget-content">
-                                                                <table id="userItemList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th data-class="expand">Item Image</th>
-                                                                            <th>Item Name</th>
-                                                                            <th>Item Category</th>
-                                                                            <th data-hide="expand">Seller ID</th>
-                                                                            <th>Item Price</th>
-                                                                            <th data-hide="phone">Item Status</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <%
-                                                                            ArrayList<Vector> userItemList = (ArrayList) request.getAttribute("userItemList");
-                                                                            if (!userItemList.isEmpty()) {
-                                                                                for (int i = 0; i <= userItemList.size() - 1; i++) {
-                                                                                    Vector v = userItemList.get(i);
-                                                                                    String itemID = String.valueOf(v.get(0));
-                                                                                    String itemImage = String.valueOf(v.get(1));
-                                                                                    String itemName = String.valueOf(v.get(2));
-                                                                                    String itemCategoryName = String.valueOf(v.get(3));
-                                                                                    String itemSellerID = String.valueOf(v.get(4));
-                                                                                    String itemPrice = String.valueOf(v.get(5));
-                                                                                    String itemStatus = String.valueOf(v.get(6));
-                                                                        %>
-                                                                        <tr>
-                                                                            <td><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width: 50px; height: 50px;" /></td>
-                                                                            <td><%= itemName%><span style="display: none;">;<%= itemID%></span></td>
-                                                                            <td><%= itemCategoryName%></td>
-                                                                            <td><%= itemSellerID%></td>
-                                                                            <td>$<%= itemPrice%></td>
-                                                                            <%  if (itemStatus.equals("Available")) {%>
-                                                                            <td><span class="label label-success"><%= itemStatus%></span></td>
-                                                                                <%  } else if (itemStatus.equals("Reserved")) {%>
-                                                                            <td><span class="label label-warning"><%= itemStatus%></span></td>
-                                                                                <%  } else if (itemStatus.equals("Sold")) {%>
-                                                                            <td><span class="label label-danger"><%= itemStatus%></span></td>
-                                                                                <%  }   %>
-                                                                        </tr>
-                                                                        <%      }   %>
-                                                                        <%  }   %>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 form-vertical no-margin">
-                                                        <div class="widget">
-                                                            <div class="widget-header"><h4>Item Transactions</h4></div>
-                                                            <div class="widget-content">
-                                                                <table id="userItemTransactionList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th data-class="expand">Transaction Date</th>
-                                                                            <th data-class="expand">Seller ID</th>
-                                                                            <th data-class="expand">Buyer ID</th>
-                                                                            <th data-hide="phone">Listing Price</th>
-                                                                            <th data-hide="phone">Transaction Price</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <%
-                                                                            ArrayList<Vector> userItemTransactionList = (ArrayList) request.getAttribute("userItemTransactionList");
-                                                                            if (!userItemTransactionList.isEmpty()) {
-                                                                                for (int i = 0; i <= userItemTransactionList.size() - 1; i++) {
-                                                                                    Vector v = userItemTransactionList.get(i);
-                                                                                    String itemID = String.valueOf(v.get(0));
-                                                                                    String itemTransDate = String.valueOf(v.get(1));
-                                                                                    String itemTransSellerID = String.valueOf(v.get(2));
-                                                                                    String itemTransBuyerID = String.valueOf(v.get(3));
-                                                                                    String itemListingPriceTrans = String.valueOf(v.get(4));
-                                                                                    String itemTransPrice = String.valueOf(v.get(5));
-                                                                        %>
-                                                                        <tr>
-                                                                            <td><%= itemTransDate%><span style="display: none;">;<%= itemID%></span></td>
-                                                                            <td><%= itemTransSellerID%></td>
-                                                                            <td><%= itemTransBuyerID%></td>
-                                                                            <td>$<%= itemListingPriceTrans%></td>
-                                                                            <td>$<%= itemTransPrice%></td>
-                                                                        </tr>
-                                                                        <%      }   %>
-                                                                        <%  }%>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="tab-pane" id="errandsTab">
-                                        <div class="col-md-2">
-                                            <div class="list-group">
-                                                <li class="list-group-item">
-                                                    <img src="uploads/commoninfrastructure/admin/images/<%= userProfileImage%>" style="width: 151px; height: 151px;" />
-                                                </li>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
+                                        <div class="col-md-12">
                                             <div class="row profile-info">
-                                                <form class="form-horizontal" action="#">
-                                                    <div class="col-md-12">
-                                                        <div class="widget">
-                                                            <div class="widget-header"><h4>Errands Listings</h4></div>
-                                                            <div class="widget-content">
-                                                                <table id="userErrandsList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th data-class="expand">Job Image</th>
-                                                                            <th data-class="expand">Job Title</th>
-                                                                            <th>Job Category</th>
-                                                                            <th>Job Poster ID</th>
-                                                                            <th>Job Taker ID</th>
-                                                                            <th data-hide="phone">Job Rate</th>
-                                                                            <th data-hide="phone">Job Status</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <%
-                                                                            ArrayList<Vector> userErrandsList = (ArrayList) request.getAttribute("userErrandsList");
-                                                                            if (!userErrandsList.isEmpty()) {
-                                                                                for (int i = 0; i <= userErrandsList.size() - 1; i++) {
-                                                                                    Vector v = userErrandsList.get(i);
-                                                                                    String jobID = String.valueOf(v.get(0));
-                                                                                    String jobImage = String.valueOf(v.get(1));
-                                                                                    String jobTitle = String.valueOf(v.get(2));
-                                                                                    String jobCategoryName = String.valueOf(v.get(3));
-                                                                                    String jobPosterID = String.valueOf(v.get(4));
-                                                                                    String jobTakerID = String.valueOf(v.get(5));
-                                                                                    String jobRate = String.valueOf(v.get(6));
-                                                                                    String jobRateType = String.valueOf(v.get(7));
-                                                                                    String jobStatus = String.valueOf(v.get(8));
-                                                                        %>
-                                                                        <tr>
-                                                                            <td><img src="uploads/unify/images/errands/job/<%= jobImage%>" style="width: 50px; height: 50px;" /></td>
-                                                                            <td><%= jobTitle%><span style="display: none;">;<%= jobID%></span></td>
-                                                                            <td><%= jobCategoryName%></td>
-                                                                            <td><%= jobPosterID%></td>
-                                                                            <td><%= jobTakerID%></td>
-                                                                            <td>$<%= jobRate%>/<%= jobRateType%></td>
-                                                                            <%  if (jobStatus.equals("Available")) {%>
-                                                                            <td><span class="label label-success"><%= jobStatus%></span></td>
-                                                                            <%  } else if (jobStatus.equals("Reserved")) {%>
-                                                                            <td><span class="label label-warning"><%= jobStatus%></span></td>
-                                                                            <%  } else if (jobStatus.equals("Completed")) {%>
-                                                                            <td><span class="label label-danger"><%= jobStatus%></span></td>
-                                                                            <%  }   %>
-                                                                        </tr>
-                                                                        <%      }   %>
+                                                <div class="col-md-12">
+                                                    <div class="widget">
+                                                        <div class="widget-header"><h4>Errands Listings</h4></div>
+                                                        <div class="widget-content">
+                                                            <table id="userErrandsList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th data-class="expand">Job Image</th>
+                                                                        <th data-class="expand">Job Title</th>
+                                                                        <th>Job Category</th>
+                                                                        <th>Job Poster ID</th>
+                                                                        <th>Job Taker ID</th>
+                                                                        <th data-hide="phone">Job Rate</th>
+                                                                        <th data-hide="phone">Job Status</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <%
+                                                                        ArrayList<Vector> userErrandsList = (ArrayList) request.getAttribute("userErrandsList");
+                                                                        if (!userErrandsList.isEmpty()) {
+                                                                            for (int i = 0; i <= userErrandsList.size() - 1; i++) {
+                                                                                Vector v = userErrandsList.get(i);
+                                                                                String jobID = String.valueOf(v.get(0));
+                                                                                String jobImage = String.valueOf(v.get(1));
+                                                                                String jobTitle = String.valueOf(v.get(2));
+                                                                                String jobCategoryName = String.valueOf(v.get(3));
+                                                                                String jobPosterID = String.valueOf(v.get(4));
+                                                                                String jobTakerID = String.valueOf(v.get(5));
+                                                                                String jobRate = String.valueOf(v.get(6));
+                                                                                String jobRateType = String.valueOf(v.get(7));
+                                                                                String jobStatus = String.valueOf(v.get(8));
+                                                                    %>
+                                                                    <tr>
+                                                                        <td><img src="uploads/unify/images/errands/job/<%= jobImage%>" style="width: 50px; height: 50px;" /></td>
+                                                                        <td><%= jobTitle%><span style="display: none;">;<%= jobID%></span></td>
+                                                                        <td><%= jobCategoryName%></td>
+                                                                        <td><%= jobPosterID%></td>
+                                                                        <td><%= jobTakerID%></td>
+                                                                        <td>$<%= jobRate%>/<%= jobRateType%></td>
+                                                                        <%  if (jobStatus.equals("Available")) {%>
+                                                                        <td><span class="label label-success"><%= jobStatus%></span></td>
+                                                                        <%  } else if (jobStatus.equals("Reserved")) {%>
+                                                                        <td><span class="label label-warning"><%= jobStatus%></span></td>
+                                                                        <%  } else if (jobStatus.equals("Completed")) {%>
+                                                                        <td><span class="label label-danger"><%= jobStatus%></span></td>
                                                                         <%  }   %>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
+                                                                    </tr>
+                                                                    <%      }   %>
+                                                                    <%  }   %>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12 form-vertical no-margin">
-                                                        <div class="widget">
-                                                            <div class="widget-header"><h4>Errands Transactions</h4></div>
-                                                            <div class="widget-content">
-                                                                <table id="userErrandsTransactionList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th data-class="expand">Transaction Date</th>
-                                                                            <th data-class="expand">Job Poster ID</th>
-                                                                            <th data-class="expand">Job Taker ID</th>
-                                                                            <th data-hide="phone">Job Rate</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <%
-                                                                            ArrayList<Vector> userErrandsTransactionList = (ArrayList) request.getAttribute("userErrandsTransactionList");
-                                                                            if (!userErrandsTransactionList.isEmpty()) {
-                                                                                for (int i = 0; i <= userErrandsTransactionList.size() - 1; i++) {
-                                                                                    Vector v = userErrandsTransactionList.get(i);
-                                                                                    String jobID = String.valueOf(v.get(0));
-                                                                                    String jobTransDate = String.valueOf(v.get(1));
-                                                                                    String jobTransPosterID = String.valueOf(v.get(2));
-                                                                                    String jobTransTakerID = String.valueOf(v.get(3));
-                                                                                    String jobTransRate = String.valueOf(v.get(4));
-                                                                                    String jobTransRateType = String.valueOf(v.get(5));
-                                                                        %>
-                                                                        <tr>
-                                                                            <td><%= jobTransDate%><span style="display: none;">;<%= jobID%></span></td>
-                                                                            <td><%= jobTransPosterID%></td>
-                                                                            <td><%= jobTransTakerID%></td>
-                                                                            <td>$<%= jobTransRate%>/<%= jobTransRateType%></td>
-                                                                        </tr>
-                                                                        <%      }   %>
-                                                                        <%  }%>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
+                                                </div>
+                                                <div class="col-md-12 form-vertical no-margin">
+                                                    <div class="widget">
+                                                        <div class="widget-header"><h4>Errands Transactions</h4></div>
+                                                        <div class="widget-content">
+                                                            <table id="userErrandsTransactionList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th data-class="expand">Transaction Date</th>
+                                                                        <th data-class="expand">Job Poster ID</th>
+                                                                        <th data-class="expand">Job Taker ID</th>
+                                                                        <th data-hide="phone">Job Rate</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <%
+                                                                        ArrayList<Vector> userErrandsTransactionList = (ArrayList) request.getAttribute("userErrandsTransactionList");
+                                                                        if (!userErrandsTransactionList.isEmpty()) {
+                                                                            for (int i = 0; i <= userErrandsTransactionList.size() - 1; i++) {
+                                                                                Vector v = userErrandsTransactionList.get(i);
+                                                                                String jobID = String.valueOf(v.get(0));
+                                                                                String jobTransDate = String.valueOf(v.get(1));
+                                                                                String jobTransPosterID = String.valueOf(v.get(2));
+                                                                                String jobTransTakerID = String.valueOf(v.get(3));
+                                                                                String jobTransRate = String.valueOf(v.get(4));
+                                                                                String jobTransRateType = String.valueOf(v.get(5));
+                                                                    %>
+                                                                    <tr>
+                                                                        <td><%= jobTransDate%><span style="display: none;">;<%= jobID%></span></td>
+                                                                        <td><%= jobTransPosterID%></td>
+                                                                        <td><%= jobTransTakerID%></td>
+                                                                        <td>$<%= jobTransRate%>/<%= jobTransRateType%></td>
+                                                                    </tr>
+                                                                    <%      }   %>
+                                                                    <%  }%>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="companyReviewsTab">
-                                        <div class="col-md-2">
-                                            <div class="list-group">
-                                                <li class="list-group-item">
-                                                    <img src="uploads/commoninfrastructure/admin/images/<%= userProfileImage%>" style="width: 151px; height: 151px;" />
-                                                </li>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
+                                        <div class="col-md-12">
                                             <div class="row profile-info">
-                                                <form class="form-horizontal" action="#">
-                                                    <div class="col-md-12">
-                                                        <div class="widget">
-                                                            <div class="widget-header"><h4>Company Reviews</h4></div>
-                                                            <div class="widget-content">
-                                                                <table id="userCompanyReviewsList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th data-class="expand">Review Date</th>
-                                                                            <th data-class="expand">Poster ID</th>
-                                                                            <th>Review Description</th>
-                                                                            <th>Employment Type</th>
-                                                                            <th data-hide="phone">Salary Range</th>
-                                                                            <th data-hide="phone">Review Rating</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <%
-                                                                            ArrayList<Vector> userCompanyReviewsList = (ArrayList) request.getAttribute("userCompanyReviewsList");
-                                                                            if (!userCompanyReviewsList.isEmpty()) {
-                                                                                for (int i = 0; i <= userCompanyReviewsList.size() - 1; i++) {
-                                                                                    Vector v = userCompanyReviewsList.get(i);
-                                                                                    String reviewCompanyID = String.valueOf(v.get(0));
-                                                                                    String reviewDate = String.valueOf(v.get(1));
-                                                                                    String reviewPosterID = String.valueOf(v.get(2));
-                                                                                    String reviewTitle = String.valueOf(v.get(3));
-                                                                                    String reviewPros = String.valueOf(v.get(4));
-                                                                                    String reviewCons = String.valueOf(v.get(5));
-                                                                                    String reviewEmpType = String.valueOf(v.get(6));
-                                                                                    String reviewSalaryRange = String.valueOf(v.get(7));
-                                                                                    String reviewRating = String.valueOf(v.get(8));
-                                                                                    String reviewThumbsUp = String.valueOf(v.get(9));
-                                                                        %>
-                                                                        <tr>
-                                                                            <td><%= reviewDate%><span style="display: none;">;<%= reviewCompanyID%></span></td>
-                                                                            <td><%= reviewPosterID%></td>
-                                                                            <td>
-                                                                                <strong><%= reviewTitle%></strong><br/>
-                                                                                <strong>Pros:</strong>&nbsp;<%= reviewPros%><br/>
-                                                                                <strong>Cons:</strong>&nbsp;<%= reviewCons%><br/>
-                                                                            </td>
-                                                                            <td><%= reviewEmpType%></td>
-                                                                            <td><%= reviewSalaryRange%></td>
-                                                                            <td><%= reviewRating%>&nbsp;(<i class="fa fa-thumbs-up"></i><%= reviewThumbsUp%>)</td>
-                                                                        </tr>
-                                                                        <%      }   %>
-                                                                        <%  }%>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
+                                                <div class="col-md-12">
+                                                    <div class="widget">
+                                                        <div class="widget-header"><h4>Company Reviews</h4></div>
+                                                        <div class="widget-content">
+                                                            <table id="userCompanyReviewsList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th data-class="expand">Review Date</th>
+                                                                        <th data-class="expand">Poster ID</th>
+                                                                        <th>Review Description</th>
+                                                                        <th>Employment Type</th>
+                                                                        <th data-hide="phone">Salary Range</th>
+                                                                        <th data-hide="phone">Review Rating</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <%
+                                                                        ArrayList<Vector> userCompanyReviewsList = (ArrayList) request.getAttribute("userCompanyReviewsList");
+                                                                        if (!userCompanyReviewsList.isEmpty()) {
+                                                                            for (int i = 0; i <= userCompanyReviewsList.size() - 1; i++) {
+                                                                                Vector v = userCompanyReviewsList.get(i);
+                                                                                String reviewCompanyID = String.valueOf(v.get(0));
+                                                                                String reviewDate = String.valueOf(v.get(1));
+                                                                                String reviewPosterID = String.valueOf(v.get(2));
+                                                                                String reviewTitle = String.valueOf(v.get(3));
+                                                                                String reviewPros = String.valueOf(v.get(4));
+                                                                                String reviewCons = String.valueOf(v.get(5));
+                                                                                String reviewEmpType = String.valueOf(v.get(6));
+                                                                                String reviewSalaryRange = String.valueOf(v.get(7));
+                                                                                String reviewRating = String.valueOf(v.get(8));
+                                                                                String reviewThumbsUp = String.valueOf(v.get(9));
+                                                                    %>
+                                                                    <tr>
+                                                                        <td><%= reviewDate%><span style="display: none;">;<%= reviewCompanyID%></span></td>
+                                                                        <td><%= reviewPosterID%></td>
+                                                                        <td>
+                                                                            <strong><%= reviewTitle%></strong><br/>
+                                                                            <strong>Pros:</strong>&nbsp;<%= reviewPros%><br/>
+                                                                            <strong>Cons:</strong>&nbsp;<%= reviewCons%><br/>
+                                                                        </td>
+                                                                        <td><%= reviewEmpType%></td>
+                                                                        <td><%= reviewSalaryRange%></td>
+                                                                        <td><%= reviewRating%>&nbsp;(<i class="fa fa-thumbs-up"></i><%= reviewThumbsUp%>)</td>
+                                                                    </tr>
+                                                                    <%      }   %>
+                                                                    <%  }%>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
