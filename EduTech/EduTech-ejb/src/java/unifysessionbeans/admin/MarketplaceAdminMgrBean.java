@@ -30,7 +30,6 @@ import unifyentities.common.CategoryEntity;
 import unifyentities.common.MessageEntity;
 import commoninfrastructureentities.UserEntity;
 
-
 @Stateless
 public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     @PersistenceContext

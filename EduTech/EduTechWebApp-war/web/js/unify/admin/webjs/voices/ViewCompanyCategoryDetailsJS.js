@@ -27,3 +27,9 @@ function previewImage(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
 };
+
+function AlertIt(cCategoryID) {
+            var answer = confirm ("Are you sure to deactivate the category? ")
+            if (answer)
+                window.open('VoicesAdmin?pageTransit=deactivateACompanyCategory&hiddenCompanyCategoryID=' + cCategoryID,'_parent');
+}

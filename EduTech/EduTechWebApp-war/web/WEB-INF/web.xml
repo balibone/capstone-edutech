@@ -296,6 +296,8 @@
     <servlet><servlet-name>VoicesSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.VoicesSysUserController</servlet-class></servlet>
 
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
+    <servlet><servlet-name>ViewJobListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/errands/ViewJobListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewJobListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/errands/NewJobListingSYS.jsp</jsp-file></servlet>
 
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - MARKETPLACE (JSP) -->
     <servlet><servlet-name>NewItemListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/NewItemListingSYS.jsp</jsp-file></servlet>
