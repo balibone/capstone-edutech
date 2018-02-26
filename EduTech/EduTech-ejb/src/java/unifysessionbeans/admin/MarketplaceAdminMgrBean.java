@@ -352,7 +352,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     @Override
     public Long getItemTransTodayCount() {
         Long itemTransTodayCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(t.itemTransactionID) FROM ItemTransaction t");
+        Query q = em.createQuery("SELECT COUNT(t.itemTransactionID) FROM ItemTransaction t WHERE t.itemTransactionDate = CURRENT_DATE");
         try {
             itemTransTodayCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
@@ -451,6 +451,27 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             ex.printStackTrace();
         }
         return soldItemListingCount;
+    }
+    
+    @Override
+    public List<Vector> viewRecentItemTransactionList() {
+        List<Vector> userItemTransList = new ArrayList<Vector>();
+        Query q = em.createQuery("SELECT t FROM ItemTransaction t ORDER BY t.itemTransactionDate DESC");
+        
+        for (Object o : q.setMaxResults(3).getResultList()) {
+            ItemTransactionEntity itemTransE = (ItemTransactionEntity) o;
+            Vector itemTransVec = new Vector();
+
+            itemTransVec.add(itemTransE.getItemEntity().getItemID());
+            itemTransVec.add(itemTransE.getItemTransactionDate());
+            /* WE ASSUME THAT THE ITEM SELLER IS THE ONE WHO CREATES THE TRANSACTION */
+            itemTransVec.add(itemTransE.getUserEntity().getUsername());
+            itemTransVec.add(itemTransE.getItemBuyerID());
+            itemTransVec.add(itemTransE.getItemEntity().getItemPrice());
+            itemTransVec.add(itemTransE.getItemTransactionPrice());
+            userItemTransList.add(itemTransVec);
+        }
+        return userItemTransList;
     }
 
     /* METHODS FOR UNIFY USER PROFILE */

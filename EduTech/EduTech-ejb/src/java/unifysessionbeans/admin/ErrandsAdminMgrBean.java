@@ -376,7 +376,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
     @Override
     public Long getErrandsTransTodayCount() {
         Long errandsTransTodayCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(t.jobTransactionID) FROM JobTransaction t");
+        Query q = em.createQuery("SELECT COUNT(t.jobTransactionID) FROM JobTransaction t WHERE t.jobTransactionDate = CURRENT_DATE");
         try {
             errandsTransTodayCount = (Long) q.getSingleResult();
         } catch (Exception ex) {

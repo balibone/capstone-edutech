@@ -29,9 +29,9 @@ public class SemesterEntity implements Serializable {
     @OneToMany(mappedBy = "semester")
     private List<ModuleEntity> modules;
     private Boolean activeStatus;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
     public SemesterEntity() {

@@ -29,7 +29,7 @@ public class ItemTransactionEntity implements Serializable {
     private Long itemTransactionID;
     private Double itemTransactionPrice;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date itemTransactionDate;
     
     /* FOREIGN KEY */

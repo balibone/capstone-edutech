@@ -50,6 +50,8 @@ public class UserProfileAdminController extends HttpServlet {
                     request.setAttribute("errandsTransTodayCount", eamr.getErrandsTransTodayCount());
                     request.setAttribute("errandsListingCount", eamr.getJobListingCount());
                     request.setAttribute("companyReviewCount", vamr.getCompanyReviewCount());
+                    
+                    request.setAttribute("viewRecentItemTransactionList", (ArrayList) mamr.viewRecentItemTransactionList());
                     pageAction = "UnifyAdminDashboard";
                     break;
                 case "goToUnifyUserList":

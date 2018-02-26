@@ -1,3 +1,14 @@
+/***************************************************************************************
+*    Title:         EventEntity.java
+*    Purpose:       LIST OF EVENTS APPROVED BY UNIFYADMIN AND DUALADMIN
+*    Author:        NIGEL LEE TJON YI
+*    Credits:       CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE, ZHU XINYI
+*    Date:          25 JANUARY 2018
+*    Code version:  1.0
+*    Availability:  RESTRICTED
+*
+***************************************************************************************/
+
 package unifyentities.event;
 
 import java.io.Serializable;
@@ -20,15 +31,14 @@ public class EventEntity implements Serializable {
     private Long eventID;
     private String eventStatus;
     private String eventDescription;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date eventStartDateTime;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date eventEndDateTime;
     private String eventVenue;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date eventApprovalDate;
-    
     
     @ManyToOne
     private UserEntity userEntity;

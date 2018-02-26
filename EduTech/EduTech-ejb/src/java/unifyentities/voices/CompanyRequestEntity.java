@@ -33,7 +33,7 @@ public class CompanyRequestEntity implements Serializable {
     private String requestStatus;
     private String requestComment;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date requestDate;
     
     private String requestPosterID;
