@@ -315,7 +315,26 @@
 
 
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
-    <servlet-mapping><servlet-name>CommonInfra</servlet-name><url-pattern>/CommonInfra</url-pattern></servlet-mapping>
+    <servlet>
+        <servlet-name>ViewJobDetailsInCategory</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobDetailsInCategory.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobTransactionListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/errands/ViewJobTransactionListing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyListingSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/voices/ViewCompanyListingSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewReviewSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/voices/NewReviewSYS.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CommonInfra</servlet-name>
+        <url-pattern>/CommonInfra</url-pattern>
+    </servlet-mapping>
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->
     <!-- URL MAPPING - EDUTECH - ADMIN (SERVLET) -->
     <servlet-mapping><servlet-name>EduTechAdmin</servlet-name><url-pattern>/EduTechAdmin</url-pattern></servlet-mapping>

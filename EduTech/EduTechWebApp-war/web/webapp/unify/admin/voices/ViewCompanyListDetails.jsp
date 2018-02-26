@@ -188,12 +188,13 @@
                             <table class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
                                 <thead>
                                     <tr>
-                                        <th data-class="expand">Review Date</th>
-                                        <th data-class="expand">Poster ID</th>
-                                        <th>Review Description</th>
+                                        <th data-class="expand">Date</th>
+                                        <th data-class="expand">Poster</th>
+                                        <th>Description</th>
                                         <th>Employment Type</th>
-                                        <th data-hide="phone">Salary Range</th>
-                                        <th data-hide="phone">Review Rating</th>
+                                        <th data-hide="phone">Salary</th>
+                                        <th data-hide="phone">Rating</th>
+                                        <th data-hide="phone">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -203,7 +204,7 @@
                                             for (int i = 0; i <= companyReviewList.size() - 1; i++) {
                                                 Vector v = companyReviewList.get(i);
                                                 String reviewDate = String.valueOf(v.get(0));
-                                                String reviewPosterID = String.valueOf(v.get(1));
+                                                String reviewPoster = String.valueOf(v.get(1));
                                                 String reviewTitle = String.valueOf(v.get(2));
                                                 String reviewPros = String.valueOf(v.get(3));
                                                 String reviewCons = String.valueOf(v.get(4));
@@ -211,10 +212,11 @@
                                                 String reviewSalaryRange = String.valueOf(v.get(6));
                                                 String reviewRating = String.valueOf(v.get(7));
                                                 String reviewThumbsUp = String.valueOf(v.get(8));
+                                                String reviewID = String.valueOf(v.get(9));
                                     %>
                                     <tr>
                                         <td><%= reviewDate%></td>
-                                        <td><%= reviewPosterID%></td>
+                                        <td><%= reviewPoster%></td>
                                         <td>
                                             <strong><%= reviewTitle%></strong><br/>
                                             <strong>Pros:</strong>&nbsp;<%= reviewPros%><br/>
@@ -223,6 +225,12 @@
                                         <td><%= reviewEmpType%></td>
                                         <td><%= reviewSalaryRange%></td>
                                         <td><%= reviewRating%>&nbsp;(<i class="fa fa-thumbs-up"></i><%= reviewThumbsUp%>)</td>
+                                        <td>
+                                             <button type="submit" class="btn btn-danger btn-xs" id="deleteReview">
+                                                 <a href="VoicesAdmin?pageTransit=goToDeleteReview&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>&hiddenReviewID=<%= reviewID%>" 
+                                                    style="color:#FFFFFF;text-decoration:none;">Delete</a>
+                                             </button>
+                                        </td>
                                     </tr>
                                     <%      }   %>
                                     <%  }   %>

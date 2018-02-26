@@ -37,7 +37,7 @@ public interface VoicesAdminMgrBeanRemote {
     public String updateCompany(long companyID, String companyName, String companyIndustry, String companyWebsite, 
             String companyHQ, int companySize, String companyDescription, String companyAddress, String fileName);
     
-    public boolean deleteReview(long reviewedCompanyID, String reviewPosterID);
+    public boolean deleteReview(long reviewedCompanyID, long reviewPosterID);
     
     public List<Vector> viewCompanyRequestList();
     public Vector viewCompanyRequestDetails(String requestCompany, String requestPosterID);
@@ -51,6 +51,10 @@ public interface VoicesAdminMgrBeanRemote {
     public Long getCompanyListingCount();
     public Long getActiveCompanyListingCount();
     public Long getInactiveCompanyListingCount();
+    
+    public Long getSolvedCompanyRequestListCount();
+    public Long getPendingCompanyRequestListCount();
+    public Long getRejectedCompanyRequestListCount();
     
     /* METHODS FOR UNIFY USER PROFILE */
     public List<Vector> viewUserCompanyReviewsList(String username);

@@ -150,6 +150,17 @@ public class VoicesAdminController extends HttpServlet {
                     request.setAttribute("companyList", (ArrayList) vamr.viewCompanyList());
                     pageAction = "ViewCompanyList";
                     break;
+                case "createCompanyfromRequest":
+                    responseMessage = createCompanyFromRequest(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    request.setAttribute("solvedCompanyRequestListCount", vamr.getSolvedCompanyRequestListCount());
+                    request.setAttribute("pendingCompanyRequestListCount", vamr.getPendingCompanyRequestListCount());
+                    request.setAttribute("rejectedCompanyRequestListCount", vamr.getRejectedCompanyRequestListCount());
+                    request.setAttribute("companyRequestList", (ArrayList) vamr.viewCompanyRequestList());
+                    request.setAttribute("companyRequestListCount", vamr.viewCompanyRequestList().size());
+                    pageAction = "ViewCompanyRequestList";
+                    break;
                 case "goToViewCompanyListDetails":
                     request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
                     long urlCompanyID = Long.parseLong(request.getParameter("companyID"));
@@ -201,29 +212,67 @@ public class VoicesAdminController extends HttpServlet {
                     request.setAttribute("companyList", (ArrayList) vamr.viewCompanyList());
                     pageAction = "ViewCompanyList";
                     break;
-                /*
-                case "goToAddCompany":
-                    String posterID = (String) request.getParameter("requestPosterID");
-                    String addRequestCompany = (String) request.getParameter("requestCompany");
-                    String addRequestIndustry = (String) request.getParameter("requestIndustry");
-                    request.setAttribute("requestPosterID", posterID);
-                    request.setAttribute("requestCompany", addRequestCompany);
-                    request.setAttribute("requestIndustry", addRequestIndustry);
-                    pageAction = "AddCompany";
-                    break;
-                 case "addCompany":
-                    String newRequestCompany = (String) request.getParameter("hiddenRequestCompany");
-                    String newRequestPosterID = (String) request.getParameter("hiddenRequestPosterID");
-                    
-                    if (addCompany(request)) {
-                        request.setAttribute("successMessage", "Company has been added successfully.");
-                    } else {
-                        request.setAttribute("errorMessage", "One or more fields are invalid. Please check again.");
-                    }
-                    vamr.solveRequest(newRequestCompany, newRequestPosterID);
-                    request.setAttribute("requestListVec", (ArrayList) vamr.viewCompanyRequestList());
+                case "goToViewCompanyRequestList":
+                    request.setAttribute("solvedCompanyRequestListCount", vamr.getSolvedCompanyRequestListCount());
+                    request.setAttribute("pendingCompanyRequestListCount", vamr.getPendingCompanyRequestListCount());
+                    request.setAttribute("rejectedCompanyRequestListCount", vamr.getRejectedCompanyRequestListCount());
+                    request.setAttribute("companyRequestList", (ArrayList) vamr.viewCompanyRequestList());
+                    request.setAttribute("companyRequestListCount", vamr.viewCompanyRequestList().size());
                     pageAction = "ViewCompanyRequestList";
                     break;
+                case "rejectRequest":
+                    String requestCompany = request.getParameter("hiddenRequestCompany");
+                    String requestPoster = request.getParameter("hiddenRequestPoster");
+                    if (vamr.rejectRequest(requestCompany, requestPoster)) {
+                        request.setAttribute("successMessage", "Selected Request has been rejected successfully.");
+                    } else {
+                        request.setAttribute("errorMessage", "Selected Request cannot be rejected. Please try again later.");
+                    }
+                    request.setAttribute("solvedCompanyRequestListCount", vamr.getSolvedCompanyRequestListCount());
+                    request.setAttribute("pendingCompanyRequestListCount", vamr.getPendingCompanyRequestListCount());
+                    request.setAttribute("rejectedCompanyRequestListCount", vamr.getRejectedCompanyRequestListCount());
+                    request.setAttribute("companyRequestList", (ArrayList) vamr.viewCompanyRequestList());
+                    request.setAttribute("companyRequestListCount", vamr.viewCompanyRequestList().size());
+                    pageAction = "ViewCompanyRequestList";
+                    break;
+                case "goToAddCompany":
+                    String addRequestPoster = (String) request.getParameter("requestPoster");
+                    String addRequestCompany = (String) request.getParameter("requestCompany");
+                    String addRequestIndustry = (String) request.getParameter("requestIndustry");
+                    request.setAttribute("requestPoster", addRequestPoster);
+                    request.setAttribute("requestCompanyName", addRequestCompany);
+                    request.setAttribute("requestCompanyIndustry", addRequestIndustry);
+                    pageAction = "NewCompanyInModal";
+                    break;
+                case "goToDeleteReview":
+                    long delCompanyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    long delReviewID = Long.parseLong(request.getParameter("hiddenReviewID"));
+                    if (vamr.deleteReview(delCompanyID, delReviewID)) {
+                        System.out.println("Selected Review has been deleted successfully.");
+                    } else {
+                        System.out.println("Selected Review cannot be deleted. Please try again later.");
+                    }
+                    request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
+                    request.setAttribute("urlCompanyID", delCompanyID);
+                    request.setAttribute("companyDetailsVec", vamr.viewCompanyDetails(delCompanyID));
+                    request.setAttribute("companyReviewList", (ArrayList) vamr.viewAssociatedReviewList(delCompanyID));
+                    pageAction = "ViewCompanyListDetails";
+                    break;
+                case "goToDeleteReviewInModal":
+                    long delCompanyIDInModal = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    long delReviewIDInModal = Long.parseLong(request.getParameter("hiddenReviewID"));
+                    if (vamr.deleteReview(delCompanyIDInModal, delReviewIDInModal)) {
+                        System.out.println("Selected Review has been deleted successfully.");
+                    } else {
+                        System.out.println("Selected Review cannot be deleted. Please try again later.");
+                    }
+                    request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
+                    request.setAttribute("urlCompanyID", delCompanyIDInModal);
+                    request.setAttribute("companyDetailsVec", vamr.viewCompanyDetails(delCompanyIDInModal));
+                    request.setAttribute("companyReviewList", (ArrayList) vamr.viewAssociatedReviewList(delCompanyIDInModal));
+                    pageAction = "ViewCompanyListDetailsInModal";
+                    break;
+                /*
                 case "viewReviewList":
                     String reviewedCompanyName = request.getParameter("hiddenCompanyName");
                     request.setAttribute("reviewListVec", (ArrayList) vamr.viewReviewList(reviewedCompanyName));
@@ -254,24 +303,6 @@ public class VoicesAdminController extends HttpServlet {
                     request.setAttribute("reviewListVec", (ArrayList) vamr.viewReviewList(categoryCompanyName));
                     pageAction = "ViewCompanyReviewList";
                     break;
-                case "goToViewCompanyRequestList":
-                    data = (ArrayList) vamr.viewCompanyRequestList();
-                    request.setAttribute("requestListVec", data);
-                    pageAction = "ViewCompanyRequestList";
-                    break;
-                case "rejectRequest":
-                    String requestCompany = request.getParameter("hiddenRequestCompany");
-                    System.out.println(requestCompany);
-                    String requestPosterID = request.getParameter("hiddenRequestPosterID");
-                    System.out.println(requestPosterID);
-                    if (vamr.rejectRequest(requestCompany, requestPosterID)) {
-                        request.setAttribute("successMessage", "Selected Request has been rejected successfully.");
-                    } else {
-                        request.setAttribute("errorMessage", "Selected Request cannot be rejected. Please try again later.");
-                    }
-                    request.setAttribute("requestListVec", (ArrayList) vamr.viewCompanyRequestList());
-                    pageAction = "ViewCompanyRequestList";
-                    break; 
                 case "goToViewCompanyRequestListDetails":
                     String viewRequestCompany = request.getParameter("requestCompany");
                     String viewRequestPosterID = request.getParameter("requestPosterID");
@@ -314,6 +345,8 @@ public class VoicesAdminController extends HttpServlet {
             if(fileName.contains("\\")) {
                 fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
             }
+            
+            System.out.println("AAAAAAAAA:"+ fileName);
                     
             String appPath = request.getServletContext().getRealPath("");
             String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
@@ -473,6 +506,74 @@ public class VoicesAdminController extends HttpServlet {
                 companyWebsite, companyHQ, companyDescription, companyAddress, fileName);
     }
     
+    private String createCompanyFromRequest(HttpServletRequest request) {
+        String fileName = "";
+        try {
+            Part filePart = request.getPart("companyImage");
+            fileName = (String) getFileName(filePart);
+            if(fileName.contains("\\")) {
+                fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
+            }
+                    
+            String appPath = request.getServletContext().getRealPath("");
+            String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
+                    + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+            String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
+                    + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "voices"
+                    + File.separator + "company" + File.separator;
+            
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            
+            try {
+                File outputFilePath = new File(imageDir + fileName);
+                inputStream = filePart.getInputStream();
+                outputStream = new FileOutputStream(outputFilePath);
+
+                int read = 0;
+                final byte[] bytes = new byte[1024];
+                while ((read = inputStream.read(bytes)) != -1) {
+                    outputStream.write(bytes, 0, read);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                fileName = "";
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fileName = "";
+        }
+        
+        String companyIndustry = request.getParameter("urlCompanyIndustry");
+        String companyName = request.getParameter("companyName");
+        String requestCompanyName = request.getParameter("oldCompanyName");
+        System.out.println(companyName);
+        String companySize = request.getParameter("companySize");
+        String companyWebsite = request.getParameter("companyWebsite");
+        String companyHQ = request.getParameter("companyHQ");
+        String companyDescription = request.getParameter("companyDescription");
+        String companyAddress = request.getParameter("companyAddress");
+        String requestPoster = request.getParameter("requestPoster");
+        requestPoster = requestPoster.substring(0,requestPoster.length()-1);
+        
+        if(companyName.equals("")) companyName = requestCompanyName;
+        
+        if(vamr.solveRequest(companyName, requestPoster)) {
+        
+        return vamr.createCompany(companyIndustry, companyName, Integer.parseInt(companySize), 
+                companyWebsite, companyHQ, companyDescription, companyAddress, fileName);
+        } else {
+        return "There were some issues encountered while solving the request. Please try again.";
+        }
+    }
+    
     private String createCompanyInModal(HttpServletRequest request) {
         String fileName = "";
         try {
@@ -582,7 +683,8 @@ public class VoicesAdminController extends HttpServlet {
         long companyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
         String companyName = request.getParameter("oldCompanyName");
         String newCompanyName = request.getParameter("companyName");
-        String companyIndustry = request.getParameter("companyIndustry");
+        String companyIndustry = request.getParameter("oldCompanyIndustry");
+        String newCompanyIndustry = request.getParameter("companyIndustry");
         String companyWebsite = request.getParameter("oldCompanyWebsite");
         String newCompanyWebsite = request.getParameter("companyWebsite");
         String companyHQ = request.getParameter("oldCompanyHQ");
@@ -595,6 +697,7 @@ public class VoicesAdminController extends HttpServlet {
         String newCompanyAddress = request.getParameter("companyAddress");
 
         if(!newCompanyName.equals("")) { companyName = newCompanyName; }
+        if(!newCompanyIndustry.equals("")) { companyIndustry = newCompanyIndustry; }
         if(!newCompanyWebsite.equals("")) { companyWebsite = newCompanyWebsite; }
         if(!newCompanyHQ.equals("")) { companyHQ = newCompanyHQ; }
         if(!newCompanySize.equals("")) { companySize = newCompanySize; }
