@@ -30,7 +30,6 @@ import unifyentities.marketplace.ItemTransactionEntity;
 import unifyentities.common.CategoryEntity;
 import unifyentities.common.MessageEntity;
 
-
 @Stateless
 public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     @PersistenceContext
