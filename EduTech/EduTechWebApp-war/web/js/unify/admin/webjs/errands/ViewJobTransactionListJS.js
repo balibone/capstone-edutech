@@ -1,10 +1,10 @@
 var jobName, jobID;
 $(document).ready(function() {
-    $('#jobListing tbody').on('click', 'tr', function() {
+    $('#transactionListing tbody').on('click', 'tr', function() {
         var rowData = $(this).children("td").map(function() {
             return $(this).text();
         }).get();
-        jobName = $.trim(rowData[1]);
+        jobName = $.trim(rowData[3]);
         jobID = jobName.split(';')[1];
         $('iframe').attr('src', 'ErrandsAdmin?pageTransit=goToViewJobDetails&jobID=' + jobID);
         $('#viewJobDetails-iframe').iziModal('open', event);

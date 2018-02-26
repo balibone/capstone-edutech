@@ -51,8 +51,8 @@
     <body style="background-color: #FFFFFF;">
         <%
             Vector jobDetailsVec = (Vector) request.getAttribute("jobDetailsVec");
-            String jobImage, jobTitle, jobCategory, jobPosterID, jobRate, jobRateType, jobDescription;
-            jobImage = jobTitle = jobCategory = jobPosterID = jobRate = jobRateType = jobDescription = "";
+            String jobImage, jobTitle, jobCategory, jobPosterID, jobRate, jobRateType, jobDuration, jobDescription;
+            jobImage = jobTitle = jobCategory = jobPosterID = jobRate = jobRateType = jobDuration = jobDescription = "";
 
             String jobStatus, jobNumOfLikes, jobPostingDate, jobWorkDate;
             jobStatus = jobNumOfLikes = jobPostingDate = jobWorkDate = "";
@@ -67,18 +67,19 @@
                 jobPosterID = (String.valueOf(jobDetailsVec.get(3)));
                 jobRate = (String.valueOf(jobDetailsVec.get(4)));
                 jobRateType = (String) jobDetailsVec.get(5);
-                jobDescription = (String) jobDetailsVec.get(6);
-                jobStatus = (String) jobDetailsVec.get(7);
-                jobNumOfLikes = (String.valueOf(jobDetailsVec.get(8)));
-                jobPostingDate = (String.valueOf(jobDetailsVec.get(9)));
-                jobWorkDate = (String.valueOf(jobDetailsVec.get(10)));
-                jobStartLocation = (String) jobDetailsVec.get(11);
-                jobStartLat = (String) jobDetailsVec.get(12);
-                jobStartLong = (String) jobDetailsVec.get(13);
-                jobEndLocation = (String) jobDetailsVec.get(14);
-                jobEndLat = (String) jobDetailsVec.get(15);
-                jobEndLong = (String) jobDetailsVec.get(16);
-                jobInformation = (String) jobDetailsVec.get(17);
+                jobDuration = (String.valueOf(jobDetailsVec.get(6)));
+                jobDescription = (String) jobDetailsVec.get(7);
+                jobStatus = (String) jobDetailsVec.get(8);
+                jobNumOfLikes = (String.valueOf(jobDetailsVec.get(9)));
+                jobPostingDate = (String.valueOf(jobDetailsVec.get(10)));
+                jobWorkDate = (String.valueOf(jobDetailsVec.get(11)));
+                jobStartLocation = (String) jobDetailsVec.get(12);
+                jobStartLat = (String.valueOf(jobDetailsVec.get(13)));
+                jobStartLong = String.valueOf(jobDetailsVec.get(14));
+                jobEndLocation = (String) jobDetailsVec.get(15);
+                jobEndLat = (String.valueOf(jobDetailsVec.get(16)));
+                jobEndLong = (String.valueOf(jobDetailsVec.get(17)));
+                jobInformation = (String) jobDetailsVec.get(18);
             }
         %>
         <table class="formFields" border="0">
@@ -111,6 +112,9 @@
                         <tr><td>Job Status:</td><td><span class="label label-danger"><%= jobStatus%></span></td></tr>
                         <%  }%>
                         <tr><td>Job Rate:</td><td><strong>$<%= jobRate%>/<%= jobRateType%></strong></td></tr>
+                        <%if (jobRateType.equals("HR")){%>
+                        <tr><td>Job Duration:</td><td><strong><%= jobDuration%> hr(s)</strong></td></tr>
+                        <% }%>
                         <tr><td>Job Work Date:</td><td><strong><%= jobWorkDate%></strong></td></tr>
                         <tr><td colspan="2">Job Description:<br/><strong><%= jobDescription%></strong></td></tr>
                     </table>
@@ -118,7 +122,10 @@
             </tr>
             <tr style="text-align: center;">
                 <td colspan="2">
-                    <button type="button" class="btn btn-primary" onclick="return window.open('ErrandsAdmin?pageTransit=deleteAJob&jobID=<%= request.getAttribute("urlJobID")%>', '_parent')">Delete Job</button>&nbsp;&nbsp;
+                    <form method="post" action="ErrandsAdmin?pageTransit=deleteAJobInModal&jobID=<%= request.getAttribute("urlJobID")%>&jobCategoryID=<%= request.getAttribute("urlJobCategoryID")%>" onsubmit="return confirm('Are you sure to delete the job?');">
+                        <input id="delete-job" type="submit" value="Delete Job" />
+                    </form>
+                    <%--<button type="button" class="btn btn-primary" onclick="return window.open('ErrandsAdmin?pageTransit=deleteAJob&jobID=<%= request.getAttribute("urlJobID")%>', '_parent')">Delete Job</button>&nbsp;&nbsp;--%>
                 </td>
             </tr>
         </table>
@@ -178,15 +185,14 @@
                                         for (int i = 0; i <= jobTransList.size() - 1; i++) {
                                             Vector v = jobTransList.get(i);
                                             String jobTransDate = String.valueOf(v.get(0));
-                                            String jobTransPosterID = String.valueOf(v.get(1));
-                                            String jobTransTakerID = String.valueOf(v.get(2));
+                                            String jobTransTakerID = String.valueOf(v.get(1));
+                                            String jobTransRateType = String.valueOf(v.get(2));
                                             String jobTransRate = String.valueOf(v.get(3));
-                                            String jobTransRateType = String.valueOf(v.get(4));
                                 %>
                                 <tr>
                                     <td><%= jobTransDate%></td>
-                                    <td><%= jobTransPosterID%></td>
                                     <td><%= jobTransTakerID%></td>
+                                    <td>$<%= jobRate%>/<%= jobRateType%></td>
                                     <td>$<%= jobTransRate%>/<%= jobTransRateType%></td>
                                 </tr>
                                 <%      }   %>

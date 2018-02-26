@@ -130,7 +130,8 @@
                         <button type="button" class="btn btn-primary" onclick="companyCategoryDetailsForm.submit();">Update Company Category</button>&nbsp;&nbsp;
 
                         <%  if (activeStatus.equals("Active")) {%>
-                        <button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=deactivateACompanyCategory&hiddenCompanyCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>','_parent')">Deactivate Company Category</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlCompanyCategoryID")%>)">Deactivate Company Category</button>
+                        <%--<button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=deactivateACompanyCategory&hiddenCompanyCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>','_parent')">Deactivate Company Category</button>--%>
                         <%  } else if (activeStatus.equals("Inactive")) {%>
                         <button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=activateACompanyCategory&hiddenCompanyCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>','_parent')">Activate Company Category</button>
                         <%  }   %>

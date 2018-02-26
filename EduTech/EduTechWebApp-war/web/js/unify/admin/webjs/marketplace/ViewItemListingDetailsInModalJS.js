@@ -26,3 +26,9 @@ $(document).ready(function () {
     search_marker = L.marker([dbTradeLat, dbTradeLong], { draggable: false });
     icon_popup = L.popup().setLatLng([dbTradeLat, dbTradeLong]).setContent("Meetup Location: " + dbTradeLocation).openOn(map);
 });
+
+function AlertIt(itemID) {
+            var answer = confirm ("Are you sure to delete the item? ")
+            if (answer)
+                window.open('MarketplaceAdmin?pageTransit=deleteAnItem&itemID=' + itemID, '_parent');
+            }

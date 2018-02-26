@@ -47,6 +47,8 @@
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.newsTicker.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/iziModal.min.js"></script>
+        
+        <script type="text/javascript" src="js/unify/admin/webjs/errands/ViewJobTransactionListJS.js"></script>
     </head>
     <body onload="establishTime(); setInterval('updateTime()', 1000)">
         <header class="header navbar navbar-fixed-top" role="banner">
@@ -56,7 +58,7 @@
                 </ul>
                 <a class="navbar-brand" href="index.html">
                     <img src="images/edubox-unify-logo.png" style="width:108px;height:38px;" />
-                    <small><strong><sub>ADMIN</sub></strong</small>
+                    <small><strong><sub>ADMIN</sub></strong></small>
                 </a>
                 <a href="#" class="toggle-sidebar bs-tooltip" data-placement="bottom" data-original-title="Toggle navigation">
                     <i class="fa fa-reorder"></i>
@@ -170,7 +172,7 @@
                                     </div>
                                 </div>
                                 <div class="widget-content no-padding">
-                                    <table class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                    <table id="transactionListing" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
                                         <thead>
                                             <tr>
                                                 <th data-class="expand">Transaction Date</th>
@@ -191,16 +193,17 @@
                                                         String jobTransPosterID = String.valueOf(v.get(1));
                                                         String jobTransTakerID = String.valueOf(v.get(2));
                                                         String jobTitle = String.valueOf(v.get(3));
-                                                        String jobRate = String.valueOf(v.get(4));
-                                                        String jobRateType = String.valueOf(v.get(5));
-                                                        String jobTransRate = String.valueOf(v.get(6));
-                                                        String jobTransRateType = String.valueOf(v.get(7));
+                                                        String jobID = String.valueOf(v.get(4));
+                                                        String jobRate = String.valueOf(v.get(5));
+                                                        String jobRateType = String.valueOf(v.get(6));
+                                                        String jobTransRate = String.valueOf(v.get(7));
+                                                        String jobTransRateType = String.valueOf(v.get(8));
                                             %>
                                             <tr>
                                                 <td><%= jobTransDate%></td>
                                                 <td><%= jobTransPosterID%></td>
                                                 <td><%= jobTransTakerID%></td>
-                                                <td><%= jobTitle%></td>
+                                                <td><%= jobTitle%><span style="display: none;">;<%= jobID%></span></td>
                                                 <td>$<%= jobRate%>/<%= jobRateType%></td>
                                                 <td>$<%= jobTransRate%>/<%= jobTransRateType%></td>
                                             </tr>
@@ -215,5 +218,6 @@
                 </div>
             </div>
         </div>
+        <div id="viewJobDetails-iframe"></div>
     </body>
 </html>

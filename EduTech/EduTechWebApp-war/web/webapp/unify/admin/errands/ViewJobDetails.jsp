@@ -29,6 +29,7 @@
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/weblayout/errands/ViewJobDetailsCSS.css" rel="stylesheet" type="text/css" />
+        
 
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
@@ -51,8 +52,8 @@
     <body style="background-color: #FFFFFF;">
         <%
             Vector jobDetailsVec = (Vector) request.getAttribute("jobDetailsVec");
-            String jobImage, jobTitle, jobCategory, jobPosterID, jobRate, jobRateType, jobDescription;
-            jobImage = jobTitle = jobCategory = jobPosterID = jobRate = jobRateType = jobDescription = "";
+            String jobImage, jobTitle, jobCategory, jobPosterID, jobRate, jobRateType, jobDuration, jobDescription;
+            jobImage = jobTitle = jobCategory = jobPosterID = jobRate = jobRateType = jobDuration = jobDescription = "";
 
             String jobStatus, jobNumOfLikes, jobPostingDate, jobWorkDate;
             jobStatus = jobNumOfLikes = jobPostingDate = jobWorkDate = "";
@@ -67,18 +68,19 @@
                 jobPosterID = (String.valueOf(jobDetailsVec.get(3)));
                 jobRate = (String.valueOf(jobDetailsVec.get(4)));
                 jobRateType = (String) jobDetailsVec.get(5);
-                jobDescription = (String) jobDetailsVec.get(6);
-                jobStatus = (String) jobDetailsVec.get(7);
-                jobNumOfLikes = (String.valueOf(jobDetailsVec.get(8)));
-                jobPostingDate = (String.valueOf(jobDetailsVec.get(9)));
-                jobWorkDate = (String.valueOf(jobDetailsVec.get(10)));
-                jobStartLocation = (String) jobDetailsVec.get(11);
-                jobStartLat = (String) jobDetailsVec.get(12);
-                jobStartLong = (String) jobDetailsVec.get(13);
-                jobEndLocation = (String) jobDetailsVec.get(14);
-                jobEndLat = (String) jobDetailsVec.get(15);
-                jobEndLong = (String) jobDetailsVec.get(16);
-                jobInformation = (String) jobDetailsVec.get(17);
+                jobDuration = (String.valueOf(jobDetailsVec.get(6)));
+                jobDescription = (String) jobDetailsVec.get(7);
+                jobStatus = (String) jobDetailsVec.get(8);
+                jobNumOfLikes = (String.valueOf(jobDetailsVec.get(9)));
+                jobPostingDate = (String.valueOf(jobDetailsVec.get(10)));
+                jobWorkDate = (String.valueOf(jobDetailsVec.get(11)));
+                jobStartLocation = (String) jobDetailsVec.get(12);
+                jobStartLat = (String) jobDetailsVec.get(13);
+                jobStartLong = (String) jobDetailsVec.get(14);
+                jobEndLocation = (String) jobDetailsVec.get(15);
+                jobEndLat = (String) jobDetailsVec.get(16);
+                jobEndLong = (String) jobDetailsVec.get(17);
+                jobInformation = (String) jobDetailsVec.get(18);
             }
         %>
         <table class="formFields" border="0">
@@ -104,6 +106,9 @@
                         <tr><td>Job Status:</td><td><span class="label label-danger"><%= jobStatus%></span></td></tr>
                         <%  }%>
                         <tr><td>Job Rate:</td><td><strong>$<%= jobRate%>/<%= jobRateType%></strong></td></tr>
+                        <%if (jobRateType.equals("HR")){%>
+                        <tr><td>Job Duration:</td><td><strong><%= jobDuration%> hr(s)</strong></td></tr>
+                        <% }%>
                         <tr><td>Job Work Date:</td><td><strong><%= jobWorkDate%></strong></td></tr>
                         <tr><td colspan="2">Job Description:<br/><strong><%= jobDescription%></strong></td></tr>
                     </table>
@@ -111,7 +116,10 @@
             </tr>
             <tr style="text-align: center;">
                 <td colspan="2">
-                    <button type="button" class="btn btn-primary" onclick="return window.open('ErrandsAdmin?pageTransit=deleteAJob&jobID=<%= request.getAttribute("urlJobID")%>', '_parent')">Delete Job</button>&nbsp;&nbsp;
+                    <%--<button type="button" class="btn btn-primary" onclick="return confirm('Do you really want to delete the job?'); return window.open('', '_parent');">Delete Job</button>&nbsp;&nbsp;--%>
+                    <form target="_parent" method="post" action="ErrandsAdmin?pageTransit=deleteAJob&jobID=<%= request.getAttribute("urlJobID")%>" onsubmit="return confirm('Are you sure to delete the job?');">
+                        <input id="delete-job" type="submit" value="Delete Job" />
+                    </form>
                 </td>
             </tr>
         </table>
@@ -159,28 +167,40 @@
                             <thead>
                                 <tr>
                                     <th data-class="expand">Transaction Date</th>
-                                    <th data-class="expand">Job Poster ID</th>
                                     <th data-class="expand">Job Taker ID</th>
-                                    <th data-hide="phone">Job Rate</th>
+                                    <th data-class="expand">Job Listing Rate</th>
+                                    <th data-hide="phone">Job Final Rate</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <%
+                                    //String jobTransListRate, jobTransFinalRate;
                                     ArrayList<Vector> jobTransList = (ArrayList) request.getAttribute("jobTransList");
                                     if (!jobTransList.isEmpty()) {
                                         for (int i = 0; i <= jobTransList.size() - 1; i++) {
                                             Vector v = jobTransList.get(i);
                                             String jobTransDate = String.valueOf(v.get(0));
-                                            String jobTransPosterID = String.valueOf(v.get(1));
-                                            String jobTransTakerID = String.valueOf(v.get(2));
-                                            String jobTransRate = String.valueOf(v.get(3));
-                                            String jobTransRateType = String.valueOf(v.get(4));
+                                            String jobTransTakerID = String.valueOf(v.get(1));
+                                            String jobFinalRateType = String.valueOf(v.get(2));
+                                            String jobFinalRate = String.valueOf(v.get(3));
+                                            
+                                            /*if(jobRateType.equals("Fixed")){
+                                                jobTransListRate = "$" + jobRate + "/" + jobRateType;
+                                            }else{
+                                                jobTransListRate = "$" + String.valueOf((Double.parseDouble(jobRate)) * (Double.parseDouble(jobDuration))) + "/" + jobRateType;
+                                            }
+                                            if(jobFinalRateType.equals("Fixed")){
+                                                jobTransFinalRate = "$" + jobFinalRate + "/" + jobFinalRateType;
+                                            }else{
+                                                jobTransFinalRate = "$" + String.valueOf((Double.parseDouble(jobFinalRate)) * (Double.parseDouble(jobDuration))) + "/" + jobFinalRateType;
+                                            }*/
+                                   
                                 %>
                                 <tr>
                                     <td><%= jobTransDate%></td>
-                                    <td><%= jobTransPosterID%></td>
                                     <td><%= jobTransTakerID%></td>
-                                    <td>$<%= jobTransRate%>/<%= jobTransRateType%></td>
+                                    <td>$<%= jobRate%>/<%= jobRateType%></td>
+                                    <td>$<%= jobFinalRate%>/<%= jobFinalRateType%></td>
                                 </tr>
                                 <%      }   %>
                                 <%  }   %>

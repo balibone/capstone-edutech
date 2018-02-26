@@ -27,3 +27,9 @@ function previewImage(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
 }
+
+function AlertIt(iCategoryID) {
+            var answer = confirm ("Are you sure to deactivate the category? ")
+            if (answer)
+                window.open('MarketplaceAdmin?pageTransit=deactivateAnItemCategory&hiddenItemCategoryID=' + iCategoryID,'_parent');
+}

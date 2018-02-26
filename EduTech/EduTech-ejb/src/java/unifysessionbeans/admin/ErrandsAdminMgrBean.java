@@ -27,7 +27,7 @@ import unifyentities.common.CategoryEntity;
 import unifyentities.errands.JobEntity;
 import unifyentities.errands.JobReviewEntity;
 import unifyentities.errands.JobTransactionEntity;
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 
 @Stateless
 public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
@@ -95,9 +95,12 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
     @Override
     public List<Vector> viewAssociatedJobList(long jobCategoryID) {
         cEntity = lookupJobCategory(jobCategoryID);
+        //Query q = em.createQuery("SELECT j FROM Job j WHERE j.categoryEntity = :category");
+        //q.setParameter("category", cEntity);
+        
         List<Vector> jobList = new ArrayList<Vector>();
 
-        if (cEntity.getItemSet() != null) {
+        /*if (cEntity.getItemSet() != null) {
             jobSet = cEntity.getJobSet();
             if (!jobSet.isEmpty()) {
                 for (JobEntity je : jobSet) {
@@ -114,7 +117,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                     jobDetails.add(je.getJobStatus());
                     jobList.add(jobDetails);
                 }
-            } else {
+            } else {*/
                 Query q = em.createQuery("SELECT j FROM Job j WHERE j.categoryEntity.categoryName = :jobCategoryName");
                 q.setParameter("jobCategoryName", cEntity.getCategoryName());
 
@@ -122,6 +125,8 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                     JobEntity jobE = (JobEntity) o;
                     Vector jobVec = new Vector();
 
+                    jobVec.add(jobE.getJobID());
+                    jobVec.add(jobE.getCategoryEntity().getCategoryID());
                     jobVec.add(jobE.getJobImage());
                     jobVec.add(jobE.getJobTitle());
                     jobVec.add(jobE.getUserEntity().getUsername());
@@ -131,8 +136,8 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                     jobVec.add(jobE.getJobStatus());
                     jobList.add(jobVec);
                 }
-            }
-        }
+            //}
+        //}
         return jobList;
     }
 
@@ -232,6 +237,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             jobDetailsVec.add(jEntity.getUserEntity().getUsername());
             jobDetailsVec.add(jEntity.getJobRate());
             jobDetailsVec.add(jEntity.getJobRateType());
+            jobDetailsVec.add(jEntity.getJobDuration());
             jobDetailsVec.add(jEntity.getJobDescription());
             jobDetailsVec.add(jEntity.getJobStatus());
             jobDetailsVec.add(jEntity.getJobNumOfLikes());
@@ -261,10 +267,10 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                     
                     jobTransDetails.add(jte.getJobTransactionDate());
                     /* WE ASSUME THAT THE JOB POSTER IS THE ONE WHO CREATES THE TRANSACTION */
-                    jobTransDetails.add(jte.getUserEntity().getUsername());
+                    //jobTransDetails.add(jte.getUserEntity().getUsername());
                     jobTransDetails.add(jte.getJobTakerID());
-                    jobTransDetails.add(jte.getJobTransactionRate());
                     jobTransDetails.add(jte.getJobTransactionRateType());
+                    jobTransDetails.add(jte.getJobTransactionRate());
                     jobTransactionList.add(jobTransDetails);
                 }
             } else {
@@ -355,6 +361,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             jobTransVec.add(jobTransE.getUserEntity().getUsername());
             jobTransVec.add(jobTransE.getJobTakerID());
             jobTransVec.add(jobTransE.getJobEntity().getJobTitle());
+            jobTransVec.add(jobTransE.getJobEntity().getJobID());
             jobTransVec.add(jobTransE.getJobEntity().getJobRate());
             jobTransVec.add(jobTransE.getJobEntity().getJobRateType());
             jobTransVec.add(jobTransE.getJobTransactionRate());

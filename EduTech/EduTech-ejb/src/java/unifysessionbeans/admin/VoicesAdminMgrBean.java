@@ -29,7 +29,7 @@ import unifyentities.common.CategoryEntity;
 import unifyentities.voices.CompanyEntity;
 import unifyentities.voices.CompanyReviewEntity;
 import unifyentities.voices.CompanyRequestEntity;
-import commoninfrastructure.UserEntity;
+import commoninfrastructureentities.UserEntity;
 
 @Stateless
 public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
