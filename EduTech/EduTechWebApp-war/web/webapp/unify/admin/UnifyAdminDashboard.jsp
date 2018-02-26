@@ -201,39 +201,185 @@
                     </div>
                     <%-- recent reported listings (3 tabs) --%>
                     <%-- add tabs here for each report --%>
-                    <div class="row">
+                    <div class="row">                        
                         <div class="col-md-7">
-                            <div class="widget box">
-                                <div class="widget-header">
-                                    <h4><i class="fa fa-reorder fa-5x"></i>&nbsp;Recent Reported Listings</h4>
-                                    <div class="toolbar no-padding">
-                                        <div class="btn-group">
-                                            <span class="btn btn-xs widget-collapse"><i class="fa fa-chevron-down"></i></span>
+                            <div class="tabbable tabbable-custom">
+                                <div class="widget box">
+                                    <div class="widget-header">
+                                        <h4><i class="fa fa-reorder fa-5x"></i>&nbsp;Recent Reported Listings</h4>
+                                        <div class="toolbar no-padding">
+                                            <div class="btn-group">
+                                                <span class="btn btn-xs widget-collapse"><i class="fa fa-chevron-down"></i></span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="widget-content no-padding">
-                                    <table class="table table-striped table-checkable table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th class="hidden-xs">First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Status</th>
-                                                <th class="align-center">Approve</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="hidden-xs">Joey</td>
-                                                <td>Greyson</td>
-                                                <td><span class="label label-success">Approved</span></td>
-                                                <td class="align-center">
-                                                    <span class="btn-group"><a href="javascript:void(0);" title="Approve" class="btn btn-xs bs-tooltip"><i class="icon-ok"></i></a></span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <a class="tableMore" href="javascript:void(0);">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#companyReview" data-toggle="tab">Company Review Report</a></li>
+                                        <li><a href="#errandReport" data-toggle="tab">Errand Report</a></li>
+                                        <li><a href="#errandReviewReport" data-toggle="tab">Errand Review Report</a></li>
+                                        <li><a href="#marketplaceReport" data-toggle="tab">Marketplace Item Report</a></li>
+                                    </ul>
+
+                                    <div class="tab-content">
+
+                                        <%-- primary tab --%>
+                                        <div class="tab-pane active" id="companyReview">
+                                            <div class="widget-content no-padding">
+                                                <table class="table table-striped table-checkable table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hidden-xs">Report Date</th>
+                                                            <th>Review ID</th>
+                                                            <th>Report Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <%
+                                                            ArrayList<Vector> reportList = (ArrayList) request.getAttribute("reportReviewList");
+
+                                                            for (int i = 0; i <= reportList.size() - 1; i++) {
+                                                                Vector v = reportList.get(i);
+                                                                String reportID = String.valueOf(v.get(0));
+                                                                String reportStatus = String.valueOf(v.get(1));
+                                                                String reportDescription = String.valueOf(v.get(2));
+                                                                String reportDate = String.valueOf(v.get(3));
+                                                                String reportedReviewID = String.valueOf(v.get(4));
+                                                                String reportedPosterID = String.valueOf(v.get(5));
+                                                                String reportedReporterID = String.valueOf(v.get(6));
+
+                                                        %>
+                                                        <tr>
+                                                            <td><%= reportDate%></td>
+                                                            <td><%= reportedReviewID%></td>
+                                                            <td><%= reportStatus%></td>
+                                                        </tr>
+
+                                                        <%  }%>
+                                                    </tbody>
+                                                </table>
+                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToReportedReviewListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <%-- second tab --%>
+                                        <div class="tab-pane" id="errandReport">
+                                            <div class="widget-content no-padding">
+                                                <table class="table table-striped table-checkable table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hidden-xs">Report Date</th>
+                                                            <th>Review ID</th>
+                                                            <th>Report Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <%
+                                                            ArrayList<Vector> reportList2 = (ArrayList) request.getAttribute("reportErrandsList");
+
+                                                            for (int i = 0; i <= reportList2.size() - 1; i++) {
+                                                                Vector v = reportList2.get(i);
+                                                                String reportID = String.valueOf(v.get(0));
+                                                                String reportStatus = String.valueOf(v.get(1));
+                                                                String reportDescription = String.valueOf(v.get(2));
+                                                                String reportDate = String.valueOf(v.get(3));
+                                                                String reportedErrandID = String.valueOf(v.get(4));
+                                                                String reportedPosterID = String.valueOf(v.get(5));
+                                                                String reportedReporterID = String.valueOf(v.get(6));
+                                                        %>
+                                                        <tr>
+                                                            <td><%= reportDate%></td>
+                                                            <td><%= reportedErrandID%></td>                                                           
+                                                            <td><%= reportStatus%></td>
+                                                        </tr>
+
+                                                        <%  }%>
+                                                    </tbody>
+                                                </table>
+                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToReportedErrandsListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <%-- third tab --%>
+                                        <div class="tab-pane" id="errandReviewReport">
+                                            <div class="widget-content no-padding">
+                                                <table class="table table-striped table-checkable table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hidden-xs">Report Date</th>
+                                                            <th>Review ID</th>
+                                                            <th>Report Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <%
+                                                            ArrayList<Vector> reportList3 = (ArrayList) request.getAttribute("reportErrandsReviewList");
+
+                                                            for (int i = 0; i <= reportList3.size() - 1; i++) {
+                                                                Vector v = reportList3.get(i);
+                                                                String reportID = String.valueOf(v.get(0));
+                                                                String reportStatus = String.valueOf(v.get(1));
+                                                                String reportDescription = String.valueOf(v.get(2));
+                                                                String reportDate = String.valueOf(v.get(3));
+                                                                String reportedErrandID = String.valueOf(v.get(4));
+                                                                String reportedPosterID = String.valueOf(v.get(5));
+                                                                String reportedReporterID = String.valueOf(v.get(6));
+
+                                                        %>
+                                                        <tr>
+                                                            <td><%= reportDate%></td>
+                                                            <td><%= reportedErrandID%></td>
+                                                            <td><%= reportStatus%></td>
+                                                        </tr>
+
+                                                        <%  }%>
+                                                    </tbody>
+                                                </table>
+                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToReportedErrandsReviewListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <%-- fourth tab --%>
+                                        <div class="tab-pane" id="marketplaceReport">
+                                            <div class="widget-content no-padding">
+                                                <table class="table table-striped table-checkable table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hidden-xs">Report Date</th>
+                                                            <th>Review ID</th>
+                                                            <th>Report Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <%
+                                                            ArrayList<Vector> reportList4 = (ArrayList) request.getAttribute("reportList");
+
+                                                            for (int i = 0; i <= reportList4.size() - 1; i++) {
+                                                                Vector v = reportList4.get(i);
+                                                                String reportID = String.valueOf(v.get(0));
+                                                                String reportStatus = String.valueOf(v.get(1));
+                                                                String reportDescription = String.valueOf(v.get(2));
+                                                                String reportDate = String.valueOf(v.get(3));
+                                                                String reportedItemID = String.valueOf(v.get(4));
+                                                                String reportedPosterID = String.valueOf(v.get(5));
+                                                                String reportedReporterID = String.valueOf(v.get(6));
+
+
+                                                        %>
+                                                        <tr>
+                                                            <td><%= reportDate%></td>
+                                                            <td><%= reportedItemID%></td>
+                                                            <td><%= reportStatus%></td>
+                                                        </tr>
+
+                                                        <%  }%>
+                                                    </tbody>
+                                                </table>
+                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToReportedMarketplaceListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <%-- end of tab contents --%>
                                 </div>
                             </div>
                         </div>

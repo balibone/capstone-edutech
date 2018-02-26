@@ -56,6 +56,10 @@ public class UserProfileAdminController extends HttpServlet {
                     request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount()+ camr.getUnresolvedErrandsReportCount()+camr.getUnresolvedErrandsReviewReportCount()+camr.getUnresolvedItemReportCount());
                     request.setAttribute("pendingEventRequestCount", camr.getPendingEventRequestCount());
                     request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListing());
+                    request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListingDashboard());
+                    request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListingDashboard());
+                    request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListingDashboard());
+                    request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListingDashboard());
                     
                     request.setAttribute("viewRecentItemTransactionList", (ArrayList) mamr.viewRecentItemTransactionList());
                     pageAction = "UnifyAdminDashboard";

@@ -246,6 +246,29 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return reportedList;
     }
+    
+    @Override
+    public List<Vector> viewReportedMarketplaceListingDashboard() {
+        Query q = em.createQuery("SELECT i FROM ItemReport i ORDER BY i.itemReportDate DESC");
+        List<Vector> reportedList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+
+        for (Object o : q.setMaxResults(3).getResultList()) {
+            ItemReportEntity reportedE = (ItemReportEntity) o;
+            Vector reportedVec = new Vector();
+
+            reportedVec.add(reportedE.getItemReportID());
+            reportedVec.add(reportedE.getItemReportStatus());
+            reportedVec.add(reportedE.getItemReportDescription());
+            reportedVec.add(df.format(reportedE.getItemReportDate()));
+            reportedVec.add(reportedE.getItemID());
+            reportedVec.add(reportedE.getItemPosterID());
+            reportedVec.add(reportedE.getItemReporterID());
+            reportedList.add(reportedVec);
+        }
+        return reportedList;
+    }
 
     @Override
     public Vector viewMarketplaceDetails(String marketplaceReportID) {
@@ -351,6 +374,29 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         return reportedList;
     }
 
+    @Override
+    public List<Vector> viewReportedReviewListingDashboard() {
+        Query q = em.createQuery("SELECT i FROM CompanyReviewReport i ORDER BY i.reviewReportDate DESC");
+        List<Vector> reportedList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+
+        for (Object o : q.setMaxResults(3).getResultList()) {
+            CompanyReviewReportEntity reportedE = (CompanyReviewReportEntity) o;
+            Vector reportedVec = new Vector();
+
+            reportedVec.add(reportedE.getReviewReportID());
+            reportedVec.add(reportedE.getReviewReportStatus());
+            reportedVec.add(reportedE.getReviewReportDescription());
+            reportedVec.add(df.format(reportedE.getReviewReportDate()));
+            reportedVec.add(reportedE.getReviewID());
+            reportedVec.add(reportedE.getReviewPosterID());
+            reportedVec.add(reportedE.getReviewReporterID());
+            reportedList.add(reportedVec);
+        }
+        return reportedList;
+    }
+    
     @Override
     public Vector viewReviewDetails(String reviewReportID) {
         crrEntity = lookupReportedReview(reviewReportID);
@@ -663,6 +709,29 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
+    public List<Vector> viewReportedErrandsListingDashboard() {
+        Query q = em.createQuery("SELECT i FROM JobReport i ORDER BY i.jobReportDate DESC");
+        List<Vector> reportedList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+
+        for (Object o : q.setMaxResults(3).getResultList()) {
+            JobReportEntity reportedE = (JobReportEntity) o;
+            Vector reportedVec = new Vector();
+
+            reportedVec.add(reportedE.getJobReportID());
+            reportedVec.add(reportedE.getJobReportStatus());
+            reportedVec.add(reportedE.getJobReportDescription());
+            reportedVec.add(df.format(reportedE.getJobReportDate()));
+            reportedVec.add(reportedE.getJobID());
+            reportedVec.add(reportedE.getJobPosterID());
+            reportedVec.add(reportedE.getJobReporterID());
+            reportedList.add(reportedVec);
+        }
+        return reportedList;
+    }
+    
+    @Override
     public Vector viewErrandDetails(String errandReportID) {
         jrEntity = lookupReportedErrand(errandReportID);
         Vector errandDetails = new Vector();
@@ -750,6 +819,29 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         DateFormat df = new SimpleDateFormat("d MMMM yyyy");
 
         for (Object o : q.getResultList()) {
+            JobReviewReportEntity reportedE = (JobReviewReportEntity) o;
+            Vector reportedVec = new Vector();
+            reportedVec.add(reportedE.getJobReviewReportID());
+            reportedVec.add(reportedE.getJobReviewReportStatus());
+            reportedVec.add(reportedE.getJobReviewReportDescription());
+            reportedVec.add(df.format(reportedE.getJobReviewReportDate()));
+            reportedVec.add(reportedE.getJobReviewID());
+            reportedVec.add(reportedE.getJobReviewPosterID());
+            reportedVec.add(reportedE.getJobReviewReporterID());
+            reportedList.add(reportedVec);
+
+        }
+        return reportedList;
+    }
+    
+    @Override
+    public List<Vector> viewReportedErrandsReviewListingDashboard() {
+        Query q = em.createQuery("SELECT i FROM JobReviewReport i ORDER BY i.jobReviewReportDate DESC");
+        List<Vector> reportedList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+
+        for (Object o : q.setMaxResults(3).getResultList()) {
             JobReviewReportEntity reportedE = (JobReviewReportEntity) o;
             Vector reportedVec = new Vector();
             reportedVec.add(reportedE.getJobReviewReportID());
