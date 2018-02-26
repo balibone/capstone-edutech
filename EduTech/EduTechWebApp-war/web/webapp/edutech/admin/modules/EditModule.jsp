@@ -166,6 +166,10 @@
                                         <label for="recipient-name" class="control-label">Title:</label>
                                         <input type="text" required class="form-control" name="title"/>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="control-label">Location:</label>
+                                        <input type="text" required class="form-control" name="location"/>
+                                    </div>
                                     <br>
                                     <div class="form-inline">
                                         <div class="form-group">
@@ -194,6 +198,8 @@
                                         <label>Description:</label>
                                         <textarea class="form-control" required name="description"></textarea>
                                     </div>
+                                    <input type="hidden" name="id" value="<%=moduleCode%>">
+                                    <input type="hidden" name="pageTransit" value="addEventToMod">
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -223,5 +229,6 @@
                 $("textarea#description").val("<%=description%>");
             });
         </script>
+        <script src="js/edutech/admin/webjs/modules/EditModuleJS.js"></script>
     </body>
 </html>

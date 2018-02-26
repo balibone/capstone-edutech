@@ -138,6 +138,15 @@ public class EduTechAdminController extends HttpServlet {
                     }
                     pageAction = "EditModule";
                     break;
+                case "addEventToMod":
+                    id=request.getParameter("id");
+                    eam.addEventToMod(request.getParameter("title"),request.getParameter("location"),request.getParameter("day")
+                            ,request.getParameter("startTime"),request.getParameter("endTime"),
+                            request.getParameter("description"),id);//handle ajax call
+                    request.setAttribute("moduleInfo", eam.getModuleInfo(id));
+                    //there is no redirect because ajax call is async.
+                    pageAction = "EditModule";//just so that processRequest doesnt give error. 
+                    break;
                 case "deleteModule":
                     id = request.getParameter("id");
                     eam.deleteModule(id);

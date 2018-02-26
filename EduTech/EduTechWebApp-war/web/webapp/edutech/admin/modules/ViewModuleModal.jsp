@@ -89,10 +89,10 @@
                                         <table class="table table-condensed table-striped">
                                         <thead>
                                             <tr>
-                                            <th>Title</th>
-                                            <th>Day</th>
-                                            <th>Start</th>
-                                            <th>End</th>
+                                                <th>Title</th>
+                                                <th>Day</th>
+                                                <th>Start</th>
+                                                <th>End</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -105,10 +105,10 @@
                                                     String endTime = (String)eventInfo.get(3);
                                             %>
                                             <tr>    
-                                            <td><%=title%></td>
-                                            <td><%=day%></td>
-                                            <td><%=startTime%></td>
-                                            <td><%=endTime%></td>
+                                                <td><%=title%></td>
+                                                <td><%=day%></td>
+                                                <td><%=startTime%></td>
+                                                <td><%=endTime%></td>
                                             </tr>
                                             <%    
                                                 }

@@ -1,11 +1,10 @@
 $(function(){
     $("#eventForm").on("submit", function(event){
-        console.log("hi");
         event.preventDefault();
         var formData = $(this).serialize();
         console.log(formData);
         $.ajax({
-            url: "/EduTechAdmin",
+            url: "EduTechAdmin",
             type: 'POST',
             data: formData,
             success: function(data){
@@ -16,6 +15,5 @@ $(function(){
                 alert(status+": "+error);
             }
         });
-        
     });
 });

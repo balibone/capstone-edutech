@@ -15,6 +15,8 @@ import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
@@ -245,5 +247,23 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             System.out.println("Error in editModule() **********************************");
             return false;
         }
+    }
+
+    @Override
+    public void addEventToMod(String title, String location, String day, String startTime, String endTime, String description, String id) {
+        //creates new event and adds in the attribute values
+        RecurringEventEntity event = new RecurringEventEntity();
+        event.setTitle(title);
+        event.setLocation(location);
+        event.setDayOfWeek(DayOfWeek.valueOf(day.toUpperCase()));
+        System.out.println("START TIME IS "+startTime);
+        event.setStartTime(LocalTime.parse(startTime));
+        System.out.println("END TIME IS "+endTime);
+        event.setEndTime(LocalTime.parse(endTime));
+        event.setDescription(description);
+        //persist new event
+        em.persist(event);
+        //adds new event to this module.
+        em.find(ModuleEntity.class,id).getRecurringEvents().add(event);
     }
 }
