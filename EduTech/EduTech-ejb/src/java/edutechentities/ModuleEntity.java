@@ -135,5 +135,13 @@ public class ModuleEntity implements Serializable {
     public void setRecurringEvents(Collection<RecurringEventEntity> recurringEvents) {
         this.recurringEvents = recurringEvents;
     }
+
+    public Collection<RecurringEventEntity> getRecurringEvents() {
+        return recurringEvents;
+    }
+
+    public void setRecurringEvents(Collection<RecurringEventEntity> recurringEvents) {
+        this.recurringEvents = recurringEvents;
+    }
     
 }
