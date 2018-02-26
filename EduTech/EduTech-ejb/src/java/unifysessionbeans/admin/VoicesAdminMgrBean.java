@@ -653,7 +653,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     public CategoryEntity lookupCompanyCategory(String companyIndustry) {
         CategoryEntity ce = new CategoryEntity();
         try {
-            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryName = :companyIndustry");
+            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryName = :companyIndustry AND c.categoryType='Voices' ");
             q.setParameter("companyIndustry", companyIndustry);
             ce = (CategoryEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {
