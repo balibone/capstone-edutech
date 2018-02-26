@@ -109,7 +109,7 @@
                         </li>
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
-                            <li class="current">
+                        <li class="current">
                             <ul class="sub-menu">
                                 <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
@@ -199,9 +199,9 @@
                                         <thead>
                                             <tr>
                                                 <th>Request ID</th>
-                                                <th>Request Status</th>
                                                 <th>Request Date</th>
                                                 <th>Request Submitted By</th>
+                                                <th>Request Status</th>
 
                                             </tr>
                                         </thead>
@@ -221,11 +221,9 @@
                                             <tr>
 
                                                 <td><%= requestID%></td>
-                                                <td><%= requestStatus%></td>
-
                                                 <td><%= requestDate%></td>
                                                 <td><%= requesterID%></td>
-
+                                                <td><%= requestStatus%></td>
 
                                             </tr>
 

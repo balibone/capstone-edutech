@@ -109,7 +109,7 @@
                         </li>
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
-                            <li class="current">
+                        <li class="current">
                             <ul class="sub-menu">
                                 <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
@@ -196,13 +196,11 @@
                                         <thead>
                                             <tr>
                                                 <th>Report ID</th>
-                                                <th>Report Status</th>
-
                                                 <th>Report Date</th>
                                                 <th>Reported Errand ID</th>
                                                 <th>Reported Poster ID</th>
                                                 <th>Reported Reporter ID</th>
-
+                                                <th>Report Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -222,12 +220,11 @@
                                             <tr>
 
                                                 <td><%= reportID%></td>
-                                                <td><%= reportStatus%></td>
-
                                                 <td><%= reportDate%></td>
                                                 <td><%= reportedErrandID%></td>
                                                 <td><%= reportedPosterID%></td>
                                                 <td><%= reportedReporterID%></td>
+                                                <td><%= reportStatus%></td>
                                             </tr>
 
                                             <%  }%>

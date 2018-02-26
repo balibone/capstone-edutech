@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-        <title>Unify Admin - List of Errands Review Reported</title>
+        <title>Unify Admin - List of Marketplace Item Reported</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
@@ -109,7 +109,7 @@
                         </li>
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
-                            <li class="current">
+                        <li class="current">
                             <ul class="sub-menu">
                                 <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
@@ -197,15 +197,11 @@
                                         <thead>
                                             <tr>
                                                 <th>Report ID</th>
-                                                <th>Report Status</th>
-
                                                 <th>Report Date</th>
                                                 <th>Reported Item ID</th>
                                                 <th>User ID of Item Poster</th>
                                                 <th>User ID of Reporter</th>
-
-
-
+                                                <th>Report Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -225,16 +221,12 @@
 
                                             %>
                                             <tr>
-
                                                 <td><%= reportID%></td>
-                                                <td><%= reportStatus%></td>
-
                                                 <td><%= reportDate%></td>
                                                 <td><%= reportedItemID%></td>
                                                 <td><%= reportedPosterID%></td>
                                                 <td><%= reportedReporterID%></td>
-
-
+                                                <td><%= reportStatus%></td>
                                             </tr>
 
                                             <%  }%>
