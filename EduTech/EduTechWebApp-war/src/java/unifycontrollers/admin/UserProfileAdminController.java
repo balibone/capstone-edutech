@@ -24,6 +24,7 @@ import unifysessionbeans.admin.MarketplaceAdminMgrBeanRemote;
 import unifysessionbeans.admin.ErrandsAdminMgrBeanRemote;
 import unifysessionbeans.admin.UserProfileAdminMgrBeanRemote;
 import unifysessionbeans.admin.VoicesAdminMgrBeanRemote;
+import unifysessionbeans.admin.ContentAdminMgrBeanRemote;
 
 public class UserProfileAdminController extends HttpServlet {
     @EJB
@@ -34,6 +35,8 @@ public class UserProfileAdminController extends HttpServlet {
     private UserProfileAdminMgrBeanRemote uamr;
     @EJB
     private VoicesAdminMgrBeanRemote vamr;
+    @EJB
+    private ContentAdminMgrBeanRemote camr;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -50,6 +53,9 @@ public class UserProfileAdminController extends HttpServlet {
                     request.setAttribute("errandsTransTodayCount", eamr.getErrandsTransTodayCount());
                     request.setAttribute("errandsListingCount", eamr.getJobListingCount());
                     request.setAttribute("companyReviewCount", vamr.getCompanyReviewCount());
+                    request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount()+ camr.getUnresolvedErrandsReportCount()+camr.getUnresolvedErrandsReviewReportCount()+camr.getUnresolvedItemReportCount());
+                    request.setAttribute("pendingEventRequestCount", camr.getPendingEventRequestCount());
+                    request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListing());
                     
                     request.setAttribute("viewRecentItemTransactionList", (ArrayList) mamr.viewRecentItemTransactionList());
                     pageAction = "UnifyAdminDashboard";
