@@ -33,7 +33,7 @@ public class JobTransactionEntity implements Serializable {
     private Double jobTransactionRate;
     private String jobTransactionRateType;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date jobTransactionDate;
 
     /* FOREIGN KEY */

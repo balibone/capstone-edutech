@@ -46,7 +46,7 @@ public class JobEntity implements Serializable {
     private String jobEndLat;
     private String jobEndLong;
     private String jobInformation;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date jobWorkDate;
     private Double jobRate;
     private String jobRateType;
@@ -55,7 +55,7 @@ public class JobEntity implements Serializable {
     private String jobStatus;
     private int jobNumOfLikes;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date jobPostDate;
 
     /* FOREIGN KEY */

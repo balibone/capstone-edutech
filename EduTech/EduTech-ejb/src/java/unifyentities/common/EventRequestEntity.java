@@ -1,3 +1,14 @@
+/***************************************************************************************
+*    Title:         EventRequestEntity.java
+*    Purpose:       LIST OF EVENTS REQUESTS SUBMITTED BY SYSTEM USERS
+*    Author:        NIGEL LEE TJON YI
+*    Credits:       CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE, ZHU XINYI
+*    Date:          25 JANUARY 2018
+*    Code version:  1.0
+*    Availability:  RESTRICTED
+*
+***************************************************************************************/
+
 package unifyentities.common;
 
 import java.io.Serializable;
@@ -30,7 +41,7 @@ public class EventRequestEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date eventReviewedDate;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date eventRequestDate;
     
     

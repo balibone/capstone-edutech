@@ -1,3 +1,12 @@
+/***************************************************************************************
+*   Title:                  JobReviewReportEntity.java
+*   Purpose:                LIST OF ERRANDS-RELATED REPORTS BY THE CAMPUS USERS
+*   Created & Modified By:  TAN CHIN WEE WINSTON
+*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
+*   Date:                   19 FEBRUARY 2018
+*   Code version:           1.0
+*   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
+***************************************************************************************/
 
 package unifyentities.common;
 

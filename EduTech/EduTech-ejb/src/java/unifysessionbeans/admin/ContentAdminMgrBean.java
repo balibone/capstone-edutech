@@ -1,7 +1,7 @@
 /**
  * *************************************************************************************
  *   Title:                  ContentAdminMgrBean.java
- *   Purpose:                LIST OF MANAGER BEAN METHODS FOR UNIFY ERRANDS - ADMIN (EDUBOX)
+ *   Purpose:                LIST OF MANAGER BEAN METHODS FOR UNIFY CONTENT ADMINISTRATION - ADMIN (EDUBOX)
  *   Created By:             NIGEL LEE TJON YI
  *   Modified By:            TAN CHIN WEE WINSTON
  *   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI

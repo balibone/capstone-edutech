@@ -83,14 +83,14 @@
             <div class="container">
                 <div class="row py-2 py-lg-0">
                     <div class="col-2 col-sm-1 d-block d-lg-none">
-                        <div class="d-flex align-items-center h-100 justify-content-center menu-btn-wrapper">
+                        <div class="d-flex align-items-center justify-content-center menu-btn-wrapper">
                             <button class="btn btn-lg border-0 btn-link offcanvas-btn p-0" type="button">
                                 <i class="fa fa-bars"></i>
                             </button>
                         </div>
                     </div>
                     <div class="col-2 col-sm-1 col-lg-3 pr-0">
-                        <div class="d-flex align-items-center h-100 logo-wrapper">
+                        <div class="d-flex align-items-center logo-wrapper">
                             <a href="index.html" class="d-lg-none">
                                 <img src="images/edubox-logo.png" class="logo" />
                             </a>
@@ -99,8 +99,8 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-8 col-sm-6 col-md-7 col-lg-6">
-                        <div class="d-flex align-items-center h-100">
+                    <div class="col-8 col-sm-6 col-md-7 col-lg-6 mt-3">
+                        <div class="d-flex align-items-center">
                             <div class="input-group input-group-search">
                                 <div class="input-group-prepend d-none d-md-flex">
                                     <select class="select-dropdown">
@@ -117,8 +117,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block">
-                        <div class="d-flex align-items-center h-100 float-right abg-secondary">
+                    <div class="col-4 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block mt-3">
+                        <div class="d-flex align-items-center float-right abg-secondary">
                             <div class="btn-group btn-group-sm mr-3" role="group">
                                 <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item

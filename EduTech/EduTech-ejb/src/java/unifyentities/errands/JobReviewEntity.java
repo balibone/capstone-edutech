@@ -32,7 +32,7 @@ public class JobReviewEntity implements Serializable {
     private String jobReviewRating;
     private String jobReviewContent;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date jobReviewDate;
     
     /* FOREIGN KEY */

@@ -40,12 +40,13 @@ public interface MarketplaceAdminMgrBeanRemote {
     public Long getInactiveItemCategoryListCount();
     public Long getItemListingCount();
     public Long getAvailableItemListingCount();
-    public Long getSoldItemListingCount();
     public Long getReservedItemListingCount();
+    public Long getSoldItemListingCount();
+    public List<Vector> viewRecentItemTransactionList();
     
     /* METHODS FOR UNIFY USER PROFILE */
     public List<Vector> viewUserItemList(String username);
     public List<Vector> viewUserItemTransactionList(String username);
-    
+        
     public void createSystemMessage(String hiddenItemName, String hiddenSellerID);
 }

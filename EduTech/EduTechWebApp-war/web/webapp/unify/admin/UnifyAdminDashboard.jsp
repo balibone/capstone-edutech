@@ -8,6 +8,9 @@
 **************************************************************************************** -->
 
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList" %>
+<%@page import="java.util.Vector"%>
 <html lang="en"> 
     <head>
         <meta charset="utf-8">
@@ -17,7 +20,7 @@
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css" />
-        <link href="http://envato.stammtec.de/themeforest/melon/assets/css/plugins.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/baselayout/UnifyAdminPlugins.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
@@ -224,21 +227,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div class="row">
-                                        <div class="table-footer">
-                                            <div class="col-md-12">
-                                                <div class="table-actions">
-                                                    <label>Apply action:</label>
-                                                    <select class="select2" data-minimum-results-for-search="-1" data-placeholder="Select action...">
-                                                        <option value=""></option>
-                                                        <option value="Edit">Edit</option>
-                                                        <option value="Delete">Delete</option>
-                                                        <option value="Move">Move</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <a class="tableMore" href="javascript:void(0);">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -273,21 +262,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div class="row">
-                                        <div class="table-footer">
-                                            <div class="col-md-12">
-                                                <div class="table-actions">
-                                                    <label>Apply action:</label>
-                                                    <select class="select2" data-minimum-results-for-search="-1" data-placeholder="Select action...">
-                                                        <option value=""></option>
-                                                        <option value="Edit">Edit</option>
-                                                        <option value="Delete">Delete</option>
-                                                        <option value="Move">Move</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <a class="tableMore" href="javascript:void(0);">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -304,41 +279,41 @@
                                     </div>
                                 </div>
                                 <div class="widget-content no-padding">
-                                    <table class="table table-striped table-checkable table-hover">
+                                    <table class="table table-striped table-checkable table-hover" style="font-size: 13px;">
                                         <thead>
                                             <tr>
-                                                <th class="hidden-xs">First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Status</th>
-                                                <th class="align-center">Approve</th>
+                                                <th data-class="expand">Transaction Date</th>
+                                                <th data-class="expand">Seller ID</th>
+                                                <th data-class="expand">Buyer ID</th>
+                                                <th data-hide="phone">Listing Price</th>
+                                                <th data-hide="phone">Transaction Price</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <%
+                                                ArrayList<Vector> viewRecentItemTransactionList = (ArrayList) request.getAttribute("viewRecentItemTransactionList");
+                                                if (!viewRecentItemTransactionList.isEmpty()) {
+                                                    for (int i = 0; i <= viewRecentItemTransactionList.size() - 1; i++) {
+                                                        Vector v = viewRecentItemTransactionList.get(i);
+                                                        String itemID = String.valueOf(v.get(0));
+                                                        String itemTransDate = String.valueOf(v.get(1));
+                                                        String itemTransSellerID = String.valueOf(v.get(2));
+                                                        String itemTransBuyerID = String.valueOf(v.get(3));
+                                                        String itemListingPriceTrans = String.valueOf(v.get(4));
+                                                        String itemTransPrice = String.valueOf(v.get(5));
+                                            %>
                                             <tr>
-                                                <td class="hidden-xs">Joey</td>
-                                                <td>Greyson</td>
-                                                <td><span class="label label-success">Approved</span></td>
-                                                <td class="align-center">
-                                                    <span class="btn-group"><a href="javascript:void(0);" title="Approve" class="btn btn-xs bs-tooltip"><i class="icon-ok"></i></a></span>
-                                                </td>
+                                                <td><%= itemTransDate%><span style="display: none;">;<%= itemID%></span></td>
+                                                <td><%= itemTransSellerID%></td>
+                                                <td><%= itemTransBuyerID%></td>
+                                                <td>$<%= itemListingPriceTrans%></td>
+                                                <td>$<%= itemTransPrice%></td>
                                             </tr>
+                                            <%      }   %>
+                                            <%  }%>
                                         </tbody>
                                     </table>
-                                    <div class="row">
-                                        <div class="table-footer">
-                                            <div class="col-md-12">
-                                                <div class="table-actions">
-                                                    <label>Apply action:</label>
-                                                    <select class="select2" data-minimum-results-for-search="-1" data-placeholder="Select action...">
-                                                        <option value=""></option>
-                                                        <option value="Edit">Edit</option>
-                                                        <option value="Delete">Delete</option>
-                                                        <option value="Move">Move</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <a class="tableMore" href="MarketplaceAdmin?pageTransit=goToViewItemTransactionList">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -373,21 +348,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div class="row">
-                                        <div class="table-footer">
-                                            <div class="col-md-12">
-                                                <div class="table-actions">
-                                                    <label>Apply action:</label>
-                                                    <select class="select2" data-minimum-results-for-search="-1" data-placeholder="Select action...">
-                                                        <option value=""></option>
-                                                        <option value="Edit">Edit</option>
-                                                        <option value="Delete">Delete</option>
-                                                        <option value="Move">Move</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <a class="tableMore" href="ErrandsAdmin?pageTransit=goToViewJobTransactions">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                 </div>
                             </div>
                         </div>

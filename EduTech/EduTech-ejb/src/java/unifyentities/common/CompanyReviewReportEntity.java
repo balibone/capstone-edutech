@@ -30,7 +30,7 @@ public class CompanyReviewReportEntity implements Serializable {
     private String reviewReportStatus;
     private String reviewReportDescription;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date reviewReportDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Date reviewReviewedDate;
@@ -39,7 +39,7 @@ public class CompanyReviewReportEntity implements Serializable {
     private String reviewReporterID;
     private String reviewPosterID;
     private String reviewID;
-        
+    
     @ManyToOne
     private UserEntity userEntity;
     

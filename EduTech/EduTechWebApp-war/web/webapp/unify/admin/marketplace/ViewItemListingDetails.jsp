@@ -102,8 +102,9 @@
             </tr>
             <tr style="text-align: center;">
                 <td colspan="2">
-                    <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlItemID")%>)">Delete Item</button>
-                    <%--<button type="button" class="btn btn-primary" onclick="return window.open('MarketplaceAdmin?pageTransit=deleteAnItem&itemID=<%= request.getAttribute("urlItemID")%>', '_parent')">Delete Item</button>&nbsp;&nbsp;--%>
+                    <%  if (!itemStatus.equals("Sold")) {%>
+                        <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlItemID")%>)">Delete Item</button>
+                    <%  }%>
                 </td>
             </tr>
         </table>

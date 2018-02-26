@@ -49,7 +49,7 @@ public class ItemEntity implements Serializable {
     private String tradeLong;
     private String tradeInformation;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date itemPostingDate;
     
     @ManyToOne

@@ -30,7 +30,7 @@ public class ItemReviewEntity implements Serializable {
     private String itemReviewRating;
     private String itemReviewContent;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date itemReviewDate;
     
     /* FOREIGN KEY */

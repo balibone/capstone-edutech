@@ -161,6 +161,8 @@ span.red{color:#e25856}
 #sidebar #sidebar-content .sidebar-widget{margin:25px 10px}
 .slimScrollBar{-webkit-border-radius:0!important;-moz-border-radius:0!important;border-radius:0!important}
 .scroller{padding-right:12px!important}
+
+.widget-content .tableMore{clear:both;display:block;padding:5px 10px;text-transform:uppercase;font-weight:300;font-size:11px;color:#555;opacity:.7;margin-top:10px;background-color:#f9f9f9;border-top:1px solid #d9d9d9}
 .widget-content .more{clear:both;display:block;padding:5px 10px;text-transform:uppercase;font-weight:300;font-size:11px;color:#555;opacity:.7;margin:-10px;margin-top:10px;background-color:#f9f9f9;border-top:1px solid #d9d9d9}
 .widget-content .more:hover,.widget-content .more:focus{opacity:1;text-decoration:none}
 .widget-content .more:active{box-shadow:0 1px 1px rgba(0,0,0,0.1) inset;border-top-color:#ccc}

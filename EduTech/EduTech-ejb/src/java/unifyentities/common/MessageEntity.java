@@ -32,7 +32,7 @@ public class MessageEntity implements Serializable {
     private String messageContent;
     private String messageType;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date messageDate;
     
     @ManyToOne

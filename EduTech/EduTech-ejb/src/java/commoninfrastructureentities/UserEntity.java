@@ -41,7 +41,7 @@ public class UserEntity implements Serializable {
     private Boolean userActiveStatus;
     private String imgFileName;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date userCreationDate;
     
     /* OBJECT-ORIENTED MAPPINGS (UNIFY) */
