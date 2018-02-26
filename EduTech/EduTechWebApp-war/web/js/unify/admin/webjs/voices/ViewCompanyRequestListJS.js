@@ -1,9 +1,9 @@
 var rowItemName;
 function addCompany() {
-    var posterID = document.getElementById("posterID").innerHTML;
+    var poster = document.getElementById("poster").innerHTML;
     var requestCompany = document.getElementById("company").innerHTML;
     var requestIndustry = document.getElementById("industry").innerHTML;
-    $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToAddCompany&requestPosterID=' + posterID + '&requestCompany=' + requestCompany + '&requestIndustry=' + requestIndustry);
+    $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToAddCompany&requestPoster=' + poster + '&requestCompany=' + requestCompany + '&requestIndustry=' + requestIndustry);
     $('#newCompany-iframe').iziModal('open', event);
 }
 $(document).ready(function() {
@@ -40,11 +40,11 @@ $(document).ready(function() {
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#337AB7',
-        width: 525,
+        headerColor: '#4D7496',
+        width: 775,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 325
+        iframeHeight: 350
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

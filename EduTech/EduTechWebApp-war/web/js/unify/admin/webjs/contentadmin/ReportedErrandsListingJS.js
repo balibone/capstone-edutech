@@ -24,7 +24,7 @@ $(document).ready(function() {
         width: 540,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 350
+        iframeHeight: 400
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

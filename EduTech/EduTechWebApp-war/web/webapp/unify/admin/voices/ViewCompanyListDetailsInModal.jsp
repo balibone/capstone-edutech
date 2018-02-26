@@ -202,6 +202,7 @@
                                         <th>Employment Type</th>
                                         <th data-hide="phone">Salary Range</th>
                                         <th data-hide="phone">Review Rating</th>
+                                        <th data-hide="phone">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -219,6 +220,7 @@
                                                 String reviewSalaryRange = String.valueOf(v.get(6));
                                                 String reviewRating = String.valueOf(v.get(7));
                                                 String reviewThumbsUp = String.valueOf(v.get(8));
+                                                String reviewID = String.valueOf(v.get(9));
                                     %>
                                     <tr>
                                         <td><%= reviewDate%></td>
@@ -231,6 +233,12 @@
                                         <td><%= reviewEmpType%></td>
                                         <td><%= reviewSalaryRange%></td>
                                         <td><%= reviewRating%>&nbsp;(<i class="fa fa-thumbs-up"></i><%= reviewThumbsUp%>)</td>
+                                        <td>
+                                             <button type="submit" class="btn btn-danger btn-xs" id="deleteReview">
+                                                 <a href="VoicesAdmin?pageTransit=goToDeleteReviewInModal&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>&hiddenReviewID=<%= reviewID%>" 
+                                                    style="color:#FFFFFF;text-decoration:none;">Delete</a>
+                                             </button>
+                                        </td>
                                     </tr>
                                     <%      }   %>
                                     <%  }   %>

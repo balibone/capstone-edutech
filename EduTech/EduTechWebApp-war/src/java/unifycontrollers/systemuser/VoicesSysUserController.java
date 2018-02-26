@@ -11,6 +11,7 @@
 package unifycontrollers.systemuser;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -31,8 +32,22 @@ public class VoicesSysUserController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
+            System.out.println(pageAction);
             
             switch (pageAction) {
+                case "goToViewCompanyListingSYS":
+                    request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
+                    pageAction = "ViewCompanyListingSYS";
+                    break;
+                case "goToNewReviewSYS":
+                    String companyImage = request.getParameter("hiddenCompanyImage");
+                    String companyName = request.getParameter("hiddenCompanyName");
+                    String companyIndustry = request.getParameter("hiddenCompanyIndustry");
+                    System.out.println(companyImage);
+                    request.setAttribute("reviewedCompanyImage", companyImage);
+                    request.setAttribute("reviewedCompanyName", companyName);
+                    pageAction = "NewReviewSYS";
+                    break;
                 case "goToReviewListing":
                     pageAction = "ReviewListing";
                     break;

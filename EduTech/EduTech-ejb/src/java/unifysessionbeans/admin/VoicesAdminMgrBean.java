@@ -30,6 +30,7 @@ import unifyentities.voices.CompanyEntity;
 import unifyentities.voices.CompanyReviewEntity;
 import unifyentities.voices.CompanyRequestEntity;
 import commoninfrastructureentities.UserEntity;
+import java.text.SimpleDateFormat;
 
 @Stateless
 public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
@@ -167,26 +168,8 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     public List<Vector> viewAssociatedCompanyList(long companyCategoryID) {
         cEntity = lookupCompanyCategory(companyCategoryID);
         List<Vector> companyList = new ArrayList<Vector>();
-
-        if (cEntity.getCompanySet() != null) {
-            companySet = cEntity.getCompanySet();
-            if (!companySet.isEmpty()) {
-                for (CompanyEntity ce : companySet) {
-                    Vector companyDetails = new Vector();
-                    
-                    companyDetails.add(ce.getCompanyID());
-                    companyDetails.add(ce.getCategoryEntity().getCategoryID());
-                    companyDetails.add(ce.getCompanyImage());
-                    companyDetails.add(ce.getCompanyName());
-                    companyDetails.add(ce.getCompanyHQ());
-                    companyDetails.add(ce.getCompanySize());
-                    companyDetails.add(ce.getCompanyAverageRating());
-                    companyDetails.add(ce.getCompanyStatus());
-                    companyList.add(companyDetails);
-                }
-            } else {
-                /* companyCategoryName = companyIndustry */
-                Query q = em.createQuery("SELECT c from Company c WHERE c.categoryEntity.categoryName = :companyCategoryName");
+        
+        Query q = em.createQuery("SELECT c from Company c WHERE c.categoryEntity.categoryName = :companyCategoryName");
                 q.setParameter("companyCategoryName", cEntity.getCategoryName());
                 
                 for (Object o : q.getResultList()) {
@@ -202,9 +185,45 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                     companyVec.add(ce.getCompanyAverageRating());
                     companyVec.add(ce.getCompanyStatus());
                     companyList.add(companyVec);
+                } 
+
+    /*    if (cEntity.getCompanySet() != null) {
+            companySet = cEntity.getCompanySet();
+            if (!companySet.isEmpty()) {
+                for (CompanyEntity ce : companySet) {
+                    Vector companyDetails = new Vector();
+                    
+                    companyDetails.add(ce.getCompanyID());
+                    companyDetails.add(ce.getCategoryEntity().getCategoryID());
+                    companyDetails.add(ce.getCompanyImage());
+                    companyDetails.add(ce.getCompanyName());
+                    companyDetails.add(ce.getCompanyHQ());
+                    companyDetails.add(ce.getCompanySize());
+                    companyDetails.add(ce.getCompanyAverageRating());
+                    companyDetails.add(ce.getCompanyStatus());
+                    companyList.add(companyDetails);
                 }
+            } else { 
+                /* companyCategoryName = companyIndustry */
+                /*Query q = em.createQuery("SELECT c from Company c WHERE c.categoryEntity.categoryName = :companyCategoryName");
+                q.setParameter("companyCategoryName", cEntity.getCategoryName());
+                
+                for (Object o : q.getResultList()) {
+                    CompanyEntity ce = (CompanyEntity) o;
+                    Vector companyVec = new Vector();
+
+                    companyVec.add(ce.getCompanyID());
+                    companyVec.add(ce.getCategoryEntity().getCategoryID());
+                    companyVec.add(ce.getCompanyImage());
+                    companyVec.add(ce.getCompanyName());
+                    companyVec.add(ce.getCompanyHQ());
+                    companyVec.add(ce.getCompanySize());
+                    companyVec.add(ce.getCompanyAverageRating());
+                    companyVec.add(ce.getCompanyStatus());
+                    companyList.add(companyVec);
+                } 
             }
-        }
+        } */
         return companyList;
     }
     
@@ -268,6 +287,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     public List<Vector> viewAssociatedReviewList(long companyID) {
         compEntity = lookupCompany(companyID);
         List<Vector> companyReviewList = new ArrayList<Vector>();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         
         if (compEntity.getCompanyReviewSet()!= null) {
             companyReviewSet = compEntity.getCompanyReviewSet();
@@ -275,7 +295,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                 for (CompanyReviewEntity cre : companyReviewSet) {
                     Vector companyReviewDetails = new Vector();
                     
-                    companyReviewDetails.add(cre.getReviewDate());
+                    companyReviewDetails.add(df.format(cre.getReviewDate()));
                     /* WE ASSUME THAT THE PERSON WHO POST THE REVIEW IS THE ONE WHO CREATES THE RECORD */
                     companyReviewDetails.add(cre.getUserEntity().getUsername());
                     companyReviewDetails.add(cre.getReviewTitle());
@@ -285,6 +305,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                     companyReviewDetails.add(cre.getReviewSalaryRange());
                     companyReviewDetails.add(cre.getReviewRating());
                     companyReviewDetails.add(cre.getReviewThumbsUp());
+                    companyReviewDetails.add(cre.getReviewID());
                     companyReviewList.add(companyReviewDetails);
                 }
             } else {
@@ -360,19 +381,20 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
 
     /* HAVEN'T DO YET */
     @Override
-    public boolean deleteReview(long reviewedCompanyID, String reviewPosterID) {
+    public boolean deleteReview(long reviewedCompanyID, long reviewID) {
         boolean reviewDeleteStatus = false;
         compEntity = lookupCompany(reviewedCompanyID);
         companyReviewSet = compEntity.getCompanyReviewSet();
-
-        for (int i = 0; i < companyReviewSet.size(); i++) {
-            companyReviewEntity = (CompanyReviewEntity) companyReviewSet.toArray()[i];
-            if (companyReviewEntity.getReviewReceiverID().equals(reviewPosterID)) {
-                compEntity.getCompanyReviewSet().remove(companyReviewEntity);
-                em.remove(companyReviewEntity);
-                em.merge(compEntity);
-                reviewDeleteStatus = true;
-            }
+        
+        Query q =em.createQuery("SELECT cr from CompanyReview cr WHERE cr.companyEntity=:companyEntity AND cr.reviewID=:reviewID");
+        q.setParameter("companyEntity", compEntity);
+        q.setParameter("reviewID", reviewID);
+        companyReviewEntity = (CompanyReviewEntity) q.getSingleResult();
+        if(companyReviewEntity!=null) {
+            compEntity.getCompanyReviewSet().remove(companyReviewEntity);
+            em.remove(companyReviewEntity);
+            em.merge(compEntity);
+            reviewDeleteStatus = true;
         }
         return reviewDeleteStatus;
     }
@@ -382,17 +404,19 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     public List<Vector> viewCompanyRequestList() {
         Query q = em.createQuery("SELECT cr from CompanyRequest cr");
         List<Vector> requestList = new ArrayList<Vector>();
+        
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
         for (Object o : q.getResultList()) {
             CompanyRequestEntity ce = (CompanyRequestEntity) o;
             Vector requestVec = new Vector();
 
-            requestVec.add(ce.getRequestDate());
+            requestVec.add(df.format(ce.getRequestDate()));
+            requestVec.add(ce.getUserEntity().getUsername());
             requestVec.add(ce.getRequestCompany());
-            requestVec.add(ce.getRequestPosterID());
-            requestVec.add(ce.getRequestStatus());
-            requestVec.add(ce.getRequestComment());
             requestVec.add(ce.getRequestIndustry());
+            requestVec.add(ce.getRequestComment());
+            requestVec.add(ce.getRequestStatus());
             requestList.add(requestVec);
         }
         return requestList;
@@ -417,9 +441,9 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
 
     /* HAVEN'T DO YET */
     @Override
-    public boolean solveRequest(String requestCompany, String requestPosterID) {
+    public boolean solveRequest(String requestCompany, String requestPoster) {
         boolean requestStatus = false;
-        companyRequestEntity = lookupRequest(requestCompany, requestPosterID);
+        companyRequestEntity = lookupRequest(requestCompany, requestPoster);
         if (companyRequestEntity != null) {
             companyRequestEntity.setRequestStatus("Solved");
             em.merge(companyRequestEntity);
@@ -430,9 +454,9 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
 
     /* HAVEN'T DO YET */
     @Override
-    public boolean rejectRequest(String requestCompany, String requestPosterID) {
+    public boolean rejectRequest(String requestCompany, String requestPoster) {
         boolean requestStatus = false;
-        companyRequestEntity = lookupRequest(requestCompany, requestPosterID);
+        companyRequestEntity = lookupRequest(requestCompany, requestPoster);
         if (companyRequestEntity != null) {
             companyRequestEntity.setRequestStatus("Rejected");
             em.merge(companyRequestEntity);
@@ -519,12 +543,52 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         }
         return inactiveCompanyListingCount;
     }
+    
+    @Override
+    public Long getSolvedCompanyRequestListCount() {
+        Long solvedCompanyRequestListCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT cr.requestID) FROM CompanyRequest cr WHERE cr.requestStatus = 'Solved'");
+        try {
+            solvedCompanyRequestListCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in VoicesAdminMgrBean.getSolvedCompanyCategoryListCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return solvedCompanyRequestListCount;
+    }
+    
+    @Override
+    public Long getPendingCompanyRequestListCount() {
+        Long pendingCompanyRequestListCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT cr.requestID) FROM CompanyRequest cr WHERE cr.requestStatus = 'Pending'");
+        try {
+            pendingCompanyRequestListCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in VoicesAdminMgrBean.getPendingCompanyRequestListCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return pendingCompanyRequestListCount;
+    }
+    
+    @Override
+    public Long getRejectedCompanyRequestListCount() {
+        Long rejectedCompanyRequestListCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT cr.requestID) FROM CompanyRequest cr WHERE cr.requestStatus = 'Rejected'");
+        try {
+            rejectedCompanyRequestListCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in VoicesAdminMgrBean.getRejectedCompanyRequestListCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return rejectedCompanyRequestListCount;
+    }
 
     /* METHODS FOR UNIFY USER PROFILE */
     @Override
     public List<Vector> viewUserCompanyReviewsList(String username) {
         uEntity = lookupSystemUser(username);
         List<Vector> userCompanyReviewsList = new ArrayList<Vector>();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         
         Query q = em.createQuery("SELECT r FROM CompanyReview r WHERE r.userEntity.username = :username OR r.reviewReceiverID = :username");
         q.setParameter("username", uEntity.getUsername());
@@ -534,7 +598,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             Vector companyReviewVec = new Vector();
 
             companyReviewVec.add(companyReviewE.getCompanyEntity().getCompanyID());
-            companyReviewVec.add(companyReviewE.getReviewDate());
+            companyReviewVec.add(df.format(companyReviewE.getReviewDate()));
             /* WE ASSUME THAT THE PERSON WHO POST THE REVIEW IS THE ONE WHO CREATES THE RECORD */
             companyReviewVec.add(companyReviewE.getUserEntity().getUsername());
             companyReviewVec.add(companyReviewE.getReviewTitle());
@@ -604,12 +668,12 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         return ce;
     }
 
-    public CompanyRequestEntity lookupRequest(String requestCompany, String requestPosterID) {
+    public CompanyRequestEntity lookupRequest(String requestCompany, String requestPoster) {
         CompanyRequestEntity cre = new CompanyRequestEntity();
         try {
-            Query q = em.createQuery("SELECT cr from CompanyRequest cr WHERE cr.requestCompany=:requestCompany AND cr.requestPosterID=:requestPosterID");
+            Query q = em.createQuery("SELECT cr from CompanyRequest cr WHERE cr.requestCompany=:requestCompany AND cr.userEntity.username=:requestPoster");
             q.setParameter("requestCompany", requestCompany);
-            q.setParameter("requestPosterID", requestPosterID);
+            q.setParameter("requestPoster", requestPoster);
             cre = (CompanyRequestEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: Company request cannot be found. " + enfe.getMessage());
