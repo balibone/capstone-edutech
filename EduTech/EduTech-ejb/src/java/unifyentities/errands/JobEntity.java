@@ -50,6 +50,7 @@ public class JobEntity implements Serializable {
     private Date jobWorkDate;
     private Double jobRate;
     private String jobRateType;
+    private Double jobDuration;
     private String jobImage;
     private String jobStatus;
     private int jobNumOfLikes;
@@ -73,6 +74,25 @@ public class JobEntity implements Serializable {
     
     @PrePersist
     public void creationDate() { this.jobPostDate = new Date(); }
+    
+    public boolean createJobListing(String jobTitle, String jobDescription, String jobImagefileName, String jobRateType, 
+            double jobRate, double jobDuration, String startLocation, String startLat, String startLong, String endLocation, String endLat, String endLong, Date workDate){
+        this.jobTitle = jobTitle;
+        this.jobDescription = jobDescription;
+        this.jobImage = jobImagefileName;
+        this.jobRateType = jobRateType;
+        this.jobRate = jobRate;
+        this.jobDuration = jobDuration;
+        this.jobStartLocation = startLocation;
+        this.jobStartLat = startLat;
+        this.jobStartLong = startLong;
+        this.jobEndLocation = endLocation;
+        this.jobEndLat = endLat;
+        this.jobEndLong = endLong;
+        this.jobWorkDate = workDate;
+        
+        return true;
+    }
 
     /* GETTER METHODS */
     public Long getJobID() { return jobID; }
@@ -87,6 +107,7 @@ public class JobEntity implements Serializable {
     public String getJobInformation() { return jobInformation; }
     public Date getJobWorkDate() { return jobWorkDate; }
     public Double getJobRate() { return jobRate; }
+    public Double getJobDuration() { return jobDuration; }
     public String getJobRateType() { return jobRateType; }
     public String getJobImage() { return jobImage; }
     public String getJobStatus() { return jobStatus; }
@@ -113,6 +134,7 @@ public class JobEntity implements Serializable {
     public void setJobInformation(String jobInformation) { this.jobInformation = jobInformation; }
     public void setJobWorkDate(Date jobWorkDate) { this.jobWorkDate = jobWorkDate; }
     public void setJobRate(Double jobRate) { this.jobRate = jobRate; }
+    public void setJobDuration() { this.jobDuration = jobDuration; }
     public void setJobRateType(String jobRateType) { this.jobRateType = jobRateType; }
     public void setJobImage(String jobImage) { this.jobImage = jobImage; }
     public void setJobStatus(String jobStatus) { this.jobStatus = jobStatus; }

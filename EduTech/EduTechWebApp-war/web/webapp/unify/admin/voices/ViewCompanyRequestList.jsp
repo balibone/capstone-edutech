@@ -251,7 +251,7 @@
                                                 <td id="industry"><%= requestIndustry %></td>
                                                 <td>
                                                     <input type="button" value="Create" class="btn btn-primary btn-xs" onClick="addCompany()" />
-                                                    <form action="VoicesAdmin" method="POST">
+                                                    <form action="VoicesAdmin" method="POST" onsubmit="return confirm('Are you sure to reject the request?');">
                                                     <input type="hidden" name="pageTransit" value="rejectRequest"/>
                                                     <input type="hidden" name="hiddenRequestCompany" value="<%= requestCompany %>"/>
                                                     <input type="hidden" name="hiddenRequestPosterID" value="<%= requestPosterID %>"/>

@@ -137,7 +137,8 @@
                         <button type="button" class="btn btn-primary" onclick="companyDetailsForm.submit();">Update Company</button>&nbsp;&nbsp;
 
                         <%  if (companyStatus.equals("Active")) {%>
-                        <button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=deactivateACompany&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>','_parent')">Deactivate Company</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlCompanyID")%>)">Deactivate Company</button>
+                        <%--<button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=deactivateACompany&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>','_parent')">Deactivate Company</button>--%>
                         <%  } else if (companyStatus.equals("Inactive")) {%>
                         <button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=activateACompany&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>','_parent')">Activate Company</button>
                         <%  }   %>

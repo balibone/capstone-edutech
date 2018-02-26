@@ -122,7 +122,8 @@
                         <button type="button" class="btn btn-primary" onclick="itemCategoryDetailsForm.submit();">Update Item Category</button>&nbsp;&nbsp;
 
                         <%  if (activeStatus.equals("Active")) {%>
-                        <button type="button" class="btn btn-primary" onclick="window.open('MarketplaceAdmin?pageTransit=deactivateAnItemCategory&hiddenItemCategoryID=<%= request.getAttribute("urlItemCategoryID")%>','_parent')">Deactivate Item Category</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlItemCategoryID")%>)">Deactivate Item Category</button>
+                        <%--<button type="button" class="btn btn-primary" onclick="window.open('MarketplaceAdmin?pageTransit=deactivateAnItemCategory&hiddenItemCategoryID=<%= request.getAttribute("urlItemCategoryID")%>','_parent')">Deactivate Item Category</button>--%>
                         <%  } else if (activeStatus.equals("Inactive")) {%>
                         <button type="button" class="btn btn-primary" onclick="window.open('MarketplaceAdmin?pageTransit=activateAnItemCategory&hiddenItemCategoryID=<%= request.getAttribute("urlItemCategoryID")%>','_parent')">Activate Item Category</button>
                         <%  }   %>

@@ -153,6 +153,18 @@ public class ErrandsAdminController extends HttpServlet {
                     request.setAttribute("jobListing", (ArrayList) eamr.getAllJobListing());
                     pageAction = "ViewJobListing";
                     break;
+                case "deleteAJobInModal":
+                    long hiddenJob = Long.parseLong(request.getParameter("jobID"));
+                    responseMessage = eamr.deleteAJob(hiddenJob);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    long jobCategoryID = Long.parseLong(request.getParameter("jobCategoryID"));
+                    request.setAttribute("urlJobCategoryID", jobCategoryID);
+                    request.setAttribute("jobCategoryDetailsVec", eamr.getJobCategoryDetails(jobCategoryID));
+                    request.setAttribute("associatedJobList", (ArrayList) eamr.viewAssociatedJobList(jobCategoryID));
+                    pageAction = "ViewJobCategoryDetails";
+                    break;
                 case "goToViewJobTransactions":
                     request.setAttribute("jobTransactionsCount", eamr.getErrandsTransCount());
                     request.setAttribute("jobTransactionsList", (ArrayList) eamr.getAllJobTransactions());

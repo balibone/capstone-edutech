@@ -1,0 +1,80 @@
+.job-content{
+    width: 640px;
+    padding: 0px;
+    border-color: #d9e4f4;
+    border-style: solid;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-width: 2px;
+    margin: 0;
+}
+
+.job-info{
+	margin-left: 10px;
+    width: 350px;
+}
+
+.job-pic{
+	margin: 1px;
+}
+
+.user-pic{
+	border-radius: 50%;
+    margin-top: 3px;
+    display: inline-block;
+}
+
+.user{
+	display: inline-block;
+    font-size: 18px;
+}
+
+td.price{
+	background-color: #d9e4f4;
+	vertical-align: top;
+    text-align: center;
+    width: 130px;
+}
+
+td.info{
+	vertical-align: top;
+}
+
+.job-title{
+	font-size: 22px;
+    color: #235ebc;
+    line-height: 1.5;
+}
+
+.category{
+	font-size: 16px;
+    color: #93979e;
+    line-height: 0.5;
+}
+
+.date{
+	line-height: 1.0;
+    font-family: proxima;
+}
+
+.type{
+	font-size: 13px;
+	color: #235ebc;
+}
+
+.rate{
+	font-size: 26px;
+    color: #1759c1;
+    line-height: 2.1;
+}
+
+
+.post-date{
+	display: inline-block;
+    margin: 12px;
+	font-size: 14px;
+    color: #93979e;
+    line-height: 0.5;
+}

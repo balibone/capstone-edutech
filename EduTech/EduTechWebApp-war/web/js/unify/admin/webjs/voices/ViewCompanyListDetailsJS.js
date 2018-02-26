@@ -37,3 +37,9 @@ function previewImage(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
 }
+
+function AlertIt(companyID) {
+            var answer = confirm ("Are you sure to deactivate the company? ")
+            if (answer)
+                window.open('VoicesAdmin?pageTransit=activateACompany&hiddenCompanyID=' + companyID,'_parent');
+}

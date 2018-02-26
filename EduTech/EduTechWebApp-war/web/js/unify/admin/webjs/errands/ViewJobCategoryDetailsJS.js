@@ -23,7 +23,13 @@ function previewImage(event) {
         var output = document.getElementById('output-image');
         output.src = reader.result;
         document.getElementById('imageUploadStatus').value = "Uploaded";
-        alert('testing');
+        //alert('testing');
     };
     reader.readAsDataURL(event.target.files[0]);
+}
+
+function AlertIt(jCategoryID) {
+            var answer = confirm ("Are you sure to deactivate the category? ")
+            if (answer)
+                window.open('ErrandsAdmin?pageTransit=deactivateAJobCategory&hiddenJobCategoryID=' + jCategoryID,'_parent');
 }

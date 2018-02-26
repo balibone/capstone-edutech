@@ -303,7 +303,7 @@
                                             <td><%= reviewPosterID %></td>
                                             <td><%= reviewDate %></td>
                                             <td>
-                                                <form action="VoicesAdmin" method="POST" target="_parent">
+                                                <form action="VoicesAdmin" method="POST" target="_parent" >
                                                     <input type="hidden" name="pageTransit" value="deleteReview"/>
                                                     <input type="hidden" name="hiddenReviewedCompany" value=""/>
                                                     <input type="hidden" name="hiddenReviewPosterID" value="<%= reviewPosterID %>"/>
