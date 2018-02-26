@@ -85,6 +85,12 @@ public class EduTechAdminController extends HttpServlet {
                     request.setAttribute("moduleList", eam.getAllModules());
                     pageAction = "ModuleList";
                     break;
+                case "ViewModule":
+                    id = request.getParameter("id");
+                    moduleInfo = eam.getModuleInfo(id);
+                    request.setAttribute("moduleInfo", moduleInfo);
+                    pageAction = "ViewModuleModal";
+                    break;
                 case "NewModule":
                     request.setAttribute("semesterList", eam.getAllSemesters());
                     pageAction = "NewModule";
@@ -111,11 +117,26 @@ public class EduTechAdminController extends HttpServlet {
                     request.setAttribute("semesterList", eam.getAllSemesters());
                     pageAction = "NewModule";
                     break;
-                case "ViewSemester":
+                case "EditModule":
                     id = request.getParameter("id");
                     moduleInfo = eam.getModuleInfo(id);
                     request.setAttribute("moduleInfo", moduleInfo);
-                    pageAction = "ViewModuleModal";
+                    pageAction = "EditModule";
+                    break;
+                case "editModule":
+                    id = request.getParameter("id");
+                    if(eam.editModule(id,request.getParameter("name"),
+                            request.getParameter("modularCredit")
+                            ,request.getParameter("description"))){
+                        request.setAttribute("moduleInfo", eam.getModuleInfo(id));
+                        request.setAttribute("msg", "Module successfully edited.");
+                        request.setAttribute("success", true);
+                    }else{
+                        request.setAttribute("moduleInfo", eam.getModuleInfo(id));
+                        request.setAttribute("msg", "Error editing Module.");
+                        request.setAttribute("success", false);
+                    }
+                    pageAction = "EditModule";
                     break;
                 case "deleteModule":
                     id = request.getParameter("id");
@@ -126,6 +147,12 @@ public class EduTechAdminController extends HttpServlet {
                 case "SemesterList":
                     request.setAttribute("semesterList", eam.getAllSemesters());
                     pageAction = "SemesterList";
+                    break;
+                case "ViewSemester":
+                    id = request.getParameter("id");
+                    moduleInfo = eam.getModuleInfo(id);
+                    request.setAttribute("moduleInfo", moduleInfo);
+                    pageAction = "ViewModuleModal";
                     break;
                 case "NewSemester":
                     pageAction = "NewSemester";
@@ -140,12 +167,7 @@ public class EduTechAdminController extends HttpServlet {
                     }
                     pageAction = "NewSemester";
                     break;
-                case "ViewModule":
-                    id = request.getParameter("id");
-                    moduleInfo = eam.getModuleInfo(id);
-                    request.setAttribute("moduleInfo", moduleInfo);
-                    pageAction = "ViewModuleModal";
-                    break;
+                
                 case "EditSemester":
                     id = request.getParameter("id");
                     semesterInfo = eam.getSemesterInfo(id);
@@ -153,13 +175,17 @@ public class EduTechAdminController extends HttpServlet {
                     pageAction = "EditSemester";
                     break;
                 case "editSemester":
+                    id = request.getParameter("id");
+                    
                     if(eam.editSemester(request.getParameter("title"),request.getParameter("startDate")
                             ,request.getParameter("endDate"),request.getParameter("id"))){
                         request.setAttribute("msg", "Semester successfully edited.");
                         request.setAttribute("success", true);
+                        request.setAttribute("semesterInfo", eam.getSemesterInfo(id));
                     }else{
                         request.setAttribute("msg", "Error editing Semester.");
                         request.setAttribute("success", false);
+                        request.setAttribute("semesterInfo", eam.getSemesterInfo(id));
                     }
                     pageAction = "EditSemester";
                     break;

@@ -194,7 +194,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         modInfo.add(String.valueOf(mod.getModuleCode()));
         modInfo.add(String.valueOf(mod.getName()));
         modInfo.add(String.valueOf(mod.getModularCredit()));
-        modInfo.add(String.valueOf(mod.getSemester().getTitle()));
+        modInfo.add(String.valueOf(mod.getSemester().getTitle()+" | ID: "+mod.getSemester().getId()));
         modInfo.add(String.valueOf(mod.getDescription()));
         //get list of users for this module
         Collection users = mod.getUsers();
@@ -230,5 +230,20 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         }
         modInfo.add(eventInfoList);
         return modInfo;
+    }
+
+    @Override
+    public boolean editModule(String id, String name, String credits, String description) {
+        try{
+            ModuleEntity mod = em.find(ModuleEntity.class, id);
+            mod.setName(name);
+            mod.setModularCredit(Long.valueOf(credits));
+            mod.setDescription(description);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Error in editModule() **********************************");
+            return false;
+        }
     }
 }

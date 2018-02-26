@@ -36,5 +36,7 @@ public interface EduTechAdminMgrBeanRemote {
     public void deleteModule(String id);
 
     public ArrayList getModuleInfo(String id);
+
+    public boolean editModule(String id, String name, String credits, String description);
     
 }
