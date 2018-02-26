@@ -52,38 +52,72 @@
                     <div class="row">
                         <div class="x_panel">
                             <div class="x_content">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-xs-2 control-label required">Module Code:</label>
-                                    <div class="col-xs-4">
-                                        <input type="text" readonly value="<%=moduleCode%>" class="form-control" />
+                                <form class="form-horizontal col-xs-6">
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label required">Module Code:</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly value="<%=moduleCode%>" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-2 control-label required">Name</label>
-                                    <div class="col-xs-4">
-                                        <input type="text" readonly value="<%=name%>" class="form-control" name="email"/>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label required">Name</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly value="<%=name%>" class="form-control" name="email"/>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-2 control-label required">Credits:</label>
-                                    <div class="col-xs-4">
-                                        <input type="text" readonly value="<%=credit%>" class="form-control" />
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label required">Credits:</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly value="<%=credit%>" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-2 control-label required">Semester:</label>
-                                    <div class="col-xs-4">
-                                        <input type="text" readonly value="<%=semester%>" class="form-control" />
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label required">Semester:</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly value="<%=semester%>" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-2 control-label required">Description:</label>
-                                    <div class="col-xs-4">
-                                        <input type="text" readonly value="<%=description%>" class="form-control" />
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label required">Description:</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly value="<%=description%>" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
+                                </form>
+                                    <div class="col-xs-6">
+                                        <h4>Recurring Events:</h4>
+                                        <table class="table table-condensed table-striped">
+                                        <thead>
+                                            <tr>
+                                            <th>Title</th>
+                                            <th>Day</th>
+                                            <th>Start</th>
+                                            <th>End</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                for(Object o: events){
+                                                    ArrayList eventInfo = (ArrayList) o;
+                                                    String title = (String)eventInfo.get(0);
+                                                    String day = (String)eventInfo.get(1);
+                                                    String startTime = (String)eventInfo.get(2);
+                                                    String endTime = (String)eventInfo.get(3);
+                                            %>
+                                            <tr>    
+                                            <td><%=title%></td>
+                                            <td><%=day%></td>
+                                            <td><%=startTime%></td>
+                                            <td><%=endTime%></td>
+                                            </tr>
+                                            <%    
+                                                }
+                                                
+                                            %>
+                                        </tbody>
+                                        </table>
+                                    </div>        
+                                <div class="col-xs-12">
                                     <h3 class="text-center"><%=userCount%> User(s) in this Module</h3>
                                     <table id="modulesTable" class="table table-condensed" cellspacing="0" width="100%">
                                         <thead>
@@ -94,23 +128,20 @@
                                         </thead>
                                         <tbody>
                                             <%
-                                                if(users!=null && !users.isEmpty()){
-                                                    for(Object o:users){
-                                                        ArrayList userInfo = (ArrayList) o;
-                                                        String uname = (String)userInfo.get(0);
-                                                        String username = (String)userInfo.get(1);
+                                                for(Object o:users){
+                                                    ArrayList userInfo = (ArrayList) o;
+                                                    String uname = (String)userInfo.get(0);
+                                                    String username = (String)userInfo.get(1);
                                             %>
                                             <tr>
                                                 <td><%=uname%></td>
                                                 <td><%=username%></td>
                                             </tr>
                                             <% }
-                                                }
                                             %>
                                         </tbody>
                                     </table>
                                 </div>
-                            </form>
                             </div>
                         </div>
                     </div>

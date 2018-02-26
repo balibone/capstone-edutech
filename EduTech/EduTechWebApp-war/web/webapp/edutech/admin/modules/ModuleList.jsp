@@ -66,31 +66,30 @@
                                                 if(moduleList!=null){
                                                     for(Object o : moduleList){
                                                         ArrayList moduleData = (ArrayList) o;
-                                                        %>
-                                                        <tr>
-                                                            <td id='id'><%=moduleData.get(0)%></td>
-                                                            <td><%=moduleData.get(1)%></td>
-                                                            <td><%=moduleData.get(2)%></td>
-                                                            <td><%=moduleData.get(4)%> (ID: <%=moduleData.get(3)%>)</td>
-                                                            <td>
-                                                                <ul class="list-inline">
-                                                                    <li>
-                                                                        <a id='view'><i class="fas fa-eye fa-lg"></i></a>                                                            
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="EduTechAdmin?pageTransit=EditModule&id=<%=moduleData.get(0)%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
-                                                                    </li>
-                                                                    <li>
-                                                                        <a onclick="return confirm('Delete Module?')" href="EduTechAdmin?pageTransit=deleteModule&id=<%=moduleData.get(0)%>"><i class="fas fa-trash fa-lg"></i></a> 
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-                                                        </tr>                                                                                                                                                                                           
-                                                        <%}}%>
+                                            %>
+                                            <tr>
+                                                <td id='id'><%=moduleData.get(0)%></td>
+                                                <td><%=moduleData.get(1)%></td>
+                                                <td><%=moduleData.get(2)%></td>
+                                                <td><%=moduleData.get(4)%> (ID: <%=moduleData.get(3)%>)</td>
+                                                <td>
+                                                    <ul class="list-inline">
+                                                        <li>
+                                                            <a id='view'><i class="fas fa-eye fa-lg"></i></a>                                                                              </li>
+                                                        <li>
+                                                            <a href="EduTechAdmin?pageTransit=EditModule&id=<%=moduleData.get(0)%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
+                                                        </li>
+                                                        <li>
+                                                            <a onclick="return confirm('Delete Module?')" href="EduTechAdmin?pageTransit=deleteModule&id=<%=moduleData.get(0)%>"><i class="fas fa-trash fa-lg"></i></a> 
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>                                                                                                                                                                                           
+                                            <%}}%>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div id="viewModule-iframe"></div>
+                                        <div id="viewModule-iframe"></div>
                             </div>
                         </div>
                     </div>

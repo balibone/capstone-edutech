@@ -35,7 +35,9 @@ public class ModuleEntity implements Serializable {
     @ManyToOne
     private SemesterEntity semester;
     private Boolean activeStatus;
-
+    @OneToMany
+    private Collection<RecurringEventEntity> recurringEvents;
+    
     public ModuleEntity() {
     }
 
@@ -124,6 +126,14 @@ public class ModuleEntity implements Serializable {
 
     public void setUsers(Collection<UserEntity> users) {
         this.users = users;
+    }
+
+    public Collection<RecurringEventEntity> getRecurringEvents() {
+        return recurringEvents;
+    }
+
+    public void setRecurringEvents(Collection<RecurringEventEntity> recurringEvents) {
+        this.recurringEvents = recurringEvents;
     }
     
 }

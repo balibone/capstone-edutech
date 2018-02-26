@@ -29,9 +29,9 @@ public class ScheduleItemEntity implements Serializable {
     private String title;
     private String description;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date start;
+    private Date startDate;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date end;
+    private Date endDate;
     private String location;
     @OneToOne
     private UserEntity createdBy;
@@ -90,20 +90,20 @@ public class ScheduleItemEntity implements Serializable {
         this.description = description;
     }
 
-    public Date getStart() {
-        return start;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getEnd() {
-        return end;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public String getLocation() {

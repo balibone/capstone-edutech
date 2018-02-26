@@ -7,6 +7,7 @@ package edutechsessionbeans.admin;
 
 import commoninfrastructureentities.UserEntity;
 import edutechentities.ModuleEntity;
+import edutechentities.RecurringEventEntity;
 import edutechentities.ScheduleItemEntity;
 import edutechentities.SemesterEntity;
 import java.text.DateFormat;
@@ -14,10 +15,14 @@ import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -181,6 +186,9 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
 
     @Override
     public ArrayList getModuleInfo(String id) {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
+        
         ArrayList modInfo = new ArrayList();
         ModuleEntity mod = em.find(ModuleEntity.class, id);
         modInfo.add(String.valueOf(mod.getModuleCode()));
@@ -197,8 +205,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             //only extract module info if user is active.
             if(user.getUserActiveStatus()){
                 ArrayList userInfo = new ArrayList();
-                userInfo.add(user.getUsername());
-                userInfo.add(user.getUserSalutation()+" "+user.getUserFirstName()+" "+user.getUserLastName());
+                userInfo.add(String.valueOf(user.getUsername()));
+                userInfo.add(String.valueOf(user.getUserSalutation()+" "+user.getUserFirstName()+" "+user.getUserLastName()));
                 userInfoList.add(userInfo);
             }
         }
@@ -206,18 +214,20 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         modInfo.add(userInfoList);
         modInfo.add(userInfoList.size());
         
-        Collection keyDates = mod.getKeyDates();
-        //store information of all users in this module
+        Collection recurringEvents = mod.getRecurringEvents();
+        //store information of all recurring events in this module
         ArrayList eventInfoList = new ArrayList();
-        for(Object o : keyDates){
-            ScheduleItemEntity event = (ScheduleItemEntity)o;
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+        for(Object o : recurringEvents){
+            RecurringEventEntity event = (RecurringEventEntity)o;
             ArrayList eventInfo = new ArrayList();
-            eventInfo.add(event.getTitle());
-            eventInfo.add(event.getStart());
-            eventInfo.add(event.getEnd());
+            eventInfo.add(String.valueOf(event.getTitle()));
+            eventInfo.add(event.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+            eventInfo.add(event.getStartTime().format(timeFormat));
+            eventInfo.add(event.getEndTime().format(timeFormat));
+            
             eventInfoList.add(eventInfo);
         }
-        
         modInfo.add(eventInfoList);
         return modInfo;
     }
