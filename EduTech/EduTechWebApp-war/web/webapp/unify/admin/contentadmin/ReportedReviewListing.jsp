@@ -151,7 +151,7 @@
                             <%-- dashboard view --%>
                             <li>
                                 <div class="summary"><span>Unresolved Reports</span><h3><%= request.getAttribute("unresolvedCompanyReviewReportCount")%></h3></div>
-                                <div id="sparkline-bar3" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
+                                <div id="sparkline-bar4" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
                             </li>
                             <li>
                                 <div class="summary"><span>Resolved Reports</span><h3><%= request.getAttribute("resolvedCompanyReviewReportCount")%></h3></div>

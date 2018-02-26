@@ -151,7 +151,7 @@
                             <%-- dashboard view --%>
                             <li>
                                 <div class="summary"><span>Pending Requests</span><h3><%= request.getAttribute("pendingEventRequestCount")%></h3></div>
-                                <div id="sparkline-bar3" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
+                                <div id="sparkline-bar4" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
                             </li>
                             <li>
                                 <div class="summary"><span>Approved Requests</span><h3><%= request.getAttribute("approvedEventRequestCount")%></h3></div>
