@@ -137,7 +137,7 @@ public class VoicesAdminController extends HttpServlet {
                 case "goToNewCompanyInModal":
                     long companyCategoryID = Long.parseLong(request.getParameter("companyCategoryID"));
                     request.setAttribute("companyCategoryID", companyCategoryID);
-                    request.setAttribute("companyIndustry", request.getParameter("categoryName"));
+                    request.setAttribute("requestCompanyIndustry", request.getParameter("categoryName"));
                     pageAction = "NewCompanyInModal";
                     break;
                 case "createCompanyInModal":

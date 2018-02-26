@@ -28,8 +28,8 @@ $(document).ready(function () {
     
     if(search_marker) { map.removeLayer(search_marker); }
     search_marker = L.marker([dbJobStartLat, dbJobStartLong], { draggable: false });
-    icon_popup = L.popup().setLatLng([dbJobStartLat, dbJobStartLong]).setContent("Job Start Location: " + dbJobStartLocation).openOn(map);
+    icon_popup = L.popup().setLatLng([dbJobStartLat, dbJobStartLong]).setContent("Job Start Location: " + dbJobStartLocation).addTo(map);
     
     search_marker_1 = L.marker([dbJobEndLat, dbJobEndLong], { draggable: false });
-    end_icon_popup = L.popup().setLatLng([dbJobEndLat, dbJobEndLong]).setContent("Job End Location: " + dbJobEndLocation).openOn(map);
+    end_icon_popup = L.popup().setLatLng([dbJobEndLat, dbJobEndLong]).setContent("Job End Location: " + dbJobEndLocation).addTo(map);
 });
