@@ -53,7 +53,7 @@ public class CommonRESTMgrBean {
     }
 
     public String countUsers() {
-        return  String.valueOf(em.createQuery("SELECT COUNT(s) FROM Systemuser s WHERE s.useractivestatus=1").getSingleResult());
+        return  String.valueOf(em.createQuery("SELECT COUNT(s) FROM SystemUser s WHERE s.useractivestatus=1").getSingleResult());
     }
     
     public List<ScheduleItemEntity> findAllScheduleItems(){
@@ -61,22 +61,25 @@ public class CommonRESTMgrBean {
     }
 
     public void createScheduleItem(ScheduleItemEntity entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //persist this new schedule entity
+        em.persist(entity);
     }
 
     public void editScheduleItem(String id, ScheduleItemEntity entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ScheduleItemEntity toEdit = em.find(ScheduleItemEntity.class, id);
+        toEdit = entity;
+        em.merge(toEdit);
     }
 
     public void removeScheduleItem(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        em.remove(em.find(ScheduleItemEntity.class, id));
     }
 
     public ScheduleItemEntity findScheduleItem(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.find(ScheduleItemEntity.class, Long.valueOf(id));
     }
 
     public String countScheduleItems() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return String.valueOf(em.createQuery("SELECT COUNT(s) FROM ScheduleItem s").getSingleResult());
     }
 }
