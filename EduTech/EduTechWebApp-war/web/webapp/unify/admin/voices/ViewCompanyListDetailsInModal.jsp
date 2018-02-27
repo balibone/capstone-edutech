@@ -73,6 +73,21 @@
                 companyAddress = (String) companyDetailsVec.get(9);
             }
         %>
+        <%
+            String successMessage = (String) request.getAttribute("successMessage");
+            if (successMessage != null) { %>
+                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                    <button type="button" class="close" id="closeSuccess">&times;</button><%= successMessage %>
+                </div>
+        <%  } %>
+        <%
+            String errorMessage = (String) request.getAttribute("errorMessage");
+            if (errorMessage != null) {
+        %>
+                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                    <button type="button" class="close" id="closeError">&times;</button><%= errorMessage %>
+                </div>
+        <%  } %>
         <form id="companyDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_self">
             <table class="formFields" border="0">
                 <tr>

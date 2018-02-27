@@ -89,7 +89,7 @@
                     <button type="button" class="close" id="closeError">&times;</button><%= errorMessage %>
                 </div>
         <%  } %>
-        <form id="companyDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
+        <form id="companyDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_self">
             <table class="formFields" border="0">
                 <tr>
                     <td colspan="2" style="text-align: left;">
@@ -148,7 +148,7 @@
                         <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlCompanyID")%>)">Deactivate Company</button>
                         <%--<button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=deactivateACompany&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>','_parent')">Deactivate Company</button>--%>
                         <%  } else if (companyStatus.equals("Inactive")) {%>
-                        <button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=activateACompany&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>&hiddenCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>','_parent')">Activate Company</button>
+                        <button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=activateACompany&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>&hiddenCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>','_self')">Activate Company</button>
                         <%  }   %>
                     </td>
                 </tr>

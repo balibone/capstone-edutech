@@ -41,5 +41,5 @@ function previewImage(event) {
 function AlertIt(companyID) {
             var answer = confirm ("Are you sure to deactivate the company? ")
             if (answer)
-                window.open('VoicesAdmin?pageTransit=deactivateACompany&hiddenCompanyID=' + companyID,'_parent');
+                window.open('VoicesAdmin?pageTransit=deactivateACompany&hiddenCompanyID=' + companyID,'_self');
 }
