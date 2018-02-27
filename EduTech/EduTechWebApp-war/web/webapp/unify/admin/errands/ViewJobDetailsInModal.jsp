@@ -121,12 +121,14 @@
                 </td>
             </tr>
             <tr style="text-align: center;">
+                <% if(!jobStatus.equals("Completed")) {%>
                 <td colspan="2">
                     <form method="post" action="ErrandsAdmin?pageTransit=deleteAJobInModal&jobID=<%= request.getAttribute("urlJobID")%>&jobCategoryID=<%= request.getAttribute("urlJobCategoryID")%>" onsubmit="return confirm('Are you sure to delete the job?');">
                         <input id="delete-job" type="submit" value="Delete Job" />
                     </form>
                     <%--<button type="button" class="btn btn-primary" onclick="return window.open('ErrandsAdmin?pageTransit=deleteAJob&jobID=<%= request.getAttribute("urlJobID")%>', '_parent')">Delete Job</button>&nbsp;&nbsp;--%>
                 </td>
+                <%}%>
             </tr>
         </table>
 

@@ -77,11 +77,18 @@ public class ErrandsAdminController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("activeJobCategoryListCount", eamr.getActiveJobCategoryListCount());
-                    request.setAttribute("inactiveJobCategoryListCount", eamr.getInactiveJobCategoryListCount());
-                    request.setAttribute("jobListingCount", eamr.getJobListingCount());
-                    request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
-                    pageAction = "ViewJobCategoryListing";
+                    long jCategoryID = Long.parseLong(request.getParameter("hiddenJobCategoryID"));
+                    
+                    //request.setAttribute("activeJobCategoryListCount", eamr.getActiveJobCategoryListCount());
+                    //request.setAttribute("inactiveJobCategoryListCount", eamr.getInactiveJobCategoryListCount());
+                    //request.setAttribute("jobListingCount", eamr.getJobListingCount());
+                    //request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
+                    
+                    //pageAction = "ViewJobCategoryListing";
+                    request.setAttribute("urlJobCategoryID", jCategoryID);
+                    request.setAttribute("jobCategoryDetailsVec", eamr.getJobCategoryDetails(jCategoryID));
+                    request.setAttribute("associatedJobList", (ArrayList) eamr.viewAssociatedJobList(jCategoryID));
+                    pageAction = "ViewJobCategoryDetails";
                     break;
                 case "goToViewJobCategoryDetails":
                     long urlJobCategoryID = Long.parseLong(request.getParameter("jobCategoryID"));
@@ -96,11 +103,15 @@ public class ErrandsAdminController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("activeJobCategoryListCount", eamr.getActiveJobCategoryListCount());
-                    request.setAttribute("inactiveJobCategoryListCount", eamr.getInactiveJobCategoryListCount());
-                    request.setAttribute("jobListingCount", eamr.getJobListingCount());
-                    request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
-                    pageAction = "ViewJobCategoryListing";
+                    //request.setAttribute("activeJobCategoryListCount", eamr.getActiveJobCategoryListCount());
+                    //request.setAttribute("inactiveJobCategoryListCount", eamr.getInactiveJobCategoryListCount());
+                    //request.setAttribute("jobListingCount", eamr.getJobListingCount());
+                    //request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
+                    
+                    request.setAttribute("urlJobCategoryID", deactJobCategoryID);
+                    request.setAttribute("jobCategoryDetailsVec", eamr.getJobCategoryDetails(deactJobCategoryID));
+                    request.setAttribute("associatedJobList", (ArrayList) eamr.viewAssociatedJobList(deactJobCategoryID));
+                    pageAction = "ViewJobCategoryDetails";
                     break;
                 case "activateAJobCategory":
                     long actJobCategoryID = Long.parseLong(request.getParameter("hiddenJobCategoryID"));
@@ -108,11 +119,15 @@ public class ErrandsAdminController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("activeJobCategoryListCount", eamr.getActiveJobCategoryListCount());
-                    request.setAttribute("inactiveJobCategoryListCount", eamr.getInactiveJobCategoryListCount());
-                    request.setAttribute("jobListingCount", eamr.getJobListingCount());
-                    request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
-                    pageAction = "ViewJobCategoryListing";
+                    //request.setAttribute("activeJobCategoryListCount", eamr.getActiveJobCategoryListCount());
+                    //request.setAttribute("inactiveJobCategoryListCount", eamr.getInactiveJobCategoryListCount());
+                    //request.setAttribute("jobListingCount", eamr.getJobListingCount());
+                    //request.setAttribute("jobCategoryList", (ArrayList) eamr.getAllJobCategory());
+                    //pageAction = "ViewJobCategoryListing";
+                    request.setAttribute("urlJobCategoryID", actJobCategoryID);
+                    request.setAttribute("jobCategoryDetailsVec", eamr.getJobCategoryDetails(actJobCategoryID));
+                    request.setAttribute("associatedJobList", (ArrayList) eamr.viewAssociatedJobList(actJobCategoryID));
+                    pageAction = "ViewJobCategoryDetails";
                     break;
                 case "goToViewJobListing":
                     request.setAttribute("availableJobListingCount", eamr.getAvailableJobListingCount());
@@ -239,7 +254,20 @@ public class ErrandsAdminController extends HttpServlet {
         }
         String categoryName = request.getParameter("categoryName");
         String categoryDescription = request.getParameter("categoryDescription");
-
+        
+        boolean sameName = false;
+        ArrayList<Vector> categoryList = (ArrayList) eamr.getAllJobCategory();
+        for(int i=0; i<categoryList.size(); i++){
+            if(categoryName.equals(categoryList.get(i).get(2))){
+                sameName = true;
+                break;
+            }
+        }
+        
+        if(sameName){
+            return "There is already a category called " + categoryName + ". Please try another name.";
+        }
+        
         return eamr.createJobCategory(categoryName, "Errands", categoryDescription, fileName);
     }
     

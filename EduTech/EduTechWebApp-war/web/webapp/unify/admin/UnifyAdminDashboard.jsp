@@ -53,7 +53,7 @@
                 </ul>
                 <a class="navbar-brand" href="index.html">
                     <img src="images/edubox-unify-logo.png" style="width:108px;height:38px;" />
-                    <small><strong><sub>ADMIN</sub></strong</small>
+                    <small><strong><sub>ADMIN</sub></strong></small>
                 </a>
                 <a href="#" class="toggle-sidebar bs-tooltip" data-placement="bottom" data-original-title="Toggle navigation">
                     <i class="fa fa-reorder"></i>
@@ -493,26 +493,43 @@
                                     </div>
                                 </div>
                                 <div class="widget-content no-padding">
-                                    <table class="table table-striped table-checkable table-hover">
+                                    <table class="table table-striped table-checkable table-hover" style="font-size: 13px;">
                                         <thead>
                                             <tr>
-                                                <th class="hidden-xs">First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Status</th>
-                                                <th class="align-center">Approve</th>
+                                                <th>Job Transaction Date</th>
+                                                <th class="hidden-xs">Job Title</th>
+                                                <th>Job Poster</th>
+                                                <th>Job Taker</th>
+                                                <th class="align-center">Transaction Rate</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <%
+                                                ArrayList<Vector> latestTransList = (ArrayList)request.getAttribute("latestTransList");
+                                                if (!latestTransList.isEmpty()) {
+                                                    for (int i = 0; i <= latestTransList.size() - 1; i++) {
+                                                        Vector v = latestTransList.get(i);
+                                                        String jobTransDate = String.valueOf(v.get(0));
+                                                        String posterID = String.valueOf(v.get(1));
+                                                        String takerID = String.valueOf(v.get(2));
+                                                        String jobTitle = String.valueOf(v.get(3));
+                                                        //String jobID = String.valueOf(v.get(4));
+                                                        //String jobRate = String.valueOf(v.get(5));
+                                                        //String jobRateType = String.valueOf(v.get(6));
+                                                        String jobTransRate = String.valueOf(v.get(4));
+                                                        String jobTransRateType = String.valueOf(v.get(5));
+                                            %>
                                             <tr>
-                                                <td class="hidden-xs">Joey</td>
-                                                <td>Greyson</td>
-                                                <td><span class="label label-success">Approved</span></td>
-                                                <td class="align-center">
-                                                    <span class="btn-group"><a href="javascript:void(0);" title="Approve" class="btn btn-xs bs-tooltip"><i class="icon-ok"></i></a></span>
-                                                </td>
+                                                <td><%= jobTransDate%></td>
+                                                <td><%= jobTitle%></td>
+                                                <td class="hidden-xs"><%= posterID%></td>
+                                                <td><%= takerID%></td>
+                                                <td>$<%= jobTransRate%>/<%= jobTransRateType%></td>
                                             </tr>
+                                            <%   }%>
+                                            <% }%>
                                         </tbody>
-                                    </table>
+                                        </table>
                                     <a class="tableMore" href="ErrandsAdmin?pageTransit=goToViewJobTransactions">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                 </div>
                             </div>
@@ -573,6 +590,5 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </body> 
+    </body>
 </html>
