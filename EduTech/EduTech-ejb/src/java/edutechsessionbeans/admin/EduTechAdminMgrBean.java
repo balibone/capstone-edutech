@@ -209,6 +209,30 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
                 ArrayList userInfo = new ArrayList();
                 userInfo.add(String.valueOf(user.getUsername()));
                 userInfo.add(String.valueOf(user.getUserSalutation()+" "+user.getUserFirstName()+" "+user.getUserLastName()));
+                String userType = user.getUserType();
+                switch(userType){
+                    case "student":
+                        userType = "Student";
+                        break;
+                    case "instructor":
+                        userType = "Instructor";
+                        break;
+                    case "unifyadmin":
+                        userType="Unify Admin";
+                        break;
+                    case "edutechadmin":
+                        userType="EduTech Admin";
+                        break;
+                    case "dualadmin":
+                        userType="Dual Admin";
+                        break;
+                    case "superadmin":
+                        userType="System Admin";
+                        break;
+                    default:
+                        break;
+                }
+                userInfo.add(userType);
                 userInfoList.add(userInfo);
             }
         }
