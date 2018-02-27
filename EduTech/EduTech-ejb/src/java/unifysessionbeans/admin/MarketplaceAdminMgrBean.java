@@ -347,6 +347,9 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             return "Selected item cannot be found. Please try again.";
         } else {
             iEntity = lookupItem(urlItemID);
+            CategoryEntity categoryE = iEntity.getCategoryEntity();
+            categoryE.getItemSet().remove(iEntity);
+            em.merge(categoryE);
             em.remove(iEntity);
             em.flush();
             em.clear();
