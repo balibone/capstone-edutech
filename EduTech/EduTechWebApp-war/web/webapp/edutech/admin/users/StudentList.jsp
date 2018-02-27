@@ -78,7 +78,7 @@
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a class="btn btn-primary" href="EduTechAdmin?pageTransit=AssignModule&id=<%=username%>"><i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;Assign Modules</a> 
+                                                            <a class="btn btn-primary" href="EduTechAdmin?pageTransit=AssignModule&id=<%=username%>"><i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;View & Assign Modules</a> 
                                                         </li>
                                                     </ul>
                                                 </td>

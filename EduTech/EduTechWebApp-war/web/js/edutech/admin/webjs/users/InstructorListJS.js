@@ -1,11 +1,7 @@
 var rowID;
 $(document).ready(function() {
-    //on click of table row, run function with event
-    $('#datatable-responsive tbody').on('click', 'tr', function(event) {
-        var rowData = $(this).children("td").map(function() {
-            return $(this).text();
-        }).get();
-        rowID = $.trim(rowData[2]);
+    $('table tbody').on('click', '#view', function(event) {
+        rowID=$(this).closest('tr').children('#id').text();
         console.log("Row ID is :"+rowID);
         $('iframe').attr('src', 'EduTechAdmin?pageTransit=ViewInstructor&id=' + rowID);
         $('#viewInstructor-iframe').iziModal('open', event);
