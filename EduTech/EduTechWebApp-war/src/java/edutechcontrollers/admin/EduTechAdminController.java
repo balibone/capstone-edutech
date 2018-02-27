@@ -28,16 +28,7 @@ public class EduTechAdminController extends HttpServlet {
     private EduTechAdminMgrBeanRemote eam;
     @EJB
     private SystemAdminMgrBeanRemote sam;
-    
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -51,6 +42,7 @@ public class EduTechAdminController extends HttpServlet {
             ArrayList semesterInfo = new ArrayList();
             ArrayList moduleInfo = new ArrayList();
             String msg = "";
+            String mod="";
             boolean success = false;
             
             switch(pageAction){
@@ -80,6 +72,46 @@ public class EduTechAdminController extends HttpServlet {
                     userInfo = sam.getUserInfo(id);
                     request.setAttribute("userInfo", userInfo);
                     pageAction = "ViewUserModal";
+                    break;
+                case "AssignModule":
+                    id = request.getParameter("id");
+                    //get user info for page header
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    request.setAttribute("allModuleList", eam.getAllModules());
+                    //get list of modules associated with this user.
+                    request.setAttribute("moduleList", eam.getAllModulesOfUser(id));
+                    pageAction = "AssignModule";
+                    break;
+                case "assignModule":
+                    id = request.getParameter("id");
+                    mod = request.getParameter("moduleCode");
+                    if(eam.addUserToMod(id,mod)){
+                        request.setAttribute("msg", "Module successfully assigned.");
+                        request.setAttribute("success", true);
+                    }else{
+                        request.setAttribute("msg", "User is already assigned to this module.");
+                        request.setAttribute("success", false);
+                    }
+                    //get user info for page header
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    request.setAttribute("allModuleList", eam.getAllModules());
+                    //get list of modules associated with this user.
+                    request.setAttribute("moduleList", eam.getAllModulesOfUser(id));
+                    pageAction = "AssignModule";
+                    break;
+                case "unassignModule":
+                    id = request.getParameter("id");
+                    mod = request.getParameter("moduleCode");
+                    eam.unassignModule(id,mod);
+                    //get user info for page header
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    request.setAttribute("allModuleList", eam.getAllModules());
+                    //get list of modules associated with this user.
+                    request.setAttribute("moduleList", eam.getAllModulesOfUser(id));
+                    pageAction = "AssignModule";
                     break;
                 case "ModuleList":
                     request.setAttribute("moduleList", eam.getAllModules());
@@ -159,9 +191,9 @@ public class EduTechAdminController extends HttpServlet {
                     break;
                 case "ViewSemester":
                     id = request.getParameter("id");
-                    moduleInfo = eam.getModuleInfo(id);
-                    request.setAttribute("moduleInfo", moduleInfo);
-                    pageAction = "ViewModuleModal";
+                    semesterInfo = eam.getSemesterInfo(id);
+                    request.setAttribute("semesterInfo", semesterInfo);
+                    pageAction = "ViewSemesterModal";
                     break;
                 case "NewSemester":
                     pageAction = "NewSemester";

@@ -5,7 +5,7 @@
  */
 package edutechsessionbeans;
 
-import commoninfrastructureentities.UserEntity;
+import commoninfraentities.UserEntity;
 import edutechentities.common.ScheduleItemEntity;
 import java.util.Date;
 import java.util.List;

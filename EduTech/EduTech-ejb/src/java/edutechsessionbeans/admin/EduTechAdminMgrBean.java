@@ -266,4 +266,53 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         //adds new event to this module.
         em.find(ModuleEntity.class,id).getRecurringEvents().add(event);
     }
+
+    @Override
+    public ArrayList getAllModulesOfUser(String id) {
+        ArrayList moduleList = new ArrayList<ArrayList>();
+        ModuleEntity mod = new ModuleEntity();
+        //get user with this username
+        UserEntity user = em.find(UserEntity.class, id);
+
+        //Find all active modules
+        Query q1 = em.createQuery("SELECT m FROM Module m WHERE m.activeStatus=1");
+        
+        for(Object o : q1.getResultList()){
+            mod = (ModuleEntity) o;
+            //if the user is one of the users in this module extract module info.
+            if(mod.getUsers().contains(user)){
+                ArrayList modInfo = new ArrayList();
+                modInfo.add(mod.getModuleCode());
+                modInfo.add(mod.getName());
+                modInfo.add(String.valueOf(mod.getModularCredit()));
+                modInfo.add(String.valueOf(mod.getSemester().getId()));
+                modInfo.add(String.valueOf(mod.getSemester().getTitle()));
+                moduleList.add(modInfo);
+            }
+        }
+        return moduleList;
+    }
+
+    @Override
+    public boolean addUserToMod(String id, String mod) {
+        UserEntity user = em.find(UserEntity.class, id);
+        ModuleEntity module = em.find(ModuleEntity.class, mod);
+        //if module doesn't already contain user, add in.
+        if(!module.getUsers().contains(user)){
+            module.getUsers().add(user);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public void unassignModule(String id, String mod) {
+        UserEntity user = em.find(UserEntity.class, id);
+        ModuleEntity module = em.find(ModuleEntity.class, mod);
+        //if module doesn't already contain user, add in.
+        if(module.getUsers().contains(user)){
+            module.getUsers().remove(user);
+        }
+    }
 }
