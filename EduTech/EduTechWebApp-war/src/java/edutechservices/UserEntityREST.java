@@ -29,7 +29,7 @@ import javax.ws.rs.core.MediaType;
  */
 @RequestScoped
 @Path("commoninfraentities.systemuser")
-public class SystemuserFacadeREST {
+public class UserEntityREST {
 
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
     private EntityManager em;
