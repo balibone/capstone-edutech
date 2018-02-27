@@ -82,7 +82,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <input type="text" class="form-control" placeholder="Company Size (Required)" required="required" name="companySize" />
+                                <input type="number" min="0" class="form-control" placeholder="Company Size (Required)" required="required" name="companySize" />
                             </div>
                         </div>
                     </td>

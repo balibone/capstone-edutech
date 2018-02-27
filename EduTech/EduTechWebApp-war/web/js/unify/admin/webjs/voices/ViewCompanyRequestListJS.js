@@ -1,8 +1,11 @@
 var rowItemName;
-function addCompany() {
-    var poster = document.getElementById("poster").innerHTML;
-    var requestCompany = document.getElementById("company").innerHTML;
-    var requestIndustry = document.getElementById("industry").innerHTML;
+function addCompany(companyID) {
+    var table = document.getElementById("companyRequestListing");
+    var poster = table.rows.item(companyID+1).cells.item(1).innerHTML
+    var requestCompany = table.rows.item(companyID+1).cells.item(2).innerHTML;
+    var requestIndustry = table.rows.item(companyID+1).cells.item(3).innerHTML;
+    requestIndustry = requestIndustry.substring(requestIndustry.indexOf("</span>")+7);
+    //alert(requestIndustry);
     $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToAddCompany&requestPoster=' + poster + '&requestCompany=' + requestCompany + '&requestIndustry=' + requestIndustry);
     $('#newCompany-iframe').iziModal('open', event);
 }

@@ -151,15 +151,11 @@
                             </li>
                             <li>
                                 <div class="summary"><span>Pending Requests</span><h3><%= request.getAttribute("pendingCompanyRequestListCount")%></h3></div>
-                                <div id="sparkline-bar" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
+                                <div id="sparkline-bar4" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
                             </li>
                             <li>
                                 <div class="summary"><span>Rejected Requests</span><h3><%= request.getAttribute("rejectedCompanyRequestListCount")%></h3></div>
-                                <div id="sparkline-bar3" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
-                            </li>
-                            <li>
-                                <div class="summary"><span>Total Requests</span><h3><%= request.getAttribute("companyRequestListCount")%></h3></div>
-                                <div id="sparkline-bar4" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
+                                <div id="sparkline-bar" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
                             </li>
                         </ul>
                     </div>
@@ -184,17 +180,25 @@
                             
                             <div class="widget box">
                                 <div class="widget-header">
-                                    <h4><i class="fa fa-reorder"></i>&nbsp;New Company Request Listing</h4>
+                                    <h4><i class="fa fa-reorder"></i>&nbsp;New Company Request List</h4>
+                                    <div class="toolbar no-padding">
+                                        <div class="btn-group">
+                                            <div class="btn-group">
+                                                <span></span><br/>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="widget-content no-padding">
                                     <table id="companyRequestListing" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
                                         <thead>
                                             <tr>
-                                                <th data-class="expand">Request Date</th>
-                                                <th data-class="expand">Poster ID</th>
-                                                <th data-class="expand">Request Company</th>
+                                                <th data-class="expand">Date</th>
+                                                <th data-class="expand">Poster</th>
+                                                <th data-class="expand">Company</th>
+                                                <th data-class="expand">Industry</th>
                                                 <th>Request Description</th>
-                                                <th data-hide="phone">Request Status</th>
+                                                <th data-hide="phone">Status</th>
                                                 <th data-hide="phone">Action</th>
                                             </tr>
                                         </thead>
@@ -216,16 +220,15 @@
                                                     if (requestStatus.equals("Pending")) {
                                                 %>
                                                 <td><%= requestDate%></td>
-                                                <td id="poster"><%= requestPoster%></td>
-                                                <td>
-                                                    <strong id="company"><%= requestCompany%></strong><br/>
-                                                    <strong >Industry:&nbsp;&nbsp;<strong id="industry"><%= requestIndustry%></strong></strong><br/>
-                                                </td>
+                                                <td><%= requestPoster%></td>
+                                                <td><%= requestCompany%></td>
+                                                <td><%= requestIndustry%></td>
                                                 <td><%= requestComment%></td>
                                                 <td><span class="label label-warning"><%= requestStatus%></span></td>
-                                                <td><input type="button" value="Create" class="btn btn-xs" style="margin-left: 4px" onClick="addCompany()" />
+                                                <td><input type="button" value="Create" class="btn btn-xs" style="margin-left: 4px" onclick="addCompany(<%= i%>)" target="_blank" />
                                                     <button type="submit" style="margin-left: 3px" class="btn btn-xs">
-                                                        <a href="VoicesAdmin?pageTransit=rejectRequest&hiddenRequestCompany=<%= requestCompany%>&hiddenRequestPoster=<%= requestPoster%>" style="color: #333; text-decoration:none;">Reject</a>
+                                                        <a href="VoicesAdmin?pageTransit=rejectRequest&hiddenRequestCompany=<%= requestCompany%>&hiddenRequestPoster=<%= requestPoster%>" style="color: #333; text-decoration:none;"
+                                                           onclick="return confirm('Are you sure to reject the request?')">Reject</a>
                                                     </button>
                                                         
                                                 </td>
@@ -234,10 +237,8 @@
                                                 %>
                                                 <td><%= requestDate%></td>
                                                 <td><%= requestPoster%></td>
-                                                <td>
-                                                    <strong><%= requestCompany%></strong><br/>
-                                                    <strong >Industry:&nbsp;&nbsp;<strong><%= requestIndustry%></strong></strong><br/>
-                                                </td>
+                                                <td><%= requestCompany%></td>
+                                                <td><%= requestIndustry%></td>
                                                 <td><%= requestComment%></td>
                                                 <td><span class="label label-success"><%= requestStatus%></span></td>
                                                 <td></td>
@@ -246,10 +247,8 @@
                                                 %>
                                                 <td><%= requestDate%></td>
                                                 <td><%= requestPoster%></td>
-                                                <td>
-                                                    <strong><%= requestCompany%></strong><br/>
-                                                    <strong >Industry:&nbsp;&nbsp;<strong><%= requestIndustry%></strong></strong><br/>
-                                                </td>
+                                                <td><%= requestCompany%></td>
+                                                <td><%= requestIndustry%></td>
                                                 <td><%= requestComment%></td>
                                                 <td><span class="label label-danger"><%= requestStatus%></span></td>
                                                 <td></td>

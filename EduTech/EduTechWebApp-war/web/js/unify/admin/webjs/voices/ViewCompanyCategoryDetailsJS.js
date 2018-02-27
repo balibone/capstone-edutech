@@ -33,3 +33,12 @@ function AlertIt(cCategoryID) {
             if (answer)
                 window.open('VoicesAdmin?pageTransit=deactivateACompanyCategory&hiddenCompanyCategoryID=' + cCategoryID,'_parent');
 }
+
+function NewCompanyInModal(categoryID) {
+    var categoryName = document.getElementById("oldCategoryName").value;
+    if(categoryName.includes("&")) {
+        categoryName = categoryName.replace("&","%26");
+    }
+    window.open('VoicesAdmin?pageTransit=goToNewCompanyInModal&companyCategoryID=' + categoryID +'&categoryName='+categoryName,'_self');
+}
+ 

@@ -44,7 +44,11 @@
         <script type="text/javascript" src="js/unify/admin/webjs/voices/NewCompanyInModalJS.js"></script> 
     </head>
     <body style="background-color: #FFFFFF;">
-        <form action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
+        <% if(request.getAttribute("companyCategoryID") != null) { %>
+        <form action="VoicesAdmin" method="POST" enctype="multipart/form-data">
+        <% } else { %>
+        <form action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent"> 
+        <% } %>
             <table border="0">
                 <% if(request.getAttribute("companyCategoryID") != null) { %>
                 <tr>
@@ -93,7 +97,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <input type="text" class="form-control" placeholder="Company Size (Required)" required="required" name="companySize" />
+                                <input type="number" min="0" class="form-control" placeholder="Company Size (Required)" required="required" name="companySize" />
                             </div>
                         </div>
                     </td>
@@ -140,6 +144,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
                                 <% if(request.getAttribute("companyCategoryID") != null) { %>
                                 <input type="hidden" name="pageTransit" value="createCompanyInModal"/>
+                                <input type="hidden" name="companyCategoryID" value="<%= request.getAttribute("companyCategoryID")%>" />
                                 <% } else { 
                                 String requestPoster = request.getParameter("requestPoster");%>
                                 <input type="hidden" name="pageTransit" value="createCompanyfromRequest"/>
