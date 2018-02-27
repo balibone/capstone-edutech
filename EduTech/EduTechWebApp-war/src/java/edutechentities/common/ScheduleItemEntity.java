@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edutechentities;
+package edutechentities.common;
 
-import commoninfrastructureentities.UserEntity;
+import commoninfraentities.UserEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -17,12 +17,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Derian
  */
 @Entity(name = "ScheduleItem")
+@XmlRootElement
 public class ScheduleItemEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

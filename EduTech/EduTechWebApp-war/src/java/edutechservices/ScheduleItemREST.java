@@ -6,10 +6,9 @@
 package edutechservices;
 
 import edutechsessionbeans.CommonRESTMgrBean;
-import commoninfraentities.UserEntity;
+import edutechentities.common.ScheduleItemEntity;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,43 +27,42 @@ import javax.ws.rs.core.MediaType;
  * @author Derian
  */
 @RequestScoped
-@Path("commoninfraentities.systemuser")
-public class SystemuserFacadeREST {
+@Path("commoninfraentities.scheduleitem")
+public class ScheduleItemREST {
 
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
     private EntityManager em;
     @EJB
     CommonRESTMgrBean etr;
     
-
     @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(UserEntity entity) {
-        etr.createUser(entity);
+    public void create(ScheduleItemEntity entity) {
+        etr.createScheduleItem(entity);
     }
 
     @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, UserEntity entity) {
-        etr.editUser(id, entity);
+    public void edit(@PathParam("id") String id, ScheduleItemEntity entity) {
+        etr.editScheduleItem(id, entity);
     }
 
     @DELETE @Path("{id}")
     public void remove(@PathParam("id") String id) {
-        etr.removeUser(id);
+        etr.removeScheduleItem(id);
     }
 
     @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public UserEntity find(@PathParam("id") String id) {
-        return etr.findUser(id);
+    public ScheduleItemEntity find(@PathParam("id") String id) {
+        return etr.findScheduleItem(id);
     }
 
     @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<UserEntity> findAll() {
-        return etr.findAllUsers();
+    public List<ScheduleItemEntity> findAll() {
+        return etr.findAllScheduleItems();
     }
 
     @GET @Path("count") @Produces(MediaType.TEXT_PLAIN)
     public String countREST() {
-        return etr.countUsers();
+        return etr.countScheduleItems();
     }
     
 }
