@@ -206,25 +206,20 @@
                     <%-- add tabs here for each report --%>
                     <div class="row">                        
                         <div class="col-md-7">
-                            <div class="tabbable tabbable-custom">
-                                <div class="widget box">
-                                    <div class="widget-header">
-                                        <h4><i class="fa fa-reorder fa-5x"></i>&nbsp;Recent Reported Listings</h4>
-                                        <div class="toolbar no-padding">
-                                            <div class="btn-group">
-                                                <span class="btn btn-xs widget-collapse"><i class="fa fa-chevron-down"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                            <div class="widget box">
+                                <div class="widget-header-reported-listing">
+                                    <h4><i class="fa fa-reorder fa-5x"></i>&nbsp;Recent Reported Listings</h4>
+                                </div>
+                                <div class="tabbable tabbable-custom-dashboard">
                                     <ul class="nav nav-tabs">
-                                        <li class="active"><a href="#companyReview" data-toggle="tab">Company Review Report</a></li>
-                                        <li><a href="#errandReport" data-toggle="tab">Errand Report</a></li>
-                                        <li><a href="#errandReviewReport" data-toggle="tab">Errand Review Report</a></li>
-                                        <li><a href="#marketplaceReport" data-toggle="tab">Marketplace Item Report</a></li>
+                                        <li class="active"><a href="#companyReview" data-toggle="tab">Company Reviews Reported</a></li>
+                                        <li><a href="#errandReport" data-toggle="tab">Errands Reported</a></li>
+                                        <li><a href="#errandReviewReport" data-toggle="tab">Errand Reviews Reported</a></li>
+                                        <li><a href="#marketplaceReport" data-toggle="tab">Marketplace Items Reported</a></li>
                                     </ul>
 
                                     <div class="tab-content">
-
                                         <%-- primary tab --%>
                                         <div class="tab-pane active" id="companyReview">
                                             <div class="widget-content no-padding">
@@ -261,7 +256,7 @@
                                                     </tbody>
                                                 </table>
                                                 <a class="tableMore" href="ContentAdmin?pageTransit=goToReportedReviewListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
-                                            </div>
+                                            </div>  
                                         </div>
 
                                         <%-- second tab --%>
@@ -271,7 +266,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="hidden-xs">Report Date</th>
-                                                            <th>Review ID</th>
+                                                            <th>Errand ID</th>
                                                             <th>Report Status</th>
                                                         </tr>
                                                     </thead>
@@ -309,7 +304,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="hidden-xs">Report Date</th>
-                                                            <th>Review ID</th>
+                                                            <th>Errand Review ID</th>
                                                             <th>Report Status</th>
                                                         </tr>
                                                     </thead>
@@ -348,7 +343,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="hidden-xs">Report Date</th>
-                                                            <th>Review ID</th>
+                                                            <th>Marketplace Item ID</th>
                                                             <th>Report Status</th>
                                                         </tr>
                                                     </thead>
@@ -380,7 +375,6 @@
                                                 <a class="tableMore" href="ContentAdmin?pageTransit=goToReportedMarketplaceListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                             </div>
                                         </div>
-
                                     </div>
                                     <%-- end of tab contents --%>
                                 </div>
