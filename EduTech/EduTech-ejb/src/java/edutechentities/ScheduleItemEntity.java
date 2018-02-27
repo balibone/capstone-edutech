@@ -32,8 +32,7 @@ public class ScheduleItemEntity implements Serializable {
     private String startDate;
     private String endDate;
     private String location;
-    @OneToOne
-    private UserEntity createdBy;
+    private String createdBy;
     @OneToMany
     private Collection<UserEntity> assignedTo;
     private String type;
@@ -113,11 +112,11 @@ public class ScheduleItemEntity implements Serializable {
         this.location = location;
     }
 
-    public UserEntity getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(UserEntity createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 

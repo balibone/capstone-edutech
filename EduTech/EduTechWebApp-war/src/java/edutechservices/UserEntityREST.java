@@ -6,7 +6,7 @@
 package edutechservices;
 
 import edutechsessionbeans.CommonRESTMgrBean;
-import commoninfraentities.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
