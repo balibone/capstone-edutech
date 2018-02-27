@@ -5,8 +5,10 @@
  */
 package edutechsessionbeans;
 
-import commoninfrastructureentities.UserEntity;
+import commoninfraentities.UserEntity;
+import edutechentities.group.GroupEntity;
 import edutechentities.common.ScheduleItemEntity;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -60,8 +62,15 @@ public class CommonRESTMgrBean {
         return em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
     }
 
-    public Long createScheduleItem(ScheduleItemEntity entity) {
-        //persist this new schedule entity
+    public void createScheduleItem(ScheduleItemEntity entity) {
+        //Set assignedTo
+        if(entity.getGroupId() > 0){
+            GroupEntity group = em.find(GroupEntity.class, Long.valueOf(entity.getGroupId()));
+            entity.setAssignedTo(group.getMembers());
+        } else{
+            UserEntity user = em.find(UserEntity.class, entity.getCreatedBy());
+            entity.setAssignedTo((Collection<UserEntity>) user);
+        }
         em.persist(entity);
         return entity.getId();
     }

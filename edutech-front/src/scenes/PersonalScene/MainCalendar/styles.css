@@ -1,0 +1,7 @@
+.inlineIcon {
+  display:inline-block;
+}
+
+a.btnHover:hover{
+	cursor: pointer;
+}
