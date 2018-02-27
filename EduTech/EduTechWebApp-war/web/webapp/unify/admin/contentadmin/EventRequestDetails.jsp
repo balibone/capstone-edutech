@@ -138,14 +138,11 @@
                             </form>
                         </td>
                         <%
-                        } else
+                        } else if (requestStatus.equals("Approved")) {
                         %>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
                     </div>
-                    <%
-                        if (requestStatus.equals("Approved")) {
-                    %>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Request Approved On:&nbsp;&nbsp;<%= requestReviewedDate%></label>
                     </div>
@@ -153,11 +150,15 @@
                     } else if (requestStatus.equals("Rejected")) {
                     %>
                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Request Rejected On:&nbsp;&nbsp;<%= requestReviewedDate%></label>
                     </div>
                     <%
-                            }
+                        }
                     %>
+
                     </tr>
             </div>
         </div>

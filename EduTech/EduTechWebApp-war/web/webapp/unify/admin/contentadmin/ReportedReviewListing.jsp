@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-        <title>Unify Admin - List of Errands Review Reported</title>
+        <title>Unify Admin - List of Company Review Reported</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
@@ -109,7 +109,7 @@
                         </li>
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
-                            <li class="current">
+                        <li class="current">
                             <ul class="sub-menu">    
                                 <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
@@ -151,7 +151,7 @@
                             <%-- dashboard view --%>
                             <li>
                                 <div class="summary"><span>Unresolved Reports</span><h3><%= request.getAttribute("unresolvedCompanyReviewReportCount")%></h3></div>
-                                <div id="sparkline-bar3" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
+                                <div id="sparkline-bar4" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
                             </li>
                             <li>
                                 <div class="summary"><span>Resolved Reports</span><h3><%= request.getAttribute("resolvedCompanyReviewReportCount")%></h3></div>
@@ -197,13 +197,11 @@
                                         <thead>
                                             <tr>
                                                 <th>Report ID</th>
-                                                <th>Report Status</th>
-
                                                 <th>Report Date</th>
                                                 <th>Reported Review ID</th>
                                                 <th>Reported Poster ID</th>
                                                 <th>Reported Reporter ID</th>
-
+                                                <th>Report Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -222,15 +220,12 @@
 
                                             %>
                                             <tr>
-
                                                 <td><%= reportID%></td>
-                                                <td><%= reportStatus%></td>
-
                                                 <td><%= reportDate%></td>
                                                 <td><%= reportedReviewID%></td>
                                                 <td><%= reportedPosterID%></td>
                                                 <td><%= reportedReporterID%></td>
-
+                                                <td><%= reportStatus%></td>
                                             </tr>
 
                                             <%  }%>

@@ -109,7 +109,7 @@
                         </li>
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
-                            <li class="current">
+                        <li class="current">
                             <ul class="sub-menu">
                                 <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
@@ -151,7 +151,7 @@
                             <%-- dashboard view --%>
                             <li>
                                 <div class="summary"><span>Pending Requests</span><h3><%= request.getAttribute("pendingEventRequestCount")%></h3></div>
-                                <div id="sparkline-bar3" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
+                                <div id="sparkline-bar4" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
                             </li>
                             <li>
                                 <div class="summary"><span>Approved Requests</span><h3><%= request.getAttribute("approvedEventRequestCount")%></h3></div>
@@ -199,9 +199,9 @@
                                         <thead>
                                             <tr>
                                                 <th>Request ID</th>
-                                                <th>Request Status</th>
                                                 <th>Request Date</th>
                                                 <th>Request Submitted By</th>
+                                                <th>Request Status</th>
 
                                             </tr>
                                         </thead>
@@ -221,11 +221,9 @@
                                             <tr>
 
                                                 <td><%= requestID%></td>
-                                                <td><%= requestStatus%></td>
-
                                                 <td><%= requestDate%></td>
                                                 <td><%= requesterID%></td>
-
+                                                <td><%= requestStatus%></td>
 
                                             </tr>
 

@@ -109,7 +109,7 @@
                         </li>
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
-                            <li class="current">
+                        <li class="current">
                             <ul class="sub-menu">
                                 <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
@@ -151,7 +151,7 @@
                             <%-- dashboard view --%>
                             <li>
                                 <div class="summary"><span>Unresolved Reports</span><h3><%= request.getAttribute("unresolvedErrandsReviewReportCount")%></h3></div>
-                                <div id="sparkline-bar3" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
+                                <div id="sparkline-bar4" class="graph sparkline hidden-xs">20,15,8,50,20,40,20,30</div>
                             </li>
                             <li>
                                 <div class="summary"><span>Resolved Reports</span><h3><%= request.getAttribute("resolvedErrandsReviewReportCount")%></h3></div>
@@ -197,13 +197,11 @@
                                         <thead>
                                             <tr>
                                                 <th>Report ID</th>
-                                                <th>Report Status</th>
-
                                                 <th>Report Date</th>
                                                 <th>Reported Errand Review ID</th>
                                                 <th>Reported Review Poster ID</th>
                                                 <th>Reported Reporter ID</th>
-
+                                                <th>Report Status</th>
 
                                             </tr>
                                         </thead>
@@ -223,15 +221,12 @@
 
                                             %>
                                             <tr>
-
                                                 <td><%= reportID%></td>
-                                                <td><%= reportStatus%></td>
-
                                                 <td><%= reportDate%></td>
                                                 <td><%= reportedErrandID%></td>
                                                 <td><%= reportedPosterID%></td>
                                                 <td><%= reportedReporterID%></td>
-
+                                                <td><%= reportStatus%></td>
                                             </tr>
 
                                             <%  }%>
