@@ -80,15 +80,15 @@ public class MarketplaceAdminController extends HttpServlet {
                     pageAction = "ViewItemCategoryListing";
                     break;
                 case "updateItemCategory":
-                    responseMessage = updateItemCategory(request);
+                    long itemCategoryID = Long.parseLong(request.getParameter("hiddenItemCategoryID"));
+                    responseMessage = updateItemCategory(request, itemCategoryID);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("activeItemCategoryListCount", mamr.getActiveItemCategoryListCount());
-                    request.setAttribute("inactiveItemCategoryListCount", mamr.getInactiveItemCategoryListCount());
-                    request.setAttribute("itemListingCount", mamr.getItemListingCount());
-                    request.setAttribute("itemCategoryList", (ArrayList) mamr.viewItemCategoryList());
-                    pageAction = "ViewItemCategoryListing";
+                    request.setAttribute("urlItemCategoryID", itemCategoryID);
+                    request.setAttribute("itemCategoryDetailsVec", mamr.viewItemCategoryDetails(itemCategoryID));
+                    request.setAttribute("associatedItemList", (ArrayList) mamr.viewAssociatedItemList(itemCategoryID));
+                    pageAction = "ViewItemCategoryDetails";
                     break;
                 case "deactivateAnItemCategory":
                     long deactItemCategoryID = Long.parseLong(request.getParameter("hiddenItemCategoryID"));
@@ -96,11 +96,10 @@ public class MarketplaceAdminController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("activeItemCategoryListCount", mamr.getActiveItemCategoryListCount());
-                    request.setAttribute("inactiveItemCategoryListCount", mamr.getInactiveItemCategoryListCount());
-                    request.setAttribute("itemListingCount", mamr.getItemListingCount());
-                    request.setAttribute("itemCategoryList", (ArrayList) mamr.viewItemCategoryList());
-                    pageAction = "ViewItemCategoryListing";
+                    request.setAttribute("urlItemCategoryID", deactItemCategoryID);
+                    request.setAttribute("itemCategoryDetailsVec", mamr.viewItemCategoryDetails(deactItemCategoryID));
+                    request.setAttribute("associatedItemList", (ArrayList) mamr.viewAssociatedItemList(deactItemCategoryID));
+                    pageAction = "ViewItemCategoryDetails";
                     break;
                 case "activateAnItemCategory":
                     long actItemCategoryID = Long.parseLong(request.getParameter("hiddenItemCategoryID"));
@@ -108,11 +107,10 @@ public class MarketplaceAdminController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("activeItemCategoryListCount", mamr.getActiveItemCategoryListCount());
-                    request.setAttribute("inactiveItemCategoryListCount", mamr.getInactiveItemCategoryListCount());
-                    request.setAttribute("itemListingCount", mamr.getItemListingCount());
-                    request.setAttribute("itemCategoryList", (ArrayList) mamr.viewItemCategoryList());
-                    pageAction = "ViewItemCategoryListing";
+                    request.setAttribute("urlItemCategoryID", actItemCategoryID);
+                    request.setAttribute("itemCategoryDetailsVec", mamr.viewItemCategoryDetails(actItemCategoryID));
+                    request.setAttribute("associatedItemList", (ArrayList) mamr.viewAssociatedItemList(actItemCategoryID));
+                    pageAction = "ViewItemCategoryDetails";
                     break;
                 case "goToViewItemListing":
                     request.setAttribute("availableItemListingCount", mamr.getAvailableItemListingCount());
@@ -151,6 +149,19 @@ public class MarketplaceAdminController extends HttpServlet {
                     request.setAttribute("soldItemListingCount", mamr.getSoldItemListingCount());
                     request.setAttribute("itemList", (ArrayList) mamr.viewItemList());
                     pageAction = "ViewItemListing";
+                    break;
+                case "deleteAnItemFromModal":
+                    long hiddenModalItemID = Long.parseLong(request.getParameter("itemID"));
+                    long hiddenModalItemCategoryID = Long.parseLong(request.getParameter("itemCategoryID"));
+                    
+                    responseMessage = mamr.deleteAnItem(hiddenModalItemID);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("urlItemCategoryID", hiddenModalItemCategoryID);
+                    request.setAttribute("itemCategoryDetailsVec", mamr.viewItemCategoryDetails(hiddenModalItemCategoryID));
+                    request.setAttribute("associatedItemList", (ArrayList) mamr.viewAssociatedItemList(hiddenModalItemCategoryID));
+                    pageAction = "ViewItemCategoryDetails";
                     break;
                 case "goToViewItemTransactionList":
                     request.setAttribute("itemTransactionListCount", mamr.getItemTransactionListCount());
@@ -230,7 +241,7 @@ public class MarketplaceAdminController extends HttpServlet {
         return mamr.createItemCategory(categoryName, "Marketplace", categoryDescription, fileName);
     }
     
-    private String updateItemCategory(HttpServletRequest request) {
+    private String updateItemCategory(HttpServletRequest request, long itemCategoryID) {
         String fileName = "";
         String imageUploadStatus = request.getParameter("imageUploadStatus");
         
@@ -278,7 +289,6 @@ public class MarketplaceAdminController extends HttpServlet {
             }
         } else { fileName = request.getParameter("oldCategoryImage"); }
         
-        long itemCategoryID = Long.parseLong(request.getParameter("hiddenItemCategoryID"));
         String categoryName = request.getParameter("oldCategoryName");
         String newCategoryName = request.getParameter("categoryName");
         String categoryDescription = request.getParameter("oldCategoryDescription");

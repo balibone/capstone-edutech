@@ -123,20 +123,47 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
 
     @Override
     public String createItemCategory(String categoryName, String categoryType, String categoryDescription, String categoryImage) {
+        boolean itemCategoryExist = false;
         cEntity = new CategoryEntity();
-        if (cEntity.createCategory(categoryName, categoryType, categoryDescription, categoryImage)) {
-            em.persist(cEntity);
-            return "Item category has been created successfully!";
+        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Marketplace'");
+
+        for (Object o : q.getResultList()) {
+            CategoryEntity categoryE = (CategoryEntity) o;
+            if((categoryE.getCategoryName().toUpperCase()).equals(categoryName.toUpperCase())) {
+                itemCategoryExist = true;
+                break;
+            }
+        }
+        if(itemCategoryExist == true) {
+            return "Item category already existed. Please enter a different item category name.";
         } else {
-            return "There were some issues encountered while creating the item category. Please try again.";
+            if (cEntity.createCategory(categoryName, categoryType, categoryDescription, categoryImage)) {
+                em.persist(cEntity);
+                return "Item category has been created successfully!";
+            } else {
+                return "There were some issues encountered while creating the item category. Please try again.";
+            }
         }
     }
 
     @Override
     public String updateItemCategory(long itemCategoryID, String categoryName, String categoryDescription, String fileName) {
         /* DOES NOT MATTER WHETHER OR NOT THERE IS ITEMS INSIDE THE ITEM CATEGORY, ADMIN CAN JUST UPDATE THE ITEM CATEGORY DETAILS */
+        boolean itemCategoryExist = false;
+        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Marketplace'");
+
+        for (Object o : q.getResultList()) {
+            CategoryEntity categoryE = (CategoryEntity) o;
+            if(((categoryE.getCategoryName().toUpperCase()).equals(categoryName.toUpperCase())) && 
+                    (categoryE.getCategoryID() != itemCategoryID)) {
+                itemCategoryExist = true;
+                break;
+            }
+        }
         if (lookupItemCategory(itemCategoryID) == null) {
             return "Selected item category cannot be found. Please try again.";
+        } else if (itemCategoryExist == true) {
+            return "Item category already existed. Please enter a different item category name.";
         } else {
             cEntity = lookupItemCategory(itemCategoryID);
             cEntity.setCategoryName(categoryName);

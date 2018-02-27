@@ -46,7 +46,7 @@
         <script src="js/unify/admin/webjs/marketplace/ViewItemCategoryDetailsJS.js" type="text/javascript"></script>
     </head>
     <body style="background-color: #FFFFFF;">
-        <%  
+        <%
             Vector itemCategoryDetailsVec = (Vector) request.getAttribute("itemCategoryDetailsVec");
             String categoryImage, categoryName, categoryType, categoryDescription, categoryActiveStatus, activeStatus;
             categoryImage = categoryName = categoryType = categoryDescription = categoryActiveStatus = activeStatus = "";
@@ -59,7 +59,24 @@
                 categoryActiveStatus = (String.valueOf(itemCategoryDetailsVec.get(4)));
             }
         %>
-        <form id="itemCategoryDetailsForm" action="MarketplaceAdmin" method="POST" enctype="multipart/form-data" target="_parent">
+        <form id="itemCategoryDetailsForm" action="MarketplaceAdmin" method="POST" enctype="multipart/form-data">
+            <%
+                String successMessage = (String) request.getAttribute("successMessage");
+                if (successMessage != null) {
+            %>
+            <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                <button type="button" class="close" id="closeSuccess">&times;</button><%= successMessage%>
+            </div>
+            <%  } %>
+            <%
+                String errorMessage = (String) request.getAttribute("errorMessage");
+                if (errorMessage != null) {
+            %>
+            <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                <button type="button" class="close" id="closeError">&times;</button><%= errorMessage%>
+            </div>
+            <%  }%>
+
             <table class="formFields" border="0">
                 <tr>
                     <td>
@@ -125,12 +142,12 @@
                         <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlItemCategoryID")%>)">Deactivate Item Category</button>
                         <%--<button type="button" class="btn btn-primary" onclick="window.open('MarketplaceAdmin?pageTransit=deactivateAnItemCategory&hiddenItemCategoryID=<%= request.getAttribute("urlItemCategoryID")%>','_parent')">Deactivate Item Category</button>--%>
                         <%  } else if (activeStatus.equals("Inactive")) {%>
-                        <button type="button" class="btn btn-primary" onclick="window.open('MarketplaceAdmin?pageTransit=activateAnItemCategory&hiddenItemCategoryID=<%= request.getAttribute("urlItemCategoryID")%>','_parent')">Activate Item Category</button>
-                        <%  }   %>
+                        <button type="button" class="btn btn-primary" onclick="window.open('MarketplaceAdmin?pageTransit=activateAnItemCategory&hiddenItemCategoryID=<%= request.getAttribute("urlItemCategoryID")%>', '_self')">Activate Item Category</button>
+                        <%  }%>
                     </td>
                 </tr>
             </table>
-            
+
             <div style="margin: 40px 20px 0 20px">
                 <h5 style="margin-bottom: 20px;"><strong><u>List of items under this "<%= categoryName%>" category</u></strong></h5>
                 <table id="associatedItemListing" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
@@ -162,16 +179,16 @@
                             <td><%= itemName%><span style="display: none">;<%= itemID%>;<%= itemCategoryID%></span></td>
                             <td><%= itemSellerID%></td>
                             <td>$<%= itemPrice%></td>
-                            <%  if (itemStatus.equals("Available")) {   %>
+                            <%  if (itemStatus.equals("Available")) {%>
                             <td><span class="label label-success"><%= itemStatus%></span></td>
-                            <%  } else if (itemStatus.equals("Reserved")) { %>
+                                <%  } else if (itemStatus.equals("Reserved")) {%>
                             <td><span class="label label-warning"><%= itemStatus%></span></td>
-                            <%  } else if (itemStatus.equals("Sold")) { %>
+                                <%  } else if (itemStatus.equals("Sold")) {%>
                             <td><span class="label label-danger"><%= itemStatus%></span></td>
-                            <%  }   %>
+                                <%  }   %>
                         </tr>
                         <%      }   %>
-                        <%  }   %>
+                        <%  }%>
                     </tbody>
                 </table>
             </div>
