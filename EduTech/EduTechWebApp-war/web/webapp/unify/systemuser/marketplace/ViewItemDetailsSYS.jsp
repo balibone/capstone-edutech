@@ -149,8 +149,7 @@
             </div>
 
             <div class="container" style="margin-bottom: 30px;">
-                <%
-                    Vector itemDetailsSYSVec = (Vector) request.getAttribute("itemDetailsSYSVec");
+                <%                    Vector itemDetailsSYSVec = (Vector) request.getAttribute("itemDetailsSYSVec");
                     String itemID, itemName, itemCategoryName, itemPrice, itemCondition, itemDescription, itemImage, itemStatus, itemNumOfLikes;
                     itemID = itemName = itemCategoryName = itemPrice = itemCondition = itemDescription = itemImage = itemStatus = itemNumOfLikes = "";
 
@@ -212,20 +211,20 @@
                                 </tr>
                                 <tr>
                                     <td>Availability</td>
-                                    <%  if (itemStatus.equals("Available")) {   %>
+                                    <%  if (itemStatus.equals("Available")) {%>
                                     <td><span class="badge badge-success custom-badge arrowed-left"><%= itemStatus%></span></td>
-                                    <%  } else if (itemStatus.equals("Sold")) { %>
+                                        <%  } else if (itemStatus.equals("Sold")) {%>
                                     <td><span class="badge badge-danger custom-badge arrowed-left"><%= itemStatus%></span></td>
-                                    <%  }   %>
+                                        <%  }   %>
                                 </tr>
                                 <tr>
                                     <td>Number of Likes</td>
                                     <td>
                                         <ul class="list-inline mb-0">
                                             <li class="list-inline-item">
-                                                <%  if(itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {    %>
+                                                <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
                                                 <span class="price"><h5 class="mb-0"><%= itemNumOfLikes%>&nbsp;Like</h5></span>
-                                                <%  } else { %>
+                                                <%  } else {%>
                                                 <span class="price"><h5 class="mb-0"><%= itemNumOfLikes%>&nbsp;Likes</h5></span>
                                                 <%  }   %>
                                             </li>
@@ -236,12 +235,12 @@
                                     <td>&nbsp;</td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <%  if (itemSellerID.equals(request.getAttribute("loggedInUsername"))) {    %>
-                                            <button type="button" class="btn btn-outline-theme" onclick="location.href='MarketplaceSysUser?pageTransit=goToEditItemListingSYS&urlItemID=<%= itemID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
+                                            <%  if (itemSellerID.equals(request.getAttribute("loggedInUsername"))) {%>
+                                            <button type="button" class="btn btn-outline-theme" onclick="location.href = 'MarketplaceSysUser?pageTransit=goToEditItemListingSYS&urlItemID=<%= itemID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
                                             <%  } else {    %>
                                             <button type="button" class="btn btn-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
-                                            <%  }   %>
+                                            <%  }%>
                                             <button type="button" class="btn btn-outline-theme" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
                                         </div>
                                     </td>
@@ -262,9 +261,9 @@
                                         <tr>
                                             <td class="bg-light w-25">Trade Location</td>
                                             <td>
-                                                <input type="hidden" id="tradeLocation" value="<%= tradeLocation %>" />
-                                                <input type="hidden" id="tradeLat" value="<%= tradeLat %>" />
-                                                <input type="hidden" id="tradeLong" value="<%= tradeLong %>" />
+                                                <input type="hidden" id="tradeLocation" value="<%= tradeLocation%>" />
+                                                <input type="hidden" id="tradeLat" value="<%= tradeLat%>" />
+                                                <input type="hidden" id="tradeLong" value="<%= tradeLong%>" />
                                                 <%= tradeLocation%>
                                             </td>
                                         </tr>
@@ -301,11 +300,11 @@
                                 <h5 class="sellerInfo">Seller Information:</h5>
                                 <div class="media mb-2 mt-3">
                                     <div class="mr-2">
-                                        <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage %>" />
+                                        <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
                                     </div>
                                     <div class="media-body col-md-6">
                                         <h5 class="sellerInfo"><%= itemSellerID%></h5>
-                                        Joined on <%= itemSellerJoinDate %><br/>
+                                        Joined on <%= itemSellerJoinDate%><br/>
                                         <hr/>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>
@@ -390,7 +389,13 @@
         <script src="js/unify/systemuser/webjs/marketplace/ViewItemDetailsSYSJS.js" type="text/javascript"></script>
         <script type="text/javascript">
             $('#makeOfferBtn').qtip({
-                content: 'Hello 2nd Test',
+                content: {
+                    title: { text: 'Make Item Offer', button: true },
+                    text: 'Enter your item offer here:<br/><input type="text" name="itemPriceOffer" style="margin-top:7px;width:100%;" /><br/><button type="button" id="sendOfferBtn" style="margin-top:7px;">Send Offer</button>'
+                },
+                position: { at: 'top center', my: 'bottom center' },
+                style: { width: 250, height: 125 },
+                hide: { event: 'click', inactive: 8000 },
                 show: 'click'
             });
         </script>
