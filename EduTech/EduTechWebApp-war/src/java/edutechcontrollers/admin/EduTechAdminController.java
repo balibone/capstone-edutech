@@ -51,6 +51,7 @@ public class EduTechAdminController extends HttpServlet {
                     request.setAttribute("instructorCount", sam.getUserCount("instructor"));
                     request.setAttribute("moduleCount", eam.getModuleCount());
                     request.setAttribute("semesterCount", eam.getSemesterCount());
+                    request.setAttribute("semInfo", eam.getCurrentSemester());
                     pageAction = "EduTechAdminDashboard";
                     break;
                 case "StudentList":

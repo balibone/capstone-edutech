@@ -1,5 +1,17 @@
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%
+    ArrayList semInfo = (ArrayList)request.getAttribute("semInfo");
+    String semTitle = "";
+    String semMods = "";
+    if(semInfo!=null && !semInfo.isEmpty()){
+        semTitle =(String) semInfo.get(0);
+        semMods =(String) semInfo.get(1);
+    }
+
+
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -58,8 +70,8 @@
                                 <div class="x_content">
                                     <div class="bs-example" data-example-id="simple-jumbotron">
                                         <div class="jumbotron">
-                                            <h1>AY17/18 <small>Semester 2</small></h1>
-                                            <p>There are 8 active modules in this semester.</p>
+                                            <h1><%=semTitle%></h1>
+                                            <p class="pull-right"><%=semMods%> active module(s) this semester.</p>
                                         </div>
                                     </div>
                                 </div>

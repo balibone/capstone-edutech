@@ -315,4 +315,23 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             module.getUsers().remove(user);
         }
     }
+
+    @Override
+    public ArrayList getCurrentSemester() {
+        Date currDate = new Date();
+        ArrayList semInfo = new ArrayList();
+        Query q1 = em.createQuery("SELECT s FROM Semester s");
+        for(Object o:q1.getResultList()){
+            SemesterEntity s = (SemesterEntity) o;
+            Date startDate = s.getStartDate();
+            Date endDate = s.getEndDate();
+            //if semester starts before or on today's date and end after or on today's date, then it is current semester
+            //assumption : there are no 2 sems which dates overlap.
+            if( (startDate.before(currDate) || endDate.equals(currDate)) && (endDate.after(currDate) || endDate.equals(currDate)) ){
+                semInfo.add(s.getTitle());//get title
+                semInfo.add(String.valueOf(s.getModules().size()));//get number of modules
+            }
+        }
+        return semInfo;
+    }
 }
