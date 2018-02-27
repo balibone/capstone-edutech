@@ -50,6 +50,23 @@
         
     </head>
     <body style="background-color: #FFFFFF;">
+        <%
+                    String successMessage = (String) request.getAttribute("successMessage");
+                    if (successMessage != null) {
+                %>
+                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                    <button type="button" class="close" id="closeSuccess">&times;</button><%= successMessage%>
+                </div>
+                <%  } %>
+                <%
+                    String errorMessage = (String) request.getAttribute("errorMessage");
+                    if (errorMessage != null) {
+                %>
+                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                    <button type="button" class="close" id="closeError">&times;</button><%= errorMessage%>
+                </div>
+                <%  } %>
+                
         <%  
             Vector jobCategoryDetailsVec = (Vector) request.getAttribute("jobCategoryDetailsVec");
             String categoryImage, categoryName, categoryType, categoryDescription, categoryActiveStatus;
@@ -63,7 +80,7 @@
                 categoryActiveStatus = (String.valueOf(jobCategoryDetailsVec.get(4)));
             }
         %>
-        <form id="jobCategoryDetailsForm" action="ErrandsAdmin" method="POST" enctype="multipart/form-data" target="_parent">
+        <form id="jobCategoryDetailsForm" action="ErrandsAdmin" method="POST" enctype="multipart/form-data" target="_self">
             <table class="formFields" border="0">
                 <tr>
                     <td>
@@ -114,7 +131,7 @@
                 </tr>
                 <tr style="text-align: center;">
                     <td colspan="2">
-                        <input type="hidden" name="pageTransit" value="updateJobCategory"/>
+                        <input type="hidden" name="pageTransit" value="updateJobCategory" />
                         <input type="hidden" name="hiddenJobCategoryID" value="<%= request.getAttribute("urlJobCategoryID")%>"/>
                         <input type="hidden" name="imageUploadStatus" id="imageUploadStatus" />
                         <input type="hidden" name="oldCategoryImage"  value="<%= categoryImage%>" />
@@ -124,7 +141,7 @@
                         <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlJobCategoryID")%>)">Deactivate Job Category</button>
                         
                         <%  } else if (categoryActiveStatus.equals("Inactive")) {%>
-                        <button type="button" class="btn btn-primary" onclick="window.open('ErrandsAdmin?pageTransit=activateAJobCategory&hiddenJobCategoryID=<%= request.getAttribute("urlJobCategoryID")%>','_parent')">Activate Job Category</button>
+                        <button type="button" class="btn btn-primary" onclick="window.open('ErrandsAdmin?pageTransit=activateAJobCategory&hiddenJobCategoryID=<%= request.getAttribute("urlJobCategoryID")%>','_self')">Activate Job Category</button>
                         <%  }   %>
                     </td>
                 </tr>
@@ -132,22 +149,7 @@
             
             <div style="margin: 40px 20px 0 20px">
                 <h5 style="margin-bottom: 20px;"><strong><u>List of jobs under this "<%= categoryName%>" category</u></strong></h5>
-                <%
-                    String successMessage = (String) request.getAttribute("successMessage");
-                    if (successMessage != null) {
-                %>
-                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
-                    <button type="button" class="close" id="closeSuccess">&times;</button><%= successMessage%>
-                </div>
-                <%  } %>
-                <%
-                    String errorMessage = (String) request.getAttribute("errorMessage");
-                    if (errorMessage != null) {
-                %>
-                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
-                    <button type="button" class="close" id="closeError">&times;</button><%= errorMessage%>
-                </div>
-                <%  } %>
+                
                 <table id="associatedJobList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
                     <thead>
                         <tr>

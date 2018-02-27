@@ -10,6 +10,7 @@
 
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -54,6 +55,7 @@
                                 <input type="text" class="form-control" placeholder="Job Category Name (Required)" required="required" name="categoryName" />
                             </div>
                         </div>
+                        
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-bookmark"></i></span>

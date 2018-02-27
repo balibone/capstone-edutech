@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Vector;
 import java.util.List;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -148,11 +149,28 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             return "Selected job category cannot be found. Please try again.";
         } else {
             cEntity = lookupJobCategory(jobCategoryID);
-            cEntity.setCategoryName(categoryName);
-            cEntity.setCategoryDescription(categoryDescription);
-            cEntity.setCategoryImage(fileName);
-            em.merge(cEntity);
-            return "Selected job category has been updated successfully!";
+            
+            boolean sameName = false;
+            Query q = em.createQuery("SELECT c.categoryName FROM Category c WHERE NOT c.categoryID=:jobCategoryID");
+            q.setParameter("jobCategoryID", jobCategoryID);
+            
+            Vector<String> categoryNameList = (Vector) q.getResultList();
+            for(int i=0; i<categoryNameList.size(); i++){
+                if(categoryName.equals(categoryNameList.get(i))){
+                    sameName = true;
+                    break;
+                }
+            }
+        
+            if(sameName){
+                return "There is already a category called " + categoryName + ". Please try another name.";
+            }else{
+                cEntity.setCategoryName(categoryName);
+                cEntity.setCategoryDescription(categoryDescription);
+                cEntity.setCategoryImage(fileName);
+                em.merge(cEntity);
+                return "Selected job category has been updated successfully!";
+            }
         }
     }
 
@@ -283,7 +301,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
 
                     jobTransVec.add(jobTransE.getJobTransactionDate());
                     /* WE ASSUME THAT THE JOB POSTER IS THE ONE WHO CREATES THE TRANSACTION */
-                    jobTransVec.add(jobTransE.getUserEntity().getUsername());
+                    //jobTransVec.add(jobTransE.getUserEntity().getUsername());
                     jobTransVec.add(jobTransE.getJobTakerID());
                     jobTransVec.add(jobTransE.getJobTransactionRate());
                     jobTransVec.add(jobTransE.getJobTransactionRateType());
@@ -374,6 +392,30 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
 
     /* METHODS FOR UNIFY ADMIN DASHBOARD */
     @Override
+    public ArrayList<Vector> getLatestThreeTransactions(){
+        ArrayList<Vector> latestTransList = new ArrayList();
+        Query q = em.createQuery("SELECT t FROM JobTransaction t ORDER BY t.jobTransactionDate DESC");
+            for (Object o : q.setMaxResults(3).getResultList()) {
+                JobTransactionEntity jobTransE = (JobTransactionEntity) o;
+                Vector jobTransVec = new Vector();
+                
+                /* WE ASSUME THAT THE JOB POSTER IS THE ONE WHO CREATES THE TRANSACTION */
+                jobTransVec.add(jobTransE.getUserEntity().getUsername());
+                jobTransVec.add(jobTransE.getJobTakerID());
+                jobTransVec.add(jobTransE.getJobEntity().getJobTitle());
+                //jobTransVec.add(jobTransE.getJobEntity().getJobRate());
+                //jobTransVec.add(jobTransE.getJobEntity().getJobRateType());
+                jobTransVec.add(jobTransE.getJobTransactionRate());
+                jobTransVec.add(jobTransE.getJobTransactionRateType());
+
+                latestTransList.add(jobTransVec);
+            }
+        
+        return latestTransList;
+    }
+    
+    
+    @Override
     public Long getErrandsTransTodayCount() {
         Long errandsTransTodayCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(t.jobTransactionID) FROM JobTransaction t WHERE t.jobTransactionDate = CURRENT_DATE");
@@ -389,6 +431,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
     @Override
     public Long getErrandsTransCount() {
         Long errandsTransCount = new Long(0);
+        
         Query q = em.createQuery("SELECT COUNT(t.jobTransactionID) FROM JobTransaction t");
         try {
             errandsTransCount = (Long) q.getSingleResult();

@@ -53,7 +53,7 @@
                 </ul>
                 <a class="navbar-brand" href="index.html">
                     <img src="images/edubox-unify-logo.png" style="width:108px;height:38px;" />
-                    <small><strong><sub>ADMIN</sub></strong</small>
+                    <small><strong><sub>ADMIN</sub></strong></small>
                 </a>
                 <a href="#" class="toggle-sidebar bs-tooltip" data-placement="bottom" data-original-title="Toggle navigation">
                     <i class="fa fa-reorder"></i>
@@ -573,6 +573,5 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </body> 
+    </body>
 </html>

@@ -15,6 +15,9 @@ $(document).ready(function () {
         jobCategoryID = jobName.split(';')[2];
         window.location.href = 'ErrandsAdmin?pageTransit=goToViewJobDetailsInModal&jobID=' + jobID + '&jobCategoryID=' + jobCategoryID;
     });
+    
+    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
+    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 });
 
 function previewImage(event) {
@@ -31,5 +34,6 @@ function previewImage(event) {
 function AlertIt(jCategoryID) {
             var answer = confirm ("Are you sure to deactivate the category? ")
             if (answer)
-                window.open('ErrandsAdmin?pageTransit=deactivateAJobCategory&hiddenJobCategoryID=' + jCategoryID,'_parent');
+                window.open('ErrandsAdmin?pageTransit=deactivateAJobCategory&hiddenJobCategoryID=' + jCategoryID, '_self');
 }
+
