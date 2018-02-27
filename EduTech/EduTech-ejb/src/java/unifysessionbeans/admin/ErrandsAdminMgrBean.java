@@ -357,6 +357,9 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             return "Selected job cannot be found. Please try again.";
         } else {
             jEntity = lookupJob(jobID);
+            CategoryEntity cEntity = jEntity.getCategoryEntity();
+            cEntity.getJobSet().remove(jEntity);
+            em.merge(cEntity);
             em.remove(jEntity);
             em.flush();
             em.clear();
@@ -399,6 +402,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                 JobTransactionEntity jobTransE = (JobTransactionEntity) o;
                 Vector jobTransVec = new Vector();
                 
+                jobTransVec.add(jobTransE.getJobTransactionDate());
                 /* WE ASSUME THAT THE JOB POSTER IS THE ONE WHO CREATES THE TRANSACTION */
                 jobTransVec.add(jobTransE.getUserEntity().getUsername());
                 jobTransVec.add(jobTransE.getJobTakerID());
