@@ -166,7 +166,7 @@
                                     <div class="visual cyan"><div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div></div> 
                                     <div class="title">Mktplace Deal Today</div>
                                     <div class="value"><%= request.getAttribute("itemTransTodayCount")%></div>
-                                    <a class="more" href="javascript:void(0);">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                    <a class="more" href="MarketplaceAdmin?pageTransit=goToViewItemTransactionList">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                 </div>
                             </div>
                         </div>
