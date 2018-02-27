@@ -5,7 +5,7 @@
  */
 package edutechsessionbeans;
 
-import commoninfraentities.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import edutechentities.common.ScheduleItemEntity;
 import java.util.Date;
 import java.util.List;
@@ -60,19 +60,20 @@ public class CommonRESTMgrBean {
         return em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
     }
 
-    public void createScheduleItem(ScheduleItemEntity entity) {
+    public Long createScheduleItem(ScheduleItemEntity entity) {
         //persist this new schedule entity
         em.persist(entity);
+        return entity.getId();
     }
 
     public void editScheduleItem(String id, ScheduleItemEntity entity) {
-        ScheduleItemEntity toEdit = em.find(ScheduleItemEntity.class, id);
+        ScheduleItemEntity toEdit = em.find(ScheduleItemEntity.class, Long.valueOf(id));
         toEdit = entity;
         em.merge(toEdit);
     }
 
     public void removeScheduleItem(String id) {
-        em.remove(em.find(ScheduleItemEntity.class, id));
+        em.remove(em.find(ScheduleItemEntity.class, Long.valueOf(id)));
     }
 
     public ScheduleItemEntity findScheduleItem(String id) {
