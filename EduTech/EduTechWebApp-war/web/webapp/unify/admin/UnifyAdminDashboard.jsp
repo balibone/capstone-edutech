@@ -116,6 +116,7 @@
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
                             <ul class="sub-menu">
+                                <li><a href="ContentAdmin?pageTransit=goToAllReportedListing"><i class="fa fa-wpforms"></i>&nbsp;All Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Review Reports</a></li>
@@ -186,7 +187,7 @@
                                     <div class="visual red"><i class="fa fa-file fa-2x"></i></div>
                                     <div class="title">Content Reports Unresolved</div>
                                     <div class="value"><%= request.getAttribute("unresolvedContentReportCount")%></div>
-                                    <a class="more" href="javascript:void(0);">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                    <a class="more" href="ContentAdmin?pageTransit=goToAllReportedListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -249,13 +250,23 @@
                                                         <tr>
                                                             <td><%= reportDate%></td>
                                                             <td><%= reportedReviewID%></td>
-                                                            <td><%= reportStatus%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
                                                         </tr>
 
                                                         <%  }%>
                                                     </tbody>
                                                 </table>
-                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToReportedReviewListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToAllReportedListing#companyReview">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                             </div>  
                                         </div>
 
@@ -287,13 +298,23 @@
                                                         <tr>
                                                             <td><%= reportDate%></td>
                                                             <td><%= reportedErrandID%></td>                                                           
-                                                            <td><%= reportStatus%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
                                                         </tr>
 
                                                         <%  }%>
                                                     </tbody>
                                                 </table>
-                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToReportedErrandsListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToAllReportedListing#errandReport">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                             </div>
                                         </div>
 
@@ -326,13 +347,23 @@
                                                         <tr>
                                                             <td><%= reportDate%></td>
                                                             <td><%= reportedErrandID%></td>
-                                                            <td><%= reportStatus%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
                                                         </tr>
 
                                                         <%  }%>
                                                     </tbody>
                                                 </table>
-                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToReportedErrandsReviewListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToAllReportedListing#errandReviewReport">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                             </div>
                                         </div>
 
@@ -366,13 +397,24 @@
                                                         <tr>
                                                             <td><%= reportDate%></td>
                                                             <td><%= reportedItemID%></td>
-                                                            <td><%= reportStatus%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
+
                                                         </tr>
 
                                                         <%  }%>
                                                     </tbody>
                                                 </table>
-                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToReportedMarketplaceListing">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                                <a class="tableMore" href="ContentAdmin?pageTransit=goToAllReportedListing#marketplaceReport">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -416,7 +458,22 @@
                                             <tr>
                                                 <td><%= requestDate%></td>
                                                 <td><%= requesterID%></td>
-                                                <td><%= requestStatus%></td>
+                                                <%
+                                                    if (requestStatus.equals("Approved")) {
+                                                %>
+                                                <td><span class="label label-success">Approved</span></td>
+
+                                                <%
+                                                } else if (requestStatus.equals("Rejected")) {
+                                                %>
+                                                <td><span class="label label-danger">Rejected</span></td>
+                                                <%
+                                                } else {
+                                                %>
+                                                <td><span class="label label-warning">Pending</span></td>
+                                                <%
+                                                    }
+                                                %>
                                             </tr>
                                             <%  }%>
                                         </tbody>

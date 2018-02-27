@@ -111,6 +111,7 @@
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
                         <li class="current">
                             <ul class="sub-menu">
+                                <li><a href="ContentAdmin?pageTransit=goToAllReportedListing"><i class="fa fa-wpforms"></i>&nbsp;All Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Review Reports</a></li>
@@ -223,7 +224,22 @@
                                                 <td><%= requestID%></td>
                                                 <td><%= requestDate%></td>
                                                 <td><%= requesterID%></td>
-                                                <td><%= requestStatus%></td>
+                                                <% 
+                                                    if (requestStatus.equals("Approved")){ 
+                                                %>
+                                                <td><span class="label label-success">Approved</span></td>
+                                                
+                                                <%
+                                                } else if (requestStatus.equals("Rejected")) {
+                                                %>
+                                                <td><span class="label label-danger">Rejected</span></td>
+                                                <%
+                                                } else {
+                                                %>
+                                                <td><span class="label label-warning">Pending</span></td>
+                                                <%
+                                                }
+                                                %>
 
                                             </tr>
 
