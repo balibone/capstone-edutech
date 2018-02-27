@@ -19,7 +19,7 @@
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/easy-autocomplete/easy-autocomplete.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-
+        <link href="css/unify/admin/weblayout/contentadmin/ReportedMarketplaceDetailsFromAllListCSS.css" rel="stylesheet" type="text/css" />
 
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
@@ -39,9 +39,9 @@
     <body style="background-color: #FFFFFF;">
         <%            Vector reportListVec = (Vector) request.getAttribute("reportedMarketplaceVec");
             String reportID, reportStatus, reportDescription, reportDate, reportedItemID,
-                    reportedPosterID, reportedReporterID, itemName, itemDescription, itemImage, reviewedDate;
+                    reportedPosterID, reportedReporterID, itemName, itemDescription, itemImage, reviewedDate, itemStatus;
             reportID = reportStatus = reportDescription = reportDate = reportedItemID = reportedPosterID = reportedReporterID
-                    = itemName = itemDescription = itemImage = reviewedDate = "";
+                    = itemName = itemDescription = itemImage = reviewedDate = itemStatus = "";
             if (reportListVec != null) {
                 reportID = (String.valueOf(reportListVec.get(0)));
                 reportStatus = (String.valueOf(reportListVec.get(1)));
@@ -55,6 +55,7 @@
                     itemName = (String.valueOf(reportListVec.get(8)));
                     itemDescription = (String.valueOf(reportListVec.get(9)));
                     itemImage = (String.valueOf(reportListVec.get(10)));
+                    itemStatus = (String.valueOf(reportListVec.get(11)));
                 }
             }
         %>
@@ -77,7 +78,19 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;<%= reportStatus%></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;
+                                <%
+                                    if (reportStatus.equals("Resolved")) {
+                                %>
+                                <td><span class="label label-success">Resolved</span></td>
+                                <%
+                                } else {
+                                %>
+                                <td><span class="label label-warning">Unresolved</span></td>
+                                <%
+                                    }
+                                %>
+                            </label>
                         </div>
 
                         <div class="form-group">
@@ -109,23 +122,73 @@
                         <%
                             if (reportListVec.size() > 8) {
                         %>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name:&nbsp;&nbsp;<%= itemName%></label>
-                        </div>
+                        <table class="formFields" border="0">
+                            <tr><td colspan="3">&nbsp;</td></tr>
+                            <%-- column 1 --%>
+                            <tr>
+                                <td>
+                                    <div class="form-group">  
+                                        <div class="image-upload">
+                                            <img id="output-image" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
+                                        </div>
+                                    </div>
+                                </td>
+                            
+                                
+                                <%-- column 2 --%>
+                            <td>
+                            <td>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Status:&nbsp;&nbsp;</td>
+                                            <%
+                                                if (itemStatus.equals("Delisted")) {
+                                            %>
+                                            <td><span class="label label-danger">Delisted</span></td>
+                                            <%
+                                            } else {
+                                            %>
+                                            <td><span class="label label-info"><%= itemStatus%></span></td>
+                                                <%
+                                                    }
+                                                %>
+                                        </label>
+                                    </div>
+                            
+                            
+                            
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name:&nbsp;&nbsp;<%= itemName%></label>
+                                    </div>
+                                </td>
+                            </tr>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Description:&nbsp;&nbsp;<%= itemDescription%></label>
-                        </div>
-                        <%
-                        } else {
-                        %>
-                        <div class="form-group">
-                            <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"><b>ITEM HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
-                        </div>
-                        <%
-                            }
-                        %> 
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Description:&nbsp;&nbsp;<%= itemDescription%></label>
+                                    </div>
+                                </td>
+                            </tr>
+                                <%
+                                } else {
+                                %>
+                                <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"><b>ITEM HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
+                                    </div>
+                                </td>
+                                </tr>
+                                <%
+                                    }
+                                %> 
 
+                                </td>
+                            
+                        </table>
+                        <%-- end of row div --%>
                     </div>
                 </div>
             </div>
@@ -152,11 +215,11 @@
                         <%-- resolve and delete item --%>
                         <td>
                             <form action="ContentAdmin?pageTransit=goToAllReportedListing#marketplaceReport" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveDeleteMarketplaceReportFromAllList"/>
+                                <input type="hidden" name="pageTransit" value="resolveDelistMarketplaceReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <input type="hidden" name="reportedItemID" value="<%= reportedItemID%>" />
-                                <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm deletion?')">Delete Item & Resolve</button>
+                                <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm delisting of item?')">Delist Item & Resolve</button>
                             </form>
                         </td>
                         <%

@@ -164,6 +164,26 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
                     pageAction = "AllReportedListing";
                     break;
+                case "resolveDelistMarketplaceReportFromAllList":
+                    String deleteItemID3 = request.getParameter("reportedItemID");
+                    if (updateMarketplaceReport(request)) {
+                        responseMessage = camr.delistItem(deleteItemID3);
+                        if (responseMessage.endsWith("!")) {
+                            request.setAttribute("successMessage", responseMessage);
+                        } else {
+                            request.setAttribute("errorMessage", responseMessage);
+                        }
+                    } else {
+                        request.setAttribute("errorMessage", "Selected item cannot be updated. Please try again.");
+                    }
+                    request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount());
+                    request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount());
+                    request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListing());
+                    request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
+                    request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    pageAction = "AllReportedListing";
+                    break;
                 case "unresolveMarketplaceReport":
                     if (updateMarketplaceReport(request)) {
                         request.setAttribute("successMessage", "Selected report has been reverted to <b>unresolved</b>.");

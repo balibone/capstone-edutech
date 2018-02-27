@@ -238,7 +238,17 @@
                                                             <td><%= reportedErrandID%></td>
                                                             <td><%= reportedPosterID%></td>
                                                             <td><%= reportedReporterID%></td>
-                                                            <td><%= reportStatus%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
                                                         </tr>
 
                                                         <%  }%>
@@ -299,7 +309,17 @@
                                                             <td><%= reportedErrandID%></td>
                                                             <td><%= reportedPosterID%></td>
                                                             <td><%= reportedReporterID%></td>
-                                                            <td><%= reportStatus%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
                                                         </tr>
 
                                                         <%  }%>
@@ -359,7 +379,17 @@
                                                             <td><%= reportedItemID%></td>
                                                             <td><%= reportedPosterID%></td>
                                                             <td><%= reportedReporterID%></td>
-                                                            <td><%= reportStatus%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
                                                         </tr>
 
                                                         <%  }%>
@@ -418,7 +448,17 @@
                                                             <td><%= reportedReviewID%></td>
                                                             <td><%= reportedPosterID%></td>
                                                             <td><%= reportedReporterID%></td>
-                                                            <td><%= reportStatus%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
                                                         </tr>
 
                                                         <%  }%>

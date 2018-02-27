@@ -236,6 +236,8 @@
                                                 <td><span class="label label-warning"><%= itemStatus%></span></td>
                                                 <%  } else if (itemStatus.equals("Sold")) { %>
                                                 <td><span class="label label-danger"><%= itemStatus%></span></td>
+                                                <%  } else if (itemStatus.equals("Delisted")) { %>
+                                                <td><span class="label label-info"><%= itemStatus%></span></td>
                                                 <%  }   %>
                                             </tr>
                                             <%      }   %>
