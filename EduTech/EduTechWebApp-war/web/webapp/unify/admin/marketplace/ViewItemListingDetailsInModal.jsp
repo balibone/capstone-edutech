@@ -111,7 +111,7 @@
             <tr style="text-align: center;">
                 <td colspan="2">
                     <%  if (!itemStatus.equals("Sold")) {%>
-                        <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlItemID")%>)">Delete Item</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlItemID")%>, <%= request.getAttribute("urlItemCategoryID")%>)">Delete Item</button>
                     <%  }%>
                 </td>
             </tr>
