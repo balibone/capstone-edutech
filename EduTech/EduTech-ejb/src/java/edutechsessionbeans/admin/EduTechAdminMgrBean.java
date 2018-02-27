@@ -5,16 +5,26 @@
  */
 package edutechsessionbeans.admin;
 
+import commoninfrastructureentities.UserEntity;
 import edutechentities.ModuleEntity;
+import edutechentities.RecurringEventEntity;
+import edutechentities.ScheduleItemEntity;
 import edutechentities.SemesterEntity;
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -115,9 +125,9 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     }
 
     @Override
-    public void deactivateSemester(String id) {
+    public void deleteSemester(String id) {
         SemesterEntity sem = em.find(SemesterEntity.class, Long.valueOf(id));
-        sem.setActiveStatus(Boolean.FALSE);
+        em.remove(sem);
     }
 
     @Override
@@ -172,7 +182,137 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     }
 
     @Override
-    public void deactivateModule(String id) {
-        em.find(ModuleEntity.class,id).setActiveStatus(Boolean.FALSE);
+    public void deleteModule(String id) {
+        em.remove(em.find(ModuleEntity.class,id));
+    }
+
+    @Override
+    public ArrayList getModuleInfo(String id) {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
+        
+        ArrayList modInfo = new ArrayList();
+        ModuleEntity mod = em.find(ModuleEntity.class, id);
+        modInfo.add(String.valueOf(mod.getModuleCode()));
+        modInfo.add(String.valueOf(mod.getName()));
+        modInfo.add(String.valueOf(mod.getModularCredit()));
+        modInfo.add(String.valueOf(mod.getSemester().getTitle()+" | ID: "+mod.getSemester().getId()));
+        modInfo.add(String.valueOf(mod.getDescription()));
+        //get list of users for this module
+        Collection users = mod.getUsers();
+        //store information of all users in this module
+        ArrayList userInfoList = new ArrayList();
+        for(Object o : users){
+            UserEntity user = (UserEntity)o;
+            //only extract module info if user is active.
+            if(user.getUserActiveStatus()){
+                ArrayList userInfo = new ArrayList();
+                userInfo.add(String.valueOf(user.getUsername()));
+                userInfo.add(String.valueOf(user.getUserSalutation()+" "+user.getUserFirstName()+" "+user.getUserLastName()));
+                userInfoList.add(userInfo);
+            }
+        }
+
+        modInfo.add(userInfoList);
+        modInfo.add(userInfoList.size());
+        
+        Collection recurringEvents = mod.getRecurringEvents();
+        //store information of all recurring events in this module
+        ArrayList eventInfoList = new ArrayList();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+        for(Object o : recurringEvents){
+            RecurringEventEntity event = (RecurringEventEntity)o;
+            ArrayList eventInfo = new ArrayList();
+            eventInfo.add(String.valueOf(event.getTitle()));
+            eventInfo.add(event.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+            eventInfo.add(event.getStartTime().format(timeFormat));
+            eventInfo.add(event.getEndTime().format(timeFormat));
+            
+            eventInfoList.add(eventInfo);
+        }
+        modInfo.add(eventInfoList);
+        return modInfo;
+    }
+
+    @Override
+    public boolean editModule(String id, String name, String credits, String description) {
+        try{
+            ModuleEntity mod = em.find(ModuleEntity.class, id);
+            mod.setName(name);
+            mod.setModularCredit(Long.valueOf(credits));
+            mod.setDescription(description);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Error in editModule() **********************************");
+            return false;
+        }
+    }
+
+    @Override
+    public void addEventToMod(String title, String location, String day, String startTime, String endTime, String description, String id) {
+        //creates new event and adds in the attribute values
+        RecurringEventEntity event = new RecurringEventEntity();
+        event.setTitle(title);
+        event.setLocation(location);
+        event.setDayOfWeek(DayOfWeek.valueOf(day.toUpperCase()));
+        System.out.println("START TIME IS "+startTime);
+        event.setStartTime(LocalTime.parse(startTime));
+        System.out.println("END TIME IS "+endTime);
+        event.setEndTime(LocalTime.parse(endTime));
+        event.setDescription(description);
+        //persist new event
+        em.persist(event);
+        //adds new event to this module.
+        em.find(ModuleEntity.class,id).getRecurringEvents().add(event);
+    }
+
+    @Override
+    public ArrayList getAllModulesOfUser(String id) {
+        ArrayList moduleList = new ArrayList<ArrayList>();
+        ModuleEntity mod = new ModuleEntity();
+        //get user with this username
+        UserEntity user = em.find(UserEntity.class, id);
+
+        //Find all active modules
+        Query q1 = em.createQuery("SELECT m FROM Module m WHERE m.activeStatus=1");
+        
+        for(Object o : q1.getResultList()){
+            mod = (ModuleEntity) o;
+            //if the user is one of the users in this module extract module info.
+            if(mod.getUsers().contains(user)){
+                ArrayList modInfo = new ArrayList();
+                modInfo.add(mod.getModuleCode());
+                modInfo.add(mod.getName());
+                modInfo.add(String.valueOf(mod.getModularCredit()));
+                modInfo.add(String.valueOf(mod.getSemester().getId()));
+                modInfo.add(String.valueOf(mod.getSemester().getTitle()));
+                moduleList.add(modInfo);
+            }
+        }
+        return moduleList;
+    }
+
+    @Override
+    public boolean addUserToMod(String id, String mod) {
+        UserEntity user = em.find(UserEntity.class, id);
+        ModuleEntity module = em.find(ModuleEntity.class, mod);
+        //if module doesn't already contain user, add in.
+        if(!module.getUsers().contains(user)){
+            module.getUsers().add(user);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public void unassignModule(String id, String mod) {
+        UserEntity user = em.find(UserEntity.class, id);
+        ModuleEntity module = em.find(ModuleEntity.class, mod);
+        //if module doesn't already contain user, add in.
+        if(module.getUsers().contains(user)){
+            module.getUsers().remove(user);
+        }
     }
 }

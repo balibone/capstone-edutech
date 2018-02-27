@@ -48,6 +48,7 @@
                                                 <th>Name</th>
                                                 <th>Username</th>
                                                 <th>Date Created</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>                                                                                       
                                         <tbody>
@@ -59,8 +60,22 @@
                                             <tr>
                                                 <td><img src="uploads/commoninfrastructure/admin/images/<%= instructorData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=instructorData.get(1)%></td>
-                                                <td><%=instructorData.get(2)%></td>
+                                                <td id="id"><%=instructorData.get(2)%></td>
                                                 <td><%=instructorData.get(3)%></td>
+                                                <td>
+                                                    <ul class="list-inline">
+                                                        <li>
+                                                            <a id='view'>
+                                                                <button class="btn btn-primary">
+                                                                <i class="fas fa-eye"></i>&nbsp;&nbsp;View User
+                                                                </button>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="btn btn-primary" href="EduTechAdmin?pageTransit=AssignModule&id=<%=instructorData.get(2)%>"><i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;View & Assign Modules</a> 
+                                                        </li>
+                                                    </ul>
+                                                </td>
                                             </tr>                                                                                                                                                                                           
                                             <%}%>
                                         </tbody>

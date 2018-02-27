@@ -48,19 +48,40 @@
                                                 <th>Name</th>
                                                 <th>Username</th>
                                                 <th>Date Created</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>                                                                                       
                                         <tbody>
                                             <% 
                                                 ArrayList userList = (ArrayList)request.getAttribute("userList");
+                                                String imgPath, name, username, dateCreated;
+                                                imgPath = name = username = dateCreated = "";
                                                 for(Object o : userList){
                                                     ArrayList studentData = (ArrayList) o;
+                                                    imgPath = (String) studentData.get(0);
+                                                    name = (String)studentData.get(1);
+                                                    username = (String)studentData.get(2);
+                                                    dateCreated = (String)studentData.get(3);
                                             %>
                                             <tr>
-                                                <td><img src="uploads/commoninfrastructure/admin/images/<%= studentData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
-                                                <td><%=studentData.get(1)%></td>
-                                                <td><%=studentData.get(2)%></td>
-                                                <td><%=studentData.get(3)%></td>
+                                                <td><img src="uploads/commoninfrastructure/admin/images/<%= imgPath %>" style="max-width: 50px; max-height: 50px;" /></td>
+                                                <td><%=name%></td>
+                                                <td id="id"><%=username%></td>
+                                                <td><%=dateCreated%></td>
+                                                <td>
+                                                    <ul class="list-inline">
+                                                        <li>
+                                                            <a id='view'>
+                                                                <button class="btn btn-primary">
+                                                                <i class="fas fa-eye"></i>&nbsp;&nbsp;View User
+                                                                </button>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="btn btn-primary" href="EduTechAdmin?pageTransit=AssignModule&id=<%=username%>"><i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;View & Assign Modules</a> 
+                                                        </li>
+                                                    </ul>
+                                                </td>
                                             </tr>                                                                                                                                                                                           
                                             <%}%>
                                         </tbody>

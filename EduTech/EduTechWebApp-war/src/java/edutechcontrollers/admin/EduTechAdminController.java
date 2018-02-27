@@ -28,16 +28,7 @@ public class EduTechAdminController extends HttpServlet {
     private EduTechAdminMgrBeanRemote eam;
     @EJB
     private SystemAdminMgrBeanRemote sam;
-    
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -51,6 +42,7 @@ public class EduTechAdminController extends HttpServlet {
             ArrayList semesterInfo = new ArrayList();
             ArrayList moduleInfo = new ArrayList();
             String msg = "";
+            String mod="";
             boolean success = false;
             
             switch(pageAction){
@@ -81,9 +73,55 @@ public class EduTechAdminController extends HttpServlet {
                     request.setAttribute("userInfo", userInfo);
                     pageAction = "ViewUserModal";
                     break;
+                case "AssignModule":
+                    id = request.getParameter("id");
+                    //get user info for page header
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    request.setAttribute("allModuleList", eam.getAllModules());
+                    //get list of modules associated with this user.
+                    request.setAttribute("moduleList", eam.getAllModulesOfUser(id));
+                    pageAction = "AssignModule";
+                    break;
+                case "assignModule":
+                    id = request.getParameter("id");
+                    mod = request.getParameter("moduleCode");
+                    if(eam.addUserToMod(id,mod)){
+                        request.setAttribute("msg", "Module successfully assigned.");
+                        request.setAttribute("success", true);
+                    }else{
+                        request.setAttribute("msg", "User is already assigned to this module.");
+                        request.setAttribute("success", false);
+                    }
+                    //get user info for page header
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    request.setAttribute("allModuleList", eam.getAllModules());
+                    //get list of modules associated with this user.
+                    request.setAttribute("moduleList", eam.getAllModulesOfUser(id));
+                    pageAction = "AssignModule";
+                    break;
+                case "unassignModule":
+                    id = request.getParameter("id");
+                    mod = request.getParameter("moduleCode");
+                    eam.unassignModule(id,mod);
+                    //get user info for page header
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
+                    request.setAttribute("allModuleList", eam.getAllModules());
+                    //get list of modules associated with this user.
+                    request.setAttribute("moduleList", eam.getAllModulesOfUser(id));
+                    pageAction = "AssignModule";
+                    break;
                 case "ModuleList":
                     request.setAttribute("moduleList", eam.getAllModules());
                     pageAction = "ModuleList";
+                    break;
+                case "ViewModule":
+                    id = request.getParameter("id");
+                    moduleInfo = eam.getModuleInfo(id);
+                    request.setAttribute("moduleInfo", moduleInfo);
+                    pageAction = "ViewModuleModal";
                     break;
                 case "NewModule":
                     request.setAttribute("semesterList", eam.getAllSemesters());
@@ -111,15 +149,51 @@ public class EduTechAdminController extends HttpServlet {
                     request.setAttribute("semesterList", eam.getAllSemesters());
                     pageAction = "NewModule";
                     break;
+                case "EditModule":
+                    id = request.getParameter("id");
+                    moduleInfo = eam.getModuleInfo(id);
+                    request.setAttribute("moduleInfo", moduleInfo);
+                    pageAction = "EditModule";
+                    break;
+                case "editModule":
+                    id = request.getParameter("id");
+                    if(eam.editModule(id,request.getParameter("name"),
+                            request.getParameter("modularCredit")
+                            ,request.getParameter("description"))){
+                        request.setAttribute("moduleInfo", eam.getModuleInfo(id));
+                        request.setAttribute("msg", "Module successfully edited.");
+                        request.setAttribute("success", true);
+                    }else{
+                        request.setAttribute("moduleInfo", eam.getModuleInfo(id));
+                        request.setAttribute("msg", "Error editing Module.");
+                        request.setAttribute("success", false);
+                    }
+                    pageAction = "EditModule";
+                    break;
+                case "addEventToMod":
+                    id=request.getParameter("id");
+                    eam.addEventToMod(request.getParameter("title"),request.getParameter("location"),request.getParameter("day")
+                            ,request.getParameter("startTime"),request.getParameter("endTime"),
+                            request.getParameter("description"),id);//handle ajax call
+                    request.setAttribute("moduleInfo", eam.getModuleInfo(id));
+                    //there is no redirect because ajax call is async.
+                    pageAction = "EditModule";//just so that processRequest doesnt give error. 
+                    break;
                 case "deleteModule":
                     id = request.getParameter("id");
-                    eam.deactivateModule(id);
+                    eam.deleteModule(id);
                     request.setAttribute("moduleList", eam.getAllModules());
                     pageAction = "ModuleList";
                     break;
                 case "SemesterList":
                     request.setAttribute("semesterList", eam.getAllSemesters());
                     pageAction = "SemesterList";
+                    break;
+                case "ViewSemester":
+                    id = request.getParameter("id");
+                    semesterInfo = eam.getSemesterInfo(id);
+                    request.setAttribute("semesterInfo", semesterInfo);
+                    pageAction = "ViewSemesterModal";
                     break;
                 case "NewSemester":
                     pageAction = "NewSemester";
@@ -134,12 +208,7 @@ public class EduTechAdminController extends HttpServlet {
                     }
                     pageAction = "NewSemester";
                     break;
-                case "ViewSemester":
-                    id = request.getParameter("id");
-                    semesterInfo = eam.getSemesterInfo(id);
-                    request.setAttribute("semesterInfo", semesterInfo);
-                    pageAction = "ViewSemesterModal";
-                    break;
+                
                 case "EditSemester":
                     id = request.getParameter("id");
                     semesterInfo = eam.getSemesterInfo(id);
@@ -147,19 +216,23 @@ public class EduTechAdminController extends HttpServlet {
                     pageAction = "EditSemester";
                     break;
                 case "editSemester":
+                    id = request.getParameter("id");
+                    
                     if(eam.editSemester(request.getParameter("title"),request.getParameter("startDate")
                             ,request.getParameter("endDate"),request.getParameter("id"))){
                         request.setAttribute("msg", "Semester successfully edited.");
                         request.setAttribute("success", true);
+                        request.setAttribute("semesterInfo", eam.getSemesterInfo(id));
                     }else{
                         request.setAttribute("msg", "Error editing Semester.");
                         request.setAttribute("success", false);
+                        request.setAttribute("semesterInfo", eam.getSemesterInfo(id));
                     }
                     pageAction = "EditSemester";
                     break;
                 case "deleteSemester":
                     id = request.getParameter("id");
-                    eam.deactivateSemester(id);
+                    eam.deleteSemester(id);
                     request.setAttribute("semesterList", eam.getAllSemesters());
                     pageAction = "SemesterList";
                     break;

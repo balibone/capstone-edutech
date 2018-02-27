@@ -25,7 +25,7 @@ public interface EduTechAdminMgrBeanRemote {
 
     public ArrayList getSemesterInfo(String id);
 
-    public void deactivateSemester(String id);
+    public void deleteSemester(String id);
 
     public boolean editSemester(String parameter, String parameter0, String parameter1, String parameter3);
 
@@ -33,6 +33,18 @@ public interface EduTechAdminMgrBeanRemote {
 
     public ArrayList getAllModules();
 
-    public void deactivateModule(String id);
+    public void deleteModule(String id);
+
+    public ArrayList getModuleInfo(String id);
+
+    public boolean editModule(String id, String name, String credits, String description);
+
+    public void addEventToMod(String title, String location, String day, String startTime, String endTime, String description, String id);
+
+    public ArrayList getAllModulesOfUser(String id);
+
+    public boolean addUserToMod(String id, String mod);
+
+    public void unassignModule(String id, String mod);
     
 }

@@ -1,19 +1,23 @@
-<%-- 
-    Document   : NewModule
-    Created on : 22 Feb, 2018, 8:05:15 PM
-    Author     : Derian
---%>
-
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%
+    ArrayList userInfo = (ArrayList)request.getAttribute("userInfo");
+    String firstName, lastName, username;
+    firstName=lastName=username="";
+    if(userInfo != null && !userInfo.isEmpty()){
+        username = (String) userInfo.get(3);
+        firstName = (String) userInfo.get(1);
+        lastName = (String) userInfo.get(2);
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Common Admin - New Module</title>
+        <title>Common Admin - Assign Modules</title>
         
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -32,13 +36,14 @@
         <!--Font Awesome 5 JS-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
+        
         <!--Custom styling-->
-<!--        <style>
-            .push-to-bottom{
-                position: absolute;
-                width: 100%;
-                bottom: 5%;
-            }
+        <!--        <style>
+        .push-to-bottom{
+        position: absolute;
+        width: 100%;
+        bottom: 5%;
+        }
         </style>        -->
     </head>
     <body class="nav-md">
@@ -48,7 +53,7 @@
                 <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
                     <div>
-                        <h3>New Module</h3>
+                        <h3>Assign module to <%=firstName+" "+lastName%></h3>
                     </div>
                     <hr>
                     <div class="row pull-left">
@@ -76,39 +81,15 @@
                         <form action="EduTechAdmin" method="POST" class="form-horizontal">
                             <div class="col-xs-12">
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label required">Module Code:</label>
+                                    <label class="col-xs-4 control-label required">Assign this module:</label>
                                     <div class="col-xs-8">
-                                        <input type="text" required class="form-control" name="moduleCode" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-4 control-label required">Name:</label>
-                                    <div class="col-xs-8">
-                                        <input type="text" required class="form-control" name="name" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-4 control-label required">Modular Credits (MCs):</label>
-                                    <div class="col-xs-8">
-                                        <input type="number" min="1" required class="form-control" name="modularCredit" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-4 control-label required">Description:</label>
-                                    <div class="col-xs-8">
-                                        <textarea required class="form-control" name="description"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-4 control-label required">Assigned To Semester:</label>
-                                    <div class="col-xs-8">
-                                        <select class="form-control" required name="semID">
+                                        <select class="form-control" required name="moduleCode">
                                             <%
-                                                ArrayList semesterList = (ArrayList)request.getAttribute("semesterList");
-                                                if(semesterList!=null && !semesterList.isEmpty()){
-                                                    for(Object o:semesterList){
-                                                        ArrayList semInfo = (ArrayList) o;%>
-                                                        <option value="<%=semInfo.get(0)%>">Semester: <%=semInfo.get(1)%> | ID: <%=semInfo.get(0)%> </option>
+                                                ArrayList allModuleList = (ArrayList)request.getAttribute("allModuleList");
+                                                if(allModuleList!=null && !allModuleList.isEmpty()){
+                                                    for(Object o:allModuleList){
+                                                        ArrayList modInfo = (ArrayList) o;%>
+                                                        <option value="<%=modInfo.get(0)%>">Module Code: <%=modInfo.get(0)%> | ID: <%=modInfo.get(1)%> </option>
                                             <%        }
                                                 }
                                             %>
@@ -120,14 +101,44 @@
                             <div class="col-xs-12">
                                 <div class="col-xs-4"></div>
                                 <div class="col-xs-8"> 
-                                     <!-- Pass this to servlet to handle user creation -->
-                                    <input type="hidden" name="pageTransit" value="createModule"/>
-                                    <button type="submit" class="btn btn-primary" value="submit">Create Module</button>
-                                    <button type='reset' class='btn btn-warning'>Reset</button>
-                                    <a href="EduTechAdmin?pageTransit=ModuleList"><button type="button" class="btn btn-default">Go Back To Module List</button></a>
+                                    <input type="hidden" name="pageTransit" value="assignModule"/>
+                                    <input type="hidden" name="id" value="<%=username%>"/>
+                                    <button type="submit" class="btn btn-primary" value="submit">Assign Module</button>
+                                    <a href="EduTechAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Go Back To Student List</button></a>
                                 </div>                              
                             </div>
                         </form>
+                        
+                        <!--Your Modules table-->
+                        <div class="row">
+                            <h4 class="text-center"><strong>Modules assigned to <%=firstName+" "+lastName%></strong></h4>
+                            <table class="table table-condensed table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Module Code</th>
+                                        <th>Name</th>
+                                        <th>Credits</th>
+                                        <th>Assigned To Semester</th>
+                                    </tr>
+                                </thead>                                                                                       
+                                <tbody>
+                                    <% 
+                                        ArrayList moduleList = (ArrayList)request.getAttribute("moduleList");
+                                        if(moduleList!=null){
+                                            for(Object o : moduleList){
+                                                ArrayList moduleData = (ArrayList) o;
+                                    %>
+                                    <tr>
+                                        <td><%=moduleData.get(0)%></td>
+                                        <td><%=moduleData.get(1)%></td>
+                                        <td><%=moduleData.get(2)%></td>
+                                        <td><%=moduleData.get(4)%> (ID: <%=moduleData.get(3)%>)
+                                            <a class="btn btn-default pull-right" onclick="return confirm('Really Unassign Module?')" href="EduTechAdmin?pageTransit=unassignModule&moduleCode=<%=moduleData.get(0)%>&id=<%=username%>"><i class="fas fa-times"></i></a>
+                                        </td>
+                                    </tr>                                                                                                                                    <%}}%>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,6 +155,5 @@
         <script src="js/commoninfrastructure/admin/webjs/icheck.min.js"></script>    
         <!--System Admin Base JS-->
         <script src="js/commoninfrastructure/admin/basejs/CommonAdminBaseJS.js" type="text/javascript"></script>
-        
     </body>
 </html>

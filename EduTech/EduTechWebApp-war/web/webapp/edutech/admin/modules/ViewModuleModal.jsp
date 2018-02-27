@@ -1,19 +1,23 @@
 <%@page import="java.util.ArrayList"%>
 <%
                                     //Extracting field values from ArrayList passed from servlet to jsp.
-                                    ArrayList semesterInfo = (ArrayList)request.getAttribute("semesterInfo");
-                                    String id,title,startDate,endDate;
-                                    id = title = startDate = endDate = "";
-                                    ArrayList modules = new ArrayList();
-                                    int moduleCount = -1;
+                                    ArrayList moduleInfo = (ArrayList)request.getAttribute("moduleInfo");
+                                    String moduleCode,name,credit,semester,description;
+                                    moduleCode = name = credit = semester = description = "";
+                                    ArrayList users = new ArrayList();
+                                    ArrayList events = new ArrayList();
+                                    int userCount = -1;
                                     //ArrayList exists and is not empty. 
-                                    if(semesterInfo!=null && !semesterInfo.isEmpty()){
-                                        id = String.valueOf(semesterInfo.get(0));
-                                        title = (String)semesterInfo.get(1);
-                                        startDate = (String)semesterInfo.get(2);
-                                        endDate = (String)semesterInfo.get(3);
-                                        modules = (ArrayList)semesterInfo.get(4);
-                                        moduleCount = (Integer) semesterInfo.get(5);
+                                    if(moduleInfo!=null && !moduleInfo.isEmpty()){
+                                        moduleCode = (String)(moduleInfo.get(0));
+                                        name = (String)moduleInfo.get(1);
+                                        credit = (String)moduleInfo.get(2);
+                                        semester = (String)moduleInfo.get(3);
+                                        description = (String)moduleInfo.get(4);
+                                        events = (ArrayList)moduleInfo.get(7);
+                                        users = (ArrayList)moduleInfo.get(5);
+                                        userCount = (Integer) moduleInfo.get(6);
+                                        
                                     }
 %>
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
@@ -24,7 +28,6 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Common Admin - View Semester</title>
         
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -49,59 +52,96 @@
                     <div class="row">
                         <div class="x_panel">
                             <div class="x_content">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-xs-2 control-label required">ID: </label>
-                                    <div class="col-xs-4">
-                                        <input type="text" readonly value="<%=id%>" class="form-control" />
+                                <form class="form-horizontal col-xs-6">
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label required">Module Code:</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly value="<%=moduleCode%>" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-2 control-label required">Title</label>
-                                    <div class="col-xs-4">
-                                        <input type="text" readonly value="<%=title%>" class="form-control" name="email"/>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label required">Name</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly value="<%=name%>" class="form-control" name="email"/>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-2 control-label required">Start Date:</label>
-                                    <div class="col-xs-4">
-                                        <input type="text" readonly value="<%=startDate%>" class="form-control" />
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label required">Credits:</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly value="<%=credit%>" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-xs-2 control-label required">End Date:</label>
-                                    <div class="col-xs-4">
-                                        <input type="text" readonly value="<%=endDate%>" class="form-control" />
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label required">Semester:</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly value="<%=semester%>" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <h3 class="text-center"><%=moduleCount%> Module(s) in this Semester</h3>
-                                        <table id="modulesTable" class="table table-condensed" cellspacing="0" width="100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Module Code</th>
-                                                    <th>Module Name</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%
-                                                    if(modules!=null && !modules.isEmpty()){
-                                                        for(Object o:modules){
-                                                            ArrayList moduleInfo = (ArrayList) o;
-                                                            String moduleCode = (String)moduleInfo.get(0);
-                                                            String name = (String)moduleInfo.get(1);
-                                                %>
-                                                <tr>
-                                                    <td><%=moduleCode%></td>
-                                                    <td><%=name%></td>
-                                                </tr>
-                                                <% }
-                                                    }
-                                                %>
-                                            </tbody>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label required">Description:</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly value="<%=description%>" class="form-control" />
+                                        </div>
+                                    </div>
+                                </form>
+                                    <div class="col-xs-6">
+                                        <h4>Recurring Events:</h4>
+                                        <table class="table table-condensed table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Day</th>
+                                                <th>Start</th>
+                                                <th>End</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                for(Object o: events){
+                                                    ArrayList eventInfo = (ArrayList) o;
+                                                    String title = (String)eventInfo.get(0);
+                                                    String day = (String)eventInfo.get(1);
+                                                    String startTime = (String)eventInfo.get(2);
+                                                    String endTime = (String)eventInfo.get(3);
+                                            %>
+                                            <tr>    
+                                                <td><%=title%></td>
+                                                <td><%=day%></td>
+                                                <td><%=startTime%></td>
+                                                <td><%=endTime%></td>
+                                            </tr>
+                                            <%    
+                                                }
+                                                
+                                            %>
+                                        </tbody>
                                         </table>
+                                    </div>        
+                                <div class="col-xs-12">
+                                    <h3 class="text-center"><%=userCount%> User(s) in this Module</h3>
+                                    <table id="modulesTable" class="table table-condensed" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Username</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                for(Object o:users){
+                                                    ArrayList userInfo = (ArrayList) o;
+                                                    String uname = (String)userInfo.get(0);
+                                                    String username = (String)userInfo.get(1);
+                                            %>
+                                            <tr>
+                                                <td><%=uname%></td>
+                                                <td><%=username%></td>
+                                            </tr>
+                                            <% }
+                                            %>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </form>
                             </div>
                         </div>
                     </div>

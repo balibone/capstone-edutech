@@ -125,6 +125,10 @@
         <jsp-file>/webapp/edutech/admin/users/InstructorList.jsp</jsp-file>
     </servlet>
     <servlet>
+        <servlet-name>AssignModule</servlet-name>
+        <jsp-file>/webapp/edutech/admin/users/AssignModule.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>ModuleList</servlet-name>
         <jsp-file>/webapp/edutech/admin/modules/ModuleList.jsp</jsp-file>
     </servlet>
