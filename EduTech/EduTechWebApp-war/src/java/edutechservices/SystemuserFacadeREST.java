@@ -6,7 +6,7 @@
 package edutechservices;
 
 import edutechsessionbeans.CommonRESTMgrBean;
-import commoninfraentities.Systemuser;
+import commoninfraentities.UserEntity;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -38,12 +38,12 @@ public class SystemuserFacadeREST {
     
 
     @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Systemuser entity) {
+    public void create(UserEntity entity) {
         etr.createUser(entity);
     }
 
     @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, Systemuser entity) {
+    public void edit(@PathParam("id") String id, UserEntity entity) {
         etr.editUser(id, entity);
     }
 
@@ -53,12 +53,12 @@ public class SystemuserFacadeREST {
     }
 
     @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Systemuser find(@PathParam("id") String id) {
+    public UserEntity find(@PathParam("id") String id) {
         return etr.findUser(id);
     }
 
     @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Systemuser> findAll() {
+    public List<UserEntity> findAll() {
         return etr.findAllUsers();
     }
 

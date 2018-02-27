@@ -24,11 +24,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Derian
  */
-@Entity
-@Table(name = "SYSTEMUSER")
+@Entity(name="SystemUser")
 @XmlRootElement
-@NamedQueries({@NamedQuery(name = "Systemuser.findAll", query = "SELECT s FROM Systemuser s")})
-public class Systemuser implements Serializable {
+public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id @Basic(optional = false) @NotNull @Size(min = 1, max = 255) @Column(name = "USERNAME")
@@ -50,10 +48,10 @@ public class Systemuser implements Serializable {
     @Size(max = 255) @Column(name = "USERTYPE")
     private String usertype;
 
-    public Systemuser() {
+    public UserEntity() {
     }
 
-    public Systemuser(String username) {
+    public UserEntity(String username) {
         this.username = username;
     }
 
@@ -139,10 +137,10 @@ public class Systemuser implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Systemuser)) {
+        if (!(object instanceof UserEntity)) {
             return false;
         }
-        Systemuser other = (Systemuser) object;
+        UserEntity other = (UserEntity) object;
         if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
             return false;
         }

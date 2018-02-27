@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
  * @author Derian
  */
 @RequestScoped
-@Path("edutechentities.common.scheduleitem")
+@Path("commoninfraentities.scheduleitem")
 public class ScheduleItemREST {
 
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
