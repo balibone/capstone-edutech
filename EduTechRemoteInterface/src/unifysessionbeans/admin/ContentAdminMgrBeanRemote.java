@@ -46,11 +46,11 @@ public interface ContentAdminMgrBeanRemote {
     //marketplace related
     public List<Vector> viewReportedMarketplaceListing();
     public List<Vector> viewReportedMarketplaceListingDashboard();
-    public Vector viewMarketplaceDetails(String marketplaceReportID);
     public Vector viewMarketplaceDetails2(String marketplaceReportID);
     public String resolveMarketplace(String reportID);
     public String unresolveMarketplace(String reportID);
     public String deleteItem(String itemID);
+    public String delistItem(String itemID);
     public Long getUnresolvedItemReportCount();
     public Long getResolvedItemReportCount();
     //company reviews related

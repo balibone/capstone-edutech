@@ -191,6 +191,37 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             //return itemDeleteStatus;
         }
     }
+    
+    @Override
+    public String delistItem(String itemID) {
+        
+        double itemIDNum = Double.parseDouble(itemID);
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Item i WHERE i.itemID = :itemID");
+            q.setParameter("itemID", itemIDNum);
+
+            iEntity = (ItemEntity) q.getSingleResult();
+
+            iEntity.setItemStatus("Delisted");
+            
+            //em.remove(iEntity);
+            em.flush();
+            em.clear();
+            return "Item has been delisted!";
+            //return itemDeleteStatus = true;
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Item to be delisted cannot be found. " + enfe.getMessage());
+            em.remove(iEntity);
+            return "Item to be deleted could not be found";
+            //return itemDeleteStatus;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Item to be delisted does not exist. " + nre.getMessage());
+            em.remove(iEntity);
+            return "Item to be deleted does not exist";
+            //return itemDeleteStatus;
+        }
+    }
 
     @Override
     public String resolveMarketplace(String reportID) {
@@ -271,26 +302,6 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
-    public Vector viewMarketplaceDetails(String marketplaceReportID) {
-        irEntity = lookupMarketplace(marketplaceReportID);
-        Vector marketplaceDetails = new Vector();
-
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
-
-        if (irEntity != null) {
-            marketplaceDetails.add(irEntity.getItemReportID());
-            marketplaceDetails.add(irEntity.getItemReportStatus());
-            marketplaceDetails.add(irEntity.getItemReportDescription());
-            marketplaceDetails.add(df.format(irEntity.getItemReportDate()));
-            marketplaceDetails.add(irEntity.getItemID());
-            marketplaceDetails.add(irEntity.getItemPosterID());
-            marketplaceDetails.add(irEntity.getItemReporterID());
-            return marketplaceDetails;
-        }
-        return null;
-    }
-
-    @Override
     public Vector viewMarketplaceDetails2(String marketplaceReportID) {
         irEntity = lookupMarketplace(marketplaceReportID);
         System.out.println("Looked up marketplace");
@@ -314,6 +325,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
                 marketplaceDetails.add(iEntity.getItemName());
                 marketplaceDetails.add(iEntity.getItemDescription());
                 marketplaceDetails.add(iEntity.getItemImage());
+                marketplaceDetails.add(iEntity.getItemStatus());
                 System.out.println("ADDED ITEM DETAILS");
 
                 return marketplaceDetails;

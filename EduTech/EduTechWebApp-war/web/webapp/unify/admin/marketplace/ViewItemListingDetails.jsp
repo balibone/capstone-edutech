@@ -93,6 +93,8 @@
                         <tr><td>Item Status:</td><td><span class="label label-warning"><%= itemStatus%></span></td></tr>
                         <%  } else if (itemStatus.equals("Sold")) {%>
                         <tr><td>Item Status:</td><td><span class="label label-danger"><%= itemStatus%></span></td></tr>
+                        <%  } else if (itemStatus.equals("Delisted")) {%>
+                        <tr><td>Item Status:</td><td><span class="label label-info"><%= itemStatus%></span></td></tr>
                         <%  }%>
                         <tr><td>Item Condition:</td><td><strong><%= itemCondition%></strong></td></tr>
                         <tr><td>Item Price:</td><td><strong>$<%= itemPrice%></strong></td></tr>

@@ -224,6 +224,10 @@
         <servlet-name>ReportedMarketplaceDetails2</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetails2.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ReportedMarketplaceDetailsFromAllList</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetailsFromAllList.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - JOB REVIEW REPORTS (JSP) -->
     <servlet>
         <servlet-name>ReportedErrandsReviewListing</servlet-name>
@@ -233,6 +237,10 @@
         <servlet-name>ReportedErrandReviewDetails</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandReviewDetails.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ReportedErrandReviewDetailsFromAllList</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandReviewDetailsFromAllList.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - JOB REPORTS (JSP) -->
     <servlet>
         <servlet-name>ReportedErrandsListing</servlet-name>
@@ -241,6 +249,10 @@
     <servlet>
         <servlet-name>ReportedErrandDetails2</servlet-name>
         <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetails2.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportedErrandDetailsFromAllList</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetailsFromAllList.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - COMPANY REVIEW REPORTS (JSP) -->
     <servlet>
@@ -252,12 +264,12 @@
         <jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetails2.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>AllReportedListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing.jsp</jsp-file>
+        <servlet-name>ReportedReviewDetailsFromAllList</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetailsFromAllList.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>AllReportedListing2</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing2.jsp</jsp-file>
+        <servlet-name>AllReportedListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - EVENT REQUESTS (JSP) -->
     <servlet>

@@ -120,6 +120,7 @@
                         <li>
                             <a href="javascript:void(0);"><i class="fa fa-file"></i>&nbsp;Content Administration</a>
                             <ul class="sub-menu">
+                                <li><a href="ContentAdmin?pageTransit=goToAllReportedListing"><i class="fa fa-wpforms"></i>&nbsp;All Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Company Review Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Reports</a></li>
                                 <li><a href="ContentAdmin?pageTransit=goToReportedErrandsReviewListing"><i class="fa fa-wpforms"></i>&nbsp;Errands Review Reports</a></li>
