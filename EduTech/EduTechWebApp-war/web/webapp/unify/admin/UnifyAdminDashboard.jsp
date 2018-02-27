@@ -1,3 +1,6 @@
+<%@page import="java.util.Vector"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.ArrayList"%>
 <!-- ***************************************************************************************
 *   Title:                  UnifyAdminDashboard.jsp
 *   Purpose:                SUMMARY STATISTICS FOR ALL FUNCTIONS IN UNIFY
@@ -514,6 +517,59 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="widget box">
+                                <div class="widget-header">
+                                    <h4><i class="fa fa-reorder fa-5x"></i>&nbsp;Recent Company Reviews</h4>
+                                    <div class="toolbar no-padding">
+                                        <div class="btn-group">
+                                            <span class="btn btn-xs widget-collapse"><i class="fa fa-chevron-down"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-content no-padding">
+                                    <table class="table table-striped table-checkable table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="hidden-xs">Date</th>
+                                                <th>Poster</th>
+                                                <th>Company</th>
+                                                <th>Review Title</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <% ArrayList<Vector> companyReviewList = (ArrayList) request.getAttribute("recentCompanyReviewList");
+                                                if (!companyReviewList.isEmpty()) {
+                                                    for (int i = 0; i <= companyReviewList.size() - 1; i++) {
+                                                        Vector v = companyReviewList.get(i);
+                                                        String reviewDate = String.valueOf(v.get(0));
+                                                        String reviewPoster = String.valueOf(v.get(1));
+                                                        String reviewCompany = String.valueOf(v.get(2));
+                                                        String reviewTitle = String.valueOf(v.get(3));
+                                        %>
+                                            <tr>
+                                                <td class="hidden-xs"><%= reviewDate%></td>
+                                                <td><%= reviewPoster%></td>
+                                                <td><%= reviewCompany%></td>
+                                                <td><%= reviewTitle%></td>
+                                            </tr>
+                                        <% }
+                                        }%>
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="table-footer">
+                                            <div class="col-md-12">
+                                                <a href="VoicesAdmin?pageTransit=goToViewCompanyReviewList" style="color: #555; text-decoration: none;">VIEW MORE&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5"></div>
                     </div>
                 </div>
             </div>

@@ -49,6 +49,7 @@
         <script type="text/javascript" src="js/unify/admin/basejs/easy-autocomplete/jquery.easy-autocomplete.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/easy-autocomplete/jquery.easy-autocomplete.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/leaflet/leaflet.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/validator-v1.1.0.js"></script>
         <script type="text/javascript" src="js/unify/admin/webjs/voices/ViewCompanyListDetailsJS.js"></script>
     </head>
     <body style="background-color: #FFFFFF;">
@@ -73,6 +74,21 @@
                 companyAddress = (String) companyDetailsVec.get(9);
             }
         %>
+        <%
+            String successMessage = (String) request.getAttribute("successMessage");
+            if (successMessage != null) { %>
+                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                    <button type="button" class="close" id="closeSuccess">&times;</button><%= successMessage %>
+                </div>
+        <%  } %>
+        <%
+            String errorMessage = (String) request.getAttribute("errorMessage");
+            if (errorMessage != null) {
+        %>
+                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                    <button type="button" class="close" id="closeError">&times;</button><%= errorMessage %>
+                </div>
+        <%  } %>
         <form id="companyDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
             <table class="formFields" border="0">
                 <tr>
@@ -132,7 +148,7 @@
                         <button type="button" class="btn btn-primary" onclick="javascript:AlertIt(<%= request.getAttribute("urlCompanyID")%>)">Deactivate Company</button>
                         <%--<button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=deactivateACompany&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>','_parent')">Deactivate Company</button>--%>
                         <%  } else if (companyStatus.equals("Inactive")) {%>
-                        <button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=activateACompany&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>','_parent')">Activate Company</button>
+                        <button type="button" class="btn btn-primary" onclick="window.open('VoicesAdmin?pageTransit=activateACompany&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>&hiddenCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>','_parent')">Activate Company</button>
                         <%  }   %>
                     </td>
                 </tr>
@@ -165,7 +181,7 @@
                                     <td>Company Manpower Size</td>
                                     <td>
                                         <input type="hidden" name="oldCompanySize" value="<%= companySize%>" />
-                                        <input type="text" name="companySize" placeholder="<%= companySize%>" />
+                                        <input type="number" min="0" name="companySize" placeholder="<%= companySize%>" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -191,8 +207,7 @@
                                         <th data-class="expand">Date</th>
                                         <th data-class="expand">Poster</th>
                                         <th>Description</th>
-                                        <th>Employment Type</th>
-                                        <th data-hide="phone">Salary</th>
+                                        <th>Employment Info</th>
                                         <th data-hide="phone">Rating</th>
                                         <th data-hide="phone">Action</th>
                                     </tr>
@@ -218,17 +233,18 @@
                                         <td><%= reviewDate%></td>
                                         <td><%= reviewPoster%></td>
                                         <td>
-                                            <strong><%= reviewTitle%></strong><br/>
+                                            <strong>Title:</strong>&nbsp;<%= reviewTitle%><br/>
                                             <strong>Pros:</strong>&nbsp;<%= reviewPros%><br/>
                                             <strong>Cons:</strong>&nbsp;<%= reviewCons%><br/>
                                         </td>
-                                        <td><%= reviewEmpType%></td>
-                                        <td><%= reviewSalaryRange%></td>
+                                        <td><strong>Type:</strong>&nbsp;<%= reviewEmpType%><br/>
+                                            <strong>Salary:</strong>&nbsp;<%= reviewSalaryRange%><br/>
+                                        </td>
                                         <td><%= reviewRating%>&nbsp;(<i class="fa fa-thumbs-up"></i><%= reviewThumbsUp%>)</td>
                                         <td>
                                              <button type="submit" class="btn btn-danger btn-xs" id="deleteReview">
                                                  <a href="VoicesAdmin?pageTransit=goToDeleteReview&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>&hiddenReviewID=<%= reviewID%>" 
-                                                    style="color:#FFFFFF;text-decoration:none;">Delete</a>
+                                                    style="color:#FFFFFF;text-decoration:none;" onclick="return confirm('Are you sure to delete the review?')">Delete</a>
                                              </button>
                                         </td>
                                     </tr>

@@ -38,8 +38,9 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files[0]);
 }
 
-function AlertIt(companyID) {
+function AlertIt(companyID, categoryID) {
             var answer = confirm ("Are you sure to deactivate the company? ")
             if (answer)
-                window.open('VoicesAdmin?pageTransit=deactivateACompany&hiddenCompanyID=' + companyID,'_parent');
+                window.open('VoicesAdmin?pageTransit=deactivateACompanyInModal&hiddenCompanyID=' + companyID + '&hiddenCategoryID=' + categoryID,'_self');
 }
+

@@ -58,13 +58,17 @@
                 categoryType = (String) companyCategoryDetailsVec.get(2);
                 categoryDescription = (String) companyCategoryDetailsVec.get(3);
                 categoryActiveStatus = (String.valueOf(companyCategoryDetailsVec.get(4)));
+                
+                if(categoryName.contains("&")) {
+                    categoryName = categoryName.replace("&", "&");
+                }
             }
         %>
         <form id="companyCategoryDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
             <table class="formFields" border="0">
                 <tr>
                     <td colspan="2" style="vertical-align: middle; text-align: right;">
-                        <button class="btn btn-sm" onclick="window.location.href='VoicesAdmin?pageTransit=goToNewCompanyInModal&companyCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>&categoryName=<%= categoryName%>'">
+                        <button class="btn btn-sm" onclick="javascript:NewCompanyInModal(<%= request.getAttribute("urlCompanyCategoryID")%>)">
                             <i class="fa fa-forward"></i>&nbsp;&nbsp;Add New Company
                         </button>
                     </td>
@@ -108,7 +112,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-bookmark"></i></span>
-                                <input type="hidden" name="oldCategoryName" value="<%= categoryName%>" />
+                                <input id="oldCategoryName" type="hidden" name="oldCategoryName" value="<%= categoryName%>" />
                                 <input type="text" class="form-control" placeholder="<%= categoryName%>" name="categoryName" />
                             </div>
                         </div>
