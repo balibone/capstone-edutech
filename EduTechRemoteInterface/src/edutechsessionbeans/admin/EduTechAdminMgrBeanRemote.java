@@ -48,5 +48,9 @@ public interface EduTechAdminMgrBeanRemote {
     public void unassignModule(String id, String mod);
 
     public ArrayList getCurrentSemester();
+
+    public void removeEventFromMod(String parameter, String id);
+
+    public ArrayList getModuleRecurringEvents(String id);
     
 }

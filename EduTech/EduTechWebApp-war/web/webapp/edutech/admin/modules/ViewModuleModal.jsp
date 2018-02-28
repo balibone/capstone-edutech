@@ -20,7 +20,7 @@
                                         
                                     }
 %>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@include file="/webapp/edutech/admin/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -85,7 +85,7 @@
                                     </div>
                                 </form>
                                     <div class="col-xs-6">
-                                        <h4>Recurring Events:</h4>
+                                        <h4 class="text-center"><em>Recurring Events</em></h4>
                                         <table class="table table-condensed table-striped">
                                         <thead>
                                             <tr>

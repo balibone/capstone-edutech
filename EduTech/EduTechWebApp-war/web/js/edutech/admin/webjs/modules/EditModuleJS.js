@@ -10,6 +10,7 @@ $(function(){
             success: function(data){
                 $('#newEventModal').modal('hide');
                 alert('Event successfully created');
+                top.location.reload();
             },
             error: function(jqXHR,status,error){
                 alert(status+": "+error);

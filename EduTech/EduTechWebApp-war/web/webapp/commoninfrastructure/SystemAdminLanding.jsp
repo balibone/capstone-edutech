@@ -15,36 +15,37 @@
     </head>
     <body onload="establishTime(); setInterval('updateTime()', 1000)" class="wk wk3" id="page" style="background-image: url('images/homepage.jpg');">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="CommonInfra?pageTransit=goToCommonLanding">
-            Welcome To EduBox, <%=loggedInUsername%>!        
-        </a>
-        <!-- Top Navigation -->
-        <div class="collapse navbar-collapse">
-            <div id="pageAnnouncement">
-                <div class="ccr-last-update">
-                    <div class="update-ribon"><strong>Notification:</strong></div>
-                    <span class="update-ribon-right"></span>
-                    <div class="update-news-text">
-                        <ul id="latestUpdate" class="newsticker">
-                            <li><strong>System maintenance will be carried out at 15 Jan 2018, 00:00:00 (SGT).</strong></li>
-                            <li><strong>Welcome to Integrated Student System!</strong></li>
-                            <li><strong>Stay tune to our latest update via "Latest System Update".</strong></li>
-                        </ul>
+            <div class="container-fluid">
+                <a class="navbar-brand" href="CommonInfra?pageTransit=goToCommonLanding">
+                    Welcome To EduBox, <%=loggedInUsername%>!
+                    <span id="sysMessage" style="visibility: hidden;"><%=request.getAttribute("sysMessage")%></span>        
+                </a>
+                <!-- Top Navigation -->
+                <div class="collapse navbar-collapse">
+                    <div id="pageAnnouncement">
+                        <div class="ccr-last-update">
+                            <div class="update-ribon"><strong>Notification:</strong></div>
+                            <span class="update-ribon-right"></span>
+                            <div class="update-news-text">
+                                <ul id="latestUpdate" class="newsticker">
+                                    <li><strong>System maintenance will be carried out at 15 Jan 2018, 00:00:00 (SGT).</strong></li>
+                                    <li><strong>Welcome to Integrated Student System!</strong></li>
+                                    <li><strong>Stay tune to our latest update via "Latest System Update".</strong></li>
+                                </ul>
+                            </div>
+                            <div class="update-right-border">
+                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<strong><span id="clock"></span></strong>
+                            </div>
+                        </div>
                     </div>
-                    <div class="update-right-border">
-                        <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<strong><span id="clock"></span></strong>
-                    </div>
-                </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li><a href="CommonInfra?pageTransit=goToProfile"><i class="fa fa-user"></i>&nbsp;&nbsp;My Profile</a></li>
+                        <li class="divider"></li>
+                        <li><a href="CommonInfra?pageTransit=goToLogout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a></li>
+                    </ul>
+                </div>           
             </div>
-            <ul class="nav navbar-top-links navbar-right">
-                <li><a href="CommonInfra?pageTransit=goToProfile"><i class="fa fa-user"></i>&nbsp;&nbsp;My Profile</a></li>
-                <li class="divider"></li>
-                <li><a href="CommonInfra?pageTransit=goToLogout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a></li>
-            </ul>
-        </div>           
-    </div>
-</nav>
+        </nav>
         <div class="login-wrapper login-main has-reg user_type" style="top: 108.5px;">
             <header style="background-color: #ffffff" class="login-header clearfix">
                 <div id="page-brand">
@@ -75,5 +76,6 @@
         <script src="js/commoninfrastructure/dashboard/basejs/metisMenu.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/dashboard/basejs/jquery.newsTicker.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/dashboard/basejs/CommonJS.js" type="text/javascript"></script>
+        <script src="js/commoninfrastructure/dashboard/basejs/LandingPageJS.js" type="text/javascript"></script>
     </body>
 </html>

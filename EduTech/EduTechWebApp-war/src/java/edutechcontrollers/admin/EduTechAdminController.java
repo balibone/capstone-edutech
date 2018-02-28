@@ -41,6 +41,7 @@ public class EduTechAdminController extends HttpServlet {
             ArrayList userInfo = new ArrayList();
             ArrayList semesterInfo = new ArrayList();
             ArrayList moduleInfo = new ArrayList();
+            ArrayList eventList = new ArrayList();
             String msg = "";
             String mod="";
             boolean success = false;
@@ -151,9 +152,10 @@ public class EduTechAdminController extends HttpServlet {
                     pageAction = "NewModule";
                     break;
                 case "EditModule":
-                    id = request.getParameter("id");
-                    moduleInfo = eam.getModuleInfo(id);
-                    request.setAttribute("moduleInfo", moduleInfo);
+                    id=request.getParameter("id");
+                    eventList = eam.getModuleRecurringEvents(id);
+                    request.setAttribute("eventList", eventList);
+                    request.setAttribute("moduleInfo", eam.getModuleInfo(id));
                     pageAction = "EditModule";
                     break;
                 case "editModule":
@@ -169,6 +171,8 @@ public class EduTechAdminController extends HttpServlet {
                         request.setAttribute("msg", "Error editing Module.");
                         request.setAttribute("success", false);
                     }
+                    eventList = eam.getModuleRecurringEvents(id);
+                    request.setAttribute("eventList", eventList);
                     pageAction = "EditModule";
                     break;
                 case "addEventToMod":
@@ -176,15 +180,18 @@ public class EduTechAdminController extends HttpServlet {
                     eam.addEventToMod(request.getParameter("title"),request.getParameter("location"),request.getParameter("day")
                             ,request.getParameter("startTime"),request.getParameter("endTime"),
                             request.getParameter("description"),id);//handle ajax call
-                    request.setAttribute("moduleInfo", eam.getModuleInfo(id));
-                    //there is no redirect because ajax call is async.
-                    pageAction = "EditModule";//just so that processRequest doesnt give error. 
+                    //just so that processRequest doenst return error.
+                    pageAction = "EditModule";
+                    break;
+                case "removeEvent":
+                    id=request.getParameter("id");
+                    eam.removeEventFromMod(request.getParameter("eventId"),id);
+                    //refresh page
+                    response.sendRedirect("EduTechAdmin?pageTransit=EditModule&id="+id);
                     break;
                 case "deleteModule":
                     id = request.getParameter("id");
                     eam.deleteModule(id);
-                    request.setAttribute("moduleList", eam.getAllModules());
-                    pageAction = "ModuleList";
                     break;
                 case "SemesterList":
                     request.setAttribute("semesterList", eam.getAllSemesters());

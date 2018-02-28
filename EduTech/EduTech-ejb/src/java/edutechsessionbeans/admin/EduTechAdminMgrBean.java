@@ -243,7 +243,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         Collection recurringEvents = mod.getRecurringEvents();
         //store information of all recurring events in this module
         ArrayList eventInfoList = new ArrayList();
-        DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
         for(Object o : recurringEvents){
             RecurringEventEntity event = (RecurringEventEntity)o;
             ArrayList eventInfo = new ArrayList();
@@ -357,5 +357,34 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             }
         }
         return semInfo;
+    }
+
+    @Override
+    public void removeEventFromMod(String eventId, String id) {
+        RecurringEventEntity event = em.find(RecurringEventEntity.class, Long.valueOf(eventId));
+        ModuleEntity mod = em.find(ModuleEntity.class, id);
+        if(mod.getRecurringEvents().contains(event)){
+            mod.getRecurringEvents().remove(event);
+        }
+    }
+
+    @Override
+    public ArrayList getModuleRecurringEvents(String id) {
+        ArrayList eventList = new ArrayList();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+        ModuleEntity mod = em.find(ModuleEntity.class, id);
+        if(mod.getRecurringEvents() != null){
+            for(RecurringEventEntity event : mod.getRecurringEvents()){
+                ArrayList eventInfo = new ArrayList();
+                eventInfo.add(event.getTitle());
+                eventInfo.add(event.getDescription());
+                eventInfo.add(event.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+                eventInfo.add(event.getStartTime().format(timeFormat));
+                eventInfo.add(event.getEndTime().format(timeFormat));
+                eventInfo.add(String.valueOf(event.getId()));
+                eventList.add(eventInfo);
+            }
+        }
+        return eventList;
     }
 }
