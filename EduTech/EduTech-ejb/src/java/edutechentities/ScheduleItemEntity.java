@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -36,8 +37,11 @@ public class ScheduleItemEntity implements Serializable {
     @OneToMany
     private Collection<UserEntity> assignedTo;
     private String type;
-    private int moduleId;
-    private int groupId;
+    @ManyToOne
+    private ModuleEntity module;
+    //haven't created GroupEntity. 
+    //@ManyToOne 
+    //private GroupEntity group;
     
     public Long getId() {
         return id;
@@ -136,20 +140,12 @@ public class ScheduleItemEntity implements Serializable {
         this.type = type;
     }
 
-    public int getModuleId() {
-        return moduleId;
+    public ModuleEntity getModule() {
+        return module;
     }
 
-    public void setModuleId(int moduleId) {
-        this.moduleId = moduleId;
-    }
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setModule(ModuleEntity module) {
+        this.module = module;
     }
     
 }

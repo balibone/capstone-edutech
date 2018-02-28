@@ -24,13 +24,13 @@ public class ModuleEntity implements Serializable {
 
     @Id
     private String moduleCode;
-    private String name;
-    @OneToMany
-    private Collection<ScheduleItemEntity> keyDates;
+    private String title;
+    @OneToMany(mappedBy="module")
+    private Collection<ScheduleItemEntity> moduleEvents;
     private Long modularCredit;
     private String description;
     @OneToMany
-    private Collection<UserEntity> users;
+    private Collection<UserEntity> members;
     //private Collection<LessonEntity> lessons;
     @ManyToOne
     private SemesterEntity semester;
@@ -43,7 +43,7 @@ public class ModuleEntity implements Serializable {
 
     public ModuleEntity(String moduleCode, String name, Long modularCredit, String description, SemesterEntity semester) {
         this.moduleCode = moduleCode;
-        this.name = name;
+        this.title = name;
         this.modularCredit = modularCredit;
         this.description = description;
         this.semester = semester;
@@ -68,11 +68,11 @@ public class ModuleEntity implements Serializable {
     public void setSemester(SemesterEntity semester) {
         this.semester = semester;
     }
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
     public String getModuleCode() {
         return moduleCode;
@@ -112,20 +112,20 @@ public class ModuleEntity implements Serializable {
         return "edutechentities.ModuleEntity[ id=" + getModuleCode() + " ]";
     }
 
-    public Collection<ScheduleItemEntity> getKeyDates() {
-        return keyDates;
+    public Collection<ScheduleItemEntity> getModuleEvents() {
+        return moduleEvents;
     }
 
-    public void setKeyDates(Collection<ScheduleItemEntity> keyDates) {
-        this.keyDates = keyDates;
+    public void setModuleEvents(Collection<ScheduleItemEntity> moduleEvents) {
+        this.moduleEvents = moduleEvents;
     }
 
-    public Collection<UserEntity> getUsers() {
-        return users;
+    public Collection<UserEntity> getMembers() {
+        return members;
     }
 
-    public void setUsers(Collection<UserEntity> users) {
-        this.users = users;
+    public void setMembers(Collection<UserEntity> members) {
+        this.members = members;
     }
 
     public Collection<RecurringEventEntity> getRecurringEvents() {

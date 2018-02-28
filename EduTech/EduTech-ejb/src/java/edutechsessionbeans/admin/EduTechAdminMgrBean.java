@@ -114,7 +114,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
                 ArrayList moduleInfo = new ArrayList();
                 
                 moduleInfo.add(mod.getModuleCode());
-                moduleInfo.add(mod.getName());
+                moduleInfo.add(mod.getTitle());
                 moduleInfoList.add(moduleInfo);
             }
         }
@@ -172,7 +172,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             mod = (ModuleEntity) o;
             ArrayList modInfo = new ArrayList();
             modInfo.add(mod.getModuleCode());
-            modInfo.add(mod.getName());
+            modInfo.add(mod.getTitle());
             modInfo.add(String.valueOf(mod.getModularCredit()));
             modInfo.add(String.valueOf(mod.getSemester().getId()));
             modInfo.add(String.valueOf(mod.getSemester().getTitle()));
@@ -194,12 +194,12 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         ArrayList modInfo = new ArrayList();
         ModuleEntity mod = em.find(ModuleEntity.class, id);
         modInfo.add(String.valueOf(mod.getModuleCode()));
-        modInfo.add(String.valueOf(mod.getName()));
+        modInfo.add(String.valueOf(mod.getTitle()));
         modInfo.add(String.valueOf(mod.getModularCredit()));
         modInfo.add(String.valueOf(mod.getSemester().getTitle()+" | ID: "+mod.getSemester().getId()));
         modInfo.add(String.valueOf(mod.getDescription()));
         //get list of users for this module
-        Collection users = mod.getUsers();
+        Collection users = mod.getMembers();
         //store information of all users in this module
         ArrayList userInfoList = new ArrayList();
         for(Object o : users){
@@ -262,7 +262,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     public boolean editModule(String id, String name, String credits, String description) {
         try{
             ModuleEntity mod = em.find(ModuleEntity.class, id);
-            mod.setName(name);
+            mod.setTitle(name);
             mod.setModularCredit(Long.valueOf(credits));
             mod.setDescription(description);
             return true;
@@ -304,10 +304,10 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         for(Object o : q1.getResultList()){
             mod = (ModuleEntity) o;
             //if the user is one of the users in this module extract module info.
-            if(mod.getUsers().contains(user)){
+            if(mod.getMembers().contains(user)){
                 ArrayList modInfo = new ArrayList();
                 modInfo.add(mod.getModuleCode());
-                modInfo.add(mod.getName());
+                modInfo.add(mod.getTitle());
                 modInfo.add(String.valueOf(mod.getModularCredit()));
                 modInfo.add(String.valueOf(mod.getSemester().getId()));
                 modInfo.add(String.valueOf(mod.getSemester().getTitle()));
@@ -322,8 +322,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         UserEntity user = em.find(UserEntity.class, id);
         ModuleEntity module = em.find(ModuleEntity.class, mod);
         //if module doesn't already contain user, add in.
-        if(!module.getUsers().contains(user)){
-            module.getUsers().add(user);
+        if(!module.getMembers().contains(user)){
+            module.getMembers().add(user);
             return true;
         }else{
             return false;
@@ -335,8 +335,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         UserEntity user = em.find(UserEntity.class, id);
         ModuleEntity module = em.find(ModuleEntity.class, mod);
         //if module doesn't already contain user, add in.
-        if(module.getUsers().contains(user)){
-            module.getUsers().remove(user);
+        if(module.getMembers().contains(user)){
+            module.getMembers().remove(user);
         }
     }
 
