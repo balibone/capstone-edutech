@@ -5,7 +5,7 @@
  */
 package edutechentities.common;
 
-import commoninfraentities.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Entity;
@@ -32,6 +32,7 @@ public class TaskEntity implements Serializable {
     @OneToMany
     private Collection<UserEntity> assignedTo;
     private int progressCode;
+    private int groupId;
     private int moduleId;
     @ManyToOne
     private UserEntity createdBy;
@@ -82,7 +83,16 @@ public class TaskEntity implements Serializable {
     public void setProgressCode(int progressCode) {
         this.progressCode = progressCode;
     }
+    
+    
+    public int getGroupId() {
+        return groupId;
+    }
 
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+    
     public int getModuleId() {
         return moduleId;
     }

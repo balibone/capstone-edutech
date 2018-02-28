@@ -5,12 +5,19 @@
  */
 package edutechsessionbeans;
 
-import commoninfraentities.UserEntity;
+
+import commoninfrastructureentities.UserEntity;
+import edutechentities.common.PostEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.common.ScheduleItemEntity;
+import edutechentities.common.TaskEntity;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
@@ -26,6 +33,16 @@ public class CommonRESTMgrBean {
 
     @PersistenceContext
     private EntityManager em;
+    
+    // HELPER METHOD 
+    public String getCurrentISODate() {
+        // get current time in ISO 8601 format
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); 
+        df.setTimeZone(tz);
+        String nowAsISO = df.format(new Date());
+        return nowAsISO;
+    }
     
     public void createUser(UserEntity entity) {
         entity.setUsercreationdate(new Date());
@@ -43,7 +60,7 @@ public class CommonRESTMgrBean {
     }
 
     public List<UserEntity> findAllUsers() {
-        return em.createQuery("SELECT s FROM Systemuser s WHERE s.useractivestatus=1").getResultList();
+        return em.createQuery("SELECT s FROM SystemUser s WHERE s.useractivestatus=1").getResultList();
     }
 
     public UserEntity findUser(String id) {
@@ -63,14 +80,25 @@ public class CommonRESTMgrBean {
     }
 
     public void createScheduleItem(ScheduleItemEntity entity) {
+        // get proper User - initially json createdBy only contains a username key
+        UserEntity user = (UserEntity) entity.getCreatedBy();
         //Set assignedTo
-        if(entity.getGroupId() > 0){
-            GroupEntity group = em.find(GroupEntity.class, Long.valueOf(entity.getGroupId()));
-            entity.setAssignedTo(group.getMembers());
-        } else{
-            UserEntity user = em.find(UserEntity.class, entity.getCreatedBy());
-            entity.setAssignedTo((Collection<UserEntity>) user);
+        Collection<UserEntity> assignedTo = new ArrayList(); 
+        switch(entity.getType()) {
+            case "personal":
+                assignedTo.add(user); 
+                break;
+            case "meeting":
+                GroupEntity group = em.find(GroupEntity.class, Long.valueOf(entity.getGroupId()));
+                assignedTo = group.getMembers();
+                break;
+            default:
+                assignedTo.add(user); 
+                break;
         }
+        
+        entity.setAssignedTo(assignedTo);
+        //persist
         em.persist(entity);
         return entity.getId();
     }
@@ -88,8 +116,126 @@ public class CommonRESTMgrBean {
     public ScheduleItemEntity findScheduleItem(String id) {
         return em.find(ScheduleItemEntity.class, Long.valueOf(id));
     }
+    
+    public List<ScheduleItemEntity> findUserScheduleItem(String username) {
+        UserEntity user = em.find(UserEntity.class, username);
+        List<ScheduleItemEntity> userScheduleItems = new ArrayList();
+        List<ScheduleItemEntity> allScheduleItems = em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
+        for(ScheduleItemEntity scheduleItem: allScheduleItems){
+            if(scheduleItem.getAssignedTo().contains(user)){
+                userScheduleItems.add(scheduleItem);
+            }
+        }
+        return userScheduleItems;
+    }
+    
+    
+    public List<ScheduleItemEntity> findGroupScheduleItem(int groupId) {
+        List<ScheduleItemEntity> groupScheduleItems = new ArrayList();
+        List<ScheduleItemEntity> allScheduleItems = em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
+        for(ScheduleItemEntity scheduleItem: allScheduleItems){
+            if(scheduleItem.getGroupId() == groupId){
+                groupScheduleItems.add(scheduleItem);
+            }
+        }
+        return groupScheduleItems;    
+    }
+
 
     public String countScheduleItems() {
         return String.valueOf(em.createQuery("SELECT COUNT(s) FROM ScheduleItem s").getSingleResult());
     }
+
+    public List<PostEntity> getPosts(String pageId) {
+        return em.createQuery("SELECT p FROM Post p WHERE p.pageId="+pageId).getResultList(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void createPost(PostEntity entity) {
+        // get proper User - initially json createdBy only contains a username key
+        UserEntity poster = (UserEntity) entity.getCreatedBy();
+        entity.setCreatedBy(poster);
+        // persist
+        em.persist(entity);
+    }
+
+    public void removePost(String id) {
+        em.remove(em.find(PostEntity.class, Long.valueOf(id)));
+    }
+
+    public void togglePinPost(String id) {
+        PostEntity post = em.find(PostEntity.class, Long.valueOf(id));
+        post.setIsPinned(!post.getIsPinned());
+    }
+
+    public void replyPost(String id, PostEntity entity) {
+        // get proper User - initially json createdBy only contains a username key
+        UserEntity replyPoster = (UserEntity) entity.getCreatedBy();
+        entity.setCreatedBy(replyPoster);
+
+        // find the parent post to include this post reply in
+        PostEntity post = em.find(PostEntity.class, Long.valueOf(id));
+        Collection<PostEntity> replies = post.getReplies();
+        replies.add(entity);
+        post.setReplies(replies);
+    }
+    
+    public List<TaskEntity> getUserTasks(String username){
+        UserEntity user = em.find(UserEntity.class, username);
+        List<TaskEntity> userTasks = new ArrayList();
+        List<TaskEntity> allTasks = em.createQuery("SELECT t FROM Task t").getResultList();
+        for(TaskEntity task: allTasks){
+            if(task.getAssignedTo().contains(user)){
+                userTasks.add(task);
+            }
+        }
+        return userTasks;
+    }
+    
+    public List<TaskEntity> getGroupTasks(int groupId) {
+        List<TaskEntity> groupTasks = new ArrayList();
+        List<TaskEntity> allTasks = em.createQuery("SELECT t FROM Task t").getResultList();
+        for(TaskEntity task: allTasks){
+            if(task.getGroupId() == groupId){
+                groupTasks.add(task);
+            }
+        }
+        return groupTasks;
+    }
+
+    public void createTask(TaskEntity entity) {
+        // get proper User - initially json createdBy only contains a username key
+        UserEntity taskOwner = (UserEntity) entity.getCreatedBy();
+        entity.setCreatedBy(taskOwner);
+        // set assignedTo .
+        Collection<UserEntity> assignedTo = new ArrayList(); 
+        assignedTo.add(taskOwner);
+        entity.setAssignedTo(assignedTo);
+        // persist
+        em.persist(entity);    
+    }
+
+    public void removeTask(String id) {
+        em.remove(em.find(TaskEntity.class, Long.valueOf(id)));
+    }
+
+    public void editTask(String id, TaskEntity entity) {
+        TaskEntity toEdit = em.find(TaskEntity.class, Long.valueOf(id));
+        toEdit = entity;
+        em.merge(toEdit);    
+    }
+
+    public void updateTaskProgress(String id, int progressCode) {
+        TaskEntity task = em.find(TaskEntity.class, Long.valueOf(id)); 
+        task.setProgressCode(progressCode);
+    }
+
+    public void verifyTask(String id, String username) {
+        TaskEntity task = em.find(TaskEntity.class, Long.valueOf(id)); 
+        task.setProgressCode(3);
+        // get verifier user
+        UserEntity verifier = em.find(UserEntity.class, username);
+        task.setVerifiedBy(verifier);
+        task.setVerifiedAt(getCurrentISODate());
+    }
+
 }
