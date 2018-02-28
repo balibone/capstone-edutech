@@ -6,7 +6,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@include file="/webapp/edutech/admin/SessionCheck.jspf" %>
 <!DOCTYPE html>
 <html>
     <head>

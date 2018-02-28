@@ -16,7 +16,7 @@
                                         moduleCount = (Integer) semesterInfo.get(5);
                                     }
 %>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@include file="/webapp/edutech/admin/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

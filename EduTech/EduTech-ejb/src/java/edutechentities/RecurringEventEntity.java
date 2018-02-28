@@ -24,11 +24,12 @@ public class RecurringEventEntity implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
+    private String location;
     private String description;
     private DayOfWeek dayOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;
-    private String location;
+    
 
     public Long getId() {
         return id;

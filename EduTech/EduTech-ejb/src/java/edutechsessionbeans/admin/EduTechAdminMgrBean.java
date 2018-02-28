@@ -114,7 +114,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
                 ArrayList moduleInfo = new ArrayList();
                 
                 moduleInfo.add(mod.getModuleCode());
-                moduleInfo.add(mod.getName());
+                moduleInfo.add(mod.getTitle());
                 moduleInfoList.add(moduleInfo);
             }
         }
@@ -172,7 +172,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             mod = (ModuleEntity) o;
             ArrayList modInfo = new ArrayList();
             modInfo.add(mod.getModuleCode());
-            modInfo.add(mod.getName());
+            modInfo.add(mod.getTitle());
             modInfo.add(String.valueOf(mod.getModularCredit()));
             modInfo.add(String.valueOf(mod.getSemester().getId()));
             modInfo.add(String.valueOf(mod.getSemester().getTitle()));
@@ -194,12 +194,12 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         ArrayList modInfo = new ArrayList();
         ModuleEntity mod = em.find(ModuleEntity.class, id);
         modInfo.add(String.valueOf(mod.getModuleCode()));
-        modInfo.add(String.valueOf(mod.getName()));
+        modInfo.add(String.valueOf(mod.getTitle()));
         modInfo.add(String.valueOf(mod.getModularCredit()));
         modInfo.add(String.valueOf(mod.getSemester().getTitle()+" | ID: "+mod.getSemester().getId()));
         modInfo.add(String.valueOf(mod.getDescription()));
         //get list of users for this module
-        Collection users = mod.getUsers();
+        Collection users = mod.getMembers();
         //store information of all users in this module
         ArrayList userInfoList = new ArrayList();
         for(Object o : users){
@@ -209,6 +209,30 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
                 ArrayList userInfo = new ArrayList();
                 userInfo.add(String.valueOf(user.getUsername()));
                 userInfo.add(String.valueOf(user.getUserSalutation()+" "+user.getUserFirstName()+" "+user.getUserLastName()));
+                String userType = user.getUserType();
+                switch(userType){
+                    case "student":
+                        userType = "Student";
+                        break;
+                    case "instructor":
+                        userType = "Instructor";
+                        break;
+                    case "unifyadmin":
+                        userType="Unify Admin";
+                        break;
+                    case "edutechadmin":
+                        userType="EduTech Admin";
+                        break;
+                    case "dualadmin":
+                        userType="Dual Admin";
+                        break;
+                    case "superadmin":
+                        userType="System Admin";
+                        break;
+                    default:
+                        break;
+                }
+                userInfo.add(userType);
                 userInfoList.add(userInfo);
             }
         }
@@ -219,7 +243,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         Collection recurringEvents = mod.getRecurringEvents();
         //store information of all recurring events in this module
         ArrayList eventInfoList = new ArrayList();
-        DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
         for(Object o : recurringEvents){
             RecurringEventEntity event = (RecurringEventEntity)o;
             ArrayList eventInfo = new ArrayList();
@@ -238,7 +262,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     public boolean editModule(String id, String name, String credits, String description) {
         try{
             ModuleEntity mod = em.find(ModuleEntity.class, id);
-            mod.setName(name);
+            mod.setTitle(name);
             mod.setModularCredit(Long.valueOf(credits));
             mod.setDescription(description);
             return true;
@@ -280,10 +304,10 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         for(Object o : q1.getResultList()){
             mod = (ModuleEntity) o;
             //if the user is one of the users in this module extract module info.
-            if(mod.getUsers().contains(user)){
+            if(mod.getMembers().contains(user)){
                 ArrayList modInfo = new ArrayList();
                 modInfo.add(mod.getModuleCode());
-                modInfo.add(mod.getName());
+                modInfo.add(mod.getTitle());
                 modInfo.add(String.valueOf(mod.getModularCredit()));
                 modInfo.add(String.valueOf(mod.getSemester().getId()));
                 modInfo.add(String.valueOf(mod.getSemester().getTitle()));
@@ -298,8 +322,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         UserEntity user = em.find(UserEntity.class, id);
         ModuleEntity module = em.find(ModuleEntity.class, mod);
         //if module doesn't already contain user, add in.
-        if(!module.getUsers().contains(user)){
-            module.getUsers().add(user);
+        if(!module.getMembers().contains(user)){
+            module.getMembers().add(user);
             return true;
         }else{
             return false;
@@ -311,8 +335,56 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         UserEntity user = em.find(UserEntity.class, id);
         ModuleEntity module = em.find(ModuleEntity.class, mod);
         //if module doesn't already contain user, add in.
-        if(module.getUsers().contains(user)){
-            module.getUsers().remove(user);
+        if(module.getMembers().contains(user)){
+            module.getMembers().remove(user);
         }
+    }
+
+    @Override
+    public ArrayList getCurrentSemester() {
+        Date currDate = new Date();
+        ArrayList semInfo = new ArrayList();
+        Query q1 = em.createQuery("SELECT s FROM Semester s");
+        for(Object o:q1.getResultList()){
+            SemesterEntity s = (SemesterEntity) o;
+            Date startDate = s.getStartDate();
+            Date endDate = s.getEndDate();
+            //if semester starts before or on today's date and end after or on today's date, then it is current semester
+            //assumption : there are no 2 sems which dates overlap.
+            if( (startDate.before(currDate) || endDate.equals(currDate)) && (endDate.after(currDate) || endDate.equals(currDate)) ){
+                semInfo.add(s.getTitle());//get title
+                semInfo.add(String.valueOf(s.getModules().size()));//get number of modules
+            }
+        }
+        return semInfo;
+    }
+
+    @Override
+    public void removeEventFromMod(String eventId, String id) {
+        RecurringEventEntity event = em.find(RecurringEventEntity.class, Long.valueOf(eventId));
+        ModuleEntity mod = em.find(ModuleEntity.class, id);
+        if(mod.getRecurringEvents().contains(event)){
+            mod.getRecurringEvents().remove(event);
+        }
+    }
+
+    @Override
+    public ArrayList getModuleRecurringEvents(String id) {
+        ArrayList eventList = new ArrayList();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+        ModuleEntity mod = em.find(ModuleEntity.class, id);
+        if(mod.getRecurringEvents() != null){
+            for(RecurringEventEntity event : mod.getRecurringEvents()){
+                ArrayList eventInfo = new ArrayList();
+                eventInfo.add(event.getTitle());
+                eventInfo.add(event.getDescription());
+                eventInfo.add(event.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+                eventInfo.add(event.getStartTime().format(timeFormat));
+                eventInfo.add(event.getEndTime().format(timeFormat));
+                eventInfo.add(String.valueOf(event.getId()));
+                eventList.add(eventInfo);
+            }
+        }
+        return eventList;
     }
 }

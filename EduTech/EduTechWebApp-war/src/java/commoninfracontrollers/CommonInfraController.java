@@ -79,6 +79,10 @@ public class CommonInfraController extends HttpServlet {
                     pageAction = "IntegratedSPLogin";
                     break;
                 case "goToCommonLanding":
+                    String unauthorised = request.getParameter("unauthorised");
+                    if(unauthorised != null && unauthorised.equals("true")){
+                        request.setAttribute("sysMessage", "You are not authorised to access that page.");
+                    }
                     //check logged in user's type and respond with correct landing page.
                     Cookie[] cookies = request.getCookies();
                     String uType = null;

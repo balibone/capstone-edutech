@@ -20,7 +20,7 @@
                                         
                                     }
 %>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@include file="/webapp/edutech/admin/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -85,7 +85,7 @@
                                     </div>
                                 </form>
                                     <div class="col-xs-6">
-                                        <h4>Recurring Events:</h4>
+                                        <h4 class="text-center"><em>Recurring Events</em></h4>
                                         <table class="table table-condensed table-striped">
                                         <thead>
                                             <tr>
@@ -124,6 +124,7 @@
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Username</th>
+                                                <th>User Type</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -132,10 +133,12 @@
                                                     ArrayList userInfo = (ArrayList) o;
                                                     String uname = (String)userInfo.get(0);
                                                     String username = (String)userInfo.get(1);
+                                                    String uType = (String)userInfo.get(2);
                                             %>
                                             <tr>
                                                 <td><%=uname%></td>
                                                 <td><%=username%></td>
+                                                <td><%=uType%></td>
                                             </tr>
                                             <% }
                                             %>

@@ -1,21 +1,23 @@
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@include file="/webapp/edutech/admin/SessionCheck.jspf" %>
 <%
     //Extracting field values from ArrayList passed from servlet to jsp.
-                                    ArrayList moduleInfo = (ArrayList)request.getAttribute("moduleInfo");
-                                    String moduleCode,name,credits,description, semester;
-                                    moduleCode=semester=name=credits=description= "";
-                                    ArrayList recurringEvents = new ArrayList();
-                                    
-                                    //ArrayList exists and is not empty. 
-                                    if(moduleInfo!=null && !moduleInfo.isEmpty()){
-                                        name = (String) moduleInfo.get(1);
-                                        credits = (String)moduleInfo.get(2);
-                                        description = (String)moduleInfo.get(4);
-                                        moduleCode = (String)moduleInfo.get(0);
-                                        semester = (String)moduleInfo.get(3);
-                                    }
+    ArrayList moduleInfo = (ArrayList)request.getAttribute("moduleInfo");
+    String moduleCode,name,credits,description, semester;
+    moduleCode=semester=name=credits=description= "";
+    
+    //Used in table below.
+    ArrayList eventList = (ArrayList) request.getAttribute("eventList");
+    
+    //ArrayList exists and is not empty. 
+    if(moduleInfo!=null && !moduleInfo.isEmpty()){
+        name = (String) moduleInfo.get(1);
+        credits = (String)moduleInfo.get(2);
+        description = (String)moduleInfo.get(4);
+        moduleCode = (String)moduleInfo.get(0);
+        semester = (String)moduleInfo.get(3);
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -131,7 +133,6 @@
                                 <h3>Recurring Events</h3>
                             </div>
                             <div class="col-xs-9 btn-group">
-                                <button type="button" class="btn btn-default"><i class="fas fa-sync-alt"></i>&nbsp;&nbsp;Refresh</button>
                                 <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#newEventModal"><span class="fas fa-plus"></span>&nbsp;&nbsp;Add</button>
                             </div>
                         </div>
@@ -146,8 +147,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--Populate table data with jquery-->
-                                
+                                <%
+                                    if(eventList != null){
+                                        for(Object o : eventList){
+                                            ArrayList eventInfo = (ArrayList) o;
+                                            String title = (String) eventInfo.get(0);
+                                            String eventDescription = (String) eventInfo.get(1);
+                                            String dayOfWeek = (String) eventInfo.get(2);
+                                            String startTime = (String) eventInfo.get(3);
+                                            String endTime = (String) eventInfo.get(4);
+                                            String eventId = (String) eventInfo.get(5);
+                                %>
+                                <tr>
+                                    <td><%=title%></td>
+                                    <td><%=eventDescription%></td>
+                                    <td><%=dayOfWeek%></td>
+                                    <td><%=startTime%></td>
+                                    <td><%=endTime%><a href="EduTechAdmin?pageTransit=removeEvent&eventId=<%=eventId%>&id=<%=moduleCode%>"><i class="pull-right fas fa-trash-alt"></i></a></td>
+                                </tr>
+                                <%
+                                    }
+}
+                                %>
                             </tbody>
                         </table>
                     </div>
