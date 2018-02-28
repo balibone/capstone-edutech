@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
  * @author tengkuhafidz
  */
 @RequestScoped
-@Path("edutechentities.common.post")
+@Path("post")
 public class PostREST {
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
     private EntityManager em;
@@ -36,14 +36,19 @@ public class PostREST {
     CommonRESTMgrBean etr;
     
     
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<PostEntity> getPosts(@PathParam("id") String pageId) {
-        return etr.getPosts(pageId);
+    @GET @Path("{pageId}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<PostEntity> getPosts(@PathParam("pageId") String pageId) {
+        return etr.findPagePosts(pageId);
     }
     
     @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(PostEntity entity) {
         etr.createPost(entity);
+    }
+    
+    @POST @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void reply(@PathParam("id") String id, PostEntity entity) {
+        etr.replyPost(id, entity);
     }
     
     @DELETE @Path("{id}")
@@ -55,11 +60,5 @@ public class PostREST {
     public void pin(@PathParam("id") String id) {
         etr.togglePinPost(id);
     }
-    
-    @POST @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void reply(@PathParam("id") String id, PostEntity entity) {
-        etr.replyPost(id, entity);
-    }
-
-    
+   
 }

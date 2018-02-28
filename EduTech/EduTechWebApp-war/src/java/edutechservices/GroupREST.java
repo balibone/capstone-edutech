@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
  * @author nanda88
  */
 @RequestScoped
-@Path("edutechentities.group.group")
+@Path("group")
 public class GroupREST {
     
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
@@ -39,7 +39,7 @@ public class GroupREST {
     
     @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<GroupEntity> getUserGroups(@PathParam("id") String id) {
-        return etr.getUserGroups(id);
+        return etr.findUserGroups(id);
     }
 
     

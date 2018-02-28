@@ -32,8 +32,9 @@ public class TaskEntity implements Serializable {
     @OneToMany
     private Collection<UserEntity> assignedTo;
     private int progressCode;
+    private String type;
     private int groupId;
-    private int moduleId;
+    private String moduleCode;
     @ManyToOne
     private UserEntity createdBy;
     private String createdAt;
@@ -92,13 +93,21 @@ public class TaskEntity implements Serializable {
     public void setGroupId(int groupId) {
         this.groupId = groupId;
     }
-    
-    public int getModuleId() {
-        return moduleId;
+
+    public String getType() {
+        return type;
     }
 
-    public void setModuleId(int moduleId) {
-        this.moduleId = moduleId;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
     }
 
     public UserEntity getCreatedBy() {

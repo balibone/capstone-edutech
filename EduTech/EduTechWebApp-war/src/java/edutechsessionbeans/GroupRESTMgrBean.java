@@ -26,7 +26,7 @@ public class GroupRESTMgrBean {
     @PersistenceContext
     private EntityManager em;
     
-    public List<GroupEntity> getUserGroups(String username){
+    public List<GroupEntity> findUserGroups(String username){
         UserEntity thisUser = em.find(UserEntity.class,username);
         List<GroupEntity> userGroups = new ArrayList();
         List<GroupEntity> allGroups = em.createQuery("SELECT g FROM ProjectGroup g").getResultList();

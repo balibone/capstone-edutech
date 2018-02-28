@@ -27,21 +27,21 @@ import javax.ws.rs.core.MediaType;
  * @author tengkuhafidz
  */
 @RequestScoped
-@Path("edutechentities.common.task")
+@Path("task")
 public class TaskREST {
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
     private EntityManager em;
     @EJB
     CommonRESTMgrBean etr;
     
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<TaskEntity> getUserTasks(@PathParam("id") String username) {
-        return etr.getUserTasks(username);
+    @GET @Path("user/{username}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<TaskEntity> getUserTasks(@PathParam("username") String username) {
+        return etr.findUserTasks(username);
     }
     
-    @GET @Path("group/{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<TaskEntity> getGroupTasks(@PathParam("id") int groupId) {
-        return etr.getGroupTasks(groupId);
+    @GET @Path("group/{groupId}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<TaskEntity> getGroupTasks(@PathParam("groupId") int groupId) {
+        return etr.findGroupTasks(groupId);
     }
     
     @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -53,15 +53,15 @@ public class TaskREST {
     public void edit(@PathParam("id") String id, TaskEntity entity) {
         etr.editTask(id, entity);
     }
+         
+    @PUT @Path("{id}/{progressCode}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void updateProgress(@PathParam("id") String id, @PathParam("progressCode") int progressCode) {
+        etr.updateTaskProgress(id, progressCode);
+    }
     
     @DELETE @Path("{id}")
     public void remove(@PathParam("id") String id) {
         etr.removeTask(id);
-    }
-    
-    @PUT @Path("{id}/{progressCode}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void updateProgress(@PathParam("id") String id, @PathParam("progressCode") int progressCode) {
-        etr.updateTaskProgress(id, progressCode);
     }
     
     @PUT @Path("verify/{id}/{username}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

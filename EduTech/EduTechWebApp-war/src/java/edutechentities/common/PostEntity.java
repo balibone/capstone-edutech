@@ -34,6 +34,7 @@ public class PostEntity implements Serializable {
     private String message;
     @OneToMany(cascade=PERSIST)
     private Collection<PostEntity> replies;
+    private Long replyTo = null;
     private boolean isPinned = false;
     @OneToMany
     private Collection<UserEntity> likedBy;
@@ -72,6 +73,14 @@ public class PostEntity implements Serializable {
 
     public void setReplies(Collection<PostEntity> replies) {
         this.replies = replies;
+    }
+     
+    public Long getReplyTo() {
+        return replyTo;
+    }
+
+    public void setReplyTo(Long replyTo) {
+        this.replyTo = replyTo;
     }
 
     public boolean getIsPinned() {

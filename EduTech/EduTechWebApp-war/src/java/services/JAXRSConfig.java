@@ -12,7 +12,7 @@ import javax.ws.rs.core.Application;
  *
  * @author Derian
  */
-@ApplicationPath("resources")
+@ApplicationPath("api")
 public class JAXRSConfig extends Application{
     
 }

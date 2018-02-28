@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
  * @author Derian
  */
 @RequestScoped
-@Path("commoninfraentities.systemuser")
+@Path("systemuser")
 public class UserEntityREST {
 
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
@@ -52,9 +52,9 @@ public class UserEntityREST {
         etr.removeUser(id);
     }
 
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public UserEntity find(@PathParam("id") String id) {
-        return etr.findUser(id);
+    @GET @Path("{username}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public UserEntity find(@PathParam("username") String username) {
+        return etr.findUser(username);
     }
 
     @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

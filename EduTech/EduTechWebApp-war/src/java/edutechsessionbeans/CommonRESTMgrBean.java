@@ -63,8 +63,8 @@ public class CommonRESTMgrBean {
         return em.createQuery("SELECT s FROM SystemUser s WHERE s.useractivestatus=1").getResultList();
     }
 
-    public UserEntity findUser(String id) {
-        return em.find(UserEntity.class, id);
+    public UserEntity findUser(String username) {
+        return em.find(UserEntity.class, username);
     }
 
     public void removeUser(String id) {
@@ -80,6 +80,7 @@ public class CommonRESTMgrBean {
     }
 
     public void createScheduleItem(ScheduleItemEntity entity) {
+        entity.setCreatedAt(getCurrentISODate());
         // get proper User - initially json createdBy only contains a username key
         UserEntity user = (UserEntity) entity.getCreatedBy();
         //Set assignedTo
@@ -96,7 +97,6 @@ public class CommonRESTMgrBean {
                 assignedTo.add(user); 
                 break;
         }
-        
         entity.setAssignedTo(assignedTo);
         //persist
         em.persist(entity);
@@ -117,7 +117,7 @@ public class CommonRESTMgrBean {
         return em.find(ScheduleItemEntity.class, Long.valueOf(id));
     }
     
-    public List<ScheduleItemEntity> findUserScheduleItem(String username) {
+    public List<ScheduleItemEntity> findUserScheduleItems(String username) {
         UserEntity user = em.find(UserEntity.class, username);
         List<ScheduleItemEntity> userScheduleItems = new ArrayList();
         List<ScheduleItemEntity> allScheduleItems = em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
@@ -129,8 +129,7 @@ public class CommonRESTMgrBean {
         return userScheduleItems;
     }
     
-    
-    public List<ScheduleItemEntity> findGroupScheduleItem(int groupId) {
+    public List<ScheduleItemEntity> findGroupMeetings(int groupId) {
         List<ScheduleItemEntity> groupScheduleItems = new ArrayList();
         List<ScheduleItemEntity> allScheduleItems = em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
         for(ScheduleItemEntity scheduleItem: allScheduleItems){
@@ -141,25 +140,30 @@ public class CommonRESTMgrBean {
         return groupScheduleItems;    
     }
 
-
     public String countScheduleItems() {
         return String.valueOf(em.createQuery("SELECT COUNT(s) FROM ScheduleItem s").getSingleResult());
     }
 
-    public List<PostEntity> getPosts(String pageId) {
+    public List<PostEntity> findPagePosts(String pageId) {
         return em.createQuery("SELECT p FROM Post p WHERE p.pageId="+pageId).getResultList(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void createPost(PostEntity entity) {
-        // get proper User - initially json createdBy only contains a username key
-        UserEntity poster = (UserEntity) entity.getCreatedBy();
-        entity.setCreatedBy(poster);
+        entity.setCreatedAt(getCurrentISODate());
         // persist
         em.persist(entity);
     }
 
     public void removePost(String id) {
-        em.remove(em.find(PostEntity.class, Long.valueOf(id)));
+        PostEntity entity = em.find(PostEntity.class, Long.valueOf(id));
+        //if post is a reply, remove Post from parent Post first
+        if(entity.getReplyTo() != null) {
+            PostEntity parentPost = em.find(PostEntity.class, entity.getReplyTo());
+            Collection<PostEntity> replies = parentPost.getReplies();
+            replies.remove(entity);
+            parentPost.setReplies(replies);
+        }
+        em.remove(entity);
     }
 
     public void togglePinPost(String id) {
@@ -168,10 +172,10 @@ public class CommonRESTMgrBean {
     }
 
     public void replyPost(String id, PostEntity entity) {
-        // get proper User - initially json createdBy only contains a username key
-        UserEntity replyPoster = (UserEntity) entity.getCreatedBy();
-        entity.setCreatedBy(replyPoster);
-
+        entity.setCreatedAt(getCurrentISODate());
+        entity.setReplyTo(Long.valueOf(id));
+        // set pageId to null so it wont show as main post on the feed page
+        entity.setPageId(null);
         // find the parent post to include this post reply in
         PostEntity post = em.find(PostEntity.class, Long.valueOf(id));
         Collection<PostEntity> replies = post.getReplies();
@@ -179,7 +183,7 @@ public class CommonRESTMgrBean {
         post.setReplies(replies);
     }
     
-    public List<TaskEntity> getUserTasks(String username){
+    public List<TaskEntity> findUserTasks(String username){
         UserEntity user = em.find(UserEntity.class, username);
         List<TaskEntity> userTasks = new ArrayList();
         List<TaskEntity> allTasks = em.createQuery("SELECT t FROM Task t").getResultList();
@@ -191,7 +195,7 @@ public class CommonRESTMgrBean {
         return userTasks;
     }
     
-    public List<TaskEntity> getGroupTasks(int groupId) {
+    public List<TaskEntity> findGroupTasks(int groupId) {
         List<TaskEntity> groupTasks = new ArrayList();
         List<TaskEntity> allTasks = em.createQuery("SELECT t FROM Task t").getResultList();
         for(TaskEntity task: allTasks){
@@ -203,13 +207,19 @@ public class CommonRESTMgrBean {
     }
 
     public void createTask(TaskEntity entity) {
-        // get proper User - initially json createdBy only contains a username key
-        UserEntity taskOwner = (UserEntity) entity.getCreatedBy();
-        entity.setCreatedBy(taskOwner);
-        // set assignedTo .
+        //set CreatedAt
+        entity.setCreatedAt(getCurrentISODate());
+        // set assignedTo
         Collection<UserEntity> assignedTo = new ArrayList(); 
-        assignedTo.add(taskOwner);
-        entity.setAssignedTo(assignedTo);
+        switch(entity.getType()) {
+            case "group":
+                break;
+            case "personal":
+            default:
+                UserEntity taskOwner = (UserEntity) entity.getCreatedBy(); 
+                assignedTo.add(taskOwner);
+                entity.setAssignedTo(assignedTo);
+        }            
         // persist
         em.persist(entity);    
     }
@@ -219,9 +229,11 @@ public class CommonRESTMgrBean {
     }
 
     public void editTask(String id, TaskEntity entity) {
-        TaskEntity toEdit = em.find(TaskEntity.class, Long.valueOf(id));
-        toEdit = entity;
-        em.merge(toEdit);    
+        TaskEntity thisEntity = em.find(TaskEntity.class, Long.valueOf(id));
+        thisEntity = entity;
+        //set modifiedAt
+        thisEntity.setModifiedAt(getCurrentISODate());
+        em.merge(thisEntity);    
     }
 
     public void updateTaskProgress(String id, int progressCode) {
@@ -232,7 +244,7 @@ public class CommonRESTMgrBean {
     public void verifyTask(String id, String username) {
         TaskEntity task = em.find(TaskEntity.class, Long.valueOf(id)); 
         task.setProgressCode(3);
-        // get verifier user
+        // set verifiedBy & verifiedAt
         UserEntity verifier = em.find(UserEntity.class, username);
         task.setVerifiedBy(verifier);
         task.setVerifiedAt(getCurrentISODate());

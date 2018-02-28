@@ -35,15 +35,14 @@ public class ScheduleItemEntity implements Serializable {
     private String startDate;
     private String endDate;
     private String location;
-    
-    @ManyToOne
-    private UserEntity createdBy;
-
     @OneToMany
     private Collection<UserEntity> assignedTo;
     private String type;
     private String moduleCode;
     private int groupId;
+    @ManyToOne
+    private UserEntity createdBy;
+    private String createdAt;
     
     public Long getId() {
         return id;
@@ -156,6 +155,14 @@ public class ScheduleItemEntity implements Serializable {
 
     public void setCreatedBy(UserEntity createdBy) {
         this.createdBy = createdBy;
+    } 
+    
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
     
 }

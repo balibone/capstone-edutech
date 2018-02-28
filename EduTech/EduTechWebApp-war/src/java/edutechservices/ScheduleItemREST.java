@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
  * @author Derian
  */
 @RequestScoped
-@Path("edutechentities.common.scheduleitem")
+@Path("scheduleitem")
 public class ScheduleItemREST {
 
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
@@ -55,14 +55,14 @@ public class ScheduleItemREST {
         return etr.findScheduleItem(id);
     }
     
-    @GET @Path("user/{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ScheduleItemEntity> findUser(@PathParam("id") String username) {
-        return etr.findUserScheduleItem(username);
+    @GET @Path("user/{username}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<ScheduleItemEntity> findUser(@PathParam("username") String username) {
+        return etr.findUserScheduleItems(username);
     }
     
-    @GET @Path("group/{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ScheduleItemEntity> findGroup(@PathParam("id") int id) {
-        return etr.findGroupScheduleItem(id);
+    @GET @Path("group/{groupId}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<ScheduleItemEntity> findGroup(@PathParam("groupId") int groupId) {
+        return etr.findGroupMeetings(groupId);
     }
 
     @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
