@@ -44,13 +44,13 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
 
     @Override
     public Object getModuleCount() {
-        return em.createQuery("SELECT COUNT(DISTINCT m.moduleCode) FROM Module m WHERE m.activeStatus=1").getSingleResult();
+        return em.createQuery("SELECT COUNT(DISTINCT m.moduleCode) FROM Module m").getSingleResult();
         
     }
 
     @Override
     public Object getSemesterCount() {
-        return em.createQuery("SELECT COUNT(DISTINCT s.id) FROM Semester s WHERE s.activeStatus=1").getSingleResult();
+        return em.createQuery("SELECT COUNT(DISTINCT s.id) FROM Semester s").getSingleResult();
     }
 
     @Override
@@ -75,7 +75,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         //format Date to String in format of e.g. 05 July 2019 
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
         //Find all active semesters
-        Query q1 = em.createQuery("SELECT s FROM Semester s WHERE s.activeStatus=1");
+        Query q1 = em.createQuery("SELECT s FROM Semester s");
         //Find the number of unique modules under this semester
         Query q2 = em.createQuery("SELECT COUNT(m) FROM Semester s, Module m WHERE m.semester = :semester");
         for(Object o : q1.getResultList()){
@@ -108,15 +108,14 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         ArrayList moduleInfoList = new ArrayList();
         for(Object o : modules){
             ModuleEntity mod = (ModuleEntity)o;
-            //only extract module info if mod is active.
-            if(mod.getActiveStatus()){
-                //store module information for each module
-                ArrayList moduleInfo = new ArrayList();
-                
-                moduleInfo.add(mod.getModuleCode());
-                moduleInfo.add(mod.getTitle());
-                moduleInfoList.add(moduleInfo);
-            }
+            
+            //store module information for each module
+            ArrayList moduleInfo = new ArrayList();
+            
+            moduleInfo.add(mod.getModuleCode());
+            moduleInfo.add(mod.getTitle());
+            moduleInfoList.add(moduleInfo);
+            
         }
         
         semInfo.add(moduleInfoList);
@@ -166,7 +165,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         ModuleEntity mod = new ModuleEntity();
 
         //Find all active modules
-        Query q1 = em.createQuery("SELECT m FROM Module m WHERE m.activeStatus=1");
+        Query q1 = em.createQuery("SELECT m FROM Module m");
 
         for(Object o : q1.getResultList()){
             mod = (ModuleEntity) o;
@@ -204,37 +203,35 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         ArrayList userInfoList = new ArrayList();
         for(Object o : users){
             UserEntity user = (UserEntity)o;
-            //only extract module info if user is active.
-            if(user.getUserActiveStatus()){
-                ArrayList userInfo = new ArrayList();
-                userInfo.add(String.valueOf(user.getUsername()));
-                userInfo.add(String.valueOf(user.getUserSalutation()+" "+user.getUserFirstName()+" "+user.getUserLastName()));
-                String userType = user.getUserType();
-                switch(userType){
-                    case "student":
-                        userType = "Student";
-                        break;
-                    case "instructor":
-                        userType = "Instructor";
-                        break;
-                    case "unifyadmin":
-                        userType="Unify Admin";
-                        break;
-                    case "edutechadmin":
-                        userType="EduTech Admin";
-                        break;
-                    case "dualadmin":
-                        userType="Dual Admin";
-                        break;
-                    case "superadmin":
-                        userType="System Admin";
-                        break;
-                    default:
-                        break;
-                }
-                userInfo.add(userType);
-                userInfoList.add(userInfo);
+            ArrayList userInfo = new ArrayList();
+            userInfo.add(String.valueOf(user.getUsername()));
+            userInfo.add(String.valueOf(user.getUserSalutation()+" "+user.getUserFirstName()+" "+user.getUserLastName()));
+            String userType = user.getUserType();
+            switch(userType){
+                case "student":
+                    userType = "Student";
+                    break;
+                case "instructor":
+                    userType = "Instructor";
+                    break;
+                case "unifyadmin":
+                    userType="Unify Admin";
+                    break;
+                case "edutechadmin":
+                    userType="EduTech Admin";
+                    break;
+                case "dualadmin":
+                    userType="Dual Admin";
+                    break;
+                case "superadmin":
+                    userType="System Admin";
+                    break;
+                default:
+                    break;
             }
+            userInfo.add(userType);
+            userInfoList.add(userInfo);
+            
         }
 
         modInfo.add(userInfoList);
@@ -299,7 +296,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         UserEntity user = em.find(UserEntity.class, id);
 
         //Find all active modules
-        Query q1 = em.createQuery("SELECT m FROM Module m WHERE m.activeStatus=1");
+        Query q1 = em.createQuery("SELECT m FROM Module m");
         
         for(Object o : q1.getResultList()){
             mod = (ModuleEntity) o;

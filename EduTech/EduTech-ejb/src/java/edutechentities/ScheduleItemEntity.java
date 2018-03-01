@@ -33,15 +33,14 @@ public class ScheduleItemEntity implements Serializable {
     private String startDate;
     private String endDate;
     private String location;
-    private String createdBy;
     @OneToMany
     private Collection<UserEntity> assignedTo;
     private String type;
+    private String moduleCode;
+    private int groupId;
     @ManyToOne
-    private ModuleEntity module;
-    //haven't created GroupEntity. 
-    //@ManyToOne 
-    //private GroupEntity group;
+    private UserEntity createdBy;
+    private String createdAt;
     
     public Long getId() {
         return id;
@@ -116,14 +115,6 @@ public class ScheduleItemEntity implements Serializable {
         this.location = location;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
     public Collection<UserEntity> getAssignedTo() {
         return assignedTo;
     }
@@ -140,12 +131,36 @@ public class ScheduleItemEntity implements Serializable {
         this.type = type;
     }
 
-    public ModuleEntity getModule() {
-        return module;
+    public String getModuleCode() {
+        return moduleCode;
     }
 
-    public void setModule(ModuleEntity module) {
-        this.module = module;
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
+    public UserEntity getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(UserEntity createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
     
 }
