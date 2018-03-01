@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edutechentities;
+package edutechentities.common;
 
+import edutechentities.module.ModuleEntity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -15,12 +16,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Derian
  */
 @Entity(name="Semester")
+@XmlRootElement
 public class SemesterEntity implements Serializable {
     @Id @GeneratedValue
     private Long id;
@@ -48,6 +52,7 @@ public class SemesterEntity implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+    @XmlTransient
     public List<ModuleEntity> getModules() {
         return modules;
     }
