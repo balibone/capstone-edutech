@@ -8,8 +8,10 @@ package edutechsessionbeans;
 
 import commoninfraentities.UserEntity;
 import edutechentities.common.PostEntity;
+import edutechentities.common.RecurringEventEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.common.ScheduleItemEntity;
+import edutechentities.common.SemesterEntity;
 import edutechentities.common.TaskEntity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,6 +24,7 @@ import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -56,7 +59,7 @@ public class CommonRESTMgrBean {
         //instantiate curr entity into new entity
         old = entity;
         //update curr entity in database. (reattach entity)
-        em.merge(entity);
+        em.merge(old);
     }
 
     public List<UserEntity> findAllUsers() {
@@ -247,6 +250,51 @@ public class CommonRESTMgrBean {
         UserEntity verifier = em.find(UserEntity.class, username);
         task.setVerifiedBy(verifier);
         task.setVerifiedAt(getCurrentISODate());
+    }
+
+    public void createRecurringEvent(RecurringEventEntity entity) {
+        em.persist(entity);
+    }
+    public void editRecurringEvent(Long id, RecurringEventEntity entity) {
+        RecurringEventEntity old = em.find(RecurringEventEntity.class, id);
+        old = entity;
+        em.merge(old);
+    }
+
+    public void removeRecurringEvent(Long id) {
+        em.remove(em.find(RecurringEventEntity.class, id));
+    }
+
+    public RecurringEventEntity findRecurringEvent(Long id) {
+        return em.find(RecurringEventEntity.class, id);
+    }
+
+    public List<RecurringEventEntity> findAllRecurringEvents() {
+        Query q1 = em.createQuery("SELECT r FROM RecurringEvent r");
+        return q1.getResultList() ;
+    }
+
+    public void createSemester(SemesterEntity entity) {
+        em.persist(entity);
+    }
+
+    public void editSemester(Long id, SemesterEntity entity) {
+        SemesterEntity old = em.find(SemesterEntity.class, id);
+        old = entity;
+        em.merge(old);
+    }
+
+    public void removeSemester(Long id) {
+        em.remove(em.find(SemesterEntity.class, id));
+    }
+
+    public SemesterEntity findSemester(Long id) {
+        return em.find(SemesterEntity.class, id);    
+    }
+
+    public List<SemesterEntity> findAllSemesters() {
+        Query q1 = em.createQuery("SELECT s FROM Semester s");
+        return q1.getResultList() ;
     }
 
 }

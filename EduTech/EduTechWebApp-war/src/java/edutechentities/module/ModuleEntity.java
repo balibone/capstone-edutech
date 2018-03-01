@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edutechentities;
+package edutechentities.module;
 
-import commoninfrastructureentities.UserEntity;
+import commoninfraentities.UserEntity;
+import edutechentities.common.RecurringEventEntity;
+import edutechentities.common.ScheduleItemEntity;
+import edutechentities.common.SemesterEntity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Entity;
@@ -14,12 +17,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Derian
  */
 @Entity(name="Module")
+@XmlRootElement
 public class ModuleEntity implements Serializable {
 
     @Id
@@ -104,6 +110,7 @@ public class ModuleEntity implements Serializable {
         return "edutechentities.ModuleEntity[ id=" + getModuleCode() + " ]";
     }
 
+    @XmlTransient
     public Collection<ScheduleItemEntity> getModuleEvents() {
         return moduleEvents;
     }
@@ -112,6 +119,7 @@ public class ModuleEntity implements Serializable {
         this.moduleEvents = moduleEvents;
     }
 
+    @XmlTransient
     public Collection<UserEntity> getMembers() {
         return members;
     }
@@ -120,6 +128,7 @@ public class ModuleEntity implements Serializable {
         this.members = members;
     }
 
+    @XmlTransient
     public Collection<RecurringEventEntity> getRecurringEvents() {
         return recurringEvents;
     }
