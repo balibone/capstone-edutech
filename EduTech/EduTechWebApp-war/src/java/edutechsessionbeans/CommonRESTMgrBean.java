@@ -6,7 +6,7 @@
 package edutechsessionbeans;
 
 
-import commoninfrastructureentities.UserEntity;
+import commoninfraentities.UserEntity;
 import edutechentities.common.PostEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.common.ScheduleItemEntity;
@@ -100,7 +100,6 @@ public class CommonRESTMgrBean {
         entity.setAssignedTo(assignedTo);
         //persist
         em.persist(entity);
-        return entity.getId();
     }
 
     public void editScheduleItem(String id, ScheduleItemEntity entity) {

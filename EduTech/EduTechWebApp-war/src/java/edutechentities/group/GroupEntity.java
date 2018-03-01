@@ -5,7 +5,7 @@
  */
 package edutechentities.group;
 
-import commoninfrastructureentities.UserEntity;
+import commoninfraentities.UserEntity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Entity;
