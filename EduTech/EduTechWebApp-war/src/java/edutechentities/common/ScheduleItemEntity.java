@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -34,12 +35,14 @@ public class ScheduleItemEntity implements Serializable {
     private String startDate;
     private String endDate;
     private String location;
-    private String createdBy;
     @OneToMany
     private Collection<UserEntity> assignedTo;
     private String type;
-    private int moduleId;
+    private String moduleCode;
     private int groupId;
+    @ManyToOne
+    private UserEntity createdBy;
+    private String createdAt;
     
     public Long getId() {
         return id;
@@ -114,14 +117,6 @@ public class ScheduleItemEntity implements Serializable {
         this.location = location;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
     public Collection<UserEntity> getAssignedTo() {
         return assignedTo;
     }
@@ -138,12 +133,12 @@ public class ScheduleItemEntity implements Serializable {
         this.type = type;
     }
 
-    public int getModuleId() {
-        return moduleId;
+    public String getModuleCode() {
+        return moduleCode;
     }
 
-    public void setModuleId(int moduleId) {
-        this.moduleId = moduleId;
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
     }
 
     public int getGroupId() {
@@ -152,6 +147,22 @@ public class ScheduleItemEntity implements Serializable {
 
     public void setGroupId(int groupId) {
         this.groupId = groupId;
+    }
+
+    public UserEntity getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(UserEntity createdBy) {
+        this.createdBy = createdBy;
+    } 
+    
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
     
 }

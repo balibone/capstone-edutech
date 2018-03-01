@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity(name="SystemUser")
 @XmlRootElement
-@NamedQueries({@NamedQuery(name = "SystemUser.findAll", query = "SELECT s FROM SystemUser s")})
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -150,7 +149,7 @@ public class UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "commoninfrastructureentities.SystemUser[ username=" + username + " ]";
+        return "commoninfraentities.Systemuser[ username=" + username + " ]";
     }
     
 }

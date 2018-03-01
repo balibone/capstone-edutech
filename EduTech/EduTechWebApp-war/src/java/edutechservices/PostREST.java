@@ -5,11 +5,11 @@
  */
 package edutechservices;
 
+import edutechentities.common.PostEntity;
+import edutechentities.common.ScheduleItemEntity;
 import edutechsessionbeans.CommonRESTMgrBean;
-import commoninfraentities.UserEntity;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,46 +25,40 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author Derian
+ * @author tengkuhafidz
  */
 @RequestScoped
-@Path("systemuser")
-public class UserEntityREST {
-
+@Path("post")
+public class PostREST {
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
     private EntityManager em;
     @EJB
     CommonRESTMgrBean etr;
     
-
-    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(UserEntity entity) {
-        etr.createUser(entity);
-    }
-
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, UserEntity entity) {
-        etr.editUser(id, entity);
-    }
-
-    @DELETE @Path("{id}")
-    public void remove(@PathParam("id") String id) {
-        etr.removeUser(id);
-    }
-
-    @GET @Path("{username}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public UserEntity find(@PathParam("username") String username) {
-        return etr.findUser(username);
-    }
-
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<UserEntity> findAll() {
-        return etr.findAllUsers();
-    }
-
-    @GET @Path("count") @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return etr.countUsers();
+    
+    @GET @Path("{pageId}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<PostEntity> getPosts(@PathParam("pageId") String pageId) {
+        return etr.findPagePosts(pageId);
     }
     
+    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void create(PostEntity entity) {
+        etr.createPost(entity);
+    }
+    
+    @POST @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void reply(@PathParam("id") String id, PostEntity entity) {
+        etr.replyPost(id, entity);
+    }
+    
+    @DELETE @Path("{id}")
+    public void remove(@PathParam("id") String id) {
+        etr.removePost(id);
+    }
+    
+    @PUT @Path("pin/{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void pin(@PathParam("id") String id) {
+        etr.togglePinPost(id);
+    }
+   
 }
