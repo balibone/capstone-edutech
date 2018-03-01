@@ -31,7 +31,7 @@ public class ModuleEntity implements Serializable {
     @Id
     private String moduleCode;
     private String title;
-    @OneToMany(mappedBy="module")
+    @OneToMany
     private Collection<ScheduleItemEntity> moduleEvents;
     private Long modularCredit;
     private String description;
