@@ -374,6 +374,14 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
+            
+            <div style="display:none;" id="offerTooltip">
+                Offer Price:<br/><input type="text" id="itemOfferPrice" class="offerFields" style="margin-bottom: 7px;" /><br/>
+                Buyer Comments:<br/><textarea cols="3" id="itemOfferDescription" class="offerFields"></textarea><br/>
+                <button type="button" id="sendOfferBtn" style="margin:7px 0 7px 0;">Send Offer</button><br/>
+                <input type="hidden" id="itemIDHidden" value="<%= itemID%>" />
+                <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
+            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -387,17 +395,5 @@
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/ViewItemDetailsSYSJS.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            $('#makeOfferBtn').qtip({
-                content: {
-                    title: { text: 'Make Item Offer', button: true },
-                    text: 'Enter your item offer here:<br/><input type="text" name="itemPriceOffer" style="margin-top:7px;width:100%;" /><br/><button type="button" id="sendOfferBtn" style="margin-top:7px;">Send Offer</button>'
-                },
-                position: { at: 'top center', my: 'bottom center' },
-                style: { width: 250, height: 125 },
-                hide: { event: 'click', inactive: 8000 },
-                show: 'click'
-            });
-        </script>
     </body>
 </html>

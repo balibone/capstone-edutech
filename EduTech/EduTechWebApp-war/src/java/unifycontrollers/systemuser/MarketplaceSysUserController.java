@@ -96,6 +96,17 @@ public class MarketplaceSysUserController extends HttpServlet {
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(hiddenItemID));
                     pageAction = "ViewItemDetailsSYS";
                     break;
+                case "sendItemOfferPrice":
+                    String itemIDHidden = request.getParameter("itemIDHidden");
+                    System.out.println("TEST ITEMID: " + itemIDHidden);
+                    String itemOfferPrice = request.getParameter("itemOfferPrice");
+                    String itemOfferDescription = request.getParameter("itemOfferDescription");
+                    
+                    responseMessage = createItemListing(request);
+                    
+                    response.setContentType("text/plain");
+                    response.getWriter().write("Offer has been sent successfully.");
+                    break;
                 case "goToViewItemDetailsModalSYS":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(itemID));
