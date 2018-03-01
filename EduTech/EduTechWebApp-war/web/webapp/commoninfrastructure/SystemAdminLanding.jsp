@@ -61,7 +61,7 @@
                 <br>
                 <a class="employers" href="EduTechAdmin?pageTransit=EduTechAdminDashboard">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Admin</span></span></a>
-                <a class="faculty" href="CommonInfra?pageTransit=goToEdutechPortal">
+                <a class="faculty" href="http://localhost:3000/<%=loggedInUsername%>">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Portal</span></span></a>
                 <br>
                 <a class="students" href="ProfileAdmin?pageTransit=goToUnifyAdmin">
