@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
  * @author Derian
  */
 @Stateless
-@Path("edutechentities.common.semesterentity")
+@Path("semester")
 public class SemesterREST{
 
     @PersistenceContext(unitName = "EduTechWebApp-warPU")

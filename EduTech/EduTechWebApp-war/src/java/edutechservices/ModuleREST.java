@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
  * @author Derian
  */
 @Stateless
-@Path("edutechentities.module.moduleentity")
+@Path("module")
 public class ModuleREST {
     
     @EJB

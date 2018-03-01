@@ -379,6 +379,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
                 eventInfo.add(event.getStartTime().format(timeFormat));
                 eventInfo.add(event.getEndTime().format(timeFormat));
                 eventInfo.add(String.valueOf(event.getId()));
+                eventInfo.add(event.getLocation());
                 eventList.add(eventInfo);
             }
         }

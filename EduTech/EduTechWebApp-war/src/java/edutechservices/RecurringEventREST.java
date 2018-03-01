@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
  * @author Derian
  */
 @Stateless
-@Path("edutechentities.common.recurringevententity")
+@Path("recurringevent")
 public class RecurringEventREST{
 
     @EJB
