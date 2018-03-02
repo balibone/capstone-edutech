@@ -72,7 +72,7 @@
                                         <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                     </a>
                                 </li>
-                                <select class="select-dropdown-nav accountNavigation" data-width="100px">
+                                <select class="select-dropdown-nav accountNavigation" data-width="110px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
                                     <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
@@ -268,7 +268,7 @@
                                         <div class="card-content">
                                             <div class="card-body">
                                                 <div class="img-wrapper">
-                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>">
+                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>&hiddenUsername=<%= loggedInUsername%>">
                                                         <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
                                                     </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">

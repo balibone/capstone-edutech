@@ -67,11 +67,12 @@
                                         <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                     </a>
                                 </li>
-                                <li class="nav-item d-none d-md-block">
-                                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount" class="nav-link">
-                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;My Account
-                                    </a>
-                                </li>
+                                <select class="select-dropdown-nav accountNavigation" data-width="110px">
+                                    <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
+                                    <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
+                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
+                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                </select>
                             </ul>
                         </div>
                     </div>

@@ -92,8 +92,9 @@ public class MarketplaceSysUserController extends HttpServlet {
                 case "goToViewItemDetailsSYS":
                     String hiddenCategoryName = request.getParameter("hiddenCategoryName");
                     long hiddenItemID = Long.parseLong(request.getParameter("hiddenItemID"));
+                    String hiddenUsername = request.getParameter("hiddenUsername");
                     request.setAttribute("assocCategoryItemListSYS", (ArrayList) msmr.viewAssocCategoryItemList(hiddenCategoryName, hiddenItemID));
-                    request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(hiddenItemID));
+                    request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(hiddenItemID, hiddenUsername));
                     pageAction = "ViewItemDetailsSYS";
                     break;
                 case "sendItemOfferPrice":
@@ -109,6 +110,10 @@ public class MarketplaceSysUserController extends HttpServlet {
                 case "likeItemListingDetails":
                     long itemIDHid = Long.parseLong(request.getParameter("itemIDHid"));
                     String usernameHid = request.getParameter("usernameHid");
+                    
+                    responseMessage = msmr.likeUnlikeItem(itemIDHid, usernameHid);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
                     break;
                 case "goToViewItemDetailsModalSYS":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
