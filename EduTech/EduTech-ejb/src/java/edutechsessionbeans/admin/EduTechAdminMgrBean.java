@@ -270,6 +270,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
 
     @Override
     public void addEventToMod(String title, String location, String day, String startTime, String endTime, String description, String id) {
+        ModuleEntity mod = em.find(ModuleEntity.class,id);
         //creates new event and adds in the attribute values
         RecurringEventEntity event = new RecurringEventEntity();
         event.setTitle(title);
@@ -280,10 +281,11 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         System.out.println("END TIME IS "+endTime);
         event.setEndTime(LocalTime.parse(endTime));
         event.setDescription(description);
+        event.setModule(mod);
         //persist new event
         em.persist(event);
         //adds new event to this module.
-        em.find(ModuleEntity.class,id).getRecurringEvents().add(event);
+        mod.getRecurringEvents().add(event);
     }
 
     @Override
@@ -363,6 +365,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         if(mod.getRecurringEvents().contains(event)){
             mod.getRecurringEvents().remove(event);
         }
+        em.remove(event);
     }
 
     @Override
