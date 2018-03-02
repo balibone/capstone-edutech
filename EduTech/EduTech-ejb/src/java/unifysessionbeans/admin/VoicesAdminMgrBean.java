@@ -79,10 +79,19 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     
     @Override
     public String createCompanyCategory(String categoryName, String categoryType, String categoryDescription, String fileName) {
-        cEntity = lookupCompanyCategory(categoryName);
-        
-        if(cEntity!=null) {
-            return "The company category already exists.";
+        boolean companyCategoryExist = false;
+        cEntity = new CategoryEntity();
+        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Voices'");
+
+        for (Object o : q.getResultList()) {
+            CategoryEntity categoryE = (CategoryEntity) o;
+            if((categoryE.getCategoryName().toUpperCase()).equals(categoryName.toUpperCase())) {
+                companyCategoryExist = true;
+                break;
+            }
+        }
+        if(companyCategoryExist == true) {
+            return "Company category already existed. Please enter a different company category name.";
         } else {
             if (cEntity.createCategory(categoryName, categoryType, categoryDescription, fileName)) {
                 em.persist(cEntity);

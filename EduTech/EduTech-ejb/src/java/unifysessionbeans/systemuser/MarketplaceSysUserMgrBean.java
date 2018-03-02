@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.ejb.Stateless;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -40,6 +42,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     private UserEntity uEntity;
     private UserEntity itemBuyerOfferEntity;
     private UserEntity itemSellerEntity;
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     @Override
     public List<Vector> viewItemList() {
@@ -96,7 +99,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                 }
             }
             itemVec.add(dateString);
-            itemVec.add(itemE.getItemPrice());
+            itemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
             itemVec.add(itemE.getItemNumOfLikes());
             itemList.add(itemVec);
             dateString = "";
@@ -113,20 +116,20 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemDetailsVec.add(iEntity.getItemID());
             itemDetailsVec.add(iEntity.getItemName());
             itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryName());
-            itemDetailsVec.add(iEntity.getItemPrice());
+            itemDetailsVec.add(String.format ("%,.2f", iEntity.getItemPrice()));
             itemDetailsVec.add(iEntity.getItemCondition());
             itemDetailsVec.add(iEntity.getItemDescription());
             itemDetailsVec.add(iEntity.getItemImage());
             itemDetailsVec.add(iEntity.getItemStatus());
             itemDetailsVec.add(iEntity.getItemNumOfLikes());
-            itemDetailsVec.add(iEntity.getItemPostingDate());
+            itemDetailsVec.add(df.format(iEntity.getItemPostingDate()));
             itemDetailsVec.add(iEntity.getTradeLocation());
             itemDetailsVec.add(iEntity.getTradeLat());
             itemDetailsVec.add(iEntity.getTradeLong());
             itemDetailsVec.add(iEntity.getTradeInformation());
             itemDetailsVec.add(iEntity.getUserEntity().getUsername());
             itemDetailsVec.add(iEntity.getUserEntity().getImgFileName());
-            itemDetailsVec.add(iEntity.getUserEntity().getUserCreationDate());
+            itemDetailsVec.add(df.format(iEntity.getUserEntity().getUserCreationDate()));
             itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryID());
             return itemDetailsVec;
         }
@@ -191,7 +194,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                     }
                 }
                 assocCategoryItemVec.add(dateString);
-                assocCategoryItemVec.add(itemE.getItemPrice());
+                assocCategoryItemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
                 assocCategoryItemList.add(assocCategoryItemVec);
                 dateString = "";
             }

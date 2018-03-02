@@ -39,15 +39,15 @@ $(document).ready(function () {
         show: 'click'
     });
     
-    $("#sendOfferBtn").click(function(){
+    $('#sendOfferBtn').click(function(){
         $.ajax({
             type: "POST",
             url: "MarketplaceSysUser",
             data: { 
-                itemIDHidden: $("#itemIDHidden").val(),
-                usernameHidden: $("#usernameHidden").val(),
-                itemOfferPrice: $("#itemOfferPrice").val(),
-                itemOfferDescription: $("#itemOfferDescription").val(),
+                itemIDHidden: $('#itemIDHidden').val(),
+                usernameHidden: $('#usernameHidden').val(),
+                itemOfferPrice: $('#itemOfferPrice').val(),
+                itemOfferDescription: $('#itemOfferDescription').val(),
                 pageTransit: 'sendItemOfferPrice'
             },
             success: function(returnString) {
@@ -55,6 +55,33 @@ $(document).ready(function () {
                 $('#failedOfferResponse').hide();
                 if(returnString.endsWith("!")) { $('#successOfferResponse').text(returnString).show(); }
                 else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }
+            }
+        });
+    });
+    
+    $('#likeItemBtn').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "MarketplaceSysUser",
+            data: { 
+                itemIDHid: $('#itemIDHidden').val(),
+                usernameHid: $('#usernameHidden').val(),
+                pageTransit: 'likeItemListingDetails'
+            },
+            success: function(returnString) {
+                $('.likeCount').text("");
+                $('.likeCount').text(2);
+                if($('#likeItemBtn').hasClass('likeStatus')) {
+                    $('#likeItemBtn').removeClass('likeStatus');
+                    $('#likeItemBtn').addClass('noLikeStatus');
+                    $('#likeItemBtn').css('background-color', '#FFFFFF');
+                    $('#likeItemBtn').css('color', '#4D7496');
+                } else if($('#likeItemBtn').hasClass('noLikeStatus')) {
+                    $('#likeItemBtn').removeClass('noLikeStatus');
+                    $('#likeItemBtn').addClass('likeStatus');
+                    $('#likeItemBtn').css('background-color', '#4D7496');
+                    $('#likeItemBtn').css('color', '#FFFFFF');
+                }
             }
         });
     });

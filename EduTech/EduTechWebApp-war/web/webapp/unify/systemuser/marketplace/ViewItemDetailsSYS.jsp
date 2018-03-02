@@ -224,9 +224,9 @@
                                         <ul class="list-inline mb-0">
                                             <li class="list-inline-item">
                                                 <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
-                                                <span class="price"><h5 class="mb-0"><%= itemNumOfLikes%>&nbsp;Like</h5></span>
+                                                <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;Like</h5></span>
                                                 <%  } else {%>
-                                                <span class="price"><h5 class="mb-0"><%= itemNumOfLikes%>&nbsp;Likes</h5></span>
+                                                <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;Likes</h5></span>
                                                 <%  }   %>
                                             </li>
                                         </ul>
@@ -242,7 +242,7 @@
                                             <button type="button" class="btn btn-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
                                             <%  }%>
-                                            <button type="button" class="btn btn-outline-theme" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
+                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
                                         </div>
                                     </td>
                                 </tr>

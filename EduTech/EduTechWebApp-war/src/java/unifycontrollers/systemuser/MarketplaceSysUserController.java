@@ -106,6 +106,10 @@ public class MarketplaceSysUserController extends HttpServlet {
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
+                case "likeItemListingDetails":
+                    long itemIDHid = Long.parseLong(request.getParameter("itemIDHid"));
+                    String usernameHid = request.getParameter("usernameHid");
+                    break;
                 case "goToViewItemDetailsModalSYS":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(itemID));
