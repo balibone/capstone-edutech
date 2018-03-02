@@ -1,7 +1,7 @@
 var center = L.bounds([1.56073, 104.11475], [1.16, 103.502]).getCenter();
 var map = L.map('mapdiv').setView([center.x, center.y], 12);
-var search_marker;
-    
+var search_marker, dataString;
+
 var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png', {
     detectRetina: true,
     maxZoom: 18,
@@ -13,21 +13,76 @@ var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
-    
+
     var tradeLocation = document.getElementById("tradeLocation").value;
     var tradeLatitude = document.getElementById("tradeLat").value;
     var tradeLongitude = document.getElementById("tradeLong").value;
 
     map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
     basemap.addTo(map);
-    
-    var pointerIcon = L.icon({ 
-        iconUrl: 'images/pointer.png', 
-        iconSize: [38, 40], 
-        iconAnchor: [22, 94], 
-        popupAnchor: [-3, -76] 
+
+    var pointerIcon = L.icon({
+        iconUrl: 'images/pointer.png',
+        iconSize: [38, 40],
+        iconAnchor: [22, 94],
+        popupAnchor: [-3, -76]
+    });
+
+    if (search_marker) { map.removeLayer(search_marker); }
+    search_marker = L.marker([tradeLatitude, tradeLongitude], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("Trade Location: " + tradeLocation);
+
+    $('#makeOfferBtn').qtip({
+        content: { title: { text: 'Enter Your Offer Price', button: true }, text: $('#offerTooltip') },
+        position: { at: 'top center', my: 'bottom center' },
+        style: { width: 250, height: 195 },
+        hide: { event: 'click', inactive: 10000 },
+        show: 'click'
     });
     
-    if(search_marker) { map.removeLayer(search_marker); }
-    search_marker = L.marker([tradeLatitude, tradeLongitude], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("Trade Location: " + tradeLocation);
+    $('#sendOfferBtn').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "MarketplaceSysUser",
+            data: { 
+                itemIDHidden: $('#itemIDHidden').val(),
+                usernameHidden: $('#usernameHidden').val(),
+                itemOfferPrice: $('#itemOfferPrice').val(),
+                itemOfferDescription: $('#itemOfferDescription').val(),
+                pageTransit: 'sendItemOfferPrice'
+            },
+            success: function(returnString) {
+                $('#successOfferResponse').hide();
+                $('#failedOfferResponse').hide();
+                if(returnString.endsWith("!")) { $('#successOfferResponse').text(returnString).show(); }
+                else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }
+            }
+        });
+    });
+    
+    $('#likeItemBtn').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "MarketplaceSysUser",
+            data: { 
+                itemIDHid: $('#itemIDHidden').val(),
+                usernameHid: $('#usernameHidden').val(),
+                pageTransit: 'likeItemListingDetails'
+            },
+            success: function(returnString) {
+                $('.likeCount').text("");
+                $('.likeCount').text(2);
+                if($('#likeItemBtn').hasClass('likeStatus')) {
+                    $('#likeItemBtn').removeClass('likeStatus');
+                    $('#likeItemBtn').addClass('noLikeStatus');
+                    $('#likeItemBtn').css('background-color', '#FFFFFF');
+                    $('#likeItemBtn').css('color', '#4D7496');
+                } else if($('#likeItemBtn').hasClass('noLikeStatus')) {
+                    $('#likeItemBtn').removeClass('noLikeStatus');
+                    $('#likeItemBtn').addClass('likeStatus');
+                    $('#likeItemBtn').css('background-color', '#4D7496');
+                    $('#likeItemBtn').css('color', '#FFFFFF');
+                }
+            }
+        });
+    });
 });

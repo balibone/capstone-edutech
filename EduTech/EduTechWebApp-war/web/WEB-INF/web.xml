@@ -161,17 +161,13 @@
         <jsp-file>/webapp/edutech/admin/semesters/EditSemester.jsp</jsp-file>
     </servlet>
 
-
-
-    <servlet><servlet-name>ContentAdmin</servlet-name><servlet-class>unifycontrollers.admin.ContentAdminController</servlet-class></servlet>
-    <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN (JSP) -->
-
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN (SERVLET) -->
     <servlet><servlet-name>ProfileAdmin</servlet-name><servlet-class>unifycontrollers.admin.UserProfileAdminController</servlet-class></servlet>
     <servlet><servlet-name>ErrandsAdmin</servlet-name><servlet-class>unifycontrollers.admin.ErrandsAdminController</servlet-class></servlet>
     <servlet><servlet-name>MarketplaceAdmin</servlet-name><servlet-class>unifycontrollers.admin.MarketplaceAdminController</servlet-class></servlet>
     <servlet><servlet-name>VoicesAdmin</servlet-name><servlet-class>unifycontrollers.admin.VoicesAdminController</servlet-class></servlet>
-
+    <servlet><servlet-name>ContentAdmin</servlet-name><servlet-class>unifycontrollers.admin.ContentAdminController</servlet-class></servlet>
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
     <servlet><servlet-name>ViewJobCategoryListing</servlet-name><jsp-file>/webapp/unify/admin/errands/ViewJobCategoryListing.jsp</jsp-file></servlet>
     <servlet><servlet-name>NewJobCategory</servlet-name><jsp-file>/webapp/unify/admin/errands/NewJobCategory.jsp</jsp-file></servlet>

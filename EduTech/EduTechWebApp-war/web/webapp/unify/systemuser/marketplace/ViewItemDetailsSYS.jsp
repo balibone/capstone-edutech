@@ -53,8 +53,7 @@
                     <div class="col">
                         <div class="d-flex justify-content-between">
                             <nav class="nav">
-                                <a class="nav-item nav-link d-none d-sm-block" href="#">Unify @ EduBox</a>
-                                <a class="nav-item nav-link d-none d-sm-block" href="#"><i class="fa fa-phone"></i> +123-456-789</a>
+                                <a class="nav-item nav-link d-sm-block" href="#">Unify @ EduBox</a>
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
@@ -67,11 +66,12 @@
                                         <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                     </a>
                                 </li>
-                                <li class="nav-item d-none d-md-block">
-                                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount" class="nav-link">
-                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;My Account
-                                    </a>
-                                </li>
+                                <select class="select-dropdown-nav accountNavigation" data-width="100px">
+                                    <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
+                                    <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
+                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
+                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                </select>
                             </ul>
                         </div>
                     </div>
@@ -149,7 +149,8 @@
             </div>
 
             <div class="container" style="margin-bottom: 30px;">
-                <%                    Vector itemDetailsSYSVec = (Vector) request.getAttribute("itemDetailsSYSVec");
+                <%
+                    Vector itemDetailsSYSVec = (Vector) request.getAttribute("itemDetailsSYSVec");
                     String itemID, itemName, itemCategoryName, itemPrice, itemCondition, itemDescription, itemImage, itemStatus, itemNumOfLikes;
                     itemID = itemName = itemCategoryName = itemPrice = itemCondition = itemDescription = itemImage = itemStatus = itemNumOfLikes = "";
 
@@ -223,9 +224,9 @@
                                         <ul class="list-inline mb-0">
                                             <li class="list-inline-item">
                                                 <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
-                                                <span class="price"><h5 class="mb-0"><%= itemNumOfLikes%>&nbsp;Like</h5></span>
+                                                <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;Like</h5></span>
                                                 <%  } else {%>
-                                                <span class="price"><h5 class="mb-0"><%= itemNumOfLikes%>&nbsp;Likes</h5></span>
+                                                <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;Likes</h5></span>
                                                 <%  }   %>
                                             </li>
                                         </ul>
@@ -241,7 +242,7 @@
                                             <button type="button" class="btn btn-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
                                             <%  }%>
-                                            <button type="button" class="btn btn-outline-theme" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
+                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -374,6 +375,17 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
+            
+            <div style="display:none;" id="offerTooltip">
+                Offer Price&nbsp;<span style="color:#FF0000;">*</span>:<br/>
+                <input type="text" id="itemOfferPrice" class="offerFields" placeholder="Please omit the $ for your item offer price" style="margin-bottom: 7px;" /><br/>
+                Buyer Comments:<br/>
+                <textarea rows="3" id="itemOfferDescription" class="offerFields" placeholder="e.g. Meetup Location, Open for Negotiation"></textarea><br/>
+                <button type="button" id="sendOfferBtn" style="margin:7px 0 7px 0;">Send Offer</button><br/>
+                <input type="hidden" id="itemIDHidden" value="<%= itemID%>" />
+                <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
+                <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
+            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -387,17 +399,5 @@
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/ViewItemDetailsSYSJS.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            $('#makeOfferBtn').qtip({
-                content: {
-                    title: { text: 'Make Item Offer', button: true },
-                    text: 'Enter your item offer here:<br/><input type="text" name="itemPriceOffer" style="margin-top:7px;width:100%;" /><br/><button type="button" id="sendOfferBtn" style="margin-top:7px;">Send Offer</button>'
-                },
-                position: { at: 'top center', my: 'bottom center' },
-                style: { width: 250, height: 125 },
-                hide: { event: 'click', inactive: 8000 },
-                show: 'click'
-            });
-        </script>
     </body>
 </html>

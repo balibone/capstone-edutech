@@ -30,6 +30,7 @@ public class MessageEntity implements Serializable {
     private String messageSenderID;
     private String messageReceiverID;
     private String messageContent;
+    private Long contentID;
     private String messageType;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -42,10 +43,21 @@ public class MessageEntity implements Serializable {
     public void creationDate() { this.messageDate = new Date(); }
     
     /* MISCELLANEOUS METHODS */
-    public void createSystemMessage(String messageSenderID, String messageReceiverID, String messageContent, String messageType) {
+    public void createSystemMessage(String messageSenderID, String messageReceiverID, 
+            String messageContent, String messageType) {
         this.messageSenderID = messageSenderID;
         this.messageReceiverID = messageReceiverID;
         this.messageContent = messageContent;
+        this.contentID = 0L;
+        this.messageType = messageType;
+    }
+    
+    public void createContentMessage(String messageSenderID, String messageReceiverID, 
+            String messageContent, long contentID, String messageType) {
+        this.messageSenderID = messageSenderID;
+        this.messageReceiverID = messageReceiverID;
+        this.messageContent = messageContent;
+        this.contentID = contentID;
         this.messageType = messageType;
     }
     
@@ -54,6 +66,7 @@ public class MessageEntity implements Serializable {
     public String getMessageSenderID() { return messageSenderID; }
     public String getMessageReceiverID() { return messageReceiverID; }
     public String getMessageContent() { return messageContent; }
+    public Long getContentID() { return contentID; }
     public String getMessageType() { return messageType; }
     public Date getMessageDate() { return messageDate; }
     public UserEntity getUserEntity() { return userEntity; }
@@ -63,6 +76,7 @@ public class MessageEntity implements Serializable {
     public void setMessageSenderID(String messageSenderID) { this.messageSenderID = messageSenderID; }
     public void setMessageReceiverID(String messageReceiverID) { this.messageReceiverID = messageReceiverID; }
     public void setMessageContent(String messageContent) { this.messageContent = messageContent; }
+    public void setContentID(Long contentID) { this.contentID = contentID; } 
     public void setMessageType(String messageType) { this.messageType = messageType; }
     public void setMessageDate(Date messageDate) { this.messageDate = messageDate; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
