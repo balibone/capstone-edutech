@@ -70,18 +70,16 @@ $(document).ready(function () {
             },
             success: function(returnString) {
                 $('.likeCount').text("");
-                $('.likeCount').text(2);
+                $('.likeCount').text(returnString);
                 if($('#likeItemBtn').hasClass('likeStatus')) {
                     $('#likeItemBtn').removeClass('likeStatus');
                     $('#likeItemBtn').addClass('noLikeStatus');
-                    $('#likeItemBtn').css('background-color', '#FFFFFF');
-                    $('#likeItemBtn').css('color', '#4D7496');
                 } else if($('#likeItemBtn').hasClass('noLikeStatus')) {
                     $('#likeItemBtn').removeClass('noLikeStatus');
                     $('#likeItemBtn').addClass('likeStatus');
-                    $('#likeItemBtn').css('background-color', '#4D7496');
-                    $('#likeItemBtn').css('color', '#FFFFFF');
                 }
+                if(returnString > 1) { $('.likeWording').text("Likes"); }
+                else { $('.likeWording').text("Like"); }
             }
         });
     });

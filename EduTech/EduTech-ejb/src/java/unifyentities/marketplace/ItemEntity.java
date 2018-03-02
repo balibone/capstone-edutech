@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,13 +25,15 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import unifyentities.common.CategoryEntity;
-import commoninfrastructureentities.UserEntity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
+
+import unifyentities.common.CategoryEntity;
+import unifyentities.common.LikeListingEntity;
 import unifyentities.common.TagEntity;
+import commoninfrastructureentities.UserEntity;
 
 @Entity(name = "Item")
 public class ItemEntity implements Serializable {
@@ -58,6 +61,8 @@ public class ItemEntity implements Serializable {
     private UserEntity userEntity;
     @OneToMany(mappedBy = "itemEntity")
     private Collection<ItemOfferEntity> itemOfferSet = new ArrayList<ItemOfferEntity>();
+    @OneToMany(mappedBy = "itemEntity")
+    private Collection<LikeListingEntity> likeListingSet = new ArrayList<LikeListingEntity>();
     @OneToMany(mappedBy = "itemEntity")
     private Collection<ItemReviewEntity> itemReviewSet = new ArrayList<ItemReviewEntity>();
     @OneToMany(mappedBy = "itemEntity")
@@ -103,6 +108,7 @@ public class ItemEntity implements Serializable {
     public CategoryEntity getCategoryEntity() { return categoryEntity; }
     public UserEntity getUserEntity() { return userEntity; }
     public Collection<ItemOfferEntity> getItemOfferSet() { return itemOfferSet; }
+    public Collection<LikeListingEntity> getLikeListingSet() { return likeListingSet; }
     public Collection<ItemReviewEntity> getItemReviewSet() { return itemReviewSet; }
     public Collection<ItemTransactionEntity> getItemTransactionSet() { return itemTransactionSet; }
     public Set<TagEntity> getTagSet() { return tagSet; }
@@ -125,6 +131,7 @@ public class ItemEntity implements Serializable {
     public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
     public void setItemOfferSet(Collection<ItemOfferEntity> itemOfferSet) { this.itemOfferSet = itemOfferSet; }
+    public void setLikeListingSet(Collection<LikeListingEntity> likeListingSet) { this.likeListingSet = likeListingSet; }
     public void setItemReviewSet(Collection<ItemReviewEntity> itemReviewSet) { this.itemReviewSet = itemReviewSet; }
     public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
     public void setTagSet(Set<TagEntity> tagSet) { this.tagSet = tagSet; }

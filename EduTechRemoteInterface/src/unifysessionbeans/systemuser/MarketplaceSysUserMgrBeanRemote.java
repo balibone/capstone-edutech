@@ -9,6 +9,7 @@ public interface MarketplaceSysUserMgrBeanRemote {
     public List<Vector> viewItemList();
     public List<Vector> viewAssocCategoryItemList(String hiddenCategoryName, long hiddenItemID);
     public Vector viewItemDetails(long itemID);
+    public Vector viewItemDetails(long itemID, String username);
     public String createItemListing(String itemName, double itemPrice, String itemCondition, 
             String itemDescription, String itemImagefileName, long categoryID, String username, 
             String tradeLocation, String tradeLat, String tradeLong, String tradeInformation);
@@ -19,5 +20,6 @@ public interface MarketplaceSysUserMgrBeanRemote {
     
     public String sendItemOfferPrice(long itemIDHidden, String usernameHidden, String itemOfferPrice, 
             String itemOfferDescription);
+    public String likeUnlikeItem(long itemIDHid, String usernameHid);
     public List<Vector> viewItemCategoryList();
 }

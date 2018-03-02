@@ -27,6 +27,7 @@ import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
 import unifyentities.marketplace.ItemEntity;
 import unifyentities.marketplace.ItemOfferEntity;
+import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import commoninfrastructureentities.UserEntity;
 
@@ -38,6 +39,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     private CategoryEntity cEntity;
     private ItemEntity iEntity;
     private ItemOfferEntity ioEntity;
+    private LikeListingEntity llEntity;
     private MessageEntity mEntity;
     private UserEntity uEntity;
     private UserEntity itemBuyerOfferEntity;
@@ -121,7 +123,38 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemDetailsVec.add(iEntity.getItemDescription());
             itemDetailsVec.add(iEntity.getItemImage());
             itemDetailsVec.add(iEntity.getItemStatus());
-            itemDetailsVec.add(iEntity.getItemNumOfLikes());
+            itemDetailsVec.add(getItemLikeCount(itemID));
+            itemDetailsVec.add(df.format(iEntity.getItemPostingDate()));
+            itemDetailsVec.add(iEntity.getTradeLocation());
+            itemDetailsVec.add(iEntity.getTradeLat());
+            itemDetailsVec.add(iEntity.getTradeLong());
+            itemDetailsVec.add(iEntity.getTradeInformation());
+            itemDetailsVec.add(iEntity.getUserEntity().getUsername());
+            itemDetailsVec.add(iEntity.getUserEntity().getImgFileName());
+            itemDetailsVec.add(df.format(iEntity.getUserEntity().getUserCreationDate()));
+            itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryID());
+            return itemDetailsVec;
+        }
+        return null;
+    }
+    
+    @Override
+    public Vector viewItemDetails(long itemID, String username) {
+        iEntity = lookupItem(itemID);
+        Vector itemDetailsVec = new Vector();
+
+        if (iEntity != null) {
+            itemDetailsVec.add(iEntity.getItemID());
+            itemDetailsVec.add(iEntity.getItemName());
+            itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryName());
+            itemDetailsVec.add(String.format ("%,.2f", iEntity.getItemPrice()));
+            itemDetailsVec.add(iEntity.getItemCondition());
+            itemDetailsVec.add(iEntity.getItemDescription());
+            itemDetailsVec.add(iEntity.getItemImage());
+            itemDetailsVec.add(iEntity.getItemStatus());
+            itemDetailsVec.add(getItemLikeCount(itemID));
+            if(lookupLike(itemID, username) == null) { itemDetailsVec.add(false);}
+            else { itemDetailsVec.add(true); }
             itemDetailsVec.add(df.format(iEntity.getItemPostingDate()));
             itemDetailsVec.add(iEntity.getTradeLocation());
             itemDetailsVec.add(iEntity.getTradeLat());
@@ -309,6 +342,53 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     }
     
     @Override
+    public String likeUnlikeItem(long itemIDHid, String usernameHid) {
+        if (lookupItem(itemIDHid) == null) { return "0"; }
+        else if(lookupUser(usernameHid) == null) { return "0"; }
+        else {
+            iEntity = lookupItem(itemIDHid);
+            uEntity = lookupUser(usernameHid);
+            if (lookupLike(itemIDHid, usernameHid) == null) {
+                llEntity = new LikeListingEntity();
+                if(llEntity.addNewLike("Marketplace")) {
+                    llEntity.setItemEntity(iEntity);
+                    llEntity.setUserEntity(uEntity);
+                    iEntity.getLikeListingSet().add(llEntity);
+                    uEntity.getLikeListingSet().add(llEntity);
+                    
+                    /* MESSAGE SENDER IS THE ITEM LIKER, MESSAGE RECEIVER IS THE ITEM SELLER */
+                    mEntity = new MessageEntity();
+                    mEntity.createContentMessage(uEntity.getUsername(), iEntity.getUserEntity().getUsername(), 
+                        uEntity.getUsername() + " likes your " + iEntity.getItemName() + ". Check it out!", 
+                        iEntity.getItemID(), "Marketplace");
+                    /* ITEM LIKER IS THE USERENTITY_USERNAME */
+                    mEntity.setUserEntity(uEntity);
+                    (iEntity.getUserEntity()).getMessageSet().add(mEntity);
+                    
+                    em.persist(llEntity);
+                    em.persist(mEntity);
+                    em.merge(iEntity);
+                    em.merge(uEntity);
+                }
+            } else {
+                llEntity = lookupLike(itemIDHid, usernameHid);
+                iEntity.getLikeListingSet().remove(llEntity);
+                uEntity.getLikeListingSet().remove(llEntity);
+                
+                mEntity = lookupContentMessage(itemIDHid, usernameHid);
+                (iEntity.getUserEntity()).getMessageSet().remove(mEntity);
+                
+                em.remove(llEntity);
+                em.remove(mEntity);
+                em.merge(uEntity);
+                em.flush();
+                em.clear();
+            }
+        }
+        return String.valueOf(getItemLikeCount(itemIDHid));
+    }
+    
+    @Override
     public List<Vector> viewItemCategoryList(){
         Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Marketplace' "
                 + "AND c.categoryActiveStatus = '1'");
@@ -402,6 +482,57 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             ioe = null;
         }
         return ioe;
+    }
+    
+    public LikeListingEntity lookupLike(long itemID, String username) {
+        LikeListingEntity lle = new LikeListingEntity();
+        try {
+            Query q = em.createQuery("SELECT l FROM LikeListing l WHERE l.itemEntity.itemID = :itemID AND l.userEntity.username = :username");
+            q.setParameter("itemID", itemID);
+            q.setParameter("username", username);
+            lle = (LikeListingEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Like cannot be found. " + enfe.getMessage());
+            em.remove(lle);
+            lle = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Like does not exist. " + nre.getMessage());
+            em.remove(lle);
+            lle = null;
+        }
+        return lle;
+    }
+    
+    public MessageEntity lookupContentMessage(long itemID, String username) {
+        MessageEntity me = new MessageEntity();
+        try {
+            Query q = em.createQuery("SELECT m FROM Message m WHERE m.contentID = :itemID AND m.userEntity.username = :username");
+            q.setParameter("itemID", itemID);
+            q.setParameter("username", username);
+            me = (MessageEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Content Message cannot be found. " + enfe.getMessage());
+            em.remove(me);
+            me = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Content Message does not exist. " + nre.getMessage());
+            em.remove(me);
+            me = null;
+        }
+        return me;
+    }
+    
+    public Long getItemLikeCount(long itemID) {
+        Long likeCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(l.likeID) FROM LikeListing l WHERE l.itemEntity.itemID = :itemID");
+        q.setParameter("itemID", itemID);
+        try {
+            likeCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in MarketplaceSysUserMgrBean.getItemLikeCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return likeCount;
     }
     
     public static boolean isNumeric(String strValue) {

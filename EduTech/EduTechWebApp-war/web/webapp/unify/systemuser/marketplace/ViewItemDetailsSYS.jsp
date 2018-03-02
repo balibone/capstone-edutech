@@ -66,7 +66,7 @@
                                         <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                     </a>
                                 </li>
-                                <select class="select-dropdown-nav accountNavigation" data-width="100px">
+                                <select class="select-dropdown-nav accountNavigation" data-width="110px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
                                     <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
@@ -151,8 +151,8 @@
             <div class="container" style="margin-bottom: 30px;">
                 <%
                     Vector itemDetailsSYSVec = (Vector) request.getAttribute("itemDetailsSYSVec");
-                    String itemID, itemName, itemCategoryName, itemPrice, itemCondition, itemDescription, itemImage, itemStatus, itemNumOfLikes;
-                    itemID = itemName = itemCategoryName = itemPrice = itemCondition = itemDescription = itemImage = itemStatus = itemNumOfLikes = "";
+                    String itemID, itemName, itemCategoryName, itemPrice, itemCondition, itemDescription, itemImage, itemStatus, itemNumOfLikes, itemLikeStatus;
+                    itemID = itemName = itemCategoryName = itemPrice = itemCondition = itemDescription = itemImage = itemStatus = itemNumOfLikes = itemLikeStatus = "";
 
                     String itemPostingDate, tradeLocation, tradeLat, tradeLong, tradeInformation, itemSellerID, itemSellerImage, itemSellerJoinDate;
                     itemPostingDate = tradeLocation = tradeLat = tradeLong = tradeInformation = itemSellerID = itemSellerImage = itemSellerJoinDate = "";
@@ -167,14 +167,16 @@
                         itemImage = (String) itemDetailsSYSVec.get(6);
                         itemStatus = (String) itemDetailsSYSVec.get(7);
                         itemNumOfLikes = (String.valueOf(itemDetailsSYSVec.get(8)));
-                        itemPostingDate = (String.valueOf(itemDetailsSYSVec.get(9)));
-                        tradeLocation = (String) itemDetailsSYSVec.get(10);
-                        tradeLat = (String) itemDetailsSYSVec.get(11);
-                        tradeLong = (String) itemDetailsSYSVec.get(12);
-                        tradeInformation = (String) itemDetailsSYSVec.get(13);
-                        itemSellerID = (String.valueOf(itemDetailsSYSVec.get(14)));
-                        itemSellerImage = (String) itemDetailsSYSVec.get(15);
-                        itemSellerJoinDate = (String.valueOf(itemDetailsSYSVec.get(16)));
+                        itemLikeStatus = (String.valueOf(itemDetailsSYSVec.get(9)));
+                        System.out.println("ITEM LIKE STATUS: " + itemLikeStatus);
+                        itemPostingDate = (String.valueOf(itemDetailsSYSVec.get(10)));
+                        tradeLocation = (String) itemDetailsSYSVec.get(11);
+                        tradeLat = (String) itemDetailsSYSVec.get(12);
+                        tradeLong = (String) itemDetailsSYSVec.get(13);
+                        tradeInformation = (String) itemDetailsSYSVec.get(14);
+                        itemSellerID = (String.valueOf(itemDetailsSYSVec.get(15)));
+                        itemSellerImage = (String) itemDetailsSYSVec.get(16);
+                        itemSellerJoinDate = (String.valueOf(itemDetailsSYSVec.get(17)));
                     }
                 %>
                 <div class="row">
@@ -224,9 +226,9 @@
                                         <ul class="list-inline mb-0">
                                             <li class="list-inline-item">
                                                 <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
-                                                <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;Like</h5></span>
+                                                <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;<span class="likeWording">Like</span></h5></span>
                                                 <%  } else {%>
-                                                <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;Likes</h5></span>
+                                                <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;<span class="likeWording">Likes</span></h5></span>
                                                 <%  }   %>
                                             </li>
                                         </ul>
@@ -242,7 +244,12 @@
                                             <button type="button" class="btn btn-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
                                             <%  }%>
+                                            <%  if(itemLikeStatus.equals("true")) {   %>
+                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
+                                            <%  } else if(itemLikeStatus.equals("false")) {    %>
                                             <button type="button" id="likeItemBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
+                                            <%  }   %>
+                                            
                                         </div>
                                     </td>
                                 </tr>
