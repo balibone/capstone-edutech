@@ -217,7 +217,7 @@
                                                 <td><%= tagName%></td>
                                                 <td><%= tagType%></td>
                                                 <td>
-                                                    <input type="button" value="Edit" class="btn btn-xs" style="margin-left: 4px" onclick="editTag(<%= i%>)" target="_blank" />
+                                                    <input type="button" value="Edit" class="btn btn-xs" style="margin-left: 4px" onclick="editTag(<%= tagID%>)" target="_blank" />
                                                     <button type="submit" style="margin-left: 3px" class="btn btn-xs">
                                                         <a href="ContentAdmin?pageTransit=deleteTag&tagID=<%= tagID%>" style="color: #333; text-decoration:none;"
                                                            onclick="return confirm('Confirm deletion of tag?')">Delete</a>

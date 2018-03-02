@@ -1,8 +1,6 @@
 function editTag(tagID) {
-    var table = document.getElementById("tagsList");
-    var tagEditID = table.rows.item(tagID+1).cells.item(0).innerHTML
     
-    $('iframe').attr('src', 'ContentAdmin?pageTransit=goToEditTag&tagID=' + tagEditID + '');
+    $('iframe').attr('src', 'ContentAdmin?pageTransit=goToEditTag&tagID=' + tagID + '');
     $('#editTag-iframe').iziModal('open', event);
 }
 
