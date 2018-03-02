@@ -81,9 +81,13 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;
                                 <%
-                                    if (reportStatus.equals("Resolved")) {
+                                    if (reportStatus.equals("Resolved (No Issue Found)")) {
                                 %>
-                                <td><span class="label label-success">Resolved</span></td>
+                                <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                <%
+                                    } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                %>
+                                <td><span class="label label-success">Resolved (Company Review Deleted)</span></td>
                                 <%
                                 } else {
                                 %>

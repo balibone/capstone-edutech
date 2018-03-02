@@ -76,7 +76,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;<%= reportStatus%></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;
+                                <%
+                                    if (reportStatus.equals("Resolved (No Issue Found)")) {
+                                %>
+                                <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                <%
+                                    } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                %>
+                                <td><span class="label label-success">Resolved (Errand Review Deleted)</span></td>
+                                <%
+                                } else {
+                                %>
+                                <td><span class="label label-warning">Unresolved</span></td>
+                                <%
+                                    }
+                                %>
+                            </label>
                         </div>
 
                         <div class="form-group">

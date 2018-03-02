@@ -80,9 +80,13 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;
                                 <%
-                                    if (reportStatus.equals("Resolved")) {
+                                    if (reportStatus.equals("Resolved (No Issue Found)")) {
                                 %>
-                                <td><span class="label label-success">Resolved</span></td>
+                                <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                <%
+                                    } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                %>
+                                <td><span class="label label-success">Resolved (Marketplace Item Deleted)</span></td>
                                 <%
                                 } else {
                                 %>
@@ -215,7 +219,7 @@
                         <%-- resolve and delete item --%>
                         <td>
                             <form action="ContentAdmin?pageTransit=goToAllReportedListing#marketplaceReport" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveDelistMarketplaceReportFromAllList"/>
+                                <input type="hidden" name="pageTransit" value="resolveDeleteMarketplaceReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <input type="hidden" name="reportedItemID" value="<%= reportedItemID%>" />
