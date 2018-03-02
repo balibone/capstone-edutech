@@ -53,13 +53,13 @@ public class CompanyEntity implements Serializable {
     public CompanyEntity() { this.setCompanyID(System.nanoTime()); }
 
     public boolean createCompany(String companyName, int companySize, String companyWebsite, String companyHQ, 
-            String companyDescription, String companyAddress, String fileName) {
+            String companyDescription, String companyAddress, String fileName, String companyStatus) {
         this.companyName = companyName;
         this.companyAverageRating = 0.00;
         this.companyImage = fileName;
         this.companyWebsite = companyWebsite;
         this.companyHQ = companyHQ;
-        this.companyStatus = "Active";
+        this.companyStatus = companyStatus;
         this.companyDescription = companyDescription;
         this.companyAddress = companyAddress;
         this.companySize = companySize;

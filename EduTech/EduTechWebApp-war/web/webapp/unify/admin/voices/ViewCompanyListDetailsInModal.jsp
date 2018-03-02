@@ -251,7 +251,7 @@
                                         <td><%= reviewRating%>&nbsp;(<i class="fa fa-thumbs-up"></i><%= reviewThumbsUp%>)</td>
                                         <td>
                                              <button type="submit" class="btn btn-danger btn-xs" id="deleteReview">
-                                                 <a href="VoicesAdmin?pageTransit=goToDeleteReviewInModal&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>&hiddenReviewID=<%= reviewID%>" 
+                                                 <a href="VoicesAdmin?pageTransit=goToDeleteReviewInModal&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>&hiddenReviewID=<%= reviewID%>&hiddenCategoryID=<%= request.getAttribute("urlCompanyCategoryID")%>" 
                                                     style="color:#FFFFFF;text-decoration:none;" onclick="return confirm('Are you sure to delete the review?')">Delete</a>
                                              </button>
                                         </td>

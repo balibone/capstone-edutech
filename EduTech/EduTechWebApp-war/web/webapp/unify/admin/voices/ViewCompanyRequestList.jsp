@@ -228,7 +228,8 @@
                                                 <td><%= requestIndustry%></td>
                                                 <td><%= requestComment%></td>
                                                 <td><span class="label label-warning"><%= requestStatus%></span></td>
-                                                <td><input type="button" value="Create" class="btn btn-xs" style="margin-left: 4px" onclick="addCompany(<%= i%>)" target="_blank" />
+                                                <td>
+                                                    <input type="button" value="Create" content="" class="btn btn-xs" style="margin-left: 4px" onclick="addCompany('<%= requestCompany%>')" target="_blank" />
                                                     <button type="submit" style="margin-left: 3px" class="btn btn-xs">
                                                         <a href="VoicesAdmin?pageTransit=rejectRequest&hiddenRequestCompany=<%= requestCompany%>&hiddenRequestPoster=<%= requestPoster%>" style="color: #333; text-decoration:none;"
                                                            onclick="return confirm('Are you sure to reject the request?')">Reject</a>

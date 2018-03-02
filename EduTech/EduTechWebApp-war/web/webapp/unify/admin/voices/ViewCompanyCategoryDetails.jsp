@@ -64,7 +64,23 @@
                 }
             }
         %>
-        <form id="companyCategoryDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_parent">
+        <%
+            String successMessage = (String) request.getAttribute("successMessage");
+            if (successMessage != null) {
+        %>
+            <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                <button type="button" class="close" id="closeSuccess">&times;</button><%= successMessage%>
+            </div>
+            <%  } %>
+            <%
+                String errorMessage = (String) request.getAttribute("errorMessage");
+                if (errorMessage != null) {
+            %>
+                    <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                        <button type="button" class="close" id="closeError">&times;</button><%= errorMessage%>
+                    </div>
+            <%  } %>
+        <form id="companyCategoryDetailsForm" action="VoicesAdmin" method="POST" enctype="multipart/form-data" target="_self">
             <table class="formFields" border="0">
                 <tr>
                     <td colspan="2" style="vertical-align: middle; text-align: right;">
@@ -82,7 +98,7 @@
                             <label for="file-upload" class="btn btn-default btn-sm btn-block" style="margin-top: 10px; width: 151px;">
                                 <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
                             </label>
-                            <input id="file-upload" name="itemImage" type="file" accept="image/*" required="required" onchange="javascript: previewImage(event)" />
+                            <input id="file-upload" name="categoryImage" type="file" accept="image/*" required="required" onchange="javascript: previewImage(event)" />
                         </div>
                     </td>
                     <td>
