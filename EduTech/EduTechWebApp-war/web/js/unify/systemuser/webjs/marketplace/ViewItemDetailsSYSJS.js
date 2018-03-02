@@ -34,8 +34,8 @@ $(document).ready(function () {
     $('#makeOfferBtn').qtip({
         content: { title: { text: 'Enter Your Offer Price', button: true }, text: $('#offerTooltip') },
         position: { at: 'top center', my: 'bottom center' },
-        style: { width: 225, height: 180 },
-        hide: { event: 'click', inactive: 8000 },
+        style: { width: 250, height: 195 },
+        hide: { event: 'click', inactive: 10000 },
         show: 'click'
     });
     
@@ -44,12 +44,15 @@ $(document).ready(function () {
             type: "POST",
             url: "MarketplaceSysUser",
             data: { 
-                itemOfferPrice: $("#itemOfferPrice").val(), 
-                itemOfferDescription: $("#itemOfferDescription").val(), 
-                itemIDHidden: $("#itemIDHidden").val(), 
-                pageTransit: 'sendItemOfferPrice' 
+                itemIDHidden: $("#itemIDHidden").val(),
+                usernameHidden: $("#usernameHidden").val(),
+                itemOfferPrice: $("#itemOfferPrice").val(),
+                itemOfferDescription: $("#itemOfferDescription").val(),
+                pageTransit: 'sendItemOfferPrice'
             },
             success: function(returnString) {
+                $('#successOfferResponse').hide();
+                $('#failedOfferResponse').hide();
                 if(returnString.endsWith("!")) { $('#successOfferResponse').text(returnString).show(); }
                 else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }
             }

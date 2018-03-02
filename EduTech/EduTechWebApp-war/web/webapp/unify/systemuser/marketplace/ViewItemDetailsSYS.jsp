@@ -149,7 +149,8 @@
             </div>
 
             <div class="container" style="margin-bottom: 30px;">
-                <%                    Vector itemDetailsSYSVec = (Vector) request.getAttribute("itemDetailsSYSVec");
+                <%
+                    Vector itemDetailsSYSVec = (Vector) request.getAttribute("itemDetailsSYSVec");
                     String itemID, itemName, itemCategoryName, itemPrice, itemCondition, itemDescription, itemImage, itemStatus, itemNumOfLikes;
                     itemID = itemName = itemCategoryName = itemPrice = itemCondition = itemDescription = itemImage = itemStatus = itemNumOfLikes = "";
 
@@ -376,10 +377,13 @@
             </a>
             
             <div style="display:none;" id="offerTooltip">
-                Offer Price:<br/><input type="text" id="itemOfferPrice" class="offerFields" style="margin-bottom: 7px;" /><br/>
-                Buyer Comments:<br/><textarea cols="3" id="itemOfferDescription" class="offerFields"></textarea><br/>
+                Offer Price&nbsp;<span style="color:#FF0000;">*</span>:<br/>
+                <input type="text" id="itemOfferPrice" class="offerFields" placeholder="Please omit the $ for your item offer price" style="margin-bottom: 7px;" /><br/>
+                Buyer Comments:<br/>
+                <textarea rows="3" id="itemOfferDescription" class="offerFields" placeholder="e.g. Meetup Location, Open for Negotiation"></textarea><br/>
                 <button type="button" id="sendOfferBtn" style="margin:7px 0 7px 0;">Send Offer</button><br/>
                 <input type="hidden" id="itemIDHidden" value="<%= itemID%>" />
+                <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
                 <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
             </div>
         </div>
