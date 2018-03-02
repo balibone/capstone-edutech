@@ -239,9 +239,13 @@
                                                             <td><%= reportedPosterID%></td>
                                                             <td><%= reportedReporterID%></td>
                                                             <%
-                                                                if (reportStatus.equals("Resolved")) {
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                               } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Errand Deleted)</span></td>
                                                             <%
                                                             } else {
                                                             %>
@@ -310,9 +314,13 @@
                                                             <td><%= reportedPosterID%></td>
                                                             <td><%= reportedReporterID%></td>
                                                             <%
-                                                                if (reportStatus.equals("Resolved")) {
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                               } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Errand Review Deleted)</span></td>
                                                             <%
                                                             } else {
                                                             %>
@@ -380,9 +388,13 @@
                                                             <td><%= reportedPosterID%></td>
                                                             <td><%= reportedReporterID%></td>
                                                             <%
-                                                                if (reportStatus.equals("Resolved")) {
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                               } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Marketplace Item Deleted)</span></td>
                                                             <%
                                                             } else {
                                                             %>
@@ -449,9 +461,13 @@
                                                             <td><%= reportedPosterID%></td>
                                                             <td><%= reportedReporterID%></td>
                                                             <%
-                                                                if (reportStatus.equals("Resolved")) {
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                               } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Company Review Deleted)</span></td>
                                                             <%
                                                             } else {
                                                             %>

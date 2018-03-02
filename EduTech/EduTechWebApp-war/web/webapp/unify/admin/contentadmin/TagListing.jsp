@@ -210,16 +210,18 @@
                                                         String tagID = String.valueOf(v.get(0));
                                                         String tagName = String.valueOf(v.get(1));
                                                         String tagType = String.valueOf(v.get(2));
-                                                        String tagRowIDEdit = "tagItemEdit" + tagID;
-                                                        String tagRowIDDelete = "tagItemDelete" + tagID;
+                                                        
                                             %>
                                             <tr>
                                                 <td><%= tagID%></td>
                                                 <td><%= tagName%></td>
                                                 <td><%= tagType%></td>
                                                 <td>
-                                                    <button id="<%= tagRowIDEdit%>">Edit</button>&nbsp;
-                                                    <button id="<%= tagRowIDDelete%>">Delete</button>
+                                                    <input type="button" value="Edit" class="btn btn-xs" style="margin-left: 4px" onclick="editTag(<%= i%>)" target="_blank" />
+                                                    <button type="submit" style="margin-left: 3px" class="btn btn-xs">
+                                                        <a href="ContentAdmin?pageTransit=deleteTag&tagID=<%= tagID%>" style="color: #333; text-decoration:none;"
+                                                           onclick="return confirm('Confirm deletion of tag?')">Delete</a>
+                                                    </button>
                                                 </td>
                                             </tr>
                                             <%      }   %>

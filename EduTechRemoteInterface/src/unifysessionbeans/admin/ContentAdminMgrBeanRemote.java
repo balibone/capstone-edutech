@@ -27,9 +27,10 @@ public interface ContentAdminMgrBeanRemote {
     //jobs related
     public List<Vector> viewReportedErrandsListing();
     public List<Vector> viewReportedErrandsListingDashboard();
-    public Vector viewErrandDetails(String errandReportID);
     public Vector viewErrandDetails2(String errandReportID);
     public String resolveErrand(String reportID);
+    public String resolveOnlyErrand(String reportID);
+    public String resolveDeleteErrand(String reportID);
     public String unresolveErrand(String reportID);
     public String deleteJob(String jobID);
     public Long getUnresolvedErrandsReportCount();
@@ -39,6 +40,8 @@ public interface ContentAdminMgrBeanRemote {
     public List<Vector> viewReportedErrandsReviewListingDashboard();
     public Vector viewErrandReviewDetails(String errandReviewReportID);
     public String resolveErrandReview(String reportReviewID);
+    public String resolveOnlyErrandReview(String reportReviewID);
+    public String resolveDeleteErrandReview(String reportReviewID);
     public String unresolveErrandReview(String reportReviewID);
     public String deleteJobReview(String jobReviewID);
     public Long getUnresolvedErrandsReviewReportCount();
@@ -48,6 +51,8 @@ public interface ContentAdminMgrBeanRemote {
     public List<Vector> viewReportedMarketplaceListingDashboard();
     public Vector viewMarketplaceDetails2(String marketplaceReportID);
     public String resolveMarketplace(String reportID);
+    public String resolveOnlyMarketplace(String reportID);
+    public String resolveDeleteMarketplace(String reportID);
     public String unresolveMarketplace(String reportID);
     public String deleteItem(String itemID);
     public String delistItem(String itemID);
@@ -56,9 +61,10 @@ public interface ContentAdminMgrBeanRemote {
     //company reviews related
     public List<Vector> viewReportedReviewListing();
     public List<Vector> viewReportedReviewListingDashboard();
-    public Vector viewReviewDetails(String reviewReportID);
     public Vector viewReviewDetails2(String reviewReportID);
     public String resolveReview(String reportID);
+    public String resolveOnlyReview(String reportID);
+    public String resolveDeleteReview(String reportID);
     public String unresolveReview(String reportID);
     public String deleteReview(String reviewID);
     public Long getUnresolvedCompanyReviewReportCount();

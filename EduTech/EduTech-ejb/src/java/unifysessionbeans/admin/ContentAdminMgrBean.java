@@ -240,6 +240,38 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
+    public String resolveOnlyMarketplace(String reportID) {
+        //boolean success = true;
+        try {
+            irEntity = lookupMarketplace(reportID);
+            irEntity.setItemReportStatus("Resolved (No Issue Found)");
+            irEntity.setItemReviewedDate();
+            em.merge(irEntity);
+            return "Item report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving item report";
+        }
+        //return success;
+    }
+    
+    @Override
+    public String resolveDeleteMarketplace(String reportID) {
+        //boolean success = true;
+        try {
+            irEntity = lookupMarketplace(reportID);
+            irEntity.setItemReportStatus("Resolved (Deleted)");
+            irEntity.setItemReviewedDate();
+            em.merge(irEntity);
+            return "Item report has been resolved and deleted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving item report";
+        }
+        //return success;
+    }
+    
+    @Override
     public String unresolveMarketplace(String reportID) {
         //boolean success = true;
         try {
@@ -260,7 +292,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM ItemReport i");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         for (Object o : q.getResultList()) {
             ItemReportEntity reportedE = (ItemReportEntity) o;
@@ -283,7 +315,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM ItemReport i ORDER BY i.itemReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         for (Object o : q.setMaxResults(3).getResultList()) {
             ItemReportEntity reportedE = (ItemReportEntity) o;
@@ -307,7 +339,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         System.out.println("Looked up marketplace");
         Vector marketplaceDetails = new Vector();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         if (irEntity != null) {
             marketplaceDetails.add(irEntity.getItemReportID());
@@ -368,7 +400,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM CompanyReviewReport i");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         for (Object o : q.getResultList()) {
             CompanyReviewReportEntity reportedE = (CompanyReviewReportEntity) o;
@@ -391,7 +423,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM CompanyReviewReport i ORDER BY i.reviewReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         for (Object o : q.setMaxResults(3).getResultList()) {
             CompanyReviewReportEntity reportedE = (CompanyReviewReportEntity) o;
@@ -409,32 +441,13 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         return reportedList;
     }
     
-    @Override
-    public Vector viewReviewDetails(String reviewReportID) {
-        crrEntity = lookupReportedReview(reviewReportID);
-        Vector reviewDetails = new Vector();
-
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
-
-        if (crrEntity != null) {
-            reviewDetails.add(crrEntity.getReviewReportID());
-            reviewDetails.add(crrEntity.getReviewReportStatus());
-            reviewDetails.add(crrEntity.getReviewReportDescription());
-            reviewDetails.add(df.format(crrEntity.getReviewReportDate()));
-            reviewDetails.add(crrEntity.getReviewID());
-            reviewDetails.add(crrEntity.getReviewPosterID());
-            reviewDetails.add(crrEntity.getReviewReporterID());
-            return reviewDetails;
-        }
-        return null;
-    }
-
+    
     @Override
     public Vector viewReviewDetails2(String reviewReportID) {
         crrEntity = lookupReportedReview(reviewReportID);
         Vector reviewReportDetails = new Vector();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         if (crrEntity != null) {
             //from reported review entity    
@@ -516,6 +529,38 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             return "Error resolving company review report";
         }
 //return success;
+    }
+    
+    @Override
+    public String resolveOnlyReview(String reportID) {
+
+                try {
+            crrEntity = lookupReportedReview(reportID);
+            crrEntity.setReviewReportStatus("Resolved (No Issue Found)");
+            crrEntity.setReviewReviewedDate();
+            em.merge(crrEntity);
+            return "Company review report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving company review report";
+        }
+
+    }
+    
+    @Override
+    public String resolveDeleteReview(String reportID) {
+
+                try {
+            crrEntity = lookupReportedReview(reportID);
+            crrEntity.setReviewReportStatus("Resolved (Deleted)");
+            crrEntity.setReviewReviewedDate();
+            em.merge(crrEntity);
+            return "Company review report has been resolved and deleted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving company review report";
+        }
+
     }
 
     @Override
@@ -678,7 +723,39 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         //return success;
     }
+    
+     @Override
+    public String resolveOnlyErrand(String reportID) {
 
+        try {
+            jrEntity = lookupReportedErrand(reportID);
+            jrEntity.setJobReportStatus("Resolved (No Issue Found)");
+            jrEntity.setJobReviewedDate();
+            em.merge(jrEntity);
+            return "Errand report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving errand report";
+        }
+        //return success;
+    }
+
+    @Override
+    public String resolveDeleteErrand(String reportID) {
+
+        try {
+            jrEntity = lookupReportedErrand(reportID);
+            jrEntity.setJobReportStatus("Resolved (Deleted)");
+            jrEntity.setJobReviewedDate();
+            em.merge(jrEntity);
+            return "Errand report has been resolved and deleted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving errand report";
+        }
+        //return success;
+    }
+    
     @Override
     public String unresolveErrand(String reportID) {
 
@@ -702,7 +779,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM JobReport i");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         for (Object o : q.getResultList()) {
             JobReportEntity reportedE = (JobReportEntity) o;
@@ -725,7 +802,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM JobReport i ORDER BY i.jobReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         for (Object o : q.setMaxResults(3).getResultList()) {
             JobReportEntity reportedE = (JobReportEntity) o;
@@ -743,32 +820,14 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         return reportedList;
     }
     
-    @Override
-    public Vector viewErrandDetails(String errandReportID) {
-        jrEntity = lookupReportedErrand(errandReportID);
-        Vector errandDetails = new Vector();
-
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
-
-        if (jrEntity != null) {
-            errandDetails.add(jrEntity.getJobReportID());
-            errandDetails.add(jrEntity.getJobReportStatus());
-            errandDetails.add(jrEntity.getJobReportDescription());
-            errandDetails.add(df.format(jrEntity.getJobReportDate()));
-            errandDetails.add(jrEntity.getJobID());
-            errandDetails.add(jrEntity.getJobPosterID());
-            errandDetails.add(jrEntity.getJobReporterID());
-            return errandDetails;
-        }
-        return null;
-    }
+    
 
     @Override
     public Vector viewErrandDetails2(String errandReportID) {
         jrEntity = lookupReportedErrand(errandReportID);
         Vector errandDetails = new Vector();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         if (jrEntity != null) {
             //from reported errand entity    
@@ -828,7 +887,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM JobReviewReport i");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         for (Object o : q.getResultList()) {
             JobReviewReportEntity reportedE = (JobReviewReportEntity) o;
@@ -851,7 +910,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM JobReviewReport i ORDER BY i.jobReviewReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         for (Object o : q.setMaxResults(3).getResultList()) {
             JobReviewReportEntity reportedE = (JobReviewReportEntity) o;
@@ -874,7 +933,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         jrrEntity = lookupReportedErrandReview(errandReviewReportID);
         Vector errandReviewDetails = new Vector();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         if (jrrEntity != null) {
             //from reported errand entity    
@@ -954,6 +1013,40 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
 
         //return success;
+    }
+    
+    @Override
+    public String resolveOnlyErrandReview(String reportID) {
+
+                try {
+            jrrEntity = lookupReportedErrandReview(reportID);
+            jrrEntity.setJobReviewReportStatus("Resolved (No Issue Found)");
+            jrrEntity.setJobReviewReviewedDate();
+            em.merge(jrrEntity);
+            return "Errand review report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving errand review report";
+        }
+
+        
+    }
+    
+    @Override
+    public String resolveDeleteErrandReview(String reportID) {
+
+                try {
+            jrrEntity = lookupReportedErrandReview(reportID);
+            jrrEntity.setJobReviewReportStatus("Resolved (Deleted)");
+            jrrEntity.setJobReviewReviewedDate();
+            em.merge(jrrEntity);
+            return "Errand review report has been resolved and deleted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving errand review report";
+        }
+
+        
     }
 
     @Override
@@ -1049,7 +1142,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM EventRequest i");
         List<Vector> requestList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy, hh:mm aaa");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 
         for (Object o : q.getResultList()) {
             EventRequestEntity requestE = (EventRequestEntity) o;
@@ -1074,7 +1167,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         erEntity = lookupRequestedEvent(requestID);
         Vector requestDetails = new Vector();
 
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy, hh:mm aaa");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
         //DateFormat df2 = new SimpleDateFormat("d MMMM yyyy");
 
         if (erEntity != null) {
@@ -1206,7 +1299,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     /* MISCELLANEOUS METHODS */
     public TagEntity lookupTag(String tagID) {
         TagEntity te = new TagEntity();
-        Long tagIDNum = Long.parseLong(tagID);
+        Long tagIDNum = Long.valueOf(tagID);
 
         try {
             Query q = em.createQuery("SELECT c FROM Tag c WHERE c.tagID = :tagID");
@@ -1229,8 +1322,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         //Long tagIDNum = Long.parseLong(tagID);
 
         try {
-            Query q = em.createQuery("SELECT c FROM Tag c WHERE c.tagName = :tagName AND c.tagType = :tagType");
-            q.setParameter("tagName", tagName);
+            Query q = em.createQuery("SELECT c FROM Tag c WHERE upper(c.tagName) = :tagName AND c.tagType = :tagType");
+            q.setParameter("tagName", tagName.toUpperCase());
             q.setParameter("tagType", tagType);
             te = (TagEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {

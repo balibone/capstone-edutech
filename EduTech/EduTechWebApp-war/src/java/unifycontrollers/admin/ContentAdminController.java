@@ -111,7 +111,7 @@ public class ContentAdminController extends HttpServlet {
                     pageAction = "ReportedMarketplaceListing";
                     break;
                 case "resolveMarketplaceReportFromAllList":
-                    if (updateMarketplaceReport(request)) {
+                    if (resolveOnlyMarketplaceReport(request)) {
                         request.setAttribute("successMessage", "Selected report has been set to <b>resolved</b>.");
                     } else {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
@@ -146,7 +146,7 @@ public class ContentAdminController extends HttpServlet {
                     break;
                 case "resolveDeleteMarketplaceReportFromAllList":
                     String deleteItemID2 = request.getParameter("reportedItemID");
-                    if (updateMarketplaceReport(request)) {
+                    if (resolveDeleteMarketplaceReport(request)) {
                         responseMessage = camr.deleteItem(deleteItemID2);
                         if (responseMessage.endsWith("!")) {
                             request.setAttribute("successMessage", responseMessage);
@@ -207,7 +207,7 @@ public class ContentAdminController extends HttpServlet {
                     pageAction = "ReportedErrandsListing";
                     break;
                 case "resolveErrandReportFromAllList":
-                    if (updateErrandReport(request)) {
+                    if (resolveOnlyErrandReport(request)) {
                         request.setAttribute("successMessage", "Selected report has been set to <b>resolved</b>.");
                     } else {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
@@ -243,7 +243,7 @@ public class ContentAdminController extends HttpServlet {
                     break;
                 case "resolveDeleteErrandReportFromAllList":
                     String deleteJobID2 = request.getParameter("reportedErrandID");
-                    if (updateErrandReport(request)) {
+                    if (resolveDeleteErrandReport(request)) {
                         responseMessage = camr.deleteJob(deleteJobID2);
                         if (responseMessage.endsWith("!")) {
                             request.setAttribute("successMessage", responseMessage);
@@ -272,11 +272,6 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("unresolvedErrandsReportCount", camr.getUnresolvedErrandsReportCount());
                     request.setAttribute("resolvedErrandsReportCount", camr.getResolvedErrandsReportCount());
                     pageAction = "ReportedErrandsListing";
-                    break;
-                case "goToReportedErrandDetails":
-                    String errandReportIDView = request.getParameter("errandView");
-                    request.setAttribute("reportedErrandsVec", camr.viewErrandDetails(errandReportIDView));
-                    pageAction = "ReportedErrandDetails";
                     break;
                 case "goToReportedErrandDetails2":
                     String errandReportIDView2 = request.getParameter("errandView");
@@ -322,7 +317,7 @@ public class ContentAdminController extends HttpServlet {
                     pageAction = "ReportedErrandsReviewListing";
                     break;
                 case "resolveErrandReviewReportFromAllList":
-                    if (updateErrandReviewReport(request)) {
+                    if (resolveOnlyErrandReviewReport(request)) {
                         request.setAttribute("successMessage", "Selected report has been set to <b>resolved</b>.");
                     } else {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
@@ -357,7 +352,7 @@ public class ContentAdminController extends HttpServlet {
                     break;
                 case "resolveDeleteErrandReviewReportFromAllList":
                     String deleteJobReviewID2 = request.getParameter("reportedErrandID");
-                    if (updateErrandReviewReport(request)) {
+                    if (resolveDeleteErrandReviewReport(request)) {
                         responseMessage = camr.deleteJobReview(deleteJobReviewID2);
                         if (responseMessage.endsWith("!")) {
                             request.setAttribute("successMessage", responseMessage);
@@ -392,11 +387,6 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("resolvedCompanyReviewReportCount", camr.getResolvedCompanyReviewReportCount());
                     pageAction = "ReportedReviewListing";
                     break;
-                case "goToReportedReviewDetails":
-                    String reviewReportIDView = request.getParameter("reviewView");
-                    request.setAttribute("reportedReviewVec", camr.viewReviewDetails(reviewReportIDView));
-                    pageAction = "ReportedReviewDetails";
-                    break;
                 case "goToReportedReviewDetails2":
                     String reviewReportIDView2 = request.getParameter("reviewView");
                     request.setAttribute("reportedReviewVec", camr.viewReviewDetails2(reviewReportIDView2));
@@ -419,7 +409,7 @@ public class ContentAdminController extends HttpServlet {
                     pageAction = "ReportedReviewListing";
                     break;
                 case "resolveReviewReportFromAllList":
-                    if (updateReviewReport(request)) {
+                    if (resolveOnlyReviewReport(request)) {
                         request.setAttribute("successMessage", "Selected report has been set to <b>resolved</b>.");
                     } else {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
@@ -454,7 +444,7 @@ public class ContentAdminController extends HttpServlet {
                     break;
                 case "resolveDeleteReviewReportFromAllList":
                     String deleteReviewID2 = request.getParameter("reportedReviewID");
-                    if (updateReviewReport(request)) {
+                    if (resolveDeleteReviewReport(request)) {
                         responseMessage = camr.deleteReview(deleteReviewID2);
                         if (responseMessage.endsWith("!")) {
                             request.setAttribute("successMessage", responseMessage);
@@ -605,6 +595,46 @@ public class ContentAdminController extends HttpServlet {
 
         return reportUpdateStatus;
     }
+    
+    private boolean resolveOnlyErrandReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+        
+         try {
+            responseMessage = camr.resolveOnlyErrand(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            //camr.resolveErrand(reportStatusUpdate);
+            reportUpdateStatus = true;
+        } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving only errand report. ");
+        }
+         return reportUpdateStatus;
+    }
+    
+    private boolean resolveDeleteErrandReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+        
+         try {
+            responseMessage = camr.resolveDeleteErrand(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            //camr.resolveErrand(reportStatusUpdate);
+            reportUpdateStatus = true;
+        } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving only errand report. ");
+        }
+         return reportUpdateStatus;
+    }
 
     private boolean updateErrandReviewReport(HttpServletRequest request) {
         boolean reportUpdateStatus = false;
@@ -634,6 +664,48 @@ public class ContentAdminController extends HttpServlet {
 
         return reportUpdateStatus;
     }
+    
+    private boolean resolveOnlyErrandReviewReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+        
+
+        try {
+            responseMessage = camr.resolveOnlyErrandReview(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            reportUpdateStatus = true;
+        
+       } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving only errand review report. ");
+        }
+         return reportUpdateStatus;
+    }
+    
+    private boolean resolveDeleteErrandReviewReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+        
+
+        try {
+            responseMessage = camr.resolveDeleteErrandReview(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            reportUpdateStatus = true;
+        
+       } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving only errand review report. ");
+        }
+         return reportUpdateStatus;
+    }
 
     private boolean updateMarketplaceReport(HttpServletRequest request) {
         boolean reportUpdateStatus = false;
@@ -659,6 +731,46 @@ public class ContentAdminController extends HttpServlet {
                 request.setAttribute("errorMessage", responseMessage);
             }
             reportUpdateStatus = true;
+        }
+
+        return reportUpdateStatus;
+    }
+
+    private boolean resolveOnlyMarketplaceReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+
+        try {
+            responseMessage = camr.resolveOnlyMarketplace(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            reportUpdateStatus = true;
+        } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving only marketplace item report. ");
+        }
+
+        return reportUpdateStatus;
+    }
+    
+    private boolean resolveDeleteMarketplaceReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+
+        try {
+            responseMessage = camr.resolveDeleteMarketplace(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            reportUpdateStatus = true;
+        } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving only marketplace item. ");
         }
 
         return reportUpdateStatus;
@@ -693,6 +805,46 @@ public class ContentAdminController extends HttpServlet {
         return reportUpdateStatus;
     }
 
+    private boolean resolveOnlyReviewReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+       
+       try {
+            responseMessage = camr.resolveOnlyReview(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            reportUpdateStatus = true;
+        } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving only review report. ");
+        }
+
+        return reportUpdateStatus;
+    }
+    
+    private boolean resolveDeleteReviewReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+       
+       try {
+            responseMessage = camr.resolveDeleteReview(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            reportUpdateStatus = true;
+        } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving only review report. ");
+        }
+
+        return reportUpdateStatus;
+    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
