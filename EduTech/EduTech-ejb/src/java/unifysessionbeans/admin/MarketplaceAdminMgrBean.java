@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import unifyentities.marketplace.ItemEntity;
 import unifyentities.marketplace.ItemReviewEntity;
@@ -34,7 +36,7 @@ import unifyentities.common.MessageEntity;
 public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     @PersistenceContext
     private EntityManager em;
-
+    
     private CategoryEntity cEntity;
     private ItemEntity iEntity;
     private MessageEntity mEntity;
@@ -43,7 +45,8 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     private Collection<ItemEntity> itemSet;
     private Collection<ItemTransactionEntity> itemTransactionSet;
     private Collection<ItemReviewEntity> itemReviewSet;
-
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    
     @Override
     public List<Vector> viewItemCategoryList() {
         Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Marketplace'");
@@ -95,7 +98,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
                     itemDetails.add(ie.getItemImage());
                     itemDetails.add(ie.getItemName());
                     itemDetails.add(ie.getUserEntity().getUsername());
-                    itemDetails.add(ie.getItemPrice());
+                    itemDetails.add(String.format ("%,.2f", ie.getItemPrice()));
                     itemDetails.add(ie.getItemStatus());
                     itemList.add(itemDetails);
                 }
@@ -112,7 +115,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
                     itemVec.add(itemE.getItemImage());
                     itemVec.add(itemE.getItemName());
                     itemVec.add(itemE.getUserEntity().getUsername());
-                    itemVec.add(itemE.getItemPrice());
+                    itemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
                     itemVec.add(itemE.getItemStatus());
                     itemList.add(itemVec);
                 }
@@ -232,7 +235,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             itemVec.add(itemE.getItemName());
             itemVec.add(itemE.getCategoryEntity().getCategoryName());
             itemVec.add(itemE.getUserEntity().getUsername());
-            itemVec.add(itemE.getItemPrice());
+            itemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
             itemVec.add(itemE.getItemStatus());
             itemList.add(itemVec);
         }
@@ -249,12 +252,12 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             itemDetailsVec.add(iEntity.getItemName());
             itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryName());
             itemDetailsVec.add(iEntity.getUserEntity().getUsername());
-            itemDetailsVec.add(iEntity.getItemPrice());
+            itemDetailsVec.add(String.format ("%,.2f", iEntity.getItemPrice()));
             itemDetailsVec.add(iEntity.getItemCondition());
             itemDetailsVec.add(iEntity.getItemDescription());
             itemDetailsVec.add(iEntity.getItemStatus());
             itemDetailsVec.add(iEntity.getItemNumOfLikes());
-            itemDetailsVec.add(iEntity.getItemPostingDate());
+            itemDetailsVec.add(df.format(iEntity.getItemPostingDate()));
             itemDetailsVec.add(iEntity.getTradeLocation());
             itemDetailsVec.add(iEntity.getTradeLat());
             itemDetailsVec.add(iEntity.getTradeLong());
@@ -274,12 +277,12 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             if (!itemTransactionSet.isEmpty()) {
                 for (ItemTransactionEntity ite : itemTransactionSet) {
                     Vector itemTransDetails = new Vector();
-                    itemTransDetails.add(ite.getItemTransactionDate());
+                    itemTransDetails.add(df.format(ite.getItemTransactionDate()));
                     /* WE ASSUME THAT THE ITEM SELLER IS THE ONE WHO CREATES THE TRANSACTION */
                     itemTransDetails.add(ite.getUserEntity().getUsername());
                     itemTransDetails.add(ite.getItemBuyerID());
-                    itemTransDetails.add(ite.getItemEntity().getItemPrice());
-                    itemTransDetails.add(ite.getItemTransactionPrice());
+                    itemTransDetails.add(String.format ("%,.2f", ite.getItemEntity().getItemPrice()));
+                    itemTransDetails.add(String.format ("%,.2f", ite.getItemTransactionPrice()));
                     itemTransList.add(itemTransDetails);
                 }
             } else {
@@ -290,12 +293,12 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
                     ItemTransactionEntity itemTransE = (ItemTransactionEntity) o;
                     Vector itemTransVec = new Vector();
 
-                    itemTransVec.add(itemTransE.getItemTransactionDate());
+                    itemTransVec.add(df.format(itemTransE.getItemTransactionDate()));
                     /* WE ASSUME THAT THE ITEM SELLER IS THE ONE WHO CREATES THE TRANSACTION */
                     itemTransVec.add(itemTransE.getUserEntity().getUsername());
                     itemTransVec.add(itemTransE.getItemBuyerID());
-                    itemTransVec.add(itemTransE.getItemEntity().getItemPrice());
-                    itemTransVec.add(itemTransE.getItemTransactionPrice());
+                    itemTransVec.add(String.format ("%,.2f", itemTransE.getItemEntity().getItemPrice()));
+                    itemTransVec.add(String.format ("%,.2f", itemTransE.getItemTransactionPrice()));
                     itemTransList.add(itemTransVec);
                 }
             }
@@ -313,7 +316,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             if (!itemReviewSet.isEmpty()) {
                 for (ItemReviewEntity ire : itemReviewSet) {
                     Vector itemReviewDetails = new Vector();
-                    itemReviewDetails.add(ire.getItemReviewDate());
+                    itemReviewDetails.add(df.format(ire.getItemReviewDate()));
                     itemReviewDetails.add(ire.getUserEntity().getUsername());
                     itemReviewDetails.add(ire.getItemReceiverID());
                     itemReviewDetails.add(ire.getItemReviewRating());
@@ -328,7 +331,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
                     ItemReviewEntity itemReviewE = (ItemReviewEntity) o;
                     Vector itemReviewVec = new Vector();
 
-                    itemReviewVec.add(itemReviewE.getItemReviewDate());
+                    itemReviewVec.add(df.format(itemReviewE.getItemReviewDate()));
                     itemReviewVec.add(itemReviewE.getUserEntity().getUsername());
                     itemReviewVec.add(itemReviewE.getItemReceiverID());
                     itemReviewVec.add(itemReviewE.getItemReviewRating());
@@ -367,12 +370,12 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             Vector itemTransVec = new Vector();
 
             itemTransVec.add(itemTransE.getItemEntity().getItemID());
-            itemTransVec.add(itemTransE.getItemTransactionDate());
+            itemTransVec.add(df.format(itemTransE.getItemTransactionDate()));
             /* WE ASSUME THAT THE ITEM SELLER IS THE ONE WHO CREATES THE TRANSACTION */
             itemTransVec.add(itemTransE.getUserEntity().getUsername());
             itemTransVec.add(itemTransE.getItemBuyerID());
-            itemTransVec.add(itemTransE.getItemEntity().getItemPrice());
-            itemTransVec.add(itemTransE.getItemTransactionPrice());
+            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemEntity().getItemPrice()));
+            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemTransactionPrice()));
             itemTransList.add(itemTransVec);
         }
         return itemTransList;
@@ -493,12 +496,12 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             Vector itemTransVec = new Vector();
 
             itemTransVec.add(itemTransE.getItemEntity().getItemID());
-            itemTransVec.add(itemTransE.getItemTransactionDate());
+            itemTransVec.add(df.format(itemTransE.getItemTransactionDate()));
             /* WE ASSUME THAT THE ITEM SELLER IS THE ONE WHO CREATES THE TRANSACTION */
             itemTransVec.add(itemTransE.getUserEntity().getUsername());
             itemTransVec.add(itemTransE.getItemBuyerID());
-            itemTransVec.add(itemTransE.getItemEntity().getItemPrice());
-            itemTransVec.add(itemTransE.getItemTransactionPrice());
+            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemEntity().getItemPrice()));
+            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemTransactionPrice()));
             userItemTransList.add(itemTransVec);
         }
         return userItemTransList;
@@ -521,7 +524,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
                     itemDetails.add(ie.getItemName());
                     itemDetails.add(ie.getCategoryEntity().getCategoryName());
                     itemDetails.add(ie.getUserEntity().getUsername());
-                    itemDetails.add(ie.getItemPrice());
+                    itemDetails.add(String.format ("%,.2f", ie.getItemPrice()));
                     itemDetails.add(ie.getItemStatus());
                     userItemList.add(itemDetails);
                 }
@@ -538,7 +541,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
                     itemVec.add(itemE.getItemImage());
                     itemVec.add(itemE.getItemName());
                     itemVec.add(itemE.getUserEntity().getUsername());
-                    itemVec.add(itemE.getItemPrice());
+                    itemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
                     itemVec.add(itemE.getItemStatus());
                     userItemList.add(itemVec);
                 }
@@ -560,12 +563,12 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             Vector itemTransVec = new Vector();
 
             itemTransVec.add(itemTransE.getItemEntity().getItemID());
-            itemTransVec.add(itemTransE.getItemTransactionDate());
+            itemTransVec.add(df.format(itemTransE.getItemTransactionDate()));
             /* WE ASSUME THAT THE ITEM SELLER IS THE ONE WHO CREATES THE TRANSACTION */
             itemTransVec.add(itemTransE.getUserEntity().getUsername());
             itemTransVec.add(itemTransE.getItemBuyerID());
-            itemTransVec.add(itemTransE.getItemEntity().getItemPrice());
-            itemTransVec.add(itemTransE.getItemTransactionPrice());
+            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemEntity().getItemPrice()));
+            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemTransactionPrice()));
             userItemTransList.add(itemTransVec);
         }
         return userItemTransList;
