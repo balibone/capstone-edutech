@@ -1,3 +1,12 @@
+function editTag(tagID) {
+    var table = document.getElementById("tagsList");
+    var tagEditID = table.rows.item(tagID+1).cells.item(0).innerHTML
+    
+    $('iframe').attr('src', 'ContentAdmin?pageTransit=goToEditTag&tagID=' + tagEditID + '');
+    $('#editTag-iframe').iziModal('open', event);
+}
+
+
 $(document).ready(function () {
     $('#newTag').on('click', function () {
         $('iframe').attr('src', 'ContentAdmin?pageTransit=goToNewTag');
@@ -16,19 +25,7 @@ $(document).ready(function () {
         iframeHeight: 200
     });
 
-    $('button').on('click', function () {
-        var tagID = this.id;
-        if (tagID.includes("Edit")) {
-            var tagEditID = tagID.replace("tagItemEdit", "");
-            $('iframe').attr('src', 'ContentAdmin?pageTransit=goToEditTag&tagID=' + tagEditID + '');
-            $('#editTag-iframe').iziModal('open', event);
-        } else if (tagID.includes("Delete")) {
-            if (window.confirm("Confirm deletion of tag?")) {
-                var tagDeleteID = tagID.replace("tagItemDelete", "");
-                $(location).attr('href', 'ContentAdmin?pageTransit=deleteTag&tagID=' + tagDeleteID + '');
-            }
-        }
-    });
+    
     
     $('#editTag-iframe').iziModal({
         title: 'Edit Tag',

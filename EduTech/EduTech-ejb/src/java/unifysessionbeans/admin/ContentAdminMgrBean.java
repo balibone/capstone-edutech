@@ -1299,7 +1299,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     /* MISCELLANEOUS METHODS */
     public TagEntity lookupTag(String tagID) {
         TagEntity te = new TagEntity();
-        Long tagIDNum = Long.parseLong(tagID);
+        Long tagIDNum = Long.valueOf(tagID);
 
         try {
             Query q = em.createQuery("SELECT c FROM Tag c WHERE c.tagID = :tagID");
