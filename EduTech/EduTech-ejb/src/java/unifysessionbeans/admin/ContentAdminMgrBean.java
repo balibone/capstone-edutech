@@ -1322,8 +1322,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         //Long tagIDNum = Long.parseLong(tagID);
 
         try {
-            Query q = em.createQuery("SELECT c FROM Tag c WHERE c.tagName = :tagName AND c.tagType = :tagType");
-            q.setParameter("tagName", tagName);
+            Query q = em.createQuery("SELECT c FROM Tag c WHERE upper(c.tagName) = :tagName AND c.tagType = :tagType");
+            q.setParameter("tagName", tagName.toUpperCase());
             q.setParameter("tagType", tagType);
             te = (TagEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {
