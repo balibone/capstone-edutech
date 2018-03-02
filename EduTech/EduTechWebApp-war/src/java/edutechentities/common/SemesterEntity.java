@@ -7,6 +7,7 @@ package edutechentities.common;
 
 import edutechentities.module.ModuleEntity;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -32,15 +33,13 @@ public class SemesterEntity implements Serializable {
     //private Collection<ScheduleEntity> keyEvents;
     @OneToMany(mappedBy = "semester")
     private List<ModuleEntity> modules;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public SemesterEntity() {
     }
 
-    public SemesterEntity(String title, Date startDate, Date endDate) {
+    public SemesterEntity(String title, LocalDate startDate, LocalDate endDate) {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -52,7 +51,6 @@ public class SemesterEntity implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-    @XmlTransient
     public List<ModuleEntity> getModules() {
         return modules;
     }
@@ -65,16 +63,16 @@ public class SemesterEntity implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
     

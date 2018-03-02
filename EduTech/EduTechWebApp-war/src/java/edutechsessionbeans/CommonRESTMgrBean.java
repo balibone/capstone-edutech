@@ -13,8 +13,10 @@ import edutechentities.group.GroupEntity;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.common.SemesterEntity;
 import edutechentities.common.TaskEntity;
+import edutechentities.module.ModuleEntity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -121,6 +123,7 @@ public class CommonRESTMgrBean {
     
     public List<ScheduleItemEntity> findUserScheduleItems(String username) {
         UserEntity user = em.find(UserEntity.class, username);
+        // store all schedule items for this user. 
         List<ScheduleItemEntity> userScheduleItems = new ArrayList();
         List<ScheduleItemEntity> allScheduleItems = em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
         for(ScheduleItemEntity scheduleItem: allScheduleItems){
@@ -128,6 +131,35 @@ public class CommonRESTMgrBean {
                 userScheduleItems.add(scheduleItem);
             }
         }
+        //GET CURRENT SEMESTER
+        List<SemesterEntity> sems = em.createQuery("SELECT s FROM Semester s").getResultList();
+        LocalDate currDate = LocalDate.now();
+        SemesterEntity currSem = null;
+        for(SemesterEntity sem : sems){
+            LocalDate startDate = sem.getStartDate();
+            LocalDate endDate = sem.getEndDate();
+            //if semester starts before or on today's date and end after or on today's date, then it is current semester
+            //ASSUMPTION : there are no 2 sems with overlapping dates.
+            if( (startDate.isBefore(currDate) || endDate.isEqual(currDate)) && (endDate.isAfter(currDate) || endDate.isEqual(currDate)) ){
+                currSem = sem;
+            }
+        }
+        //GET ALL RECURRING EVENTS OF THIS USER
+        List<RecurringEventEntity> allRecurringEvents = new ArrayList();
+        List<ModuleEntity> mods = em.createQuery("SELECT m FROM Module m").getResultList();
+        //For all modules which the user is in, get the recurring events and add in to his list of recurring events. 
+        for(ModuleEntity mod: mods){
+            if(mod.getMembers().contains(user)){
+                allRecurringEvents.addAll(mod.getRecurringEvents());
+            }
+        }
+        //convert recurring event to schedule item here, by checking against currSem's start date and end date.
+        /*
+        Create 1st schedule item on the first DayOfWeek on or after the sem start date. 
+        Subsequently create one event every week (+7 days), and stop when end date of latest created schedule item 
+        overshoots sem end date. 
+        */
+        
         return userScheduleItems;
     }
     
