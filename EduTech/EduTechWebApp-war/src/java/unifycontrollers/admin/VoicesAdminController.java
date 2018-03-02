@@ -108,11 +108,11 @@ public class VoicesAdminController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("activeCompanyCategoryListCount", vamr.getActiveCompanyCategoryListCount());
-                    request.setAttribute("inactiveCompanyCategoryListCount", vamr.getInactiveCompanyCategoryListCount());
-                    request.setAttribute("companyListingCount", vamr.getCompanyListingCount());
-                    request.setAttribute("companyCategoryList", (ArrayList) vamr.viewCompanyCategoryList());
-                    pageAction = "ViewCompanyCategoryList";
+                    long updateCompanyCategoryID = Long.parseLong(request.getParameter("hiddenCompanyCategoryID"));
+                    request.setAttribute("urlCompanyCategoryID", updateCompanyCategoryID);
+                    request.setAttribute("companyCategoryDetailsVec", vamr.viewCompanyCategoryDetails(updateCompanyCategoryID));
+                    request.setAttribute("associatedCompanyList", (ArrayList) vamr.viewAssociatedCompanyList(updateCompanyCategoryID));
+                    pageAction = "ViewCompanyCategoryDetails";
                     break;
                 case "goToViewCompanyList":
                     request.setAttribute("activeCompanyListingCount", vamr.getActiveCompanyListingCount());
@@ -138,7 +138,6 @@ public class VoicesAdminController extends HttpServlet {
                     long companyCategoryID = Long.parseLong(request.getParameter("companyCategoryID"));
                     request.setAttribute("companyCategoryID", companyCategoryID);
                     request.setAttribute("requestCompanyIndustry", request.getParameter("categoryName"));
-                    System.out.println(request.getParameter("categoryName"));
                     pageAction = "NewCompanyInModal";
                     break;
                 case "createCompanyInModal":
@@ -174,10 +173,9 @@ public class VoicesAdminController extends HttpServlet {
                 case "goToViewCompanyListDetailsInModal":
                     request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
                     long hidCompanyID = Long.parseLong(request.getParameter("companyID"));
-                    request.setAttribute("urlCompanyID", hidCompanyID);
                     long hidCompanyCategoryID = Long.parseLong(request.getParameter("companyCategoryID"));
+                    request.setAttribute("urlCompanyID", hidCompanyID);
                     request.setAttribute("urlCompanyCategoryID", hidCompanyCategoryID);
-                    
                     request.setAttribute("companyDetailsVec", vamr.viewCompanyDetails(hidCompanyID));
                     request.setAttribute("companyReviewList", (ArrayList) vamr.viewAssociatedReviewList(hidCompanyID));
                     pageAction = "ViewCompanyListDetailsInModal";
@@ -196,12 +194,14 @@ public class VoicesAdminController extends HttpServlet {
                     break;
                 case "deactivateACompanyInModal":
                     long deactCompanyIDInModal = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    long deactCategoryIDInModal = Long.parseLong(request.getParameter("hiddenCategoryID"));
                     responseMessage = vamr.deactivateACompany(deactCompanyIDInModal);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
                     request.setAttribute("urlCompanyID", deactCompanyIDInModal);
+                    request.setAttribute("urlCompanyCategoryID", deactCategoryIDInModal);
                     request.setAttribute("companyDetailsVec", vamr.viewCompanyDetails(deactCompanyIDInModal));
                     request.setAttribute("companyReviewList", (ArrayList) vamr.viewAssociatedReviewList(deactCompanyIDInModal));
                     pageAction = "ViewCompanyListDetailsInModal";
@@ -220,12 +220,14 @@ public class VoicesAdminController extends HttpServlet {
                     break;
                 case "activateACompanyInModal":
                     long actCompanyIDInModal = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    long actCategoryIDInModal = Long.parseLong(request.getParameter("hiddenCategoryID"));
                     responseMessage = vamr.activateACompany(actCompanyIDInModal);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
                     request.setAttribute("urlCompanyID", actCompanyIDInModal);
+                    request.setAttribute("urlCompanyCategoryID", actCategoryIDInModal);
                     request.setAttribute("companyDetailsVec", vamr.viewCompanyDetails(actCompanyIDInModal));
                     request.setAttribute("companyReviewList", (ArrayList) vamr.viewAssociatedReviewList(actCompanyIDInModal));
                     pageAction = "ViewCompanyListDetailsInModal";
@@ -248,11 +250,13 @@ public class VoicesAdminController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     long updateCompanyIDInModal = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    long updateCategoryID = Long.parseLong(request.getParameter("hiddenCategoryID"));
                     request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
                     request.setAttribute("urlCompanyID", updateCompanyIDInModal);
+                    request.setAttribute("urlCompanyCategoryID", updateCategoryID);
                     request.setAttribute("companyDetailsVec", vamr.viewCompanyDetails(updateCompanyIDInModal));
                     request.setAttribute("companyReviewList", (ArrayList) vamr.viewAssociatedReviewList(updateCompanyIDInModal));
-                    pageAction = "ViewCompanyListDetails";
+                    pageAction = "ViewCompanyListDetailsInModal";
                     break;
                 case "goToViewCompanyRequestList":
                     request.setAttribute("solvedCompanyRequestListCount", vamr.getSolvedCompanyRequestListCount());
@@ -302,6 +306,7 @@ public class VoicesAdminController extends HttpServlet {
                     break;
                 case "goToDeleteReviewInModal":
                     long delCompanyIDInModal = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    long delCategoryIDInModal = Long.parseLong(request.getParameter("hiddenCategoryID"));
                     long delReviewIDInModal = Long.parseLong(request.getParameter("hiddenReviewID"));
                     if (vamr.deleteReview(delCompanyIDInModal, delReviewIDInModal)) {
                         System.out.println("Selected Review has been deleted successfully.");
@@ -310,6 +315,7 @@ public class VoicesAdminController extends HttpServlet {
                     }
                     request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
                     request.setAttribute("urlCompanyID", delCompanyIDInModal);
+                    request.setAttribute("urlCompanyCategoryID", delCategoryIDInModal);
                     request.setAttribute("companyDetailsVec", vamr.viewCompanyDetails(delCompanyIDInModal));
                     request.setAttribute("companyReviewList", (ArrayList) vamr.viewAssociatedReviewList(delCompanyIDInModal));
                     pageAction = "ViewCompanyListDetailsInModal";
@@ -415,7 +421,9 @@ public class VoicesAdminController extends HttpServlet {
             fileName = "";
         }
         String categoryName = request.getParameter("categoryName");
+        System.out.println(categoryName);
         String categoryDescription = request.getParameter("categoryDescription");
+        System.out.println(fileName);
         
         return vamr.createCompanyCategory(categoryName, "Voices", categoryDescription, fileName);
     }
@@ -474,10 +482,13 @@ public class VoicesAdminController extends HttpServlet {
         String newCategoryName = request.getParameter("categoryName");
         String categoryDescription = request.getParameter("oldCategoryDescription");
         String newCategoryDescription = request.getParameter("categoryDescription");
-
-        if(!newCategoryName.equals("")) { categoryName = newCategoryName; }
+        
         if(!newCategoryDescription.equals("")) { categoryDescription = newCategoryDescription; }
-        return vamr.updateCompanyCategory(companyCategoryID, categoryName, categoryDescription, fileName);
+        if(!newCategoryName.equals("")) { 
+            return vamr.updateCompanyCategory(companyCategoryID, categoryName, newCategoryName, categoryDescription, fileName); 
+        } else {
+            return vamr.updateCompanyCategory(companyCategoryID, categoryName, categoryName, categoryDescription, fileName);
+        }   
     }
     
     private String createCompany(HttpServletRequest request) {
@@ -596,12 +607,16 @@ public class VoicesAdminController extends HttpServlet {
         
         if(companyName.equals("")) companyName = requestCompanyName;
         
-        if(vamr.solveRequest(companyName, requestPoster)) {
-        
-        return vamr.createCompany(companyIndustry, companyName, Integer.parseInt(companySize), 
+        responseMessage = vamr.createCompany(companyIndustry, companyName, Integer.parseInt(companySize), 
                 companyWebsite, companyHQ, companyDescription, companyAddress, fileName);
-        } else {
-        return "There were some issues encountered while solving the request. Please try again.";
+        if (responseMessage.endsWith("!")) { 
+            if(vamr.solveRequest(companyName, requestPoster)) {
+                return "The request has been solved successfully!";
+            } else {
+                return "There were some issues encountered while solving the request.";
+            }
+        } else { 
+            return responseMessage; 
         }
     }
     

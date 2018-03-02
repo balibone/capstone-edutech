@@ -222,6 +222,7 @@
                                                         String companySize = String.valueOf(v.get(4));
                                                         String companyAverageRating = String.valueOf(v.get(5));
                                                         String companyStatus = String.valueOf(v.get(6));
+                                                        String companyIndustry = String.valueOf(v.get(7));
                                             %>
                                             <tr>
                                                 <td><img src="uploads/unify/images/voices/company/<%= companyImage%>" style="width: 50px; height: 50px;" /></td>

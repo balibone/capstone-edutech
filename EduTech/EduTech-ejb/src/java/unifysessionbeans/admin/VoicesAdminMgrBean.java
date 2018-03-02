@@ -67,32 +67,25 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     @Override
     public String populateCompanyIndustry() {
         String companyIndustryStr = "";
-        Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'Voices' ");
+            Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'Voices' AND c.categoryActiveStatus = '1'");
 
         for (Object o : q.getResultList()) {
             CategoryEntity ce = (CategoryEntity) o;
             companyIndustryStr += ce.getCategoryName() + ";";
         }
-        companyIndustryStr = companyIndustryStr.substring(0, companyIndustryStr.length()-1);
+        if(companyIndustryStr.length()!=0) {
+            companyIndustryStr = companyIndustryStr.substring(0, companyIndustryStr.length()-1);
+        }
         return companyIndustryStr;
     }
     
     @Override
     public String createCompanyCategory(String categoryName, String categoryType, String categoryDescription, String fileName) {
-        boolean companyCategoryExist = false;
-        cEntity = new CategoryEntity();
-        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Voices'");
-
-        for (Object o : q.getResultList()) {
-            CategoryEntity categoryE = (CategoryEntity) o;
-            if((categoryE.getCategoryName().toUpperCase()).equals(categoryName.toUpperCase())) {
-                companyCategoryExist = true;
-                break;
-            }
-        }
-        if(companyCategoryExist == true) {
-            return "Company category already existed. Please enter a different company category name.";
+        cEntity = lookupCompanyCategory(categoryName);
+        if(cEntity!=null) {
+            return "The company category already exists.";
         } else {
+            cEntity = new CategoryEntity();
             if (cEntity.createCategory(categoryName, categoryType, categoryDescription, fileName)) {
                 em.persist(cEntity);
                 return "Company category has been created successfully!";
@@ -164,18 +157,32 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     }
 
     @Override
-    public String updateCompanyCategory(long companyCategoryID, String categoryName,
+    public String updateCompanyCategory(long companyCategoryID, String categoryName, String newCategoryName,
             String categoryDescription, String fileName) {
         /* DOES NOT MATTER WHETHER OR NOT THERE IS COMPANY INSIDE THE COMPANY CATEGORY, ADMIN CAN JUST UPDATE THE COMPANY CATEGORY DETAILS */
+        System.out.println(fileName);
         if (lookupCompanyCategory(companyCategoryID) == null) {
             return "Selected company category cannot be found. Please try again.";
         } else {
-            cEntity = lookupCompanyCategory(companyCategoryID);
-            cEntity.setCategoryName(categoryName);
-            cEntity.setCategoryDescription(categoryDescription);
-            cEntity.setCategoryImage(fileName);
-            em.merge(cEntity);
-            return "Selected company category has been updated successfully!";
+            if(categoryName.equals(newCategoryName)) {
+                cEntity = lookupCompanyCategory(companyCategoryID);
+                cEntity.setCategoryName(categoryName);
+                cEntity.setCategoryDescription(categoryDescription);
+                cEntity.setCategoryImage(fileName);
+                em.merge(cEntity);
+                return "Selected company category has been updated successfully!";
+            } else {
+                if(lookupCompanyCategory(newCategoryName)!=null) {
+                    return "The category alreaday exists.";
+                } else {
+                    cEntity = lookupCompanyCategory(companyCategoryID);
+                    cEntity.setCategoryName(categoryName);
+                    cEntity.setCategoryDescription(categoryDescription);
+                    cEntity.setCategoryImage(fileName);
+                    em.merge(cEntity);
+                    return "Selected company category has been updated successfully!";
+                }
+            }
         }
     }
 
@@ -237,8 +244,20 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             companyVec.add(ce.getCompanyName());
             companyVec.add(ce.getCompanyHQ());
             companyVec.add(ce.getCompanySize());
-            companyVec.add(ce.getCompanyAverageRating());
+            if(ce.getCompanyReviewSet().isEmpty()) {
+                companyVec.add(0.0);
+            } else {
+                companyReviewSet = ce.getCompanyReviewSet();
+                double rating = 0.0;
+                for(Object obj: companyReviewSet) {
+                    CompanyReviewEntity companyReview = (CompanyReviewEntity) obj;
+                    rating += companyReview.getReviewRating();
+                }
+                rating = rating/companyReviewSet.size();
+                companyVec.add(rating);
+            }
             companyVec.add(ce.getCompanyStatus());
+            companyVec.add(ce.getCategoryEntity().getCategoryName());
             companyList.add(companyVec);
         }
         return companyList;
@@ -250,14 +269,31 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         compEntity = new CompanyEntity();
         cEntity = lookupCompanyCategory(companyIndustry);
         if(cEntity!=null) {
-            if (compEntity.createCompany(companyName, companySize, companyWebsite, companyHQ, companyDescription, 
-                    companyAddress, fileName)) {
-                compEntity.setCategoryEntity(cEntity);
-                cEntity.getCompanySet().add(compEntity);
-                em.persist(compEntity);
-                return "Company has been created successfully!";
+            CompanyEntity companyEntity = lookupCompany(companyName, companyIndustry);
+            if(companyEntity!=null) {
+                return "The company already exist in the industry.";
             } else {
-                return "There were some issues encountered while creating the company. Please try again.";
+                if(cEntity.getCategoryActiveStatus()) {
+                    if (compEntity.createCompany(companyName, companySize, companyWebsite, companyHQ, companyDescription, 
+                        companyAddress, fileName, "Active")) {
+                        compEntity.setCategoryEntity(cEntity);
+                        cEntity.getCompanySet().add(compEntity);
+                        em.persist(compEntity);
+                        return "Company has been created successfully!";
+                    } else {
+                        return "There were some issues encountered while creating new company. Please try again.";
+                    }
+                } else {
+                    if (compEntity.createCompany(companyName, companySize, companyWebsite, companyHQ, companyDescription, 
+                    companyAddress, fileName, "Inactive")) {
+                        compEntity.setCategoryEntity(cEntity);
+                        cEntity.getCompanySet().add(compEntity);
+                        em.persist(compEntity);
+                        return "Company has been created successfully!";
+                    } else {
+                        return "There were some issues encountered while creating new company. Please try again.";
+                    }
+                }
             }
         } else {
             return "The company category does not exist. Please check and try again.";
@@ -273,7 +309,18 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             companyDetailsVec.add(compEntity.getCompanyName());
             companyDetailsVec.add(compEntity.getCompanyImage());
             companyDetailsVec.add(compEntity.getCategoryEntity().getCategoryName());
-            companyDetailsVec.add(compEntity.getCompanyAverageRating());
+            if(compEntity.getCompanyReviewSet().isEmpty()) {
+                companyDetailsVec.add(0.0);
+            } else {
+                companyReviewSet = compEntity.getCompanyReviewSet();
+                double rating = 0.0;
+                for(Object o: companyReviewSet) {
+                    CompanyReviewEntity companyReview = (CompanyReviewEntity) o;
+                    rating += companyReview.getReviewRating();
+                }
+                rating = rating/companyReviewSet.size();
+                companyDetailsVec.add(rating);
+            }
             companyDetailsVec.add(compEntity.getCompanyStatus());
             companyDetailsVec.add(compEntity.getCompanyWebsite());
             companyDetailsVec.add(compEntity.getCompanyHQ());
@@ -288,7 +335,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     public List<Vector> viewAssociatedReviewList(long companyID) {
         compEntity = lookupCompany(companyID);
         List<Vector> companyReviewList = new ArrayList<Vector>();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         
         if (compEntity.getCompanyReviewSet()!= null) {
             companyReviewSet = compEntity.getCompanyReviewSet();
@@ -345,19 +392,37 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         if (lookupCompany(companyID) == null) {
             return "Selected company cannot be found. Please try again.";
         } else {
-            compEntity = lookupCompany(companyID);
-            compEntity.setCompanyName(companyName);
-            compEntity.setCategoryEntity(newCEntity);
-            newCEntity.getCompanySet().add(compEntity);
-            oldCEntity.getCompanySet().remove(compEntity);
-            compEntity.setCompanyWebsite(companyWebsite);
-            compEntity.setCompanyHQ(companyHQ);
-            compEntity.setCompanySize(companySize);
-            compEntity.setCompanyDescription(companyDescription);
-            compEntity.setCompanyAddress(companyAddress);
-            compEntity.setCompanyImage(fileName);
-            em.merge(compEntity);
-            return "Selected company has been updated successfully!";
+            if(companyIndustry.equals(oldCompanyIndustry)) {
+                compEntity = lookupCompany(companyID);
+                compEntity.setCompanyName(companyName);
+                compEntity.setCategoryEntity(newCEntity);
+                compEntity.setCompanyWebsite(companyWebsite);
+                compEntity.setCompanyHQ(companyHQ);
+                compEntity.setCompanySize(companySize);
+                compEntity.setCompanyDescription(companyDescription);
+                compEntity.setCompanyAddress(companyAddress);
+                compEntity.setCompanyImage(fileName);
+                em.merge(compEntity);
+                return "Selected company has been updated successfully!";  
+            } else {
+                if(lookupCompany(companyName,companyIndustry)!=null) {
+                    return "The company already exists in the industry";
+                } else {
+                    compEntity = lookupCompany(companyID);
+                    compEntity.setCompanyName(companyName);
+                    compEntity.setCategoryEntity(newCEntity);
+                    newCEntity.getCompanySet().add(compEntity);
+                    oldCEntity.getCompanySet().remove(compEntity);
+                    compEntity.setCompanyWebsite(companyWebsite);
+                    compEntity.setCompanyHQ(companyHQ);
+                    compEntity.setCompanySize(companySize);
+                    compEntity.setCompanyDescription(companyDescription);
+                    compEntity.setCompanyAddress(companyAddress);
+                    compEntity.setCompanyImage(fileName);
+                    em.merge(compEntity);
+                    return "Selected company has been updated successfully!";
+                }
+            }
         }
     }
     
@@ -409,7 +474,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT cr from CompanyReview cr");
         List<Vector> companyReviewList = new ArrayList<Vector>();
         
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
         for (Object o : q.getResultList()) {
             Vector companyReviewDetails = new Vector();
@@ -438,7 +503,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT cr from CompanyRequest cr");
         List<Vector> requestList = new ArrayList<Vector>();
         
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
         for (Object o : q.getResultList()) {
             CompanyRequestEntity ce = (CompanyRequestEntity) o;
@@ -621,7 +686,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     public List<Vector> viewUserCompanyReviewsList(String username) {
         uEntity = lookupSystemUser(username);
         List<Vector> userCompanyReviewsList = new ArrayList<Vector>();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         
         Query q = em.createQuery("SELECT r FROM CompanyReview r WHERE r.userEntity.username = :username OR r.reviewReceiverID = :username");
         q.setParameter("username", uEntity.getUsername());
@@ -649,7 +714,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     @Override
     public List<Vector> ViewRecentCompanyReviewList() {
         List<Vector> latestCompanyReview = new ArrayList<Vector>();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         
         Query q = em.createQuery("SELECT cr FROM CompanyReview cr ORDER BY cr.reviewDate DESC");
         
@@ -674,11 +739,41 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             q.setParameter("companyID", companyID);
             ce = (CompanyEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {
-            System.out.println("ERROR: Item cannot be found. " + enfe.getMessage());
+            System.out.println("ERROR: Company cannot be found. " + enfe.getMessage());
             em.remove(ce);
             ce = null;
         } catch (NoResultException nre) {
-            System.out.println("ERROR: Item does not exist. " + nre.getMessage());
+            System.out.println("ERROR: Company does not exist. " + nre.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        return ce;
+    }
+    
+    public CompanyEntity lookupCompany(String companyName, String companyIndustry) {
+        CompanyEntity ce = new CompanyEntity();
+        System.out.println(companyIndustry);
+        try {
+            Query q = em.createQuery("SELECT c from Company c WHERE c.categoryEntity.categoryName=:companyIndustry");
+            q.setParameter("companyIndustry",companyIndustry);
+            if(q.getResultList().isEmpty()) {
+                ce = null;
+            } else {
+                for(Object o: q.getResultList()) {
+                    ce = (CompanyEntity) o;
+                    if(ce.getCompanyName().toUpperCase().equals(companyName.toUpperCase())) {
+                        break;
+                    } else {
+                        ce = null;
+                    }
+                }
+            }
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Company cannot be found. " + enfe.getMessage());
+            em.remove(ce);
+            ce = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Company does not exist. " + nre.getMessage());
             em.remove(ce);
             ce = null;
         }
@@ -706,9 +801,19 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     public CategoryEntity lookupCompanyCategory(String companyIndustry) {
         CategoryEntity ce = new CategoryEntity();
         try {
-            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryName = :companyIndustry AND c.categoryType='Voices' ");
-            q.setParameter("companyIndustry", companyIndustry);
-            ce = (CategoryEntity) q.getSingleResult();
+            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType='Voices' ");
+            if(q.getResultList().isEmpty()) {
+                ce = null;
+            } else {
+                for(Object o: q.getResultList()) {
+                    ce = (CategoryEntity) o;
+                    if(ce.getCategoryName().toUpperCase().equals(companyIndustry.toUpperCase())) {
+                        break;
+                    } else {
+                        ce = null;
+                    }
+                }
+            }
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());
             em.remove(ce);

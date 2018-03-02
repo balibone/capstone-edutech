@@ -23,7 +23,7 @@ public interface VoicesAdminMgrBeanRemote {
     public Vector viewCompanyCategoryDetails(long companyCategoryID);
     public String deactivateACompanyCategory(long companyCategoryID);
     public String activateACompanyCategory(long companyCategoryID);
-    public String updateCompanyCategory(long companyCategoryID, String categoryName, String categoryDescription, 
+    public String updateCompanyCategory(long companyCategoryID, String categoryName, String newCategoryName, String categoryDescription, 
             String fileName);
     
     public List<Vector> viewCompanyList();

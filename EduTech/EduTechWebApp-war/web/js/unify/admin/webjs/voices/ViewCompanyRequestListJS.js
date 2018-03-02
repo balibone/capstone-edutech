@@ -1,13 +1,23 @@
 var rowItemName;
 function addCompany(companyID) {
     var table = document.getElementById("companyRequestListing");
-    var poster = table.rows.item(companyID+1).cells.item(1).innerHTML
-    var requestCompany = table.rows.item(companyID+1).cells.item(2).innerHTML;
-    var requestIndustry = table.rows.item(companyID+1).cells.item(3).innerHTML;
-    requestIndustry = requestIndustry.substring(requestIndustry.indexOf("</span>")+7);
+    for(var i=1;i<table.rows.length;i++) {
+        var poster = table.rows.item(i).cells.item(1).innerHTML;
+        var requestCompany = table.rows.item(i).cells.item(2).innerHTML;
+        if(requestCompany.includes("&")) { requestCompany = requestCompany.replace("&","%26"); }
+        var requestIndustry = table.rows.item(i).cells.item(3).innerHTML;
+        requestIndustry = requestIndustry.substring(requestIndustry.indexOf("</span>")+7);
+        if(requestIndustry.includes("&")) { requestIndustry = requestIndustry.replace("&","%26"); }
+        if(requestCompany===companyID) {
+            break;
+        }
+    }
+    //alert(companyID);
+    
     //alert(requestIndustry);
     $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToAddCompany&requestPoster=' + poster + '&requestCompany=' + requestCompany + '&requestIndustry=' + requestIndustry);
     $('#newCompany-iframe').iziModal('open', event);
+    
 }
 $(document).ready(function() {
 
