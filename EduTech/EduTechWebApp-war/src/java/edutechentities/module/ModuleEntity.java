@@ -40,7 +40,7 @@ public class ModuleEntity implements Serializable {
     //private Collection<LessonEntity> lessons;
     @ManyToOne
     private SemesterEntity semester;
-    @OneToMany
+    @OneToMany(mappedBy = "module")
     private Collection<RecurringEventEntity> recurringEvents;
     
     public ModuleEntity() {
