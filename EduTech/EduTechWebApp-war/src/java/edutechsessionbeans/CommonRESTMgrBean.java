@@ -16,7 +16,9 @@ import edutechentities.common.TaskEntity;
 import edutechentities.module.ModuleEntity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -42,11 +44,11 @@ public class CommonRESTMgrBean {
     // HELPER METHOD 
     public String getCurrentISODate() {
         // get current time in ISO 8601 format
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); 
-        df.setTimeZone(tz);
-        String nowAsISO = df.format(new Date());
-        return nowAsISO;
+//        TimeZone tz = TimeZone.getTimeZone("UTC");
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); 
+//        df.setTimeZone(tz);
+//        String nowAsISO = df.format(new Date());
+        return LocalDateTime.now().toString();
     }
     
     public void createUser(UserEntity entity) {
@@ -85,7 +87,7 @@ public class CommonRESTMgrBean {
     }
 
     public void createScheduleItem(ScheduleItemEntity entity) {
-        entity.setCreatedAt(getCurrentISODate());
+        entity.setCreatedAt(LocalDateTime.parse(getCurrentISODate()));
         // get proper User - initially json createdBy only contains a username key
         UserEntity user = (UserEntity) entity.getCreatedBy();
         //Set assignedTo
@@ -123,8 +125,10 @@ public class CommonRESTMgrBean {
     
     public List<ScheduleItemEntity> findUserScheduleItems(String username) {
         UserEntity user = em.find(UserEntity.class, username);
-        // store all schedule items for this user. 
+        // store all schedule items for this user. (immediate schedule items + converted recurring events)
         List<ScheduleItemEntity> userScheduleItems = new ArrayList();
+        
+        //GET IMMEDIATE SCHEDULE ITEMS
         List<ScheduleItemEntity> allScheduleItems = em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
         for(ScheduleItemEntity scheduleItem: allScheduleItems){
             if(scheduleItem.getAssignedTo().contains(user)){
@@ -159,6 +163,43 @@ public class CommonRESTMgrBean {
         Subsequently create one event every week (+7 days), and stop when end date of latest created schedule item 
         overshoots sem end date. 
         */
+        
+        DayOfWeek semStartDay = currSem.getStartDate().getDayOfWeek();//get sem start day.
+        for(RecurringEventEntity event : allRecurringEvents){
+            //conversion = first schedule item to create.
+            ScheduleItemEntity conversion = new ScheduleItemEntity();
+            //get difference in days between sem start day and event day.
+            int difference = event.getDayOfWeek().compareTo(semStartDay);
+            LocalDate eventStartDate = null;
+            if(difference == 0){//event day is same as sem start day
+                //sets start date of new schedule to start date of semester, combined with start time in recurring event.
+                eventStartDate = currSem.getStartDate();
+                conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+                conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+            }else if(difference < 0 ){//event day is before sem start day
+                //set first start date next week instead.
+                eventStartDate = currSem.getStartDate().plusDays(7+difference);
+                conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+                conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+            }else if(difference > 0){//event day is after sem start day
+                //set first start date this week.
+                eventStartDate = currSem.getStartDate().plusDays(difference);
+                conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+                conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+            }
+            userScheduleItems.add(conversion);
+            //stop this while loop only when the endDate of new schedule entity is later than sem end date 2359.
+            while(!conversion.getEndDate().isAfter(currSem.getEndDate().atTime(23, 59))){
+                //temp is used to temporarily store new schedule item entity (the next week's one)
+                ScheduleItemEntity temp = new ScheduleItemEntity();
+                //set start date as 1 week after (time is actually already inside because this value is actually timestamp)
+                temp.setStartDate(conversion.getStartDate().plusWeeks(1));
+                //do same for end date
+                temp.setEndDate(conversion.getEndDate().plusWeeks(1));
+                conversion = temp;
+                userScheduleItems.add(conversion);
+            }
+        }
         
         return userScheduleItems;
     }
