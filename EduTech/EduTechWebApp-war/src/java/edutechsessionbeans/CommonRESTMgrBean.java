@@ -167,65 +167,55 @@ public class CommonRESTMgrBean {
         Subsequently create one event every week (+7 days), and stop when end date of latest created schedule item 
         overshoots sem end date. 
         */
-        
-        DayOfWeek semStartDay = currSem.getStartDate().getDayOfWeek();//get sem start day.
-        System.out.println(Arrays.toString(allRecurringEvents.toArray()));
-        for(RecurringEventEntity event : allRecurringEvents){
-            //conversion = first schedule item to create.
-            ScheduleItemEntity conversion = new ScheduleItemEntity();
-            //get difference in days between sem start day and event day.
-            int difference = event.getDayOfWeek().compareTo(semStartDay);
-            LocalDate eventStartDate = null;
-            if(difference == 0){//event day is same as sem start day
-                //sets start date of new schedule to start date of semester, combined with start time in recurring event.
-                eventStartDate = currSem.getStartDate();
-                conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
-                conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
-            }else if(difference < 0 ){//event day is before sem start day
-                //set first start date next week instead.
-                eventStartDate = currSem.getStartDate().plusDays(7+difference);
-                conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
-                conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
-            }else if(difference > 0){//event day is after sem start day
-                //set first start date this week.
-                eventStartDate = currSem.getStartDate().plusDays(difference);
-                conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
-                conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
-            }
-            //set description
-            conversion.setDescription(event.getDescription());
-            //set location
-            conversion.setLocation(event.getLocation());
-            //set title
-            conversion.setTitle(event.getTitle());
-            //set type
-            conversion.setType("timetable");
-            //set moduleCode
-            conversion.setModuleCode(event.getModule().getModuleCode());
-            userScheduleItems.add(conversion);
-            //stop this while loop only when the (endDate+1 week) of new schedule entity is later than sem end date 2359.
-            while(!conversion.getEndDate().plusWeeks(1).isAfter(currSem.getEndDate().atTime(23, 59))){
-                //temp is used to temporarily store new schedule item entity (the next week's one)
-                ScheduleItemEntity temp = conversion;
-                //set start date as 1 week after (time is actually already inside because this value is actually timestamp)
-                temp.setStartDate(conversion.getStartDate().plusWeeks(1));
-                //do same for end date
-                temp.setEndDate(conversion.getEndDate().plusWeeks(1));
-//                //set description
-//                temp.setDescription(conversion.getDescription());
-//                //set location
-//                temp.setLocation(conversion.getLocation());
-//                //set title
-//                temp.setTitle(conversion.getTitle());
-//                //set type
-//                temp.setType("timetable");
-//                //set moduleCode
-//                temp.setModuleCode(conversion.getModuleCode());
-                conversion = temp;
+        if(currSem!=null){
+            DayOfWeek semStartDay = currSem.getStartDate().getDayOfWeek();//get sem start day.
+            System.out.println(Arrays.toString(allRecurringEvents.toArray()));
+            for(RecurringEventEntity event : allRecurringEvents){
+                //conversion = first schedule item to create.
+                ScheduleItemEntity conversion = new ScheduleItemEntity();
+                //get difference in days between sem start day and event day.
+                int difference = event.getDayOfWeek().compareTo(semStartDay);
+                LocalDate eventStartDate = null;
+                if(difference == 0){//event day is same as sem start day
+                    //sets start date of new schedule to start date of semester, combined with start time in recurring event.
+                    eventStartDate = currSem.getStartDate();
+                    conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+                    conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+                }else if(difference < 0 ){//event day is before sem start day
+                    //set first start date next week instead.
+                    eventStartDate = currSem.getStartDate().plusDays(7+difference);
+                    conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+                    conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+                }else if(difference > 0){//event day is after sem start day
+                    //set first start date this week.
+                    eventStartDate = currSem.getStartDate().plusDays(difference);
+                    conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+                    conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+                }
+                //set description
+                conversion.setDescription(event.getDescription());
+                //set location
+                conversion.setLocation(event.getLocation());
+                //set title
+                conversion.setTitle(event.getTitle());
+                //set type
+                conversion.setType("timetable");
+                //set moduleCode
+                conversion.setModuleCode(event.getModule().getModuleCode());
                 userScheduleItems.add(conversion);
+                //stop this while loop only when the (endDate+1 week) of new schedule entity is later than sem end date 2359.
+                while(!conversion.getEndDate().plusWeeks(1).isAfter(currSem.getEndDate().atTime(23, 59))){
+                    //temp is used to temporarily store new schedule item entity (the next week's one)
+                    ScheduleItemEntity temp = conversion;
+                    //set start date as 1 week after (time is actually already inside because this value is actually timestamp)
+                    temp.setStartDate(conversion.getStartDate().plusWeeks(1));
+                    //do same for end date
+                    temp.setEndDate(conversion.getEndDate().plusWeeks(1));
+                    conversion = temp;
+                    userScheduleItems.add(conversion);
+                }
             }
         }
-        
         return userScheduleItems;
     }
     

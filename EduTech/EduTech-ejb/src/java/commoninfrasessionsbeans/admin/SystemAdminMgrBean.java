@@ -1,6 +1,8 @@
 package commoninfrasessionsbeans.admin;
 
 import commoninfrastructureentities.UserEntity;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
@@ -16,14 +19,9 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
 
     @Override
     public boolean createNewStudent(String salutation, String firstName, String lastName, String username, String password, String fileName) { 
-        try{
-            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName);
-            em.persist(newStudent);//may throw null pointer if em is not created with proper syntax.
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false; 
-        }
+        UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName);
+        em.persist(newStudent);
+        return true;
     }
     
     @Override

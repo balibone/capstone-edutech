@@ -37,6 +37,7 @@ public class ScheduleItemREST {
     
     @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(ScheduleItemEntity entity) {
+        System.out.println(entity.getStartDate());
         etr.createScheduleItem(entity);
     }
 
