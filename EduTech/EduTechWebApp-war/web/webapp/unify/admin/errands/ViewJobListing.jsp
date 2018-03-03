@@ -237,6 +237,8 @@
                                                 <td><span class="label label-warning"><%= jobStatus%></span></td>
                                                 <%  } else if (jobStatus.equals("Completed")) { %>
                                                 <td><span class="label label-danger"><%= jobStatus%></span></td>
+                                                <%  } else if (jobStatus.equals("Delisted")) { %>
+                                                <td><span class="label label-info"><%= jobStatus%></span></td>
                                                 <%  }   %>
                                             </tr>
                                             <%      }   %>

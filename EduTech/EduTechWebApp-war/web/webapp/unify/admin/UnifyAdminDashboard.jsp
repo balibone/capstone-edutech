@@ -247,9 +247,13 @@
                                                             <td><%= reportDate%></td>
                                                             <td><%= reportedReviewID%></td>
                                                             <%
-                                                                if (reportStatus.equals("Resolved")) {
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                            } else if (reportStatus.equals("Resolved (Delisted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Company Review Delisted)</span></td>
                                                             <%
                                                             } else {
                                                             %>
@@ -295,9 +299,13 @@
                                                             <td><%= reportDate%></td>
                                                             <td><%= reportedErrandID%></td>                                                           
                                                             <%
-                                                                if (reportStatus.equals("Resolved")) {
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                            } else if (reportStatus.equals("Resolved (Delisted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Errand Delisted)</span></td>
                                                             <%
                                                             } else {
                                                             %>
@@ -344,9 +352,13 @@
                                                             <td><%= reportDate%></td>
                                                             <td><%= reportedErrandID%></td>
                                                             <%
-                                                                if (reportStatus.equals("Resolved")) {
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                            } else if (reportStatus.equals("Resolved (Delisted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Errand Review Delisted)</span></td>
                                                             <%
                                                             } else {
                                                             %>
@@ -394,9 +406,13 @@
                                                             <td><%= reportDate%></td>
                                                             <td><%= reportedItemID%></td>
                                                             <%
-                                                                if (reportStatus.equals("Resolved")) {
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved</span></td>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                            } else if (reportStatus.equals("Resolved (Delisted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Marketplace Item Delisted)</span></td>
                                                             <%
                                                             } else {
                                                             %>
@@ -552,7 +568,7 @@
                                         </thead>
                                         <tbody>
                                             <%
-                                                ArrayList<Vector> latestTransList = (ArrayList)request.getAttribute("latestTransList");
+                                                ArrayList<Vector> latestTransList = (ArrayList) request.getAttribute("latestTransList");
                                                 if (!latestTransList.isEmpty()) {
                                                     for (int i = 0; i <= latestTransList.size() - 1; i++) {
                                                         Vector v = latestTransList.get(i);
@@ -576,7 +592,7 @@
                                             <%   }%>
                                             <% }%>
                                         </tbody>
-                                        </table>
+                                    </table>
                                     <a class="tableMore" href="ErrandsAdmin?pageTransit=goToViewJobTransactions">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                 </div>
                             </div>
@@ -604,7 +620,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <% ArrayList<Vector> companyReviewList = (ArrayList) request.getAttribute("recentCompanyReviewList");
+                                            <% ArrayList<Vector> companyReviewList = (ArrayList) request.getAttribute("recentCompanyReviewList");
                                                 if (!companyReviewList.isEmpty()) {
                                                     for (int i = 0; i <= companyReviewList.size() - 1; i++) {
                                                         Vector v = companyReviewList.get(i);
@@ -612,15 +628,15 @@
                                                         String reviewPoster = String.valueOf(v.get(1));
                                                         String reviewCompany = String.valueOf(v.get(2));
                                                         String reviewTitle = String.valueOf(v.get(3));
-                                        %>
+                                            %>
                                             <tr>
                                                 <td class="hidden-xs"><%= reviewDate%></td>
                                                 <td><%= reviewPoster%></td>
                                                 <td><%= reviewCompany%></td>
                                                 <td><%= reviewTitle%></td>
                                             </tr>
-                                        <% }
-                                        }%>
+                                            <% }
+                                                }%>
                                         </tbody>
                                     </table>
                                     <div class="row">

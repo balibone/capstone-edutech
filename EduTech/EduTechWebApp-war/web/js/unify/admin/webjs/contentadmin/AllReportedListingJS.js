@@ -21,10 +21,10 @@ $(document).ready(function () {
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#337AB7',
-        width: 540,
+        width: 600,
         overlayClose: true,
         iframe: true,
-        iframeHeight: 400
+        iframeHeight: 500
     });
 
     $('#reportedErrandsReviewList tbody').on('click', 'tr', function (event) {
@@ -46,10 +46,10 @@ $(document).ready(function () {
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#337AB7',
-        width: 540,
+        width: 600,
         overlayClose: true,
         iframe: true,
-        iframeHeight: 400
+        iframeHeight: 500
     });
 
     $('#reportedItemsList tbody').on('click', 'tr', function (event) {
@@ -71,10 +71,10 @@ $(document).ready(function () {
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#337AB7',
-        width: 540,
+        width: 600,
         overlayClose: true,
         iframe: true,
-        iframeHeight: 400
+        iframeHeight: 500
     });
 
     $('#reportedReviewList tbody').on('click', 'tr', function (event) {
@@ -96,9 +96,10 @@ $(document).ready(function () {
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#337AB7',
-        width: 540,
+        width: 600,
         overlayClose: true,
-        iframe: true
+        iframe: true,
+        iframeHeight: 500
     });
 
     $('#closeSuccess').click(function () {

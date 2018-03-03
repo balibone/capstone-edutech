@@ -34,6 +34,7 @@ public class CompanyReviewEntity implements Serializable {
     private String reviewEmpType;
     private int reviewThumbsUp;
     private String reviewSalaryRange;
+    private String reviewStatus;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date reviewDate;
@@ -73,6 +74,7 @@ public class CompanyReviewEntity implements Serializable {
     public String getReviewSalaryRange() { return reviewSalaryRange; }
     public Date getReviewDate() { return reviewDate; }
     public String getReviewReceiverID() { return reviewReceiverID; }
+    public String getReviewStatus() { return reviewStatus; }
     public UserEntity getUserEntity() { return userEntity; }
     public CompanyEntity getCompanyEntity() { return companyEntity; }
 
@@ -86,6 +88,7 @@ public class CompanyReviewEntity implements Serializable {
     public void setReviewThumbsUp(int reviewThumbsUp) { this.reviewThumbsUp = reviewThumbsUp; }
     public void setReviewSalaryRange(String reviewSalaryRange) { this.reviewSalaryRange = reviewSalaryRange; }
     public void setReviewDate(Date reviewDate) { this.reviewDate = reviewDate; }
+    public void setReviewStatus(String reviewStatus) { this.reviewStatus = reviewStatus; }
     public void setReviewReceiverID(String reviewReceiverID) { this.reviewReceiverID = reviewReceiverID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
     public void setCompanyEntity(CompanyEntity companyEntity) { this.companyEntity = companyEntity; }

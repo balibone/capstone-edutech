@@ -17,8 +17,8 @@
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/easy-autocomplete/easy-autocomplete.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/weblayout/errands/ViewJobDetailsCSS.css" rel="stylesheet" type="text/css" />
 
 
         <!-- JAVASCRIPT -->
@@ -29,6 +29,9 @@
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll-v1.3.1.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll.horizontal-v0.6.5.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.sparkline-v2.1.2.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/jquery.dataTables-v1.9.4.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/dataTables.responsive-v0.1.2.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminAppJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginFormComponentsJS.js"></script>
@@ -39,9 +42,9 @@
     <body style="background-color: #FFFFFF;">
         <%            Vector reportListVec = (Vector) request.getAttribute("reportedErrandsReviewVec");
             String reportID, reportStatus, reportDescription, reportDate, reportedErrandID,
-                    reportedPosterID, reportedReporterID, jobTitle, jobDescription, reviewedDate;
+                    reportedPosterID, reportedReporterID, reviewRating, reviewContent, reviewedDate, reviewStatus;
             reportID = reportStatus = reportDescription = reportDate = reportedErrandID = reportedPosterID = reportedReporterID
-                    = jobTitle = jobDescription = reviewedDate = "";
+                    = reviewRating = reviewedDate = reviewContent = reviewStatus = "";
             if (reportListVec != null) {
                 reportID = (String.valueOf(reportListVec.get(0)));
                 reportStatus = (String.valueOf(reportListVec.get(1)));
@@ -52,8 +55,9 @@
                 reportedReporterID = (String.valueOf(reportListVec.get(6)));
                 reviewedDate = (String.valueOf(reportListVec.get(7)));
                 if (reportListVec.size() > 8) {
-                    jobTitle = (String.valueOf(reportListVec.get(8)));
-                    jobDescription = (String.valueOf(reportListVec.get(9)));
+                    reviewRating = (String.valueOf(reportListVec.get(8)));
+                    reviewContent = (String.valueOf(reportListVec.get(9)));
+                    reviewStatus = (String.valueOf(reportListVec.get(10)));
                 }
             }
         %>
@@ -61,30 +65,73 @@
 
 
 
+
         <div style="margin: 30px 20px 0 20px">
             <div class="tabbable tabbable-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#reportInfo" data-toggle="tab">Report Details</a></li>
+                    <li class="active"><a href="#reportInfo" data-toggle="tab">Request Details</a></li>
                     <li><a href="#reportedErrandReview" data-toggle="tab">Details of Errand Review Reported</a></li>
                 </ul>
-                <%-- primary tab --%>
+                <%-- tab 1 --%>
                 <div class="tab-content">
+                    <div class="tab-pane" id="reportedErrandReview">
+                        <table class="table table-hover table-bordered">
+                            <%--- to display errand review when found --%>
+                            <%
+                                if (reportListVec.size() > 8) {
+                            %>
+                            <tr>
+                                <td>Review Status</td>
+                                <%
+                                    if (reviewStatus.equals("Delisted")) {
+                                %>
+                                <td><span class="label label-danger"><%= reviewStatus%></span></td>
+                                    <%
+                                    } else {
+                                    %>
+                                <td><span class="label label-success">Listed</span></td>
+                                <%
+                                    }
+                                %>
+                            </tr>
+                            <tr>
+                                <td>Review Rating</td>
+                                <td><%= reviewRating%></td>
+                            </tr>
+                            <tr>
+                                <td>Review Content</td>
+                                <td><%= reviewContent%></td>
+                            </tr>
+                            <%
+                            } else {
+                            %>
+                            <div class="form-group">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"> <b>ERRAND REVIEW HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
+                            </div>
+                            <%
+                                }
+                            %> 
+
+                        </table>
+                    </div>
+
+                    <%-- next tab --%>
                     <div class="tab-pane active" id="reportInfo">
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report ID:&nbsp;&nbsp;<u><%= reportID%></u></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;
+                        <table class="table table-hover table-bordered">
+                            <tr>
+                                <td>Report ID</td>
+                                <td><%= reportID%></td>
+                            </tr>
+                            <tr>
+                                <td>Report Status</td>
                                 <%
                                     if (reportStatus.equals("Resolved (No Issue Found)")) {
                                 %>
                                 <td><span class="label label-success">Resolved (No Issue Found)</span></td>
                                 <%
-                                    } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                } else if (reportStatus.equals("Resolved (Delisted)")) {
                                 %>
-                                <td><span class="label label-success">Resolved (Errand Review Deleted)</span></td>
+                                <td><span class="label label-success">Resolved (Errand Review Delisted)</span></td>
                                 <%
                                 } else {
                                 %>
@@ -92,55 +139,29 @@
                                 <%
                                     }
                                 %>
-                            </label>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Description&nbsp;&nbsp;<%= reportDescription%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Date&nbsp;&nbsp;<%= reportDate%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Reported Errand Review ID&nbsp;&nbsp;<%= reportedErrandID%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Errand Poster&nbsp;&nbsp;<%= reportedPosterID%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Reporter&nbsp;&nbsp;<%= reportedReporterID%></label>
-                        </div>
-
-                    </div>
-
-                    <%-- secondary tab --%>
-                    <div class="tab-pane" id="reportedErrandReview">
-
-                        <%--- to display errand review when found --%>
-                        <%
-                            if (reportListVec.size() > 8) {
-                        %>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Job Title:&nbsp;&nbsp;<%= jobTitle%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Job Description:&nbsp;&nbsp;<%= jobDescription%></label>
-                        </div>
-                        <%
-                        } else {
-                        %>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><font color = "red"><b>ERRAND REVIEW HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
-                        </div>
-                        <%
-                            }
-                        %> 
-
+                            </tr>
+                            <tr>
+                                <td>Report Description</td>
+                                <td><%= reportDescription%></td>
+                            </tr>
+                            <tr>
+                                <td>Report Date</td>
+                                <td><%= reportDate%></td>
+                            </tr>
+                            <tr>
+                                <td>Reported Errand Review ID</td>
+                                <td><%= reportedErrandID%></td>
+                            </tr>
+                            <tr>
+                                <td>User ID of Errand Poster</td>
+                                <td><%= reportedPosterID%></td>
+                            </tr>
+                            <tr>
+                                <td>User ID of Reporter</td>
+                                <td><%= reportedReporterID%></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -153,7 +174,7 @@
                 <table border="0" style="margin: auto;">
                     <tr>
                         <%
-                            if (reportStatus.equals("Unresolved") && !jobTitle.equals("")) {
+                            if (reportStatus.equals("Unresolved") && !reviewRating.equals("")) {
                         %>
                         <%-- resolve and do nothing --%>
                         <td>
@@ -167,15 +188,15 @@
                         <%-- resolve and delete errand review --%>
                         <td>
                             <form action="ContentAdmin?pageTransit=goToAllReportedListing#errandReviewReport" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveDeleteErrandReviewReportFromAllList"/>
+                                <input type="hidden" name="pageTransit" value="resolveDelistErrandReviewReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <input type="hidden" name="reportedErrandID" value="<%= reportedErrandID%>" />
-                                <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm deletion?')">Delete Errand & Resolve</button>
+                                <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm delisting?')">Delist Errand & Resolve</button>
                             </form>
                         </td>
                         <%
-                        } else if (reportStatus.equals("Unresolved") && jobTitle.equals("")) {
+                        } else if (reportStatus.equals("Unresolved") && reviewRating.equals("")) {
                         %>
                         <%-- resolve and do nothing --%>
                         <td>
@@ -190,16 +211,28 @@
                         <%
                         } else {
                         %>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Resolved On:&nbsp;&nbsp;<%= reviewedDate%></label>
-                    </div>
+                    <tr>
+                        <td>
+                    <center>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
+                            </div>
+                    </center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Resolved On:&nbsp;&nbsp;<%= reviewedDate%></label>
+                            </div>
+                        </td>
+                    </tr>
                     <%
                         }
                     %>
+
+
+
                     </tr>
             </div>
         </div>

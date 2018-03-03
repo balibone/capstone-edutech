@@ -116,7 +116,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
                 em.merge(tEntity);
                 return "Selected tag has been updated successfully!";
             }
-            if (tEntity.getTagName().equals(tagName)&&tEntity.getTagType().equals(tagType)) {
+            if (tEntity.getTagName().equals(tagName) && tEntity.getTagType().equals(tagType)) {
                 return "Selected tag has no changes made.";
             }
             return "Tag name already exists for tag type selected.";
@@ -191,10 +191,10 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             //return itemDeleteStatus;
         }
     }
-    
+
     @Override
     public String delistItem(String itemID) {
-        
+
         double itemIDNum = Double.parseDouble(itemID);
 
         try {
@@ -204,7 +204,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             iEntity = (ItemEntity) q.getSingleResult();
 
             iEntity.setItemStatus("Delisted");
-            
+
             //em.remove(iEntity);
             em.flush();
             em.clear();
@@ -254,7 +254,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         //return success;
     }
-    
+
     @Override
     public String resolveDeleteMarketplace(String reportID) {
         //boolean success = true;
@@ -270,7 +270,23 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         //return success;
     }
-    
+
+    @Override
+    public String resolveDelistMarketplace(String reportID) {
+        //boolean success = true;
+        try {
+            irEntity = lookupMarketplace(reportID);
+            irEntity.setItemReportStatus("Resolved (Delisted)");
+            irEntity.setItemReviewedDate();
+            em.merge(irEntity);
+            return "Item report has been resolved and delisted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving item report";
+        }
+        //return success;
+    }
+
     @Override
     public String unresolveMarketplace(String reportID) {
         //boolean success = true;
@@ -292,7 +308,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM ItemReport i");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.getResultList()) {
             ItemReportEntity reportedE = (ItemReportEntity) o;
@@ -309,13 +325,13 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return reportedList;
     }
-    
+
     @Override
     public List<Vector> viewReportedMarketplaceListingDashboard() {
         Query q = em.createQuery("SELECT i FROM ItemReport i ORDER BY i.itemReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.setMaxResults(3).getResultList()) {
             ItemReportEntity reportedE = (ItemReportEntity) o;
@@ -339,7 +355,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         System.out.println("Looked up marketplace");
         Vector marketplaceDetails = new Vector();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         if (irEntity != null) {
             marketplaceDetails.add(irEntity.getItemReportID());
@@ -349,7 +365,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             marketplaceDetails.add(irEntity.getItemID());
             marketplaceDetails.add(irEntity.getItemPosterID());
             marketplaceDetails.add(irEntity.getItemReporterID());
-            marketplaceDetails.add(irEntity.getItemReviewedDate());
+            marketplaceDetails.add(df.format(irEntity.getItemReviewedDate()));
             System.out.println("ADDED ITEM REPORT DETAILS");
             //from item entity
             if (lookupMarketplaceItem(irEntity.getItemID()) != null) {
@@ -384,7 +400,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     @Override
     public Long getResolvedItemReportCount() {
         Long resolvedItemReportCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(DISTINCT c.itemID) FROM ItemReport c WHERE c.itemReportStatus='Resolved'");
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.itemID) FROM ItemReport c WHERE c.itemReportStatus<>'Unresolved'");
         try {
             resolvedItemReportCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
@@ -400,7 +416,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM CompanyReviewReport i");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.getResultList()) {
             CompanyReviewReportEntity reportedE = (CompanyReviewReportEntity) o;
@@ -423,7 +439,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM CompanyReviewReport i ORDER BY i.reviewReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.setMaxResults(3).getResultList()) {
             CompanyReviewReportEntity reportedE = (CompanyReviewReportEntity) o;
@@ -440,14 +456,13 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return reportedList;
     }
-    
-    
+
     @Override
     public Vector viewReviewDetails2(String reviewReportID) {
         crrEntity = lookupReportedReview(reviewReportID);
         Vector reviewReportDetails = new Vector();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         if (crrEntity != null) {
             //from reported review entity    
@@ -458,7 +473,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reviewReportDetails.add(crrEntity.getReviewID());
             reviewReportDetails.add(crrEntity.getReviewPosterID());
             reviewReportDetails.add(crrEntity.getReviewReporterID());
-            reviewReportDetails.add(crrEntity.getReviewReviewedDate());
+            reviewReportDetails.add(df.format(crrEntity.getReviewReviewedDate()));
             System.out.println("ADDED REVIEW REPORT DETAILS");
             //from review entity
             if (lookupReview(crrEntity.getReviewID()) != null) {
@@ -467,6 +482,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
                 reviewReportDetails.add(crEntity.getReviewTitle());
                 reviewReportDetails.add(crEntity.getReviewPros());
                 reviewReportDetails.add(crEntity.getReviewCons());
+                reviewReportDetails.add(crEntity.getReviewStatus());
                 System.out.println("ADDED REVIEW DETAILS");
 
                 return reviewReportDetails;
@@ -530,11 +546,11 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
 //return success;
     }
-    
+
     @Override
     public String resolveOnlyReview(String reportID) {
 
-                try {
+        try {
             crrEntity = lookupReportedReview(reportID);
             crrEntity.setReviewReportStatus("Resolved (No Issue Found)");
             crrEntity.setReviewReviewedDate();
@@ -546,16 +562,32 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
 
     }
-    
+
     @Override
     public String resolveDeleteReview(String reportID) {
 
-                try {
+        try {
             crrEntity = lookupReportedReview(reportID);
             crrEntity.setReviewReportStatus("Resolved (Deleted)");
             crrEntity.setReviewReviewedDate();
             em.merge(crrEntity);
             return "Company review report has been resolved and deleted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving company review report";
+        }
+
+    }
+
+    @Override
+    public String resolveDelistReview(String reportID) {
+
+        try {
+            crrEntity = lookupReportedReview(reportID);
+            crrEntity.setReviewReportStatus("Resolved (Delisted)");
+            crrEntity.setReviewReviewedDate();
+            em.merge(crrEntity);
+            return "Company review report has been resolved and delisted!";
         } catch (Exception ex) {
             ex.printStackTrace();
             return "Error resolving company review report";
@@ -612,6 +644,39 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
+    public String delistReview(String reviewID) {
+        //boolean reviewDeleteStatus = false;
+
+        double reviewIDNum = Double.parseDouble(reviewID);
+
+        try {
+            Query q = em.createQuery("SELECT i FROM CompanyReview i WHERE i.reviewID = :reviewID");
+            q.setParameter("reviewID", reviewIDNum);
+
+            crEntity = (CompanyReviewEntity) q.getSingleResult();
+
+            crEntity.setReviewStatus("Delisted");
+
+            //em.remove(crEntity);
+            em.flush();
+            em.clear();
+            return "Company review has been delisted!";
+            //return reviewDeleteStatus = true;
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Review to be delisted cannot be found. " + enfe.getMessage());
+            em.remove(crEntity);
+            return "Company review to be delisted could not be found";
+            //return reviewDeleteStatus;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Review to be delisted does not exist. " + nre.getMessage());
+            em.remove(crEntity);
+            return "Company review to be delisted does not exist";
+            //return reviewDeleteStatus;
+        }
+
+    }
+
+    @Override
     public Long getUnresolvedCompanyReviewReportCount() {
         Long unresolvedCompanyReviewReportCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.reviewReportID) FROM CompanyReviewReport c WHERE c.reviewReportStatus='Unresolved'");
@@ -627,7 +692,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     @Override
     public Long getResolvedCompanyReviewReportCount() {
         Long resolvedCompanyReviewReportCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(DISTINCT c.reviewReportID) FROM CompanyReviewReport c WHERE c.reviewReportStatus='Resolved'");
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.reviewReportID) FROM CompanyReviewReport c WHERE c.reviewReportStatus<>'Unresolved'");
         try {
             resolvedCompanyReviewReportCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
@@ -708,6 +773,39 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
+    public String delistJob(String jobID) {
+        //boolean jobDeleteStatus = false;
+
+        double jobIDNum = Double.parseDouble(jobID);
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Job i WHERE i.jobID = :jobID");
+            q.setParameter("jobID", jobIDNum);
+
+            jEntity = (JobEntity) q.getSingleResult();
+
+            jEntity.setJobStatus("Delisted");
+
+            //em.remove(jEntity);
+            em.flush();
+            em.clear();
+            //return jobDeleteStatus = true;
+            return "Job has been delisted!";
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Job to be delisted cannot be found. " + enfe.getMessage());
+            em.remove(jEntity);
+            return "Job to be delisted could not be found";
+            //return jobDeleteStatus;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Job to be delisted does not exist. " + nre.getMessage());
+            em.remove(jEntity);
+            return "Job to be delisted does not exist";
+            //return jobDeleteStatus;
+        }
+
+    }
+
+    @Override
     public String resolveErrand(String reportID) {
 
         //boolean success = true;
@@ -723,8 +821,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         //return success;
     }
-    
-     @Override
+
+    @Override
     public String resolveOnlyErrand(String reportID) {
 
         try {
@@ -755,7 +853,23 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         //return success;
     }
-    
+
+    @Override
+    public String resolveDelistErrand(String reportID) {
+
+        try {
+            jrEntity = lookupReportedErrand(reportID);
+            jrEntity.setJobReportStatus("Resolved (Delisted)");
+            jrEntity.setJobReviewedDate();
+            em.merge(jrEntity);
+            return "Errand report has been resolved and delisted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving errand report";
+        }
+        //return success;
+    }
+
     @Override
     public String unresolveErrand(String reportID) {
 
@@ -779,7 +893,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM JobReport i");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.getResultList()) {
             JobReportEntity reportedE = (JobReportEntity) o;
@@ -802,7 +916,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM JobReport i ORDER BY i.jobReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.setMaxResults(3).getResultList()) {
             JobReportEntity reportedE = (JobReportEntity) o;
@@ -819,15 +933,13 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return reportedList;
     }
-    
-    
 
     @Override
     public Vector viewErrandDetails2(String errandReportID) {
         jrEntity = lookupReportedErrand(errandReportID);
         Vector errandDetails = new Vector();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         if (jrEntity != null) {
             //from reported errand entity    
@@ -838,7 +950,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             errandDetails.add(jrEntity.getJobID());
             errandDetails.add(jrEntity.getJobPosterID());
             errandDetails.add(jrEntity.getJobReporterID());
-            errandDetails.add(jrEntity.getJobReviewedDate());
+            errandDetails.add(df.format(jrEntity.getJobReviewedDate()));
             System.out.println("ADDED ERRAND REPORT DETAILS");
             //from job entity
             if (lookupJob(jrEntity.getJobID()) != null) {
@@ -846,6 +958,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
                 errandDetails.add(jEntity.getJobTitle());
                 errandDetails.add(jEntity.getJobDescription());
                 errandDetails.add(jEntity.getJobImage());
+                errandDetails.add(jEntity.getJobStatus());
                 System.out.println("ADDED ERRAND DETAILS");
 
                 return errandDetails;
@@ -871,7 +984,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     @Override
     public Long getResolvedErrandsReportCount() {
         Long resolvedErrandsReportCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReportID) FROM JobReport c WHERE c.jobReportStatus='Resolved'");
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReportID) FROM JobReport c WHERE c.jobReportStatus<>'Unresolved'");
         try {
             resolvedErrandsReportCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
@@ -887,7 +1000,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM JobReviewReport i");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.getResultList()) {
             JobReviewReportEntity reportedE = (JobReviewReportEntity) o;
@@ -904,13 +1017,13 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return reportedList;
     }
-    
+
     @Override
     public List<Vector> viewReportedErrandsReviewListingDashboard() {
         Query q = em.createQuery("SELECT i FROM JobReviewReport i ORDER BY i.jobReviewReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.setMaxResults(3).getResultList()) {
             JobReviewReportEntity reportedE = (JobReviewReportEntity) o;
@@ -933,7 +1046,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         jrrEntity = lookupReportedErrandReview(errandReviewReportID);
         Vector errandReviewDetails = new Vector();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         if (jrrEntity != null) {
             //from reported errand entity    
@@ -944,13 +1057,14 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             errandReviewDetails.add(jrrEntity.getJobReviewID());
             errandReviewDetails.add(jrrEntity.getJobReviewPosterID());
             errandReviewDetails.add(jrrEntity.getJobReviewReporterID());
-            errandReviewDetails.add(jrrEntity.getJobReviewReviewedDate());
+            errandReviewDetails.add(df.format(jrrEntity.getJobReviewReviewedDate()));
             System.out.println("ADDED ERRAND REVIEW REPORT DETAILS");
             //from job entity
             if (lookupJobReview(jrrEntity.getJobReviewID()) != null) {
                 jreEntity = lookupJobReview(jrrEntity.getJobReviewID());
                 errandReviewDetails.add(jreEntity.getJobReviewRating());
                 errandReviewDetails.add(jreEntity.getJobReviewContent());
+                errandReviewDetails.add(jreEntity.getJobReviewStatus());
                 System.out.println("ADDED ERRAND REVIEW DETAILS");
 
                 return errandReviewDetails;
@@ -1014,11 +1128,11 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
         //return success;
     }
-    
+
     @Override
     public String resolveOnlyErrandReview(String reportID) {
 
-                try {
+        try {
             jrrEntity = lookupReportedErrandReview(reportID);
             jrrEntity.setJobReviewReportStatus("Resolved (No Issue Found)");
             jrrEntity.setJobReviewReviewedDate();
@@ -1029,13 +1143,12 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             return "Error resolving errand review report";
         }
 
-        
     }
-    
+
     @Override
     public String resolveDeleteErrandReview(String reportID) {
 
-                try {
+        try {
             jrrEntity = lookupReportedErrandReview(reportID);
             jrrEntity.setJobReviewReportStatus("Resolved (Deleted)");
             jrrEntity.setJobReviewReviewedDate();
@@ -1046,7 +1159,22 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             return "Error resolving errand review report";
         }
 
-        
+    }
+    
+    @Override
+    public String resolveDelistErrandReview(String reportID) {
+
+        try {
+            jrrEntity = lookupReportedErrandReview(reportID);
+            jrrEntity.setJobReviewReportStatus("Resolved (Delisted)");
+            jrrEntity.setJobReviewReviewedDate();
+            em.merge(jrrEntity);
+            return "Errand review report has been resolved and delisted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving errand review report";
+        }
+
     }
 
     @Override
@@ -1098,6 +1226,39 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
+    public String delistJobReview(String jobReviewID) {
+        //boolean jobDeleteStatus = false;
+
+        double jobReviewIDNum = Double.parseDouble(jobReviewID);
+
+        try {
+            Query q = em.createQuery("SELECT i FROM JobReview i WHERE i.jobReviewID = :jobReviewID");
+            q.setParameter("jobReviewID", jobReviewIDNum);
+
+            jreEntity = (JobReviewEntity) q.getSingleResult();
+
+            jreEntity.setJobReviewStatus("Delisted");
+
+            //em.remove(jreEntity);
+            em.flush();
+            em.clear();
+            return "Job review has been delisted!";
+            //return jobDeleteStatus = true;
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Job review to be delisted cannot be found. " + enfe.getMessage());
+            em.remove(jreEntity);
+            return "Job review to be delisted could not be found";
+            //return jobDeleteStatus;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Job review to be delisted does not exist. " + nre.getMessage());
+            em.remove(jreEntity);
+            return "Job review to be delisted does not exist";
+            //return jobDeleteStatus;
+        }
+
+    }
+
+    @Override
     public Long getUnresolvedErrandsReviewReportCount() {
         Long unresolvedErrandsReviewReportCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReviewReportID) FROM JobReviewReport c WHERE c.jobReviewReportStatus='Unresolved'");
@@ -1113,7 +1274,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     @Override
     public Long getResolvedErrandsReviewReportCount() {
         Long resolvedErrandsReviewReportCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReviewReportID) FROM JobReviewReport c WHERE c.jobReviewReportStatus='Resolved'");
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReviewReportID) FROM JobReviewReport c WHERE c.jobReviewReportStatus<>'Unesolved'");
         try {
             resolvedErrandsReviewReportCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
@@ -1142,9 +1303,36 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT i FROM EventRequest i");
         List<Vector> requestList = new ArrayList<Vector>();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.getResultList()) {
+            EventRequestEntity requestE = (EventRequestEntity) o;
+            Vector requestVec = new Vector();
+
+            uEntity = requestE.getUserEntity();
+            String username = uEntity.getUsername();
+
+            requestVec.add(requestE.getEventRequestID());
+            requestVec.add(requestE.getEventRequestStatus());
+
+            requestVec.add(df.format(requestE.getEventRequestDate()));
+            requestVec.add(username);
+
+            requestList.add(requestVec);
+        }
+        return requestList;
+    }
+
+    @Override
+    public List<Vector> viewEventRequestListingDashboard() {
+        Query q = em.createQuery("SELECT i FROM EventRequest i ORDER BY i.eventRequestDate DESC");
+        List<Vector> requestList = new ArrayList<Vector>();
+
+        System.out.println("Queried Event Request Table");
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        for (Object o : q.setMaxResults(3).getResultList()) {
             EventRequestEntity requestE = (EventRequestEntity) o;
             Vector requestVec = new Vector();
 
@@ -1167,7 +1355,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         erEntity = lookupRequestedEvent(requestID);
         Vector requestDetails = new Vector();
 
-        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
         //DateFormat df2 = new SimpleDateFormat("d MMMM yyyy");
 
         if (erEntity != null) {
@@ -1185,7 +1373,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             requestDetails.add(df.format(erEntity.getEventRequestEndDateTime()));
 
             requestDetails.add(df.format(erEntity.getEventReviewedDate()));
-            
+
             requestDetails.add(erEntity.getEventRequestVenueLat());
             requestDetails.add(erEntity.getEventRequestVenueLong());
 
