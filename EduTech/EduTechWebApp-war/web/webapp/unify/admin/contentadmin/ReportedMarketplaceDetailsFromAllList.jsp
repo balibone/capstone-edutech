@@ -90,7 +90,7 @@
                                 <%
                                 } else {
                                 %>
-                                <td><span class="label label-info"><%= itemStatus%></span></td>
+                                <td><span class="label label-success"><%= itemStatus%></span></td>
                                     <%
                                         }
                                     %>
@@ -131,9 +131,9 @@
                                 %>
                                 <td><span class="label label-success">Resolved (No Issue Found)</span></td>
                                 <%
-                                } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                } else if (reportStatus.equals("Resolved (Delisted)")) {
                                 %>
-                                <td><span class="label label-success">Resolved (Marketplace Item Deleted)</span></td>
+                                <td><span class="label label-success">Resolved (Marketplace Item Delisted)</span></td>
                                 <%
                                 } else {
                                 %>
@@ -213,13 +213,22 @@
                         <%
                         } else {
                         %>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Resolved On:&nbsp;&nbsp;<%= reviewedDate%></label>
-                    </div>
+                    <tr>
+                        <td>
+                    <center>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
+                        </div>
+                    </center>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Resolved On:&nbsp;&nbsp;<%= reviewedDate%></label>
+                            </div>
+                        </td>
+                    </tr>
                     <%
                         }
                     %>

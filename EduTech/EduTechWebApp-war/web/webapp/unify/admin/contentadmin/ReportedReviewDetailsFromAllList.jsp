@@ -42,9 +42,9 @@
     <body style="background-color: #FFFFFF;">
         <%            Vector reportListVec = (Vector) request.getAttribute("reportedReviewVec");
             String reportID, reportStatus, reportDescription, reportDate, reportedReviewID,
-                    reportedPosterID, reportedReporterID, reviewCompany, reviewTitle, reviewPro, reviewCon, reviewedDate;
+                    reportedPosterID, reportedReporterID, reviewCompany, reviewTitle, reviewPro, reviewCon, reviewedDate, reviewStatus;
             reportID = reportStatus = reportDescription = reportDate = reportedReviewID
-                    = reportedPosterID = reportedReporterID = reviewCompany = reviewTitle = reviewPro = reviewCon = reviewedDate = "";
+                    = reportedPosterID = reportedReporterID = reviewCompany = reviewTitle = reviewPro = reviewCon = reviewedDate = reviewStatus = "";
             if (reportListVec != null) {
                 reportID = (String.valueOf(reportListVec.get(0)));
                 reportStatus = (String.valueOf(reportListVec.get(1)));
@@ -61,6 +61,7 @@
                     reviewTitle = (String.valueOf(reportListVec.get(9)));
                     reviewPro = (String.valueOf(reportListVec.get(10)));
                     reviewCon = (String.valueOf(reportListVec.get(11)));
+                    reviewStatus = (String.valueOf(reportListVec.get(12)));
                 }
             }
         %>
@@ -80,7 +81,20 @@
                             <%
                                 if (reportListVec.size() > 8) {
                             %>
-
+                            <tr>
+                                <td>Review Status</td>
+                                <%
+                                    if (reviewStatus.equals("Delisted")) {
+                                %>
+                                <td><span class="label label-danger"><%= reviewStatus%></span></td>
+                                    <%
+                                    } else {
+                                    %>
+                                <td><span class="label label-success">Listed</span></td>
+                                <%
+                                    }
+                                %>
+                            </tr>
                             <tr>
                                 <td>Company Reviewed</td>
                                 <td><%= reviewCompany%></td>
@@ -124,9 +138,9 @@
                                 %>
                                 <td><span class="label label-success">Resolved (No Issue Found)</span></td>
                                 <%
-                                } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                } else if (reportStatus.equals("Resolved (Delisted)")) {
                                 %>
-                                <td><span class="label label-success">Resolved (Company Review Deleted)</span></td>
+                                <td><span class="label label-success">Resolved (Company Review Delisted)</span></td>
                                 <%
                                 } else {
                                 %>
@@ -183,11 +197,11 @@
                         <%-- resolve and delete review --%>
                         <td>
                             <form action="ContentAdmin?pageTransit=goToAllReportedListing#companyReview" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveDeleteReviewReportFromAllList"/>
+                                <input type="hidden" name="pageTransit" value="resolveDelistReviewReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <input type="hidden" name="reportedReviewID" value="<%= reportedReviewID%>" />
-                                <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm deletion?')">Delete Review & Resolve</button>
+                                <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm delisting?')">Delist Review & Resolve</button>
                             </form>
                         </td>
                         <%
@@ -206,13 +220,22 @@
                         <%
                         } else {
                         %>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Resolved On:&nbsp;&nbsp;<%= reviewedDate%></label>
-                    </div>
+                    <tr>
+                        <td>
+                    <center>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
+                        </div>
+                    </center>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Resolved On:&nbsp;&nbsp;<%= reviewedDate%></label>
+                            </div>
+                        </td>
+                    </tr>
                     <%
                         }
                     %>

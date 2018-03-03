@@ -18,7 +18,7 @@
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/weblayout/errands/ViewJobDetailsCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/weblayout/contentadmin/EventRequestDetailsCSS.css" rel="stylesheet" type="text/css" />
 
 
         <!-- JAVASCRIPT -->
@@ -97,7 +97,7 @@
                                     <input type="hidden" id="requestVenueLat" value="<%= requestVenueLat%>" />
                                     <input type="hidden" id="requestVenueLong" value="<%= requestVenueLong%>" />
                                     Requested Location: <strong><%= requestVenue%></strong><br/>
-                                    <div id="venueMap" style="width: auto; height: 300px; margin-top: 10px;"></div>
+                                    <div id="venueMap" style="width: auto; height: 200px; margin-top: 10px;"></div>
                                 </td>
                             </tr>
                         </table>
@@ -173,21 +173,41 @@
                         <%
                         } else if (requestStatus.equals("Approved")) {
                         %>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Request Approved On:&nbsp;&nbsp;<%= requestReviewedDate%></label>
-                    </div>
+                    <tr>
+                        <td>
+                    <center>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
+                        </div>
+                    </center>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Request Approved On:&nbsp;&nbsp;<%= requestReviewedDate%></label>
+                            </div>
+                        </td>
+                    </tr>
                     <%
                     } else if (requestStatus.equals("Rejected")) {
                     %>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Request Rejected On:&nbsp;&nbsp;<%= requestReviewedDate%></label>
-                    </div>
+                    <tr>
+                        <td>
+                    <center>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><b>NO FURTHER ACTION NEEDED&nbsp;&nbsp;</b></label>
+                        </div>
+                    </center>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Request Rejected On:&nbsp;&nbsp;<%= requestReviewedDate%></label>
+                            </div>
+                        </td>
+                    </tr>
                     <%
                         }
                     %>

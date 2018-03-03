@@ -239,9 +239,9 @@
                                                             %>
                                                             <td><span class="label label-success">Resolved (No Issue Found)</span></td>
                                                             <%
-                                                               } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                                               } else if (reportStatus.equals("Resolved (Delisted)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved (Errand Deleted)</span></td>
+                                                            <td><span class="label label-success">Resolved (Errand Delisted)</span></td>
                                                             <%
                                                             } else {
                                                             %>
@@ -314,9 +314,9 @@
                                                             %>
                                                             <td><span class="label label-success">Resolved (No Issue Found)</span></td>
                                                             <%
-                                                               } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                                               } else if (reportStatus.equals("Resolved (Delisted)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved (Errand Review Deleted)</span></td>
+                                                            <td><span class="label label-success">Resolved (Errand Review Delisted)</span></td>
                                                             <%
                                                             } else {
                                                             %>
@@ -388,9 +388,9 @@
                                                             %>
                                                             <td><span class="label label-success">Resolved (No Issue Found)</span></td>
                                                             <%
-                                                               } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                                               } else if (reportStatus.equals("Resolved (Delisted)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved (Marketplace Item Deleted)</span></td>
+                                                            <td><span class="label label-success">Resolved (Marketplace Item Delisted)</span></td>
                                                             <%
                                                             } else {
                                                             %>
@@ -461,9 +461,9 @@
                                                             %>
                                                             <td><span class="label label-success">Resolved (No Issue Found)</span></td>
                                                             <%
-                                                               } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                                               } else if (reportStatus.equals("Resolved (Delisted)")) {
                                                             %>
-                                                            <td><span class="label label-success">Resolved (Company Review Deleted)</span></td>
+                                                            <td><span class="label label-success">Resolved (Company Review Delisted)</span></td>
                                                             <%
                                                             } else {
                                                             %>

@@ -1,5 +1,5 @@
 var center = L.bounds([1.56073, 104.11475], [1.16, 103.502]).getCenter();
-var search_marker, icon_popup, end_icon_popup;
+var search_marker;
 
 var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png', {
     detectRetina: true,
@@ -31,7 +31,7 @@ $(document).ready(function () {
     map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
     basemap.addTo(map);
     
-    
+    if (search_marker) { map.removeLayer(search_marker); }
     search_marker = L.marker([requestVenueLat, requestVenueLong], { draggable: false, icon: pointerIcon }).addTo(map).bindPopup("Event Location: " + requestVenue);
     
     
