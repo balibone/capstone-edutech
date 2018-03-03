@@ -31,8 +31,6 @@ import javax.ws.rs.core.MediaType;
 @Path("group")
 public class GroupREST {
     
-    @PersistenceContext(unitName = "EduTechWebApp-warPU")
-    private EntityManager em;
     @EJB
     GroupRESTMgrBean etr;
     

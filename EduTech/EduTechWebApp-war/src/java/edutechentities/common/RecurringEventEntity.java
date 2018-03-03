@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edutechentities;
+package edutechentities.common;
 
+import edutechentities.module.ModuleEntity;
 import java.io.Serializable;
 import java.sql.Time;
 import java.time.DayOfWeek;
@@ -14,14 +15,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Derian
  */
 @Entity(name="RecurringEvent")
+@XmlRootElement
 public class RecurringEventEntity implements Serializable {
-
+    
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;

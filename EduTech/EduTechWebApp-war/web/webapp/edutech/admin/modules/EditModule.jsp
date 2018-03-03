@@ -141,6 +141,7 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Description</th>
+                                    <th>Location</th>
                                     <th>Day</th>
                                     <th>From</th>
                                     <th>To</th>
@@ -157,10 +158,12 @@
                                             String startTime = (String) eventInfo.get(3);
                                             String endTime = (String) eventInfo.get(4);
                                             String eventId = (String) eventInfo.get(5);
+                                            String location = (String) eventInfo.get(6);
                                 %>
                                 <tr>
                                     <td><%=title%></td>
                                     <td><%=eventDescription%></td>
+                                    <td><%=location%></td>
                                     <td><%=dayOfWeek%></td>
                                     <td><%=startTime%></td>
                                     <td><%=endTime%><a href="EduTechAdmin?pageTransit=removeEvent&eventId=<%=eventId%>&id=<%=moduleCode%>"><i class="pull-right fas fa-trash-alt"></i></a></td>

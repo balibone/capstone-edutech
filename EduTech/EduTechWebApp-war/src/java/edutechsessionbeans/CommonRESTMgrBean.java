@@ -8,12 +8,19 @@ package edutechsessionbeans;
 
 import commoninfraentities.UserEntity;
 import edutechentities.common.PostEntity;
+import edutechentities.common.RecurringEventEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.common.ScheduleItemEntity;
+import edutechentities.common.SemesterEntity;
 import edutechentities.common.TaskEntity;
+import edutechentities.module.ModuleEntity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +29,7 @@ import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -37,11 +45,11 @@ public class CommonRESTMgrBean {
     // HELPER METHOD 
     public String getCurrentISODate() {
         // get current time in ISO 8601 format
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); 
-        df.setTimeZone(tz);
-        String nowAsISO = df.format(new Date());
-        return nowAsISO;
+//        TimeZone tz = TimeZone.getTimeZone("UTC");
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); 
+//        df.setTimeZone(tz);
+//        String nowAsISO = df.format(new Date());
+        return LocalDateTime.now().toString();
     }
     
     public void createUser(UserEntity entity) {
@@ -56,7 +64,7 @@ public class CommonRESTMgrBean {
         //instantiate curr entity into new entity
         old = entity;
         //update curr entity in database. (reattach entity)
-        em.merge(entity);
+        em.merge(old);
     }
 
     public List<UserEntity> findAllUsers() {
@@ -80,7 +88,7 @@ public class CommonRESTMgrBean {
     }
 
     public void createScheduleItem(ScheduleItemEntity entity) {
-        entity.setCreatedAt(getCurrentISODate());
+        entity.setCreatedAt(LocalDateTime.parse(getCurrentISODate()));
         // get proper User - initially json createdBy only contains a username key
         UserEntity user = (UserEntity) entity.getCreatedBy();
         //Set assignedTo
@@ -118,13 +126,106 @@ public class CommonRESTMgrBean {
     
     public List<ScheduleItemEntity> findUserScheduleItems(String username) {
         UserEntity user = em.find(UserEntity.class, username);
+        //to store all schedule items for this user. (immediate schedule items + converted recurring events)
         List<ScheduleItemEntity> userScheduleItems = new ArrayList();
+        
+        //GET ALL SCHEDULE ITEMS
         List<ScheduleItemEntity> allScheduleItems = em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
+        //GET IMMEDIATE SCHEDULE ITEMS
         for(ScheduleItemEntity scheduleItem: allScheduleItems){
             if(scheduleItem.getAssignedTo().contains(user)){
                 userScheduleItems.add(scheduleItem);
             }
         }
+        //GET CURRENT SEMESTER
+        List<SemesterEntity> sems = em.createQuery("SELECT s FROM Semester s").getResultList();
+        LocalDate currDate = LocalDate.now();
+        SemesterEntity currSem = null;
+        for(SemesterEntity sem : sems){
+            LocalDate startDate = sem.getStartDate();
+            LocalDate endDate = sem.getEndDate();
+            //if semester starts before or on today's date and end after or on today's date, then it is current semester
+            //ASSUMPTION : there are no 2 sems with overlapping dates.
+            if( (startDate.isBefore(currDate) || endDate.isEqual(currDate)) && (endDate.isAfter(currDate) || endDate.isEqual(currDate)) ){
+                currSem = sem;
+            }
+        }
+        
+        List<RecurringEventEntity> allRecurringEvents = new ArrayList();
+        //GET ALL RECURRING EVENTS OF THIS USER (AKA RECURRING EVENTS OF MODULES THIS USER IS IN)
+        Query q1 = em.createQuery("SELECT r FROM RecurringEvent r");
+        //For all modules which the user is in, get the recurring events and add in to his list of recurring events. 
+        for(Object o: q1.getResultList()){
+            RecurringEventEntity event = (RecurringEventEntity) o;
+            if(event.getModule().getMembers().contains(user)){
+                allRecurringEvents.add(event);
+            }
+        }
+        //convert recurring event to schedule item here, by checking against currSem's start date and end date.
+        /*
+        Create 1st schedule item on the first DayOfWeek on or after the sem start date. 
+        Subsequently create one event every week (+7 days), and stop when end date of latest created schedule item 
+        overshoots sem end date. 
+        */
+        
+        DayOfWeek semStartDay = currSem.getStartDate().getDayOfWeek();//get sem start day.
+        System.out.println(Arrays.toString(allRecurringEvents.toArray()));
+        for(RecurringEventEntity event : allRecurringEvents){
+            //conversion = first schedule item to create.
+            ScheduleItemEntity conversion = new ScheduleItemEntity();
+            //get difference in days between sem start day and event day.
+            int difference = event.getDayOfWeek().compareTo(semStartDay);
+            LocalDate eventStartDate = null;
+            if(difference == 0){//event day is same as sem start day
+                //sets start date of new schedule to start date of semester, combined with start time in recurring event.
+                eventStartDate = currSem.getStartDate();
+                conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+                conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+            }else if(difference < 0 ){//event day is before sem start day
+                //set first start date next week instead.
+                eventStartDate = currSem.getStartDate().plusDays(7+difference);
+                conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+                conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+            }else if(difference > 0){//event day is after sem start day
+                //set first start date this week.
+                eventStartDate = currSem.getStartDate().plusDays(difference);
+                conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+                conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+            }
+            //set description
+            conversion.setDescription(event.getDescription());
+            //set location
+            conversion.setLocation(event.getLocation());
+            //set title
+            conversion.setTitle(event.getTitle());
+            //set type
+            conversion.setType("timetable");
+            //set moduleCode
+            conversion.setModuleCode(event.getModule().getModuleCode());
+            userScheduleItems.add(conversion);
+            //stop this while loop only when the (endDate+1 week) of new schedule entity is later than sem end date 2359.
+            while(!conversion.getEndDate().plusWeeks(1).isAfter(currSem.getEndDate().atTime(23, 59))){
+                //temp is used to temporarily store new schedule item entity (the next week's one)
+                ScheduleItemEntity temp = conversion;
+                //set start date as 1 week after (time is actually already inside because this value is actually timestamp)
+                temp.setStartDate(conversion.getStartDate().plusWeeks(1));
+                //do same for end date
+                temp.setEndDate(conversion.getEndDate().plusWeeks(1));
+//                //set description
+//                temp.setDescription(conversion.getDescription());
+//                //set location
+//                temp.setLocation(conversion.getLocation());
+//                //set title
+//                temp.setTitle(conversion.getTitle());
+//                //set type
+//                temp.setType("timetable");
+//                //set moduleCode
+//                temp.setModuleCode(conversion.getModuleCode());
+                conversion = temp;
+                userScheduleItems.add(conversion);
+            }
+        }
+        
         return userScheduleItems;
     }
     
@@ -247,6 +348,51 @@ public class CommonRESTMgrBean {
         UserEntity verifier = em.find(UserEntity.class, username);
         task.setVerifiedBy(verifier);
         task.setVerifiedAt(getCurrentISODate());
+    }
+
+    public void createRecurringEvent(RecurringEventEntity entity) {
+        em.persist(entity);
+    }
+    public void editRecurringEvent(Long id, RecurringEventEntity entity) {
+        RecurringEventEntity old = em.find(RecurringEventEntity.class, id);
+        old = entity;
+        em.merge(old);
+    }
+
+    public void removeRecurringEvent(Long id) {
+        em.remove(em.find(RecurringEventEntity.class, id));
+    }
+
+    public RecurringEventEntity findRecurringEvent(Long id) {
+        return em.find(RecurringEventEntity.class, id);
+    }
+
+    public List<RecurringEventEntity> findAllRecurringEvents() {
+        Query q1 = em.createQuery("SELECT r FROM RecurringEvent r");
+        return q1.getResultList() ;
+    }
+
+    public void createSemester(SemesterEntity entity) {
+        em.persist(entity);
+    }
+
+    public void editSemester(Long id, SemesterEntity entity) {
+        SemesterEntity old = em.find(SemesterEntity.class, id);
+        old = entity;
+        em.merge(old);
+    }
+
+    public void removeSemester(Long id) {
+        em.remove(em.find(SemesterEntity.class, id));
+    }
+
+    public SemesterEntity findSemester(Long id) {
+        return em.find(SemesterEntity.class, id);    
+    }
+
+    public List<SemesterEntity> findAllSemesters() {
+        Query q1 = em.createQuery("SELECT s FROM Semester s");
+        return q1.getResultList() ;
     }
 
 }

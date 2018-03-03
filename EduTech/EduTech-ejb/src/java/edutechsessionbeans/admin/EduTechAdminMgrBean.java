@@ -16,8 +16,10 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -44,26 +46,25 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
 
     @Override
     public Object getModuleCount() {
-        return em.createQuery("SELECT COUNT(DISTINCT m.moduleCode) FROM Module m WHERE m.activeStatus=1").getSingleResult();
+        return em.createQuery("SELECT COUNT(DISTINCT m.moduleCode) FROM Module m").getSingleResult();
         
     }
 
     @Override
     public Object getSemesterCount() {
-        return em.createQuery("SELECT COUNT(DISTINCT s.id) FROM Semester s WHERE s.activeStatus=1").getSingleResult();
+        return em.createQuery("SELECT COUNT(DISTINCT s.id) FROM Semester s").getSingleResult();
     }
 
     @Override
     public boolean createSemester(String title, String startDate, String endDate) {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date startD = dateFormat.parse(startDate);
-            Date endD = dateFormat.parse(endDate);
+        try{
+            LocalDate startD = LocalDate.parse(startDate);
+            LocalDate endD = LocalDate.parse(endDate);
             SemesterEntity sem = new SemesterEntity(title,startD,endD);
             em.persist(sem);
             return true;
-        } catch (ParseException ex) {
-            Logger.getLogger(EduTechAdminMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(DateTimeParseException e){
+            System.out.println("Error parsing date from HTML input!");
             return false;
         }
     }
@@ -72,10 +73,10 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     public ArrayList getAllSemesters() {
         ArrayList semesterList = new ArrayList<ArrayList>();
         SemesterEntity sem = new SemesterEntity();
-        //format Date to String in format of e.g. 05 July 2019 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
+        //format LocalDate to String in format of e.g. 05 July 2019 
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM yyyy");
         //Find all active semesters
-        Query q1 = em.createQuery("SELECT s FROM Semester s WHERE s.activeStatus=1");
+        Query q1 = em.createQuery("SELECT s FROM Semester s");
         //Find the number of unique modules under this semester
         Query q2 = em.createQuery("SELECT COUNT(m) FROM Semester s, Module m WHERE m.semester = :semester");
         for(Object o : q1.getResultList()){
@@ -85,8 +86,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             semInfo.add(sem.getTitle());
             q2.setParameter("semester", sem);
             semInfo.add(q2.getSingleResult());
-            semInfo.add(sdf.format(sem.getStartDate()));
-            semInfo.add(sdf.format(sem.getEndDate()));
+            semInfo.add(dtf.format(sem.getStartDate()));
+            semInfo.add(dtf.format(sem.getEndDate()));
             semesterList.add(semInfo);
         }
         return semesterList;
@@ -94,13 +95,13 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
 
     @Override
     public ArrayList getSemesterInfo(String id) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM yyyy");
         ArrayList semInfo = new ArrayList();
         SemesterEntity sem = em.find(SemesterEntity.class, Long.parseLong(id));
         semInfo.add(sem.getId());
         semInfo.add(sem.getTitle());
-        semInfo.add(sdf.format(sem.getStartDate()));
-        semInfo.add(sdf.format(sem.getEndDate()));
+        semInfo.add(dtf.format(sem.getStartDate()));
+        semInfo.add(dtf.format(sem.getEndDate()));
         
         //get list of modules in this semester
         List modules = sem.getModules();
@@ -108,15 +109,14 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         ArrayList moduleInfoList = new ArrayList();
         for(Object o : modules){
             ModuleEntity mod = (ModuleEntity)o;
-            //only extract module info if mod is active.
-            if(mod.getActiveStatus()){
-                //store module information for each module
-                ArrayList moduleInfo = new ArrayList();
-                
-                moduleInfo.add(mod.getModuleCode());
-                moduleInfo.add(mod.getTitle());
-                moduleInfoList.add(moduleInfo);
-            }
+            
+            //store module information for each module
+            ArrayList moduleInfo = new ArrayList();
+            
+            moduleInfo.add(mod.getModuleCode());
+            moduleInfo.add(mod.getTitle());
+            moduleInfoList.add(moduleInfo);
+            
         }
         
         semInfo.add(moduleInfoList);
@@ -133,16 +133,15 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     @Override
     public boolean editSemester(String title, String startDate, String endDate, String id) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date startD = dateFormat.parse(startDate);
-            Date endD = dateFormat.parse(endDate);
+            LocalDate startD = LocalDate.parse(startDate);
+            LocalDate endD = LocalDate.parse(endDate);
             SemesterEntity sem = em.find(SemesterEntity.class,Long.valueOf(id));
             sem.setTitle(title);
             sem.setStartDate(startD);
             sem.setEndDate(endD);
             return true;
-        } catch (ParseException ex) {
-            Logger.getLogger(EduTechAdminMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DateTimeParseException ex) {
+            System.out.println("Error parsing date from HTML input!");
             return false;
         }
     }
@@ -166,7 +165,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         ModuleEntity mod = new ModuleEntity();
 
         //Find all active modules
-        Query q1 = em.createQuery("SELECT m FROM Module m WHERE m.activeStatus=1");
+        Query q1 = em.createQuery("SELECT m FROM Module m");
 
         for(Object o : q1.getResultList()){
             mod = (ModuleEntity) o;
@@ -189,8 +188,6 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     @Override
     public ArrayList getModuleInfo(String id) {
         
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
-        
         ArrayList modInfo = new ArrayList();
         ModuleEntity mod = em.find(ModuleEntity.class, id);
         modInfo.add(String.valueOf(mod.getModuleCode()));
@@ -204,37 +201,35 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         ArrayList userInfoList = new ArrayList();
         for(Object o : users){
             UserEntity user = (UserEntity)o;
-            //only extract module info if user is active.
-            if(user.getUserActiveStatus()){
-                ArrayList userInfo = new ArrayList();
-                userInfo.add(String.valueOf(user.getUsername()));
-                userInfo.add(String.valueOf(user.getUserSalutation()+" "+user.getUserFirstName()+" "+user.getUserLastName()));
-                String userType = user.getUserType();
-                switch(userType){
-                    case "student":
-                        userType = "Student";
-                        break;
-                    case "instructor":
-                        userType = "Instructor";
-                        break;
-                    case "unifyadmin":
-                        userType="Unify Admin";
-                        break;
-                    case "edutechadmin":
-                        userType="EduTech Admin";
-                        break;
-                    case "dualadmin":
-                        userType="Dual Admin";
-                        break;
-                    case "superadmin":
-                        userType="System Admin";
-                        break;
-                    default:
-                        break;
-                }
-                userInfo.add(userType);
-                userInfoList.add(userInfo);
+            ArrayList userInfo = new ArrayList();
+            userInfo.add(String.valueOf(user.getUsername()));
+            userInfo.add(String.valueOf(user.getUserSalutation()+" "+user.getUserFirstName()+" "+user.getUserLastName()));
+            String userType = user.getUserType();
+            switch(userType){
+                case "student":
+                    userType = "Student";
+                    break;
+                case "instructor":
+                    userType = "Instructor";
+                    break;
+                case "unifyadmin":
+                    userType="Unify Admin";
+                    break;
+                case "edutechadmin":
+                    userType="EduTech Admin";
+                    break;
+                case "dualadmin":
+                    userType="Dual Admin";
+                    break;
+                case "superadmin":
+                    userType="System Admin";
+                    break;
+                default:
+                    break;
             }
+            userInfo.add(userType);
+            userInfoList.add(userInfo);
+            
         }
 
         modInfo.add(userInfoList);
@@ -275,6 +270,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
 
     @Override
     public void addEventToMod(String title, String location, String day, String startTime, String endTime, String description, String id) {
+        ModuleEntity mod = em.find(ModuleEntity.class,id);
         //creates new event and adds in the attribute values
         RecurringEventEntity event = new RecurringEventEntity();
         event.setTitle(title);
@@ -285,10 +281,11 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         System.out.println("END TIME IS "+endTime);
         event.setEndTime(LocalTime.parse(endTime));
         event.setDescription(description);
+        event.setModule(mod);
         //persist new event
         em.persist(event);
         //adds new event to this module.
-        em.find(ModuleEntity.class,id).getRecurringEvents().add(event);
+        mod.getRecurringEvents().add(event);
     }
 
     @Override
@@ -299,7 +296,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         UserEntity user = em.find(UserEntity.class, id);
 
         //Find all active modules
-        Query q1 = em.createQuery("SELECT m FROM Module m WHERE m.activeStatus=1");
+        Query q1 = em.createQuery("SELECT m FROM Module m");
         
         for(Object o : q1.getResultList()){
             mod = (ModuleEntity) o;
@@ -342,18 +339,20 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
 
     @Override
     public ArrayList getCurrentSemester() {
-        Date currDate = new Date();
+        LocalDate currDate = LocalDate.now();
         ArrayList semInfo = new ArrayList();
         Query q1 = em.createQuery("SELECT s FROM Semester s");
         for(Object o:q1.getResultList()){
             SemesterEntity s = (SemesterEntity) o;
-            Date startDate = s.getStartDate();
-            Date endDate = s.getEndDate();
+            LocalDate startDate = s.getStartDate();
+            LocalDate endDate = s.getEndDate();
             //if semester starts before or on today's date and end after or on today's date, then it is current semester
             //assumption : there are no 2 sems which dates overlap.
-            if( (startDate.before(currDate) || endDate.equals(currDate)) && (endDate.after(currDate) || endDate.equals(currDate)) ){
+            if( (startDate.isBefore(currDate) || startDate.isEqual(currDate)) && (endDate.isAfter(currDate) || endDate.isEqual(currDate)) ){
                 semInfo.add(s.getTitle());//get title
+                //System.out.println("SEM TITLE IS: "+s.getTitle());
                 semInfo.add(String.valueOf(s.getModules().size()));//get number of modules
+                //System.out.println("No. OF MODULES ARE: "+s.getModules().size());
             }
         }
         return semInfo;
@@ -366,6 +365,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         if(mod.getRecurringEvents().contains(event)){
             mod.getRecurringEvents().remove(event);
         }
+        em.remove(event);
     }
 
     @Override
@@ -382,6 +382,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
                 eventInfo.add(event.getStartTime().format(timeFormat));
                 eventInfo.add(event.getEndTime().format(timeFormat));
                 eventInfo.add(String.valueOf(event.getId()));
+                eventInfo.add(event.getLocation());
                 eventList.add(eventInfo);
             }
         }
