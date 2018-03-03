@@ -17,9 +17,9 @@
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/easy-autocomplete/easy-autocomplete.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/admin/weblayout/contentadmin/ReportedMarketplaceDetailsFromAllListCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/weblayout/errands/ViewJobDetailsCSS.css" rel="stylesheet" type="text/css" />
+
 
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
@@ -29,6 +29,9 @@
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll-v1.3.1.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll.horizontal-v0.6.5.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.sparkline-v2.1.2.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/jquery.dataTables-v1.9.4.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/dataTables.responsive-v0.1.2.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminAppJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginFormComponentsJS.js"></script>
@@ -66,25 +69,69 @@
         <div style="margin: 30px 20px 0 20px">
             <div class="tabbable tabbable-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#reportInfo" data-toggle="tab">Report Details</a></li>
+                    <li class="active"><a href="#reportInfo" data-toggle="tab">Request Details</a></li>
                     <li><a href="#reportedItem" data-toggle="tab">Details of Item Reported</a></li>
                 </ul>
-                <%-- primary tab --%>
+                <%-- tab 1 --%>
                 <div class="tab-content">
+                    <div class="tab-pane" id="reportedItem">
+                        <table class="table table-hover table-bordered">
+                            <%--- to display item when found --%>
+                            <%
+                                if (reportListVec.size() > 8) {
+                            %>
+
+                            <tr>
+                                <td>Item Status</td>
+                                <%
+                                    if (itemStatus.equals("Delisted")) {
+                                %>
+                                <td><span class="label label-danger">Delisted</span></td>
+                                <%
+                                } else {
+                                %>
+                                <td><span class="label label-info"><%= itemStatus%></span></td>
+                                    <%
+                                        }
+                                    %>
+
+                            </tr>
+                            <tr>
+                                <td>Item Name</td>
+                                <td><%= itemName%></td>
+                            </tr>
+                            <tr>
+                                <td>Item Description</td>
+                                <td><%= itemDescription%></td>
+                            </tr>
+                            <%
+                            } else {
+                            %>
+                            <div class="form-group">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"> <b>ITEM HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
+                            </div>
+                            <%
+                                }
+                            %> 
+
+                        </table>
+                    </div>
+
+                    <%-- next tab --%>
                     <div class="tab-pane active" id="reportInfo">
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report ID:&nbsp;&nbsp;<u><%= reportID%></u></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Status:&nbsp;&nbsp;
+                        <table class="table table-hover table-bordered">
+                            <tr>
+                                <td>Report ID</td>
+                                <td><%= reportID%></td>
+                            </tr>
+                            <tr>
+                                <td>Report Status</td>
                                 <%
                                     if (reportStatus.equals("Resolved (No Issue Found)")) {
                                 %>
                                 <td><span class="label label-success">Resolved (No Issue Found)</span></td>
                                 <%
-                                    } else if (reportStatus.equals("Resolved (Deleted)")) {
+                                } else if (reportStatus.equals("Resolved (Deleted)")) {
                                 %>
                                 <td><span class="label label-success">Resolved (Marketplace Item Deleted)</span></td>
                                 <%
@@ -94,105 +141,29 @@
                                 <%
                                     }
                                 %>
-                            </label>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Description:&nbsp;&nbsp;<%= reportDescription%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Date:&nbsp;&nbsp;<%= reportDate%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Reported Item ID:&nbsp;&nbsp;<%= reportedItemID%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Item Poster:&nbsp;&nbsp;<%= reportedPosterID%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User ID of Reporter:&nbsp;&nbsp;<%= reportedReporterID%></label>
-                        </div>
-
-                    </div>
-
-                    <%-- secondary tab --%>
-                    <div class="tab-pane" id="reportedItem">
-
-                        <%--- to display item when found --%>
-                        <%
-                            if (reportListVec.size() > 8) {
-                        %>
-                        <table class="formFields" border="0">
-                            <tr><td colspan="3">&nbsp;</td></tr>
-                            <%-- column 1 --%>
-                            <tr>
-                                <td>
-                                    <div class="form-group">  
-                                        <div class="image-upload">
-                                            <img id="output-image" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
-                                        </div>
-                                    </div>
-                                </td>
-                            
-                                
-                                <%-- column 2 --%>
-                            <td>
-                            <td>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Status:&nbsp;&nbsp;</td>
-                                            <%
-                                                if (itemStatus.equals("Delisted")) {
-                                            %>
-                                            <td><span class="label label-danger">Delisted</span></td>
-                                            <%
-                                            } else {
-                                            %>
-                                            <td><span class="label label-info"><%= itemStatus%></span></td>
-                                                <%
-                                                    }
-                                                %>
-                                        </label>
-                                    </div>
-                            
-                            
-                            
-                            <tr>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name:&nbsp;&nbsp;<%= itemName%></label>
-                                    </div>
-                                </td>
                             </tr>
-
                             <tr>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Description:&nbsp;&nbsp;<%= itemDescription%></label>
-                                    </div>
-                                </td>
+                                <td>Report Description</td>
+                                <td><%= reportDescription%></td>
                             </tr>
-                                <%
-                                } else {
-                                %>
-                                <tr>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"><b>ITEM HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
-                                    </div>
-                                </td>
-                                </tr>
-                                <%
-                                    }
-                                %> 
-
-                                </td>
-                            
+                            <tr>
+                                <td>Report Date</td>
+                                <td><%= reportDate%></td>
+                            </tr>
+                            <tr>
+                                <td>Reported Item ID</td>
+                                <td><%= reportedItemID%></td>
+                            </tr>
+                            <tr>
+                                <td>User ID of Review Poster</td>
+                                <td><%= reportedPosterID%></td>
+                            </tr>
+                            <tr>
+                                <td>User ID of Reporter</td>
+                                <td><%= reportedReporterID%></td>
+                            </tr>
                         </table>
-                        <%-- end of row div --%>
                     </div>
                 </div>
             </div>
@@ -252,6 +223,9 @@
                     <%
                         }
                     %>
+
+
+
                     </tr>
             </div>
         </div>

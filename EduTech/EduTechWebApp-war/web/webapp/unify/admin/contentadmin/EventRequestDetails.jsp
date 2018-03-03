@@ -17,8 +17,9 @@
         <link href="css/unify/admin/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/admin/baselayout/easy-autocomplete/easy-autocomplete.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/admin/weblayout/errands/ViewJobDetailsCSS.css" rel="stylesheet" type="text/css" />
+
 
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
@@ -28,13 +29,15 @@
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll-v1.3.1.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll.horizontal-v0.6.5.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/jquery.sparkline-v2.1.2.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/jquery.dataTables-v1.9.4.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/unify/admin/basejs/dataTable/dataTables.responsive-v0.1.2.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminAppJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginFormComponentsJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/leaflet/leaflet.js"></script>
         <script type="text/javascript" src="js/unify/admin/webjs/contentadmin/EventRequestDetailsJS.js"></script>
-
     </head>
     <body style="background-color: #FFFFFF;">
         <%            Vector eventRequestVec = (Vector) request.getAttribute("eventRequestVec");
@@ -60,69 +63,85 @@
             }
         %>
 
+
         <div style="margin: 30px 20px 0 20px">
             <div class="tabbable tabbable-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#reportInfo" data-toggle="tab">Request Details</a></li>
                     <li><a href="#eventRequest" data-toggle="tab">Details of Event Requested</a></li>
                 </ul>
-
-                <%-- primary tab --%>
+                <%-- tab 1 --%>
                 <div class="tab-content">
-                    <div class="tab-pane active" id="reportInfo">
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Request ID:&nbsp;&nbsp;<u><%= requestID%></u></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Request Status:&nbsp;&nbsp;<%= requestStatus%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Date of Request Submitted:&nbsp;&nbsp;<%= requestDate%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Requestor ID:&nbsp;&nbsp;<%= requesterID%></label>
-                        </div>
-
+                    <div class="tab-pane" id="eventRequest">
+                        <table class="table table-hover table-bordered">
+                            <tr>
+                                <td>Requested Event Description</td>
+                                <td><%= requestDescription%></td>
+                            </tr>
+                            <tr>
+                                <td>Requested Venue of Event</td>
+                                <td><%= requestVenue%></td>
+                            </tr>
+                            <tr>
+                                <td>Requested Start Date & Time of Event</td>
+                                <td><%= requestStartDateTime%></td>
+                            </tr>
+                            <tr>
+                                <td>Requested End Date & Time of Event</td>
+                                <td><%= requestEndDateTime%></td>
+                            </tr>
+                            <tr>
+                                <td>Requested Location</td>
+                                <td>
+                                    <input type="hidden" id="requestVenue" value="<%= requestVenue%>" />
+                                    <input type="hidden" id="requestVenueLat" value="<%= requestVenueLat%>" />
+                                    <input type="hidden" id="requestVenueLong" value="<%= requestVenueLong%>" />
+                                    Requested Location: <strong><%= requestVenue%></strong><br/>
+                                    <div id="venueMap" style="width: auto; height: 300px; margin-top: 10px;"></div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
 
-                    <%-- secondary tab --%>
-                    <div class="tab-pane" id="eventRequest">
+                    <%-- next tab --%>
+                    <div class="tab-pane active" id="reportInfo">
+                        <table class="table table-hover table-bordered">
+                            <tr>
+                                <td>Request ID</td>
+                                <td><%= requestID%></td>
+                            </tr>
+                            <tr>
+                                <td>Request Status</td>
+                                <%
+                                    if (requestStatus.equals("Approved")) {
+                                %>
+                                <td><span class="label label-success">Approved</span></td>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Requested Event Description:&nbsp;&nbsp;<%= requestDescription%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Requested Venue of Event:&nbsp;&nbsp;<%= requestVenue%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Requested Start Date & Time of Event:&nbsp;&nbsp;<%= requestStartDateTime%></label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Requested End Date & Time of Event:&nbsp;&nbsp;<%= requestEndDateTime%></label>
-                        </div>
-
-                        <tr>
-                            
-                        Venue: <%= requestVenue%><br/>
-                        <td>
-                            <input type="hidden" id="requestVenue" value="<%= requestVenue%>" />
-                            <input type="hidden" id="requestVenueLat" value="<%= requestVenueLat%>" />
-                            <input type="hidden" id="requestVenueLong" value="<%= requestVenueLong%>" />
-                            <div id="venueMap" style="width: auto; height: 300px; margin-top: 10px;"></div>
-                        </td>
-                        </tr>
-
+                                <%
+                                } else if (requestStatus.equals("Rejected")) {
+                                %>
+                                <td><span class="label label-danger">Rejected</span></td>
+                                <%
+                                } else {
+                                %>
+                                <td><span class="label label-warning">Pending</span></td>
+                                <%
+                                    }
+                                %>
+                            </tr>
+                            <tr>
+                                <td>Date of Request Submitted</td>
+                                <td><%= requestDate%></td>
+                            </tr>
+                            <tr>
+                                <td>Requestor ID</td>
+                                <td><%= requesterID%></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-
 
         <hr width="80%">
         <div class="ln_solid"></div>
