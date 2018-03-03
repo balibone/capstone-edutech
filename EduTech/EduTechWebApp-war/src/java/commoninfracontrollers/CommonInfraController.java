@@ -73,10 +73,12 @@ public class CommonInfraController extends HttpServlet {
                     //Delete all of client's cookies 
                     //Delete username cookie
                     Cookie username = new Cookie("username","");//overwrite existing cookie  
+                    username.setPath("/");
                     username.setMaxAge(0);//changing the maximum age to 0 seconds. AKA deleting cookie  
                     response.addCookie(username);//update this cookie by adding it to response. 
                     //Delete userType cookie
                     Cookie userType = new Cookie("userType","");//overwrite existing cookie  
+                    userType.setPath("/");
                     userType.setMaxAge(0);//changing the maximum age to 0 seconds. AKA deleting cookie  
                     response.addCookie(userType);//update this cookie by adding it to response.
                     
