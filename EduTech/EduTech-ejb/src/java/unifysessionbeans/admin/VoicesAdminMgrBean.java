@@ -30,6 +30,7 @@ import unifyentities.voices.CompanyEntity;
 import unifyentities.voices.CompanyReviewEntity;
 import unifyentities.voices.CompanyRequestEntity;
 import commoninfrastructureentities.UserEntity;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 @Stateless
@@ -44,6 +45,8 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     private CompanyRequestEntity companyRequestEntity;
     private Collection<CompanyReviewEntity> companyReviewSet;
     private Collection<CompanyEntity> companySet;
+    
+    DecimalFormat d = new DecimalFormat("0.00");
     
     @Override
     public List<Vector> viewCompanyCategoryList() {
@@ -134,6 +137,8 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                 if (companyAvailWithinCat == true) {
                     return "There are active companies currently inside this company category. Cannot be deactivated.";
                 } else {
+                    cEntity.setCategoryActiveStatus(false);
+                    em.merge(cEntity);
                     return "Selected company category has been deactivated successfully!";
                 }
             } /* IF THERE ARE NO COMPANIES INSIDE THE COMPANY CATEGORY, PROCEED TO DEACTIVATE THE COMPANY CATEGORY */ else {
@@ -202,7 +207,18 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                     companyDetails.add(ce.getCompanyName());
                     companyDetails.add(ce.getCompanyHQ());
                     companyDetails.add(ce.getCompanySize());
-                    companyDetails.add(ce.getCompanyAverageRating());
+                    if(ce.getCompanyReviewSet().isEmpty()) {
+                        companyDetails.add(0.00);
+                    } else {
+                        companyReviewSet = ce.getCompanyReviewSet();
+                        double rating = 0.00;
+                        for(Object obj: companyReviewSet) {
+                            CompanyReviewEntity companyReview = (CompanyReviewEntity) obj;
+                            rating += companyReview.getReviewRating();
+                        }
+                        rating = rating/companyReviewSet.size();
+                        companyDetails.add(d.format(rating));
+                    }
                     companyDetails.add(ce.getCompanyStatus());
                     companyList.add(companyDetails);
                 }
@@ -221,7 +237,18 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                     companyVec.add(ce.getCompanyName());
                     companyVec.add(ce.getCompanyHQ());
                     companyVec.add(ce.getCompanySize());
-                    companyVec.add(ce.getCompanyAverageRating());
+                    if(ce.getCompanyReviewSet().isEmpty()) {
+                        companyVec.add(0.00);
+                    } else {
+                        companyReviewSet = ce.getCompanyReviewSet();
+                        double rating = 0.00;
+                        for(Object obj: companyReviewSet) {
+                            CompanyReviewEntity companyReview = (CompanyReviewEntity) obj;
+                            rating += companyReview.getReviewRating();
+                        }
+                        rating = rating/companyReviewSet.size();
+                        companyVec.add(d.format(rating));
+                    }
                     companyVec.add(ce.getCompanyStatus());
                     companyList.add(companyVec);
                 } 
@@ -245,16 +272,16 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             companyVec.add(ce.getCompanyHQ());
             companyVec.add(ce.getCompanySize());
             if(ce.getCompanyReviewSet().isEmpty()) {
-                companyVec.add(0.0);
+                companyVec.add(0.00);
             } else {
                 companyReviewSet = ce.getCompanyReviewSet();
-                double rating = 0.0;
+                double rating = 0.00;
                 for(Object obj: companyReviewSet) {
                     CompanyReviewEntity companyReview = (CompanyReviewEntity) obj;
                     rating += companyReview.getReviewRating();
                 }
                 rating = rating/companyReviewSet.size();
-                companyVec.add(rating);
+                companyVec.add(d.format(rating));
             }
             companyVec.add(ce.getCompanyStatus());
             companyVec.add(ce.getCategoryEntity().getCategoryName());
@@ -310,16 +337,16 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             companyDetailsVec.add(compEntity.getCompanyImage());
             companyDetailsVec.add(compEntity.getCategoryEntity().getCategoryName());
             if(compEntity.getCompanyReviewSet().isEmpty()) {
-                companyDetailsVec.add(0.0);
+                companyDetailsVec.add(0.00);
             } else {
                 companyReviewSet = compEntity.getCompanyReviewSet();
-                double rating = 0.0;
+                double rating = 0.00;
                 for(Object o: companyReviewSet) {
                     CompanyReviewEntity companyReview = (CompanyReviewEntity) o;
                     rating += companyReview.getReviewRating();
                 }
                 rating = rating/companyReviewSet.size();
-                companyDetailsVec.add(rating);
+                companyDetailsVec.add(d.format(rating));
             }
             companyDetailsVec.add(compEntity.getCompanyStatus());
             companyDetailsVec.add(compEntity.getCompanyWebsite());
