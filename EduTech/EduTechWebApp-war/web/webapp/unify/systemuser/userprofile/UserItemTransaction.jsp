@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Account</title>
+        <title>Unify - My Item Transactions</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -18,6 +18,7 @@
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/userprofile/UserItemTransactionCSS.css" rel="stylesheet" type="text/css" />
         
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css">
@@ -177,17 +178,16 @@
                     </div>
                     <div class="col-lg-9 col-md-8">
                         <div class="title"><span>Marketplace Transaction</span></div>
-                        <div class="text-right">
-                            <button class="btn btn-sm btn-outline-theme"><i class="fa fa-file-excel-o"></i> Export to xls</button>
-                        </div>
                         <div class="table-responsive">
-                            <table id="itemTransTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            <table id="itemTransTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="font-size: 13px;">
                                 <thead>
                                     <tr>
-                                        <th>Buyer ID</th>
-                                        <th>Seller ID</th>
-                                        <th>Item Name</th>
                                         <th>Transaction Date</th>
+                                        <th>Seller ID</th>
+                                        <th>Buyer ID</th>
+                                        <th>Item Image</th>
+                                        <th>Item Name</th>
+                                        <th>Listing Price</th>
                                         <th>Transaction Price</th>
                                     </tr>
                                 </thead>
@@ -197,17 +197,22 @@
                                         if (!itemTransList.isEmpty()) {
                                             for (int i = 0; i <= itemTransList.size() - 1; i++) {
                                                 Vector v = itemTransList.get(i);
-                                                String itemBuyerID = String.valueOf(v.get(0));
-                                                String itemSellerID = String.valueOf(v.get(1));
-                                                String itemName = String.valueOf(v.get(2));
-                                                String itemTransactionDate = String.valueOf(v.get(3));
-                                                String itemTransactionPrice = String.valueOf(v.get(4));
+                                                String itemID = String.valueOf(v.get(0));
+                                                String itemTransactionDate = String.valueOf(v.get(1));
+                                                String itemSellerID = String.valueOf(v.get(2));
+                                                String itemBuyerID = String.valueOf(v.get(3));
+                                                String itemImage = String.valueOf(v.get(4));
+                                                String itemName = String.valueOf(v.get(5));
+                                                String itemListingPrice = String.valueOf(v.get(6));
+                                                String itemTransactionPrice = String.valueOf(v.get(7));
                                     %>
                                     <tr>
-                                        <td><%= itemBuyerID %></td>
+                                        <td><%= itemTransactionDate %><span style="display: none">;<%= itemID%></span></td>
                                         <td><%= itemSellerID %></td>
+                                        <td><%= itemBuyerID %></td>
+                                        <td><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width: 50px; height: 50px;" /></td>
                                         <td><%= itemName %></td>
-                                        <td><%= itemTransactionDate %></td>
+                                        <td>$<%= itemListingPrice %></td>
                                         <td>$<%= itemTransactionPrice %></td>
                                     </tr>
                                     <%      }   %>
@@ -219,7 +224,8 @@
                 </div>
             </div>
             <div id="unifyFooter"></div>
-
+            <div id="itemDetails-iframe"></div>
+            
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>

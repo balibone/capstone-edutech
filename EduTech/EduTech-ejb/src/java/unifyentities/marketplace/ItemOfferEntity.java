@@ -31,6 +31,8 @@ public class ItemOfferEntity implements Serializable {
     private Long itemOfferID;
     private double itemOfferPrice;
     private String itemOfferDescription;
+    /* ITEM OFFER STATUS: PENDING, ACCEPTED, REJECTED */
+    private String itemOfferStatus;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date itemOfferDate;
@@ -47,6 +49,7 @@ public class ItemOfferEntity implements Serializable {
     public boolean createItemOffer(double itemOfferPrice, String itemOfferDescription) {
         this.itemOfferPrice = itemOfferPrice;
         this.itemOfferDescription = itemOfferDescription;
+        this.itemOfferStatus = "Pending";
         return true;
     }
     
@@ -54,6 +57,7 @@ public class ItemOfferEntity implements Serializable {
     public Long getItemOfferID() { return itemOfferID; }
     public double getItemOfferPrice() { return itemOfferPrice; }
     public String getItemOfferDescription() { return itemOfferDescription; }
+    public String getItemOfferStatus() { return itemOfferStatus; }
     public Date getItemOfferDate() { return itemOfferDate; }
     
     public ItemEntity getItemEntity() { return itemEntity; }
@@ -63,6 +67,7 @@ public class ItemOfferEntity implements Serializable {
     public void setItemOfferID(Long itemOfferID) { this.itemOfferID = itemOfferID; }
     public void setItemOfferPrice(double itemOfferPrice) { this.itemOfferPrice = itemOfferPrice; }
     public void setItemOfferDescription(String itemOfferDescription) { this.itemOfferDescription = itemOfferDescription; }
+    public void setItemOfferStatus(String itemOfferStatus) { this.itemOfferStatus = itemOfferStatus; }
     public void setItemOfferDate(Date itemOfferDate) { this.itemOfferDate = itemOfferDate; }
     
     public void setItemEntity(ItemEntity itemEntity) { this.itemEntity = itemEntity; }

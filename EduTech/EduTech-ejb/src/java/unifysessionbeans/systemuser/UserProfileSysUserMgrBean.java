@@ -10,66 +10,161 @@
 
 package unifysessionbeans.systemuser;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import commoninfrastructureentities.UserEntity;
+import unifyentities.marketplace.ItemEntity;
 import unifyentities.marketplace.ItemTransactionEntity;
 
 @Stateless
 public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemote {
     @PersistenceContext
     private EntityManager em;
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
-    private UserEntity uEntity;
-    private Collection<ItemTransactionEntity> itemTransactionSet;
-    
+    /* USER ACCOUNT */
     @Override
     public List<Vector> viewItemTransaction(String username) {
+        Query q = em.createQuery("SELECT t FROM ItemTransaction t WHERE t.userEntity.username = :username");
+        q.setParameter("username", username);
         List<Vector> itemTransList = new ArrayList<Vector>();
-        Vector itemTransDetailsVec = new Vector();
-        
-        uEntity = lookupUser(username);
-        itemTransactionSet = uEntity.getItemTransactionSet();
-        
-        for (ItemTransactionEntity ite : itemTransactionSet) {
-            itemTransDetailsVec.add(ite.getItemBuyerID());
-            itemTransDetailsVec.add(ite.getUserEntity().getUsername());
-            itemTransDetailsVec.add(ite.getItemEntity().getItemName());
-            itemTransDetailsVec.add(ite.getItemTransactionDate());
-            itemTransDetailsVec.add(ite.getItemTransactionPrice());
-            itemTransList.add(itemTransDetailsVec);
+
+        for (Object o : q.getResultList()) {
+            ItemTransactionEntity itemTransE = (ItemTransactionEntity) o;
+            Vector itemTransVec = new Vector();
+
+            /* ITEM SELLER IS THE PERSON WHO CREATED THE ITEM TRANSACTION */
+            itemTransVec.add(itemTransE.getItemEntity().getItemID());
+            itemTransVec.add(df.format(itemTransE.getItemTransactionDate()));
+            itemTransVec.add(itemTransE.getUserEntity().getUsername());
+            itemTransVec.add(itemTransE.getItemBuyerID());
+            itemTransVec.add(itemTransE.getItemEntity().getItemImage());
+            itemTransVec.add(itemTransE.getItemEntity().getItemName());
+            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemEntity().getItemPrice()));
+            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemTransactionPrice()));
+            itemTransList.add(itemTransVec);
         }
         return itemTransList;
     }
     
+    @Override
+    public List<Vector> viewItemOfferList(String username) {
+        Query q = em.createQuery("SELECT i FROM Item i WHERE i.userEntity.username = :username");
+        q.setParameter("username", username);
+        List<Vector> itemOfferList = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            ItemEntity itemE = (ItemEntity) o;
+            Vector itemOfferVec = new Vector();
+
+            itemOfferVec.add(itemE.getItemID());
+            itemOfferVec.add(itemE.getItemImage());
+            itemOfferVec.add(itemE.getItemName());
+            itemOfferVec.add(String.format ("%,.2f", itemE.getItemPrice()));
+            itemOfferVec.add(getPendingItemOfferCount(itemE.getItemID()));
+            itemOfferVec.add(getRejectedItemOfferCount(itemE.getItemID()));
+            itemOfferList.add(itemOfferVec);
+        }
+        return itemOfferList;
+    }
+    
+    /* USER PROFILE */
+    @Override
+    public List<Vector> viewUserItemListing(String username) {
+        Date currentDate = new Date();
+        String dateString = "";
+
+        Query q = em.createQuery("SELECT i FROM Item i WHERE i.userEntity.username = :username AND i.categoryEntity.categoryActiveStatus = '1'");
+        q.setParameter("username", username);
+        List<Vector> userItemList = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            ItemEntity itemE = (ItemEntity) o;
+            Vector userItemVec = new Vector();
+
+            userItemVec.add(itemE.getItemID());
+            userItemVec.add(itemE.getItemImage());
+            userItemVec.add(itemE.getItemName());
+            userItemVec.add(itemE.getCategoryEntity().getCategoryName());
+            userItemVec.add(itemE.getUserEntity().getUsername());
+
+            long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            userItemVec.add(dateString);
+            userItemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
+            userItemVec.add(itemE.getItemNumOfLikes());
+            userItemList.add(userItemVec);
+            dateString = "";
+        }
+        return userItemList;
+    }
+    
     /* MISCELLANEOUS METHODS */
-    public UserEntity lookupUser(String username){
-        UserEntity ue = new UserEntity();
-        try{
-            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
-            q.setParameter("username", username);
-            ue = (UserEntity)q.getSingleResult();
+    public Long getPendingItemOfferCount(long itemID) {
+        Long pendingItemOfferCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(o.itemOfferID) FROM ItemOffer o WHERE o.itemEntity.itemID = :itemID AND o.itemOfferStatus = 'Pending'");
+        q.setParameter("itemID", itemID);
+        try {
+            pendingItemOfferCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in UserProfileSysUserMgrBean.getPendingItemOfferCount().getSingleResult()");
+            ex.printStackTrace();
         }
-        catch(EntityNotFoundException enfe){
-            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
-            em.remove(ue);
-            ue = null;
+        return pendingItemOfferCount;
+    }
+    
+    public Long getRejectedItemOfferCount(long itemID) {
+        Long rejectedItemOfferCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(o.itemOfferID) FROM ItemOffer o WHERE o.itemEntity.itemID = :itemID AND o.itemOfferStatus = 'Pending'");
+        q.setParameter("itemID", itemID);
+        try {
+            rejectedItemOfferCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in UserProfileSysUserMgrBean.getRejectedItemOfferCount().getSingleResult()");
+            ex.printStackTrace();
         }
-        catch(NoResultException nre){
-            System.out.println("ERROR: User does not exist. " + nre.getMessage());
-            em.remove(ue);
-            ue = null;
-        }
-        return ue;
+        return rejectedItemOfferCount;
     }
 }

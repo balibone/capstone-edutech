@@ -1,1 +1,2 @@
-itemTransTable td:hover { cursor: pointer; background-color: #4D7496;}
+.table > tbody > tr:hover { cursor: pointer; background-color: #4D7496; color: #FFFFFF; }
+.table > tbody > tr > td { vertical-align: middle; }
