@@ -22,7 +22,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         String hashedPassword = "";
         try{ hashedPassword = encodePassword(userPassword); }
         catch(NoSuchAlgorithmException ex){ ex.printStackTrace(); }
-
+        
         uEntity = new UserEntity();
         try{
             Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");

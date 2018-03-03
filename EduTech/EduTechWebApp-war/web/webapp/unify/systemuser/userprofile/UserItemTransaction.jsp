@@ -18,6 +18,7 @@
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/userprofile/UserItemTransactionCSS.css" rel="stylesheet" type="text/css" />
         
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
@@ -47,7 +48,7 @@
             </div>
         </nav>
         <div class="content-overlay"></div>
-
+        
         <!-- PAGE TOP HEADER -->
         <div class="top-header">
             <div class="container">
@@ -195,19 +196,20 @@
                                     <%
                                         ArrayList<Vector> itemTransList = (ArrayList) request.getAttribute("itemTransList");
                                         if (!itemTransList.isEmpty()) {
-                                            for (int i = 0; i <= itemTransList.size() - 1; i++) {
+                                            for (int i = 0; i <= itemTransList.size()-1; i++) {
                                                 Vector v = itemTransList.get(i);
                                                 String itemID = String.valueOf(v.get(0));
-                                                String itemTransactionDate = String.valueOf(v.get(1));
-                                                String itemSellerID = String.valueOf(v.get(2));
-                                                String itemBuyerID = String.valueOf(v.get(3));
-                                                String itemImage = String.valueOf(v.get(4));
-                                                String itemName = String.valueOf(v.get(5));
-                                                String itemListingPrice = String.valueOf(v.get(6));
-                                                String itemTransactionPrice = String.valueOf(v.get(7));
+                                                String itemTransID = String.valueOf(v.get(1));
+                                                String itemTransactionDate = String.valueOf(v.get(2));
+                                                String itemSellerID = String.valueOf(v.get(3));
+                                                String itemBuyerID = String.valueOf(v.get(4));
+                                                String itemImage = String.valueOf(v.get(5));
+                                                String itemName = String.valueOf(v.get(6));
+                                                String itemListingPrice = String.valueOf(v.get(7));
+                                                String itemTransactionPrice = String.valueOf(v.get(8));
                                     %>
                                     <tr>
-                                        <td><%= itemTransactionDate %><span style="display: none">;<%= itemID%></span></td>
+                                        <td><%= itemTransactionDate %><span style="display: none">;<%= itemID%>;<%= itemTransID%></span></td>
                                         <td><%= itemSellerID %></td>
                                         <td><%= itemBuyerID %></td>
                                         <td><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width: 50px; height: 50px;" /></td>
@@ -239,6 +241,7 @@
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
     
         <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
