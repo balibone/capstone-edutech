@@ -60,6 +60,36 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         try{
             LocalDate startD = LocalDate.parse(startDate);
             LocalDate endD = LocalDate.parse(endDate);
+            
+            //if new semester overlaps with an existing semester, disallow creation.
+            Query q1 = em.createQuery("SELECT s FROM Semester s");
+            for(Object o : q1.getResultList()){
+                SemesterEntity sem = (SemesterEntity) o;
+                LocalDate thisStartDate = sem.getStartDate();
+                LocalDate thisEndDate = sem.getEndDate();
+
+                //Case 1 : new sem start date is in between start and end.
+                if(startD.equals(thisStartDate) 
+                        || (startD.isAfter(thisStartDate) && startD.isBefore(thisEndDate) 
+                        || startD.equals(thisEndDate))
+                        ){
+                    return false;
+                }
+                //Case 2 : new sem end date is between start and end.
+                else if(endD.equals(thisStartDate) 
+                        || (endD.isAfter(thisStartDate) && endD.isBefore(thisEndDate) 
+                        || endD.equals(thisEndDate))
+                        ){
+                    return false;
+                }
+                //Case 3 : new event start date is before start & new event end date is on or after end
+                else if(startD.isBefore(thisStartDate) && endD.isAfter(thisEndDate))
+                {
+                    return false;
+                }
+                
+            }
+            
             SemesterEntity sem = new SemesterEntity(title,startD,endD);
             em.persist(sem);
             return true;
@@ -278,9 +308,6 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         event.setDayOfWeek(DayOfWeek.valueOf(day.toUpperCase()));
         LocalTime receivedStartTime = LocalTime.parse(startTime);
         LocalTime receivedEndTime = LocalTime.parse(endTime);
-        //if start time is equals to or after end time, disallow creation.
-        if(receivedStartTime.equals(receivedEndTime) || receivedStartTime.isAfter(receivedEndTime))
-            return false;
         
         //if there is already a recurring event for this location at this time, disallow creation.
         Query q1 = em.createQuery("SELECT r FROM RecurringEvent r");
@@ -292,20 +319,21 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             //disallow creation if there is overlap
             if(recur.getLocation().equalsIgnoreCase(location.trim())){
                 //Case 1 : new event start time is in between start and end.
-                if(receivedStartTime.equals(thisStartTime) || 
-                        (receivedStartTime.isAfter(thisStartTime) && receivedStartTime.isBefore(thisEndTime))
+                if(receivedStartTime.equals(thisStartTime) 
+                        || (receivedStartTime.isAfter(thisStartTime) && receivedStartTime.isBefore(thisEndTime))
+                        || (receivedStartTime.equals(thisEndTime))
                         ){
                     return false;
                 }
-                //Case 2 : new event start time is before start, but new event end time is between start and end
-                else if(receivedEndTime.equals(thisStartTime) || 
-                        (receivedEndTime.isAfter(thisStartTime) && receivedEndTime.isBefore(thisEndTime))
+                //Case 2 : new event end time is between start and end.
+                else if(receivedEndTime.equals(thisStartTime) 
+                        || (receivedEndTime.isAfter(thisStartTime) && receivedEndTime.isBefore(thisEndTime))
+                        || (receivedEndTime.equals(thisEndTime))
                         ){
                     return false;
                 }
-                //Case 3 : new event start time is before start & new event end time is on or after end
-                else if(receivedStartTime.isBefore(thisStartTime) && 
-                        (receivedEndTime.equals(thisEndTime) || receivedEndTime.isAfter(thisEndTime))
+                //Case 3 : new event start is before start & new event end is after end
+                else if(receivedStartTime.isBefore(thisStartTime) && receivedEndTime.isAfter(thisEndTime)
                         ){
                     return false;
                 }

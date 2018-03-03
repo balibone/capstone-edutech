@@ -210,11 +210,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="startTime" class="control-label">From:</label>
-                                            <input type="time" required class="form-control" name="startTime"/>
+                                            <input id="startTime" type="time" required class="form-control" name="startTime"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="message-text" class="control-label">To:</label>
-                                            <input type="time" required class="form-control" name="endTime"/>
+                                            <input id="endTime" type="time" required class="form-control" name="endTime"/>
                                         </div>
                                     </div>
                                     <br>

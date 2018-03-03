@@ -214,7 +214,8 @@ public class EduTechAdminController extends HttpServlet {
                         request.setAttribute("msg", "Semester successfully created.");
                         request.setAttribute("success", true);
                     }else{
-                        request.setAttribute("msg", "Error creating Semester.");
+                        request.setAttribute("msg", "Error creating Semester. Please make sure this semester does not overlap with "
+                                + "existing semesters.");
                         request.setAttribute("success", false);
                     }
                     pageAction = "NewSemester";
