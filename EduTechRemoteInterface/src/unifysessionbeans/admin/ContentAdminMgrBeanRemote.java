@@ -33,6 +33,7 @@ public interface ContentAdminMgrBeanRemote {
     public String resolveDeleteErrand(String reportID);
     public String unresolveErrand(String reportID);
     public String deleteJob(String jobID);
+    public String delistJob(String jobID);
     public Long getUnresolvedErrandsReportCount();
     public Long getResolvedErrandsReportCount();
     //jobs review related
@@ -53,6 +54,7 @@ public interface ContentAdminMgrBeanRemote {
     public String resolveMarketplace(String reportID);
     public String resolveOnlyMarketplace(String reportID);
     public String resolveDeleteMarketplace(String reportID);
+    public String resolveDelistMarketplace(String reportID);
     public String unresolveMarketplace(String reportID);
     public String deleteItem(String itemID);
     public String delistItem(String itemID);
@@ -71,6 +73,7 @@ public interface ContentAdminMgrBeanRemote {
     public Long getResolvedCompanyReviewReportCount();
     //event related
     public List<Vector> viewEventRequestListing();
+    public List<Vector> viewEventRequestListingDashboard();
     public Vector viewEventRequestDetails(String requestID);
     public String approveEventRequest(String requestID);
     public String rejectEventRequest(String requestID);

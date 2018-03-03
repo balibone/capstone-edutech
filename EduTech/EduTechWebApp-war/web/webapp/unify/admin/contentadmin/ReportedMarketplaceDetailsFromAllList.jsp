@@ -190,7 +190,7 @@
                         <%-- resolve and delete item --%>
                         <td>
                             <form action="ContentAdmin?pageTransit=goToAllReportedListing#marketplaceReport" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveDeleteMarketplaceReportFromAllList"/>
+                                <input type="hidden" name="pageTransit" value="resolveDelistMarketplaceReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <input type="hidden" name="reportedItemID" value="<%= reportedItemID%>" />

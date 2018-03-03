@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import unifysessionbeans.admin.ContentAdminMgrBeanRemote;
 import unifysessionbeans.admin.UserProfileAdminMgrBeanRemote;
+import unifysessionbeans.admin.ErrandsAdminMgrBeanRemote;
 
 public class ContentAdminController extends HttpServlet {
 
@@ -19,6 +20,8 @@ public class ContentAdminController extends HttpServlet {
     private ContentAdminMgrBeanRemote camr;
     @EJB
     private UserProfileAdminMgrBeanRemote uamr;
+    @EJB
+    private ErrandsAdminMgrBeanRemote eamr;
     String responseMessage = "";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -166,7 +169,7 @@ public class ContentAdminController extends HttpServlet {
                     break;
                 case "resolveDelistMarketplaceReportFromAllList":
                     String deleteItemID3 = request.getParameter("reportedItemID");
-                    if (updateMarketplaceReport(request)) {
+                    if (resolveDelistMarketplaceReport(request)) {
                         responseMessage = camr.delistItem(deleteItemID3);
                         if (responseMessage.endsWith("!")) {
                             request.setAttribute("successMessage", responseMessage);
@@ -244,7 +247,9 @@ public class ContentAdminController extends HttpServlet {
                 case "resolveDeleteErrandReportFromAllList":
                     String deleteJobID2 = request.getParameter("reportedErrandID");
                     if (resolveDeleteErrandReport(request)) {
-                        responseMessage = camr.deleteJob(deleteJobID2);
+                        //responseMessage = camr.deleteJob(deleteJobID2);
+                        Long jobIDNum = Long.parseLong(deleteJobID2);
+                        responseMessage = eamr.deleteAJob(jobIDNum);
                         if (responseMessage.endsWith("!")) {
                             request.setAttribute("successMessage", responseMessage);
                         } else {
@@ -763,6 +768,26 @@ public class ContentAdminController extends HttpServlet {
 
         try {
             responseMessage = camr.resolveDeleteMarketplace(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            reportUpdateStatus = true;
+        } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving only marketplace item. ");
+        }
+
+        return reportUpdateStatus;
+    }
+    
+    private boolean resolveDelistMarketplaceReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+
+        try {
+            responseMessage = camr.resolveDelistMarketplace(reportStatusUpdate);
             if (responseMessage.endsWith("!")) {
                 request.setAttribute("successMessage", responseMessage);
             } else {
