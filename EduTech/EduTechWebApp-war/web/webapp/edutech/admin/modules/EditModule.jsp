@@ -25,7 +25,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Common Admin - Edit Module</title>
+        <title>EduTech Admin - Edit Module</title>
         
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -210,11 +210,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="startTime" class="control-label">From:</label>
-                                            <input type="time" required class="form-control" name="startTime"/>
+                                            <input id="startTime" type="time" required class="form-control" name="startTime"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="message-text" class="control-label">To:</label>
-                                            <input type="time" required class="form-control" name="endTime"/>
+                                            <input id="endTime" type="time" required class="form-control" name="endTime"/>
                                         </div>
                                     </div>
                                     <br>

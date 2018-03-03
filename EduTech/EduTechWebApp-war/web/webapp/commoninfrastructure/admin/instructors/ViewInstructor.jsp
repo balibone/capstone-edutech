@@ -1,5 +1,5 @@
 <%@page import="java.util.ArrayList"%>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@include file="/webapp/commoninfrastructure/admin/SystemAdminSessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -116,7 +116,10 @@
                                 <img id="output-image" class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>                                 
                             </div>
                             <div class="col-md-8">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-5">
                                 <a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Go Back To Instructor List</button></a>                            
+                                </div>
                             </div>
                         </form>
                     </div>

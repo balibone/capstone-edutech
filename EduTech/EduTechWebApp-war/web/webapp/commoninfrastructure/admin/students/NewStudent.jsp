@@ -1,11 +1,6 @@
-<%-- 
-    Document   : NewStudent
-    Created on : 6 Feb, 2018, 12:08:34 PM
-    Author     : Derian
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@include file="/webapp/commoninfrastructure/admin/SystemAdminSessionCheck.jspf" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -83,25 +78,25 @@
                                 </div>
                                     
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">First Name</label>
+                                    <label class="col-md-2 control-label required">First Name: </label>
                                     <div class="col-md-5">
                                         <input type="text" required class="form-control" name="firstName" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Last Name</label>
+                                    <label class="col-md-2 control-label required">Last Name: </label>
                                     <div class="col-md-5">
                                         <input type="text" required class="form-control" name="lastName" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Username</label>
+                                    <label class="col-md-2 control-label required">Username: </label>
                                     <div class="col-md-5">
                                         <input type="text" required class="form-control" name="username" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Password</label>
+                                    <label class="col-md-2 control-label required">Password: </label>
                                     <div class="col-md-5">
                                         <input type="text" required class="form-control" name="password" />
                                     </div>

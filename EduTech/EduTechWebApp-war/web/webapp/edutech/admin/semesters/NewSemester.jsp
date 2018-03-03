@@ -12,7 +12,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Common Admin - New Semester</title>
+        <title>EduTech Admin - New Semester</title>
         
         <!-- CASCADING STYLESHEET (CSS) -->
         <link href="css/commoninfrastructure/admin/baselayout/bootstrap-v3.3.7.min.css" rel="stylesheet" type="text/css">
@@ -72,7 +72,7 @@
 }}
                                 %>
                         <!--Submit form to EduTechAdmin Servlet-->
-                        <form action="EduTechAdmin" method="POST" class="form-horizontal">
+                        <form id="thisForm" action="EduTechAdmin" method="POST" class="form-horizontal">
                             <div class="col-xs-12">
                                 <div class="form-group">
                                     <label class="col-xs-2 control-label required">Title</label>
@@ -83,13 +83,13 @@
                                 <div class="form-group">
                                     <label class="col-xs-2 control-label required">Start Date</label>
                                     <div class="col-xs-8">
-                                        <input type="date" required class="form-control" name="startDate" />
+                                        <input id="startDate" type="date" required class="form-control" name="startDate" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2 control-label required">End Date</label>
                                     <div class="col-xs-8">
-                                        <input type="date" required class="form-control" name="endDate" />
+                                        <input id="endDate" type="date" required class="form-control" name="endDate" />
                                     </div>
                                 </div>
                             </div>
@@ -121,6 +121,16 @@
         <script src="js/commoninfrastructure/admin/webjs/icheck.min.js"></script>    
         <!--System Admin Base JS-->
         <script src="js/commoninfrastructure/admin/basejs/CommonAdminBaseJS.js" type="text/javascript"></script>
-        
+        <script>
+            $("#thisForm").on("submit", function(event){
+                var startDate = document.getElementById("startDate").value;
+                var endDate = document.getElementById("endDate").value;
+                if(startDate >= endDate){
+                    event.preventDefault();
+                    alert("Invalid date range!");
+                }
+            });
+            
+        </script>
     </body>
 </html>

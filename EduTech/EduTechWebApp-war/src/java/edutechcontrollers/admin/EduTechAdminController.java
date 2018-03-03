@@ -144,7 +144,7 @@ public class EduTechAdminController extends HttpServlet {
                             request.setAttribute("success", false);
                         }
                     }catch(Exception e){
-                        request.setAttribute("msg", "Error creating Module. Module Code already exists.");
+                        request.setAttribute("msg", "Error creating Module. Module Code already exists. Please pick a different module code..");
                         request.setAttribute("success", false);
                         System.out.println(e.getMessage());
                     }
@@ -177,10 +177,13 @@ public class EduTechAdminController extends HttpServlet {
                     break;
                 case "addEventToMod":
                     id=request.getParameter("id");
-                    eam.addEventToMod(request.getParameter("title"),request.getParameter("location"),request.getParameter("day")
-                            ,request.getParameter("startTime"),request.getParameter("endTime"),
-                            request.getParameter("description"),id);//handle ajax call
-                    //just so that processRequest doenst return error.
+                    success = eam.addEventToMod(request.getParameter("title"),request.getParameter("location")
+                            ,request.getParameter("day"),request.getParameter("startTime")
+                            ,request.getParameter("endTime"),request.getParameter("description"),id);//handle ajax call
+                    if(!success){
+                        response.sendError(400 , "Event cannot be created. Please ensure event does not conflict with existing events");
+                    }
+//just so that processRequest doenst return error.
                     pageAction = "EditModule";
                     break;
                 case "removeEvent":
@@ -211,7 +214,8 @@ public class EduTechAdminController extends HttpServlet {
                         request.setAttribute("msg", "Semester successfully created.");
                         request.setAttribute("success", true);
                     }else{
-                        request.setAttribute("msg", "Error creating Semester.");
+                        request.setAttribute("msg", "Error creating Semester. Please make sure this semester does not overlap with "
+                                + "existing semesters.");
                         request.setAttribute("success", false);
                     }
                     pageAction = "NewSemester";
