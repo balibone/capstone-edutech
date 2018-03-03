@@ -64,7 +64,7 @@ public class GroupEntity implements Serializable {
         return members;
     }
 
-    public void setMembers(UserEntity members) {
+    public void setMembers(Collection<UserEntity> members) {
         this.members = (Collection<UserEntity>) members;
     }
 
