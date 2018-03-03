@@ -78,7 +78,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         //Find all active semesters
         Query q1 = em.createQuery("SELECT s FROM Semester s");
         //Find the number of unique modules under this semester
-        Query q2 = em.createQuery("SELECT COUNT(m) FROM Semester s, Module m WHERE m.semester = :semester");
+        Query q2 = em.createQuery("SELECT COUNT(m) FROM Module m WHERE m.semester = :semester");
         for(Object o : q1.getResultList()){
             sem = (SemesterEntity) o;
             ArrayList semInfo = new ArrayList();
