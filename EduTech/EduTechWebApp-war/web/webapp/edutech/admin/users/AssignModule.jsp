@@ -97,21 +97,28 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-xs-12">
                                 <div class="col-xs-4"></div>
                                 <div class="col-xs-8"> 
                                     <input type="hidden" name="pageTransit" value="assignModule"/>
                                     <input type="hidden" name="id" value="<%=username%>"/>
                                     <button type="submit" class="btn btn-primary" value="submit">Assign Module</button>
+                                    <%
+                                        String type = (String)userInfo.get(6);
+                                        if (type.equalsIgnoreCase("instructor")) {
+                                    %>
+                                    <a href="EduTechAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Go Back To Instructor List</button></a>
+                                    <%} else {%>
                                     <a href="EduTechAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Go Back To Student List</button></a>
+                                    <%}%>
                                 </div>                              
                             </div>
                         </form>
-                        
+
                         <!--Your Modules table-->
                         <div class="row">
-                            <h4 class="text-center"><strong>Modules assigned to <%=firstName+" "+lastName%></strong></h4>
+                            <h4 class="text-center"><strong>Modules assigned to <%=firstName + " " + lastName%></strong></h4>
                             <table class="table table-condensed table-striped table-bordered">
                                 <thead>
                                     <tr>
