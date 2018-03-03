@@ -20,7 +20,6 @@
         <link href="css/unify/admin/baselayout/easy-autocomplete/easy-autocomplete.css" rel="stylesheet" type="text/css">
         <link href="css/unify/admin/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
 
-
         <!-- JAVASCRIPT -->
         <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/bootstrap-v3.1.1.min.js"></script>
@@ -34,14 +33,15 @@
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginFormComponentsJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
         <script type="text/javascript" src="js/unify/admin/basejs/leaflet/leaflet.js"></script>
+        <script type="text/javascript" src="js/unify/admin/webjs/contentadmin/EventRequestDetailsJS.js"></script>
 
     </head>
     <body style="background-color: #FFFFFF;">
         <%            Vector eventRequestVec = (Vector) request.getAttribute("eventRequestVec");
             String requestID, requestStatus, requestDate, requesterID, requestDescription,
-                    requestVenue, requestStartDateTime, requestEndDateTime, requestReviewedDate;
+                    requestVenue, requestStartDateTime, requestEndDateTime, requestReviewedDate, requestVenueLat, requestVenueLong;
             requestID = requestStatus = requestDate = requesterID = requestDescription
-                    = requestVenue = requestStartDateTime = requestEndDateTime = requestReviewedDate = "";
+                    = requestVenue = requestStartDateTime = requestEndDateTime = requestReviewedDate = requestVenueLat = requestVenueLong = "";
             if (eventRequestVec != null) {
                 requestID = (String.valueOf(eventRequestVec.get(0)));
                 requestStatus = (String.valueOf(eventRequestVec.get(1)));
@@ -54,6 +54,9 @@
                 requestEndDateTime = (String.valueOf(eventRequestVec.get(7)));
 
                 requestReviewedDate = (String.valueOf(eventRequestVec.get(8)));
+
+                requestVenueLat = (String.valueOf(eventRequestVec.get(9)));
+                requestVenueLong = (String.valueOf(eventRequestVec.get(10)));
             }
         %>
 
@@ -103,6 +106,17 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Requested End Date & Time of Event:&nbsp;&nbsp;<%= requestEndDateTime%></label>
                         </div>
+
+                        <tr>
+                            
+                        Venue: <%= requestVenue%><br/>
+                        <td>
+                            <input type="hidden" id="requestVenue" value="<%= requestVenue%>" />
+                            <input type="hidden" id="requestVenueLat" value="<%= requestVenueLat%>" />
+                            <input type="hidden" id="requestVenueLong" value="<%= requestVenueLong%>" />
+                            <div id="venueMap" style="width: auto; height: 300px; margin-top: 10px;"></div>
+                        </td>
+                        </tr>
 
                     </div>
                 </div>

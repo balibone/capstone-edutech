@@ -1185,6 +1185,9 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             requestDetails.add(df.format(erEntity.getEventRequestEndDateTime()));
 
             requestDetails.add(df.format(erEntity.getEventReviewedDate()));
+            
+            requestDetails.add(erEntity.getEventRequestVenueLat());
+            requestDetails.add(erEntity.getEventRequestVenueLong());
 
             System.out.println("ADDED EVENT REQUEST DETAILS");
 
