@@ -32,8 +32,8 @@ public class ScheduleItemEntity implements Serializable {
     private Long id;
     private String title;
     private String description;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String startDate;
+    private String endDate;
     private String location;
     @OneToMany
     private Collection<UserEntity> assignedTo;
@@ -42,7 +42,7 @@ public class ScheduleItemEntity implements Serializable {
     private int groupId;
     @ManyToOne
     private UserEntity createdBy;
-    private LocalDateTime createdAt;
+    private String createdAt;
     
     public Long getId() {
         return id;
@@ -93,19 +93,19 @@ public class ScheduleItemEntity implements Serializable {
         this.description = description;
     }
 
-    public LocalDateTime getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -155,13 +155,13 @@ public class ScheduleItemEntity implements Serializable {
 
     public void setCreatedBy(UserEntity createdBy) {
         this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreatedAt() {
+    } 
+    
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
     

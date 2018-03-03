@@ -5,7 +5,6 @@
  */
 package edutechentities.common;
 
-import edutechentities.module.ModuleEntity;
 import java.io.Serializable;
 import java.sql.Time;
 import java.time.DayOfWeek;
@@ -14,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -24,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity(name="RecurringEvent")
 @XmlRootElement
 public class RecurringEventEntity implements Serializable {
-    
+
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
@@ -33,8 +31,7 @@ public class RecurringEventEntity implements Serializable {
     private DayOfWeek dayOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;
-    @ManyToOne
-    private ModuleEntity module;
+    
 
     public Long getId() {
         return id;
@@ -115,14 +112,6 @@ public class RecurringEventEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public ModuleEntity getModule() {
-        return module;
-    }
-
-    public void setModule(ModuleEntity module) {
-        this.module = module;
     }
     
 }
