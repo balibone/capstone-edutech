@@ -1,5 +1,5 @@
 <%@page import="java.util.ArrayList"%>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@include file="/webapp/commoninfrastructure/admin/SystemAdminSessionCheck.jspf" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -131,7 +131,9 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="col-md-2"></div>
+                                <div class="col-md-5">
                                 <a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Admin List</button></a>                            
+                                </div>
                             </div>
                         </form>
                     </div>

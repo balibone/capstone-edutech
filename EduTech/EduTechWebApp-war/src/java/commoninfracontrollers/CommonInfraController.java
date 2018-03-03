@@ -36,10 +36,22 @@ public class CommonInfraController extends HttpServlet {
                         Cookie newCookie = new Cookie("username",enteredUsername);
                         // non-persistent cookie that will be deleted when browser closes.
                         newCookie.setMaxAge(-1);
+                        //set cookie path to "localhost/"
+                        newCookie.setPath("/");
+                        //Hafidz if your react app cant get the cookie then remove this line
+                        newCookie.setHttpOnly(true);
+                        
                         //Insert user type data into "usertype" cookie using systemadminbean's get userinfo method
                         ArrayList userInfo = sam.getUserInfo(enteredUsername);
                         String userType = (String) userInfo.get(6);
                         Cookie userTypeCookie = new Cookie("userType", userType);
+                        // non-persistent cookie that will be deleted when browser closes.
+                        userTypeCookie.setMaxAge(-1);
+                        //set cookie path to "localhost/"
+                        userTypeCookie.setPath("/");
+                        //Hafidz if your react app cant get the cookie then remove this line
+                        userTypeCookie.setHttpOnly(true);
+                        
                         //adds cookies to response
                         response.addCookie(newCookie);
                         response.addCookie(userTypeCookie);

@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@include file="/webapp/commoninfrastructure/admin/SystemAdminSessionCheck.jspf" %>
 
 <!DOCTYPE html>
 <html>

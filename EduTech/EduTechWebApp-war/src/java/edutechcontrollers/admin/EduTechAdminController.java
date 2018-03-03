@@ -144,7 +144,7 @@ public class EduTechAdminController extends HttpServlet {
                             request.setAttribute("success", false);
                         }
                     }catch(Exception e){
-                        request.setAttribute("msg", "Error creating Module. Module Code already exists.");
+                        request.setAttribute("msg", "Error creating Module. Module Code already exists. Please pick a different module code..");
                         request.setAttribute("success", false);
                         System.out.println(e.getMessage());
                     }

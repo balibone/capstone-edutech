@@ -192,6 +192,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             System.out.println("Exception in SystemAdminMgrBean.getUserCount().getSingleResult()");
             e.printStackTrace();
         }
+        System.out.println("THERE ARE "+count+" "+type+"s");
         return count;
     }
     

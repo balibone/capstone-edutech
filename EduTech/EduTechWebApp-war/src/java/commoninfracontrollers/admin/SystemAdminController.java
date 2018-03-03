@@ -76,29 +76,34 @@ public class SystemAdminController extends HttpServlet {
                     pageAction = "EditStudent";
                     break;
                 case "createStudent"://create new student
-                    success = processNewUser(request,response, "student");//pass request to helper method for parsing & store success boolean
-                    msg = "";//confirmation msg
-                    if (success){
-                        msg = "User created successfully.";
-                    } else{
-                        msg = "Failed to create user. Please try again.";
-                    }
+                    try{
+                        success = processNewUser(request,response, "student");//pass request to helper method for parsing & store success boolean
+                        if (success){
+                            msg = "User account created successfully.";
+                        } else{
+                            msg = "Failed to create user account. Please try again.";
+                        }
+                    }catch(Exception e){
+                        msg = "User account with this username already exists. Please pick a different username.";
+                    }                    
                     request.setAttribute("success", success);//success boolean
                     request.setAttribute("msg", msg);//plug in confirmation
                     
                     pageAction = "NewStudent";
                     break;
                 case "editStudent"://create new student
+                    id = request.getParameter("id");
                     success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
                     msg = "";//confirmation msg
                     if (success){
-                        msg = "User edited successfully.";
+                        msg = "User profile edited successfully.";
                     }else{
-                        msg = "Failed to edit user. Please try again.";
+                        msg = "Failed to edit user profile. Please try again.";
                     }
                     request.setAttribute("success", success);//success boolean
                     request.setAttribute("msg", msg);//plug in confirmation
-                    
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
                     pageAction="EditStudent";//response is same page. 
                     break;              
                 case "deleteStudent":
@@ -127,27 +132,34 @@ public class SystemAdminController extends HttpServlet {
                     pageAction = "EditInstructor";
                     break;
                 case "createInstructor":
-                    boolean successIndex = processNewUser(request,response, "instructor");//pass request to helper method for parsing & store success boolean
-                    String message = "";
-                    if (successIndex){
-                        message = "User created successfully.";
-                    }else{
-                        message = "Failed to create user. Please try again.";
-                    }
-                    request.setAttribute("success", successIndex);//success boolean
-                    request.setAttribute("msg", message);//plug in confirmation         
+                    try{
+                        success = processNewUser(request,response, "student");//pass request to helper method for parsing & store success boolean
+                        if (success){
+                            msg = "Instructor account created successfully.";
+                        } else{
+                            msg = "Failed to create instructor account. Please try again.";
+                        }
+                    }catch(Exception e){
+                        msg = "Instructor account with this username already exists. Please pick a different username.";
+                    }                    
+                    request.setAttribute("success", success);//success boolean
+                    request.setAttribute("msg", msg);//plug in confirmation         
                     pageAction = "NewInstructor";
                     break;
                 case "editInstructor":
+                    id = request.getParameter("id");
+                    
                     success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
                     msg = "";
                     if (success){
-                        msg = "User edited successfully.";
+                        msg = "Instructor profile edited successfully.";
                     }else{
-                        msg = "Failed to edit user. Please try again.";
+                        msg = "Failed to edit instructor profile. Please try again.";
                     }
                     request.setAttribute("success", success);//success boolean
                     request.setAttribute("msg", msg);//plug in confirmation
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
                     pageAction = "EditInstructor";
                     break;
                 case "deleteInstructor":
@@ -176,28 +188,35 @@ public class SystemAdminController extends HttpServlet {
                     pageAction = "EditAdmin";
                     break;
                 case "createAdmin"://create new student
-                    boolean createAdminStatus = processNewUser(request,response, "admin");//pass request to helper method for parsing & store success boolean
-                    String adminMsg = "";//confirmation msg
-                    if (createAdminStatus){
-                        adminMsg = "User created successfully.";
-                    }else{
-                        adminMsg = "Failed to create user. Please try again.";
-                    }
-                    request.setAttribute("success", createAdminStatus);//success boolean
-                    request.setAttribute("msg", adminMsg);//plug in confirmation
+                    try{
+                        success = processNewUser(request,response, "student");//pass request to helper method for parsing & store success boolean
+                        if (success){
+                            msg = "Administrator account created successfully.";
+                        } else{
+                            msg = "Failed to create administrator account. Please try again.";
+                        }
+                    }catch(Exception e){
+                        msg = "Administrator account with this username already exists. Please pick a different username.";
+                    }                    
+                    request.setAttribute("success", success);//success boolean
+                    request.setAttribute("msg", msg);//plug in confirmation
                     
                     pageAction = "NewAdmin";
                     break;
                 case "editAdmin":
+                    id = request.getParameter("id");
+                    
                     success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
                     msg = "";
                     if (success){
-                        msg = "User edited successfully.";
+                        msg = "Administrator profile edited successfully.";
                     }else{
-                        msg = "Failed to edit user. Please try again.";
+                        msg = "Failed to edit administrator profile. Please try again.";
                     }
                     request.setAttribute("success", success);//success boolean
                     request.setAttribute("msg", msg);//plug in confirmation
+                    userInfo = sam.getUserInfo(id);
+                    request.setAttribute("userInfo", userInfo);
                     pageAction = "EditAdmin";
                     break;
                 case "deleteAdmin":

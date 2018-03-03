@@ -1,5 +1,5 @@
 <%@page import="java.util.ArrayList"%>
-<%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
+<%@include file="/webapp/commoninfrastructure/admin/SystemAdminSessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -151,12 +151,14 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="col-md-2"></div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                 <!-- Pass this to servlet to handle user creation -->
                                 <a href="SystemAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Go Back To Instructor List</button></a>
                                 <input type="hidden" name="originalImage" value="<%=imageFile%>"/>
                                 <input type="hidden" name="originalType" value="<%=type%>"/>
                                 <input type="hidden" name="pageTransit" value="editInstructor"/>
+                                <input type="hidden" name="id" value="<%=username%>"/>
+                                <button type="reset" class="btn btn-warning">Reset</button>
                                 <button type="submit" class="btn btn-primary" value="submit">Edit Instructor</button>  
                                 </div>
                             </div>
