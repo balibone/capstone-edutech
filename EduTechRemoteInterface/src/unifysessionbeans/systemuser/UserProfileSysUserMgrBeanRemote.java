@@ -8,6 +8,7 @@ import javax.ejb.Remote;
 public interface UserProfileSysUserMgrBeanRemote {
     /* USER ACCOUNT */
     public List<Vector> viewItemTransaction(String username);
+    public Vector viewTransactionItemDetails(long itemID, long itemTransID, String username);
     public List<Vector> viewItemOfferList(String username);
     
     /* USER PROFILE */

@@ -49,6 +49,12 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemTransList", (ArrayList) usmr.viewItemTransaction(username));
                     pageAction = "UserItemTransaction";
                     break;
+                case "goToViewItemDetailsInModalSYS":
+                    long itemID = Long.parseLong(request.getParameter("itemID"));
+                    long itemTransID = Long.parseLong(request.getParameter("itemTransID"));
+                    request.setAttribute("transItemDetailsSYSVec", usmr.viewTransactionItemDetails(itemID, itemTransID, username));
+                    pageAction = "ViewItemDetailsInModalSYS";
+                    break;
                 case "goToUserProfile":
                     pageAction = "UserProfile";
                     break;

@@ -18,7 +18,7 @@
 .iziModal .iziModal-content{zoom:1}
 .iziModal .iziModal-wrap{position:relative;transition:height .3s ease}
 .iziModal .iziModal-iframe{width:100%;margin-bottom:-4px;transition:height .3s ease}
-.iziModal-overlay{display:block;top:0;left:0;height:100%;width:100%}
+.iziModal-overlay{display:none;}
 body.iziModal-attached{overflow:hidden}
 body.iziModal-attached .iziModal,body.iziModal-attached .iziModal-header{border-radius:0}
 body.iziModal-attached .iziModal-wrap{overflow-y:auto;overflow-x:hidden}

@@ -168,7 +168,6 @@
                         itemStatus = (String) itemDetailsSYSVec.get(7);
                         itemNumOfLikes = (String.valueOf(itemDetailsSYSVec.get(8)));
                         itemLikeStatus = (String.valueOf(itemDetailsSYSVec.get(9)));
-                        System.out.println("ITEM LIKE STATUS: " + itemLikeStatus);
                         itemPostingDate = (String.valueOf(itemDetailsSYSVec.get(10)));
                         tradeLocation = (String) itemDetailsSYSVec.get(11);
                         tradeLat = (String) itemDetailsSYSVec.get(12);

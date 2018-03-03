@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Marketplace - Item Listing Details</title>
+        <title>Unify - My Transaction Item Details</title>
         
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -19,172 +19,67 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/marketplace/ViewItemDetailsSYSCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/marketplace/ViewItemDetailsInModalSYSCSS.css" rel="stylesheet" type="text/css">
     </head>
     <body onload="loadMap()">
-        <!-- MOBILE SIDE NAVIGATION -->
-        <nav class="offcanvas">
-            <div class="offcanvas-content">
-                <div id="list-menu" class="list-menu list-group" data-children=".submenu">
-                    <a href="index.html"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
-                    <div class="submenu">
-                        <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
-                        <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="about.html">Item Listing</a></div>
-                    </div>
-                    <div class="submenu">
-                        <a data-toggle="collapse" href="#" data-target="#errandsSub" role="button" aria-expanded="false" aria-controls="errandsSub"><i class="fa fa-fw fa-file"></i>&nbsp;Errands</a>
-                        <div id="errandsSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="about.html">Errands Listing</a></div>
-                    </div>
-                    <div class="submenu">
-                        <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
-                        <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="account-order.html">Company Listing</a></div>
-                    </div>
-                    <a href="index.html"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
-                </div>
-            </div>
-        </nav>
-        <div class="content-overlay"></div>
-
-        <!-- PAGE TOP HEADER -->
-        <div class="top-header">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="d-flex justify-content-between">
-                            <nav class="nav">
-                                <a class="nav-item nav-link d-sm-block" href="#">Unify @ EduBox</a>
-                            </nav>
-                            <ul class="nav">
-                                <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-heart-o"></i>&nbsp;&nbsp;Likes
-                                    </a>
-                                </li>
-                                <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
-                                    </a>
-                                </li>
-                                <select class="select-dropdown-nav accountNavigation" data-width="110px">
-                                    <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
-                                    <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
-                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
-                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
-                                </select>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PAGE MIDDLE NAVIGATION -->
-        <div class="middle-header">
-            <div class="container">
-                <div class="row py-2 py-lg-0">
-                    <div class="col-2 col-sm-1 d-block d-lg-none">
-                        <div class="d-flex align-items-center justify-content-center menu-btn-wrapper">
-                            <button class="btn btn-lg border-0 btn-link offcanvas-btn p-0" type="button">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-2 col-sm-1 col-lg-3 pr-0">
-                        <div class="d-flex align-items-center logo-wrapper">
-                            <a href="index.html" class="d-lg-none">
-                                <img src="images/edubox-logo.png" class="logo" />
-                            </a>
-                            <a href="index.html" class="d-none d-lg-flex mb-2 mb-lg-0">
-                                <img src="images/edubox-logo.png" class="logo" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-8 col-sm-6 col-md-7 col-lg-6 mt-3">
-                        <div class="d-flex align-items-center">
-                            <div class="input-group input-group-search">
-                                <div class="input-group-prepend d-none d-md-flex">
-                                    <select class="select-dropdown">
-                                        <option value="all">All Categories</option>
-                                        <option value="marketplace">Marketplace</option>
-                                        <option value="errands">Errands</option>
-                                        <option value="companyReview">Company Review</option>
-                                    </select>
-                                </div>
-                                <input type="text" class="form-control" id="search-input" placeholder="Search here..." aria-label="Search here..." autocomplete="off" />
-                                <span class="input-group-append">
-                                    <button class="btn btn-theme btn-search" type="button"><i class="fa fa-search"></i></button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block mt-3">
-                        <div class="d-flex align-items-center float-right abg-secondary">
-                            <div class="btn-group btn-group-sm mr-3" role="group">
-                                <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
-                                    <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
-                                </a>
-                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
-                                    <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div id="container">
-            <div id="unifyPageNAV"></div>
-            <!-- BREADCRUMB -->
-            <div class="breadcrumb-container">
-                <div class="container">
-                    <nav aria-label="breadcrumb" role="navigation">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Marketplace (Item Details)</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-
-            <div class="container" style="margin-bottom: 30px;">
+            <div style="margin-right:auto;margin-left:auto;width:100%;padding:20px 20px 0 20px;">
                 <%
-                    Vector itemDetailsSYSVec = (Vector) request.getAttribute("itemDetailsSYSVec");
+                    Vector transItemDetailsSYSVec = (Vector) request.getAttribute("transItemDetailsSYSVec");
                     String itemID, itemName, itemCategoryName, itemPrice, itemCondition, itemDescription, itemImage, itemStatus, itemNumOfLikes, itemLikeStatus;
                     itemID = itemName = itemCategoryName = itemPrice = itemCondition = itemDescription = itemImage = itemStatus = itemNumOfLikes = itemLikeStatus = "";
 
                     String itemPostingDate, tradeLocation, tradeLat, tradeLong, tradeInformation, itemSellerID, itemSellerImage, itemSellerJoinDate;
                     itemPostingDate = tradeLocation = tradeLat = tradeLong = tradeInformation = itemSellerID = itemSellerImage = itemSellerJoinDate = "";
 
-                    if (itemDetailsSYSVec != null) {
-                        itemID = (String.valueOf(itemDetailsSYSVec.get(0)));
-                        itemName = (String) itemDetailsSYSVec.get(1);
-                        itemCategoryName = (String) itemDetailsSYSVec.get(2);
-                        itemPrice = (String.valueOf(itemDetailsSYSVec.get(3)));
-                        itemCondition = (String) itemDetailsSYSVec.get(4);
-                        itemDescription = (String) itemDetailsSYSVec.get(5);
-                        itemImage = (String) itemDetailsSYSVec.get(6);
-                        itemStatus = (String) itemDetailsSYSVec.get(7);
-                        itemNumOfLikes = (String.valueOf(itemDetailsSYSVec.get(8)));
-                        itemLikeStatus = (String.valueOf(itemDetailsSYSVec.get(9)));
-                        System.out.println("ITEM LIKE STATUS: " + itemLikeStatus);
-                        itemPostingDate = (String.valueOf(itemDetailsSYSVec.get(10)));
-                        tradeLocation = (String) itemDetailsSYSVec.get(11);
-                        tradeLat = (String) itemDetailsSYSVec.get(12);
-                        tradeLong = (String) itemDetailsSYSVec.get(13);
-                        tradeInformation = (String) itemDetailsSYSVec.get(14);
-                        itemSellerID = (String.valueOf(itemDetailsSYSVec.get(15)));
-                        itemSellerImage = (String) itemDetailsSYSVec.get(16);
-                        itemSellerJoinDate = (String.valueOf(itemDetailsSYSVec.get(17)));
+                    String itemTransactionDate, itemBuyerID, itemBuyerImage, itemBuyerJoinDate, itemTransactionPrice;
+                    itemTransactionDate = itemBuyerID = itemBuyerImage = itemBuyerJoinDate = itemTransactionPrice = "";
+                    
+                    String itemSellerPositive, itemSellerNeutral, itemSellerNegative, itemBuyerPositive, itemBuyerNeutral, itemBuyerNegative;
+                    itemSellerPositive = itemSellerNeutral = itemSellerNegative = itemBuyerPositive = itemBuyerNeutral = itemBuyerNegative = "";
+                    
+                    if (transItemDetailsSYSVec != null) {
+                        /* ITEM INFORMATION */
+                        itemID = (String.valueOf(transItemDetailsSYSVec.get(0)));
+                        itemName = (String) transItemDetailsSYSVec.get(1);
+                        itemCategoryName = (String) transItemDetailsSYSVec.get(2);
+                        itemPrice = (String.valueOf(transItemDetailsSYSVec.get(3)));
+                        itemCondition = (String) transItemDetailsSYSVec.get(4);
+                        itemDescription = (String) transItemDetailsSYSVec.get(5);
+                        itemImage = (String) transItemDetailsSYSVec.get(6);
+                        itemStatus = (String) transItemDetailsSYSVec.get(7);
+                        itemNumOfLikes = (String.valueOf(transItemDetailsSYSVec.get(8)));
+                        itemLikeStatus = (String.valueOf(transItemDetailsSYSVec.get(9)));
+                        itemPostingDate = (String.valueOf(transItemDetailsSYSVec.get(10)));
+                        /* TRADE INFORMATION */
+                        tradeLocation = (String) transItemDetailsSYSVec.get(11);
+                        tradeLat = (String) transItemDetailsSYSVec.get(12);
+                        tradeLong = (String) transItemDetailsSYSVec.get(13);
+                        tradeInformation = (String) transItemDetailsSYSVec.get(14);
+                        /* ITEM SELLER INFORMATION */
+                        itemSellerID = (String.valueOf(transItemDetailsSYSVec.get(15)));
+                        itemSellerImage = (String) transItemDetailsSYSVec.get(16);
+                        itemSellerJoinDate = (String.valueOf(transItemDetailsSYSVec.get(17)));
+                        itemSellerPositive = (String.valueOf(transItemDetailsSYSVec.get(18)));
+                        itemSellerNeutral = (String.valueOf(transItemDetailsSYSVec.get(19)));
+                        itemSellerNegative = (String.valueOf(transItemDetailsSYSVec.get(20)));
+                        /* ITEM TRANSACTION + ITEM BUYER INFORMATION */
+                        itemTransactionDate = (String.valueOf(transItemDetailsSYSVec.get(21)));
+                        itemBuyerID = (String.valueOf(transItemDetailsSYSVec.get(22)));
+                        itemBuyerImage = (String) transItemDetailsSYSVec.get(23);
+                        itemBuyerJoinDate = (String.valueOf(transItemDetailsSYSVec.get(24)));
+                        itemBuyerPositive = (String.valueOf(transItemDetailsSYSVec.get(25)));
+                        itemBuyerNeutral = (String.valueOf(transItemDetailsSYSVec.get(26)));
+                        itemBuyerNegative = (String.valueOf(transItemDetailsSYSVec.get(27)));
+                        itemTransactionPrice = (String.valueOf(transItemDetailsSYSVec.get(28)));
                     }
                 %>
                 <div class="row">
                     <div class="col-12 d-block d-md-none">
                         <div class="title"><span><%= itemName%></span></div>
                     </div>
-                    <div class="col-xl-4 col-lg-5 col-md-6">
-                        <img src="uploads/unify/images/marketplace/item/<%= itemImage%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer;">
+                    <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4">
+                        <img src="uploads/unify/images/marketplace/item/<%= itemImage%>" class="img-fluid border image-detail" style="cursor: pointer;">
                         <div class="title d-none d-md-block"><span>Share to</span></div>
                         <ul class="list-inline d-none d-md-block">
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-facebook"></i></button></li>
@@ -194,7 +89,7 @@
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-warning"><i class="fa fa-fw fa-envelope"></i></button></li>
                         </ul>
                     </div>
-                    <div class="col-xl-8 col-lg-7 col-md-6">
+                    <div class="col-xl-8 col-lg-7 col-md-6 col-sm-8">
                         <table class="table table-detail" add-class-on-xs="table-sm">
                             <tbody>
                                 <tr class="d-none d-md-table-row">
@@ -214,11 +109,7 @@
                                 </tr>
                                 <tr>
                                     <td>Availability</td>
-                                    <%  if (itemStatus.equals("Available")) {%>
-                                    <td><span class="badge badge-success custom-badge arrowed-left"><%= itemStatus%></span></td>
-                                        <%  } else if (itemStatus.equals("Sold")) {%>
                                     <td><span class="badge badge-danger custom-badge arrowed-left"><%= itemStatus%></span></td>
-                                        <%  }   %>
                                 </tr>
                                 <tr>
                                     <td>Number of Likes</td>
@@ -238,16 +129,12 @@
                                     <td>&nbsp;</td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <%  if (itemSellerID.equals(request.getAttribute("loggedInUsername"))) {%>
-                                            <button type="button" class="btn btn-outline-theme" onclick="location.href = 'MarketplaceSysUser?pageTransit=goToEditItemListingSYS&urlItemID=<%= itemID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
-                                            <%  } else {    %>
-                                            <button type="button" class="btn btn-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
-                                            <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
-                                            <%  }%>
+                                            <input type="hidden" id="itemIDHidden" value="<%= itemID%>" />
+                                            <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
                                             <%  if(itemLikeStatus.equals("true")) {   %>
-                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
+                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i>&nbsp;Like</button>
                                             <%  } else if(itemLikeStatus.equals("false")) {    %>
-                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
+                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i>&nbsp;Like</button>
                                             <%  }   %>
                                             
                                         </div>
@@ -255,17 +142,50 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item"><a class="nav-link text-default active" id="itemTradePane-tab" data-toggle="tab" href="#itemTradePane" role="tab" aria-controls="itemTradePane" aria-selected="true">Trade Information</a></li>
-                            <li class="nav-item"><a class="nav-link text-default" id="itemDescriptionPane-tab" data-toggle="tab" href="#itemDescriptionPane" role="tab" aria-controls="itemDescriptionPane" aria-selected="false">Item Information</a></li>
-                            <li class="nav-item">
-                                <a class="nav-link text-default" id="itemSellerPane-tab" data-toggle="tab" href="#itemSellerPane" role="tab" aria-controls="itemSellerPane" aria-selected="false">Seller Info</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link text-default active" id="tradeInfo-tab" data-toggle="tab" href="#tradeInfoPane" role="tab" aria-controls="tradeInfoPane" aria-selected="true">Trade Info</a></li>
+                            <li class="nav-item"><a class="nav-link text-default" id="transactionInfo-tab" data-toggle="tab" href="#transactionInfoPane" role="tab" aria-controls="transactionInfoPane" aria-selected="false">Transaction Info</a></li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane border border-top-0 p-3 show active" id="itemTradePane" role="tabpanel" aria-labelledby="itemTradePane-tab">
+                            <div class="tab-pane border border-top-0 p-3 show active" id="tradeInfoPane" role="tabpanel" aria-labelledby="tradeInfo-tab">
                                 <table class="table table-bordered mb-0">
                                     <tbody>
+                                        <tr>
+                                            <td class="bg-light w-25">Seller Information</td>
+                                            <td>
+                                                <div class="media mb-2">
+                                                    <div class="mr-2">
+                                                        <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
+                                                    </div>
+                                                    <div class="media-body col-md-6">
+                                                        <h5 class="sellerInfo"><%= itemSellerID%></h5>
+                                                        Joined on <%= itemSellerJoinDate%><br/>
+                                                        <hr/>
+                                                        <div class="rating">
+                                                            <ul class="profileRating">
+                                                                <li><img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%= itemSellerPositive%></span></li>
+                                                                <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%= itemSellerNeutral%></span></li>
+                                                                <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%= itemSellerNegative%></span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light w-25">Item Category</td>
+                                            <td><%= itemCategoryName%></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light w-25">Item Description</td>
+                                            <td><%= itemDescription%></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light w-25">Item Posted Date</td>
+                                            <td><%= itemPostingDate%></td>
+                                        </tr>
                                         <tr>
                                             <td class="bg-light w-25">Trade Location</td>
                                             <td>
@@ -286,113 +206,49 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="tab-pane border border-top-0 p-3" id="itemDescriptionPane" role="tabpanel" aria-labelledby="itemDescriptionPane-tab">
+                            <div class="tab-pane border border-top-0 p-3" id="transactionInfoPane" role="tabpanel" aria-labelledby="transactionInfo-tab">
                                 <table class="table table-bordered mb-0">
                                     <tbody>
                                         <tr>
-                                            <td class="bg-light w-25">Item Category</td>
-                                            <td><%= itemCategoryName%></td>
+                                            <td class="bg-light w-25">Buyer Information</td>
+                                            <td>
+                                                <div class="media mb-2">
+                                                    <div class="mr-2">
+                                                        <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemBuyerImage%>" />
+                                                    </div>
+                                                    <div class="media-body col-md-6">
+                                                        <h5 class="sellerInfo"><%= itemBuyerID%></h5>
+                                                        Joined on <%= itemBuyerJoinDate%><br/>
+                                                        <hr/>
+                                                        <div class="rating">
+                                                            <ul class="profileRating">
+                                                                <li><img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%= itemBuyerPositive%></span></li>
+                                                                <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%= itemBuyerNeutral%></span></li>
+                                                                <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%= itemBuyerNegative%></span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td class="bg-light w-25">Item Description</td>
-                                            <td><%= itemDescription%></td>
+                                            <td class="bg-light w-25">Item Transaction Date</td>
+                                            <td><%= itemTransactionDate%></td>
                                         </tr>
                                         <tr>
-                                            <td class="bg-light w-25">Item Posted Date</td>
-                                            <td><%= itemPostingDate%></td>
+                                            <td class="bg-light w-25">Item Transaction Price</td>
+                                            <td>$<%= itemTransactionPrice%></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="tab-pane border border-top-0 p-3" id="itemSellerPane" role="tabpanel" aria-labelledby="itemSellerPane-tab">
-                                <h5 class="sellerInfo">Seller Information:</h5>
-                                <div class="media mb-2 mt-3">
-                                    <div class="mr-2">
-                                        <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
-                                    </div>
-                                    <div class="media-body col-md-6">
-                                        <h5 class="sellerInfo"><%= itemSellerID%></h5>
-                                        Joined on <%= itemSellerJoinDate%><br/>
-                                        <hr/>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col-12">
-                        <div class="title">
-                            <span>Other items within the same category:</span>
-                        </div>
-                    </div>
-                    <div class="col pl-sm-0 pr-sm-0">
-                        <div class="owl-carousel owl-theme product-slider">
-                            <%
-                                ArrayList<Vector> assocCategoryItemListSYS = (ArrayList) request.getAttribute("assocCategoryItemListSYS");
-                                if (!assocCategoryItemListSYS.isEmpty()) {
-                                    for (int i = 0; i <= assocCategoryItemListSYS.size() - 1; i++) {
-                                        Vector v = assocCategoryItemListSYS.get(i);
-                                        String assocCategoryItemID = String.valueOf(v.get(0));
-                                        String assocCategoryItemImage = String.valueOf(v.get(1));
-                                        String assocCategoryItemName = String.valueOf(v.get(2));
-                                        String assocCategoryName = String.valueOf(v.get(3));
-                                        String assocCategoryItemSellerID = String.valueOf(v.get(4));
-                                        String assocCategoryItemPostedTime = String.valueOf(v.get(5));
-                                        String assocCategoryItemPrice = String.valueOf(v.get(6));
-                            %>
-                            <div class="product-slider-item">
-                                <div class="card card-product">
-                                    <div class="card-header" style="font-size: 13px;">
-                                        <%= assocCategoryItemSellerID%><br/><%= assocCategoryItemPostedTime%>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <div class="img-wrapper">
-                                                <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= assocCategoryItemID%>&hiddenCategoryName=<%= assocCategoryName%>">
-                                                    <img class="card-img-top" src="uploads/unify/images/marketplace/item/<%= assocCategoryItemImage%>" />
-                                                </a>
-                                                <div class="tools tools-bottom" data-animate-in="fadeInDown" data-animate-out="flipOutX">
-                                                    <div class="btn-group" role="group" aria-label="card-product-tools">
-                                                        <button class="btn btn-link btn-sm">Chat with Seller</button>
-                                                        <button class="btn btn-link btn-sm d-none d-md-inline-block"><i class="fa fa-heart"></i></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="card-title"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= assocCategoryItemID%>&hiddenCategoryName=<%= assocCategoryName%>"><%= assocCategoryItemName%></a></strong></span><br/>
-                                            <span class="card-text"><%= assocCategoryName%></span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer text-muted mt-1">
-                                        <span class="float-left"><span class="ml-1 price">$<%= assocCategoryItemPrice%></span></span>
-                                        <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;Like</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <%      }   %>
-                            <%  }   %>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div id="unifyFooter"></div> -->
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-            
-            <div style="display:none;" id="offerTooltip">
-                Offer Price&nbsp;<span style="color:#FF0000;">*</span>:<br/>
-                <input type="text" id="itemOfferPrice" class="offerFields" placeholder="Please omit the $ for your item offer price" style="margin-bottom: 7px;" /><br/>
-                Buyer Comments:<br/>
-                <textarea rows="3" id="itemOfferDescription" class="offerFields" placeholder="e.g. Meetup Location, Open for Negotiation"></textarea><br/>
-                <button type="button" id="sendOfferBtn" style="margin:7px 0 7px 0;">Send Offer</button><br/>
-                <input type="hidden" id="itemIDHidden" value="<%= itemID%>" />
-                <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
-                <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
-            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -404,7 +260,6 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/marketplace/ViewItemDetailsSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/marketplace/ViewItemDetailsSYSInModalJS.js" type="text/javascript"></script>
     </body>
 </html>

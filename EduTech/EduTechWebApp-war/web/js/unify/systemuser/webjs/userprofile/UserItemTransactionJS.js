@@ -1,4 +1,4 @@
-var itemTransDate, itemID;
+var itemTransDate, itemID, itemTransID;
 
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
@@ -10,9 +10,10 @@ $(document).ready(function () {
         var rowData = $(this).children("td").map(function() {
             return $(this).text();
         }).get();
-        itemTransDate = $.trim(rowData[1]);
+        itemTransDate = $.trim(rowData[0]);
         itemID = itemTransDate.split(';')[1];
-        $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToViewItemDetailsInModalSYS&itemID=' + itemID);
+        itemTransID = itemTransDate.split(';')[2];
+        $('iframe').attr('src', 'ProfileSysUser?pageTransit=goToViewItemDetailsInModalSYS&itemID=' + itemID + '&itemTransID=' + itemTransID);
         $('#itemDetails-iframe').iziModal('open', event);
     });
     
@@ -23,7 +24,7 @@ $(document).ready(function () {
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#4D7496',
-        width: 650,
+        width: 725,
         overlayClose: true,
         iframe: true,
         iframeHeight: 450

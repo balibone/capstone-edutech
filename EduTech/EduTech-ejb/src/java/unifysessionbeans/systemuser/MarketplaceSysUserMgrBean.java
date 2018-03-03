@@ -522,6 +522,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return me;
     }
     
+    /* MISCELLANEOUS METHODS (ITEM LIKE) */
     public Long getItemLikeCount(long itemID) {
         Long likeCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(l.likeID) FROM LikeListing l WHERE l.itemEntity.itemID = :itemID");
