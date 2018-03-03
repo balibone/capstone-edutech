@@ -258,7 +258,7 @@ public class ErrandsAdminController extends HttpServlet {
         boolean sameName = false;
         ArrayList<Vector> categoryList = (ArrayList) eamr.getAllJobCategory();
         for(int i=0; i<categoryList.size(); i++){
-            if(categoryName.equals(categoryList.get(i).get(2))){
+            if((categoryName.toUpperCase()).equals(((String)categoryList.get(i).get(2)).toUpperCase())){
                 sameName = true;
                 break;
             }

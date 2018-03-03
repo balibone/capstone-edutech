@@ -82,6 +82,7 @@
                 jobEndLong = (String) jobDetailsVec.get(17);
                 jobInformation = (String) jobDetailsVec.get(18);
             }
+            
         %>
         <table class="formFields" border="0">
             <tr><td colspan="2" style="text-align: left;"><h3><strong><%= jobTitle%></strong></h3></td></tr>
