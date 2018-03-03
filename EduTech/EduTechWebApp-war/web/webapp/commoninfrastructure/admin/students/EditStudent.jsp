@@ -138,20 +138,7 @@
                                         <input type="text" readonly value="<%=creationDate%>" class="form-control"/>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label required">User Type:</label>
-                                    <div class="col-md-5">
-                                        <select required class="form-control" name="type">
-                                            <option selected value="student">Student</option>
-                                            <option value="instructor">Instructor</option>
-                                            <option value="unifyadmin">Unify Admin</option>
-                                            <option value="edutechadmin">EduTech Admin</option>
-                                            <option value="dualadmin">Dual Admin (EduTech + Unify)</option>
-                                            <option value="superadmin">Super Admin (Full Access Rights)</option>
-                                        </select>
-                                        Current: <%=displayType%>                                        
-                                    </div>
-                                </div>                               
+                                <input type="hidden"  name="type" value="student"/>                             
                             </div>
                             <div class="col-md-4">
                                 <div class="image-upload">
