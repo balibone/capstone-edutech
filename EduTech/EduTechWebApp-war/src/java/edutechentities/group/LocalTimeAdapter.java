@@ -5,7 +5,6 @@
  */
 package edutechentities.group;
 
-import edutechentities.common.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
