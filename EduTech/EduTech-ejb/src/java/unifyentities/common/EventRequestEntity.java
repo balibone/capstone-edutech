@@ -44,6 +44,8 @@ public class EventRequestEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date eventRequestDate;
     
+    private String eventRequestVenueLat;
+    private String eventRequestVenueLong;
     
     @ManyToOne
     private UserEntity userEntity;
@@ -61,6 +63,8 @@ public class EventRequestEntity implements Serializable {
     public Date getEventRequestEndDateTime() { return eventRequestEndDateTime; }
     public String getEventRequestVenue() { return eventRequestVenue; }
     public Date getEventReviewedDate() { return eventReviewedDate; }
+    public String getEventRequestVenueLat() { return eventRequestVenueLat; }
+    public String getEventRequestVenueLong() { return eventRequestVenueLong; }
     
     public UserEntity getUserEntity() { return userEntity; }
     
@@ -73,6 +77,8 @@ public class EventRequestEntity implements Serializable {
     public void setEventRequestEndDateTime(Date eventRequestEndDateTime) { this.eventRequestEndDateTime = eventRequestEndDateTime; }
     public void setEventRequestVenue(String eventRequestVenue) {this.eventRequestVenue = eventRequestVenue; }
     public void setEventReviewedDate() { this.eventReviewedDate = new Date(); }
+    public void setEventRequestVenueLat(String eventRequestVenueLat) {this.eventRequestVenueLat = eventRequestVenueLat; }
+    public void setEventRequestVenueLong(String eventRequestVenueLong) {this.eventRequestVenueLong = eventRequestVenueLong; }
     
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }
