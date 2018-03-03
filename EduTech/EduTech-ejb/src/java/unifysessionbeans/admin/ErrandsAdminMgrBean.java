@@ -17,6 +17,8 @@ import java.util.Collection;
 import java.util.Vector;
 import java.util.List;
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -42,6 +44,9 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
     private Collection<JobEntity> jobSet;
     private Collection<JobReviewEntity> jobReviewSet;
     private Collection<JobTransactionEntity> jobTransactionSet;
+    
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    DecimalFormat rateFormat = new DecimalFormat("0.00");
 
     @Override
     public List<Vector> getAllJobCategory() {
@@ -131,9 +136,10 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                     jobVec.add(jobE.getJobImage());
                     jobVec.add(jobE.getJobTitle());
                     jobVec.add(jobE.getUserEntity().getUsername());
-                    jobVec.add(jobE.getJobRate());
+                    jobVec.add(rateFormat.format(jobE.getJobRate()));
                     jobVec.add(jobE.getJobRateType());
-                    jobVec.add(jobE.getJobWorkDate());
+                    Date date = jobE.getJobWorkDate();
+                    jobVec.add(sdf.format(date));
                     jobVec.add(jobE.getJobStatus());
                     jobList.add(jobVec);
                 }
@@ -156,7 +162,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             
             Vector<String> categoryNameList = (Vector) q.getResultList();
             for(int i=0; i<categoryNameList.size(); i++){
-                if(categoryName.equals(categoryNameList.get(i))){
+                if((categoryName.toUpperCase()).equals(categoryNameList.get(i).toUpperCase())){
                     sameName = true;
                     break;
                 }
@@ -235,7 +241,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             jobVec.add(jobE.getCategoryEntity().getCategoryName());
             jobVec.add(jobE.getUserEntity().getUsername());
             jobVec.add(jobE.getJobTakerID());
-            jobVec.add(jobE.getJobRate());
+            jobVec.add(rateFormat.format(jobE.getJobRate()));
             jobVec.add(jobE.getJobRateType());
             jobVec.add(jobE.getJobStatus());
             jobList.add(jobVec);
@@ -253,14 +259,14 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             jobDetailsVec.add(jEntity.getJobTitle());
             jobDetailsVec.add(jEntity.getCategoryEntity().getCategoryName());
             jobDetailsVec.add(jEntity.getUserEntity().getUsername());
-            jobDetailsVec.add(jEntity.getJobRate());
+            jobDetailsVec.add(rateFormat.format(jEntity.getJobRate()));
             jobDetailsVec.add(jEntity.getJobRateType());
             jobDetailsVec.add(jEntity.getJobDuration());
             jobDetailsVec.add(jEntity.getJobDescription());
             jobDetailsVec.add(jEntity.getJobStatus());
             jobDetailsVec.add(jEntity.getJobNumOfLikes());
-            jobDetailsVec.add(jEntity.getJobPostDate());
-            jobDetailsVec.add(jEntity.getJobWorkDate());
+            jobDetailsVec.add(sdf.format(jEntity.getJobPostDate()));
+            jobDetailsVec.add(sdf.format(jEntity.getJobWorkDate()));
             jobDetailsVec.add(jEntity.getJobStartLocation());
             jobDetailsVec.add(jEntity.getJobStartLat());
             jobDetailsVec.add(jEntity.getJobStartLong());
@@ -283,12 +289,12 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                 for (JobTransactionEntity jte : jobTransactionSet) {
                     Vector jobTransDetails = new Vector();
                     
-                    jobTransDetails.add(jte.getJobTransactionDate());
+                    jobTransDetails.add(sdf.format(jte.getJobTransactionDate()));
                     /* WE ASSUME THAT THE JOB POSTER IS THE ONE WHO CREATES THE TRANSACTION */
                     //jobTransDetails.add(jte.getUserEntity().getUsername());
                     jobTransDetails.add(jte.getJobTakerID());
                     jobTransDetails.add(jte.getJobTransactionRateType());
-                    jobTransDetails.add(jte.getJobTransactionRate());
+                    jobTransDetails.add(rateFormat.format(jte.getJobTransactionRate()));
                     jobTransactionList.add(jobTransDetails);
                 }
             } else {
@@ -299,11 +305,11 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                     JobTransactionEntity jobTransE = (JobTransactionEntity) o;
                     Vector jobTransVec = new Vector();
 
-                    jobTransVec.add(jobTransE.getJobTransactionDate());
+                    jobTransVec.add(sdf.format(jobTransE.getJobTransactionDate()));
                     /* WE ASSUME THAT THE JOB POSTER IS THE ONE WHO CREATES THE TRANSACTION */
                     //jobTransVec.add(jobTransE.getUserEntity().getUsername());
                     jobTransVec.add(jobTransE.getJobTakerID());
-                    jobTransVec.add(jobTransE.getJobTransactionRate());
+                    jobTransVec.add(rateFormat.format(jobTransE.getJobTransactionRate()));
                     jobTransVec.add(jobTransE.getJobTransactionRateType());
                     jobTransactionList.add(jobTransVec);
                 }
@@ -323,7 +329,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                 for (JobReviewEntity jre : jobReviewSet) {
                     Vector jobReviewDetails = new Vector();
                     
-                    jobReviewDetails.add(jre.getJobReviewDate());
+                    jobReviewDetails.add(sdf.format(jre.getJobReviewDate()));
                     jobReviewDetails.add(jre.getUserEntity().getUsername());
                     jobReviewDetails.add(jre.getJobReceiverID());
                     jobReviewDetails.add(jre.getJobReviewRating());
@@ -338,7 +344,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                     JobReviewEntity jobReviewE = (JobReviewEntity) o;
                     Vector jobReviewVec = new Vector();
 
-                    jobReviewVec.add(jobReviewE.getJobReviewDate());
+                    jobReviewVec.add(sdf.format(jobReviewE.getJobReviewDate()));
                     jobReviewVec.add(jobReviewE.getUserEntity().getUsername());
                     jobReviewVec.add(jobReviewE.getJobReceiverID());
                     jobReviewVec.add(jobReviewE.getJobReviewRating());
@@ -377,15 +383,15 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             JobTransactionEntity jobTransE = (JobTransactionEntity) o;
             Vector jobTransVec = new Vector();
 
-            jobTransVec.add(jobTransE.getJobTransactionDate());
+            jobTransVec.add(sdf.format(jobTransE.getJobTransactionDate()));
             /* WE ASSUME THAT THE JOB POSTER IS THE ONE WHO CREATES THE TRANSACTION */
             jobTransVec.add(jobTransE.getUserEntity().getUsername());
             jobTransVec.add(jobTransE.getJobTakerID());
             jobTransVec.add(jobTransE.getJobEntity().getJobTitle());
             jobTransVec.add(jobTransE.getJobEntity().getJobID());
-            jobTransVec.add(jobTransE.getJobEntity().getJobRate());
+            jobTransVec.add(rateFormat.format(jobTransE.getJobEntity().getJobRate()));
             jobTransVec.add(jobTransE.getJobEntity().getJobRateType());
-            jobTransVec.add(jobTransE.getJobTransactionRate());
+            jobTransVec.add(rateFormat.format(jobTransE.getJobTransactionRate()));
             jobTransVec.add(jobTransE.getJobTransactionRateType());
 
             jobTransactionList.add(jobTransVec);
@@ -402,14 +408,14 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                 JobTransactionEntity jobTransE = (JobTransactionEntity) o;
                 Vector jobTransVec = new Vector();
                 
-                jobTransVec.add(jobTransE.getJobTransactionDate());
+                jobTransVec.add(sdf.format(jobTransE.getJobTransactionDate()));
                 /* WE ASSUME THAT THE JOB POSTER IS THE ONE WHO CREATES THE TRANSACTION */
                 jobTransVec.add(jobTransE.getUserEntity().getUsername());
                 jobTransVec.add(jobTransE.getJobTakerID());
                 jobTransVec.add(jobTransE.getJobEntity().getJobTitle());
                 //jobTransVec.add(jobTransE.getJobEntity().getJobRate());
                 //jobTransVec.add(jobTransE.getJobEntity().getJobRateType());
-                jobTransVec.add(jobTransE.getJobTransactionRate());
+                jobTransVec.add(rateFormat.format(jobTransE.getJobTransactionRate()));
                 jobTransVec.add(jobTransE.getJobTransactionRateType());
 
                 latestTransList.add(jobTransVec);
@@ -542,7 +548,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                     jobDetails.add(je.getCategoryEntity().getCategoryName());
                     jobDetails.add(je.getUserEntity().getUsername());
                     jobDetails.add(je.getJobTakerID());
-                    jobDetails.add(je.getJobRate());
+                    jobDetails.add(rateFormat.format(je.getJobRate()));
                     jobDetails.add(je.getJobRateType());
                     jobDetails.add(je.getJobStatus());
                     userErrandsList.add(jobDetails);
@@ -561,7 +567,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                     jobVec.add(jobE.getCategoryEntity().getCategoryName());
                     jobVec.add(jobE.getUserEntity().getUsername());
                     jobVec.add(jobE.getJobTakerID());
-                    jobVec.add(jobE.getJobRate());
+                    jobVec.add(rateFormat.format(jobE.getJobRate()));
                     jobVec.add(jobE.getJobRateType());
                     jobVec.add(jobE.getJobStatus());
                     userErrandsList.add(jobVec);
@@ -584,11 +590,11 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             Vector jobTransVec = new Vector();
 
             jobTransVec.add(jobTransE.getJobEntity().getJobID());
-            jobTransVec.add(jobTransE.getJobTransactionDate());
+            jobTransVec.add(sdf.format(jobTransE.getJobTransactionDate()));
             /* WE ASSUME THAT THE JOB POSTER IS THE ONE WHO CREATES THE TRANSACTION */
             jobTransVec.add(jobTransE.getUserEntity().getUsername());
             jobTransVec.add(jobTransE.getJobTakerID());
-            jobTransVec.add(jobTransE.getJobTransactionRate());
+            jobTransVec.add(rateFormat.format(jobTransE.getJobTransactionRate()));
             jobTransVec.add(jobTransE.getJobTransactionRateType());
             userErrandsTransList.add(jobTransVec);
         }
