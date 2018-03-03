@@ -157,6 +157,9 @@
                     String itemPostingDate, tradeLocation, tradeLat, tradeLong, tradeInformation, itemSellerID, itemSellerImage, itemSellerJoinDate;
                     itemPostingDate = tradeLocation = tradeLat = tradeLong = tradeInformation = itemSellerID = itemSellerImage = itemSellerJoinDate = "";
 
+                    String itemSellerPositive, itemSellerNeutral, itemSellerNegative;
+                    itemSellerPositive = itemSellerNeutral = itemSellerNegative = "";
+                    
                     if (itemDetailsSYSVec != null) {
                         itemID = (String.valueOf(itemDetailsSYSVec.get(0)));
                         itemName = (String) itemDetailsSYSVec.get(1);
@@ -176,6 +179,9 @@
                         itemSellerID = (String.valueOf(itemDetailsSYSVec.get(15)));
                         itemSellerImage = (String) itemDetailsSYSVec.get(16);
                         itemSellerJoinDate = (String.valueOf(itemDetailsSYSVec.get(17)));
+                        itemSellerPositive = (String.valueOf(itemDetailsSYSVec.get(18)));
+                        itemSellerNeutral = (String.valueOf(itemDetailsSYSVec.get(19)));
+                        itemSellerNegative = (String.valueOf(itemDetailsSYSVec.get(20)));
                     }
                 %>
                 <div class="row">
@@ -314,7 +320,11 @@
                                         Joined on <%= itemSellerJoinDate%><br/>
                                         <hr/>
                                         <div class="rating">
-                                            <i class="fa fa-star"></i>
+                                            <ul class="profileRating">
+                                                <li><img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%= itemSellerPositive%></span></li>
+                                                <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%= itemSellerNeutral%></span></li>
+                                                <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%= itemSellerNegative%></span></li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>

@@ -163,7 +163,9 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemDetailsVec.add(iEntity.getUserEntity().getUsername());
             itemDetailsVec.add(iEntity.getUserEntity().getImgFileName());
             itemDetailsVec.add(df.format(iEntity.getUserEntity().getUserCreationDate()));
-            itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryID());
+            itemDetailsVec.add(getPositiveItemReviewCount(iEntity.getUserEntity().getUsername()));
+            itemDetailsVec.add(getNeutralItemReviewCount(iEntity.getUserEntity().getUsername()));
+            itemDetailsVec.add(getNegativeItemReviewCount(iEntity.getUserEntity().getUsername()));
             return itemDetailsVec;
         }
         return null;
@@ -522,6 +524,10 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return me;
     }
     
+    public static boolean isNumeric(String strValue) {
+        return strValue.matches("-?\\d+(\\.\\d+)?");  // match a number with optional '-' and decimal
+    }
+    
     /* MISCELLANEOUS METHODS (ITEM LIKE) */
     public Long getItemLikeCount(long itemID) {
         Long likeCount = new Long(0);
@@ -536,7 +542,43 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return likeCount;
     }
     
-    public static boolean isNumeric(String strValue) {
-        return strValue.matches("-?\\d+(\\.\\d+)?");  // match a number with optional '-' and decimal
+    /* MISCELLANEOUS METHODS (PROFILE RATING) */
+    public Long getPositiveItemReviewCount(String username) {
+        Long positiveItemReviewCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(r.itemReviewID) FROM ItemReview r WHERE r.itemReceiverID = :username AND r.itemReviewRating = 'Positive'");
+        q.setParameter("username", username);
+        try {
+            positiveItemReviewCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in UserProfileSysUserMgrBean.getPositiveItemReviewCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return positiveItemReviewCount;
+    }
+    
+    public Long getNeutralItemReviewCount(String username) {
+        Long neutralItemReviewCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(r.itemReviewID) FROM ItemReview r WHERE r.itemReceiverID = :username AND r.itemReviewRating = 'Neutral'");
+        q.setParameter("username", username);
+        try {
+            neutralItemReviewCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in UserProfileSysUserMgrBean.getNeutralItemReviewCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return neutralItemReviewCount;
+    }
+    
+    public Long getNegativeItemReviewCount(String username) {
+        Long positiveItemReviewCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(r.itemReviewID) FROM ItemReview r WHERE r.itemReceiverID = :username AND r.itemReviewRating = 'Negative'");
+        q.setParameter("username", username);
+        try {
+            positiveItemReviewCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in UserProfileSysUserMgrBean.getNegativeItemReviewCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return positiveItemReviewCount;
     }
 }
