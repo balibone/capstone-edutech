@@ -142,8 +142,6 @@
                                     <label class="col-md-2 control-label required">User Type:</label>
                                     <div class="col-md-5">
                                         <select required class="form-control" name="type">
-                                            <option value="student">Student</option>
-                                            <option value="instructor">Instructor</option>
                                             <option value="unifyadmin">Unify Admin</option>
                                             <option value="edutechadmin">EduTech Admin</option>
                                             <option selected value="dualadmin">Dual Admin (EduTech + Unify)</option>
