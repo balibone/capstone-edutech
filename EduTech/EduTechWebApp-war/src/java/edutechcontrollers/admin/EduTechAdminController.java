@@ -177,10 +177,13 @@ public class EduTechAdminController extends HttpServlet {
                     break;
                 case "addEventToMod":
                     id=request.getParameter("id");
-                    eam.addEventToMod(request.getParameter("title"),request.getParameter("location"),request.getParameter("day")
-                            ,request.getParameter("startTime"),request.getParameter("endTime"),
-                            request.getParameter("description"),id);//handle ajax call
-                    //just so that processRequest doenst return error.
+                    success = eam.addEventToMod(request.getParameter("title"),request.getParameter("location")
+                            ,request.getParameter("day"),request.getParameter("startTime")
+                            ,request.getParameter("endTime"),request.getParameter("description"),id);//handle ajax call
+                    if(!success){
+                        response.sendError(400 , "Event cannot be created. Please ensure event has valid start and end times, and does not conflict with existing events");
+                    }
+//just so that processRequest doenst return error.
                     pageAction = "EditModule";
                     break;
                 case "removeEvent":

@@ -269,23 +269,57 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     }
 
     @Override
-    public void addEventToMod(String title, String location, String day, String startTime, String endTime, String description, String id) {
+    public boolean addEventToMod(String title, String location, String day, String startTime, String endTime, String description, String id) {
         ModuleEntity mod = em.find(ModuleEntity.class,id);
         //creates new event and adds in the attribute values
         RecurringEventEntity event = new RecurringEventEntity();
         event.setTitle(title);
         event.setLocation(location);
         event.setDayOfWeek(DayOfWeek.valueOf(day.toUpperCase()));
-        System.out.println("START TIME IS "+startTime);
-        event.setStartTime(LocalTime.parse(startTime));
-        System.out.println("END TIME IS "+endTime);
-        event.setEndTime(LocalTime.parse(endTime));
+        LocalTime receivedStartTime = LocalTime.parse(startTime);
+        LocalTime receivedEndTime = LocalTime.parse(endTime);
+        //if start time is equals to or after end time, disallow creation.
+        if(receivedStartTime.equals(receivedEndTime) || receivedStartTime.isAfter(receivedEndTime))
+            return false;
+        
+        //if there is already a recurring event for this location at this time, disallow creation.
+        Query q1 = em.createQuery("SELECT r FROM RecurringEvent r");
+        for(Object o : q1.getResultList()){
+            RecurringEventEntity recur = (RecurringEventEntity) o;
+            LocalTime thisStartTime = recur.getStartTime();
+            LocalTime thisEndTime = recur.getEndTime();
+            //if recurring event has same location with the one to be created,
+            //disallow creation if there is overlap
+            if(recur.getLocation().equalsIgnoreCase(location.trim())){
+                //Case 1 : new event start time is in between start and end.
+                if(receivedStartTime.equals(thisStartTime) || 
+                        (receivedStartTime.isAfter(thisStartTime) && receivedStartTime.isBefore(thisEndTime))
+                        ){
+                    return false;
+                }
+                //Case 2 : new event start time is before start, but new event end time is between start and end
+                else if(receivedEndTime.equals(thisStartTime) || 
+                        (receivedEndTime.isAfter(thisStartTime) && receivedEndTime.isBefore(thisEndTime))
+                        ){
+                    return false;
+                }
+                //Case 3 : new event start time is before start & new event end time is on or after end
+                else if(receivedStartTime.isBefore(thisStartTime) && 
+                        (receivedEndTime.equals(thisEndTime) || receivedEndTime.isAfter(thisEndTime))
+                        ){
+                    return false;
+                }
+            }
+        }
+        event.setStartTime(receivedStartTime);
+        event.setEndTime(receivedEndTime);
         event.setDescription(description);
         event.setModule(mod);
         //persist new event
         em.persist(event);
         //adds new event to this module.
         mod.getRecurringEvents().add(event);
+        return true;
     }
 
     @Override

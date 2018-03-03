@@ -19,9 +19,15 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
 
     @Override
     public boolean createNewStudent(String salutation, String firstName, String lastName, String username, String password, String fileName) { 
-        UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName);
-        em.persist(newStudent);
-        return true;
+        try{
+            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName);
+            em.persist(newStudent);
+            return true;
+        }catch(Exception e){
+            System.out.println("ERROR IN CREATE STUDENT");
+            return false;
+        }
+        
     }
     
     @Override
