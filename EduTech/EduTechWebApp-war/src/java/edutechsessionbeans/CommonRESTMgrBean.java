@@ -124,6 +124,19 @@ public class CommonRESTMgrBean {
         return em.find(ScheduleItemEntity.class, Long.valueOf(id));
     }
     
+    public List<ScheduleItemEntity> findGroupScheduleItems(int groupId){
+        Collection<UserEntity> members = em.find(GroupEntity.class, Long.valueOf(groupId)).getMembers();
+        List<ScheduleItemEntity> membersScheduleItem = new ArrayList();
+        List<ScheduleItemEntity> temp = new ArrayList();
+        for(UserEntity member: members){
+            temp = findUserScheduleItems(member.getUsername());
+            temp.removeAll(membersScheduleItem);
+            membersScheduleItem.addAll(temp);
+//            membersScheduleItem.addAll();
+        }
+        return membersScheduleItem;
+    }
+    
     public List<ScheduleItemEntity> findUserScheduleItems(String username) {
         UserEntity user = em.find(UserEntity.class, username);
         //to store all schedule items for this user. (immediate schedule items + converted recurring events)

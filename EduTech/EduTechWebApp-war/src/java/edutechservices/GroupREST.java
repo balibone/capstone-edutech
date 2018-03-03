@@ -6,6 +6,7 @@
 package edutechservices;
 
 //import edutechentities.common.GroupEntity;
+import commoninfraentities.UserEntity;
 import edutechentities.group.GroupEntity;
 import edutechsessionbeans.GroupRESTMgrBean;
 import java.util.List;
@@ -34,10 +35,19 @@ public class GroupREST {
     @EJB
     GroupRESTMgrBean etr;
     
-    
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET @Path("user/{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<GroupEntity> getUserGroups(@PathParam("id") String id) {
         return etr.findUserGroups(id);
+    }
+    
+    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public GroupEntity getGroupDetails(@PathParam("id") String id) {
+        return etr.findGroup(id);
+    }
+    
+    @GET @Path("members/{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<UserEntity> getGroupMembers(@PathParam("id") String id) {
+        return etr.findGroupMembers(id);
     }
 
     

@@ -38,5 +38,15 @@ public class GroupRESTMgrBean {
         }
         return userGroups;
     }
+
+    public GroupEntity findGroup(String id) {
+        GroupEntity group = em.find(GroupEntity.class, Long.valueOf(id));
+        group.setMembers(group.getMembers());
+        return group;
+    }
+
+    public List<UserEntity> findGroupMembers(String id) {
+        return (List) em.find(GroupEntity.class, Long.valueOf(id)).getMembers();
+    }
     
 }
