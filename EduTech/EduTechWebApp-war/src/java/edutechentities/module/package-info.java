@@ -9,10 +9,13 @@
     @XmlJavaTypeAdapter(type=LocalTime.class,
         value=LocalTimeAdapter.class),
     @XmlJavaTypeAdapter(type=LocalDateTime.class,
-        value=LocalDateTimeAdapter.class)
+        value=LocalDateTimeAdapter.class),
+    @XmlJavaTypeAdapter(type=DayOfWeek.class,
+            value=DayOfWeekAdapter.class)
 })
 package edutechentities.module;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
