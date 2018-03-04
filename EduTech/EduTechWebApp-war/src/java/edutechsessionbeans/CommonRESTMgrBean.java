@@ -155,7 +155,7 @@ public class CommonRESTMgrBean {
             LocalDate endDate = sem.getEndDate();
             //if semester starts before or on today's date and end after or on today's date, then it is current semester
             //ASSUMPTION : there are no 2 sems with overlapping dates.
-            if( (startDate.isBefore(currDate) || endDate.isEqual(currDate)) && (endDate.isAfter(currDate) || endDate.isEqual(currDate)) ){
+            if( (endDate.isAfter(currDate) || endDate.isEqual(currDate)) ){
                 currSem = sem;
             }
         }
