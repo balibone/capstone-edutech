@@ -22,7 +22,7 @@
     } 
     if (loggedInUsername == null) {
         response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
-    }else if (!userType.equalsIgnoreCase("superadmin")){
+    }else if (userType!= null && !userType.equalsIgnoreCase("superadmin")){
         response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding&unauthorised=true");
     }
 
