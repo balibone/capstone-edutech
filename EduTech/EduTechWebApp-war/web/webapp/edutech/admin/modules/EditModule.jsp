@@ -109,7 +109,18 @@
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label required">Assigned To Semester:</label>
                                     <div class="col-xs-8">
-                                        <input type="text" required readonly class="form-control" value="<%=semester%>" name="semester"/>
+                                        <select class="form-control" required name="semID">
+                                            <%
+                                                ArrayList semesterList = (ArrayList)request.getAttribute("semesterList");
+                                                if(semesterList!=null && !semesterList.isEmpty()){
+                                                    for(Object o:semesterList){
+                                                        ArrayList semInfo = (ArrayList) o;%>
+                                                        <option value="<%=semInfo.get(0)%>">Semester: <%=semInfo.get(1)%> | ID: <%=semInfo.get(0)%> </option>
+                                            <%        }
+                                                }
+                                            %>
+                                        </select>
+                                        Current Semester: <%=semester%>
                                     </div>
                                 </div>
                             </div>

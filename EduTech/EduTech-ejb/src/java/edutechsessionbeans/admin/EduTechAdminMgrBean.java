@@ -1,20 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package edutechsessionbeans.admin;
 
 import commoninfrastructureentities.UserEntity;
 import edutechentities.ModuleEntity;
 import edutechentities.RecurringEventEntity;
-import edutechentities.ScheduleItemEntity;
 import edutechentities.SemesterEntity;
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParseException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,11 +18,8 @@ import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,21 +31,21 @@ import javax.persistence.Query;
  */
 @Stateless
 public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
-
+    
     @PersistenceContext
     private EntityManager em;
-
+    
     @Override
     public Object getModuleCount() {
         return em.createQuery("SELECT COUNT(DISTINCT m.moduleCode) FROM Module m").getSingleResult();
         
     }
-
+    
     @Override
     public Object getSemesterCount() {
         return em.createQuery("SELECT COUNT(DISTINCT s.id) FROM Semester s").getSingleResult();
     }
-
+    
     @Override
     public boolean createSemester(String title, String startDate, String endDate) {
         try{
@@ -67,17 +58,17 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
                 SemesterEntity sem = (SemesterEntity) o;
                 LocalDate thisStartDate = sem.getStartDate();
                 LocalDate thisEndDate = sem.getEndDate();
-
+                
                 //Case 1 : new sem start date is in between start and end.
-                if(startD.equals(thisStartDate) 
-                        || (startD.isAfter(thisStartDate) && startD.isBefore(thisEndDate) 
+                if(startD.equals(thisStartDate)
+                        || (startD.isAfter(thisStartDate) && startD.isBefore(thisEndDate)
                         || startD.equals(thisEndDate))
                         ){
                     return false;
                 }
                 //Case 2 : new sem end date is between start and end.
-                else if(endD.equals(thisStartDate) 
-                        || (endD.isAfter(thisStartDate) && endD.isBefore(thisEndDate) 
+                else if(endD.equals(thisStartDate)
+                        || (endD.isAfter(thisStartDate) && endD.isBefore(thisEndDate)
                         || endD.equals(thisEndDate))
                         ){
                     return false;
@@ -98,12 +89,12 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             return false;
         }
     }
-
+    
     @Override
     public ArrayList getAllSemesters() {
         ArrayList semesterList = new ArrayList<ArrayList>();
         SemesterEntity sem = new SemesterEntity();
-        //format LocalDate to String in format of e.g. 05 July 2019 
+        //format LocalDate to String in format of e.g. 05 July 2019
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM yyyy");
         //Find all active semesters
         Query q1 = em.createQuery("SELECT s FROM Semester s");
@@ -122,7 +113,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         }
         return semesterList;
     }
-
+    
     @Override
     public ArrayList getSemesterInfo(String id) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM yyyy");
@@ -153,13 +144,18 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         semInfo.add(moduleInfoList.size());
         return semInfo;
     }
-
+    
     @Override
     public void deleteSemester(String id) {
         SemesterEntity sem = em.find(SemesterEntity.class, Long.valueOf(id));
+        
+        
+        for(ModuleEntity mod : sem.getModules()){
+            mod.setSemester(null);
+        }
         em.remove(sem);
     }
-
+    
     @Override
     public boolean editSemester(String title, String startDate, String endDate, String id) {
         try {
@@ -175,7 +171,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             return false;
         }
     }
-
+    
     @Override
     public boolean createModule(String moduleCode, String name, Long modularCredit, String description, Long semID) {
         try{
@@ -186,35 +182,46 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         }catch(Exception e){
             e.printStackTrace();
             return false;
-        }        
+        }
     }
-
+    
     @Override
     public ArrayList getAllModules() {
         ArrayList moduleList = new ArrayList<ArrayList>();
         ModuleEntity mod = new ModuleEntity();
-
+        
         //Find all active modules
         Query q1 = em.createQuery("SELECT m FROM Module m");
-
+        
         for(Object o : q1.getResultList()){
             mod = (ModuleEntity) o;
             ArrayList modInfo = new ArrayList();
             modInfo.add(mod.getModuleCode());
             modInfo.add(mod.getTitle());
             modInfo.add(String.valueOf(mod.getModularCredit()));
-            modInfo.add(String.valueOf(mod.getSemester().getId()));
-            modInfo.add(String.valueOf(mod.getSemester().getTitle()));
+            if(mod.getSemester() != null){
+                modInfo.add(String.valueOf(mod.getSemester().getId()));
+                modInfo.add(String.valueOf(mod.getSemester().getTitle()));
+            }else{
+                modInfo.add("");
+                modInfo.add("");
+            }
             moduleList.add(modInfo);
         }
         return moduleList;
     }
-
+    
     @Override
     public void deleteModule(String id) {
-        em.remove(em.find(ModuleEntity.class,id));
+        ModuleEntity mod = em.find(ModuleEntity.class,id);
+        
+        for(RecurringEventEntity recevent : mod.getRecurringEvents()){
+            em.remove(recevent);
+        }
+        em.remove(mod);
+        
     }
-
+    
     @Override
     public ArrayList getModuleInfo(String id) {
         
@@ -223,7 +230,11 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         modInfo.add(String.valueOf(mod.getModuleCode()));
         modInfo.add(String.valueOf(mod.getTitle()));
         modInfo.add(String.valueOf(mod.getModularCredit()));
-        modInfo.add(String.valueOf(mod.getSemester().getTitle()+" | ID: "+mod.getSemester().getId()));
+        if(mod.getSemester() != null){
+            modInfo.add(String.valueOf(mod.getSemester().getTitle()+" | ID: "+mod.getSemester().getId()));
+        }else{
+            modInfo.add("");
+        }
         modInfo.add(String.valueOf(mod.getDescription()));
         //get list of users for this module
         Collection users = mod.getMembers();
@@ -261,7 +272,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             userInfoList.add(userInfo);
             
         }
-
+        
         modInfo.add(userInfoList);
         modInfo.add(userInfoList.size());
         
@@ -282,7 +293,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         modInfo.add(eventInfoList);
         return modInfo;
     }
-
+    
     @Override
     public boolean editModule(String id, String name, String credits, String description) {
         try{
@@ -297,7 +308,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             return false;
         }
     }
-
+    
     @Override
     public boolean addEventToMod(String title, String location, String day, String startTime, String endTime, String description, String id) {
         ModuleEntity mod = em.find(ModuleEntity.class,id);
@@ -320,14 +331,14 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             //disallow creation if there is overlap
             if(recur.getLocation().equalsIgnoreCase(location.trim())){
                 //Case 1 : new event start time is in between start and end.
-                if(receivedStartTime.equals(thisStartTime) 
+                if(receivedStartTime.equals(thisStartTime)
                         || (receivedStartTime.isAfter(thisStartTime) && receivedStartTime.isBefore(thisEndTime))
                         || (receivedStartTime.equals(thisEndTime))
                         ){
                     return false;
                 }
                 //Case 2 : new event end time is between start and end.
-                else if(receivedEndTime.equals(thisStartTime) 
+                else if(receivedEndTime.equals(thisStartTime)
                         || (receivedEndTime.isAfter(thisStartTime) && receivedEndTime.isBefore(thisEndTime))
                         || (receivedEndTime.equals(thisEndTime))
                         ){
@@ -350,14 +361,14 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         mod.getRecurringEvents().add(event);
         return true;
     }
-
+    
     @Override
     public ArrayList getAllModulesOfUser(String id) {
         ArrayList moduleList = new ArrayList<ArrayList>();
         ModuleEntity mod = new ModuleEntity();
         //get user with this username
         UserEntity user = em.find(UserEntity.class, id);
-
+        
         //Find all active modules
         Query q1 = em.createQuery("SELECT m FROM Module m");
         
@@ -376,7 +387,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         }
         return moduleList;
     }
-
+    
     @Override
     public boolean addUserToMod(String id, String mod) {
         UserEntity user = em.find(UserEntity.class, id);
@@ -389,7 +400,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             return false;
         }
     }
-
+    
     @Override
     public void unassignModule(String id, String mod) {
         UserEntity user = em.find(UserEntity.class, id);
@@ -399,7 +410,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             module.getMembers().remove(user);
         }
     }
-
+    
     @Override
     public ArrayList getCurrentSemester() {
         LocalDate currDate = LocalDate.now();
@@ -420,7 +431,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         }
         return semInfo;
     }
-
+    
     @Override
     public void removeEventFromMod(String eventId, String id) {
         RecurringEventEntity event = em.find(RecurringEventEntity.class, Long.valueOf(eventId));
@@ -430,7 +441,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         }
         em.remove(event);
     }
-
+    
     @Override
     public ArrayList getModuleRecurringEvents(String id) {
         ArrayList eventList = new ArrayList();
