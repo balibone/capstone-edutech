@@ -19,6 +19,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/marketplace/ViewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -224,12 +225,15 @@
                         <div class="title"><span>Item Listing</span></div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
+                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
+                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                 <ul>
-                                    <li><span data-path=".itemName default" data-order="asc" data-type="text">Name Asc</span></li>
+                                    <li><span data-path=".itemName" data-order="asc" data-type="text" data-default="true">Name Asc</span></li>
                                     <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="asc" data-type="text">Price Asc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="desc" data-type="text">Price Desc</span></li>
+                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
+                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
+                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime">Latest Posted</span></li>
+                                    <li><span data-path=".itemPostingDate" data-order="asc" data-type="datetime">Earliest Posted</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -256,42 +260,49 @@
                                             String itemName = String.valueOf(v.get(2));
                                             String itemCategoryName = String.valueOf(v.get(3));
                                             String itemSellerID = String.valueOf(v.get(4));
-                                            String itemPostedDuration = String.valueOf(v.get(5));
-                                            String itemPrice = String.valueOf(v.get(6));
-                                            String itemNumOfLikes = String.valueOf(v.get(7));
+                                            String itemSellerImage = String.valueOf(v.get(5));
+                                            String itemPostedDuration = String.valueOf(v.get(6));
+                                            String itemPostingDate = String.valueOf(v.get(7));
+                                            String itemPrice = String.valueOf(v.get(8));
+                                            String itemNumOfLikes = String.valueOf(v.get(9));
                                 %>
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-header" style="font-size: 13px;">
-                                            <%= itemSellerID%><br/><%= itemPostedDuration%>
+                                            <div class="pull-left" style="padding-right: 10px;">
+                                                <div class="profilePicBorder">
+                                                    <img class="profilePic" src="uploads/unify/images/marketplace/item/<%= itemSellerImage%>" />
+                                                </div>
+                                            </div>
+                                            <div class="profileContent">
+                                                <h3 class="profileHeader"><%= itemSellerID%></h3>
+                                                <time class="profileTime"><i class="fa fa-clock-o" style="margin-right: 5px;"></i><%= itemPostedDuration%></time>
+                                            </div>
                                         </div>
                                         <div class="card-content">
                                             <div class="card-body">
-                                                <div class="img-wrapper">
+                                                <div class="img-wrapper mb-2">
                                                     <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>&hiddenUsername=<%= loggedInUsername%>">
                                                         <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
                                                     </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
                                                         <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            <button id="<%= itemID%>" class="btn btn-link btn-sm d-none d-sm-inline-block quick-view itemCard">
-                                                                <i class="fa fa-search-plus"></i>
-                                                            </button>
-                                                            <button class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
+                                                            <button id="<%= itemID%>" class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
+                                                <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
                                                 <span class="card-text"><%= itemCategoryName%></span>
                                             </div>
                                         </div>
                                         <div class="card-footer text-muted mt-1">
                                             <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
-                                            <span class="float-right">
-                                                <i class="fa fa-heart-o"></i>&nbsp;
-                                                <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%><%= itemNumOfLikes%>&nbsp;Like
-                                                <%  } else {%><%= itemNumOfLikes%>&nbsp;Likes
-                                                <%  }   %>
-                                            </span>
+                                            <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
+                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<%= itemNumOfLikes%>&nbsp;Like</span>
+                                            <%  } else {%>
+                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<%= itemNumOfLikes%>&nbsp;Likes</span>
+                                            <%  }   %>
                                         </div>
                                     </div>
                                 </div>

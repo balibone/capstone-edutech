@@ -352,6 +352,7 @@
                                         String assocCategoryItemSellerID = String.valueOf(v.get(4));
                                         String assocCategoryItemPostedTime = String.valueOf(v.get(5));
                                         String assocCategoryItemPrice = String.valueOf(v.get(6));
+                                        String assocCategoryItemLike = String.valueOf(v.get(7));
                             %>
                             <div class="product-slider-item">
                                 <div class="card card-product">
@@ -377,7 +378,11 @@
                                     </div>
                                     <div class="card-footer text-muted mt-1">
                                         <span class="float-left"><span class="ml-1 price">$<%= assocCategoryItemPrice%></span></span>
-                                        <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;Like</span>
+                                        <%  if (assocCategoryItemLike.equals("0") || assocCategoryItemLike.equals("1")) {%>
+                                        <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<%= assocCategoryItemLike%>&nbsp;Like</span>
+                                        <%  } else {%>
+                                        <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<%= assocCategoryItemLike%>&nbsp;Likes</span>
+                                        <%  }   %>
                                     </div>
                                 </div>
                             </div>
