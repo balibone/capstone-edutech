@@ -10,6 +10,17 @@
         <filter-name>NoCacheFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <!--EXCEPTION MAPPER-->
+    <servlet>
+        <servlet-name>JAXRSConfig</servlet-name>
+        <servlet-class>services.JAXRSConfig</servlet-class>
+        <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>
+                edutechservices.DebugExceptionMapper
+            </param-value>
+        </init-param>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet>
         <servlet-name>CommonInfra</servlet-name>
