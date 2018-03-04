@@ -64,6 +64,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemVec.add(itemE.getItemName());
             itemVec.add(itemE.getCategoryEntity().getCategoryName());
             itemVec.add(itemE.getUserEntity().getUsername());
+            itemVec.add(itemE.getUserEntity().getImgFileName());
 
             long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
             long diffSeconds = diff / 1000 % 60;
@@ -101,8 +102,9 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                 }
             }
             itemVec.add(dateString);
+            itemVec.add(df.format(itemE.getItemPostingDate()));
             itemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
-            itemVec.add(itemE.getItemNumOfLikes());
+            itemVec.add(getItemLikeCount(itemE.getItemID()));
             itemList.add(itemVec);
             dateString = "";
         }
@@ -230,6 +232,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                 }
                 assocCategoryItemVec.add(dateString);
                 assocCategoryItemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
+                assocCategoryItemVec.add(getItemLikeCount(itemE.getItemID()));
                 assocCategoryItemList.add(assocCategoryItemVec);
                 dateString = "";
             }
