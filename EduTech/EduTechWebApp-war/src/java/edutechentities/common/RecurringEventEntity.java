@@ -7,7 +7,6 @@ package edutechentities.common;
 
 import edutechentities.module.ModuleEntity;
 import java.io.Serializable;
-import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import javax.persistence.Entity;

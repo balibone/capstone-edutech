@@ -12,8 +12,6 @@ import edutechentities.common.SemesterEntity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -66,6 +64,7 @@ public class ModuleEntity implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+    @XmlTransient 
     public SemesterEntity getSemester() {
         return semester;
     }

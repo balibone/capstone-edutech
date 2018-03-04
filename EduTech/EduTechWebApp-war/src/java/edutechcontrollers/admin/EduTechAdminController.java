@@ -156,6 +156,7 @@ public class EduTechAdminController extends HttpServlet {
                     eventList = eam.getModuleRecurringEvents(id);
                     request.setAttribute("eventList", eventList);
                     request.setAttribute("moduleInfo", eam.getModuleInfo(id));
+                    request.setAttribute("semesterList", eam.getAllSemesters());
                     pageAction = "EditModule";
                     break;
                 case "editModule":
@@ -173,6 +174,7 @@ public class EduTechAdminController extends HttpServlet {
                     }
                     eventList = eam.getModuleRecurringEvents(id);
                     request.setAttribute("eventList", eventList);
+                    request.setAttribute("semesterList", eam.getAllSemesters());
                     pageAction = "EditModule";
                     break;
                 case "addEventToMod":

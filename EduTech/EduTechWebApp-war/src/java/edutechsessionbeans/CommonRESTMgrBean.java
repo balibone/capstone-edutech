@@ -153,9 +153,9 @@ public class CommonRESTMgrBean {
         for(SemesterEntity sem : sems){
             LocalDate startDate = sem.getStartDate();
             LocalDate endDate = sem.getEndDate();
-            //if semester starts before or on today's date and end after or on today's date, then it is current semester
+            //if semester end after or on today's date, then it is current semester
             //ASSUMPTION : there are no 2 sems with overlapping dates.
-            if( (startDate.isBefore(currDate) || endDate.isEqual(currDate)) && (endDate.isAfter(currDate) || endDate.isEqual(currDate)) ){
+            if( (endDate.isAfter(currDate) || endDate.isEqual(currDate)) ){
                 currSem = sem;
             }
         }
@@ -178,7 +178,7 @@ public class CommonRESTMgrBean {
         */
         if(currSem!=null){
             DayOfWeek semStartDay = currSem.getStartDate().getDayOfWeek();//get sem start day.
-            System.out.println(Arrays.toString(allRecurringEvents.toArray()));
+            System.out.println("Recurring events for user"+username+" is " + Arrays.toString(allRecurringEvents.toArray()));
             for(RecurringEventEntity event : allRecurringEvents){
                 //conversion = first schedule item to create.
                 ScheduleItemEntity conversion = new ScheduleItemEntity();
