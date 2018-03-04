@@ -84,11 +84,15 @@ public class CommonInfraController extends HttpServlet {
                     
                     String sessionInvalid = request.getParameter("sessionInvalid");
                     String sessionExpire = request.getParameter("sessionExpire");
+                    String relog = request.getParameter("relog");
                     if(sessionInvalid!=null && sessionInvalid.equals("true")){
                         request.setAttribute("sysMessage", "<strong>Invalid session. Please login again.</strong>");
                     }
                     if(sessionExpire!=null && sessionExpire.equals("true")){
                         request.setAttribute("sysMessage", "<strong>You session has expired. Please login again.</strong>");
+                    }
+                    if(relog!=null && relog.equals("true")){
+                        
                     }
                     pageAction = "IntegratedSPLogin";
                     break;
@@ -143,7 +147,7 @@ public class CommonInfraController extends HttpServlet {
                     pageAction = "AdminDashboard";
                     break;
                 default:
-                    break;
+                    response.sendRedirect("CommonInfra?pageTransit=goToLogout&relog=true");
             }
             dispatcher = servletContext.getNamedDispatcher(pageAction);
             dispatcher.forward(request, response);       
