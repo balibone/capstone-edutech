@@ -306,6 +306,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         event.setTitle(title);
         event.setLocation(location);
         event.setDayOfWeek(DayOfWeek.valueOf(day.toUpperCase()));
+        System.out.println("PERSISTED DAY OF WEEK INT VALUE IS "+DayOfWeek.valueOf(day.toUpperCase()).getValue());
         LocalTime receivedStartTime = LocalTime.parse(startTime);
         LocalTime receivedEndTime = LocalTime.parse(endTime);
         

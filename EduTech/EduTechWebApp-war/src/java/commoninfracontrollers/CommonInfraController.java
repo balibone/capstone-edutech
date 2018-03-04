@@ -25,7 +25,9 @@ public class CommonInfraController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-            
+            String sessionInvalid = "";
+            String sessionExpire = "";
+            String unauthorised = "";
             switch (pageAction) {
                 case "loginToSys":
                     String enteredUsername = request.getParameter("username");
@@ -39,7 +41,7 @@ public class CommonInfraController extends HttpServlet {
                         //set cookie path to "localhost/"
                         newCookie.setPath("/");
                         //Hafidz if your react app cant get the cookie then remove this line
-                        newCookie.setHttpOnly(true);
+                        //newCookie.setHttpOnly(true);
                         
                         //Insert user type data into "usertype" cookie using systemadminbean's get userinfo method
                         ArrayList userInfo = sam.getUserInfo(enteredUsername);
@@ -50,7 +52,7 @@ public class CommonInfraController extends HttpServlet {
                         //set cookie path to "localhost/"
                         userTypeCookie.setPath("/");
                         //Hafidz if your react app cant get the cookie then remove this line
-                        userTypeCookie.setHttpOnly(true);
+                        //userTypeCookie.setHttpOnly(true);
                         
                         //adds cookies to response
                         response.addCookie(newCookie);
@@ -82,18 +84,41 @@ public class CommonInfraController extends HttpServlet {
                     userType.setMaxAge(0);//changing the maximum age to 0 seconds. AKA deleting cookie  
                     response.addCookie(userType);//update this cookie by adding it to response.
                     
-                    String sessionInvalid = request.getParameter("sessionInvalid");
-                    String sessionExpire = request.getParameter("sessionExpire");
+                    sessionInvalid = request.getParameter("sessionInvalid");
+                    sessionExpire = request.getParameter("sessionExpire");
+                    unauthorised = request.getParameter("unauthorised");
+                    //if session is invalid
+                    if(sessionInvalid!=null && sessionInvalid.equals("true")){
+                        response.sendRedirect("CommonInfra?pageTransit=logout&sessionInvalid=true");
+                    }
+                    //if session expired
+                    if(sessionExpire!=null && sessionExpire.equals("true")){
+                        response.sendRedirect("CommonInfra?pageTransit=logout&sessionExpire=true");
+                    }
+                    if(unauthorised!=null && unauthorised.equals("true")){
+                        response.sendRedirect("CommonInfra?pageTransit=logout&unauthorised=true");
+                    } 
+                    //if just normal logout,
+                    response.sendRedirect("CommonInfra?pageTransit=logout");
+                    break;
+                case "logout":
+                    sessionInvalid = request.getParameter("sessionInvalid");
+                    sessionExpire = request.getParameter("sessionExpire");
+                    unauthorised = request.getParameter("unauthorised");
+
                     if(sessionInvalid!=null && sessionInvalid.equals("true")){
                         request.setAttribute("sysMessage", "<strong>Invalid session. Please login again.</strong>");
                     }
                     if(sessionExpire!=null && sessionExpire.equals("true")){
                         request.setAttribute("sysMessage", "<strong>You session has expired. Please login again.</strong>");
                     }
+                    if(unauthorised!=null && unauthorised.equals("true")){
+                        request.setAttribute("sysMessage", "<strong>Unauthorised user type. Please contact site administrator.</strong>");
+                    }
                     pageAction = "IntegratedSPLogin";
                     break;
                 case "goToCommonLanding":
-                    String unauthorised = request.getParameter("unauthorised");
+                    unauthorised = request.getParameter("unauthorised");
                     if(unauthorised != null && unauthorised.equals("true")){
                         request.setAttribute("sysMessage", "You are not authorised to access that page.");
                     }
@@ -126,11 +151,13 @@ public class CommonInfraController extends HttpServlet {
                                 pageAction="SystemUserLanding";
                                 break;
                             default:
+                                //user type invalid. redirect to logout page
+                                response.sendRedirect("CommonInfra?pageTransit=goToLogout&unauthorised=true");
                                 break;
                         }
                     }else{
                         //user type cookie is invalid. redirect to logout page
-                        response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
+                        response.sendRedirect("CommonInfra?pageTransit=goToLogout&unauthorised=true");
                     }
                     break;
                 case "goToSystemAdmin":

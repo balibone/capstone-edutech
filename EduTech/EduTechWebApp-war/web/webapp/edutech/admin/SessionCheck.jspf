@@ -22,7 +22,7 @@
     } 
     if (loggedInUsername == null) {
         response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
-    }else if(!userType.equalsIgnoreCase("superadmin") && !userType.equalsIgnoreCase("edutechadmin") && !userType.equalsIgnoreCase("dualadmin")){
+    }else if(userType != null && !userType.equalsIgnoreCase("superadmin") && !userType.equalsIgnoreCase("edutechadmin") && !userType.equalsIgnoreCase("dualadmin")){
         response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding&unauthorised=true");
     }  
 
