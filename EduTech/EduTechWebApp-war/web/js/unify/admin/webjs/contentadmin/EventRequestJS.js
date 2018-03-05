@@ -21,7 +21,7 @@ $(document).ready(function() {
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#337AB7',
-        width: 600,
+        width: 650,
         overlayClose: true,
         iframe : true,
         height: 500

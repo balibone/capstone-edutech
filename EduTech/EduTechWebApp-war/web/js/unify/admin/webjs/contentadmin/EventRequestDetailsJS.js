@@ -13,28 +13,31 @@ $(document).ready(function () {
     App.init();
     Plugins.init();
     FormComponents.init();
-    
+
     var requestVenue = document.getElementById("requestVenue").value;
     var requestVenueLat = document.getElementById("requestVenueLat").value;
     var requestVenueLong = document.getElementById("requestVenueLong").value;
-    
-    
-    var pointerIcon = L.icon({
-        iconUrl: 'images/pointer.png',
 
-        iconSize:     [38, 40], // size of the icon
-        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-});
-    
-    var map = L.map('venueMap').setView([center.x, center.y], 11);
+    var map = L.map('venueMap').setView([center.x, center.y], 12);
     map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
+    zoomSnap: 0.25;
     basemap.addTo(map);
+
+    var pointerIcon = L.icon({ 
+        iconUrl: 'images/pointer.png', 
+        iconSize: [38, 40], 
+        iconAnchor: [22, 94], 
+        popupAnchor: [-3, -76] 
+    });
+
     
     if (search_marker) { map.removeLayer(search_marker); }
-    search_marker = L.marker([requestVenueLat, requestVenueLong], { draggable: false, icon: pointerIcon }).addTo(map).bindPopup("Event Location: " + requestVenue);
-    
-    
-    
-    
+    search_marker = L.marker([requestVenueLat, requestVenueLong], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("Event Location: " + requestVenue);
+   
+   $("a[href='#eventRequest']").on('shown.bs.tab', function(e) {
+      map.invalidateSize();
+ });
+   
 });
+
+ 

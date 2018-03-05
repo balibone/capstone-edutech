@@ -67,41 +67,45 @@
         <div style="margin: 30px 20px 0 20px">
             <div class="tabbable tabbable-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#reportInfo" data-toggle="tab">Request Details</a></li>
+                    <li class="active"><a href="#reportInfo" data-toggle="tab"">Request Details</a></li>
                     <li><a href="#eventRequest" data-toggle="tab">Details of Event Requested</a></li>
                 </ul>
-                <%-- tab 1 --%>
+                <%-- holder for all tabs --%>
                 <div class="tab-content">
+                    <%-- tab 1 --%>
                     <div class="tab-pane" id="eventRequest">
                         <table class="table table-hover table-bordered">
                             <tr>
                                 <td>Requested Event Description</td>
-                                <td><%= requestDescription%></td>
+                                <td><div style="width:300px;overflow: auto;"><%= requestDescription%></div></td>
                             </tr>
                             <tr>
                                 <td>Requested Venue of Event</td>
-                                <td><%= requestVenue%></td>
+                                <td><div style="width:300px;overflow: auto;"><%= requestVenue%></div></td>
                             </tr>
                             <tr>
                                 <td>Requested Start Date & Time of Event</td>
-                                <td><%= requestStartDateTime%></td>
+                                <td><div style="width:300px;overflow: auto;"><%= requestStartDateTime%></div></td>
                             </tr>
                             <tr>
                                 <td>Requested End Date & Time of Event</td>
-                                <td><%= requestEndDateTime%></td>
+                                <td><div style="width:300px;overflow: auto;"><%= requestEndDateTime%></div></td>
                             </tr>
                             <tr>
-                                <td>Requested Location</td>
+                                <td>Venue Map</td>
                                 <td>
-                                    <input type="hidden" id="requestVenue" value="<%= requestVenue%>" />
-                                    <input type="hidden" id="requestVenueLat" value="<%= requestVenueLat%>" />
-                                    <input type="hidden" id="requestVenueLong" value="<%= requestVenueLong%>" />
-                                    Requested Location: <strong><%= requestVenue%></strong><br/>
-                                    <div id="venueMap" style="width: auto; height: 200px; margin-top: 10px;"></div>
+                                    <div style="width:300px;overflow: auto;">
+                                        <input type="hidden" id="requestVenue" value="<%= requestVenue%>" />
+                                        <input type="hidden" id="requestVenueLat" value="<%= requestVenueLat%>" />
+                                        <input type="hidden" id="requestVenueLong" value="<%= requestVenueLong%>" />
+                                        Requested Location: <strong><%= requestVenue%></strong><br/>
+                                        <div id="venueMap" style="width: auto; height: 300px; margin-top: 10px;"></div>
+                                    </div>
                                 </td>
                             </tr>
+
                         </table>
-                    </div>
+                    </div>                   
 
                     <%-- next tab --%>
                     <div class="tab-pane active" id="reportInfo">
@@ -211,7 +215,6 @@
                     <%
                         }
                     %>
-
                     </tr>
             </div>
         </div>
