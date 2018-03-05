@@ -125,7 +125,7 @@ span.red{color:#e25856}
 #sidebar *{overflow-x:hidden;overflow-y:visible;white-space:nowrap;text-overflow:ellipsis}
 #sidebar #sidebar-content{float:left;width:100%!important}
 #sidebar #divider{background:#ececec;min-height:100%;position:absolute;margin-left:250px;right:-1px;width:8px;border-left:1px solid #d1d1d1;border-right:1px solid #d1d1d1}
-#sidebar .resizeable{cursor:col-resize;background:url(../../../../images/sidebar-divider-dots.png) 2px 50% no-repeat #ececec!important}
+#sidebar .resizeable{cursor:col-resize;background:url(../../../../images/unifyimages/sidebar-divider-dots.png) 2px 50% no-repeat #ececec!important}
 #sidebar .slimScrollDiv{float:left!important;width:100%!important}
 #sidebar .slimScrollBar{width:5px!important;background-color:#878787!important;right:0!important;border-left:1px solid #555;border-right:1px solid #555;-webkit-border-radius:0!important;-moz-border-radius:0!important;border-radius:0!important;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box}
 #sidebar .sidebar-search{margin:15px;margin-right:23px}

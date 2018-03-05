@@ -30,6 +30,7 @@ import unifyentities.marketplace.ItemOfferEntity;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import commoninfrastructureentities.UserEntity;
+import unifyentities.marketplace.ItemTransactionEntity;
 
 @Stateless
 public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemote {
@@ -39,6 +40,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     private CategoryEntity cEntity;
     private ItemEntity iEntity;
     private ItemOfferEntity ioEntity;
+    private ItemTransactionEntity itEntity;
     private LikeListingEntity llEntity;
     private MessageEntity mEntity;
     private UserEntity uEntity;
@@ -105,6 +107,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemVec.add(df.format(itemE.getItemPostingDate()));
             itemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
             itemVec.add(getItemLikeCount(itemE.getItemID()));
+            itemVec.add(itemE.getItemCondition());
             itemList.add(itemVec);
             dateString = "";
         }
@@ -244,10 +247,10 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     public String createItemListing(String itemName, double itemPrice, String itemCondition, 
             String itemDescription, String itemImagefileName, long categoryID, String username, 
             String tradeLocation, String tradeLat, String tradeLong, String tradeInformation) {
-        if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
+        if (lookupUnifyUser(username) == null) { return "There are some issues with your profile. Please try again."; }
         else if (lookupCategory(categoryID) == null) { return "Selected category cannot be found. Please try again."; }
         else {
-            uEntity = lookupUser(username);
+            uEntity = lookupUnifyUser(username);
             cEntity = lookupCategory(categoryID);
             iEntity = new ItemEntity();
             
@@ -267,11 +270,11 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     public String editItemListing(long itemID, String itemName, double itemPrice, String itemCondition, 
             String itemDescription, String itemImageFileName, long itemCategoryID, String username, 
             String tradeLocation, String tradeLat, String tradeLong, String tradeInformation) {
-        if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
+        if (lookupUnifyUser(username) == null) { return "There are some issues with your profile. Please try again."; }
         else if (lookupItem(itemID) == null) { return "There are some issues with your item listing. Please try again."; }
         else if (lookupCategory(itemCategoryID) == null) { return "Selected category cannot be found. Please try again."; }
         else {
-            uEntity = lookupUser(username);
+            uEntity = lookupUnifyUser(username);
             iEntity = lookupItem(itemID);
             cEntity = lookupCategory(itemCategoryID);
             
@@ -307,15 +310,15 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     public String sendItemOfferPrice(long itemIDHidden, String usernameHidden, String itemOfferPrice, 
             String itemOfferDescription) {
         if (lookupItem(itemIDHidden) == null) { return "There are some issues with the item listing. Please try again."; }
-        else if(lookupUser(usernameHidden) == null) { return "There are some issues with your user profile. Please try again."; }
+        else if(lookupUnifyUser(usernameHidden) == null) { return "There are some issues with your user profile. Please try again."; }
         else if(lookupItemOffer(itemIDHidden, usernameHidden) != null) { return "You have sent an offer previously. Please go to your profile to check or update your offer."; }
         else if(itemOfferPrice.equals("")) { return "Item offer price cannot be empty."; }
         else if(!isNumeric(itemOfferPrice)) { return "Please enter a valid item offer price."; }
         else if(Double.parseDouble(itemOfferPrice) < 0.0 || Double.parseDouble(itemOfferPrice) > 9999.0) { return "Item offer price must be between 0 to 9999. Please try again."; }
         else {
             iEntity = lookupItem(itemIDHidden);
-            itemBuyerOfferEntity = lookupUser(usernameHidden);
-            itemSellerEntity = lookupUser(lookupItem(itemIDHidden).getUserEntity().getUsername());
+            itemBuyerOfferEntity = lookupUnifyUser(usernameHidden);
+            itemSellerEntity = lookupUnifyUser(lookupItem(itemIDHidden).getUserEntity().getUsername());
             ioEntity = new ItemOfferEntity();
             
             if(ioEntity.createItemOffer(Double.parseDouble(itemOfferPrice), itemOfferDescription)) {
@@ -349,10 +352,10 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     @Override
     public String likeUnlikeItem(long itemIDHid, String usernameHid) {
         if (lookupItem(itemIDHid) == null) { return "0"; }
-        else if(lookupUser(usernameHid) == null) { return "0"; }
+        else if(lookupUnifyUser(usernameHid) == null) { return "0"; }
         else {
             iEntity = lookupItem(itemIDHid);
-            uEntity = lookupUser(usernameHid);
+            uEntity = lookupUnifyUser(usernameHid);
             if (lookupLike(itemIDHid, usernameHid) == null) {
                 llEntity = new LikeListingEntity();
                 if(llEntity.addNewLike("Marketplace")) {
@@ -411,7 +414,169 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return itemCategoryList;
     }
     
+    /* USER ACCOUNT */
+    @Override
+    public List<Vector> viewItemTransaction(String username) {
+        Query q = em.createQuery("SELECT t FROM ItemTransaction t WHERE t.userEntity.username = :username");
+        q.setParameter("username", username);
+        List<Vector> itemTransList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            ItemTransactionEntity itemTransE = (ItemTransactionEntity) o;
+            Vector itemTransVec = new Vector();
+
+            /* ITEM SELLER IS THE PERSON WHO CREATED THE ITEM TRANSACTION */
+            itemTransVec.add(itemTransE.getItemEntity().getItemID());
+            itemTransVec.add(itemTransE.getItemTransactionID());
+            itemTransVec.add(df.format(itemTransE.getItemTransactionDate()));
+            itemTransVec.add(itemTransE.getUserEntity().getUsername());
+            itemTransVec.add(itemTransE.getItemBuyerID());
+            itemTransVec.add(itemTransE.getItemEntity().getItemImage());
+            itemTransVec.add(itemTransE.getItemEntity().getItemName());
+            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemEntity().getItemPrice()));
+            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemTransactionPrice()));
+            itemTransList.add(itemTransVec);
+        }
+        return itemTransList;
+    }
+    
+    @Override
+    public Vector viewTransactionItemDetails(long itemID, long itemTransID, String username) {
+        iEntity = lookupItem(itemID);
+        itEntity = lookupItemTransaction(itemTransID);
+        Vector transactionItemDetailsVec = new Vector();
+        
+        if (iEntity != null) {
+            /* ITEM INFORMATION */
+            transactionItemDetailsVec.add(iEntity.getItemID());
+            transactionItemDetailsVec.add(iEntity.getItemName());
+            transactionItemDetailsVec.add(iEntity.getCategoryEntity().getCategoryName());
+            transactionItemDetailsVec.add(String.format ("%,.2f", iEntity.getItemPrice()));
+            transactionItemDetailsVec.add(iEntity.getItemCondition());
+            transactionItemDetailsVec.add(iEntity.getItemDescription());
+            transactionItemDetailsVec.add(iEntity.getItemImage());
+            transactionItemDetailsVec.add(iEntity.getItemStatus());
+            transactionItemDetailsVec.add(getItemLikeCount(itemID));
+            if(lookupLike(itemID, username) == null) { transactionItemDetailsVec.add(false);}
+            else { transactionItemDetailsVec.add(true); }
+            transactionItemDetailsVec.add(df.format(iEntity.getItemPostingDate()));
+            /* TRADE INFORMATION */
+            transactionItemDetailsVec.add(iEntity.getTradeLocation());
+            transactionItemDetailsVec.add(iEntity.getTradeLat());
+            transactionItemDetailsVec.add(iEntity.getTradeLong());
+            transactionItemDetailsVec.add(iEntity.getTradeInformation());
+            /* ITEM SELLER INFORMATION */
+            transactionItemDetailsVec.add(iEntity.getUserEntity().getUsername());
+            transactionItemDetailsVec.add(iEntity.getUserEntity().getImgFileName());
+            transactionItemDetailsVec.add(df.format(iEntity.getUserEntity().getUserCreationDate()));
+            transactionItemDetailsVec.add(getPositiveItemReviewCount(iEntity.getUserEntity().getUsername()));
+            transactionItemDetailsVec.add(getNeutralItemReviewCount(iEntity.getUserEntity().getUsername()));
+            transactionItemDetailsVec.add(getNegativeItemReviewCount(iEntity.getUserEntity().getUsername()));
+            /* ITEM TRANSACTION + ITEM BUYER INFORMATION */
+            transactionItemDetailsVec.add(df.format(itEntity.getItemTransactionDate()));
+            transactionItemDetailsVec.add(itEntity.getItemBuyerID());
+            transactionItemDetailsVec.add(lookupUnifyUser(itEntity.getItemBuyerID()).getImgFileName());
+            transactionItemDetailsVec.add(df.format(lookupUnifyUser(itEntity.getItemBuyerID()).getUserCreationDate()));
+            transactionItemDetailsVec.add(getPositiveItemReviewCount(lookupUnifyUser(itEntity.getItemBuyerID()).getUsername()));
+            transactionItemDetailsVec.add(getNeutralItemReviewCount(lookupUnifyUser(itEntity.getItemBuyerID()).getUsername()));
+            transactionItemDetailsVec.add(getNegativeItemReviewCount(lookupUnifyUser(itEntity.getItemBuyerID()).getUsername()));
+            transactionItemDetailsVec.add(String.format ("%,.2f", itEntity.getItemTransactionPrice()));
+            
+            return transactionItemDetailsVec;
+        }
+        return null;
+    }
+    
+    @Override
+    public List<Vector> viewItemOfferList(String username) {
+        Date currentDate = new Date();
+        String dateString = "";
+        
+        Query q = em.createQuery("SELECT i FROM Item i WHERE i.userEntity.username = :username AND "
+                + "i.categoryEntity.categoryActiveStatus = '1' AND (i.itemStatus = 'Available' OR "
+                + "i.itemStatus = 'Reserved' OR i.itemStatus = 'Sold')");
+        q.setParameter("username", username);
+        List<Vector> itemOfferList = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            ItemEntity itemE = (ItemEntity) o;
+            Vector itemOfferVec = new Vector();
+            
+            itemOfferVec.add(itemE.getItemID());
+            itemOfferVec.add(itemE.getItemImage());
+            itemOfferVec.add(itemE.getItemName());
+            itemOfferVec.add(itemE.getCategoryEntity().getCategoryName());
+            itemOfferVec.add(itemE.getUserEntity().getUsername());
+            itemOfferVec.add(itemE.getUserEntity().getImgFileName());
+
+            long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            itemOfferVec.add(dateString);
+            itemOfferVec.add(df.format(itemE.getItemPostingDate()));
+            itemOfferVec.add(String.format ("%,.2f", itemE.getItemPrice()));
+            itemOfferVec.add(getItemLikeCount(itemE.getItemID()));
+            itemOfferVec.add(getPendingItemOfferCount(itemE.getItemID()));
+            itemOfferVec.add(itemE.getItemCondition());
+            itemOfferList.add(itemOfferVec);
+            dateString = "";
+        }
+        return itemOfferList;
+    }
+    
     /* MISCELLANEOUS METHODS */
+    public UserEntity lookupUnifyUser(String username) {
+        UserEntity ue = new UserEntity();
+        try{
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity)q.getSingleResult();
+        }
+        catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        catch(NoResultException nre){
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
+    }
+    
     public CategoryEntity lookupCategory(long categoryID) {
         CategoryEntity ce = new CategoryEntity();
         try{
@@ -450,24 +615,22 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return ie;
     }
     
-    public UserEntity lookupUser(String username) {
-        UserEntity ue = new UserEntity();
-        try{
-            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
-            q.setParameter("username", username);
-            ue = (UserEntity)q.getSingleResult();
+    public ItemTransactionEntity lookupItemTransaction(long itemTransID) {
+        ItemTransactionEntity ite = new ItemTransactionEntity();
+        try {
+            Query q = em.createQuery("SELECT t FROM ItemTransaction t WHERE t.itemTransactionID = :itemTransID");
+            q.setParameter("itemTransID", itemTransID);
+            ite = (ItemTransactionEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Item Transaction cannot be found. " + enfe.getMessage());
+            em.remove(ite);
+            ite = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Item Transaction does not exist. " + nre.getMessage());
+            em.remove(ite);
+            ite = null;
         }
-        catch(EntityNotFoundException enfe){
-            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
-            em.remove(ue);
-            ue = null;
-        }
-        catch(NoResultException nre){
-            System.out.println("ERROR: User does not exist. " + nre.getMessage());
-            em.remove(ue);
-            ue = null;
-        }
-        return ue;
+        return ite;
     }
     
     public ItemOfferEntity lookupItemOffer(long itemID, String username) {
@@ -531,18 +694,45 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return strValue.matches("-?\\d+(\\.\\d+)?");  // match a number with optional '-' and decimal
     }
     
+    /* MISCELLANEOUS METHODS (ITEM OFFER) */
+    public Long getPendingItemOfferCount(long itemID) {
+        Long pendingItemOfferCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(o.itemOfferID) FROM ItemOffer o WHERE o.itemEntity.itemID = :itemID AND o.itemOfferStatus = 'Pending'");
+        q.setParameter("itemID", itemID);
+        try {
+            pendingItemOfferCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in MarketplaceSysUserMgrBean.getPendingItemOfferCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return pendingItemOfferCount;
+    }
+    
+    public Long getRejectedItemOfferCount(long itemID) {
+        Long rejectedItemOfferCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(o.itemOfferID) FROM ItemOffer o WHERE o.itemEntity.itemID = :itemID AND o.itemOfferStatus = 'Pending'");
+        q.setParameter("itemID", itemID);
+        try {
+            rejectedItemOfferCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in MarketplaceSysUserMgrBean.getRejectedItemOfferCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return rejectedItemOfferCount;
+    }
+    
     /* MISCELLANEOUS METHODS (ITEM LIKE) */
     public Long getItemLikeCount(long itemID) {
-        Long likeCount = new Long(0);
+        Long itemLikeCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(l.likeID) FROM LikeListing l WHERE l.itemEntity.itemID = :itemID");
         q.setParameter("itemID", itemID);
         try {
-            likeCount = (Long) q.getSingleResult();
+            itemLikeCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
             System.out.println("Exception in MarketplaceSysUserMgrBean.getItemLikeCount().getSingleResult()");
             ex.printStackTrace();
         }
-        return likeCount;
+        return itemLikeCount;
     }
     
     /* MISCELLANEOUS METHODS (PROFILE RATING) */
@@ -553,7 +743,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         try {
             positiveItemReviewCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
-            System.out.println("Exception in UserProfileSysUserMgrBean.getPositiveItemReviewCount().getSingleResult()");
+            System.out.println("Exception in MarketplaceSysUserMgrBean.getPositiveItemReviewCount().getSingleResult()");
             ex.printStackTrace();
         }
         return positiveItemReviewCount;
@@ -566,7 +756,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         try {
             neutralItemReviewCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
-            System.out.println("Exception in UserProfileSysUserMgrBean.getNeutralItemReviewCount().getSingleResult()");
+            System.out.println("Exception in MarketplaceSysUserMgrBean.getNeutralItemReviewCount().getSingleResult()");
             ex.printStackTrace();
         }
         return neutralItemReviewCount;
@@ -579,7 +769,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         try {
             positiveItemReviewCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
-            System.out.println("Exception in UserProfileSysUserMgrBean.getNegativeItemReviewCount().getSingleResult()");
+            System.out.println("Exception in MarketplaceSysUserMgrBean.getNegativeItemReviewCount().getSingleResult()");
             ex.printStackTrace();
         }
         return positiveItemReviewCount;

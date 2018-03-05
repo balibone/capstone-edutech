@@ -22,4 +22,9 @@ public interface MarketplaceSysUserMgrBeanRemote {
             String itemOfferDescription);
     public String likeUnlikeItem(long itemIDHid, String usernameHid);
     public List<Vector> viewItemCategoryList();
+    
+    /* USER ACCOUNT */
+    public List<Vector> viewItemTransaction(String username);
+    public Vector viewTransactionItemDetails(long itemID, long itemTransID, String username);
+    public List<Vector> viewItemOfferList(String username);
 }

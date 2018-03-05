@@ -18,7 +18,9 @@
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-
+        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/userprofile/UserAccountCSS.css" rel="stylesheet" type="text/css">
+        
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
@@ -75,7 +77,7 @@
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
                                     <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
-                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                    <option value="ProfileSysUser?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
                                 </select>
                             </ul>
                         </div>
@@ -152,8 +154,8 @@
                     </nav>
                 </div>
             </div>
-            
-            <div class="container">
+
+            <div id="contentArea" class="container jplist" style="margin-bottom: 30px;">
                 <div class="row">
                     <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
                         <div class="card user-card">
@@ -161,7 +163,7 @@
                                 <div class="media">
                                     <img class="img-thumbnail" src="images/ProfileImage.png">
                                     <div class="media-body">
-                                        <h5 class="user-name"><%= request.getAttribute("loggedInUsername") %></h5>
+                                        <h5 class="user-name"><%= request.getAttribute("loggedInUsername")%></h5>
                                         <small class="card-text text-muted">Joined Dec 31, 2017</small>
                                     </div>
                                 </div>
@@ -180,9 +182,108 @@
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>User Profile</span></div>
-                        <div class="table-responsive">
-                            
+                        <div class="title"><span>Your Item Listing</span></div>
+                        <div class="jplist-search sorting-bar">
+                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
+                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
+                                <ul>
+                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
+                                    <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
+                                    <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
+                                    <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
+                                    <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
+                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
+                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
+                                </ul>
+                            </div>
+                            <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
+                                 data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
+                                <ul>
+                                    <li><span data-number="4">4 per page</span></li>
+                                    <li><span data-number="8">8 per page</span></li>
+                                    <li><span data-number="12" data-default="true">12 per page</span></li>
+                                    <li><span data-number="16">16 per page</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- ITEM LISTING -->
+                        <div class="row equal-height" add-class-on-xs="no-gutters">
+                            <div class="list searchresult-row">
+                                <%
+                                    ArrayList<Vector> itemOfferListSYS = (ArrayList) request.getAttribute("itemOfferListSYS");
+                                    if (!itemOfferListSYS.isEmpty()) {
+                                        for (int i = 0; i <= itemOfferListSYS.size() - 1; i++) {
+                                            Vector v = itemOfferListSYS.get(i);
+                                            String itemID = String.valueOf(v.get(0));
+                                            String itemImage = String.valueOf(v.get(1));
+                                            String itemName = String.valueOf(v.get(2));
+                                            String itemCategoryName = String.valueOf(v.get(3));
+                                            String itemSellerID = String.valueOf(v.get(4));
+                                            String itemSellerImage = String.valueOf(v.get(5));
+                                            String itemPostedDuration = String.valueOf(v.get(6));
+                                            String itemPostingDate = String.valueOf(v.get(7));
+                                            String itemPrice = String.valueOf(v.get(8));
+                                            String itemNumOfLikes = String.valueOf(v.get(9));
+                                            String itemNumOfPendingOffer = String.valueOf(v.get(10));
+                                            String itemCondition = String.valueOf(v.get(11));
+                                %>
+                                <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
+                                    <div class="card card-product">
+                                        <div class="card-header" style="font-size: 13px;">
+                                            <div class="text-right close" style="padding-top:7px;"><img src="images/unifyimages/sidebar-divider-dots.png" /></div>
+                                            <div class="pull-left" style="padding-right: 10px;">
+                                                <div class="profilePicBorder">
+                                                    <img class="profilePic" src="uploads/unify/images/marketplace/item/<%= itemSellerImage%>" />
+                                                </div>
+                                            </div>
+                                            <div class="profileContent">
+                                                <h3 class="profileHeader"><%= itemSellerID%></h3>
+                                                <time class="profileTime"><i class="fa fa-clock-o" style="margin-right: 5px;"></i><%= itemPostedDuration%></time>
+                                            </div>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="card-body mb-2">
+                                                <div class="img-wrapper mb-2">
+                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>&hiddenUsername=<%= loggedInUsername%>">
+                                                        <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
+                                                    </a>
+                                                    <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
+                                                        <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
+                                                            <button id="<%= itemID%>" class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
+                                                <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
+                                                <span class="card-text itemCategoryName" style="display:none;"><%= itemCategoryName%></span>
+                                                <span class="card-text itemCondition" style="font-size: 11px;">Condition:&nbsp;<strong><%= itemCondition%></strong></span>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer text-muted mt-1">
+                                            <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
+                                            <span class="float-right">
+                                                <i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span>&nbsp;&nbsp;
+                                                <i class="fa fa-users"></i>&nbsp;<span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%      }   %>
+                                <%  }%>
+                            </div>
+                        </div>
+                        <div class="box jplist-no-results text-shadow align-center">
+                            <p><strong>No results found. Please refine your search.</strong></p>
+                        </div>
+                        <div class="jplist-search">
+                            <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
+                                 data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
+                            </div>
+                            <div class="jplist-pagination" data-control-animate-to-top="true" 
+                                 data-control-type="pagination" data-control-name="paging" data-control-action="paging">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -202,6 +303,17 @@
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/UserAccountJS.js" type="text/javascript"></script>
+        
+        <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-toggle-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.history-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.jquery-ui-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.pagination-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.sort-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.textbox-filter.min.js"></script>
     </body>
 </html>
