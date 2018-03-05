@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Marketplace - Item Listing Details</title>
+        <title>Unify Marketplace - Item Listing</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -34,20 +34,20 @@
         <nav class="offcanvas">
             <div class="offcanvas-content">
                 <div id="list-menu" class="list-menu list-group" data-children=".submenu">
-                    <a href="index.html"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
-                        <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="about.html">Item Listing</a></div>
+                        <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a></div>
                     </div>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#errandsSub" role="button" aria-expanded="false" aria-controls="errandsSub"><i class="fa fa-fw fa-file"></i>&nbsp;Errands</a>
-                        <div id="errandsSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="about.html">Errands Listing</a></div>
+                        <div id="errandsSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="ErrandsSysUser?pageTransit=goToViewJobListingSYS">Errands Listing</a></div>
                     </div>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
-                        <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="account-order.html">Company Listing</a></div>
+                        <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
-                    <a href="index.html"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
         </nav>
@@ -73,11 +73,11 @@
                                         <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                     </a>
                                 </li>
-                                <select class="select-dropdown-nav accountNavigation" data-width="110px">
+                                <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
                                     <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
-                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                    <option value="ProfileSysUser?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
                                 </select>
                             </ul>
                         </div>
@@ -183,30 +183,55 @@
                             <div class="row">
                                 <div class="col-12 col-sm-6 col-md-12">
                                     <div class="filter-sidebar">
-                                        <div class="title"><span>Item Filter</span></div>
-                                        <input type="text" data-path=".itemName" class="form-control" placeholder="Search Item ..." 
-                                               aria-label="Search Item ..." data-control-type="textbox" 
-                                               data-control-name="transmission-text-filter" data-control-action="filter" />
+                                        <div class="title"><span>Search Criteria</span></div>
+                                        <ul>
+                                            <li>
+                                                <input type="text" data-path=".itemName" class="form-control" placeholder="Search Item ..." 
+                                                       aria-label="Search Item ..." data-control-type="textbox" 
+                                                       data-control-name="transmission-text-filter" data-control-action="filter" />
+                                            </li>
+                                            <li class="form-group mt-3">Item Condition</li>
+                                            <li>
+                                                <input data-control-type="radio-buttons-filters" data-control-action="filter" 
+                                                       data-control-name="default" data-path="default" type="radio" name="jplist" 
+                                                       checked="checked" />&nbsp;
+                                                <label class="mr-4">All</label>
+                                                <input data-control-type="radio-buttons-filters" data-control-action="filter" 
+                                                       data-control-name="New" data-path=".New" type="radio" name="jplist" />&nbsp;
+                                                <label class="mr-4">New</label>
+                                                <input data-control-type="radio-buttons-filters" data-control-action="filter" 
+                                                       data-control-name="Used" data-path=".Used" type="radio" name="jplist" />&nbsp;
+                                                <label>Used</label>
+                                            </li>
+                                            <li class="form-group mt-2">Item Category</li>
+                                            <li>
+                                                <input type="hidden" id="dbItemCategory" value="<%= request.getAttribute("itemCategoryStr")%>" />
+                                                <div id="itemCategory" class="jplist-drop-down-search" add-class-on-xs="w-100" data-control-type="filter-drop-down" 
+                                                     data-control-name="category-filter" data-control-action="filter">
+                                                    <ul></ul>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div class="filter-sidebar">
                                         <div class="jplist-range-slider" data-control-type="range-slider" 
                                              data-control-name="range-slider-weight" data-control-action="filter"
                                              data-path=".itemPrice" data-slider-func="priceSlider" data-setvalues-func="priceValues">
-
-                                            <div class="title"><span>Price Filter</span></div>
+                                            
+                                            <div class="title mt-4"><span>Price Filter</span></div>
                                             <div class="input-group input-group-sm mb-3" data-control-type="range-slider" 
                                                  data-control-name="range-slider-weight" data-control-action="filter" data-path=".itemPrice">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">Min : $</span>
                                                 </div>
-                                                <input type="text" class="form-control" name="min-price" id="min-price" />
+                                                <input type="text" class="form-control" name="min-price" id="min-price" disabled="disabled" />
                                                 <div class="input-group-append input-group-prepend">
                                                     <span class="input-group-text">Max : $</span>
                                                 </div>
-                                                <input type="text" class="form-control" name="max-price" id="max-price" />
+                                                <input type="text" class="form-control" name="max-price" id="max-price" disabled="disabled" />
                                             </div>
-                                            <div class="price-range">
-                                                <div data-type="ui-slider"></div>
+                                            <div class="form-group price-range">
+                                                <div data-type="ui-slider" add-class-on-xs="w-100"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -228,12 +253,12 @@
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
                                  data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                 <ul>
-                                    <li><span data-path=".itemName" data-order="asc" data-type="text" data-default="true">Name Asc</span></li>
+                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
+                                    <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
+                                    <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
                                     <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
                                     <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
                                     <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
-                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime">Latest Posted</span></li>
-                                    <li><span data-path=".itemPostingDate" data-order="asc" data-type="datetime">Earliest Posted</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -245,15 +270,20 @@
                                     <li><span data-number="16">16 per page</span></li>
                                 </ul>
                             </div>
+                            <div class="jplist-panel">
+                                <button type="button" class="jplist-reset-btn" data-control-type="reset" 
+                                        data-control-name="reset" data-control-action="reset"><i class="fa fa-retweet">&nbsp;&nbsp;Reset</i>
+                                </button>
+                            </div>
                         </div>
 
                         <!-- ITEM LISTING -->
-                        <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
+                        <div class="row equal-height" add-class-on-xs="no-gutters">
                             <div class="list searchresult-row">
                                 <%
                                     ArrayList<Vector> itemListSYS = (ArrayList) request.getAttribute("itemListSYS");
                                     if (!itemListSYS.isEmpty()) {
-                                        for (int i = 0; i <= itemListSYS.size() - 1; i++) {
+                                        for (int i = 0; i <= itemListSYS.size()-1; i++) {
                                             Vector v = itemListSYS.get(i);
                                             String itemID = String.valueOf(v.get(0));
                                             String itemImage = String.valueOf(v.get(1));
@@ -265,10 +295,12 @@
                                             String itemPostingDate = String.valueOf(v.get(7));
                                             String itemPrice = String.valueOf(v.get(8));
                                             String itemNumOfLikes = String.valueOf(v.get(9));
+                                            String itemCondition = String.valueOf(v.get(10));
                                 %>
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-header" style="font-size: 13px;">
+                                            <div id="settingsBtn<%= itemID%>" class="text-right close" style="padding-top:7px;"><img src="images/unifyimages/sidebar-divider-dots.png" /></div>
                                             <div class="pull-left" style="padding-right: 10px;">
                                                 <div class="profilePicBorder">
                                                     <img class="profilePic" src="uploads/unify/images/marketplace/item/<%= itemSellerImage%>" />
@@ -280,28 +312,29 @@
                                             </div>
                                         </div>
                                         <div class="card-content">
-                                            <div class="card-body">
+                                            <div class="card-body mb-2">
                                                 <div class="img-wrapper mb-2">
                                                     <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>&hiddenUsername=<%= loggedInUsername%>">
                                                         <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
                                                     </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
                                                         <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            <button id="<%= itemID%>" class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
+                                                            <button id="likeBtn<%= itemID%>" class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
                                                 <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
-                                                <span class="card-text"><%= itemCategoryName%></span>
+                                                <span class="card-text <%= itemCategoryName.replaceAll(" ", "")%>" style="display:none;"><%= itemCategoryName%></span>
+                                                <span class="card-text <%= itemCondition%>" style="font-size: 11px;">Condition:&nbsp;<strong><%= itemCondition%></strong></span>
                                             </div>
                                         </div>
                                         <div class="card-footer text-muted mt-1">
                                             <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
                                             <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
-                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<%= itemNumOfLikes%>&nbsp;Like</span>
+                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span>&nbsp;Like</span>
                                             <%  } else {%>
-                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<%= itemNumOfLikes%>&nbsp;Likes</span>
+                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span>&nbsp;Likes</span>
                                             <%  }   %>
                                         </div>
                                     </div>
@@ -328,7 +361,6 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-            <div id="itemcard-iframe"></div>
         </div>
 
 
