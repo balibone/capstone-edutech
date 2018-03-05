@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
@@ -31,7 +32,7 @@ public class SemesterEntity implements Serializable {
     private Long id;
     private String title;
     //private Collection<ScheduleEntity> keyEvents;
-    @OneToMany(mappedBy = "semester")
+    @XmlInverseReference(mappedBy = "semester")
     private List<ModuleEntity> modules;
     private LocalDate startDate;
     private LocalDate endDate;
