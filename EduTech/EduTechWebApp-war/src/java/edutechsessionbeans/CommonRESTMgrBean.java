@@ -204,6 +204,15 @@ public class CommonRESTMgrBean {
             conversion.setType("timetable");
             //set moduleCode
             conversion.setModuleCode(event.getModule().getModuleCode());
+            //set assignedTo
+            ArrayList<UserEntity> members = new ArrayList<>();
+            members.add(user);
+            conversion.setAssignedTo(members);
+            //set createdBy
+            conversion.setCreatedBy(user);
+            //set createdAt
+            conversion.setCreatedAt(LocalDateTime.now());
+            //add 1st schedule item into list.
             userScheduleItems.add(conversion);
             LocalDateTime tempStartDate = conversion.getStartDate().plusWeeks(1);
             LocalDateTime tempEndDate = conversion.getEndDate().plusWeeks(1);
@@ -215,13 +224,18 @@ public class CommonRESTMgrBean {
                 temp.setLocation(event.getLocation());
                 temp.setTitle(event.getTitle());
                 temp.setType("timetable");
+                members = new ArrayList<>();
+                members.add(user);
+                temp.setAssignedTo(members);
+                temp.setCreatedBy(user);
+                temp.setCreatedAt(LocalDateTime.now());
                 temp.setModuleCode(event.getModule().getModuleCode());
                 //set start date as 1 week after (time is actually already inside because this value is actually timestamp)
                 temp.setStartDate(tempStartDate);
                 //do same for end date
                 temp.setEndDate(tempEndDate);
-                System.out.println("temp schedule item start date: "+temp.getStartDate());
-                System.out.println("temp schedule item end date: " +temp.getEndDate());
+                //System.out.println("temp schedule item start date: "+temp.getStartDate());
+                //System.out.println("temp schedule item end date: " +temp.getEndDate());
                 userScheduleItems.add(temp);
                 tempStartDate = tempStartDate.plusWeeks(1);
                 tempEndDate = tempEndDate.plusWeeks(1);

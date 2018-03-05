@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
@@ -38,7 +39,10 @@ public class ModuleEntity implements Serializable {
     //private Collection<LessonEntity> lessons;
     @ManyToOne
     private SemesterEntity semester;
-    @OneToMany(mappedBy = "module")
+    //This annotation performs 2 things. Acts like the @XxxToXxx standard JPA annotation whilst also
+    //solving the bidirectional relationship mapping issue with XML. 
+    //Now all bidirectional entities can be marshalled&umarshalled properly
+    @XmlInverseReference(mappedBy = "module")
     private Collection<RecurringEventEntity> recurringEvents;
     
     public ModuleEntity() {
@@ -64,7 +68,6 @@ public class ModuleEntity implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    @XmlTransient 
     public SemesterEntity getSemester() {
         return semester;
     }
@@ -109,7 +112,6 @@ public class ModuleEntity implements Serializable {
         return "edutechentities.ModuleEntity[ id=" + getModuleCode() + " ]";
     }
 
-    @XmlTransient
     public Collection<ScheduleItemEntity> getModuleEvents() {
         return moduleEvents;
     }
@@ -118,7 +120,6 @@ public class ModuleEntity implements Serializable {
         this.moduleEvents = moduleEvents;
     }
 
-    @XmlTransient
     public Collection<UserEntity> getMembers() {
         return members;
     }
@@ -127,7 +128,7 @@ public class ModuleEntity implements Serializable {
         this.members = members;
     }
 
-    @XmlTransient
+    
     public Collection<RecurringEventEntity> getRecurringEvents() {
         return recurringEvents;
     }
