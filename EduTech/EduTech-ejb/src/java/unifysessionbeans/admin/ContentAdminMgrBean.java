@@ -387,7 +387,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     @Override
     public Long getUnresolvedItemReportCount() {
         Long unresolvedItemReportCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(DISTINCT c.itemID) FROM ItemReport c WHERE c.itemReportStatus='Unresolved'");
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.itemReportID) FROM ItemReport c WHERE c.itemReportStatus='Unresolved'");
         try {
             unresolvedItemReportCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
@@ -400,7 +400,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     @Override
     public Long getResolvedItemReportCount() {
         Long resolvedItemReportCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(DISTINCT c.itemID) FROM ItemReport c WHERE c.itemReportStatus<>'Unresolved'");
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.itemReportID) FROM ItemReport c WHERE c.itemReportStatus<>'Unresolved'");
         try {
             resolvedItemReportCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
