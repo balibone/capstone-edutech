@@ -123,7 +123,6 @@ public class CommonRESTMgrBean {
             temp = findUserScheduleItems(member.getUsername());
             temp.removeAll(membersScheduleItem);
             membersScheduleItem.addAll(temp);
-//            membersScheduleItem.addAll();
         }
         return membersScheduleItem;
     }
