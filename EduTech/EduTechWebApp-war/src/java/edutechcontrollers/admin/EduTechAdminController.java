@@ -197,6 +197,8 @@ public class EduTechAdminController extends HttpServlet {
                 case "deleteModule":
                     id = request.getParameter("id");
                     eam.deleteModule(id);
+                    request.setAttribute("moduleList", eam.getAllModules());
+                    pageAction = "ModuleList";
                     break;
                 case "SemesterList":
                     request.setAttribute("semesterList", eam.getAllSemesters());
