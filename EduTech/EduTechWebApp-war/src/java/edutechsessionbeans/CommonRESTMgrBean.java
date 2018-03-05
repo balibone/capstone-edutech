@@ -200,7 +200,10 @@ public class CommonRESTMgrBean {
             //set moduleCode
             conversion.setModuleCode(event.getModule().getModuleCode());
             //set assignedTo
-            conversion.setAssignedTo(event.getModule().getMembers());
+            //conversion.setAssignedTo(event.getModule().getMembers());
+            List<UserEntity> members = new ArrayList<>();
+            members.add(user);
+            conversion.setAssignedTo(members);
             //set createdBy
             conversion.setCreatedBy(user);
             //set createdAt
