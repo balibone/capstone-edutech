@@ -47,7 +47,7 @@
                 <ul class="nav navbar-nav">
                     <li class="nav-toggle"><a href="javascript:void(0);"><i class="fa fa-th-list"></i></a></li>
                 </ul>
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="ProfileAdmin?pageTransit=goToUnifyAdmin">
                     <img src="images/edubox-unify-logo.png" style="width:108px;height:38px;" />
                     <small><strong><sub>ADMIN</sub> </strong></small>
                 </a>

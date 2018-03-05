@@ -34,20 +34,20 @@
         <nav class="offcanvas">
             <div class="offcanvas-content">
                 <div id="list-menu" class="list-menu list-group" data-children=".submenu">
-                    <a href="index.html"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
-                        <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="about.html">Item Listing</a></div>
+                        <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a></div>
                     </div>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#errandsSub" role="button" aria-expanded="false" aria-controls="errandsSub"><i class="fa fa-fw fa-file"></i>&nbsp;Errands</a>
-                        <div id="errandsSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="about.html">Errands Listing</a></div>
+                        <div id="errandsSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="ErrandsSysUser?pageTransit=goToViewJobListingSYS">Errands Listing</a></div>
                     </div>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
-                        <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="account-order.html">Company Listing</a></div>
+                        <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
-                    <a href="index.html"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
         </nav>
@@ -73,7 +73,7 @@
                                         <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                     </a>
                                 </li>
-                                <select class="select-dropdown-nav accountNavigation" data-width="110px">
+                                <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
                                     <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
@@ -155,7 +155,7 @@
                 </div>
             </div>
 
-            <div id="contentArea" class="container jplist" style="margin-bottom: 30px;">
+            <div id="contentArea" class="container jplist mb-3">
                 <div class="row">
                     <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
                         <div class="card user-card">
@@ -181,7 +181,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-8">
+                    <div class="col-lg-9 col-md-8" style="display: none;">
                         <div class="title"><span>Your Item Listing</span></div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
@@ -214,7 +214,7 @@
                                 <%
                                     ArrayList<Vector> itemOfferListSYS = (ArrayList) request.getAttribute("itemOfferListSYS");
                                     if (!itemOfferListSYS.isEmpty()) {
-                                        for (int i = 0; i <= itemOfferListSYS.size() - 1; i++) {
+                                        for (int i = 0; i <= itemOfferListSYS.size()-1; i++) {
                                             Vector v = itemOfferListSYS.get(i);
                                             String itemID = String.valueOf(v.get(0));
                                             String itemImage = String.valueOf(v.get(1));
@@ -228,6 +228,7 @@
                                             String itemNumOfLikes = String.valueOf(v.get(9));
                                             String itemNumOfPendingOffer = String.valueOf(v.get(10));
                                             String itemCondition = String.valueOf(v.get(11));
+                                            String itemStatus = String.valueOf(v.get(12));
                                 %>
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -254,6 +255,11 @@
                                                             <button id="<%= itemID%>" class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
                                                         </div>
                                                     </div>
+                                                    <%  if(itemStatus.equals("Reserved")) { %>
+                                                    <span class="badge badge-warning custom-badge arrowed-left label label-top-right">Reserved</span>
+                                                    <%  } else if (itemStatus.equals("Sold")) { %>
+                                                    <span class="badge badge-danger custom-badge arrowed-left label label-top-right">Sold</span>
+                                                    <%  }   %>
                                                 </div>
                                                 <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
                                                 <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>

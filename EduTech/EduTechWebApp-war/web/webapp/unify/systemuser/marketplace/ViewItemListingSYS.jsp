@@ -34,20 +34,20 @@
         <nav class="offcanvas">
             <div class="offcanvas-content">
                 <div id="list-menu" class="list-menu list-group" data-children=".submenu">
-                    <a href="index.html"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
-                        <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="about.html">Item Listing</a></div>
+                        <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a></div>
                     </div>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#errandsSub" role="button" aria-expanded="false" aria-controls="errandsSub"><i class="fa fa-fw fa-file"></i>&nbsp;Errands</a>
-                        <div id="errandsSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="about.html">Errands Listing</a></div>
+                        <div id="errandsSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="ErrandsSysUser?pageTransit=goToViewJobListingSYS">Errands Listing</a></div>
                     </div>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
-                        <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="account-order.html">Company Listing</a></div>
+                        <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
-                    <a href="index.html"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
         </nav>
@@ -73,7 +73,7 @@
                                         <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                     </a>
                                 </li>
-                                <select class="select-dropdown-nav accountNavigation" data-width="110px">
+                                <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
                                     <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
@@ -184,29 +184,54 @@
                                 <div class="col-12 col-sm-6 col-md-12">
                                     <div class="filter-sidebar">
                                         <div class="title"><span>Search Criteria</span></div>
-                                        <input type="text" data-path=".itemName" class="form-control" placeholder="Search Item ..." 
-                                               aria-label="Search Item ..." data-control-type="textbox" 
-                                               data-control-name="transmission-text-filter" data-control-action="filter" />
+                                        <ul>
+                                            <li>
+                                                <input type="text" data-path=".itemName" class="form-control" placeholder="Search Item ..." 
+                                                       aria-label="Search Item ..." data-control-type="textbox" 
+                                                       data-control-name="transmission-text-filter" data-control-action="filter" />
+                                            </li>
+                                            <li class="form-group mt-3">Item Condition</li>
+                                            <li>
+                                                <input data-control-type="radio-buttons-filters" data-control-action="filter" 
+                                                       data-control-name="default" data-path="default" type="radio" name="jplist" 
+                                                       checked="checked" />&nbsp;
+                                                <label class="mr-4">All</label>
+                                                <input data-control-type="radio-buttons-filters" data-control-action="filter" 
+                                                       data-control-name="New" data-path=".New" type="radio" name="jplist" />&nbsp;
+                                                <label class="mr-4">New</label>
+                                                <input data-control-type="radio-buttons-filters" data-control-action="filter" 
+                                                       data-control-name="Used" data-path=".Used" type="radio" name="jplist" />&nbsp;
+                                                <label>Used</label>
+                                            </li>
+                                            <li class="form-group mt-2">Item Category</li>
+                                            <li>
+                                                <input type="hidden" id="dbItemCategory" value="<%= request.getAttribute("itemCategoryStr")%>" />
+                                                <div id="itemCategory" class="jplist-drop-down-search" add-class-on-xs="w-100" data-control-type="filter-drop-down" 
+                                                     data-control-name="category-filter" data-control-action="filter">
+                                                    <ul></ul>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div class="filter-sidebar">
                                         <div class="jplist-range-slider" data-control-type="range-slider" 
                                              data-control-name="range-slider-weight" data-control-action="filter"
                                              data-path=".itemPrice" data-slider-func="priceSlider" data-setvalues-func="priceValues">
-
-                                            <div class="title"><span>Price Filter</span></div>
+                                            
+                                            <div class="title mt-4"><span>Price Filter</span></div>
                                             <div class="input-group input-group-sm mb-3" data-control-type="range-slider" 
                                                  data-control-name="range-slider-weight" data-control-action="filter" data-path=".itemPrice">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">Min : $</span>
                                                 </div>
-                                                <input type="text" class="form-control" name="min-price" id="min-price" />
+                                                <input type="text" class="form-control" name="min-price" id="min-price" disabled="disabled" />
                                                 <div class="input-group-append input-group-prepend">
                                                     <span class="input-group-text">Max : $</span>
                                                 </div>
-                                                <input type="text" class="form-control" name="max-price" id="max-price" />
+                                                <input type="text" class="form-control" name="max-price" id="max-price" disabled="disabled" />
                                             </div>
-                                            <div class="price-range">
-                                                <div data-type="ui-slider"></div>
+                                            <div class="form-group price-range">
+                                                <div data-type="ui-slider" add-class-on-xs="w-100"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -244,6 +269,11 @@
                                     <li><span data-number="12" data-default="true">12 per page</span></li>
                                     <li><span data-number="16">16 per page</span></li>
                                 </ul>
+                            </div>
+                            <div class="jplist-panel">
+                                <button type="button" class="jplist-reset-btn" data-control-type="reset" 
+                                        data-control-name="reset" data-control-action="reset"><i class="fa fa-retweet">&nbsp;&nbsp;Reset</i>
+                                </button>
                             </div>
                         </div>
 
@@ -295,8 +325,8 @@
                                                 </div>
                                                 <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
                                                 <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
-                                                <span class="card-text itemCategoryName" style="display:none;"><%= itemCategoryName%></span>
-                                                <span class="card-text itemCondition" style="font-size: 11px;">Condition:&nbsp;<strong><%= itemCondition%></strong></span>
+                                                <span class="card-text <%= itemCategoryName.replaceAll(" ", "")%>" style="display:none;"><%= itemCategoryName%></span>
+                                                <span class="card-text <%= itemCondition%>" style="font-size: 11px;">Condition:&nbsp;<strong><%= itemCondition%></strong></span>
                                             </div>
                                         </div>
                                         <div class="card-footer text-muted mt-1">

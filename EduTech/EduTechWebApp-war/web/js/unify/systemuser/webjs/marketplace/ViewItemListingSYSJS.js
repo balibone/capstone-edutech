@@ -1,7 +1,14 @@
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
-
+    
+    var dbItemCategory = $('#dbItemCategory').val();
+    var splitResult = dbItemCategory.split(';');
+    $("#itemCategory ul").append('<li><span data-path="default">All Listings</span></li>');
+    splitResult.forEach(function (itemCategoryEntry) {
+        $("#itemCategory ul").append('<li><span data-path=".' + itemCategoryEntry.replace(" ", "") + '">' + itemCategoryEntry + '</span></li>');
+    });
+    
     jQuery.fn.jplist.settings = {
         priceSlider: function ($slider) {
             $slider.slider({

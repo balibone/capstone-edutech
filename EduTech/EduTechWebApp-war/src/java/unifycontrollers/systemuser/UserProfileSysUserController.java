@@ -78,10 +78,10 @@ public class UserProfileSysUserController extends HttpServlet {
                     
                     String sessionInvalid = request.getParameter("sessionInvalid");
                     String sessionExpire = request.getParameter("sessionExpire");
-                    if(sessionInvalid!=null && sessionInvalid.equals("true")){
+                    if(sessionInvalid != null && sessionInvalid.equals("true")){
                         request.setAttribute("sysMessage", "<strong>Invalid session. Please login again.</strong>");
                     }
-                    if(sessionExpire!=null && sessionExpire.equals("true")){
+                    if(sessionExpire != null && sessionExpire.equals("true")){
                         request.setAttribute("sysMessage", "<strong>You session has expired. Please login again.</strong>");
                     }
                     firstVisit = true;

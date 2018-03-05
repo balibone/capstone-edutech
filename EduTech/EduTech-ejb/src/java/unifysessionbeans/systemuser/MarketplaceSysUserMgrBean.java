@@ -550,6 +550,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemOfferVec.add(getItemLikeCount(itemE.getItemID()));
             itemOfferVec.add(getPendingItemOfferCount(itemE.getItemID()));
             itemOfferVec.add(itemE.getItemCondition());
+            itemOfferVec.add(itemE.getItemStatus());
             itemOfferList.add(itemOfferVec);
             dateString = "";
         }
@@ -692,6 +693,21 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     
     public static boolean isNumeric(String strValue) {
         return strValue.matches("-?\\d+(\\.\\d+)?");  // match a number with optional '-' and decimal
+    }
+    
+    @Override
+    public String populateItemCategory() {
+        String itemCategoryStr = "";
+            Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'Marketplace' AND c.categoryActiveStatus = '1'");
+
+        for (Object o : q.getResultList()) {
+            CategoryEntity ce = (CategoryEntity) o;
+            itemCategoryStr += ce.getCategoryName() + ";";
+        }
+        if(itemCategoryStr.length() != 0) {
+            itemCategoryStr = itemCategoryStr.substring(0, itemCategoryStr.length()-1);
+        }
+        return itemCategoryStr;
     }
     
     /* MISCELLANEOUS METHODS (ITEM OFFER) */

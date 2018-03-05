@@ -87,6 +87,7 @@ public class MarketplaceSysUserController extends HttpServlet {
                     break;
                 case "goToViewItemListingSYS":
                     request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList());
+                    request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
                     pageAction = "ViewItemListingSYS";
                     break;
                 case "goToViewItemDetailsSYS":
