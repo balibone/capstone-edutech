@@ -40,11 +40,6 @@ public class CommonRESTMgrBean {
     
     // HELPER METHOD 
     public String getCurrentISODate() {
-        // get current time in ISO 8601 format
-//        TimeZone tz = TimeZone.getTimeZone("UTC");
-//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); 
-//        df.setTimeZone(tz);
-//        String nowAsISO = df.format(new Date());
         return LocalDateTime.now().toString();
     }
     
@@ -205,9 +200,7 @@ public class CommonRESTMgrBean {
             //set moduleCode
             conversion.setModuleCode(event.getModule().getModuleCode());
             //set assignedTo
-            ArrayList<UserEntity> members = new ArrayList<>();
-            members.add(user);
-            conversion.setAssignedTo(members);
+            conversion.setAssignedTo(event.getModule().getMembers());
             //set createdBy
             conversion.setCreatedBy(user);
             //set createdAt
@@ -265,7 +258,9 @@ public class CommonRESTMgrBean {
     }
 
     public List<PostEntity> findPagePosts(String pageId) {
-        return em.createQuery("SELECT p FROM Post p WHERE p.pageId="+pageId).getResultList(); //To change body of generated methods, choose Tools | Templates.
+        Query q1 = em.createQuery("SELECT p FROM Post p WHERE p.pageId= :Id"); //To change body of generated methods, choose Tools | Templates.
+        q1.setParameter("Id", pageId);
+        return q1.getResultList();
     }
 
     public void createPost(PostEntity entity) {
