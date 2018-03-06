@@ -340,7 +340,7 @@
                                     </div>
                                 </div>
                                 <%      }   %>
-                                <%  }%>
+                                <%  }   %>
                             </div>
                         </div>
                         <div class="box jplist-no-results text-shadow align-center">

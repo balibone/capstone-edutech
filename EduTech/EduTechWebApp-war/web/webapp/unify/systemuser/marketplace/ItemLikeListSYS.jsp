@@ -1,64 +1,69 @@
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Vector"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Unify Marketplace - Item Likes List</title>
 
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.js"></script>
-        <script type="text/javascript">
-            var checkedRows = [];
-
-            $('#eventsTable').on('check.bs.table', function (e, row) {
-                checkedRows.push({id: row.id, name: row.name, forks: row.forks});
-                console.log(checkedRows);
-            });
-
-            $('#eventsTable').on('uncheck.bs.table', function (e, row) {
-                $.each(checkedRows, function (index, value) {
-                    if (value.id === row.id) {
-                        checkedRows.splice(index, 1);
-                    }
-                });
-                console.log(checkedRows);
-            });
-
-            $("#add_cart").click(function () {
-                $("#output").empty();
-                $.each(checkedRows, function (index, value) {
-                    $('#output').append($('<li></li>').text(value.id + " | " + value.name + " | " + value.forks));
-                });
-            });
-        </script>
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/marketplace/ItemLikeListSYSCSS.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <table id="eventsTable"
-               data-toggle="table"
-               data-height="300"
-               data-url="https://api.github.com/users/wenzhixin/repos?type=owner&sort=full_name&direction=asc&per_page=100&page=1"
-               data-pagination="true"
-               data-search="true"
-               data-show-refresh="true"
-               data-show-toggle="true"
-               data-show-columns="true"
-               data-toolbar="#toolbar">
-            <thead>
-                <tr>
-                    <th data-field="state" data-checkbox="true"></th>
-                    <th data-field="name">Name</th>
-                    <th data-field="stargazers_count">Stars</th>
-                    <th data-field="forks_count">Forks</th>
-                    <th data-field="description">Description</th>
-                </tr>
+        <table id="itemLikeTable" class="table table-striped table-bordered dt-responsive nowrap" data-height="300" cellspacing="0" width="100%">
+            <thead style="display:none;">
+                <tr><th>Item Likers</th></tr>
             </thead>
+            <tbody>
+                <%
+                    ArrayList<Vector> itemLikeListSYS = (ArrayList) request.getAttribute("itemLikeListSYS");
+                    if (!itemLikeListSYS.isEmpty()) {
+                        for (int i = 0; i <= itemLikeListSYS.size()-1; i++) {
+                            Vector v = itemLikeListSYS.get(i);
+                            String username = String.valueOf(v.get(0));
+                            String userFirstName = String.valueOf(v.get(1));
+                            String userLastName = String.valueOf(v.get(2));
+                            String userItemPositiveRatingCount = String.valueOf(v.get(3));
+                            String userItemNeutralRatingCount = String.valueOf(v.get(4));
+                            String userItemNegativeRatingCount = String.valueOf(v.get(5));
+                %>
+                <tr>
+                    <td>
+                        <div class="media mb-2 mt-3">
+                            <div class="mr-2">
+                                <a href="ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= username%>" target="_parent">
+                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= username%>" />
+                                </a>
+                            </div>
+                            <div class="media-body" style="cursor: pointer;" onclick="window.open('ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= username%>', '_parent');">
+                                <h5 style="font-size:15px;"><strong><%= userFirstName%>&nbsp;<%= userLastName%></strong></h5>
+                                <div class="rating">
+                                    <ul class="profileRating">
+                                        <li>@<%= username%></li>
+                                        <li>[&nbsp;&nbsp;<img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%= userItemPositiveRatingCount%></span></li>
+                                        <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%= userItemNeutralRatingCount%></span></li>
+                                        <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%= userItemNegativeRatingCount%></span>&nbsp;&nbsp;]</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <%      }   %>
+                <%  }   %>
+            </tbody>
         </table>
 
-        <button id="add_cart">Add to card</button>
-        <ul id="output"></ul>
+        <script src="js/unify/systemuser/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/marketplace/ItemLikeListSYSJS.js" type="text/javascript"></script>
     </body>
 </html>
