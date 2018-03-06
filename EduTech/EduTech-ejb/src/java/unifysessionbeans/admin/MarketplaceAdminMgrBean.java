@@ -351,8 +351,13 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
         } else {
             iEntity = lookupItem(urlItemID);
             CategoryEntity categoryE = iEntity.getCategoryEntity();
+            UserEntity userE = iEntity.getUserEntity();
+            
             categoryE.getItemSet().remove(iEntity);
+            userE.getItemSet().remove(iEntity);
             em.merge(categoryE);
+            em.merge(userE);
+            
             em.remove(iEntity);
             em.flush();
             em.clear();

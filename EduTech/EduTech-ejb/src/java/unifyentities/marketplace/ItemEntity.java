@@ -61,7 +61,7 @@ public class ItemEntity implements Serializable {
     private UserEntity userEntity;
     @OneToMany(mappedBy = "itemEntity")
     private Collection<ItemOfferEntity> itemOfferSet = new ArrayList<ItemOfferEntity>();
-    @OneToMany(mappedBy = "itemEntity")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "itemEntity")
     private Collection<LikeListingEntity> likeListingSet = new ArrayList<LikeListingEntity>();
     @OneToMany(mappedBy = "itemEntity")
     private Collection<ItemReviewEntity> itemReviewSet = new ArrayList<ItemReviewEntity>();

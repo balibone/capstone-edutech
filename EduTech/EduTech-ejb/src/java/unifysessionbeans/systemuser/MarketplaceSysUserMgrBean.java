@@ -297,6 +297,14 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         if (lookupItem(itemIDToDelete) == null) { return "There are some issues with your item listing. Please try again."; }
         else {
             iEntity = lookupItem(itemIDToDelete);
+            CategoryEntity categoryE = iEntity.getCategoryEntity();
+            UserEntity userE = iEntity.getUserEntity();
+            
+            categoryE.getItemSet().remove(iEntity);
+            userE.getItemSet().remove(iEntity);
+            em.merge(categoryE);
+            em.merge(userE);
+            
             em.remove(iEntity);
             em.flush();
             em.clear();
