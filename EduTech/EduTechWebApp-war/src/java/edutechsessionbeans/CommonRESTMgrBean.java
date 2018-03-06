@@ -13,6 +13,7 @@ import edutechentities.group.GroupEntity;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.common.SemesterEntity;
 import edutechentities.common.TaskEntity;
+import edutechentities.module.ModuleEntity;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -124,6 +125,17 @@ public class CommonRESTMgrBean {
             temp.removeAll(membersScheduleItem);
             membersScheduleItem.addAll(temp);
         }
+        
+        for(ScheduleItemEntity scheduleItem: membersScheduleItem) {
+            if(scheduleItem.getType().equals("timetable")) {
+                String moduleCode = scheduleItem.getModuleCode();
+                ModuleEntity module = em.find(ModuleEntity.class, moduleCode);
+                Collection<UserEntity> moduleMembers = module.getMembers();
+                moduleMembers.retainAll(members);
+                scheduleItem.setAssignedTo(moduleMembers);
+            }
+        }
+        
         return membersScheduleItem;
     }
     
