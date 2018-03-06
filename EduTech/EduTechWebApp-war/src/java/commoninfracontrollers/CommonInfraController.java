@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sessionbeans.CommonInfraMgrBeanRemote;
 
 public class CommonInfraController extends HttpServlet {
@@ -83,6 +84,9 @@ public class CommonInfraController extends HttpServlet {
                     userType.setPath("/");
                     userType.setMaxAge(0);//changing the maximum age to 0 seconds. AKA deleting cookie  
                     response.addCookie(userType);//update this cookie by adding it to response.
+                    //remove JSESSIONID cookie
+                    HttpSession sesh = request.getSession();
+                    sesh.invalidate();
                     
                     sessionInvalid = request.getParameter("sessionInvalid");
                     sessionExpire = request.getParameter("sessionExpire");
