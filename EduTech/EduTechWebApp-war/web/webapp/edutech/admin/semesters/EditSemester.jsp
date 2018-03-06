@@ -23,7 +23,8 @@
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="/webapp/edutech/admin/SessionCheck.jspf" %>
+<%@include file="/webapp/edutech/admin/EduTechAdminSessionCheck.jspf"
+ %>
 <!DOCTYPE html>
 <html>
     <head>
