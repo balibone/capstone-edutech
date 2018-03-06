@@ -4,7 +4,7 @@
 <html>
     <head></head>
     <body>
-        <div class="footer">
+        <div class="footer" style="z-index:9999;">
             <div class="text-center copyright">
                 Unify @ EduBox 2018
             </div>
