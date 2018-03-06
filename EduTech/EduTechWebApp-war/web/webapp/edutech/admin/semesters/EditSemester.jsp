@@ -149,6 +149,12 @@
                     event.preventDefault();
                     alert("Invalid date range!");
                 }
+                var dayCheck = new Date(startDate);
+                console.log(dayCheck.getDay());
+                if(dayCheck.getDay() != 1){
+                    event.preventDefault();
+                    alert("Start date can only be on a monday!");
+                }
             });
             
         </script>
