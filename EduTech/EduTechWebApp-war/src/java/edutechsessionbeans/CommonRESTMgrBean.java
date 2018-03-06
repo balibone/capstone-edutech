@@ -17,6 +17,7 @@ import edutechentities.module.ModuleEntity;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -138,6 +139,8 @@ public class CommonRESTMgrBean {
         
         return membersScheduleItem;
     }
+    
+    
     
     public List<ScheduleItemEntity> findUserScheduleItems(String username) {
         UserEntity user = em.find(UserEntity.class, username);
@@ -422,6 +425,49 @@ public class CommonRESTMgrBean {
     public List<SemesterEntity> findAllSemesters() {
         Query q1 = em.createQuery("SELECT s FROM Semester s");
         return q1.getResultList() ;
+    }
+
+    public List<String> suggestFreeSlots(int groupId, String date) {
+        //get group schedule items
+        List<ScheduleItemEntity> groupScheduleItems = findGroupScheduleItems(groupId);
+        
+        //sort schedule items with bubble sort
+        boolean isSorted = false;
+        for(int i = 0 ; i < groupScheduleItems.size()-1 && !isSorted  ; i++){
+            isSorted = true;
+            for(int j = 0 ; j <= groupScheduleItems.size()-i-1 ; j++ ){
+                //if this item's start time is after next item's start time, bubble it up.
+                if(groupScheduleItems.get(j).getStartDate().toLocalTime().isAfter(
+                groupScheduleItems.get(j+1).getStartDate().toLocalTime())){
+                    ScheduleItemEntity temp = groupScheduleItems.get(j+1);
+                    groupScheduleItems.set(j+1, groupScheduleItems.get(j));
+                    groupScheduleItems.set(j, temp);
+                    isSorted = false;
+                }
+            }
+        }
+        
+        List<String> freeSlots = new ArrayList<>();
+        int index = 0;
+        ScheduleItemEntity currSched = null;
+        LocalTime start = LocalTime.of(6, 00);// Must use LocalTime.parse(start) to turn this into LocalTime
+        LocalTime end = null;
+        while(index<groupScheduleItems.size()){
+            currSched = groupScheduleItems.get(index);
+            if(!currSched.getEndDate().toLocalTime().isBefore(start) && !currSched.getEndDate().toLocalTime().equals(start)){
+                if(currSched.getStartDate().toLocalTime().isAfter(start)){
+                    end = currSched.getStartDate().toLocalTime();
+                    freeSlots.add(start.toString()+" - "+end.toString());
+                }
+                start = currSched.getEndDate().toLocalTime();
+            }
+            index++;
+        }
+        if(!end.isAfter(LocalTime.of(23, 58))){
+            end = LocalTime.of(23, 59);
+            freeSlots.add(start.toString()+" - "+end.toString());
+        }
+        return freeSlots;
     }
 
 }

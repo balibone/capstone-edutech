@@ -7,6 +7,7 @@ package edutechservices;
 
 import edutechsessionbeans.CommonRESTMgrBean;
 import edutechentities.common.ScheduleItemEntity;
+import edutechentities.group.GroupEntity;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -69,6 +70,11 @@ public class ScheduleItemREST {
     @GET @Path("members/{groupId}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<ScheduleItemEntity> findGroupScheduleItems(@PathParam("groupId") int groupId) {
         return etr.findGroupScheduleItems(groupId);
+    }
+    
+    @GET @Path("suggest/{id}/{date}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<String> getFreeSlots(@PathParam("id") int id, @PathParam("date") String date) {
+        return etr.suggestFreeSlots(id,date);
     }
 
     @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
