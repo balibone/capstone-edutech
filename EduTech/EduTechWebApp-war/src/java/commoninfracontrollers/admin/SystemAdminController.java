@@ -189,7 +189,7 @@ public class SystemAdminController extends HttpServlet {
                     break;
                 case "createAdmin"://create new student
                     try{
-                        success = processNewUser(request,response, "student");//pass request to helper method for parsing & store success boolean
+                        success = processNewUser(request,response, "admin");//pass request to helper method for parsing & store success boolean
                         if (success){
                             msg = "Administrator account created successfully.";
                         } else{
