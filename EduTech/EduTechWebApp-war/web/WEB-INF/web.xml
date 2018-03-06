@@ -327,8 +327,9 @@
     <servlet><servlet-name>EditItemListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/EditItemListingSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewItemListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemListingSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewItemDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemDetailsSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ViewItemDetailsInModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemDetailsInModalSYS.jsp</jsp-file></servlet>
-
+    <servlet><servlet-name>ViewItemTransDetailsInModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemTransDetailsInModalSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ItemLikeListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ItemLikeListSYS.jsp</jsp-file></servlet>
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
     <servlet><servlet-name>UserAccount</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserAccount.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserItemTransaction</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransaction.jsp</jsp-file></servlet>

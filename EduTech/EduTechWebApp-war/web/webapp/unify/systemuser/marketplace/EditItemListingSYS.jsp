@@ -140,7 +140,7 @@
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Unify Home</a></li>
+                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Marketplace (Edit Item Listing)</li>
                         </ol>
                     </nav>
@@ -316,8 +316,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div id="unifyFooter"></div> -->
-
+            <div id="unifyFooter"></div>
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>

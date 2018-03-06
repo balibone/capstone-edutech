@@ -39,6 +39,24 @@ $(document).ready(function () {
         show: 'click'
     });
     
+    $('.itemLikes > a').click(function(){
+        $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToItemLikeList&itemID=' + $('#itemIDHidden').val());
+        $('#itemLikeList-iframe').iziModal('open', event);
+    });
+    
+    $("#itemLikeList-iframe").iziModal({
+        title: 'Your Item Likers',
+        subtitle: 'List of users who like your item',
+        iconClass: 'fa fa-heart-o',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#4D7496',
+        width: 650,
+        overlayClose: true,
+        iframe: true,
+        iframeHeight: 450
+    });
+    
     $('#sendOfferBtn').click(function(){
         $.ajax({
             type: "POST",

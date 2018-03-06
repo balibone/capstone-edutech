@@ -48,21 +48,25 @@ public class UserProfileSysUserController extends HttpServlet {
                         username = request.getParameter("userID");
                         firstVisit = false;
                     }
-                    System.out.println("USERNAME IS: " + username);
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
                     request.setAttribute("itemOfferListSYS", (ArrayList) msmr.viewItemOfferList(username));
                     pageAction = "UserAccount";
                     break;
                 case "goToMarketplaceTrans":
-                    request.setAttribute("itemTransList", (ArrayList) msmr.viewItemTransaction(username));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("itemTransListSYS", (ArrayList) msmr.viewItemTransaction(username));
                     pageAction = "UserItemTransaction";
                     break;
                 case "goToViewItemDetailsInModalSYS":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
                     long itemTransID = Long.parseLong(request.getParameter("itemTransID"));
                     request.setAttribute("transItemDetailsSYSVec", msmr.viewTransactionItemDetails(itemID, itemTransID, username));
-                    pageAction = "ViewItemDetailsInModalSYS";
+                    pageAction = "ViewItemTransDetailsInModalSYS";
                     break;
                 case "goToUserProfile":
+                    String itemSellerID = request.getParameter("itemSellerID");
+                    request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
+                    request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));
                     pageAction = "UserProfile";
                     break;
                 case "goToLogout":

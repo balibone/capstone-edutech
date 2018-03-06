@@ -148,7 +148,7 @@
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Unify Home</a></li>
+                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">User Account</li>
                         </ol>
                     </nav>
@@ -159,19 +159,30 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
                         <div class="card user-card">
+                            <%
+                                Vector userAccountVec = (Vector) request.getAttribute("userAccountVec");
+                                String username, userFirstName, userLastName, userImage, userCreationDate;
+                                username = userFirstName = userLastName = userImage = userCreationDate = "";
+
+                                if (userAccountVec != null) {
+                                    username = (String) userAccountVec.get(0);
+                                    userFirstName = (String) userAccountVec.get(1);
+                                    userLastName = (String) userAccountVec.get(2);
+                                    userImage = (String) userAccountVec.get(3);
+                                    userCreationDate = (String.valueOf(userAccountVec.get(4)));
+                                }
+                            %>
                             <div class="card-body p-2 mb-3 mb-md-0 mb-xl-3">
                                 <div class="media">
-                                    <img class="img-thumbnail" src="images/ProfileImage.png">
-                                    <div class="media-body">
-                                        <h5 class="user-name"><%= request.getAttribute("loggedInUsername")%></h5>
-                                        <small class="card-text text-muted">Joined Dec 31, 2017</small>
+                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= userImage%>" style="width:50px;height:50px;"/>
+                                    <div class="media-body ml-2">
+                                        <h5 class="user-name"><strong><%= userFirstName%>&nbsp;<%= userLastName%></strong></h5>
+                                        <p>@<%= username%></p>
+                                        <small class="card-text text-muted mt-2">Joined <%= userCreationDate%></small>
                                     </div>
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
-                                <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;User Profile
-                                </a>
                                 <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
                                 </a>
