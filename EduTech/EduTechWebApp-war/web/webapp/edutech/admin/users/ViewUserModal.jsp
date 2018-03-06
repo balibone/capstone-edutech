@@ -16,7 +16,8 @@
                                         imageFile = (String)userInfo.get(7);
                                     }
                                 %>
-<%@include file="/webapp/edutech/admin/SessionCheck.jspf" %>
+<%@include file="/webapp/edutech/admin/EduTechAdminSessionCheck.jspf"
+ %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
