@@ -1,0 +1,34 @@
+.taskItem {
+  padding: 10px 10px !important;
+  margin-top: 5px;
+}
+
+.taskItem:hover {
+  box-shadow: 6px 6px 6px 6px rgba(0.1,0.1,0.1,0.1) !important;
+}
+
+.taskItem > span > i{
+  visibility: hidden !important;
+  color: #AAA;
+}
+
+.taskItem:hover > span > i{
+  visibility: visible !important;
+}
+
+.taskActions {
+  display:inline-block;
+}
+
+.taskActions {
+  display:inline-block;
+}
+
+.secondaryTaskInfo {
+  color: #AAA;
+  font-size: 0.8em;
+}
+
+.verifiedSignature {
+  text-decoration: none !important;
+}
