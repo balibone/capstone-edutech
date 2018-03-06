@@ -40,8 +40,6 @@
                         </div>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
-                        <li><a href="CommonInfra?pageTransit=goToProfile"><i class="fa fa-user"></i>&nbsp;&nbsp;My Profile</a></li>
-                        <li class="divider"></li>
                         <li><a href="CommonInfra?pageTransit=goToLogout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a></li>
                     </ul>
                 </div>           
