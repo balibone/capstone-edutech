@@ -3,6 +3,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Navbar from './components/Navbar';
 import Main from './components/Main';
+import Home from './Home';
+
 
 import { getUserDetails } from './services/api/user';
 import { getUserModules, getModuleDetails } from './services/api/module';

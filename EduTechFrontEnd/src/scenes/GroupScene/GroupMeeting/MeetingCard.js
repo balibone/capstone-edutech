@@ -44,13 +44,14 @@ class MeetingCard extends Component {
 	render(){
 		console.log("meeting in meeting card", this.props.meeting)
 		let { title, description, startDate, endDate, createdBy } = this.props.meeting;
-      	var start = moment(startDate).format("HH:mm");
-        var end = moment(endDate).format("HH:mm");
+      	const start = moment(startDate).format("h:mm a");
+        const end = moment(endDate).format("h:mm a");
+        const date = moment(startDate).format("dddd, Do MMMM");
 
 		return(
 			<div>
 			  <Card className="standardTopGap">
-			    <CardTitle title={title} subtitle={`${start} - ${end}`} />
+			    <CardTitle title={title} subtitle={` ${date}, ${start} - ${end}`} />
 			    <CardText>
 			      {description}
 			    </CardText>

@@ -3,6 +3,7 @@ import axios from 'axios';
 
 class UserStore {
   @observable currentUser = {};
+  @observable currentUsername = null;
 
   constructor() {
     this.getUserDetails();

@@ -11,7 +11,7 @@ class MeetingStore {
 
     @observable meetings = [];
     @observable editFormSuccess;
-    @observable addFormSuccess;
+    @observable addFormSuccess = false;
 
     @action
 	populateMeetings(groupId){
@@ -42,12 +42,11 @@ class MeetingStore {
           const dataSet = toJS(newMeeting);
           dataSet.createdBy ={username: dataSet.createdBy};
           console.log("Data Set : ", dataSet);
-
+          this.addFormSuccess = true;
           axios.post('/scheduleitem', dataSet)
             .then((res) => {
               this.meetings.push(newMeeting);
               swal("Success!","Meeting Event Added!" , "success");
-              this.addFormSuccess = true;
               this.populateMeetings(groupId);
             })
             .catch((err) => {

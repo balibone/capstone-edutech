@@ -78,7 +78,7 @@ class GroupProfilePanel extends Component {
     }
     return (
       <Paper className="profilePanel">
-        <img src={`/img/${img}`} alt="profile" height="110" className="img-circle img-profile" />
+        <img src={`http://localhost:8080/EduTechWebApp-war/uploads/edutech/group/images/${img}`} alt="profile" height="110" className="img-circle img-profile" />
         { content }
       </Paper>
     )

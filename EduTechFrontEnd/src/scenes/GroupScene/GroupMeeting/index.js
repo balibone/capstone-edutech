@@ -5,7 +5,7 @@ import {toJS} from 'mobx';
 import axios from 'axios';
 import moment from 'moment';
 import swal from 'sweetalert';
-import { Tabs, Tab, Col, Row, Button, Glyphicon, FormControl, ControlLabel, FormGroup } from 'react-bootstrap';
+import { Tabs, Tab, Col, Row, Button, Glyphicon, Checkbox } from 'react-bootstrap';
 import { DateTimePicker, DropdownList } from 'react-widgets';
 import momentLocalizer from 'react-widgets-moment';
 import './styles.css';
@@ -26,6 +26,7 @@ class GroupMeeting extends Component{
   constructor(props){
       super(props);
       this.state = {
+        checked: false,
         viewAll : false,
         title: null,
         description: null,
@@ -40,17 +41,20 @@ class GroupMeeting extends Component{
     MeetingStore.populateMeetings(this.props.groupId);
   }
 
-  checkSelectedDate(startTime , endTime){
+  checkSelectedDateValid(startTime , endTime){
     let membersScheduleItems = toJS(ScheduleItemStore.userGroupScheduleItems);
     for(var i=0 ; i<membersScheduleItems.length ; i++){
       let memberStart = new Date(membersScheduleItems[i].startDate);
       let memnberEnd = new Date(membersScheduleItems[i].endDate);
       if((startTime>memberStart && startTime<memnberEnd) || (endTime>memberStart && endTime<memnberEnd)){
-        swal("Warning!", "Your chosen time is clashing with one of your member schedule.", "warning");
+        swal("Warning!", "Your chosen time is clashing with your member schedule.", "warning");
+        return false;
+      }else if(memberStart>startTime && startTime<memnberEnd){
+        swal("Warning!", "Your chosen time is clashing with your member schedule.", "warning");
         return false;
       }
     }
-    return true
+    return true;
   }
 
   addMeetingItem(){
@@ -61,18 +65,26 @@ class GroupMeeting extends Component{
     var location = this.state.location;
     var groupId = this.props.groupId;
     var type = "meeting";
-    MeetingStore.addMeeting(title, description, startTime, endTime, location, groupId, type);
-    // var valid = this.checkSelectedDate(startTime, endTime)
-    // if(valid){
-    //   MeetingStore.addMeeting(title, description, startTime, endTime, location, groupId, type);
-    // }
+
+    if(this.state.checked){
+      MeetingStore.addMeeting(title, description, startTime, endTime, location, groupId, type);
+      if(MeetingStore.addFormSuccess)
+        this.setState({showMeetingForm: false})
+    } else{
+      var valid = this.checkSelectedDateValid(startTime, endTime);
+      if(valid){
+        MeetingStore.addMeeting(title, description, startTime, endTime, location, groupId, type);
+        if(MeetingStore.addFormSuccess)
+          this.setState({showMeetingForm: false})
+      }
+    }
+
   }
 
   closeMeetingForm(){
     // MeetingStore.addFormSuccess = false;
     this.setState({showMeetingForm: false})
   }
-
 
   renderMeetingInput() {
     return (
@@ -127,6 +139,9 @@ class GroupMeeting extends Component{
             />
           </Col>
         </Row>
+        <Row className="smallTopGap">
+          <Checkbox inline onChange={this.handleChecked.bind(this)} checked={this.state.checked}>Override Clash of Members' Schedules</Checkbox>
+        </Row>
 
         <Row className="smallTopGap">
           <Col md={12}>
@@ -139,6 +154,15 @@ class GroupMeeting extends Component{
     );
   }
 
+  handleChecked(event){
+    this.setState({checked: event.target.checked})
+  }
+
+  meetingFormShow(){
+    MeetingStore.addFormSuccess = false;
+    this.setState({showMeetingForm: true})
+  }
+
   renderCreateButton(){
     let meetingsObservable = MeetingStore.meetings;
     var meetings= toJS(meetingsObservable);
@@ -148,7 +172,7 @@ class GroupMeeting extends Component{
 
     return (
       <div>
-        <Button bsStyle="primary" onClick ={() => this.setState({showMeetingForm: true})}>
+        <Button bsStyle="primary" onClick ={this.meetingFormShow.bind(this)}>
           Create Meeting
           <Glyphicon glyph="plus" style={{marginLeft: '5px'}}/>
         </Button>
@@ -164,7 +188,7 @@ class GroupMeeting extends Component{
 
 
   render(){
-
+    console.log("checkbox condition", this.state.checked)
     return(
       <div className="standardTopGap">
         {this.state.showMeetingForm ? this.renderMeetingInput() : this.renderCreateButton() }

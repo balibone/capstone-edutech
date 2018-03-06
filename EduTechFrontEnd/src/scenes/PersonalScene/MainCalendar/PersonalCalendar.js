@@ -51,6 +51,7 @@ class PersonalCalendar extends Component {
 	}
 
 	handleCloseAll(){
+		console.log("HANDLING CLOSE ALL")
 		this.setState({openCalendarCard: false, openEditForm: false, openCalendarForm: false});
 	}
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormControl } from 'react-bootstrap';
+import { FormControl, Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 // import swal from 'sweetalert';
 
@@ -45,7 +45,7 @@ export default class Feed extends Component {
       return (
         <SinglePost
           post={pinnedPost}
-          addPost={e => this.addPost(e, pageId, pinnedPost.id)}
+          replyPost={e => this.replyPost(e, pinnedPost.id)}
           feedStore={feedStore}
           pageId={pageId}
         />
@@ -75,6 +75,9 @@ export default class Feed extends Component {
           type="text"
           placeholder="Post in feed"
         />
+        <div className="text-right">
+          <Button bsStyle="link" onClick={() => feedStore.fetchPagePosts()} >Refresh</Button>
+        </div>
         {this.renderPinnedPost(pageId)}
         {this.renderPosts(pageId)}
       </div>
