@@ -12,7 +12,6 @@ package unifysessionbeans.systemuser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -22,75 +21,51 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import unifyentities.marketplace.ItemEntity;
+import commoninfrastructureentities.UserEntity;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 
 @Stateless
 public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemote {
     @PersistenceContext
     private EntityManager em;
+    
+    private UserEntity uEntity;
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
-    /* USER PROFILE */
     @Override
-    public List<Vector> viewUserItemListing(String username) {
-        Date currentDate = new Date();
-        String dateString = "";
+    public Vector viewUserProfileDetails(String username) {
+        uEntity = lookupUnifyUser(username);
+        Vector userProfileDetailsVec = new Vector();
 
-        Query q = em.createQuery("SELECT i FROM Item i WHERE i.userEntity.username = :username AND i.categoryEntity.categoryActiveStatus = '1'");
-        q.setParameter("username", username);
-        List<Vector> userItemList = new ArrayList<Vector>();
-
-        for (Object o : q.getResultList()) {
-            ItemEntity itemE = (ItemEntity) o;
-            Vector userItemVec = new Vector();
-
-            userItemVec.add(itemE.getItemID());
-            userItemVec.add(itemE.getItemImage());
-            userItemVec.add(itemE.getItemName());
-            userItemVec.add(itemE.getCategoryEntity().getCategoryName());
-            userItemVec.add(itemE.getUserEntity().getUsername());
-
-            long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000) % 24;
-            long diffDays = diff / (24 * 60 * 60 * 1000);
-
-            if (diffDays != 0) {
-                dateString = diffDays + " day";
-                if (diffDays == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffHours != 0) {
-                dateString = diffHours + " hour";
-                if (diffHours == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffMinutes != 0) {
-                dateString = diffMinutes + " minute";
-                if (diffMinutes == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffSeconds != 0) {
-                dateString = diffSeconds + " second";
-                if (diffSeconds == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            }
-            userItemVec.add(dateString);
-            userItemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
-            userItemVec.add(itemE.getItemNumOfLikes());
-            userItemList.add(userItemVec);
-            dateString = "";
+        if (uEntity != null) {
+            userProfileDetailsVec.add(uEntity.getUsername());
+            userProfileDetailsVec.add(uEntity.getUserFirstName());
+            userProfileDetailsVec.add(uEntity.getUserLastName());
+            userProfileDetailsVec.add(uEntity.getImgFileName());
+            userProfileDetailsVec.add(df.format(uEntity.getUserCreationDate()));
         }
-        return userItemList;
+        return userProfileDetailsVec;
+    }
+
+    /* MISCELLANEOUS METHODS */
+    public UserEntity lookupUnifyUser(String username) {
+        UserEntity ue = new UserEntity();
+        try{
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity)q.getSingleResult();
+        }
+        catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        catch(NoResultException nre){
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
     }
 }

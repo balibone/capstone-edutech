@@ -148,7 +148,7 @@
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Unify Home</a></li>
+                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Marketplace (Item Listing)</li>
                         </ol>
                     </nav>
@@ -303,7 +303,7 @@
                                             <div id="settingsBtn<%= itemID%>" class="text-right close" style="padding-top:7px;"><img src="images/unifyimages/sidebar-divider-dots.png" /></div>
                                             <div class="pull-left" style="padding-right: 10px;">
                                                 <div class="profilePicBorder">
-                                                    <img class="profilePic" src="uploads/unify/images/marketplace/item/<%= itemSellerImage%>" />
+                                                    <img class="profilePic" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
                                                 </div>
                                             </div>
                                             <div class="profileContent">

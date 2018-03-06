@@ -98,6 +98,9 @@ public class MarketplaceSysUserController extends HttpServlet {
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(hiddenItemID, hiddenUsername));
                     pageAction = "ViewItemDetailsSYS";
                     break;
+                case "goToItemLikeList":
+                    pageAction = "ItemLikeListSYS";
+                    break;
                 case "sendItemOfferPrice":
                     long itemIDHidden = Long.parseLong(request.getParameter("itemIDHidden"));
                     String usernameHidden = request.getParameter("usernameHidden");

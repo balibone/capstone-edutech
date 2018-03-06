@@ -18,6 +18,7 @@
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/marketplace/ViewItemDetailsSYSCSS.css" rel="stylesheet" type="text/css">
@@ -141,7 +142,7 @@
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Unify Home</a></li>
+                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Marketplace (Item Details)</li>
                         </ol>
                     </nav>
@@ -229,9 +230,9 @@
                                     <td>Number of Likes</td>
                                     <td>
                                         <ul class="list-inline mb-0">
-                                            <li class="list-inline-item">
+                                            <li class="list-inline-item itemLikes">
                                                 <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
-                                                <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;<span class="likeWording">Like</span></h5></span>
+                                                <a href="#"><span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;<span class="likeWording">Like</span></h5></span></a>
                                                 <%  } else {%>
                                                 <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;<span class="likeWording">Likes</span></h5></span>
                                                 <%  }   %>
@@ -313,11 +314,15 @@
                                 <h5 class="sellerInfo">Seller Information:</h5>
                                 <div class="media mb-2 mt-3">
                                     <div class="mr-2">
-                                        <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
+                                        <a href="ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= itemSellerID%>">
+                                            <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
+                                        </a>
                                     </div>
                                     <div class="media-body col-md-6">
-                                        <h5 class="sellerInfo"><%= itemSellerID%></h5>
-                                        Joined on <%= itemSellerJoinDate%><br/>
+                                        <div style="cursor: pointer;" onclick="window.location='ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= itemSellerID%>';">
+                                            <h5 class="user-name"><strong><%= itemSellerID%></strong></h5>
+                                            Joined on <%= itemSellerJoinDate%><br/>
+                                        </div>
                                         <hr/>
                                         <div class="rating">
                                             <ul class="profileRating">
@@ -396,6 +401,7 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
+            <div id="itemLikeList-iframe"></div>
             
             <div style="display:none;" id="offerTooltip">
                 Offer Price&nbsp;<span style="color:#FF0000;">*</span>:<br/>
@@ -417,6 +423,7 @@
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/ViewItemDetailsSYSJS.js" type="text/javascript"></script>

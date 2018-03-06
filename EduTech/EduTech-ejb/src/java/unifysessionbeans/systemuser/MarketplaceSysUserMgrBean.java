@@ -138,9 +138,8 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemDetailsVec.add(iEntity.getUserEntity().getImgFileName());
             itemDetailsVec.add(df.format(iEntity.getUserEntity().getUserCreationDate()));
             itemDetailsVec.add(iEntity.getCategoryEntity().getCategoryID());
-            return itemDetailsVec;
         }
-        return null;
+        return itemDetailsVec;
     }
     
     @Override
@@ -171,9 +170,8 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemDetailsVec.add(getPositiveItemReviewCount(iEntity.getUserEntity().getUsername()));
             itemDetailsVec.add(getNeutralItemReviewCount(iEntity.getUserEntity().getUsername()));
             itemDetailsVec.add(getNegativeItemReviewCount(iEntity.getUserEntity().getUsername()));
-            return itemDetailsVec;
         }
-        return null;
+        return itemDetailsVec;
     }
 
     @Override
@@ -481,10 +479,8 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             transactionItemDetailsVec.add(getNeutralItemReviewCount(lookupUnifyUser(itEntity.getItemBuyerID()).getUsername()));
             transactionItemDetailsVec.add(getNegativeItemReviewCount(lookupUnifyUser(itEntity.getItemBuyerID()).getUsername()));
             transactionItemDetailsVec.add(String.format ("%,.2f", itEntity.getItemTransactionPrice()));
-            
-            return transactionItemDetailsVec;
         }
-        return null;
+        return transactionItemDetailsVec;
     }
     
     @Override
@@ -555,6 +551,75 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             dateString = "";
         }
         return itemOfferList;
+    }
+    
+    /*  ====================    USER PROFILE    ==================== */
+    @Override
+    public List<Vector> viewUserItemList(String itemSellerID) {
+        Date currentDate = new Date();
+        String dateString = "";
+        
+        Query q = em.createQuery("SELECT i FROM Item i WHERE i.userEntity.username = :username AND "
+                + "i.categoryEntity.categoryActiveStatus = '1' AND (i.itemStatus = 'Available' OR "
+                + "i.itemStatus = 'Reserved' OR i.itemStatus = 'Sold')");
+        q.setParameter("username", itemSellerID);
+        List<Vector> userItemList = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            ItemEntity userItemE = (ItemEntity) o;
+            Vector userItemVec = new Vector();
+
+            userItemVec.add(userItemE.getItemID());
+            userItemVec.add(userItemE.getItemImage());
+            userItemVec.add(userItemE.getItemName());
+            userItemVec.add(userItemE.getCategoryEntity().getCategoryName());
+            userItemVec.add(userItemE.getUserEntity().getUsername());
+            userItemVec.add(userItemE.getUserEntity().getImgFileName());
+
+            long diff = currentDate.getTime() - userItemE.getItemPostingDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            userItemVec.add(dateString);
+            userItemVec.add(df.format(userItemE.getItemPostingDate()));
+            userItemVec.add(String.format ("%,.2f", userItemE.getItemPrice()));
+            userItemVec.add(getItemLikeCount(userItemE.getItemID()));
+            userItemVec.add(userItemE.getItemCondition());
+            userItemList.add(userItemVec);
+            dateString = "";
+        }
+        return userItemList;
     }
     
     /* MISCELLANEOUS METHODS */
