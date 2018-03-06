@@ -306,7 +306,7 @@
                                                 <input type="hidden" name="username" value="<%= loggedInUsername%>" />
 
                                                 <button type="submit" class="btn btn-theme">Edit Item Listing</button>&nbsp;&nbsp;
-                                                <button type="button" class="btn btn-theme" onclick="location.href = 'MarketplaceSysUser?pageTransit=deleteItemListingSYS&hiddenItemID=<%= itemID%>'">Delete Item Listing</button>
+                                                <button type="button" class="btn btn-primary" onclick="javascript:deleteAlert(<%= itemID%>)">Delete Item Listing</button>
                                             </div>
                                         </div>
                                     </div>

@@ -94,10 +94,12 @@ function previewImage(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
 }
+
 /* FOR ONEMAP - CLOSE THE SEARCH RESULT PANEL AFTER SELECTING A RESULT */
 function clearResults() {
     document.getElementById("searchResults").innerHTML = "";
 }
+
 /* FOR ONEMAP - UPDATE LATITUDE AND LONGITUDE FOR SELECTED LOCATION */
 function selectedLocation(lat, lng, postalAddress, location) {
     document.getElementById("tradeLocation").value = location;
@@ -106,4 +108,9 @@ function selectedLocation(lat, lng, postalAddress, location) {
     
     if (search_marker) { map.removeLayer(search_marker); }
     search_marker = L.marker([lat, lng], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("Trade Location: " + postalAddress);
+}
+
+function deleteAlert(itemID) {
+    var deleteReply = confirm("Are you sure to delete this item?");
+    if (deleteReply) { window.open('MarketplaceSysUser?pageTransit=deleteItemListingSYS&hiddenItemID=' + itemID, '_parent'); }
 }
