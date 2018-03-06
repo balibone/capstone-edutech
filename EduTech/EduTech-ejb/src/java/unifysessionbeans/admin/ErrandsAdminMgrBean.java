@@ -369,7 +369,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             em.remove(jEntity);
             em.flush();
             em.clear();
-            return "Selected job has been deleted successfully (A system notification has been sent to the job poster)!";
+            return "Selected job has been deleted successfully!";
         }
     }
 
