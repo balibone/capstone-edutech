@@ -9,7 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Unify Marketplace - Item Listing Details</title>
-
+        
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
@@ -234,7 +234,7 @@
                                                 <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
                                                 <a href="#"><span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;<span class="likeWording">Like</span></h5></span></a>
                                                 <%  } else {%>
-                                                <span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;<span class="likeWording">Likes</span></h5></span>
+                                                <a href="#"><span class="price"><h5 class="mb-0"><span class="likeCount"><%= itemNumOfLikes%></span>&nbsp;<span class="likeWording">Likes</span></h5></span></a>
                                                 <%  }   %>
                                             </li>
                                         </ul>
@@ -247,7 +247,7 @@
                                             <%  if (itemSellerID.equals(request.getAttribute("loggedInUsername"))) {%>
                                             <button type="button" class="btn btn-outline-theme" onclick="location.href = 'MarketplaceSysUser?pageTransit=goToEditItemListingSYS&urlItemID=<%= itemID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
                                             <%  } else {    %>
-                                            <button type="button" class="btn btn-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
+                                            <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
                                             <%  }%>
                                             <%  if(itemLikeStatus.equals("true")) {   %>
@@ -348,7 +348,7 @@
                             <%
                                 ArrayList<Vector> assocCategoryItemListSYS = (ArrayList) request.getAttribute("assocCategoryItemListSYS");
                                 if (!assocCategoryItemListSYS.isEmpty()) {
-                                    for (int i = 0; i <= assocCategoryItemListSYS.size() - 1; i++) {
+                                    for (int i = 0; i <= assocCategoryItemListSYS.size()-1; i++) {
                                         Vector v = assocCategoryItemListSYS.get(i);
                                         String assocCategoryItemID = String.valueOf(v.get(0));
                                         String assocCategoryItemImage = String.valueOf(v.get(1));

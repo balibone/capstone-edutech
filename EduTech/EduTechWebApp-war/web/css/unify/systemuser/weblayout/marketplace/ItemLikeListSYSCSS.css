@@ -1,0 +1,6 @@
+/* USER PROFILE RATING */
+img { vertical-align: middle; border: 0; }
+.profileRating { padding: 0; margin: 0; list-style: none; }
+.profileRating li { display: inline-block; padding-right: 15px; }
+.ratingImage { padding: 0 2px; width: auto; height: 18px; }
+.ratingValue { margin: 0 0 0 5px; vertical-align: middle; color: #8F939C; font-weight: bold; }

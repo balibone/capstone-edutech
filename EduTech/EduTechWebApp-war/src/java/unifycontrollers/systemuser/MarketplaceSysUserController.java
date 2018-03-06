@@ -99,6 +99,8 @@ public class MarketplaceSysUserController extends HttpServlet {
                     pageAction = "ViewItemDetailsSYS";
                     break;
                 case "goToItemLikeList":
+                    long itemID = Long.parseLong(request.getParameter("itemID"));
+                    request.setAttribute("itemLikeListSYS", msmr.viewItemLikeList(itemID));
                     pageAction = "ItemLikeListSYS";
                     break;
                 case "sendItemOfferPrice":

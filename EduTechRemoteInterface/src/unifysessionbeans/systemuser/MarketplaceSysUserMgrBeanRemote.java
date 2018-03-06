@@ -21,6 +21,7 @@ public interface MarketplaceSysUserMgrBeanRemote {
     public String sendItemOfferPrice(long itemIDHidden, String usernameHidden, String itemOfferPrice, 
             String itemOfferDescription);
     public String likeUnlikeItem(long itemIDHid, String usernameHid);
+    public List<Vector> viewItemLikeList(long itemID);
     public List<Vector> viewItemCategoryList();
     
     /* USER ACCOUNT */

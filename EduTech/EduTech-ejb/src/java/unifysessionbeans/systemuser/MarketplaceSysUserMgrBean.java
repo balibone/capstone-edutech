@@ -395,6 +395,27 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     }
     
     @Override
+    public List<Vector> viewItemLikeList(long itemID) {
+        Query q = em.createQuery("SELECT ll FROM LikeListing ll WHERE ll.itemEntity.itemID = :itemID");
+        q.setParameter("itemID", itemID);
+        List<Vector> itemLikeList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            LikeListingEntity likeListingE = (LikeListingEntity) o;
+            Vector likeListingVec = new Vector();
+
+            likeListingVec.add(likeListingE.getUserEntity().getUsername());
+            likeListingVec.add(likeListingE.getUserEntity().getUserFirstName());
+            likeListingVec.add(likeListingE.getUserEntity().getUserLastName());
+            likeListingVec.add(getPositiveItemReviewCount(likeListingE.getUserEntity().getUsername()));
+            likeListingVec.add(getNeutralItemReviewCount(likeListingE.getUserEntity().getUsername()));
+            likeListingVec.add(getNegativeItemReviewCount(likeListingE.getUserEntity().getUsername()));
+            itemLikeList.add(likeListingVec);
+        }
+        return itemLikeList;
+    }
+    
+    @Override
     public List<Vector> viewItemCategoryList(){
         Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Marketplace' "
                 + "AND c.categoryActiveStatus = '1'");
