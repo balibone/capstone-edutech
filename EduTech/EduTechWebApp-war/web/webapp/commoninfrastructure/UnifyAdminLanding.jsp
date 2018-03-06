@@ -58,7 +58,7 @@
             <div id="wherechoices">                
                 <a class="students" href="ProfileAdmin?pageTransit=goToUnifyAdmin">
                     <span class="user-container"><span class="mainpage-button-text">Unify Admin</span></span></a>
-                <a class="faculty" href="http://localhost:3000/<%=loggedInUsername%>">
+                <a class="faculty" href="http://localhost:3000/">
                     <span class="user-container"><span class="mainpage-button-text">EduTech Portal</span></span></a>
                 <a class="students" href="ProfileSysUser?pageTransit=goToUnifyUserAccount&userID=<%= loggedInUsername %>">
                     <span class="user-container"><span class="mainpage-button-text">Unify Portal</span></span></a>

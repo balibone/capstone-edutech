@@ -49,6 +49,11 @@ public class GroupREST {
     public List<UserEntity> getGroupMembers(@PathParam("id") String id) {
         return etr.findGroupMembers(id);
     }
+    
+    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void edit(@PathParam("id") String id, GroupEntity entity) {
+        etr.editGroup(id, entity);
+    }
 
     
 }

@@ -125,7 +125,7 @@ public class ModuleEntity implements Serializable {
     }
 
     public void setMembers(Collection<UserEntity> members) {
-        this.members = members;
+        this.members = (Collection<UserEntity>) members;
     }
 
     

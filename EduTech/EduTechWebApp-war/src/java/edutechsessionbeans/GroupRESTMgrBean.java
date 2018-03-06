@@ -49,4 +49,13 @@ public class GroupRESTMgrBean {
         return (List) em.find(GroupEntity.class, Long.valueOf(id)).getMembers();
     }
     
+    public void editGroup(String id, GroupEntity entity) {
+        //pull current entity based on id (entity is now detached)
+        GroupEntity old = em.find(GroupEntity.class, Long.valueOf(id));
+        //instantiate curr entity into new entity
+        old = entity;
+        //update curr entity in database. (reattach entity)
+        em.merge(entity);
+    }
+    
 }

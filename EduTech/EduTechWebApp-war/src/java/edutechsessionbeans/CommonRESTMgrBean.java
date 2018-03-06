@@ -13,6 +13,7 @@ import edutechentities.group.GroupEntity;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.common.SemesterEntity;
 import edutechentities.common.TaskEntity;
+import edutechentities.module.ModuleEntity;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -123,8 +124,18 @@ public class CommonRESTMgrBean {
             temp = findUserScheduleItems(member.getUsername());
             temp.removeAll(membersScheduleItem);
             membersScheduleItem.addAll(temp);
-//            membersScheduleItem.addAll();
         }
+        
+        for(ScheduleItemEntity scheduleItem: membersScheduleItem) {
+            if(scheduleItem.getType().equals("timetable")) {
+                String moduleCode = scheduleItem.getModuleCode();
+                ModuleEntity module = em.find(ModuleEntity.class, moduleCode);
+                Collection<UserEntity> moduleMembers = module.getMembers();
+                moduleMembers.retainAll(members);
+                scheduleItem.setAssignedTo(moduleMembers);
+            }
+        }
+        
         return membersScheduleItem;
     }
     
@@ -261,7 +272,7 @@ public class CommonRESTMgrBean {
     }
 
     public List<PostEntity> findPagePosts(String pageId) {
-        Query q1 = em.createQuery("SELECT p FROM Post p WHERE p.pageId= :Id"); //To change body of generated methods, choose Tools | Templates.
+        Query q1 = em.createQuery("SELECT p FROM Post p WHERE p.pageId= :Id ORDER BY p.createdAt DESC"); //To change body of generated methods, choose Tools | Templates.
         q1.setParameter("Id", pageId);
         return q1.getResultList();
     }
@@ -304,7 +315,7 @@ public class CommonRESTMgrBean {
     public List<TaskEntity> findUserTasks(String username){
         UserEntity user = em.find(UserEntity.class, username);
         List<TaskEntity> userTasks = new ArrayList();
-        List<TaskEntity> allTasks = em.createQuery("SELECT t FROM Task t").getResultList();
+        List<TaskEntity> allTasks = em.createQuery("SELECT t FROM Task t ORDER BY t.deadline, t.createdAt DESC").getResultList();
         for(TaskEntity task: allTasks){
             if(task.getAssignedTo().contains(user)){
                 userTasks.add(task);
@@ -315,7 +326,7 @@ public class CommonRESTMgrBean {
     
     public List<TaskEntity> findGroupTasks(int groupId) {
         List<TaskEntity> groupTasks = new ArrayList();
-        List<TaskEntity> allTasks = em.createQuery("SELECT t FROM Task t").getResultList();
+        List<TaskEntity> allTasks = em.createQuery("SELECT t FROM Task t ORDER BY t.deadline, t.createdAt DESC").getResultList();
         for(TaskEntity task: allTasks){
             if(task.getGroupId() == groupId){
                 groupTasks.add(task);
