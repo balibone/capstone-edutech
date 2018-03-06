@@ -355,6 +355,15 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             
             categoryE.getItemSet().remove(iEntity);
             userE.getItemSet().remove(iEntity);
+            
+            mEntity = new MessageEntity();
+            String messageContent = "Dear " + iEntity.getUserEntity().getUsername() + ", your '" + 
+                    iEntity.getItemName() + "' listing has been removed due to inappropriate content.";
+            mEntity.createContentMessage("SystemAdmin", userE.getUsername(), messageContent, iEntity.getItemID(), "System");
+            mEntity.setUserEntity(userE);
+            userE.getMessageSet().add(mEntity);
+            
+            em.persist(mEntity);
             em.merge(categoryE);
             em.merge(userE);
             
@@ -632,14 +641,5 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             ue = null;
         }
         return ue;
-    }
-
-    @Override
-    public void createSystemMessage(String hiddenItemName, String hiddenSellerID) {
-        mEntity = new MessageEntity();
-        String messageContent = "Dear " + hiddenSellerID + ", your '" + hiddenItemName + "' listing has been "
-                + "removed due to inappropriate content.";
-        mEntity.createSystemMessage("SystemAdmin", hiddenSellerID, messageContent, "System");
-        em.persist(mEntity);
     }
 }
