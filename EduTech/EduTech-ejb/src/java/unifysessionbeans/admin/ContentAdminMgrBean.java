@@ -403,6 +403,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.itemReportID) FROM ItemReport c WHERE c.itemReportStatus<>'Unresolved'");
         try {
             resolvedItemReportCount = (Long) q.getSingleResult();
+            System.out.println("Resolved Marketplace Item Report Count: " + resolvedItemReportCount);
         } catch (Exception ex) {
             System.out.println("Exception in ContentAdminMgrBean.getResolvedItemReportCount().getSingleResult()");
             ex.printStackTrace();
@@ -695,6 +696,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.reviewReportID) FROM CompanyReviewReport c WHERE c.reviewReportStatus<>'Unresolved'");
         try {
             resolvedCompanyReviewReportCount = (Long) q.getSingleResult();
+            System.out.println("Resolved Company Review Report Count: " + resolvedCompanyReviewReportCount);
         } catch (Exception ex) {
             System.out.println("Exception in ContentAdminMgrBean.getResolvedCompanyReviewReportCount().getSingleResult()");
             ex.printStackTrace();
@@ -987,6 +989,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReportID) FROM JobReport c WHERE c.jobReportStatus<>'Unresolved'");
         try {
             resolvedErrandsReportCount = (Long) q.getSingleResult();
+            System.out.println("Resolved Errands Report Count: " + resolvedErrandsReportCount);
         } catch (Exception ex) {
             System.out.println("Exception in ContentAdminMgrBean.getResolvedErrandsReportCount().getSingleResult()");
             ex.printStackTrace();
@@ -1274,9 +1277,10 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     @Override
     public Long getResolvedErrandsReviewReportCount() {
         Long resolvedErrandsReviewReportCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReviewReportID) FROM JobReviewReport c WHERE c.jobReviewReportStatus<>'Unesolved'");
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReviewReportID) FROM JobReviewReport c WHERE c.jobReviewReportStatus<>'Unresolved'");
         try {
             resolvedErrandsReviewReportCount = (Long) q.getSingleResult();
+            System.out.println("Resolved Errands Review Report Count: " + resolvedErrandsReviewReportCount);
         } catch (Exception ex) {
             System.out.println("Exception in ContentAdminMgrBean.getResolvedErrandsReviewReportCount().getSingleResult()");
             ex.printStackTrace();

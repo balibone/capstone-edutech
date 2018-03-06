@@ -104,6 +104,10 @@
                                 <td>Item Description</td>
                                 <td><%= itemDescription%></td>
                             </tr>
+                            <tr>
+                                <td>Item Image</td>
+                                <td><div style="height:auto;overflow: auto;"><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" alt="" style="width:250px; height:auto;"></div></td>
+                            </tr>
                             <%
                             } else {
                             %>
