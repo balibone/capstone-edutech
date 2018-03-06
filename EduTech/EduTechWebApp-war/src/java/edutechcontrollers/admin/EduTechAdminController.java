@@ -240,7 +240,8 @@ public class EduTechAdminController extends HttpServlet {
                         request.setAttribute("success", true);
                         request.setAttribute("semesterInfo", eam.getSemesterInfo(id));
                     }else{
-                        request.setAttribute("msg", "Error editing Semester.");
+                        request.setAttribute("msg", "Error editing Semester. Please make sure this semester does not overlap with "
+                                + "existing semesters.");
                         request.setAttribute("success", false);
                         request.setAttribute("semesterInfo", eam.getSemesterInfo(id));
                     }
