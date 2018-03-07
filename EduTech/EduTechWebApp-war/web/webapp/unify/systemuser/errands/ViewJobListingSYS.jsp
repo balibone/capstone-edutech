@@ -28,7 +28,8 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
         
-        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet" type="text/css">
+        <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
         <link href="css/unify/systemuser/weblayout/errands/ViewJobListingSysCSS.css" rel="stylesheet" type="text/css">
     </head>
     <body>
@@ -63,6 +64,7 @@
                         <div class="d-flex justify-content-between">
                             <nav class="nav">
                                 <a class="nav-item nav-link d-sm-block" href="#">Unify @ EduBox</a>
+                                <a class="nav-item nav-link d-none d-sm-block" href="#"><i class="fa fa-phone"></i> +123-456-789</a>
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
@@ -186,8 +188,8 @@
                                 <div class="col-12 col-sm-6 col-md-12">
                                     <div class="filter-sidebar">
                                         <div class="title"><span>Job Filter</span></div>
-                                        <input type="text" data-path=".jobTitle" class="form-control" placeholder="Search Item ..." 
-                                               aria-label="Search Item ..." data-control-type="textbox" 
+                                        <input type="text" data-path=".jobTitle" class="form-control" placeholder="Search Job ..." 
+                                               aria-label="Search Job ..." data-control-type="textbox" 
                                                data-control-name="transmission-text-filter" data-control-action="filter" />
                                     </div>
                                     <div class="filter-sidebar">
@@ -229,10 +231,10 @@
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
                                 <ul>
-                                    <li><span data-path=".jobTitle default" data-order="asc" data-type="text">Title Asc</span></li>
+                                    <li><span data-path=".jobTitle" data-order="asc" data-type="text">Title Asc</span></li>
                                     <li><span data-path=".jobTitle" data-order="desc" data-type="text">Title Desc</span></li>
-                                    <li><span data-path=".jobRate" data-order="asc" data-type="text">Price Asc</span></li>
-                                    <li><span data-path=".jobRate" data-order="desc" data-type="text">Price Desc</span></li>
+                                    <li><span data-path=".jobRate" data-order="asc" data-type="text">Job Rate Asc</span></li>
+                                    <li><span data-path=".jobRate" data-order="desc" data-type="text">Job Rate Desc</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -247,7 +249,7 @@
                         </div>
 
                         <!-- ITEM LISTING -->
-                        <div id="jobListing" class="row equal-height" add-class-on-xs="no-gutters">
+                        <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
                             <div class="list searchresult-row">
                                 <%
                                     ArrayList<Vector> jobListSYS = (ArrayList) request.getAttribute("jobListSYS");
@@ -264,61 +266,66 @@
                                             String startLocation = String.valueOf(v.get(7));
                                             String jobRateType = String.valueOf(v.get(8));
                                             String jobRate = String.valueOf(v.get(9));
+                                            String numOfLikes = "4";
                                 %>
                                 <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-content">
-                                            <div class="card-body" style="margin-bottom: 8px">
-                                                <div class="row" >
+                                            <div class="card-body">
+                                                <div class="row">
                                                     <div class="col-xl-3 col-md-3 col-3">
-                                                        <div class="img-wrapper">
+                                                        <div class="img-wrapper" style="margin-bottom: 15px">
                                                             <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>">
                                                                 <img class="card-img-top" style="width: 160px; height: 150px;" src="uploads/unify/images/errands/job/<%= jobImage%>" />
                                                             </a>
                                                         </div>
-                                                    </div>      
-                                                    <div class="col-xl-6 col-md-6 col-6">
-                                                        <%--<div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
-                                                            <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            </div>
-                                                        </div>--%>
-                                                        <span class="job-title"><strong><%= jobTitle%></strong></span><br/>
-                                                        <span class="category"><%= jobCategoryName%></span><br/>
-                                                        <img class="user-pic" src="ematis4_big.jpg" width="20" height="20">
-                                                        <span class="user"><strong>&nbsp;<%= jobPosterName%></strong></span>
-                                                        <span class="post-date"><%= jobPostDate%></span><br/><br/>
-                                                        <i class="far fa-calendar-alt"></i>&nbsp; <span class="date"><%= jobWorkDate%></span>&nbsp; 
-                                                        <i class="far fa-clock"></i><span class="time"> 13:00</span>&nbsp;
-                                                        <i class="fas fa-map-marker-alt"></i><span class="location"> &nbsp;<%= startLocation%></span>
                                                     </div>
-                                                    <div class="col-xl-3 col-md-3 col-3">        
-                                                        <div class="job-price">
-                                                            <span class="type"><%= jobRateType%></span><br/><br/>
-                                                            <span class="rate"><strong>S$<%= jobRate%></strong></span>
+                                                            
+                                                    <div class="col-xl-7 col-md-7 col-7">
+                                                        <span class="card-title jobTitle job-title"><strong><%= jobTitle%></strong></span><br/>
+                                                        <span class="card-text category"><%= jobCategoryName%></span><br/>
+                                                        <i class="far fa-calendar-alt"></i>&nbsp; <span class="card-text date"><%= jobWorkDate%></span>&nbsp; 
+                                                        <i class="fas fa-map-marker-alt"></i>&nbsp; <span class=" card-text location"><%= startLocation%></span><br/><br/>
+                                                        <i class="fas fa-user-circle fa-lg"></i>&nbsp;<span class="card-text user"><strong>&nbsp;<%= jobPosterName%></strong></span>
+                                                        <div class="post-date">
+                                                            <i class="far fa-clock"></i>&nbsp;<span class="card-text"><%= jobPostDate%></span><br/>
                                                         </div>
+                                                        
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-2 col-2">
+                                                        <div class="like-button" >
+                                                            
+                                                                <i class="fas fa-heart like"></i>&nbsp;<span><%=numOfLikes%></span>
+                                                        </div>
+                                                        <div class="job-price">
+                                                            <span class="card-text rate jobRate"><strong>S$<%= jobRate%></strong></span><br/>
+                                                            <%
+                                                                if(jobRateType.equals("Fixed")){
+                                                            %>
+                                                            <span class="card-text type">(Fixed Rate)</span>
+                                                            <%
+                                                                }else{
+                                                            %>
+                                                            <span class="card-text type">(Hourly Rate)</span>
+                                                            <%
+                                                              }
+                                                            %>
+                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                              
-                                        <div class="card-footer text-muted mt-1" >
-                                            <span class="float-left"><span class="ml-1 price itemPrice">$<%= jobRate%></span></span>
-                                            <%--<span class="float-right">
-                                                 <i class="fa fa-heart-o"></i>&nbsp;
-                                                <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%><%= itemNumOfLikes%>&nbsp;Like
-                                                <%  } else {%><%= itemNumOfLikes%>&nbsp;Likes
-                                                <%  }   %> 
-                                            </span>--%>
-                                        </div>
+                                             
                                     </div>
                                 </div>
                                 <%      }   %>
                                 <%  }%>
                             </div>
                         </div>
-                        <!--<div class="box jplist-no-results text-shadow align-center">
+                        <div class="box jplist-no-results text-shadow align-center">
                             <p><strong>No results found. Please refine your search.</strong></p>
-                        </div>-->
+                        </div>
                         <div class="jplist-search">
                             <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
                                  data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
@@ -326,7 +333,9 @@
                             <div class="jplist-pagination" data-control-animate-to-top="true" 
                                  data-control-type="pagination" data-control-name="paging" data-control-action="paging">
                             </div>
+                            
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -334,7 +343,7 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-            <!--<div id="itemcard-iframe"></div>-->
+            <div id="itemcard-iframe"></div>
         </div>
 
 
@@ -347,7 +356,7 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
-        <%--<script src="js/unify/systemuser/webjs/marketplace/ViewItemListingSYSJS.js" type="text/javascript"></script>--%>
+        <script src="js/unify/systemuser/webjs/errands/ViewJobListingSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>

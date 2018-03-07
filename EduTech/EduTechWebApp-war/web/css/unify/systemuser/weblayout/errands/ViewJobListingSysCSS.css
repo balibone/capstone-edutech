@@ -12,69 +12,87 @@
 }
 
 .job-info{
-	margin-left: 10px;
+    margin-left: 10px;
     width: 350px;
 }
 
 .job-pic{
-	margin: 1px;
+    margin: 1px;
 }
 
 .user-pic{
-	border-radius: 50%;
+    border-radius: 50%;
     margin-top: 3px;
     display: inline-block;
 }
 
 .user{
-	display: inline-block;
+    display: inline-block;
     font-size: 18px;
+    line-height: 1.5;
 }
 
-td.price{
-	background-color: #d9e4f4;
-	vertical-align: top;
+.like-button{
+    font-size: 22px;
+    margin-left: 38px;
+}
+
+.fa-heart{
+    color: #e2e3e5
+}
+
+.fa-heart:hover{
+    color: red;
+}
+
+.job-price{
+    margin-top: 18px;
     text-align: center;
-    width: 130px;
+    
 }
 
 td.info{
-	vertical-align: top;
+    vertical-align: top;
 }
 
 .job-title{
-	font-size: 22px;
-    color: #235ebc;
+    font-size: 22px;
+    color: #5183ad;
     line-height: 1.5;
 }
 
 .category{
-	font-size: 16px;
+    font-size: 16px;
     color: #93979e;
-    line-height: 0.5;
+    line-height: 1.5;
 }
 
 .date{
-	line-height: 1.0;
-    font-family: proxima;
+    line-height: 2.2;
+    font-size: 16px;
+}
+
+.location{
+    line-height: 2.2;
+    font-size: 16px;
 }
 
 .type{
-	font-size: 13px;
-	color: #235ebc;
+    font-size: 13px;
+	
 }
 
 .rate{
-	font-size: 26px;
-    color: #1759c1;
-    line-height: 2.1;
+    font-size: 24px;
+    
+    line-height: 1.2;
 }
 
 
 .post-date{
-	display: inline-block;
+    display: inline-block;
     margin: 12px;
-	font-size: 14px;
+    font-size: 14px;
     color: #93979e;
-    line-height: 0.5;
+    line-height: 1.5;
 }

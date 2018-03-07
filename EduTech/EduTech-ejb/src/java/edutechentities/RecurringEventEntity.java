@@ -30,7 +30,7 @@ public class RecurringEventEntity implements Serializable {
     private LocalTime startTime;
     private LocalTime endTime;
     @ManyToOne
-    private ModuleEntity module;
+    private ModuleEntity module = new ModuleEntity();
 
     public Long getId() {
         return id;

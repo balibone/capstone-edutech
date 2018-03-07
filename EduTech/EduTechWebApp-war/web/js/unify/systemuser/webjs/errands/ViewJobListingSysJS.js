@@ -1,7 +1,8 @@
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
-
+    
+    
     jQuery.fn.jplist.settings = {
         priceSlider: function ($slider) {
             $slider.slider({
@@ -17,10 +18,13 @@ $(document).ready(function () {
             $('#max-price').val($slider.slider('values', 1));
         }
     };
+    
     $('#contentArea').jplist({
         itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
     });
-
+    
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 });
+
+
