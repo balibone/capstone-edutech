@@ -47,7 +47,8 @@ class PersonalTimetable extends Component {
 				    	min={am6}
 				    	length={7}
 				    	onSelectEvent = {(event)=> this.eventClicked(event) }
-				    	views={['month','work_week']}
+				    	views={['work_week', 'month']}
+				    	
 				    />  
 				{
 				  	this.state.openCalendarCard ? <SingleCalendarCard 

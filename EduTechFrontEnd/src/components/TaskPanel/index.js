@@ -17,10 +17,6 @@ export class TaskPanel extends Component {
     }
   }
 
-  handleRefresh() {
-    taskStore.fetchUserTasks();
-  }
-
   renderCurrentTasks() {
     return taskStore.currentTasks.map(task =>
       <SingleTask key={task.id} task={task} taskStore={taskStore} />);
@@ -35,7 +31,7 @@ export class TaskPanel extends Component {
     return (
       <Paper className="standardTopGap paperDefault">
         <FormControl type="text" placeholder="Add task" onKeyPress={e => this.addTask(e)} />
-        <Button bsStyle="link" onClick={() => this.handleRefresh()} className="pull-right">Refresh</Button>
+        <Button bsStyle="link" onClick={() => taskStore.fetchUserTasks()} className="pull-right">Refresh</Button>
         <Tabs defaultActiveKey={1} className="standardTopGap">
           <Tab eventKey={1} title="Current">
             <div className="taskList">

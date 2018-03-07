@@ -46,4 +46,20 @@ body {
 .rbc-calendar {
   padding: 10px;
   height: 550px;
+  min-height: 500px;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fakeBody {
+  height: 100vh;
+  width: 100%;
+}
+
+.initialSpinner {
+  margin: 100px auto;
 }

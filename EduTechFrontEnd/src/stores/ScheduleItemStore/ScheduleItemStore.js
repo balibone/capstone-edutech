@@ -77,12 +77,9 @@ class ScheduleItemStore {
               swal(res.data,"Schedule Event Added!" , "success");
               this.populateScheduleItems(localStorage.getItem('username'));
               this.addFormSuccess = true;
-              // return true;
             })
             .catch((err) => {
-              console.log("Error in Adding item: ", err);
-              // swal("Network Error!","Unable to create ","error");
-              // return false;
+              console.log(err);
             })
         }
     }
@@ -103,16 +100,15 @@ class ScheduleItemStore {
         this.scheduleItems[index].groupId = groupId;
         const dataSet = toJS(this.scheduleItems[index]);
         console.log("Dataset to put: ", dataSet)
+        this.editFormSuccess = true;
         axios.put(`/scheduleitem/${id}`, dataSet)
         .then((res) => {
           swal("Success!","Item updated successfully." , "success");
           this.populateScheduleItems(localStorage.getItem('username'));
-          this.editFormSuccess = true;
-          return true;
+          
         })
         .catch((err) => {
           console.log(err)
-          return false;
         })
       }     
     }

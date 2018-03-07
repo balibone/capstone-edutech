@@ -43,11 +43,11 @@ class KeyInfoPanel extends Component{
           return (
             <Col md={4} key={item.itemDetails.id}>
                 <Paper className="keyInfoCard paperDefault">
-                  <h4> {item.itemDetails.title} </h4>
-                  <p className="thinFont"> 
+                  <h4 className="truncate"> {item.itemDetails.title} </h4>
+                  <p className="thinFont truncate"> 
                     {moment(item.itemDetails.startDate).format('MMM DD YYYY')}
                   </p>
-                  <p>
+                  <p className="truncate">
                     {moment(item.itemDetails.startDate).format('HH:mm')} - {moment(item.itemDetails.endDate).format('HH:mm')}
                   </p>
                 </Paper>

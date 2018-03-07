@@ -6,6 +6,8 @@ import swal from 'sweetalert';
 import axios from 'axios';
 import './react-datetime.css';
 
+import ScheduleItemStore from '../../../stores/ScheduleItemStore/ScheduleItemStore';
+
 
 @observer
 class EditCalendarItemForm extends Component {
@@ -37,7 +39,7 @@ class EditCalendarItemForm extends Component {
 	editCalendarItem(event){
 		event.preventDefault();
 		const username = localStorage.getItem('username');
-		const { scheduleItemStore } = this.props;
+		// const { scheduleItemStore } = this.props;
 		var itemId = this.props.event.id;
 		var createdBy = this.props.event.createdBy;
 		var { title, description, location, startTime, endTime } = this.state;
@@ -52,8 +54,10 @@ class EditCalendarItemForm extends Component {
 		
 		console.log("EDIT FORM startTime", startTime)
 		console.log("EDIT FORM endTime", endTime)
-		scheduleItemStore.updateScheduleItem(itemId, title, description, startTime, endTime, location, createdBy, groupId);
-		if(scheduleItemStore.editFormSuccess){
+		ScheduleItemStore.updateScheduleItem(itemId, title, description, startTime, endTime, location, createdBy, groupId);
+		console.log("editFormSuccess: ", ScheduleItemStore.editFormSuccess)
+		if(ScheduleItemStore.editFormSuccess){
+			console.log("EDIT SUCCESS")
 			this.refs.name.value = "";
 	        this.refs.description.value ="";
 	        this.refs.location.value = "";

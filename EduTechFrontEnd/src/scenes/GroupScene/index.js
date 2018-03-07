@@ -42,7 +42,7 @@ class GroupScene extends Component {
     // MergeGroupStore.fetchMergedCalendar(membersArray);
   }
   componentWillReceiveProps(newProps) {
-    let { groupId } = this.props.match.params;
+    let { groupId } = newProps.match.params;
 
     ScheduleItemStore.populateScheduleItems(localStorage.getItem('username'));
     MeetingStore.populateMeetings(groupId);

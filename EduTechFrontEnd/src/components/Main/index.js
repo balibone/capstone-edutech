@@ -17,6 +17,7 @@ import GroupScene from '../../scenes/GroupScene';
 import ScheduleItemStore from '../../stores/ScheduleItemStore/ScheduleItemStore';
 import MeetingStore from '../../stores/MeetingStore/MeetingStore';
 import GroupStore from '../../stores/GroupStore/GroupStore';
+import UserStore from '../../stores/UserStore/UserStore';
 
 
 @observer
@@ -36,7 +37,12 @@ class Main extends Component {
   render(){
     const { user, moduleDetails, groupDetails } = this.props;
     console.log("MeetingStore in main: ", MeetingStore);
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const {currentUser} = UserStore;
+    if(!currentUser) {
+      return <span></span>
+    }
     const { imgfilename, userfirstname, userlastname, username} = currentUser;
     return(
       <Grid>

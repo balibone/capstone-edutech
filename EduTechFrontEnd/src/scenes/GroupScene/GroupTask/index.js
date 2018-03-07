@@ -153,6 +153,9 @@ export default class GroupTask extends Component {
     return (
       <Paper className="standardTopGap paperDefault">
         { this.renderTaskInput() }
+        <div className="pull-right standardTopGap">
+          <Button bsStyle="link" onClick={() => groupTaskStore.fetchGroupTasks(this.props.groupId)}>Refresh</Button>
+        </div>
         <Tabs defaultActiveKey={1} className="standardTopGap">
           <Tab eventKey={1} title="Current">
             <div className="taskList">

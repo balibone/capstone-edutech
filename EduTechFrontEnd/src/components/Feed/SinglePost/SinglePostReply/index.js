@@ -56,7 +56,7 @@ export default class SinglePostReply extends Component {
           <i className="fas fa-ellipsis-h" onClick={e => this.handlePopoverClick(e)} />
         </div>
       );
-    } 
+    }
 
     if (post.isPinned) {
         return (
@@ -76,7 +76,7 @@ export default class SinglePostReply extends Component {
       <Media>
         <hr />
         <Media.Left>
-          <img width={64} height={64} src={`/img/${post.createdBy.imgfilename}`} alt="thumbnail" className="img-circle" />
+          <img width={64} height={64} src={`http://localhost:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/${post.createdBy.imgfilename}`} alt="thumbnail" className="img-circle" />
         </Media.Left>
         <Media.Body>
           <Media.Heading>
