@@ -327,17 +327,20 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             jobReviewSet = jEntity.getJobReviewSet();
             if (!jobReviewSet.isEmpty()) {
                 for (JobReviewEntity jre : jobReviewSet) {
-                    Vector jobReviewDetails = new Vector();
                     
-                    jobReviewDetails.add(sdf.format(jre.getJobReviewDate()));
-                    jobReviewDetails.add(jre.getUserEntity().getUsername());
-                    jobReviewDetails.add(jre.getJobReceiverID());
-                    jobReviewDetails.add(jre.getJobReviewRating());
-                    jobReviewDetails.add(jre.getJobReviewContent());
-                    jobReviewList.add(jobReviewDetails);
+                    if(!jre.getJobReviewStatus().equals("Delisted")){
+                        Vector jobReviewDetails = new Vector();
+                    
+                        jobReviewDetails.add(sdf.format(jre.getJobReviewDate()));
+                        jobReviewDetails.add(jre.getUserEntity().getUsername());
+                        jobReviewDetails.add(jre.getJobReceiverID());
+                        jobReviewDetails.add(jre.getJobReviewRating());
+                        jobReviewDetails.add(jre.getJobReviewContent());
+                        jobReviewList.add(jobReviewDetails);
+                    }
                 }
             } else {
-                Query q = em.createQuery("SELECT r FROM JobReview r WHERE r.jobEntity.jobID = :jobID");
+                Query q = em.createQuery("SELECT r FROM JobReview r WHERE r.jobEntity.jobID = :jobID AND r.jobReviewStatus = 'Available'");
                 q.setParameter("jobID", jEntity.getJobID());
 
                 for (Object o : q.getResultList()) {

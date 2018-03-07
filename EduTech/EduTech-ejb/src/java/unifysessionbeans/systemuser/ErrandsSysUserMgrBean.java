@@ -23,6 +23,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
 import unifyentities.errands.JobEntity;
+import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 
 @Stateless
 public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
@@ -33,6 +35,9 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     private CategoryEntity cEntity;
     private JobEntity jEntity;
     private UserEntity uEntity;
+    
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    DecimalFormat rateFormat = new DecimalFormat("0.00");
     
     @Override
     public List<Vector> viewJobList() {
@@ -89,7 +94,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 }
             }
             jobVec.add(dateString);
-            jobVec.add(jobE.getJobWorkDate());
+            jobVec.add(sdf.format(jobE.getJobWorkDate()));
             jobVec.add(jobE.getJobStartLocation());
             jobVec.add(jobE.getJobRateType());
             jobVec.add(jobE.getJobRate());
@@ -122,8 +127,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobDetailsVec.add(jEntity.getJobImage());
             jobDetailsVec.add(jEntity.getJobStatus());
             //jobDetailsVec.add(jEntity.getJobNumOfLikes());
-            jobDetailsVec.add(jEntity.getJobPostDate());
-            jobDetailsVec.add(jEntity.getJobWorkDate());
+            jobDetailsVec.add(sdf.format(jEntity.getJobPostDate()));
+            jobDetailsVec.add(sdf.format(jEntity.getJobWorkDate()));
             jobDetailsVec.add(jEntity.getUserEntity().getUsername());
             jobDetailsVec.add(jEntity.getUserEntity().getImgFileName());
             jobDetailsVec.add(jEntity.getUserEntity().getUserCreationDate());
@@ -268,21 +273,23 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     
     @Override
     public List<Vector> viewJobCategoryList(){
-        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'errands' "
+        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Errands' "
                 + "AND c.categoryActiveStatus = '1'");
         List<Vector> jobCategoryList = new ArrayList<Vector>();
         
-        for (Object o: q.getResultList()){
-            CategoryEntity categoryE = (CategoryEntity) o;
-            Vector jobCategoryVec = new Vector();
+        if(q.getResultList().size()!=0){
+            for (Object o: q.getResultList()){
+                CategoryEntity categoryE = (CategoryEntity) o;
+                Vector jobCategoryVec = new Vector();
             
-            jobCategoryVec.add(categoryE.getCategoryImage());
-            jobCategoryVec.add(categoryE.getCategoryID());
-            jobCategoryVec.add(categoryE.getCategoryName());
-            jobCategoryList.add(jobCategoryVec);
+                jobCategoryVec.add(categoryE.getCategoryImage());
+                jobCategoryVec.add(categoryE.getCategoryID());
+                jobCategoryVec.add(categoryE.getCategoryName());
+                jobCategoryList.add(jobCategoryVec);
+            }
         }
-        System.out.println("cat id: " + jobCategoryList.get(0).get(1));
-        return jobCategoryList;
+            System.out.println("cat id: " + jobCategoryList.get(0).get(1));
+            return jobCategoryList;
     }
     
     /* MISCELLANEOUS METHODS */
