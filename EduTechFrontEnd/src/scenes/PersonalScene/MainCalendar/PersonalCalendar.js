@@ -74,9 +74,9 @@ class PersonalCalendar extends Component {
 				    	onSelectSlot = {(slotInfo) => this.openCalendarForm(slotInfo)}
 				    	onSelectEvent = {(event)=> this.eventClicked(event) }
 				    	views={['month', 'agenda']}
-						length={7}
-				    />
-
+				    	length = {7}
+				    />  
+				  
 				  {
 				  	this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>
 				  }
