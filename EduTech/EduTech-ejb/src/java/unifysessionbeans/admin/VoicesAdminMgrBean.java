@@ -381,6 +381,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                     companyReviewDetails.add(cre.getReviewRating());
                     companyReviewDetails.add(cre.getReviewThumbsUp());
                     companyReviewDetails.add(cre.getReviewID());
+                    companyReviewDetails.add(cre.getReviewStatus());
                     companyReviewList.add(companyReviewDetails);
                 }
             } else {
@@ -401,6 +402,8 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                     companyReviewVec.add(cre.getReviewSalaryRange());
                     companyReviewVec.add(cre.getReviewRating());
                     companyReviewVec.add(cre.getReviewThumbsUp());
+                    companyReviewVec.add(cre.getReviewID());
+                    companyReviewVec.add(cre.getReviewStatus());
                     companyReviewList.add(companyReviewVec);
                 }
             }
@@ -519,6 +522,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             companyReviewDetails.add(cre.getReviewThumbsUp());
             companyReviewDetails.add(cre.getCompanyEntity().getCompanyName());
             companyReviewDetails.add(cre.getCompanyEntity().getCompanyID());
+            companyReviewDetails.add(cre.getReviewStatus());
             companyReviewList.add(companyReviewDetails);
         }
         return companyReviewList;
@@ -753,6 +757,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             companyReviewVec.add(reviewE.getUserEntity().getUsername());
             companyReviewVec.add(reviewE.getCompanyEntity().getCompanyName());
             companyReviewVec.add(reviewE.getReviewTitle());
+            companyReviewVec.add(reviewE.getReviewStatus());
             latestCompanyReview.add(companyReviewVec);
         }
         return latestCompanyReview;

@@ -9,4 +9,6 @@ public interface VoicesSysUserMgrBeanRemote {
     
     public List<Vector> viewCompanyList();
     
+    public List<String> populateCompanyIndustry();
+    
 }
