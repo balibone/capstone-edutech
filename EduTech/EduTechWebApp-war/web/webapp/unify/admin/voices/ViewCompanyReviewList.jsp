@@ -196,6 +196,7 @@
                                                 <th>Review Description</th>
                                                 <th>Employment Info</th>
                                                 <th>Rating</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -215,6 +216,7 @@
                                                         String reviewThumbsUp = String.valueOf(v.get(8));
                                                         String companyName = String.valueOf(v.get(9));
                                                         String companyID = String.valueOf(v.get(10));
+                                                        String reviewStatus = String.valueOf(v.get(11));
                                             %>
                                             <tr>
                                                 <td><%= reviewDate%></td>
@@ -229,6 +231,11 @@
                                                     <strong>Salary:</strong>&nbsp;<%= reviewSalaryRange%>
                                                 </td>
                                                 <td><%= reviewRating%>&nbsp;(<i class="fa fa-thumbs-up"></i><%= reviewThumbsUp%>)</td>
+                                                <%  if (reviewStatus.equals("Active")) {   %>
+                                                <td><span class="label label-success"><%= reviewStatus%></span></td>
+                                                <%  } else if (reviewStatus.equals("Delisted")) { %>
+                                                <td><span class="label label-danger"><%= reviewStatus%></span></td>
+                                                <%  }   %>
                                             </tr>
                                             <%      }   %>
                                             <%  }   %>

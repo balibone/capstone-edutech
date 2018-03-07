@@ -25,6 +25,7 @@ import unifysessionbeans.systemuser.VoicesSysUserMgrBeanRemote;
 public class VoicesSysUserController extends HttpServlet {
     @EJB
     private VoicesSysUserMgrBeanRemote vsmr;
+    String responseMessage = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -37,16 +38,22 @@ public class VoicesSysUserController extends HttpServlet {
             switch (pageAction) {
                 case "goToViewCompanyListingSYS":
                     request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
+                    request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToNewReviewSYS":
                     String companyImage = request.getParameter("hiddenCompanyImage");
                     String companyName = request.getParameter("hiddenCompanyName");
                     String companyIndustry = request.getParameter("hiddenCompanyIndustry");
-                    System.out.println(companyImage);
                     request.setAttribute("reviewedCompanyImage", companyImage);
                     request.setAttribute("reviewedCompanyName", companyName);
+                    request.setAttribute("reviewedCompanyIndustry", companyIndustry);
                     pageAction = "NewReviewSYS";
+                    break;
+                case "createCompanyReviewSYS":
+                    responseMessage = createCompanyReview(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
                     break;
                 case "goToReviewListing":
                     pageAction = "ReviewListing";
@@ -65,6 +72,22 @@ public class VoicesSysUserController extends HttpServlet {
             ex.printStackTrace();
         }
     
+    }
+    
+    private String createCompanyReview(HttpServletRequest request) {
+        String companyIndustry = request.getParameter("hiddenCategoryName");
+        String companyName = request.getParameter("hiddenCompanyName");
+        String reviewTitle = request.getParameter("reviewTitle");
+        String reviewPros = request.getParameter("companyPros");
+        String reviewCons = request.getParameter("companyCons");
+        String reviewRating = request.getParameter("companyRating");
+        String reviewDescription = request.getParameter("companyDescription");
+        String employmentStatus = request.getParameter("employmentStatus");
+        String reviewPoster = request.getParameter("username");
+        
+        //responseMessage = vsmr.createCompanyReview(companyIndustry, companyName, reviewTitle, 
+                //reviewPros, reviewCons, reviewRating, reviewDescription, employmentStatus, reviewPoster);
+        return responseMessage;
     }
 
     @Override

@@ -195,8 +195,8 @@
                                                 </div>
                                                 <div class="col-md-4 ml-2">
                                                     <div class="form-group">
-                                                        <label for="companyName">Company Name&nbsp;<span class="asterik">*</span></label>
-                                                        <input type="text" class="form-control" name="companyName" placeholder="<%= companyName%>" required="required" />
+                                                        <label for="companyName">Company Name:&nbsp;<span><u><%= companyName%></u></span></label><br/>
+                                                        <label for="companyName" style="margin-top: 7px;">Company Industry:&nbsp;<span><u><%= request.getAttribute("reviewedCompanyIndustry")%></u></span></label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="reviewTitle">Review Title&nbsp;<span class="asterik">*</span></label>
@@ -214,7 +214,7 @@
                                                 <div class="col-md-4 ml-2">
                                                     <div class="form-group">
                                                         <label for="companyRating">Overall Rating&nbsp;<span class="asterik">*</span></label>
-                                                        <input type="text" class="form-control" name="companyRating" aria-label="companyRating" data-min="1" data-max="9999" required="required" />
+                                                        <input type="number" min="0" class="form-control" name="companyRating" aria-label="companyRating" data-min="1" data-max="9999" required="required" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="employmentStatus">Employment Status&nbsp;<span class="asterik">*</span></label><br/>
@@ -238,9 +238,8 @@
                                                 <div class="col-md-2">
                                                 <input type="hidden" name="pageTransit" value="createCompanyReviewSYS" />
                                                 <input type="hidden" name="username" value="<%= loggedInUsername%>" />
-                                                <input type="hidden" name="hiddenTradeLat" id="hiddenTradeLat" />
-                                                <input type="hidden" name="hiddenTradeLong" id="hiddenTradeLong" />
-                                                <input type="hidden" name="hiddenCategoryID" id="hiddenCategoryID" />
+                                                <input type="hidden" name="hiddenCategoryName" value="<%= request.getAttribute("reviewedCompanyIndustry")%>" />
+                                                <input type="hidden" name="hiddenCompanyName" value="<%= companyName%>" />
                                                 <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button></div>
                                                 <div class="col-md-4"></div>
                                             </div>  

@@ -37,11 +37,12 @@
                 display: table;
                 text-shadow: 0px 1px 0 #a2a2a2;
             }
+            
             .star-rating span {
                 padding: 3px;
                 font-size: 15px;
             }
-
+            
             .star-rating-top {
                 color: #FFD700;
                 padding: 0;
@@ -58,6 +59,12 @@
                 padding: 0;
                 display: block;
                 z-index: 0;
+            }
+            
+            .companyRating {
+                margin-right: 10px; 
+                color: #ff9900; 
+                font-weight: bold;
             }
         </style>   
         
@@ -183,7 +190,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Marketplace (Item Listing)</li>
+                            <li class="breadcrumb-item active" aria-current="page">Company Review (Company Listing)</li>
                         </ol>
                     </nav>
                 </div>
@@ -218,45 +225,33 @@
                                 <div class="col-12 col-sm-6 col-md-12">
                                     <div class="filter-sidebar">
                                         <div class="title"><span>Company Filter</span></div>
-                                        <input type="text" data-path=".companyName" class="form-control" placeholder="Search Company" 
+                                        <div class="subtitle" style="margin-bottom: 5px">Company Name</div>
+                                        <input type="text" data-path=".companyName" class="form-control" placeholder="Search Company..." 
                                                aria-label="Search Company" data-control-type="textbox" id="name-filter"
-                                               data-control-name="transmission-text-filter" data-control-action="filter" />
+                                               data-control-name="name-text-filter" data-control-action="filter" />
                                     </div>
                                     <div class="filter-sidebar">
-                                        <input type="text" data-path=".companyHQ" class="form-control" placeholder="Serch Location"
+                                        <div class="subtitle" style="margin-bottom: 5px">Company Headquarter</div>
+                                        <input type="text" data-path=".companyHQ" class="form-control" placeholder="Serch Location..."
                                                aria-label="Search Location" data-control-type="textbox" id="location-filter"
-                                               data-control-name="transmission-text-filter" data-control-action="filter" />
+                                               data-control-name="location-text-filter" data-control-action="filter" />
                                     </div>
                                     <div class="filter-sidebar">
-                                        <div class="jplist-range-slider" data-control-type="range-slider" 
-                                             data-control-name="range-slider-weight" data-control-action="filter"
-                                             data-path=".itemPrice" data-slider-func="priceSlider" data-setvalues-func="priceValues">
-
-                                            <div class="title"><span>Price Filter</span></div>
-                                            <div class="input-group input-group-sm mb-3" data-control-type="range-slider" 
-                                                 data-control-name="range-slider-weight" data-control-action="filter" data-path=".itemPrice">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">Min : $</span>
-                                                </div>
-                                                <input type="text" class="form-control" name="min-price" id="min-price" />
-                                                <div class="input-group-append input-group-prepend">
-                                                    <span class="input-group-text">Max : $</span>
-                                                </div>
-                                                <input type="text" class="form-control" name="max-price" id="max-price" />
-                                            </div>
-                                            <div class="price-range">
-                                                <div data-type="ui-slider"></div>
-                                            </div>
+                                        <div class="subtitle" style="margin-bottom: 5px">Industry</div>
+                                        
+                                        <div class="industry-control industry-checkbox">
+                                            <input data-control-type="radio-buttons-filters" data-control-action="filter" 
+                                                   data-control-name="IT Services" data-path=".IT Services" type="checkbox" name="jplist" />&nbsp;
+                                            <label class="mr-4">Healthcare</label>
+                                        </div>
+                                        <div class="industry-control industry-checkbox">
+                                            <input data-control-type="radio-buttons-filters" data-control-action="filter" 
+                                                   data-control-name="Airlines" data-path=".Airlines" type="checkbox" name="jplist" />&nbsp;
+                                            <label class="mr-4">Airlines</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="jplist-label" data-type="Page {current} of {pages}" 
-                             data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
-                        </div>
-                        <div class="jplist-pagination" data-control-type="pagination" 
-                             data-control-name="paging" data-control-action="paging">
                         </div>
                     </div>
 
@@ -266,10 +261,10 @@
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
                                 <ul>
-                                    <li><span data-path=".companyName default" data-order="asc" data-type="text">Name Asc</span></li>
+                                    <li><span data-path=".companyName" data-order="asc" data-type="text">Name Asc</span></li>
                                     <li><span data-path=".companyName" data-order="desc" data-type="text">Name Desc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="asc" data-type="text">Rating Asc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="desc" data-type="text">Rating Desc</span></li>
+                                    <li><span data-path=".companyRating" data-order="asc" data-type="text">Rating Asc</span></li>
+                                    <li><span data-path=".companyRating" data-order="desc" data-type="text">Rating Desc</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -319,7 +314,7 @@
                                                             <span class="card-title companyName" style="color: #007bff; font-size: 25px; line-height: 2.5;"><strong><a href="MarketplaceSysUser?pageTransit=goToViewCompanyDetailsSYS&hiddenItemID=<%= companyID%>&hiddenCategoryName=<%= companyIndustry%>"><%= companyName%></a></strong></span><br/>
                                                         </div>
                                                         <div class="company-industry">
-                                                            <span class="card-text companyIndustry" style="line-height: 2.0"><%= companyIndustry%></span>
+                                                            <span class="card-text <%= companyIndustry%>" style="line-height: 2.0"><%= companyIndustry%></span>
                                                         </div>
                                                         <div class="company-other-info">
                                                             <i class="fa fa-globe" style="color: #64676d;">&nbsp;</i><span class="card-text companyWebsite" style=" margin-right: 15px; font-size: 12px"><%= companyWebsite%></span>
@@ -355,9 +350,19 @@
                                             </div>
                                         </div>
                                         <div class="card-footer text-muted mt-1">
-                                            <div><span class="float-left">Average Rating: <span class="ml-1 price itemPrice" style="margin-right: 10px" id="average_rating"><%= companyRating%></span></span></div>
+                                            <div><span class="float-left">Average Rating: <span class="ml-1 card-text rating companyRating" id="average_rating"><%= companyRating%></span></span></div>
                                             <div class="star-rating">
-                                                <div class="star-rating-top" id="star_rating_top" style="width: <%= companyRating%>%" >
+                                                <% double rating = Double.parseDouble(companyRating);
+                                                   double percent = 0.0;
+                                                    while(rating > 0) {
+                                                        if(rating>=1) {
+                                                            percent += 20;
+                                                        } else {
+                                                            percent += (((rating*13.93)/23.02)*100.0)*0.2;
+                                                        }
+                                                        rating = rating-1;
+                                                    }%>
+                                                <div class="star-rating-top" id="star_rating_top" style="width: <%= percent%>%">
                                                     <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
                                                     <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
                                                     <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
@@ -385,6 +390,9 @@
                         </div>
                         <div class="jplist-search">
                             <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
+                                 data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
+                            </div>
+                            <div class="jplist-label" data-type="Page {current} of {pages}" 
                                  data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
                             </div>
                             <div class="jplist-pagination" data-control-animate-to-top="true" 

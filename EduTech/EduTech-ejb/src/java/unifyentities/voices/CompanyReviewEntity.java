@@ -52,7 +52,7 @@ public class CompanyReviewEntity implements Serializable {
 
     public CompanyReviewEntity() { this.setReviewID(System.nanoTime()); }
 
-    public void create(String reviewTitle, double reviewRating, String reviewPros, String reviewCons, String reviewEmpType, String reviewSalaryRange, String reviewReceiverID) {
+    public void createReview(String reviewTitle, double reviewRating, String reviewPros, String reviewCons, String reviewEmpType, String reviewSalaryRange, String reviewReceiverID) {
         this.reviewTitle = reviewTitle;
         this.reviewRating = reviewRating;
         this.reviewPros = reviewPros;

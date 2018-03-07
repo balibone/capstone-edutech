@@ -209,7 +209,7 @@
                                         <th>Description</th>
                                         <th>Employment Info</th>
                                         <th data-hide="phone">Rating</th>
-                                        <th data-hide="phone">Action</th>
+                                        <th data-hide="phone">Status&Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -228,20 +228,27 @@
                                                 String reviewRating = String.valueOf(v.get(7));
                                                 String reviewThumbsUp = String.valueOf(v.get(8));
                                                 String reviewID = String.valueOf(v.get(9));
+                                                String reviewStatus = String.valueOf(v.get(10));
                                     %>
                                     <tr>
-                                        <td><%= reviewDate%></td>
-                                        <td><%= reviewPoster%></td>
-                                        <td>
+                                        <td style="font-size:12px"><%= reviewDate%></td>
+                                        <td style="font-size:12px"><%= reviewPoster%></td>
+                                        <td style="font-size:12px">
                                             <strong>Title:</strong>&nbsp;<%= reviewTitle%><br/>
                                             <strong>Pros:</strong>&nbsp;<%= reviewPros%><br/>
                                             <strong>Cons:</strong>&nbsp;<%= reviewCons%><br/>
                                         </td>
-                                        <td><strong>Type:</strong>&nbsp;<%= reviewEmpType%><br/>
+                                        <td style="font-size:12px"><strong>Type:</strong>&nbsp;<%= reviewEmpType%><br/>
                                             <strong>Salary:</strong>&nbsp;<%= reviewSalaryRange%><br/>
                                         </td>
-                                        <td><%= reviewRating%>&nbsp;(<i class="fa fa-thumbs-up"></i><%= reviewThumbsUp%>)</td>
-                                        <td>
+                                        <td style="font-size:12px"><%= reviewRating%>&nbsp;(<i class="fa fa-thumbs-up"></i><%= reviewThumbsUp%>)</td>
+                                        
+                                        <td style="font-size: 11px"><%  if (reviewStatus.equals("Active")) {   %>
+                                            <Span>Status: </span><span class="label label-success"><%= reviewStatus%></span><br/><br/>
+                                        <%  } else if (reviewStatus.equals("Delisted")) { %>
+                                            <Span>Status: </span><span class="label label-danger"><%= reviewStatus%></span><br/><br/>
+                                        <%  }   %>
+                                            <span>Action: </span>
                                              <button type="submit" class="btn btn-danger btn-xs" id="deleteReview">
                                                  <a href="VoicesAdmin?pageTransit=goToDeleteReview&hiddenCompanyID=<%= request.getAttribute("urlCompanyID")%>&hiddenReviewID=<%= reviewID%>" 
                                                     style="color:#FFFFFF;text-decoration:none;" onclick="return confirm('Are you sure to delete the review?')">Delete</a>

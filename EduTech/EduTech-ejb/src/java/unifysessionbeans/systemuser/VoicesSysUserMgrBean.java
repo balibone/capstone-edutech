@@ -74,5 +74,32 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
         }
         return companyList;
     }
+    
+    /*
+    public String createCompanyReview(String companyIndustry, String companyName, String reviewTitle, String reviewPros, 
+                String reviewCons, String reviewRating, String reviewDescription, String employmentStatus ,String reviewPoster) {
+        
+        reviewEntity = new CompanyReviewEntity();
+        if (reviewEntity.createReview(companyName, reviewTitle,reviewPros, reviewCons, reviewRating, reviewDescription, employmentStatus, reviewPoster)) {
+                em.persist(reviewEntity);
+                return "Company category has been created successfully!";
+            } else {
+                return "There were some issues encountered while creating the company category. Please try again.";
+            }
+      
+        
+    } */
+    
+    @Override
+    public List<String> populateCompanyIndustry() {
+        List<String> companyIndustryList = new ArrayList<String>();
+            Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'Voices' AND c.categoryActiveStatus = '1' ORDER BY c.categoryName ASC");
 
+        for (Object o : q.getResultList()) {
+            CategoryEntity ce = (CategoryEntity) o;
+            companyIndustryList.add(ce.getCategoryName());
+        }
+        
+        return companyIndustryList;
+    }
 }
