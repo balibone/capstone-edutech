@@ -73,11 +73,20 @@ class PersonalCalendar extends Component {
 				    	onSelectSlot = {(slotInfo) => this.openCalendarForm(slotInfo)}
 				    	onSelectEvent = {(event)=> this.eventClicked(event) }
 				    	views={['month', 'agenda']}
+<<<<<<< refs/remotes/balibone/master
 						popup={true}
 						popupOffset={{x:30, y:20}}
 						length={7}
 				    />
 
+=======
+				    	popup={true}
+				    	popupOffset={{x: 30, y: 20}}
+				    	length = {7}
+		
+				    />  
+				  
+>>>>>>> popup fixed for multiple events on calendar
 				  {
 				  	this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>
 				  }

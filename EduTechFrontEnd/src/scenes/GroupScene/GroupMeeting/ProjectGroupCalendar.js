@@ -116,6 +116,8 @@ class ProjectGroupCalendar extends Component {
 				    	onSelectSlot = {(slotInfo) => this.openCalendarForm(slotInfo)}
 				    	onSelectEvent = {(event)=> this.eventClicked(event) }
 				    	views={['month', 'agenda']}
+				    	popup={true}
+				    	popupOffset={{x: 30, y: 20}}
 				    	length={7}
 				    />  
 				  
