@@ -48,6 +48,8 @@ class PersonalTimetable extends Component {
 				    	length={7}
 				    	onSelectEvent = {(event)=> this.eventClicked(event) }
 				    	views={['work_week', 'month']}
+				    	popup={true}
+				    	popupOffset={{x: 30, y: 20}}
 				    	length = {7}
 				    	
 				    />  
