@@ -11,14 +11,14 @@
         <title>Unify - My Account</title>
 
         <!-- CASCADING STYLESHEET -->
-        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/marketplace/PendingItemOfferSYSCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/marketplace/PendingItemOfferSYSCSS.css" rel="stylesheet" type="text/css" />
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -27,6 +27,7 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.checkbox-dropdown.min.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -249,6 +250,8 @@
                                                      data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                                     <ul>
                                                         <li><span data-path=".itemOfferDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
+                                                        <li><span data-path=".itemOfferPrice" data-order="asc" data-type="number">Offer Price Asc</span></li>
+                                                        <li><span data-path=".itemOfferPrice" data-order="desc" data-type="number">Offer Price Desc</span></li>
                                                     </ul>
                                                 </div>
                                                 <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -257,6 +260,33 @@
                                                         <li><span data-number="2" data-default="true">2 per page</span></li>
                                                         <li><span data-number="4">4 per page</span></li>
                                                         <li><span data-number="8">8 per page</span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="jplist-checkbox-dropdown" data-control-type="checkbox-dropdown" 
+                                                     data-control-name="category-checkbox-dropdown" data-control-action="filter" 
+                                                     data-no-selected-text="Filter by:" data-one-item-text="{num} selected" 
+                                                     data-many-items-text="{num} selected">
+                                                    <ul>
+                                                        <li>
+                                                            <input data-path=".Accepted" id="Accepted" type="checkbox" />
+                                                            <label for="Accepted">Accepted</label>
+                                                        </li>
+                                                        <li>
+                                                            <input data-path=".Pending" id="Pending" type="checkbox" />
+                                                            <label for="Pending">Pending</label>
+                                                        </li>
+                                                        <li>
+                                                            <input data-path=".Rejected" id="Rejected" type="checkbox" />
+                                                            <label for="Rejected">Rejected</label>
+                                                        </li>
+                                                        <li>
+                                                            <input data-path=".Negotiating" id="Negotiating" type="checkbox" />
+                                                            <label for="Negotiating">Negotiating</label>
+                                                        </li>
+                                                        <li>
+                                                            <input data-path=".Completed" id="Completed" type="checkbox" />
+                                                            <label for="Completed">Completed</label>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                                 <div class="jplist-panel">
@@ -302,17 +332,19 @@
                                                                 </div>
                                                                 <p class="card-text mb-0 pt-3" style="font-size:12px;">
                                                                     Offer Status:&nbsp;
-                                                                    <%  if(itemOfferStatus.equals("Completed")) {   %>
-                                                                    <span class="badge badge-theme custom-badge arrowed-left"><%= itemOfferStatus%></span>
+                                                                    <%  if(itemOfferStatus.equals("Accepted")) {   %>
+                                                                    <span class="badge badge-info custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                                     <%  } else if(itemOfferStatus.equals("Pending")) {  %>
-                                                                    <span class="badge badge-success custom-badge arrowed-left"><%= itemOfferStatus%>&nbsp;&nbsp;Acceptance</span>
+                                                                    <span class="badge badge-success custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                                     <%  } else if(itemOfferStatus.equals("Rejected")) { %>
-                                                                    <span class="badge badge-danger custom-badge arrowed-left"><%= itemOfferStatus%></span>
+                                                                    <span class="badge badge-danger custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                                     <%  } else if(itemOfferStatus.equals("Negotiating")) { %>
-                                                                    <span class="badge badge-warning custom-badge arrowed-left"><%= itemOfferStatus%></span>
+                                                                    <span class="badge badge-warning custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
+                                                                    <%  } else if(itemOfferStatus.equals("Completed")) { %>
+                                                                    <span class="badge badge-primary custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                                     <%  }   %>
                                                                 </p>
-                                                                <p class="card-text text-success mb-0" style="font-size:16px;">
+                                                                <p class="card-text text-success mb-0 itemOfferPrice" style="font-size:16px;">
                                                                     <i class="fa fa-bullhorn"></i>&nbsp;&nbsp;<strong>$<%= itemOfferPrice%></strong>
                                                                 </p>
                                                                 <p class="card-text pt-2"><%= itemOfferDescription%></p>
@@ -374,5 +406,6 @@
         <script src="js/unify/systemuser/basejs/jplist/jplist.pagination-bundle.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.sort-bundle.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.textbox-filter.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.checkbox-dropdown.min.js"></script>
     </body>
 </html>
