@@ -121,7 +121,7 @@ public class CommonRESTMgrBean {
         Collection<UserEntity> members = em.find(GroupEntity.class, Long.valueOf(groupId)).getMembers();
         List<ScheduleItemEntity> membersScheduleItem = new ArrayList();
         for(UserEntity member: members){
-            List<ScheduleItemEntity> temp = new ArrayList();
+            List<ScheduleItemEntity> temp = new ArrayList();    
             temp = findUserScheduleItems(member.getUsername());
             temp.removeAll(membersScheduleItem);
             membersScheduleItem.addAll(temp);

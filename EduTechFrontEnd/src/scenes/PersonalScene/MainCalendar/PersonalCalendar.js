@@ -66,17 +66,17 @@ class PersonalCalendar extends Component {
 		// eventsArray = eventsArray.filter(event => event.type === "personal" || event.type === "meeting");
 		return(
 		    <div>
-
-				  <BigCalendar
+				  <BigCalendar 
 				    	events = {eventsArray}
 				    	selectable
 				    	defaultDate = {new Date()}
 				    	onSelectSlot = {(slotInfo) => this.openCalendarForm(slotInfo)}
 				    	onSelectEvent = {(event)=> this.eventClicked(event) }
-				    	views={['month', 'agenda']}
-						length={7}
-				    />
-
+				    	views={['month']}
+				    	length = {7}
+		
+				    />  
+				  
 				  {
 				  	this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>
 				  }

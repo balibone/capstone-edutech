@@ -48,6 +48,7 @@ class PersonalTimetable extends Component {
 				    	length={7}
 				    	onSelectEvent = {(event)=> this.eventClicked(event) }
 				    	views={['work_week', 'month']}
+				    	length = {7}
 				    	
 				    />  
 				{
