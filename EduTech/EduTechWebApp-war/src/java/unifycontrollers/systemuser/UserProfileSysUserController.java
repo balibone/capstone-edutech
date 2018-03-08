@@ -50,7 +50,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     }
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
                     request.setAttribute("itemOfferListSYS", (ArrayList) msmr.viewItemOfferList(username));
-                    pageAction = "UserAccount";
+                    pageAction = "UserAccountSYS";
                     break;
                 case "goToMarketplaceTrans":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
@@ -68,6 +68,12 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
                     request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));
                     pageAction = "UserProfile";
+                    break;
+                case "goToPendingItemOfferList":
+                    long urlitemID = Long.parseLong(request.getParameter("urlitemID"));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("itemOfferUserListSYS", msmr.viewItemOfferUserList(username, urlitemID));
+                    pageAction = "PendingItemOfferSYS";
                     break;
                 case "goToLogout":
                     Cookie cookieUsername = new Cookie("username", "");

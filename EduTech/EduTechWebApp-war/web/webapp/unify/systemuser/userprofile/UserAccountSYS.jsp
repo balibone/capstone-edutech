@@ -17,10 +17,11 @@
         <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/userprofile/UserAccountCSS.css" rel="stylesheet" type="text/css">
-        
+        <link href="css/unify/systemuser/weblayout/userprofile/UserAccountSYSCSS.css" rel="stylesheet" type="text/css">
+
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
@@ -192,7 +193,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-8" style="display: none;">
+                    <div class="col-lg-9 col-md-8">
                         <div class="title"><span>Your Item Listing</span></div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
@@ -225,7 +226,7 @@
                                 <%
                                     ArrayList<Vector> itemOfferListSYS = (ArrayList) request.getAttribute("itemOfferListSYS");
                                     if (!itemOfferListSYS.isEmpty()) {
-                                        for (int i = 0; i <= itemOfferListSYS.size()-1; i++) {
+                                        for (int i = 0; i <= itemOfferListSYS.size() - 1; i++) {
                                             Vector v = itemOfferListSYS.get(i);
                                             String itemID = String.valueOf(v.get(0));
                                             String itemImage = String.valueOf(v.get(1));
@@ -244,7 +245,17 @@
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-header" style="font-size: 13px;">
-                                            <div class="text-right close" style="padding-top:7px;"><img src="images/unifyimages/sidebar-divider-dots.png" /></div>
+                                            <div class="dropdown">
+                                                <a id="itemListDropdown" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="text-right make-it-regular close" style="padding-top:7px;"><img src="images/unifyimages/sidebar-divider-dots.png" /></span>
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="itemListDropdown">
+                                                    <%  if(!itemNumOfPendingOffer.equals("0")) { %>
+                                                    <a id="pendingItemOfferBtn<%= itemID%>" class="dropdown-item myAccountBtn" href="#">View Item Offers</a>
+                                                    <%  }   %>
+                                                    <a class="dropdown-item myAccountBtn" href="#">Report Listing</a>
+                                                </div>
+                                            </div>
                                             <div class="pull-left" style="padding-right: 10px;">
                                                 <div class="profilePicBorder">
                                                     <img class="profilePic" src="uploads/unify/images/marketplace/item/<%= itemSellerImage%>" />
@@ -266,11 +277,11 @@
                                                             <button id="<%= itemID%>" class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
                                                         </div>
                                                     </div>
-                                                    <%  if(itemStatus.equals("Reserved")) { %>
+                                                    <%  if (itemStatus.equals("Reserved")) { %>
                                                     <span class="badge badge-warning custom-badge arrowed-left label label-top-right">Reserved</span>
                                                     <%  } else if (itemStatus.equals("Sold")) { %>
                                                     <span class="badge badge-danger custom-badge arrowed-left label label-top-right">Sold</span>
-                                                    <%  }   %>
+                                                    <%  }%>
                                                 </div>
                                                 <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
                                                 <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
@@ -281,8 +292,8 @@
                                         <div class="card-footer text-muted mt-1">
                                             <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
                                             <span class="float-right">
-                                                <i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span>&nbsp;&nbsp;
-                                                <i class="fa fa-users"></i>&nbsp;<span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span>
+                                                <button id="likeItemBtn<%= itemID%>" class="myAccountBtn"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span></button>&nbsp;&nbsp;
+                                                <button id="pendingItemOfferBtn<%= itemID%>" class="myAccountBtn"><i class="fa fa-users"></i>&nbsp;<span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span></button>
                                             </span>
                                         </div>
                                     </div>
@@ -306,7 +317,8 @@
                 </div>
             </div>
             <div id="unifyFooter"></div>
-
+            <div id="itemLikeList-iframe"></div>
+            
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
@@ -319,10 +331,11 @@
         <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/userprofile/UserAccountJS.js" type="text/javascript"></script>
-        
+        <script src="js/unify/systemuser/webjs/userprofile/UserAccountSYSJS.js" type="text/javascript"></script>
+
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>

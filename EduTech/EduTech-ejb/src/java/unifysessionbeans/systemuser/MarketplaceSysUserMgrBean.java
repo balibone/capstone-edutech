@@ -582,6 +582,86 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return itemOfferList;
     }
     
+    @Override
+    public List<Vector> viewItemOfferUserList(String username, long urlitemID) {
+        boolean itemInfoEntry = false;
+        Date currentDate = new Date();
+        String dateString = "";
+        List<Vector> itemOfferUserList = new ArrayList<Vector>();
+
+        Query q = em.createQuery("SELECT o FROM ItemOffer o WHERE o.itemEntity.userEntity.username = :username "
+                + "AND o.itemEntity.itemID = :itemID");
+        q.setParameter("username", username);
+        q.setParameter("itemID", urlitemID);
+        
+        for (Object o : q.getResultList()) {
+            ItemOfferEntity itemOfferE = (ItemOfferEntity) o;
+            Vector itemOfferUserVec = new Vector();
+            
+            if(itemInfoEntry == false) {
+                Vector itemUserVec = new Vector();
+                itemUserVec.add(itemOfferE.getItemEntity().getItemID());
+                itemUserVec.add(itemOfferE.getItemEntity().getItemName());
+                itemUserVec.add(itemOfferE.getItemEntity().getItemImage());
+                itemUserVec.add(String.format ("%,.2f", itemOfferE.getItemEntity().getItemPrice()));
+                itemUserVec.add(itemOfferE.getItemEntity().getItemCondition());
+                itemOfferUserList.add(itemUserVec);
+                itemInfoEntry = true;
+            }
+            itemOfferUserVec.add(itemOfferE.getUserEntity().getUsername());
+            itemOfferUserVec.add(itemOfferE.getUserEntity().getUserFirstName());
+            itemOfferUserVec.add(itemOfferE.getUserEntity().getUserLastName());
+            itemOfferUserVec.add(itemOfferE.getUserEntity().getImgFileName());
+            itemOfferUserVec.add(getPositiveItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+            itemOfferUserVec.add(getNeutralItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+            itemOfferUserVec.add(getNegativeItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+            itemOfferUserVec.add(String.format ("%,.2f", itemOfferE.getItemOfferPrice()));
+            itemOfferUserVec.add(itemOfferE.getItemOfferDescription());
+            itemOfferUserVec.add(itemOfferE.getItemOfferStatus());
+            
+            long diff = currentDate.getTime() - itemOfferE.getItemOfferDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            itemOfferUserVec.add(dateString);
+            itemOfferUserVec.add(df.format(itemOfferE.getItemOfferDate()));
+            itemOfferUserList.add(itemOfferUserVec);
+            dateString = "";
+        }
+        return itemOfferUserList;
+    }
+    
     /*  ====================    USER PROFILE    ==================== */
     @Override
     public List<Vector> viewUserItemList(String itemSellerID) {
