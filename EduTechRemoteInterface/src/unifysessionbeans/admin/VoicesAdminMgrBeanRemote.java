@@ -29,6 +29,8 @@ public interface VoicesAdminMgrBeanRemote {
     public List<Vector> viewCompanyList();
     public String createCompany(String companyIndustry, String companyName, int companySize, String companyWebsite, 
             String companyHQ, String companyDescription, String companyAddress, String fileName);
+    public String createCompanyFromRequest(String companyIndustry, String companyName, String requestCompanyName, int companySize, String companyWebsite, 
+            String companyHQ, String companyDescription, String companyAddress, String fileName);
     public List<Vector> viewAssociatedCompanyList(long companyCategoryID);
     public Vector viewCompanyDetails(long companyID);
     public List<Vector> viewAssociatedReviewList(long companyID);

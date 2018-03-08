@@ -328,6 +328,43 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     }
     
     @Override
+    public String createCompanyFromRequest(String companyIndustry, String companyName, String requestCompanyName, int companySize, String companyWebsite, 
+            String companyHQ, String companyDescription, String companyAddress, String fileName) {
+        compEntity = new CompanyEntity();
+        cEntity = lookupCompanyCategory(companyIndustry);
+        if(cEntity!=null) {
+            CompanyEntity companyEntity = lookupCompany(companyName, companyIndustry);
+            if(companyEntity!=null) {
+                return "The company already exist in the industry.";
+            } else {
+                if(cEntity.getCategoryActiveStatus()) {
+                    if (compEntity.createCompany(requestCompanyName, companySize, companyWebsite, companyHQ, companyDescription, 
+                        companyAddress, fileName, "Active")) {
+                        compEntity.setCategoryEntity(cEntity);
+                        cEntity.getCompanySet().add(compEntity);
+                        em.persist(compEntity);
+                        return "Company has been created successfully!";
+                    } else {
+                        return "There were some issues encountered while creating new company. Please try again.";
+                    }
+                } else {
+                    if (compEntity.createCompany(requestCompanyName, companySize, companyWebsite, companyHQ, companyDescription, 
+                    companyAddress, fileName, "Inactive")) {
+                        compEntity.setCategoryEntity(cEntity);
+                        cEntity.getCompanySet().add(compEntity);
+                        em.persist(compEntity);
+                        return "Company has been created successfully!";
+                    } else {
+                        return "There were some issues encountered while creating new company. Please try again.";
+                    }
+                }
+            }
+        } else {
+            return "The company category does not exist. Please check and try again.";
+        }
+    }
+    
+    @Override
     public Vector viewCompanyDetails(long companyID) {
         compEntity = lookupCompany(companyID);
         Vector companyDetailsVec = new Vector();
