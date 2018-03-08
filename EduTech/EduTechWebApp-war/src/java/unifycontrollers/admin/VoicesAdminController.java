@@ -597,6 +597,7 @@ public class VoicesAdminController extends HttpServlet {
         String companyName = request.getParameter("companyName");
         String requestCompanyName = request.getParameter("oldCompanyName");
         System.out.println(companyName);
+        //System.out.println(requestCompanyName);
         String companySize = request.getParameter("companySize");
         String companyWebsite = request.getParameter("companyWebsite");
         String companyHQ = request.getParameter("companyHQ");
@@ -605,12 +606,17 @@ public class VoicesAdminController extends HttpServlet {
         String requestPoster = request.getParameter("requestPoster");
         requestPoster = requestPoster.substring(0,requestPoster.length()-1);
         
-        if(companyName.equals("")) companyName = requestCompanyName;
-        
-        responseMessage = vamr.createCompany(companyIndustry, companyName, Integer.parseInt(companySize), 
+        if(companyName.equals("")) {
+            companyName = requestCompanyName;
+            responseMessage = vamr.createCompanyFromRequest(companyIndustry, requestCompanyName, companyName, Integer.parseInt(companySize), 
                 companyWebsite, companyHQ, companyDescription, companyAddress, fileName);
+        } else {
+            responseMessage = vamr.createCompanyFromRequest(companyIndustry, requestCompanyName, companyName, Integer.parseInt(companySize), 
+                companyWebsite, companyHQ, companyDescription, companyAddress, fileName);
+        }
+        
         if (responseMessage.endsWith("!")) { 
-            if(vamr.solveRequest(companyName, requestPoster)) {
+            if(vamr.solveRequest(requestCompanyName, requestPoster)) {
                 return "The request has been solved successfully!";
             } else {
                 return "There were some issues encountered while solving the request.";

@@ -238,17 +238,28 @@
                                     </div>
                                     <div class="filter-sidebar">
                                         <div class="subtitle" style="margin-bottom: 5px">Industry</div>
-                                        
-                                        <div class="industry-control industry-checkbox">
+                                        <% ArrayList<Vector> industryList = (ArrayList) request.getAttribute("industryListSYS");
+                                            for(Object obj: industryList) {
+                                                String industryStr = (String) obj;
+                                                String industryString = industryStr;
+                                                if(industryStr.contains(" ")) {
+                                                    industryStr = industryStr.replace(" ","");
+                                                }
+                                                if(industryStr.contains("&")) {
+                                                    industryStr = industryStr.replace("&", "And"); 
+                                                }
+                                                if(industryString.length()>30) {
+                                                    industryString = industryString.substring(0, 29);
+                                                    industryString = industryString + "...";
+                                                }
+                                                String industryStr_path = "." + industryStr; %>
+                                            <div class="industry-control industry-checkbox">
                                             <input data-control-type="radio-buttons-filters" data-control-action="filter" 
-                                                   data-control-name="IT Services" data-path=".IT Services" type="checkbox" name="jplist" />&nbsp;
-                                            <label class="mr-4">Healthcare</label>
-                                        </div>
-                                        <div class="industry-control industry-checkbox">
-                                            <input data-control-type="radio-buttons-filters" data-control-action="filter" 
-                                                   data-control-name="Airlines" data-path=".Airlines" type="checkbox" name="jplist" />&nbsp;
-                                            <label class="mr-4">Airlines</label>
-                                        </div>
+                                                   data-control-name="<%= industryStr%>" data-path="<%= industryStr_path%>" type="checkbox" name="jplist" />&nbsp;
+                                            <label class="mr-4"><%= industryString%></label>
+                                            </div>
+                                        <%  }
+                                        %>
                                     </div>
                                 </div>
                             </div>
@@ -296,6 +307,16 @@
                                             String companyNumOfReview = String.valueOf(v.get(7));
                                             String companyLastPost = String.valueOf(v.get(8));
                                             String companyRating = String.valueOf(v.get(9));
+                                            
+                                            String industry_path = companyIndustry;
+                                            if(companyIndustry.contains(" ")) {
+                                                industry_path = industry_path.replace(" ", "");
+                                            }
+                                            
+                                            if(industry_path.contains("&")) {
+                                                industry_path = industry_path.replace("&", "And");
+                                            }
+                                            System.out.println(industry_path);
                                 %>
                                 <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -314,7 +335,7 @@
                                                             <span class="card-title companyName" style="color: #007bff; font-size: 25px; line-height: 2.5;"><strong><a href="MarketplaceSysUser?pageTransit=goToViewCompanyDetailsSYS&hiddenItemID=<%= companyID%>&hiddenCategoryName=<%= companyIndustry%>"><%= companyName%></a></strong></span><br/>
                                                         </div>
                                                         <div class="company-industry">
-                                                            <span class="card-text <%= companyIndustry%>" style="line-height: 2.0"><%= companyIndustry%></span>
+                                                            <span class="card-text <%= industry_path%>" style="line-height: 2.0"><%= companyIndustry%></span>
                                                         </div>
                                                         <div class="company-other-info">
                                                             <i class="fa fa-globe" style="color: #64676d;">&nbsp;</i><span class="card-text companyWebsite" style=" margin-right: 15px; font-size: 12px"><%= companyWebsite%></span>
