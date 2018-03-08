@@ -17,7 +17,6 @@
             //if userType cookie is valid, extract cookie value.
             else if("userType".equals(c.getName()) && !c.getValue().equals("")){
                 userType = c.getValue();
-                System.out.println("USER TYPE IS "+userType);
             }
         }
     } 

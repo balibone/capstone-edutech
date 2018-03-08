@@ -39,7 +39,7 @@ $(document).ready(function () {
         show: 'click'
     });
     
-    $('.itemLikes > a').click(function(){
+    $('.itemLikes > a').click(function() {
         $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToItemLikeList&itemID=' + $('#itemIDHidden').val());
         $('#itemLikeList-iframe').iziModal('open', event);
     });
@@ -57,7 +57,7 @@ $(document).ready(function () {
         iframeHeight: 450
     });
     
-    $('#sendOfferBtn').click(function(){
+    $('#sendOfferBtn').click(function() {
         $.ajax({
             type: "POST",
             url: "MarketplaceSysUser",
@@ -77,7 +77,7 @@ $(document).ready(function () {
         });
     });
     
-    $('#likeItemBtn').click(function(){
+    $('#likeItemBtn').click(function() {
         $.ajax({
             type: "POST",
             url: "MarketplaceSysUser",

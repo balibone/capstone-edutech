@@ -262,7 +262,7 @@
                                             <%
                                                 ArrayList<Vector> itemCategoryListSYS = (ArrayList) request.getAttribute("itemCategoryListSYS");
                                                 if (!itemCategoryListSYS.isEmpty()) {
-                                                    for (int i = 0; i <= itemCategoryListSYS.size() - 1; i++) {
+                                                    for (int i = 0; i <= itemCategoryListSYS.size()-1; i++) {
                                                         Vector v = itemCategoryListSYS.get(i);
                                                         String categoryImage = String.valueOf(v.get(0));
                                                         String categoryID = String.valueOf(v.get(1));
