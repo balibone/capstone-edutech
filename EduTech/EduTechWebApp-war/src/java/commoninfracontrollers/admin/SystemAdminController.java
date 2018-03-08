@@ -18,9 +18,11 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 @MultipartConfig(
@@ -39,7 +41,8 @@ public class SystemAdminController extends HttpServlet {
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
             System.out.println(pageAction);
-            
+            String loggedInUsername = "";
+
             //instantiate variables used in switch statement
             String id = "";
             ArrayList userInfo = new ArrayList();
@@ -221,9 +224,35 @@ public class SystemAdminController extends HttpServlet {
                     break;
                 case "deleteAdmin":
                     id = request.getParameter("id");
+                    //if curr user is getting deleted, send him to logout.
+                    Cookie[] reqCookies = request.getCookies();
+                    if(reqCookies != null){
+                        for(Cookie c : reqCookies){
+                            //if username cookie is valid, extract cookie value.
+                            if("username".equals(c.getName()) && !c.getValue().equals("")){
+                                loggedInUsername = c.getValue();
+                                if(id.equals(loggedInUsername)){
+                                    //Delete all of client's cookies
+                                    //Delete username cookie
+                                    Cookie username = new Cookie("username","");//overwrite existing cookie
+                                    username.setPath("/");
+                                    username.setMaxAge(0);//changing the maximum age to 0 seconds. AKA deleting cookie
+                                    response.addCookie(username);//update this cookie by adding it to response.
+                                    //Delete userType cookie
+                                    Cookie userType = new Cookie("userType","");//overwrite existing cookie
+                                    userType.setPath("/");
+                                    userType.setMaxAge(0);//changing the maximum age to 0 seconds. AKA deleting cookie
+                                    response.addCookie(userType);//update this cookie by adding it to response.
+                                    //remove JSESSIONID cookie
+                                    HttpSession sesh = request.getSession();
+                                    sesh.invalidate();
+                                }
+                            }
+                        }
+                    }
+                    
                     sam.deleteUser(id);
-                    request.setAttribute("adminList", sam.getAllAdmins());
-                    pageAction = "AllAdminList";
+                    response.sendRedirect("SystemAdmin?pageTransit=AllAdminList");
                     break;
                 default:
                     break;
