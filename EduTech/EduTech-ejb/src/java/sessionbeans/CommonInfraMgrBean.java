@@ -25,7 +25,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         
         uEntity = new UserEntity();
         try{
-            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username AND u.userActiveStatus = 1");
             q.setParameter("username", username);
             uEntity = (UserEntity)q.getSingleResult();
         }
