@@ -222,9 +222,9 @@
                                     <td>Availability</td>
                                     <%  if (itemStatus.equals("Available")) {%>
                                     <td><span class="badge badge-success custom-badge arrowed-left"><%= itemStatus%></span></td>
-                                        <%  } else if (itemStatus.equals("Sold")) {%>
+                                    <%  } else if (itemStatus.equals("Sold")) {%>
                                     <td><span class="badge badge-danger custom-badge arrowed-left"><%= itemStatus%></span></td>
-                                        <%  }   %>
+                                    <%  }   %>
                                 </tr>
                                 <tr>
                                     <td>Number of Likes</td>
@@ -315,7 +315,7 @@
                                 <div class="media mb-2 mt-3">
                                     <div class="mr-2">
                                         <a href="ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= itemSellerID%>">
-                                            <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
+                                            <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" style="width:50px;height:50px;" />
                                         </a>
                                     </div>
                                     <div class="media-body col-md-6">

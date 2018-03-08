@@ -214,7 +214,7 @@
                                             <td>
                                                 <div class="media mb-2">
                                                     <div class="mr-2">
-                                                        <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemBuyerImage%>" />
+                                                        <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemBuyerImage%>" style="width:50px;height:50px;" />
                                                     </div>
                                                     <div class="media-body col-md-6">
                                                         <h5 class="sellerInfo"><%= itemBuyerID%></h5>

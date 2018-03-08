@@ -1,0 +1,8 @@
+.formDiv { border-bottom: 1px solid #DEE2E6; padding-left: 5px; }
+
+.profileRating { padding: 0; margin: 0; list-style: none; font-size: 12px; }
+.profileRating li { display: inline-block; padding-right: 5px; }
+.ratingImage { padding: 0 2px; width: auto; height: 14px; }
+.ratingValue { margin: 0 0 0 5px; vertical-align: middle; color: #8F939C; font-weight: bold; }
+.offerAction { padding: 0; margin: 0; list-style: none; font-size: 12px; }
+.offerAction li { display: inline-block; padding-right: 5px; }

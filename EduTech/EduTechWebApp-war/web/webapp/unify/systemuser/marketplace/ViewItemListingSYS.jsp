@@ -238,12 +238,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="jplist-label" data-type="Page {current} of {pages}" 
-                             data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
-                        </div>
-                        <div class="jplist-pagination" data-control-type="pagination" 
-                             data-control-name="paging" data-control-action="paging">
-                        </div>
                     </div>
 
                     <div class="col-lg-9 col-md-8">

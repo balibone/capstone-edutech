@@ -28,6 +28,7 @@ public interface MarketplaceSysUserMgrBeanRemote {
     public List<Vector> viewItemTransaction(String username);
     public Vector viewTransactionItemDetails(long itemID, long itemTransID, String username);
     public List<Vector> viewItemOfferList(String username);
+    public List<Vector> viewItemOfferUserList(String username, long urlitemID);
     
     /* USER PROFILE */
     public List<Vector> viewUserItemList(String itemSellerID);
