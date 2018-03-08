@@ -395,22 +395,12 @@
         <jsp-file>/webapp/unify/admin/contentadmin/EventRequestDetails.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
-    <servlet>
-        <servlet-name>ProfileSysUser</servlet-name>
-        <servlet-class>unifycontrollers.systemuser.UserProfileSysUserController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ErrandsSysUser</servlet-name>
-        <servlet-class>unifycontrollers.systemuser.ErrandsSysUserController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>MarketplaceSysUser</servlet-name>
-        <servlet-class>unifycontrollers.systemuser.MarketplaceSysUserController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>VoicesSysUser</servlet-name>
-        <servlet-class>unifycontrollers.systemuser.VoicesSysUserController</servlet-class>
-    </servlet>
+    <servlet><servlet-name>ProfileSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.UserProfileSysUserController</servlet-class></servlet>
+    <servlet><servlet-name>ErrandsSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.ErrandsSysUserController</servlet-class></servlet>
+    <servlet><servlet-name>MarketplaceSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.MarketplaceSysUserController</servlet-class></servlet>
+    <servlet><servlet-name>VoicesSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.VoicesSysUserController</servlet-class></servlet>
+    <servlet><servlet-name>ShoutsSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.ShoutsSysUserController</servlet-class></servlet>
+
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
     <servlet>
         <servlet-name>ViewJobListingSYS</servlet-name>
@@ -499,6 +489,10 @@
         <servlet-name>NewReviewReportSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/voices/NewReviewReportSYS.jsp</jsp-file>
     </servlet>
+
+    <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - SHOUTS (JSP) -->
+    <servlet><servlet-name>ViewShoutsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutsListingSYS.jsp</jsp-file></servlet>
+
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet>
         <servlet-name>ViewJobDetailsInCategory</servlet-name>
@@ -548,22 +542,12 @@
         <url-pattern>/ContentAdmin</url-pattern>
     </servlet-mapping>
     <!-- URL MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
-    <servlet-mapping>
-        <servlet-name>ProfileSysUser</servlet-name>
-        <url-pattern>/ProfileSysUser</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ErrandsSysUser</servlet-name>
-        <url-pattern>/ErrandsSysUser</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>MarketplaceSysUser</servlet-name>
-        <url-pattern>/MarketplaceSysUser</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>VoicesSysUser</servlet-name>
-        <url-pattern>/VoicesSysUser</url-pattern>
-    </servlet-mapping>
+    <servlet-mapping><servlet-name>ProfileSysUser</servlet-name><url-pattern>/ProfileSysUser</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>ErrandsSysUser</servlet-name><url-pattern>/ErrandsSysUser</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>MarketplaceSysUser</servlet-name><url-pattern>/MarketplaceSysUser</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>VoicesSysUser</servlet-name><url-pattern>/VoicesSysUser</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>ShoutsSysUser</servlet-name><url-pattern>/ShoutsSysUser</url-pattern></servlet-mapping>
+
     <!-- MISCELLANEOUS -->
     <session-config>
         <session-timeout>400</session-timeout>
