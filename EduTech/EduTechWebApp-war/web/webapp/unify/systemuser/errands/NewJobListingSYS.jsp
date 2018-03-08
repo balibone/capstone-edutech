@@ -18,7 +18,7 @@
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/leaflet.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/marketplace/NewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
         
     </head>
@@ -198,7 +198,7 @@
                                             </a>
                                         </li>
                                     </ul>
-                                    <form class="form-horizontal form-label-left" action="ErrandsSysUser" method="POST" enctype="multipart/form-data">
+                                    <form id="jobDetailsForm" class="form-horizontal form-label-left" action="ErrandsSysUser" method="POST" enctype="multipart/form-data" target="_self">
                                         <div id="step-1">
                                             <div class="form-row" style="justify-content: center;">
                                                 <div class="col-md-2">
@@ -219,11 +219,12 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="jobRateType">Job Rate Type&nbsp;<span class="asterik">*</span></label><br/>
-                                                        <select class="select-dropdown" name="jobRateType" data-width="90%">
-                                                            <option value="fixedPrice">Fixed Price</option>
-                                                            <option value="hourlyRate">Hourly Rate</option>
+                                                        <select class="select-dropdown" name="jobRateType" id="jobRateType" data-width="90%" onchange="javascript: displayDuration()">
+                                                            <option value="Fixed">Fixed Price</option>
+                                                            <option value="HR">Hourly Rate</option>
                                                         </select>
                                                     </div>
+                                                    <div id="jobDurationDiv" class="form-group"> </div>
                                                     <div class="form-group">
                                                         <label for="workDate">Work Date&nbsp;<span class="asterik">*</span></label>
                                                         <input type="date" class="form-control" name="workDate" required="required" />
@@ -266,7 +267,7 @@
                                                                 String categoryName = String.valueOf(v.get(2));
                                                     %>
                                                     <div class="product-slider-item">
-                                                        <div class="card" id="<%= categoryID%>">
+                                                        <div class="card" id="<%=categoryID%>">
                                                             <div class="card-body" style="margin: 0 auto; text-align: center;">
                                                                 <img src="uploads/unify/images/common/category/<%= categoryImage%>" style="width: 130px; height: 150px; " />
                                                                 <br/>
@@ -283,31 +284,32 @@
                                             <div class="form-row" style="justify-content: center;">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <div id="mapdiv" style="width: auto; height: 300px;"></div>
+                                                        <div id="mapdiv" style="width: auto; height: 300px;"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 ml-2">
                                                     <div class="form-group" style="position: relative;">
                                                         <label for="startLocation">Start Location&nbsp;<span class="asterik">*</span></label>
                                                         <input type="text" class="form-control" id="startLocation" name="startLocation" placeholder="Enter the start location" required="required" />
-                                                        <div id="searchResults"></div>
+                                                        <div id="searchResults_start"></div>
                                                     </div>
                                                     <div class="form-group" style="position: relative;">
                                                         <label for="endLocation">End Location&nbsp;<span class="asterik">*</span></label>
                                                         <input type="text" class="form-control" id="endLocation" name="endLocation" placeholder="Enter the end location" required="required" />
-                                                        <div id="searchResults"></div>
+                                                        <div id="searchResults_end"></div>
                                                     </div>
+                                                    <input type="hidden" name="pageTransit" value="createJobListingSYS" />
+                                                    <input type="hidden" name="username" value="<%= loggedInUsername%>" />
+                                                    <input type="hidden" name="hiddenStartLat" id="hiddenStartLat" />
+                                                    <input type="hidden" name="hiddenStartLong" id="hiddenStartLong" />
+                                                    <input type="hidden" name="hiddenEndLat" id="hiddenEndLat" />
+                                                    <input type="hidden" name="hiddenEndLong" id="hiddenEndLong" />
+                                                    <input type="hidden" name="hiddenCategoryID" id="hiddenCategoryID" />
                                                     <div class="form-group" style="text-align: center;">
-                                                        <input type="hidden" name="pageTransit" value="createJobListingSYS" />
-                                                        <input type="hidden" name="username" value="<%= loggedInUsername%>" />
-                                                        <input type="hidden" name="hiddenStartLat" id="hiddenStartLat" />
-                                                        <input type="hidden" name="hiddenStartLong" id="hiddenStartLong" />
-                                                        <input type="hidden" name="hiddenEndLat" id="hiddenEndLat" />
-                                                        <input type="hidden" name="hiddenEndLong" id="hiddenEndLong" />
-                                                        <input type="hidden" name="hiddenCategoryID" id="hiddenCategoryID" />
                                                         <button type="submit" class="btn btn-theme">Create Job Listing</button>
                                                     </div>
                                                 </div>
+                                                
                                                 
                                             </div>
                                         </div>
@@ -337,7 +339,7 @@
 
         <script src="js/unify/systemuser/webjs/marketplace/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/custom.min.js"></script>
-        <script src="js/unify/systemuser/basejs/leaflet.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/marketplace/NewItemListingSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/errands/NewJobListingSYSJS.js" type="text/javascript"></script>
     </body>
 </html>

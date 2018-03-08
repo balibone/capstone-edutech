@@ -25,6 +25,8 @@ import unifyentities.common.CategoryEntity;
 import unifyentities.errands.JobEntity;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
+import unifyentities.common.LikeListingEntity;
+import unifyentities.common.MessageEntity;
 
 @Stateless
 public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
@@ -35,6 +37,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     private CategoryEntity cEntity;
     private JobEntity jEntity;
     private UserEntity uEntity;
+    private LikeListingEntity llEntity;
+    private MessageEntity mEntity;
     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     DecimalFormat rateFormat = new DecimalFormat("0.00");
@@ -98,13 +102,43 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobVec.add(jobE.getJobStartLocation());
             jobVec.add(jobE.getJobRateType());
             jobVec.add(jobE.getJobRate());
-            //jobVec.add(jobE.getJobNumOfLikes());
+            jobVec.add(jobE.getJobNumOfLikes());
             jobList.add(jobVec);
             dateString = "";
         }
         System.out.println("size: " + jobList.size());
         return jobList;
     }
+    
+    /*@Override
+    public boolean likeAJob(long jobID, String userName){
+        
+        jEntity = lookupJob(jobID);
+        if(jEntity!=null){
+            jEntity.getLikeList().add(userName);
+            int likeCount = jEntity.getJobNumOfLikes();
+            jEntity.setJobNumOfLikes(likeCount+1);
+            
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean unlikeAJob(long jobID, String userName){
+        
+        jEntity = lookupJob(jobID);
+        if(jEntity!=null){
+            jEntity.getLikeList().remove(userName);
+            int likeCount = jEntity.getJobNumOfLikes();
+            jEntity.setJobNumOfLikes(likeCount-1);
+            
+            return true;
+        }else{
+            return false;
+        }
+    }*/
     
     @Override
     public Vector viewJobDetails(long jobID) {
@@ -212,6 +246,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
         else if (lookupCategory(categoryID) == null) { return "Selected category cannot be found. Please try again."; }
         else {
+            System.out.println("bean: ready to create job");
             uEntity = lookupUser(username);
             cEntity = lookupCategory(categoryID);
             jEntity = new JobEntity();
@@ -292,6 +327,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             return jobCategoryList;
     }
     
+    
+    
     /* MISCELLANEOUS METHODS */
     public CategoryEntity lookupCategory(long categoryID) {
         CategoryEntity ce = new CategoryEntity();
@@ -351,7 +388,62 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         return ue;
     }
     
+    public UserEntity lookupUnifyUser(String username) {
+        UserEntity ue = new UserEntity();
+        try{
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity)q.getSingleResult();
+        }
+        catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        catch(NoResultException nre){
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
+    }
     
+    public LikeListingEntity lookupLike(long itemID, String username) {
+        LikeListingEntity lle = new LikeListingEntity();
+        try {
+            Query q = em.createQuery("SELECT l FROM LikeListing l WHERE l.itemEntity.itemID = :itemID AND l.userEntity.username = :username");
+            q.setParameter("itemID", itemID);
+            q.setParameter("username", username);
+            lle = (LikeListingEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Like cannot be found. " + enfe.getMessage());
+            em.remove(lle);
+            lle = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Like does not exist. " + nre.getMessage());
+            em.remove(lle);
+            lle = null;
+        }
+        return lle;
+    }
     
+    public MessageEntity lookupContentMessage(long itemID, String username) {
+        MessageEntity me = new MessageEntity();
+        try {
+            Query q = em.createQuery("SELECT m FROM Message m WHERE m.contentID = :itemID AND m.userEntity.username = :username");
+            q.setParameter("itemID", itemID);
+            q.setParameter("username", username);
+            me = (MessageEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Content Message cannot be found. " + enfe.getMessage());
+            em.remove(me);
+            me = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Content Message does not exist. " + nre.getMessage());
+            em.remove(me);
+            me = null;
+        }
+        return me;
+    }
     
 }

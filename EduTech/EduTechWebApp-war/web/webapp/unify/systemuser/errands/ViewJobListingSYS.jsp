@@ -256,6 +256,7 @@
                                     if (!jobListSYS.isEmpty()) {
                                         for (int i = 0; i <= jobListSYS.size() - 1; i++) {
                                             Vector v = jobListSYS.get(i);
+                                            
                                             String jobID = String.valueOf(v.get(0));
                                             String jobImage = String.valueOf(v.get(1));
                                             String jobTitle = String.valueOf(v.get(2));
@@ -266,7 +267,7 @@
                                             String startLocation = String.valueOf(v.get(7));
                                             String jobRateType = String.valueOf(v.get(8));
                                             String jobRate = String.valueOf(v.get(9));
-                                            String numOfLikes = "4";
+                                            String numOfLikes = String.valueOf(v.get(10));
                                 %>
                                 <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -295,7 +296,7 @@
                                                     <div class="col-xl-2 col-md-2 col-2">
                                                         <div class="like-button" >
                                                             
-                                                                <i class="fas fa-heart like"></i>&nbsp;<span><%=numOfLikes%></span>
+                                                                <i id="likeIcon<%=jobID%>" class="fas fa-heart like" onclick="javascript: likeAJob(<%=jobID%>)"></i>&nbsp;<span id="like-count"><%=numOfLikes%></span>
                                                         </div>
                                                         <div class="job-price">
                                                             <span class="card-text rate jobRate"><strong>S$<%= jobRate%></strong></span><br/>

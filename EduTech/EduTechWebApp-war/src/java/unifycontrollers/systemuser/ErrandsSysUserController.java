@@ -27,9 +27,16 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.text.ParseException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 
 import unifysessionbeans.systemuser.ErrandsSysUserMgrBeanRemote;
+
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 10,
+        maxFileSize = 1024 * 1024 * 50,
+        maxRequestSize = 1024 * 1024 * 100
+)
 
 public class ErrandsSysUserController extends HttpServlet {
     @EJB
@@ -42,6 +49,7 @@ public class ErrandsSysUserController extends HttpServlet {
             ServletContext servletContext = getServletContext();
             String responseMessage = "";
             String pageAction = request.getParameter("pageTransit");
+            System.out.println(pageAction);
             
             switch (pageAction) {
                 case "goToViewJobListingSYS":
@@ -57,6 +65,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "createJobListingSYS":
                     responseMessage = createJobListing(request);
+                    System.out.println(responseMessage);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
@@ -131,10 +140,15 @@ public class ErrandsSysUserController extends HttpServlet {
             jobImagefileName = "";
         }
         
+        double jobDuration;
         String jobTitle = request.getParameter("jobTitle");
         String jobRateType = (String)request.getParameter("jobRateType");
         double jobRate = Double.parseDouble(request.getParameter("jobRate"));
-        double jobDuration = Double.parseDouble(request.getParameter("jobDuration"));
+        if(jobRateType.equals("HR")){
+            jobDuration = Double.parseDouble(request.getParameter("jobDuration"));
+        }else{
+            jobDuration = 0;
+        }
         String jobDescription = request.getParameter("jobDescription");
         long categoryID = Long.parseLong(request.getParameter("hiddenCategoryID"));
         String username = request.getParameter("username");
@@ -152,6 +166,7 @@ public class ErrandsSysUserController extends HttpServlet {
             e.printStackTrace();
             }
         
+        System.out.println("job title" + jobTitle);
         return esmr.createJobListing(jobTitle, jobRateType, jobRate, jobDuration, jobDescription, jobWorkDate, jobImagefileName, 
                 categoryID, username, startLocation, startLat, startLong, endLocation, endLat, endLong);
     }

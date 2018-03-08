@@ -31,6 +31,7 @@ import javax.persistence.TemporalType;
 
 import unifyentities.common.CategoryEntity;
 import commoninfrastructureentities.UserEntity;
+import unifyentities.common.LikeListingEntity;
 import unifyentities.common.TagEntity;
 
 @Entity(name = "Job")
@@ -61,11 +62,13 @@ public class JobEntity implements Serializable {
 
     /* FOREIGN KEY */
     private String jobTakerID;
+    private ArrayList likeList = new ArrayList();
 
     @ManyToOne
     private CategoryEntity categoryEntity;
     @ManyToOne
     private UserEntity userEntity;
+    
     @OneToMany(mappedBy = "jobEntity")
     private Collection<JobReviewEntity> jobReviewSet = new ArrayList<JobReviewEntity>();
     @OneToMany(mappedBy = "jobEntity")
@@ -75,6 +78,13 @@ public class JobEntity implements Serializable {
     
     @PrePersist
     public void creationDate() { this.jobPostDate = new Date(); }
+    
+    /* DEFAULT CONSTRUCTOR */
+    public JobEntity() { 
+        
+        setJobID(System.nanoTime());
+        jobStatus = "Available";
+    }
     
     public boolean createJobListing(String jobTitle, String jobDescription, String jobImagefileName, String jobRateType, 
             double jobRate, double jobDuration, String startLocation, String startLat, String startLong, String endLocation, String endLat, String endLong, Date workDate){
@@ -115,6 +125,7 @@ public class JobEntity implements Serializable {
     public int getJobNumOfLikes() { return jobNumOfLikes; }
     public Date getJobPostDate() { return jobPostDate; }
     public String getJobTakerID() { return jobTakerID; }
+    public ArrayList getLikeList() {return likeList;}
     
     public CategoryEntity getCategoryEntity() { return categoryEntity; }
     public UserEntity getUserEntity() { return userEntity; }
@@ -142,6 +153,7 @@ public class JobEntity implements Serializable {
     public void setJobNumOfLikes(int jobNumOfLikes) { this.jobNumOfLikes = jobNumOfLikes; }
     public void setJobPostDate(Date jobPostDate) { this.jobPostDate = jobPostDate; }
     public void setJobTakerID(String jobTakerID) { this.jobTakerID = jobTakerID; }
+    public void setLikeList(ArrayList likeList) {this.likeList = likeList; }
     
     public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
