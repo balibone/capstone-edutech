@@ -163,7 +163,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             LocalDate endD = LocalDate.parse(endDate);
             
             //if new semester overlaps with an existing semester, disallow creation.
-            Query q1 = em.createQuery("SELECT s FROM Semester s");
+            Query q1 = em.createQuery("SELECT s FROM Semester s WHERE s.id <> :semID");
+            q1.setParameter("semID", Long.valueOf(id));
             for(Object o : q1.getResultList()){
                 SemesterEntity sem = (SemesterEntity) o;
                 LocalDate thisStartDate = sem.getStartDate();
