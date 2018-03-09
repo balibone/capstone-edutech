@@ -23,12 +23,14 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
+import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 10,
@@ -38,6 +40,9 @@ import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
 public class MarketplaceSysUserController extends HttpServlet {
     @EJB
     private MarketplaceSysUserMgrBeanRemote msmr;
+    @EJB
+    private UserProfileSysUserMgrBeanRemote usmr;
+    
     String responseMessage = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,10 +51,12 @@ public class MarketplaceSysUserController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
+            String loggedInUsername = getCookieUsername(request);
             
             switch (pageAction) {
                 case "goToNewItemListingSYS":
                     request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "NewItemListingSYS";
                     break;
                 case "createItemListingSYS":
@@ -58,12 +65,15 @@ public class MarketplaceSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "NewItemListingSYS";
                     break;
                 case "goToEditItemListingSYS":
                     long urlItemID = Long.parseLong(request.getParameter("urlItemID"));
+                    
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(urlItemID));
                     request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "EditItemListingSYS";
                     break;
                 case "editItemListingSYS":
@@ -74,6 +84,7 @@ public class MarketplaceSysUserController extends HttpServlet {
                     long itemIDToUpdate = Long.parseLong(request.getParameter("hiddenItemID"));
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(itemIDToUpdate));
                     request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "EditItemListingSYS";
                     break;
                 case "deleteItemListingSYS":
@@ -83,24 +94,29 @@ public class MarketplaceSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList());
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "ViewItemListingSYS";
                     break;
                 case "goToViewItemListingSYS":
                     request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList());
                     request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "ViewItemListingSYS";
                     break;
                 case "goToViewItemDetailsSYS":
                     String hiddenCategoryName = request.getParameter("hiddenCategoryName");
                     long hiddenItemID = Long.parseLong(request.getParameter("hiddenItemID"));
                     String hiddenUsername = request.getParameter("hiddenUsername");
+                    
                     request.setAttribute("assocCategoryItemListSYS", (ArrayList) msmr.viewAssocCategoryItemList(hiddenCategoryName, hiddenItemID));
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(hiddenItemID, hiddenUsername));
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "ViewItemDetailsSYS";
                     break;
                 case "goToItemLikeList":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
                     request.setAttribute("itemLikeListSYS", msmr.viewItemLikeList(itemID));
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "ItemLikeListSYS";
                     break;
                 case "sendItemOfferPrice":
@@ -280,5 +296,18 @@ public class MarketplaceSysUserController extends HttpServlet {
             }
         }
         return null;
+    }
+    
+    private String getCookieUsername(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String loggedInUsername = null;
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                if(c.getName().equals("username") && !c.getValue().equals("")){
+                    loggedInUsername = c.getValue();
+                }
+            }
+        }
+        return loggedInUsername;
     }
 }

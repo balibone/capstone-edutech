@@ -69,9 +69,48 @@
                                     </a>
                                 </li>
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
-                                    </a>
+                                    <div class="dropdown-container">
+                                        <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
+                                            <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
+                                            <%
+                                                ArrayList<Vector> userMessageListSYS = (ArrayList) request.getAttribute("userMessageListSYS");
+                                                if (!userMessageListSYS.isEmpty()) {
+                                                    for (int i = 0; i <= userMessageListSYS.size()-1; i++) {
+                                                        Vector v = userMessageListSYS.get(i);
+                                                        String messageContent = String.valueOf(v.get(0));
+                                                        String contentID = String.valueOf(v.get(1));
+                                                        String messageType = String.valueOf(v.get(2));
+                                                        String messageSenderImage = String.valueOf(v.get(4));
+                                                        String messageSentDuration = String.valueOf(v.get(5));
+                                            %>
+                                            <div id="<%= messageType%><%= contentID%>" class="media messageDIV">
+                                                <%  if(messageType.equals("System")) {  %>
+                                                <img class="img-thumbnail d-flex" src="images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  } else {    %>
+                                                <img class="img-thumbnail d-flex" src="uploads/commoninfrastructure/admin/images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  }   %>
+                                                <div class="message-content pl-3">
+                                                    <div><%= messageContent%></div>
+                                                    <small class="font-weight-normal message-content">
+                                                        <i class="fa fa-clock-o"></i>&nbsp;<%= messageSentDuration%>&nbsp;(<%= messageType%>)
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                            <%      }   %>
+                                            <%  }   %>
+                                            <div class="text-center">
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a href="#" role="button" class="btn btn-outline-theme">
+                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;See All Notifications
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                        </div>
+                                    </div>
                                 </li>
                                 <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>

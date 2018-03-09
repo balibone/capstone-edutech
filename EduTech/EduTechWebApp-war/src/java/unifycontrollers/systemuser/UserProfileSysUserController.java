@@ -38,9 +38,6 @@ public class UserProfileSysUserController extends HttpServlet {
     @EJB
     private VoicesSysUserMgrBeanRemote vsmr;
     
-    boolean firstVisit = true;
-    String username = "";
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
@@ -48,21 +45,19 @@ public class UserProfileSysUserController extends HttpServlet {
             ServletContext servletContext = getServletContext();
             
             String pageAction = request.getParameter("pageTransit");
-            System.out.println("pageAction: " + pageAction);
+            String loggedInUsername = getCookieUsername(request);
             
             switch (pageAction) {
                 case "goToUnifyUserAccount":
-                    if(firstVisit == true) { 
-                        username = request.getParameter("userID");
-                        firstVisit = false;
-                    }
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("itemOfferListSYS", (ArrayList) msmr.viewItemOfferList(username));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("itemOfferListSYS", (ArrayList) msmr.viewItemOfferList(loggedInUsername));
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "UserAccountSYS";
                     break;
                 case "goToMarketplaceTrans":
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("itemTransListSYS", (ArrayList) msmr.viewItemTransaction(username));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("itemTransListSYS", (ArrayList) msmr.viewItemTransaction(loggedInUsername));
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "UserItemTransaction";
                     break;
                 case "goToMyJobListing":
@@ -98,13 +93,17 @@ public class UserProfileSysUserController extends HttpServlet {
                 case "goToViewItemDetailsInModalSYS":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
                     long itemTransID = Long.parseLong(request.getParameter("itemTransID"));
-                    request.setAttribute("transItemDetailsSYSVec", msmr.viewTransactionItemDetails(itemID, itemTransID, username));
+                    
+                    request.setAttribute("transItemDetailsSYSVec", msmr.viewTransactionItemDetails(itemID, itemTransID, loggedInUsername));
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "ViewItemTransDetailsInModalSYS";
                     break;
                 case "goToUserProfile":
-                    String itemSellerID = request.getParameter("posterID");
+                    String itemSellerID = request.getParameter("itemSellerID");
+                    
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
                     request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     request.setAttribute("userJobListing", esmr.viewUserJobList(itemSellerID));
                     pageAction = "UserProfile";
                     break;
@@ -116,8 +115,10 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToPendingItemOfferList":
                     long urlitemID = Long.parseLong(request.getParameter("urlitemID"));
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("itemOfferUserListSYS", msmr.viewItemOfferUserList(username, urlitemID));
+                    
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("itemOfferUserListSYS", msmr.viewItemOfferUserList(loggedInUsername, urlitemID));
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "PendingItemOfferSYS";
                     break;
                 case "goToCompanyReview":
@@ -173,7 +174,6 @@ public class UserProfileSysUserController extends HttpServlet {
                     if(sessionExpire != null && sessionExpire.equals("true")){
                         request.setAttribute("sysMessage", "<strong>You session has expired. Please login again.</strong>");
                     }
-                    firstVisit = true;
                     pageAction = "IntegratedSPLogin";
                     break;
                 default:
@@ -201,6 +201,20 @@ public class UserProfileSysUserController extends HttpServlet {
 
     @Override
     public String getServletInfo() { return "User Profile System User Servlet"; }
+    
+    /* MISCELLANEOUS METHODS */
+    private String getCookieUsername(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String loggedInUsername = null;
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                if(c.getName().equals("username") && !c.getValue().equals("")){
+                    loggedInUsername = c.getValue();
+                }
+            }
+        }
+        return loggedInUsername;
+    }
     
     public String editJobOffer(HttpServletRequest request, String username){
         

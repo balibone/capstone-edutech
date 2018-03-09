@@ -69,9 +69,48 @@
                                     </a>
                                 </li>
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
-                                    </a>
+                                    <div class="dropdown-container">
+                                        <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
+                                            <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
+                                            <%
+                                                ArrayList<Vector> userMessageListSYS = (ArrayList) request.getAttribute("userMessageListSYS");
+                                                if (!userMessageListSYS.isEmpty()) {
+                                                    for (int i = 0; i <= userMessageListSYS.size()-1; i++) {
+                                                        Vector v = userMessageListSYS.get(i);
+                                                        String messageContent = String.valueOf(v.get(0));
+                                                        String contentID = String.valueOf(v.get(1));
+                                                        String messageType = String.valueOf(v.get(2));
+                                                        String messageSenderImage = String.valueOf(v.get(4));
+                                                        String messageSentDuration = String.valueOf(v.get(5));
+                                            %>
+                                            <div id="<%= messageType%><%= contentID%>" class="media messageDIV">
+                                                <%  if(messageType.equals("System")) {  %>
+                                                <img class="img-thumbnail d-flex" src="images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  } else {    %>
+                                                <img class="img-thumbnail d-flex" src="uploads/commoninfrastructure/admin/images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  }   %>
+                                                <div class="message-content pl-3">
+                                                    <div><%= messageContent%></div>
+                                                    <small class="font-weight-normal message-content">
+                                                        <i class="fa fa-clock-o"></i>&nbsp;<%= messageSentDuration%>&nbsp;(<%= messageType%>)
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                            <%      }   %>
+                                            <%  }   %>
+                                            <div class="text-center">
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a href="#" role="button" class="btn btn-outline-theme">
+                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;See All Notifications
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                        </div>
+                                    </div>
                                 </li>
                                 <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
@@ -156,7 +195,7 @@
             </div>
 
             <div id="contentArea" class="container jplist" style="margin-bottom: 30px;">
-                <%                    
+                <%
                     String successMessage = (String) request.getAttribute("successMessage");
                     if (successMessage != null) {
                 %>
@@ -173,7 +212,7 @@
                     <button type="button" class="close" id="closeError">&times;</button>
                     <%= errorMessage%>
                 </div>
-                <%  }   %>
+                <%  }%>
                 <div class="row">
                     <div class="col-lg-3 col-md-4 mb-3 jplist-search">
                         <button class="btn btn-outline-theme btn-block dropdown-toggle d-md-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
@@ -217,7 +256,7 @@
                                         <div class="jplist-range-slider" data-control-type="range-slider" 
                                              data-control-name="range-slider-weight" data-control-action="filter"
                                              data-path=".itemPrice" data-slider-func="priceSlider" data-setvalues-func="priceValues">
-                                            
+
                                             <div class="title mt-4"><span>Price Filter</span></div>
                                             <div class="input-group input-group-sm mb-3" data-control-type="range-slider" 
                                                  data-control-name="range-slider-weight" data-control-action="filter" data-path=".itemPrice">
@@ -277,7 +316,7 @@
                                 <%
                                     ArrayList<Vector> itemListSYS = (ArrayList) request.getAttribute("itemListSYS");
                                     if (!itemListSYS.isEmpty()) {
-                                        for (int i = 0; i <= itemListSYS.size()-1; i++) {
+                                        for (int i = 0; i <= itemListSYS.size() - 1; i++) {
                                             Vector v = itemListSYS.get(i);
                                             String itemID = String.valueOf(v.get(0));
                                             String itemImage = String.valueOf(v.get(1));
@@ -334,7 +373,7 @@
                                     </div>
                                 </div>
                                 <%      }   %>
-                                <%  }   %>
+                                <%  }%>
                             </div>
                         </div>
                         <div class="box jplist-no-results text-shadow align-center">

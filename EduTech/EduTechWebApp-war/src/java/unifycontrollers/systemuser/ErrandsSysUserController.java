@@ -28,10 +28,12 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.text.ParseException;
+import javax.servlet.http.Cookie;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 
 import unifysessionbeans.systemuser.ErrandsSysUserMgrBeanRemote;
+import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 10,
@@ -42,20 +44,24 @@ import unifysessionbeans.systemuser.ErrandsSysUserMgrBeanRemote;
 public class ErrandsSysUserController extends HttpServlet {
     @EJB
     private ErrandsSysUserMgrBeanRemote esmr;
+    @EJB
+    private UserProfileSysUserMgrBeanRemote usmr;
+    String responseMessage = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
-            String responseMessage = "";
+            
             String pageAction = request.getParameter("pageTransit");
-            System.out.println(pageAction);
+            String loggedInUsername = getCookieUsername(request);
             
             switch (pageAction) {
                 case "goToViewJobListingSYS":
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList(request.getParameter("username")));
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "goToViewJobDetailsSYS":
@@ -68,6 +74,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "goToNewJobListingSYS":
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "NewJobListingSYS";
                     break;
                 case "createJobListingSYS":
@@ -77,6 +84,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     request.setAttribute("jobCategoryListSYS", (ArrayList) esmr.viewJobCategoryList());
+                    request.setAttribute("userMessageListSYS", usmr.viewMessageListTopFive(loggedInUsername));
                     pageAction = "NewJobListingSYS";
                     break;
                 case "goToEditJobListing":
@@ -405,5 +413,18 @@ public class ErrandsSysUserController extends HttpServlet {
             }
         }
         return null;
+    }
+    
+    private String getCookieUsername(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String loggedInUsername = null;
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                if(c.getName().equals("username") && !c.getValue().equals("")){
+                    loggedInUsername = c.getValue();
+                }
+            }
+        }
+        return loggedInUsername;
     }
 }
