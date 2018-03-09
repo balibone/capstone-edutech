@@ -1,0 +1,316 @@
+.table > thead > tr > th { background: #4D7496; color: #fff; font-weight: 700; border: 1px solid #8b8c8d; border-top: 2px solid #ddd; border-bottom: 2px solid #ddd; }
+
+.mailinbox [class*="col-md-"] {
+    padding: 0;
+    margin: 0;
+}
+.mailinbox {
+    margin: 0;
+    border-radius: 4px;
+}
+.mailinbox .row {
+    background: #81c1d9;
+    border-radius: 4px;
+    padding: 0;
+    margin: 0;
+}
+.mailinbox .left-content {
+    background: #81c1d9;
+    height: 100%;
+    margin: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px
+}
+.mailinbox .right-content {
+    background: #fff;
+    min-height: 800px;
+    padding: 15px;
+    padding-right: 0;
+    padding-bottom: 0;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px
+}
+.mailinbox table { font-size: 14px; }
+.mailinbox table a { color: #555; }
+.mailinbox table tbody tr:hover { background: #FFFBDB; cursor: pointer; }
+
+.mailinbox small {
+    display: block;
+}
+.mailinbox .left-content a.list-group-item:hover,
+.mailinbox .left-content a.list-group-item:focus {
+    background: #6AB6D2;
+    color: #FFF;
+}
+.mailinbox .left-content a.list-group-item i {
+    font-size: 30px;
+}
+.mailinbox .left-content a.list-group-item:hover i,
+.mailinbox .left-content a.list-group-item:focus i {
+    color: #FFF;
+}
+.mailinbox .left-content a.list-group-item.active,
+.mailinbox .left-content a.list-group-item.active:hover,
+.mailinbox .left-content a.list-group-item.active:focus {
+    background-color: #6AB6D2;
+    border-color: #6AB6D2;
+    color: #FFF;
+}
+.mailinbox .left-content a.list-group-item.active i,
+.mailinbox .left-content a.list-group-item.active:hover i,
+.mailinbox .left-content a.list-group-item.active:focus i {
+    color: #FFF;
+}
+.mailinbox .left-content .list-group-item b {
+    font-size: 0.9em;
+    display: block
+}
+.mailinbox .left-content .list-group-item {
+    border: 0;
+    text-align: center;
+    background: #81c1d9;
+    font-family: 'Open Sans', sans-serif;
+    font-size: .99em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #fff;
+    padding: 10px 15px;
+    border-bottom: 1px solid #6AB6D2;
+    border-top: 1px solid #6AB6D2;
+}
+.mailinbox .left-content a.list-group-item.active > .badge,
+.mailinbox .left-content .list-group-item .badge {
+    position: absolute;
+    font-family: 'Open Sans', sans-serif;
+    top: 10px;
+    right: 10px;
+    border-radius: 20px;
+    padding: 2px 7px;
+    color: #81c1d9;
+    background: #fff;
+    font-size: .85em
+}
+.mailinbox .left-content .list-group-item:first-child {
+    border-top-right-radius: 0;
+    border-top-left-radius: 4px;
+}
+.inbox tbody tr.selected td {
+    background: #FFFBDB;
+}
+.mailinbox input[type=checkbox] {
+    display: none;
+}
+
+
+/*Center Checkbox*/
+.mailinbox thead th:first-child {
+    text-align: center;
+}
+.mailinbox th input[type=checkbox] + label:before {
+    content: "\f0c8";
+    color: #FFF;
+    font-family: FontAwesome;
+    text-align: center;
+    position: inherit;
+    display: block;
+    font-weight: 300;
+    font-size: 1.3em;
+    line-height: 9px;
+    padding: 0;
+}
+.mailinbox th input[type=checkbox] + label:after {
+    display: none
+}
+
+
+/* checked icon for thead */
+.mailinbox th input[type=checkbox]:checked + label:before {
+    content: "\f14a";
+    color: #fff;
+}
+
+
+/* Different style for tbody input */
+.mailinbox input[type=checkbox] + label:before {
+    content: "\f111";
+    color: #d0dad9;
+    font-family: FontAwesome;
+    position: absolute;
+    top: 25px;
+    right: -8px;
+    display: block;
+    font-weight: 300;
+    font-size: 1.3em;
+    line-height: .85em;
+    padding: 0;
+    z-index: 2;
+}
+
+
+/* Draw One Else Symbol Behind Check Icon to Create Right Crossbrowser Outline Effect */
+.mailinbox input[type=checkbox] + label:after {
+    font-family: FontAwesome;
+    content: "\f111";
+    position: absolute;
+    z-index: 1;
+    color: #fff;
+    font-size: 1.8em;
+    top: 18px;
+    right: -11px;
+    display: block;
+}
+
+
+/* checked icon */
+.mailinbox input[type=checkbox]:checked + label:before {
+    content: "\f058";
+    color: #595f66
+}
+
+
+/*Check and UnCheck Flags*/
+.mailinbox .fa-flag.flagged-grey {
+    color: #cacac8;
+    font-size: 1.3em;
+    margin-top: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    line-height: .85em;
+}
+.mailinbox .fa-flag.flagged-yellow {
+    color: #f4b66d;
+    font-size: 1.3em;
+    margin-top: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    line-height: .85em;
+}
+.mailinbox .user-image {
+    position: relative;
+    margin: 5px;
+    display: block;
+    width: 40px;
+    height: 40px;
+}
+.mailinbox .user-image img {
+    display: block;
+    max-width: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #4D7496;
+}
+.inbox-new-message {
+    position: relative;
+    margin-top: 15px;
+    background: #f1f1f1;
+    border-radius: 3px;
+    padding: 15px;
+}
+.inbox-new-message:after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    border-style: solid;
+    border-width: 0 10px 10px;
+    border-color: #f1f1f1 transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+}
+
+
+/* That div will darken our table while refresh */
+.loader-darkener {
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    left: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+}
+
+
+/*Spinner (Appears while page refreshing) */
+.dummy-loader {
+    position: absolute;
+    color: #fff;
+    top: 40%;
+    left: 49%;
+}
+.dummy-loader:after {
+    font-family: FontAwesome;
+    position: relative;
+    font-size: 5em;
+    content: "\f1ce";
+}
+.table-relative {
+    position: relative;
+}
+.mailinbox tbody tr.unread td {
+    background: #fff;
+    font-weight: 700;
+}
+.mailinbox tbody tr.selected td {
+    background: #fffbdb;
+}
+
+
+/* Media Queries For Inbox */
+@media (min-width: 768px) and (max-width: 991px) {
+    .mailinbox .row {
+        background: #f1f1f1;
+    }
+    .mailinbox .left-content .list-group-item b {
+        display: inline-block
+    }
+    .mailinbox .left-content a.list-group-item i {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+    .mailinbox .left-content .list-group-item {
+        text-align: left;
+    }
+    .mailinbox .right-content {
+        background: #fff;
+        min-height: 700px;
+        padding: 15px 0;
+        box-shadow: none;
+        border-radius: 4px;
+    }
+    .mailinbox .left-content {
+        border-radius: 4px;
+    }
+    .mailinbox .left-content .list-group-item:first-child {
+        border-top-right-radius: 4px;
+    }
+}
+@media (max-width: 768px) {
+    .mailinbox .row {
+        background: #f1f1f1;
+    }
+    .mailinbox .left-content .list-group-item b {
+        display: inline-block
+    }
+    .mailinbox .left-content a.list-group-item i {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+    .mailinbox .left-content .list-group-item {
+        text-align: left;
+    }
+    .mailinbox .right-content {
+        background: #fff;
+        min-height: 800px;
+        padding: 15px 0;
+        box-shadow: none;
+        border-radius: 4px;
+    }
+    .mailinbox .left-content {
+        border-radius: 4px;
+    }
+    .mailinbox .left-content .list-group-item:first-child {
+        border-top-right-radius: 4px;
+    }
+}

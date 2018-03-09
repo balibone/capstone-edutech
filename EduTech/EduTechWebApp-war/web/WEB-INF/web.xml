@@ -440,10 +440,11 @@
         <jsp-file>/webapp/unify/systemuser/marketplace/ViewItemTransDetailsInModalSYS.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
-    <servlet>
-        <servlet-name>UserProfile</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file>
-    </servlet>
+    <servlet><servlet-name>UserAccountSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserAccountSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserItemTransactionSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransactionSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserNotificationListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserNotificationListSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserProfileSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserProfileSYS.jsp</jsp-file></servlet>
+
     <servlet>
         <servlet-name>UserCompanyReview</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyReview.jsp</jsp-file>
@@ -451,14 +452,6 @@
     <servlet>
         <servlet-name>UserCompanyRequest</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyRequest.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>UserAccountSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/userprofile/UserAccountSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>UserItemTransaction</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransaction.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>UserJobListingSYS</servlet-name>
