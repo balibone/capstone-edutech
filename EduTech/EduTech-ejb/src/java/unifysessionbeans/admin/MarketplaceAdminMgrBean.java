@@ -49,7 +49,7 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
     
     @Override
     public List<Vector> viewItemCategoryList() {
-        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Marketplace'");
+        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Marketplace' ORDER BY c.creationDate DESC");
         List<Vector> itemCategoryList = new ArrayList<Vector>();
 
         for (Object o : q.getResultList()) {

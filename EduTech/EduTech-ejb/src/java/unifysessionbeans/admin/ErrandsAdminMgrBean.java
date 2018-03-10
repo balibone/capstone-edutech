@@ -50,7 +50,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
 
     @Override
     public List<Vector> getAllJobCategory() {
-        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Errands'");
+        Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Errands' ORDER BY c.creationDate DESC");
         List<Vector> jobCategoryList = new ArrayList<Vector>();
 
         for (Object o : q.getResultList()) {
