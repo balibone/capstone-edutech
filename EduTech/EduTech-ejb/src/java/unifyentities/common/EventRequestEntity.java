@@ -31,6 +31,7 @@ public class EventRequestEntity implements Serializable {
     private Long eventRequestID;
     //status is set to 'Pending', 'Approved' or 'Rejected'
     private String eventRequestStatus;
+    private String eventRequestTitle;
     private String eventRequestDescription;
     @Temporal(TemporalType.TIMESTAMP)
     private Date eventRequestStartDateTime;
@@ -57,6 +58,7 @@ public class EventRequestEntity implements Serializable {
     /* GETTER METHODS */
     public Long getEventRequestID() { return eventRequestID; }
     public String getEventRequestStatus() { return eventRequestStatus; }
+    public String getEventRequestTitle() { return eventRequestTitle; }
     public String getEventRequestDescription() { return eventRequestDescription; }
     public Date getEventRequestDate() { return eventRequestDate; }
     public Date getEventRequestStartDateTime() { return eventRequestStartDateTime; }
@@ -71,6 +73,7 @@ public class EventRequestEntity implements Serializable {
     /* SETTER METHODS */
     public void setEventRequestID(Long eventRequestID) { this.eventRequestID = eventRequestID; }
     public void setEventRequestStatus(String eventRequestStatus) { this.eventRequestStatus = eventRequestStatus; }
+    public void setEventRequestTitle(String eventRequestTitle) { this.eventRequestTitle = eventRequestTitle; }
     public void setEventRequestDescription(String eventRequestDescription) { this.eventRequestDescription = eventRequestDescription; }
     public void setEventRequestDate(Date eventRequestDate) { this.eventRequestDate = eventRequestDate; }
     public void setEventRequestStartDateTime(Date eventRequestStartDateTime) { this.eventRequestStartDateTime = eventRequestStartDateTime; }

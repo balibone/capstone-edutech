@@ -42,9 +42,9 @@
     <body style="background-color: #FFFFFF;">
         <%            Vector eventRequestVec = (Vector) request.getAttribute("eventRequestVec");
             String requestID, requestStatus, requestDate, requesterID, requestDescription,
-                    requestVenue, requestStartDateTime, requestEndDateTime, requestReviewedDate, requestVenueLat, requestVenueLong;
+                    requestVenue, requestStartDateTime, requestEndDateTime, requestReviewedDate, requestVenueLat, requestVenueLong, requestTitle;
             requestID = requestStatus = requestDate = requesterID = requestDescription
-                    = requestVenue = requestStartDateTime = requestEndDateTime = requestReviewedDate = requestVenueLat = requestVenueLong = "";
+                    = requestVenue = requestStartDateTime = requestEndDateTime = requestReviewedDate = requestVenueLat = requestVenueLong = requestTitle = "";
             if (eventRequestVec != null) {
                 requestID = (String.valueOf(eventRequestVec.get(0)));
                 requestStatus = (String.valueOf(eventRequestVec.get(1)));
@@ -60,6 +60,8 @@
 
                 requestVenueLat = (String.valueOf(eventRequestVec.get(9)));
                 requestVenueLong = (String.valueOf(eventRequestVec.get(10)));
+                
+                requestTitle = (String.valueOf(eventRequestVec.get(11)));
             }
         %>
 
@@ -113,6 +115,10 @@
                             <tr>
                                 <td>Request ID</td>
                                 <td><%= requestID%></td>
+                            </tr>
+                            <tr>
+                                <td>Request Title</td>
+                                <td><%= requestTitle%></td>
                             </tr>
                             <tr>
                                 <td>Request Status</td>

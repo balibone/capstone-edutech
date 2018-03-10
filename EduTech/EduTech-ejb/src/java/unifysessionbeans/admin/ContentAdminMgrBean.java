@@ -1321,6 +1321,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
             requestVec.add(df.format(requestE.getEventRequestDate()));
             requestVec.add(username);
+            
+            requestVec.add(requestE.getEventRequestTitle());
 
             requestList.add(requestVec);
         }
@@ -1380,6 +1382,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
             requestDetails.add(erEntity.getEventRequestVenueLat());
             requestDetails.add(erEntity.getEventRequestVenueLong());
+            
+            requestDetails.add(erEntity.getEventRequestTitle());
 
             System.out.println("ADDED EVENT REQUEST DETAILS");
 

@@ -196,6 +196,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Request ID</th>
+                                                <th>Request Title</th>
                                                 <th>Request Date</th>
                                                 <th>Request Submitted By</th>
                                                 <th>Request Status</th>
@@ -213,11 +214,14 @@
 
                                                     String requestDate = String.valueOf(v.get(2));
                                                     String requesterID = String.valueOf(v.get(3));
+                                                    
+                                                    String requestTitle = String.valueOf(v.get(4));
 
                                             %>
                                             <tr>
 
                                                 <td><%= requestID%></td>
+                                                <td><%= requestTitle%></td>
                                                 <td><%= requestDate%></td>
                                                 <td><%= requesterID%></td>
                                                 <% 
