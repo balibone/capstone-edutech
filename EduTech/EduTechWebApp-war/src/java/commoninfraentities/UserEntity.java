@@ -28,11 +28,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class UserEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id @Basic(optional = false) @NotNull @Size(min = 1, max = 255) @Column(name = "USERNAME")
     private String username;
     @Size(max = 255) @Column(name = "IMGFILENAME")
-    private String imgfilename;
+    private String imgfilename = "defaultPhoto.jpg";
     //active by default
     @Column(name = "USERACTIVESTATUS", columnDefinition="")
     private Short useractivestatus=1;
@@ -57,7 +56,7 @@ public class UserEntity implements Serializable {
     public UserEntity(String username) {
         this.username = username;
     }
-
+    
     public String getUsername() {
         return username;
     }

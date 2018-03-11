@@ -1,4 +1,29 @@
-
+<%  
+    String loggedInUsername=null; 
+    String userType = null; 
+ 
+    /* 
+    HttpServletRequest object is already available to JSP page by default as variable "request" 
+    See https://www.tutorialspoint.com/jsp/jsp_implicit_objects.htm 
+    */ 
+    Cookie[] reqCookies = request.getCookies(); 
+    if(reqCookies != null){ 
+        for(Cookie c : reqCookies){ 
+            //if username cookie is valid, extract cookie value. 
+            if("username".equals(c.getName()) && !c.getValue().equals("")){ 
+                loggedInUsername = c.getValue(); 
+            } 
+            //if userType cookie is valid, extract cookie value. 
+            else if("userType".equals(c.getName()) && !c.getValue().equals("")){ 
+                userType = c.getValue(); 
+            } 
+        } 
+    }  
+    if (loggedInUsername != null) { 
+        response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding"); 
+    } 
+ 
+%> 
 <!doctype html>
 <html lang="en">
     <head>
@@ -31,10 +56,13 @@
             </div>
             <%  if(request.getAttribute("sysMessage") != null) {   %>
             <div class="alert alert-danger" role="alert"><%= request.getAttribute("sysMessage")%></div>
+            <%  }   %>
+            <%  if(request.getAttribute("successMsg") != null) {   %>
+            <div class="alert alert-success" role="alert"><%= request.getAttribute("successMsg")%></div>
             <%  }   %> 
             <input type="hidden" name="pageTransit" value="loginToSys"/>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            <p>Don't have an account? <a href="CommonInfra?pageTransit=register">Sign up here.</a></p>
+            <p>Don't have an account? <a href="CommonInfra?pageTransit=Registration">Sign up here.</a></p>
             <p class="mt-5 mb-3 text-muted">&copy; EduBox 2018</p>
         </form>
         <!-- JavaScript (JS) -->

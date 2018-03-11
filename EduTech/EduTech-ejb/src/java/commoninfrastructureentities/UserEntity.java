@@ -42,7 +42,7 @@ public class UserEntity implements Serializable {
     private String userType;
     //active by default
     private Boolean userActiveStatus = true;
-    private String imgFileName;
+    private String imgFileName = "defaultPhoto.jpg";
     private String email;
     private String contactNum;
     
@@ -86,18 +86,33 @@ public class UserEntity implements Serializable {
     /* DEFAULT CONSTRUCTOR */
     public UserEntity() { userActiveStatus = true; }
 
-    public UserEntity(String username, String userSalutation, String userFirstName, String userLastName, String userPassword, String userType, String imgFileName) {
+    public UserEntity(String username, String userSalutation, String userFirstName, String userLastName, String userPassword, String userType, String imgFileName, String email, String contactNum) {
         this.username = username;
         this.userSalutation = userSalutation;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.userPassword = userPassword;
+        this.email = email;
+        this.contactNum = contactNum;
         this.userType = userType;
         this.imgFileName = imgFileName;
         this.userActiveStatus = true;
         this.userCreationDate = new Date();
     }
-    
+    //for front end registration page
+    public UserEntity(String salutation, String firstName, String lastName, String username, String password, String email, String contactNum) {
+        this.username = username;
+        this.userSalutation = salutation;
+        this.userFirstName = firstName;
+        this.userLastName = lastName;
+        this.userPassword = password;
+        this.email = email;
+        this.contactNum = contactNum;
+        this.userType = "student";
+        this.imgFileName = "defaultPhoto.jpg";
+        this.userActiveStatus = true;
+        this.userCreationDate = new Date();
+    }
     /* GETTER METHODS */
     public String getUsername() { return username; }
     public String getUserPassword() { return userPassword; }

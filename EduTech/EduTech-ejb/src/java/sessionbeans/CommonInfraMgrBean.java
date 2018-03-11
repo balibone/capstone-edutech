@@ -44,6 +44,18 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         if(uEntity.getUserPassword().equals(userPassword)) { return true; }
         return false;
     }
+    
+    @Override
+    public boolean createSysUser(String salutation, String firstName, String lastName, String username, String password, String email, String contactNum){
+        try{
+            UserEntity u = new UserEntity(salutation, firstName, lastName, username, password, email, contactNum);
+            em.persist(u);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     /* MISCELLANEOUS METHODS */
     public UserEntity lookupUser(String username){
