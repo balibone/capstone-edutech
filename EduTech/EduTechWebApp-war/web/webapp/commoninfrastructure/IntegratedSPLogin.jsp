@@ -1,87 +1,76 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<% 
-    String loggedInUsername=null;
-    String userType = null;
-
-    /*
-    HttpServletRequest object is already available to JSP page by default as variable "request"
-    See https://www.tutorialspoint.com/jsp/jsp_implicit_objects.htm
-    */
-    Cookie[] reqCookies = request.getCookies();
-    if(reqCookies != null){
-        for(Cookie c : reqCookies){
-            //if username cookie is valid, extract cookie value.
-            if("username".equals(c.getName()) && !c.getValue().equals("")){
-                loggedInUsername = c.getValue();
-            }
-            //if userType cookie is valid, extract cookie value.
-            else if("userType".equals(c.getName()) && !c.getValue().equals("")){
-                userType = c.getValue();
-            }
-        }
+<%  
+    String loggedInUsername=null; 
+    String userType = null; 
+ 
+    /* 
+    HttpServletRequest object is already available to JSP page by default as variable "request" 
+    See https://www.tutorialspoint.com/jsp/jsp_implicit_objects.htm 
+    */ 
+    Cookie[] reqCookies = request.getCookies(); 
+    if(reqCookies != null){ 
+        for(Cookie c : reqCookies){ 
+            //if username cookie is valid, extract cookie value. 
+            if("username".equals(c.getName()) && !c.getValue().equals("")){ 
+                loggedInUsername = c.getValue(); 
+            } 
+            //if userType cookie is valid, extract cookie value. 
+            else if("userType".equals(c.getName()) && !c.getValue().equals("")){ 
+                userType = c.getValue(); 
+            } 
+        } 
+    }  
+    if (loggedInUsername != null) { 
+        response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding"); 
     } 
-    if (loggedInUsername != null) {
-        response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding");
-    }
-
-%>
-<html>
+ 
+%> 
+<!doctype html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-        <title>Integrated Student System - Login</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        
+        <title>Welcome to EduBox</title>
+        
         <!-- Cascading Style Sheet (CSS) -->
+        <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/bootstrapv4.min.css">
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/IntegratedSPLoginCSS.css">
-
+        <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/dashboard/baselayout/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/coming-soon.min.css">
+    </head>
+    
+    <body class="text-center">
+        <form action="CommonInfra" class="form-signin" style="background-color: #f2f2f2; border-radius: 24px;">
+            <img class="mb-4" src="images/edubox-logo.png" width="auto" height="100">
+            <h1 class="h3 mb-3 font-weight-normal">Welcome, please sign in.</h1>
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" autofocus required/>
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="userPassword" />
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <%  if(request.getAttribute("sysMessage") != null) {   %>
+            <div class="alert alert-danger" role="alert"><%= request.getAttribute("sysMessage")%></div>
+            <%  }   %>
+            <%  if(request.getAttribute("successMsg") != null) {   %>
+            <div class="alert alert-success" role="alert"><%= request.getAttribute("successMsg")%></div>
+            <%  }   %> 
+            <input type="hidden" name="pageTransit" value="loginToSys"/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <p>Don't have an account? <a href="CommonInfra?pageTransit=Registration">Sign up here.</a></p>
+            <p class="mt-5 mb-3 text-muted">&copy; EduBox 2018</p>
+        </form>
         <!-- JavaScript (JS) -->
         <script src="js/commoninfrastructure/login/jquery.min.js" type="text/javascript"></script>
-        <script src="js/commoninfrastructure/login/bootstrap.min.js" type="text/javascript"></script>
-    </head>
-    <body>
-        <div class="session-page">
-            <div class="container">
-                <div class="row header">
-                    <div class="col-md-12">
-                        <h3 class="logo"><a href="index.html">Welcome to EduBox</a></h3>
-                        <p>Sign in to your account here.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="wrapper clearfix">
-                            <div class="formy">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <form action="CommonInfra" method="POST">
-                                            <div class="form-group">
-                                                <label for="username">Username</label>
-                                                <input type="text" class="form-control" name="username" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="password">Password</label>
-                                                <input type="password" class="form-control" name="userPassword" />
-                                            </div>
-                                            <div class="checkbox">
-                                                <label><input type="checkbox">&nbsp;Remember me</label>
-                                            </div>
-                                            <%  if(request.getAttribute("sysMessage") != null) {   %>
-                                            <div class="alert alert-danger" role="alert"><%= request.getAttribute("sysMessage")%></div>
-                                            <%  }   %> 
-                                            <div class="submit">
-                                                <input type="hidden" name="pageTransit" value="loginToSys"/>
-                                                <button type="submit" class="btn btn-default">Sign in to my account</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>            
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <script src="js/commoninfrastructure/login/bootstrapv4.min.js" type="text/javascript"></script>
+        <!--Vide plugin JS-->
+        <script src="js/commoninfrastructure/login/jquery.vide.min.js" type="text/javascript"></script>
+        <!--Custom JS-->
+        <script src="js/commoninfrastructure/login/coming-soon.min.js" type="text/javascript"></script>
     </body>
 </html>

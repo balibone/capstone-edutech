@@ -20,15 +20,17 @@ public class CommonInfraController extends HttpServlet {
     @EJB
     private SystemAdminMgrBeanRemote sam;
     
+    String sessionInvalid = "";
+    String sessionExpire = "";
+    String unauthorised = "";
+    boolean success;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-            String sessionInvalid = "";
-            String sessionExpire = "";
-            String unauthorised = "";
+
             switch (pageAction) {
                 case "loginToSys":
                     String enteredUsername = request.getParameter("username");
@@ -172,6 +174,20 @@ public class CommonInfraController extends HttpServlet {
                     break;
                 case "goToUnifyAdmin":
                     pageAction = "AdminDashboard";
+                    break;
+                case "Registration":
+                    pageAction = "Registration";
+                    break;
+                case "registerUser":
+                    try{
+                        success = cir.createSysUser(request.getParameter("salutation"), request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("username"), request.getParameter("password"), request.getParameter("email"), request.getParameter("contactNum"));
+                        request.setAttribute("successMsg", "Account successfully created."); 
+                        pageAction = "IntegratedSPLogin";
+                    }catch(Exception e){
+                        request.setAttribute("sysMessage", "User account with this username already exists. Please pick a different username."); 
+                        pageAction = "Registration";
+                    }                    
+                    
                     break;
                 default:
                     break;

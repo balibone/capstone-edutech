@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class UserEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id @Basic(optional = false) @NotNull @Size(min = 1, max = 255) @Column(name = "USERNAME")
     private String username;
     @Size(max = 255) @Column(name = "IMGFILENAME")
-    private String imgfilename;
-    @Column(name = "USERACTIVESTATUS")
-    private Short useractivestatus;
+    private String imgfilename = "defaultPhoto.jpg";
+    //active by default
+    @Column(name = "USERACTIVESTATUS", columnDefinition="")
+    private Short useractivestatus=1;
     @Column(name = "USERCREATIONDATE") @Temporal(TemporalType.DATE)
     private Date usercreationdate;
     @Size(max = 255) @Column(name = "USERFIRSTNAME")
@@ -47,14 +47,16 @@ public class UserEntity implements Serializable {
     private String usersalutation;
     @Size(max = 255) @Column(name = "USERTYPE")
     private String usertype;
-
+    private String email;
+    private String contactNum;
+    
     public UserEntity() {
     }
 
     public UserEntity(String username) {
         this.username = username;
     }
-
+    
     public String getUsername() {
         return username;
     }
@@ -150,6 +152,22 @@ public class UserEntity implements Serializable {
     @Override
     public String toString() {
         return "commoninfraentities.Systemuser[ username=" + username + " ]";
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContactNum() {
+        return contactNum;
+    }
+
+    public void setContactNum(String contactNum) {
+        this.contactNum = contactNum;
     }
     
 }

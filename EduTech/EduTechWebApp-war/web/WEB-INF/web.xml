@@ -55,6 +55,10 @@
         <servlet-name>IntegratedSPLogin</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/IntegratedSPLogin.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>Registration</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/registration/Registration.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE - ADMIN(SERVLET) -->
     <servlet>
         <servlet-name>SystemAdmin</servlet-name>

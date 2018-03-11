@@ -40,8 +40,11 @@ public class UserEntity implements Serializable {
     private String userLastName;
     private String userPassword;
     private String userType;
-    private Boolean userActiveStatus;
-    private String imgFileName;
+    //active by default
+    private Boolean userActiveStatus = true;
+    private String imgFileName = "defaultPhoto.jpg";
+    private String email;
+    private String contactNum;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date userCreationDate;
@@ -83,18 +86,33 @@ public class UserEntity implements Serializable {
     /* DEFAULT CONSTRUCTOR */
     public UserEntity() { userActiveStatus = true; }
 
-    public UserEntity(String username, String userSalutation, String userFirstName, String userLastName, String userPassword, String userType, String imgFileName) {
+    public UserEntity(String username, String userSalutation, String userFirstName, String userLastName, String userPassword, String userType, String imgFileName, String email, String contactNum) {
         this.username = username;
         this.userSalutation = userSalutation;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.userPassword = userPassword;
+        this.email = email;
+        this.contactNum = contactNum;
         this.userType = userType;
         this.imgFileName = imgFileName;
         this.userActiveStatus = true;
         this.userCreationDate = new Date();
     }
-    
+    //for front end registration page
+    public UserEntity(String salutation, String firstName, String lastName, String username, String password, String email, String contactNum) {
+        this.username = username;
+        this.userSalutation = salutation;
+        this.userFirstName = firstName;
+        this.userLastName = lastName;
+        this.userPassword = password;
+        this.email = email;
+        this.contactNum = contactNum;
+        this.userType = "student";
+        this.imgFileName = "defaultPhoto.jpg";
+        this.userActiveStatus = true;
+        this.userCreationDate = new Date();
+    }
     /* GETTER METHODS */
     public String getUsername() { return username; }
     public String getUserPassword() { return userPassword; }
@@ -148,4 +166,20 @@ public class UserEntity implements Serializable {
     public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
     public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
     public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContactNum() {
+        return contactNum;
+    }
+
+    public void setContactNum(String contactNum) {
+        this.contactNum = contactNum;
+    }
 }
