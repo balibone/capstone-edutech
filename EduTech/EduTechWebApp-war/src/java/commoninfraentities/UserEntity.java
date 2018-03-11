@@ -33,8 +33,9 @@ public class UserEntity implements Serializable {
     private String username;
     @Size(max = 255) @Column(name = "IMGFILENAME")
     private String imgfilename;
-    @Column(name = "USERACTIVESTATUS")
-    private Short useractivestatus;
+    //active by default
+    @Column(name = "USERACTIVESTATUS", columnDefinition="")
+    private Short useractivestatus=1;
     @Column(name = "USERCREATIONDATE") @Temporal(TemporalType.DATE)
     private Date usercreationdate;
     @Size(max = 255) @Column(name = "USERFIRSTNAME")
@@ -47,7 +48,9 @@ public class UserEntity implements Serializable {
     private String usersalutation;
     @Size(max = 255) @Column(name = "USERTYPE")
     private String usertype;
-
+    private String email;
+    private String contactNum;
+    
     public UserEntity() {
     }
 
@@ -150,6 +153,22 @@ public class UserEntity implements Serializable {
     @Override
     public String toString() {
         return "commoninfraentities.Systemuser[ username=" + username + " ]";
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContactNum() {
+        return contactNum;
+    }
+
+    public void setContactNum(String contactNum) {
+        this.contactNum = contactNum;
     }
     
 }

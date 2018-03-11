@@ -40,8 +40,11 @@ public class UserEntity implements Serializable {
     private String userLastName;
     private String userPassword;
     private String userType;
-    private Boolean userActiveStatus;
+    //active by default
+    private Boolean userActiveStatus = true;
     private String imgFileName;
+    private String email;
+    private String contactNum;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date userCreationDate;
@@ -148,4 +151,20 @@ public class UserEntity implements Serializable {
     public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
     public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
     public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContactNum() {
+        return contactNum;
+    }
+
+    public void setContactNum(String contactNum) {
+        this.contactNum = contactNum;
+    }
 }
