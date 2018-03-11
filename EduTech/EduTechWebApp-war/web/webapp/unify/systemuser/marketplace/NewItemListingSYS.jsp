@@ -11,17 +11,19 @@
         <title>Unify Marketplace - New Item Listing</title>
 
         <!-- CASCADING STYLESHEET -->
-        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/marketplace/NewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+        <link href="http://demos.creative-tim.com/material-bootstrap-wizard/assets/css/material-bootstrap-wizard.css" rel="stylesheet" />
     </head>
-    
+
     <body class="nav-md">
         <!-- MOBILE SIDE NAVIGATION -->
         <nav class="offcanvas">
@@ -62,11 +64,10 @@
                                             <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <% 
-                                                ArrayList<Vector> userMessageListTopFiveSYS = (ArrayList) request.getAttribute("userMessageListTopFiveSYS");
-                                                if (!userMessageListTopFiveSYS.isEmpty()) {
-                                                    for (int i = 0; i <= userMessageListTopFiveSYS.size() - 1; i++) {
-                                                        Vector v = userMessageListTopFiveSYS.get(i);
+                                            <%                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                                if (!userMessageListTopThreeSYS.isEmpty()) {
+                                                    for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
+                                                        Vector v = userMessageListTopThreeSYS.get(i);
                                                         String messageContent = String.valueOf(v.get(0));
                                                         String contentID = String.valueOf(v.get(1));
                                                         String messageType = String.valueOf(v.get(2));
@@ -88,7 +89,7 @@
                                             </div>
                                             <div class="dropdown-divider"></div>
                                             <%      }   %>
-                                            <%  }   %>
+                                            <%  }%>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="ProfileSysUser?pageTransit=goToUserNotificationList" role="button" class="btn btn-outline-theme">
@@ -180,165 +181,167 @@
                     </nav>
                 </div>
             </div>
-
+            
             <div class="container" style="margin-bottom: 30px;">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
-                            <%                                
-                                String successMessage = (String) request.getAttribute("successMessage");
-                                if (successMessage != null) {
-                            %>
-                            <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
-                                <button type="button" class="close" id="closeSuccess">&times;</button>
-                                <%= successMessage %>
-                            </div>
-                            <%  } %>
-                            <%
-                                String errorMessage = (String) request.getAttribute("errorMessage");
-                                if (errorMessage != null) {
-                            %>
-                            <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
-                                <button type="button" class="close" id="closeError">&times;</button>
-                                <%= errorMessage %>
-                            </div>
-                            <%  } %>
-                            
-                            <div class="x_title">
-                                <h5>New Item Listing</h5>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content">
-                                <p>Enter the item information here. (<span class="asterik">*</span>) fields are mandatory.</p>
-                                <div id="wizard" class="form_wizard wizard_horizontal">
-                                    <ul class="wizard_steps nav nav-tabs" role="tablist" style="padding-bottom: 20px;">
-                                        <li>
-                                            <a href="#step-1">
-                                                <span class="step_no">1</span>
-                                                <span class="step_descr">Step 1<br /><small>Enter Item Details</small></span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#step-2">
-                                                <span class="step_no">2</span>
-                                                <span class="step_descr">Step 2<br /><small>Select Item Category</small></span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#step-3">
-                                                <span class="step_no">3</span>
-                                                <span class="step_descr">Step 3<br /><small>Enter Trade Details</small></span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <form class="form-horizontal form-label-left" action="MarketplaceSysUser" method="POST" enctype="multipart/form-data">
-                                        <div id="step-1">
-                                            <div class="form-row" style="justify-content: center;">
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <div class="image-upload">
-                                                            <img id="output-image" />
-                                                        </div>
-                                                        <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 151px;">
-                                                            <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
-                                                        </label>
-                                                        <input id="file-upload" name="itemImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" required="required" />
-                                                    </div>
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <!--      Wizard container        -->
+                        <div class="wizard-container">
+                            <div class="card wizard-card" data-color="red" id="wizard">
+                                <form action="" method="">
+                                    <!--        You can switch " data-color="blue" "  with one of the next bright colors: "green", "orange", "red", "purple"             -->
+
+                                    <div class="wizard-header">
+                                        <h3 class="wizard-title">
+                                            Book a Room
+                                        </h3>
+                                        <h5>This information will let us know more about you.</h5>
+                                    </div>
+                                    <div class="wizard-navigation">
+                                        <ul>
+                                            <li><a href="#details" data-toggle="tab">Account</a></li>
+                                            <li><a href="#captain" data-toggle="tab">Room Type</a></li>
+                                            <li><a href="#description" data-toggle="tab">Extra Details</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="tab-content">
+                                        <div class="tab-pane" id="details">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <h4 class="info-text"> Let's start with the basic details.</h4>
                                                 </div>
-                                                <div class="col-md-4 ml-2">
-                                                    <div class="form-group">
-                                                        <label for="itemName">Item Name&nbsp;<span class="asterik">*</span></label>
-                                                        <input type="text" class="form-control" name="itemName" placeholder="Enter the item name" required="required" />
+                                                <div class="col-sm-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">email</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Your Email</label>
+                                                            <input name="name" type="text" class="form-control">
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="itemCondition">Item Condition&nbsp;<span class="asterik">*</span></label><br/>
-                                                        <select class="select-dropdown" name="itemCondition" data-width="75%">
-                                                            <option value="New">New</option>
-                                                            <option value="Used">Used</option>
+
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">lock_outline</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Your Password</label>
+                                                            <input name="name2" type="password" class="form-control">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Country</label>
+                                                        <select class="form-control">
+                                                            <option disabled="" selected=""></option>
+                                                            <option value="Afghanistan"> Afghanistan </option>
+                                                            <option value="Albania"> Albania </option>
+                                                            <option value="Algeria"> Algeria </option>
+                                                            <option value="American Samoa"> American Samoa </option>
+                                                            <option value="Andorra"> Andorra </option>
+                                                            <option value="Angola"> Angola </option>
+                                                            <option value="Anguilla"> Anguilla </option>
+                                                            <option value="Antarctica"> Antarctica </option>
+                                                            <option value="...">...</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="itemDescription">Item Description</label>
-                                                        <textarea class="form-control" name="itemDescription" rows="5" placeholder="Enter the item description" required="required"></textarea>
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Daily Budget</label>
+                                                        <select class="form-control">
+                                                            <option disabled="" selected=""></option>
+                                                            <option value="Afghanistan"> < $100 </option>
+                                                            <option value="Albania"> $100 - $499 </option>
+                                                            <option value="Algeria"> $499 - $999 </option>
+                                                            <option value="American Samoa"> $999+ </option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 ml-2">
-                                                    <div class="form-group">
-                                                        <label for="itemPrice">Item Price&nbsp;<span class="asterik">*</span></label>
-                                                        <div class="input-group input-group-sm input-group-qty">
-                                                            <div class="input-group-prepend">
-                                                                <button class="btn btn-outline-theme btn-down" type="button"><i class="fa fa-minus"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="captain">
+                                            <h4 class="info-text">What type of room would you want? </h4>
+                                            <div class="row">
+                                                <div class="col-sm-10 col-sm-offset-1">
+                                                    <div class="col-sm-4">
+                                                        <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="This is good if you travel alone.">
+                                                            <input type="radio" name="job" value="Design">
+                                                            <div class="icon">
+                                                                <i class="material-icons">weekend</i>
                                                             </div>
-                                                            <input type="text" class="form-control" name="itemPrice" aria-label="itemPrice" data-min="1" data-max="9999" required="required" />
-                                                            <div class="input-group-append">
-                                                                <button class="btn btn-outline-theme btn-up" type="button"><i class="fa fa-plus"></i></button>
+                                                            <h6>Single</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Select this room if you're traveling with your family.">
+                                                            <input type="radio" name="job" value="Code">
+                                                            <div class="icon">
+                                                                <i class="material-icons">home</i>
                                                             </div>
+                                                            <h6>Family</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Select this option if you are coming with your team.">
+                                                            <input type="radio" name="job" value="Code">
+                                                            <div class="icon">
+                                                                <i class="material-icons">business</i>
+                                                            </div>
+                                                            <h6>Business</h6>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="step-2">
-                                            <div class="form-row" style="justify-content: center;">
-                                                <div class="owl-carousel owl-theme product-slider">
-                                                    <%
-                                                        ArrayList<Vector> itemCategoryListSYS = (ArrayList) request.getAttribute("itemCategoryListSYS");
-                                                        if (!itemCategoryListSYS.isEmpty()) {
-                                                            for (int i = 0; i <= itemCategoryListSYS.size() - 1; i++) {
-                                                                Vector v = itemCategoryListSYS.get(i);
-                                                                String categoryImage = String.valueOf(v.get(0));
-                                                                String categoryID = String.valueOf(v.get(1));
-                                                                String categoryName = String.valueOf(v.get(2));
-                                                    %>
-                                                    <div class="product-slider-item">
-                                                        <div class="card" id="<%= categoryID%>">
-                                                            <div class="card-body" style="margin: 0 auto; text-align: center;">
-                                                                <img src="uploads/unify/images/common/category/<%= categoryImage%>" style="width: 100px; height: 100px;" />
-                                                                <h5 class="card-title"><%= categoryName%></h5>
-                                                            </div>
-                                                        </div>
+                                        <div class="tab-pane" id="description">
+                                            <div class="row">
+                                                <h4 class="info-text"> Drop us a small description.</h4>
+                                                <div class="col-sm-6 col-sm-offset-1">
+                                                    <div class="form-group">
+                                                        <label>Room description</label>
+                                                        <textarea class="form-control" placeholder="" rows="6"></textarea>
                                                     </div>
-                                                    <%      }   %>
-                                                    <%  }%>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Example</label>
+                                                        <p class="description">"The room really nice name is recognized as being a really awesome room. We use it every sunday when we go fishing and we catch a lot. It has some kind of magic shield around it."</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="step-3">
-                                            <div class="form-row" style="justify-content: center;">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <div id="mapdiv" style="width: auto; height: 300px;"></div>
+                                    </div>
+                                    <div class="wizard-footer">
+                                        <div class="pull-right">
+                                            <input type='button' class='btn btn-next btn-fill btn-danger btn-wd' name='next' value='Next' />
+                                            <input type='button' class='btn btn-finish btn-fill btn-danger btn-wd' name='finish' value='Finish' />
+                                        </div>
+                                        <div class="pull-left">
+                                            <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Previous' />
+
+                                            <div class="footer-checkbox">
+                                                <div class="col-sm-12">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="optionsCheckboxes">
+                                                        </label>
+                                                        Subscribe to our newsletter
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 ml-2">
-                                                    <div class="form-group" style="position: relative;">
-                                                        <label for="tradeLocation">Trade Location&nbsp;<span class="asterik">*</span></label>
-                                                        <input type="text" class="form-control" id="tradeLocation" name="tradeLocation" placeholder="Enter the trade location" required="required" />
-                                                        <div id="searchResults"></div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="tradeInformation">Trade Information</label>
-                                                        <textarea class="form-control" name="tradeInformation" rows="5" placeholder="Enter the trade information" required="required"></textarea>
-                                                    </div>
-                                                    <div class="form-group" style="text-align: center;">
-                                                        <button type="submit" class="btn btn-theme">Create Item Listing</button>
-                                                    </div>
-                                                </div>
-                                                <input type="hidden" name="pageTransit" value="createItemListingSYS" />
-                                                <input type="hidden" name="username" value="<%= loggedInUsername%>" />
-                                                <input type="hidden" name="hiddenTradeLat" id="hiddenTradeLat" />
-                                                <input type="hidden" name="hiddenTradeLong" id="hiddenTradeLong" />
-                                                <input type="hidden" name="hiddenCategoryID" id="hiddenCategoryID" />
                                             </div>
                                         </div>
-                                    </form>
-                                </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </form>
                             </div>
-                        </div>
+                        </div> <!-- wizard container -->
                     </div>
-                </div>
-            </div>
-            <!-- <div id="unifyFooter"></div> -->
+                </div> <!-- row -->
+            </div> <!--  big container -->
+            <div id="unifyFooter"></div>
 
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
@@ -353,11 +356,11 @@
         <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/validator-v1.1.0.js" type="text/javascript"></script>
-
-        <script src="js/unify/systemuser/webjs/marketplace/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/marketplace/custom.min.js"></script>
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/NewItemListingSYSJS.js" type="text/javascript"></script>
+
+        <script src="http://demos.creative-tim.com/material-bootstrap-wizard/assets/js/jquery.bootstrap.js" type="text/javascript"></script>
+        <script src="http://demos.creative-tim.com/material-bootstrap-wizard/assets/js/material-bootstrap-wizard.js" type="text/javascript"></script>
+        <script src="http://demos.creative-tim.com/material-bootstrap-wizard/assets/js/jquery.validate.min.js" type="text/javascript"></script>
     </body>
 </html>

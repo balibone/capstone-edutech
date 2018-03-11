@@ -27,12 +27,23 @@ body::before{display:none;content:'unset'}
 .wizard_horizontal ul.wizard_steps li:last-child a:before{right:50%;width:50%;left:auto}
 
 .form_wizard .stepContainer { display: block; position: relative; margin: 0; padding: 0; border: 0 solid #CCC; overflow-x: hidden; }
+.sw-theme-dots .sw-container {
+    min-height: 400px;
+}
+
+@media (min-width: 768px) {
+    .test {
+        -webkit-box-flex: 0;
+        max-width: 33.333333%;
+    }
+}
 
 /* FOR JPLIST */
 .searchresult-row { width: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; }
 
 @media (max-width: 575.98px) {
     body::before{content:'xs'}
+    .sw-theme-dots .sw-container { min-height: 600px; }
 }
 @media (min-width: 576px) and (max-width: 767.98px) {
     body::before{content:'sm'}

@@ -57,7 +57,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
                     request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
                     request.setAttribute("industryStrSYS", vsmr.populateCompanyIndustryString());
-                    request.setAttribute("userMessageListTopFiveSYS", usmr.viewUserMessageListTopFive(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToNewReviewSYS":
@@ -67,7 +67,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("reviewedCompanyImage", companyImage);
                     request.setAttribute("reviewedCompanyName", companyName);
                     request.setAttribute("reviewedCompanyIndustry", companyIndustry);
-                    request.setAttribute("userMessageListTopFiveSYS", usmr.viewUserMessageListTopFive(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "NewReviewSYS";
                     break;
                 case "createCompanyReviewSYS":
@@ -76,7 +76,7 @@ public class VoicesSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
                     request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
-                    request.setAttribute("userMessageListTopFiveSYS", usmr.viewUserMessageListTopFive(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToViewCompanyDetailsSYS":
@@ -148,7 +148,7 @@ public class VoicesSysUserController extends HttpServlet {
                     pageAction = "NewResumeSYS";
                     break;
                 case "goToReviewDetails":
-                    request.setAttribute("userMessageListTopFiveSYS", usmr.viewUserMessageListTopFive(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ReviewDetails";
                     break;
                 default:

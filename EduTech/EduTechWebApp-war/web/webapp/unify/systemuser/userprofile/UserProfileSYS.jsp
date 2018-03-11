@@ -70,10 +70,10 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
                                             <% 
-                                                ArrayList<Vector> userMessageListTopFiveSYS = (ArrayList) request.getAttribute("userMessageListTopFiveSYS");
-                                                if (!userMessageListTopFiveSYS.isEmpty()) {
-                                                    for (int i = 0; i <= userMessageListTopFiveSYS.size() - 1; i++) {
-                                                        Vector v = userMessageListTopFiveSYS.get(i);
+                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                                if (!userMessageListTopThreeSYS.isEmpty()) {
+                                                    for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
+                                                        Vector v = userMessageListTopThreeSYS.get(i);
                                                         String messageContent = String.valueOf(v.get(0));
                                                         String contentID = String.valueOf(v.get(1));
                                                         String messageType = String.valueOf(v.get(2));

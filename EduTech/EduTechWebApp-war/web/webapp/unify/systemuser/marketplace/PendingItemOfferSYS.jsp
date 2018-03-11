@@ -18,6 +18,7 @@
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/marketplace/PendingItemOfferSYSCSS.css" rel="stylesheet" type="text/css" />
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
@@ -70,10 +71,10 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
                                             <% 
-                                                ArrayList<Vector> userMessageListTopFiveSYS = (ArrayList) request.getAttribute("userMessageListTopFiveSYS");
-                                                if (!userMessageListTopFiveSYS.isEmpty()) {
-                                                    for (int i = 0; i <= userMessageListTopFiveSYS.size() - 1; i++) {
-                                                        Vector v = userMessageListTopFiveSYS.get(i);
+                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                                if (!userMessageListTopThreeSYS.isEmpty()) {
+                                                    for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
+                                                        Vector v = userMessageListTopThreeSYS.get(i);
                                                         String messageContent = String.valueOf(v.get(0));
                                                         String contentID = String.valueOf(v.get(1));
                                                         String messageType = String.valueOf(v.get(2));
@@ -263,6 +264,7 @@
                                         <div class="form-row media">
                                             <img class="img-thumbnail" src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width:50px;height:50px;"/>
                                             <div class="media-body ml-3">
+                                                <input type="hidden" id="hiddenItemID" value="<%= itemID%>" />
                                                 <h5 class="user-name"><strong><%= itemName%></strong></h5>
                                                 <p class="card-text mb-0">$<%= itemPrice%></p>
                                                 <p class="card-text mb-3">Item Condition:&nbsp;&nbsp;
@@ -333,18 +335,19 @@
                                                 <%
                                                     for (int i = 1; i <= itemOfferUserListSYS.size()-1; i++) {
                                                         Vector v = itemOfferUserListSYS.get(i);
-                                                        String itemOfferUserID = String.valueOf(v.get(0));
-                                                        String itemOfferUserFirstName = String.valueOf(v.get(1));
-                                                        String itemOfferUserLastName = String.valueOf(v.get(2));
-                                                        String itemOfferUserImage = String.valueOf(v.get(3));
-                                                        String itemOfferUserPositiveCount = String.valueOf(v.get(4));
-                                                        String itemOfferUserNeutralCount = String.valueOf(v.get(5));
-                                                        String itemOfferUserNegativeCount = String.valueOf(v.get(6));
-                                                        String itemOfferPrice = String.valueOf(v.get(7));
-                                                        String itemOfferDescription = String.valueOf(v.get(8));
-                                                        String itemOfferStatus = String.valueOf(v.get(9));
-                                                        String itemOfferPostedDuration = String.valueOf(v.get(10));
-                                                        String itemOfferDate = String.valueOf(v.get(11));
+                                                        String itemOfferID = String.valueOf(v.get(0));
+                                                        String itemOfferUserID = String.valueOf(v.get(1));
+                                                        String itemOfferUserFirstName = String.valueOf(v.get(2));
+                                                        String itemOfferUserLastName = String.valueOf(v.get(3));
+                                                        String itemOfferUserImage = String.valueOf(v.get(4));
+                                                        String itemOfferUserPositiveCount = String.valueOf(v.get(5));
+                                                        String itemOfferUserNeutralCount = String.valueOf(v.get(6));
+                                                        String itemOfferUserNegativeCount = String.valueOf(v.get(7));
+                                                        String itemOfferPrice = String.valueOf(v.get(8));
+                                                        String itemOfferDescription = String.valueOf(v.get(9));
+                                                        String itemOfferStatus = String.valueOf(v.get(10));
+                                                        String itemOfferPostedDuration = String.valueOf(v.get(11));
+                                                        String itemOfferDate = String.valueOf(v.get(12));
                                                 %>
                                                 <div class="col-sm-6 pl-1 pr-1 list-item">
                                                     <div class="card">
@@ -384,9 +387,9 @@
                                                                 <p class="card-text pt-2"><%= itemOfferDescription%></p>
                                                                 <div class="rating">
                                                                     <ul class="offerAction">
-                                                                        <li><button class="btn btn-theme btn-sm">Accept</button></li>
-                                                                        <li><button class="btn btn-theme btn-sm">Negotiate</button></li>
-                                                                        <li><button class="btn btn-theme btn-sm">Reject</button></li>
+                                                                        <li><button type="button" id="acceptOfferBtn<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Accept</button></li>
+                                                                        <li><button type="button" class="btn btn-theme btn-sm">Negotiate</button></li>
+                                                                        <li><button type="button" id="rejectOfferBtn<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Reject</button></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -415,7 +418,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div id="unifyFooter"></div> -->
+            <div id="unifyFooter"></div>
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
@@ -429,6 +432,7 @@
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/PendingItemOfferSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>

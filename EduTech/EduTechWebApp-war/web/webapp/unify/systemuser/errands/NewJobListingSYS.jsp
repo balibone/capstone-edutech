@@ -64,10 +64,10 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
                                             <% 
-                                                ArrayList<Vector> userMessageListTopFiveSYS = (ArrayList) request.getAttribute("userMessageListTopFiveSYS");
-                                                if (!userMessageListTopFiveSYS.isEmpty()) {
-                                                    for (int i = 0; i <= userMessageListTopFiveSYS.size() - 1; i++) {
-                                                        Vector v = userMessageListTopFiveSYS.get(i);
+                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                                if (!userMessageListTopThreeSYS.isEmpty()) {
+                                                    for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
+                                                        Vector v = userMessageListTopThreeSYS.get(i);
                                                         String messageContent = String.valueOf(v.get(0));
                                                         String contentID = String.valueOf(v.get(1));
                                                         String messageType = String.valueOf(v.get(2));
@@ -426,10 +426,9 @@
         <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/validator-v1.1.0.js" type="text/javascript"></script>
+        
 
-        <script src="js/unify/systemuser/webjs/marketplace/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/marketplace/custom.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/errands/NewJobListingSYSJS.js" type="text/javascript"></script>
     </body>

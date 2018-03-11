@@ -37,6 +37,7 @@ public class UserProfileSysUserController extends HttpServlet {
     private ErrandsSysUserMgrBeanRemote esmr;
     @EJB
     private VoicesSysUserMgrBeanRemote vsmr;
+    String responseMessage = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -49,15 +50,17 @@ public class UserProfileSysUserController extends HttpServlet {
             
             switch (pageAction) {
                 case "goToUnifyUserAccount":
+                    request.setAttribute("itemOfferListSYS", (ArrayList) usmr.viewItemOfferList(loggedInUsername));
+                    
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
-                    request.setAttribute("itemOfferListSYS", (ArrayList) msmr.viewItemOfferList(loggedInUsername));
-                    request.setAttribute("userMessageListTopFiveSYS", usmr.viewUserMessageListTopFive(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserAccountSYS";
                     break;
                 case "goToMarketplaceTrans":
+                    request.setAttribute("itemTransListSYS", (ArrayList) usmr.viewItemTransaction(loggedInUsername));
+                    
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
-                    request.setAttribute("itemTransListSYS", (ArrayList) msmr.viewItemTransaction(loggedInUsername));
-                    request.setAttribute("userMessageListTopFiveSYS", usmr.viewUserMessageListTopFive(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserItemTransactionSYS";
                     break;
                 case "goToMyJobListing":
@@ -94,17 +97,18 @@ public class UserProfileSysUserController extends HttpServlet {
                     long itemID = Long.parseLong(request.getParameter("itemID"));
                     long itemTransID = Long.parseLong(request.getParameter("itemTransID"));
                     
-                    request.setAttribute("transItemDetailsSYSVec", msmr.viewTransactionItemDetails(itemID, itemTransID, loggedInUsername));
-                    request.setAttribute("userMessageListTopFiveSYS", usmr.viewUserMessageListTopFive(loggedInUsername));
+                    request.setAttribute("transItemDetailsSYSVec", usmr.viewTransactionItemDetails(itemID, itemTransID, loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewItemTransDetailsInModalSYS";
                     break;
                 case "goToUserProfile":
                     String itemSellerID = request.getParameter("itemSellerID");
+                    request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));
                     
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
                     request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));
                     request.setAttribute("userJobListing", esmr.viewUserJobList(itemSellerID));
-                    request.setAttribute("userMessageListTopFiveSYS", usmr.viewUserMessageListTopFive(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserProfileSYS";
                     break;
                 case "goToJobListingInUserProfile":
@@ -115,16 +119,40 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToPendingItemOfferList":
                     long urlitemID = Long.parseLong(request.getParameter("urlitemID"));
+                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, urlitemID));
                     
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
-                    request.setAttribute("itemOfferUserListSYS", msmr.viewItemOfferUserList(loggedInUsername, urlitemID));
-                    request.setAttribute("userMessageListTopFiveSYS", usmr.viewUserMessageListTopFive(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "PendingItemOfferSYS";
+                    break;
+                case "acceptAnItemOffer":
+                    long itemIDHidden = Long.parseLong(request.getParameter("itemIDHidden"));
+                    long urlItemOfferID = Long.parseLong(request.getParameter("urlItemOfferID"));
+                    responseMessage = usmr.acceptAnItemOffer(urlItemOfferID);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHidden));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "PendingItemOfferSYS";
+                    break;
+                case "rejectAnItemOffer":
+                    long hiddenItemID = Long.parseLong(request.getParameter("hiddenItemID"));
+                    long hiddenItemOfferID = Long.parseLong(request.getParameter("hiddenItemOfferID"));
+                    responseMessage = usmr.rejectAnItemOffer(hiddenItemOfferID);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, hiddenItemID));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "PendingItemOfferSYS";
                     break;
                 case "goToUserNotificationList":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListSYS", usmr.viewUserMessageList(loggedInUsername));
-                    request.setAttribute("userMessageListTopFiveSYS", usmr.viewUserMessageListTopFive(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserNotificationListSYS";
                     break;
                 case "goToCompanyReview":
