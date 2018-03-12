@@ -175,9 +175,6 @@ public class CommonInfraController extends HttpServlet {
                 case "goToUnifyAdmin":
                     pageAction = "AdminDashboard";
                     break;
-                case "Registration":
-                    pageAction = "Registration";
-                    break;
                 case "registerUser":
                     try{
                         success = cir.createSysUser(request.getParameter("salutation"), request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("username"), request.getParameter("password"), request.getParameter("email"), request.getParameter("contactNum"));
@@ -188,6 +185,16 @@ public class CommonInfraController extends HttpServlet {
                         pageAction = "Registration";
                     }                    
                     
+                    break;
+                case "resetPassword":
+                    success = cir.resetPassword(request.getParameter("username"));
+                    if(success){
+                        request.setAttribute("successMsg", "Recover email has been sent. Please check your inbox."); 
+                        pageAction = "IntegratedSPLogin";
+                    }else{
+                        request.setAttribute("failMsg", "Reset failed. Please check if your username is correct & your recovery email is valid."); 
+                        pageAction = "ForgotPassword";
+                    }
                     break;
                 default:
                     break;

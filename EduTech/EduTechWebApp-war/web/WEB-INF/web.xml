@@ -59,6 +59,10 @@
         <servlet-name>Registration</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/registration/Registration.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ForgotPassword</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/registration/ForgotPassword.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE - ADMIN(SERVLET) -->
     <servlet>
         <servlet-name>SystemAdmin</servlet-name>

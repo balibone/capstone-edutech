@@ -49,11 +49,6 @@
             <input type="text" class="form-control" name="username" autofocus required/>
             <label for="password">Password</label>
             <input type="password" class="form-control" name="userPassword" />
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
-            </div>
             <%  if(request.getAttribute("sysMessage") != null) {   %>
             <div class="alert alert-danger" role="alert"><%= request.getAttribute("sysMessage")%></div>
             <%  }   %>
@@ -62,7 +57,12 @@
             <%  }   %> 
             <input type="hidden" name="pageTransit" value="loginToSys"/>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            <p>Don't have an account? <a href="CommonInfra?pageTransit=Registration">Sign up here.</a></p>
+            <br>
+            <p>
+                Don't have an account? <a href="CommonInfra?pageTransit=Registration">Sign up here.</a>
+                <br>
+                Forgot your password? <a href="CommonInfra?pageTransit=ForgotPassword">Get a recovery email.</a>
+            </p>
             <p class="mt-5 mb-3 text-muted">&copy; EduBox 2018</p>
         </form>
         <!-- JavaScript (JS) -->

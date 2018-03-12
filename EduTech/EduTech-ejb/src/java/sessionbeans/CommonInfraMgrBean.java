@@ -3,7 +3,18 @@ package sessionbeans;
 import commoninfrastructureentities.UserEntity;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -16,7 +27,12 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     @PersistenceContext
     private EntityManager em;
     private UserEntity uEntity;
-
+    
+    //for mail
+    private Properties mailServerProperties;
+    private Session mailSession;
+    private MimeMessage mailMessage;
+    
     @Override
     public boolean empLogin(String username, String userPassword) {
         String hashedPassword = "";
@@ -91,5 +107,74 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
             hashedValue = sb.toString();
         }      
         return hashedValue;
+    }
+
+    @Override
+    public boolean resetPassword(String username) {
+        Query q1 = em.createQuery("SELECT s FROM SystemUser s WHERE s.username = :uName");
+        q1.setParameter("uName", username);
+        UserEntity u = (UserEntity) q1.getSingleResult();
+        if(u != null){
+            String resetToken = generateAlphaNum(5);
+            u.setResetToken(resetToken);
+            try {
+                generateAndSendEmail(u.getUsername(), u.getEmail(),resetToken);
+            } catch (MessagingException ex) {
+                System.out.println("**************Email sending failed!");
+                ex.printStackTrace();
+                return false;
+            }
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public String generateAlphaNum(int length) {
+
+        char[] ch = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();
+        
+        char[] generated = new char[length];
+        SecureRandom random = new SecureRandom();
+        for (int i = 0; i < length; i++) {
+            //generates random next int from 0 to ch.length-1
+            generated[i] = ch[random.nextInt(ch.length)];
+        }
+        
+        return new String(generated);
+    }
+    
+    public void generateAndSendEmail(String username, String email, String token) throws AddressException, MessagingException {
+ 
+        // Step1
+        System.out.println("\n 1st ===> setup Mail Server Properties..");
+        mailServerProperties = System.getProperties();
+        //mail server settings
+        mailServerProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        mailServerProperties.put("mail.smtp.port", "587");
+        mailServerProperties.put("mail.smtp.auth", "true");
+        mailServerProperties.put("mail.smtp.starttls.enable", "true");
+        System.out.println("Mail Server Properties have been setup successfully..");
+        
+        // Step2
+        System.out.println("\n\n 2nd ===> get Mail Session..");
+        mailSession = Session.getDefaultInstance(mailServerProperties, null);
+        mailMessage = new MimeMessage(mailSession);
+        mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+        mailMessage.setSubject("Greetings from Crunchify..");
+        String emailBody = "Dear "+ username + ",<br><br>Please click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&token="+token+"'>link</a> to reset your password.<br>Alternatively, you can copy paste your reset token <strong>"+ token +"</strong> into the same page."
+                + "<a></a>" +"<br><br>Regards,<br>EduBox Admin";
+        mailMessage.setContent(emailBody, "text/html");
+        System.out.println("Mail Session has been created successfully..");
+        
+        // Step3
+        System.out.println("\n\n 3rd ===> Get Session and Send mail");
+        Transport transport = mailSession.getTransport("smtp");
+        
+        // Enter your correct gmail UserID and Password
+        // if you have 2FA enabled then provide App Specific Password
+        transport.connect("smtp.gmail.com", "41capstone03@gmail.com", "8mccapstone");
+        transport.sendMessage(mailMessage, mailMessage.getAllRecipients());
+        transport.close();
     }
 }
