@@ -87,7 +87,7 @@ public class JobEntity implements Serializable {
     }
     
     public boolean createJobListing(String jobTitle, String jobDescription, String jobImagefileName, String jobRateType, 
-            double jobRate, double jobDuration, String startLocation, String startLat, String startLong, String endLocation, String endLat, String endLong, Date workDate){
+            double jobRate, double jobDuration, String startLocation, String startLat, String startLong, String endLocation, String endLat, String endLong, Date workDate, String jobInformation){
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.jobImage = jobImagefileName;
@@ -101,6 +101,7 @@ public class JobEntity implements Serializable {
         this.jobEndLat = endLat;
         this.jobEndLong = endLong;
         this.jobWorkDate = workDate;
+        this.jobInformation = jobInformation;
         
         return true;
     }

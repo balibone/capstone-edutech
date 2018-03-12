@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
@@ -53,11 +54,16 @@ public class ErrandsSysUserController extends HttpServlet {
             
             switch (pageAction) {
                 case "goToViewJobListingSYS":
+                    request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList());
                     pageAction = "ViewJobListingSYS";
                     break;
-                case "goToJobDetails":
-                    pageAction = "JobDetails";
+                case "goToViewJobDetailsSYS":
+                    long jobID = Long.parseLong(request.getParameter("hiddenJobID"));
+                    String categoryName = request.getParameter("hiddenCategoryName");
+                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobID));
+                    request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(categoryName, jobID));
+                    pageAction = "ViewJobDetailsSYS";
                     break;
                 case "goToNewJobListingSYS":
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
@@ -158,6 +164,7 @@ public class ErrandsSysUserController extends HttpServlet {
         String endLocation = request.getParameter("endLocation");
         String endLat = (request.getParameter("hiddenEndLat"));
         String endLong = (request.getParameter("hiddenEndLong"));
+        String otherInformation = request.getParameter("jobInformation");
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         Date jobWorkDate = new Date();
         try{
@@ -168,7 +175,7 @@ public class ErrandsSysUserController extends HttpServlet {
         
         System.out.println("job title" + jobTitle);
         return esmr.createJobListing(jobTitle, jobRateType, jobRate, jobDuration, jobDescription, jobWorkDate, jobImagefileName, 
-                categoryID, username, startLocation, startLat, startLong, endLocation, endLat, endLong);
+                categoryID, username, startLocation, startLat, startLong, endLocation, endLat, endLong, otherInformation);
     }
     
     /* MISCELLANEOUS METHODS */

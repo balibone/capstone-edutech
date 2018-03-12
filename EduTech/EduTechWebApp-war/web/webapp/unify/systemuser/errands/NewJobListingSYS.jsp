@@ -298,6 +298,10 @@
                                                         <input type="text" class="form-control" id="endLocation" name="endLocation" placeholder="Enter the end location" required="required" />
                                                         <div id="searchResults_end"></div>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label for="jobInformation">Other Information</label>
+                                                        <textarea class="form-control" name="jobInformation" rows="4" placeholder="Enter other information(Optional)" ></textarea>
+                                                    </div>
                                                     <input type="hidden" name="pageTransit" value="createJobListingSYS" />
                                                     <input type="hidden" name="username" value="<%= loggedInUsername%>" />
                                                     <input type="hidden" name="hiddenStartLat" id="hiddenStartLat" />

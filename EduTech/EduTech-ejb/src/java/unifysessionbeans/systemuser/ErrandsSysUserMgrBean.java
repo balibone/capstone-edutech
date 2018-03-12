@@ -110,6 +110,21 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         return jobList;
     }
     
+    public ArrayList<String> getJobCategoryList(){
+        
+        ArrayList<String> categoryNameList = new ArrayList();
+        
+        Query q = em.createQuery("SELECT c.categoryName FROM Category c WHERE c.categoryType = 'Errands'");
+        if(q.getResultList()!=null){
+            Vector categoryList = (Vector) q.getResultList();
+            for(int i=0; i<categoryList.size(); i++){
+                String name = (String) categoryList.get(i);
+                categoryNameList.add(name);
+            }
+        }
+        return categoryNameList;
+    }
+    
     /*@Override
     public boolean likeAJob(long jobID, String userName){
         
@@ -142,6 +157,10 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     
     @Override
     public Vector viewJobDetails(long jobID) {
+        
+        Date currentDate = new Date();
+        String dateString = "";
+        
         jEntity = lookupJob(jobID);
         Vector jobDetailsVec = new Vector();
 
@@ -160,13 +179,54 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobDetailsVec.add(jEntity.getJobEndLong());
             jobDetailsVec.add(jEntity.getJobImage());
             jobDetailsVec.add(jEntity.getJobStatus());
-            //jobDetailsVec.add(jEntity.getJobNumOfLikes());
-            jobDetailsVec.add(sdf.format(jEntity.getJobPostDate()));
+            jobDetailsVec.add(jEntity.getJobNumOfLikes());
+            
+            
+            
+            long diff = currentDate.getTime() - jEntity.getJobPostDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            
+            jobDetailsVec.add(dateString);
             jobDetailsVec.add(sdf.format(jEntity.getJobWorkDate()));
             jobDetailsVec.add(jEntity.getUserEntity().getUsername());
             jobDetailsVec.add(jEntity.getUserEntity().getImgFileName());
             jobDetailsVec.add(jEntity.getUserEntity().getUserCreationDate());
             jobDetailsVec.add(jEntity.getCategoryEntity().getCategoryID());
+            jobDetailsVec.add(jEntity.getJobDuration());
+            jobDetailsVec.add(jEntity.getJobInformation());
             return jobDetailsVec;
         }
         return null;
@@ -177,7 +237,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         Date currentDate = new Date();
         String dateString = "";
 
-        Query q = em.createQuery("SELECT j FROM Job i WHERE j.jobStatus = 'Available' AND "
+        Query q = em.createQuery("SELECT j FROM Job j WHERE j.jobStatus = 'Available' AND "
                 + "j.categoryEntity.categoryActiveStatus = '1' AND "
                 + "j.categoryEntity.categoryName = :hiddenCategoryName");
         q.setParameter("hiddenCategoryName", hiddenCategoryName);
@@ -242,7 +302,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     @Override
     public String createJobListing(String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 
             Date jobWorkDate, String jobImagefileName, long categoryID, String username, String startLocation, 
-            String startLat, String startLong, String endLocation, String endLat, String endLong) {
+            String startLat, String startLong, String endLocation, String endLat, String endLong, String jobInformation) {
         if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
         else if (lookupCategory(categoryID) == null) { return "Selected category cannot be found. Please try again."; }
         else {
@@ -252,7 +312,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jEntity = new JobEntity();
             
             if(jEntity.createJobListing(jobTitle, jobDescription, jobImagefileName, jobRateType, jobRate, jobDuration, startLocation, 
-                    startLat, startLong, endLocation, endLat, endLong, jobWorkDate)) {
+                    startLat, startLong, endLocation, endLat, endLong, jobWorkDate, jobInformation)) {
                 jEntity.setCategoryEntity(cEntity);
                 jEntity.setUserEntity(uEntity);
                 em.persist(jEntity);
