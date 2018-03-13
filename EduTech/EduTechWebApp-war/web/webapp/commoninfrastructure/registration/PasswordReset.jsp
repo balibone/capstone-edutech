@@ -63,7 +63,7 @@
         </form>
             
             <!-- New Password Modal -->
-            <div class="modal fade" id="newPassword" tabindex="-1" role="dialog" aria-labelledby="newPassword" aria-hidden="true" style="background-color: #f2f2f2; border-radius: 24px;">
+            <div class="modal fade mx-auto" id="newPassword" tabindex="-1" role="dialog" aria-labelledby="newPassword" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -73,26 +73,35 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="resetPassword">
+                            <form id="resetPassword" method="POST" action="CommonInfra">
                                 <div class="form-group row">
-                                    <label for="password1" class="col-sm-4 col-form-label">New Password</label>
-                                    <div class="col-sm-8">
-                                        <input required type="password" class="form-control" id="password1" placeholder="New Password">
+                                    <label for="password1" class="col-sm-3 col-form-label">New password</label>
+                                    <div class="col-sm-9">
+                                        <input required type="password" class="form-control" id="password1" placeholder="New Password" name="password">
+                                        <small id="passwordHelpBlock" class="form-text text-muted">
+                                            Your password must be at least 8 characters long, alphanumeric, and must not contain spaces, special characters, or emojis.
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="password2" class="col-sm-4 col-form-label">Re-enter New Password</label>
-                                    <div class="col-sm-8">
+                                    <label for="password2" class="col-sm-3 col-form-label">Re-enter</label>
+                                    <div class="col-sm-9">
                                         <input required type="password" class="form-control" id="password2" placeholder="Re-enter New Password">
                                     </div>
                                 </div>
+                                <input type="hidden" name="pageTransit" value="resetPassword"/>
+                                <input type="hidden" name="username" value="<%=request.getParameter("username")%>"/>
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Submit</button>&nbsp;
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                </div>
+                                
                             </form>
                         </div>
-                        <input type="hidden" name="pageTransit" value="resetPassword"/>
+<!--                        
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
+                            
+                        </div>-->
                     </div>
                 </div>
             </div>

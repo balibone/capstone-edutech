@@ -198,6 +198,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         q1.setParameter("uname", username);
         UserEntity u = (UserEntity) q1.getSingleResult();
         if(u != null && !u.getUserPassword().equals(password)){
+            System.out.println("RECEIVED PASSWORD IS "+password);
             u.setUserPassword(password);
             return true;
         }else{
