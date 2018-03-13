@@ -52,7 +52,7 @@
                 <input type="text" class="form-control" id="username" placeholder="Enter your username" required name="username">
             </div>
                 
-            <input type="hidden" name="pageTransit" value="resetPassword"/>
+            <input type="hidden" name="pageTransit" value="sendResetEmail"/>
             <%  if(request.getAttribute("failMsg") != null) {   %>
             <div class="alert alert-danger" role="alert"><%= request.getAttribute("failMsg")%></div>
             <%  }   %>

@@ -110,7 +110,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     }
 
     @Override
-    public boolean resetPassword(String username) {
+    public boolean sendResetEmail(String username) {
         Query q1 = em.createQuery("SELECT s FROM SystemUser s WHERE s.username = :uName");
         q1.setParameter("uName", username);
         UserEntity u = (UserEntity) q1.getSingleResult();
@@ -161,9 +161,11 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         mailSession = Session.getDefaultInstance(mailServerProperties, null);
         mailMessage = new MimeMessage(mailSession);
         mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-        mailMessage.setSubject("Greetings from Crunchify..");
-        String emailBody = "Dear "+ username + ",<br><br>Please click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&token="+token+"'>link</a> to reset your password.<br>Alternatively, you can copy paste your reset token <strong>"+ token +"</strong> into the same page."
-                + "<a></a>" +"<br><br>Regards,<br>EduBox Admin";
+        mailMessage.setSubject("Greetings from EduBox");
+        String emailBody = "Hey "+ username + ",<br><br>"
+                + "Click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&username="+username+"&token="+token+"'>link</a> to reset your password.<br>"
+                + "Alternatively, you click <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&username="+username+"'>here</a> and paste your reset token <strong>"+ token +"</strong> manually."
+                + "<a></a>" +"<br><br>Cheers,<br>EduBox Team";
         mailMessage.setContent(emailBody, "text/html");
         System.out.println("Mail Session has been created successfully..");
         
@@ -176,5 +178,30 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         transport.connect("smtp.gmail.com", "41capstone03@gmail.com", "8mccapstone");
         transport.sendMessage(mailMessage, mailMessage.getAllRecipients());
         transport.close();
+    }
+
+    @Override
+    public boolean validateToken(String username, String token) {
+        Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username=:uname");
+        q1.setParameter("uname", username);
+        UserEntity u = (UserEntity) q1.getSingleResult();
+        if(u != null && u.getResetToken().equals(token)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public boolean resetPassword(String username, String password) {
+        Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username=:uname");
+        q1.setParameter("uname", username);
+        UserEntity u = (UserEntity) q1.getSingleResult();
+        if(u != null && !u.getUserPassword().equals(password)){
+            u.setUserPassword(password);
+            return true;
+        }else{
+            return false;
+        }
     }
 }

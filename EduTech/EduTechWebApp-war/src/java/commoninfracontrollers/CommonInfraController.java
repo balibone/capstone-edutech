@@ -186,14 +186,26 @@ public class CommonInfraController extends HttpServlet {
                     }                    
                     
                     break;
-                case "resetPassword":
-                    success = cir.resetPassword(request.getParameter("username"));
+                case "sendResetEmail":
+                    success = cir.sendResetEmail(request.getParameter("username"));
                     if(success){
                         request.setAttribute("successMsg", "Recover email has been sent. Please check your inbox."); 
                         pageAction = "IntegratedSPLogin";
                     }else{
                         request.setAttribute("failMsg", "Reset failed. Please check if your username is correct & your recovery email is valid."); 
                         pageAction = "ForgotPassword";
+                    }
+                    break;
+                case "validateToken":
+                    success = cir.validateToken(request.getParameter("username"),request.getParameter("token"));
+                    if(!success){
+                        response.sendError(400, "The token you have supplied is invalid. Please ensure username and token are valid.");
+                    }
+                    break;
+                case "resetPassword":
+                    success = cir.resetPassword(request.getParameter("username"),request.getParameter("password"));
+                    if(!success){
+                        response.sendError(400, "Please choose a different password than your previous one. ");
                     }
                     break;
                 default:
