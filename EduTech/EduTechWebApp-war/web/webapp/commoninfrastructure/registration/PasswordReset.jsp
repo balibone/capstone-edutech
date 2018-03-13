@@ -49,7 +49,18 @@
             
             <div class="form-group">
                 <label for="username">Reset Token</label>
+                <%
+                    if(request.getParameter("token")!=null){
+                %>
                 <input id="token" value="<%=request.getParameter("token")%>" type="text" class="form-control" id="token" placeholder="Enter the token sent to your email" required name="token">
+                <%
+                    }else{
+                %>
+                <input id="token" type="text" class="form-control" id="token" placeholder="Enter the token sent to your email" required name="token">
+                <%
+}
+                %>
+                
             </div>
             
             <input type="hidden" name="pageTransit" value="validateToken"/>

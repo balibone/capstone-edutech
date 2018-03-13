@@ -196,6 +196,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     public boolean resetPassword(String username, String password) {
         Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username=:uname");
         q1.setParameter("uname", username);
+        
         UserEntity u = (UserEntity) q1.getSingleResult();
         if(u != null && !u.getUserPassword().equals(password)){
             System.out.println("RECEIVED PASSWORD IS "+password);

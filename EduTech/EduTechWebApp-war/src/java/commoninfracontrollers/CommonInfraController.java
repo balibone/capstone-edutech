@@ -199,7 +199,7 @@ public class CommonInfraController extends HttpServlet {
                 case "validateToken":
                     success = cir.validateToken(request.getParameter("username"),request.getParameter("token"));
                     if(!success){
-                        response.sendError(400, "The token you have supplied is invalid. Please ensure username and token are valid.");
+                        response.sendError(400, "The token you have supplied is invalid. Please use the links provided in email and ensure token is correct.");
                     }
                     break;
                 case "resetPassword":
