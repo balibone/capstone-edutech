@@ -1,4 +1,4 @@
-# :books: Integrated Student System (ISS) :books: 
+# :books: EduBox :books: 
 
 ### How To Start using Git:
 1. Create GitHub account.
