@@ -37,6 +37,7 @@ import unifyentities.errands.JobEntity;
 import unifyentities.errands.JobReviewEntity;
 import unifyentities.common.JobReviewReportEntity;
 import unifyentities.common.EventRequestEntity;
+import unifyentities.common.MessageEntity;
 import unifyentities.event.EventEntity;
 import unifyentities.voices.CompanyEntity;
 
@@ -58,6 +59,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     private EventRequestEntity erEntity;
     private EventEntity eEntity;
     private CompanyEntity cEntity;
+    private MessageEntity mEntity;
 
     @Override
     public List<Vector> viewTagListing() {
@@ -1163,7 +1165,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
 
     }
-    
+
     @Override
     public String resolveDelistErrandReview(String reportID) {
 
@@ -1262,6 +1264,33 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
+    public String sendAlertReport(String messageSenderID, String messageReceiverID, String itemReported) {
+
+        try {
+            /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
+            mEntity = new MessageEntity();
+          
+            mEntity.createContentMessage(messageSenderID, messageReceiverID,
+                    itemReported + " was delisted due to violation of posting guidelines.",
+                    Long.parseLong(itemReported), "System");
+
+            UserEntity user = lookupUnifyUser(messageSenderID);
+
+            mEntity.setUserEntity(user);
+
+            em.persist(mEntity);
+
+            return "Message successfully sent!";
+            
+        } catch (Exception nre) {
+            System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
+            
+            return "Error sending message to user";
+        }
+
+    }
+
+    @Override
     public Long getUnresolvedErrandsReviewReportCount() {
         Long unresolvedErrandsReviewReportCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReviewReportID) FROM JobReviewReport c WHERE c.jobReviewReportStatus='Unresolved'");
@@ -1321,7 +1350,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
             requestVec.add(df.format(requestE.getEventRequestDate()));
             requestVec.add(username);
-            
+
             requestVec.add(requestE.getEventRequestTitle());
 
             requestList.add(requestVec);
@@ -1382,7 +1411,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
             requestDetails.add(erEntity.getEventRequestVenueLat());
             requestDetails.add(erEntity.getEventRequestVenueLong());
-            
+
             requestDetails.add(erEntity.getEventRequestTitle());
 
             System.out.println("ADDED EVENT REQUEST DETAILS");
@@ -1535,6 +1564,24 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             te = null;
         }
         return te;
+    }
+
+    public UserEntity lookupUnifyUser(String username) {
+        UserEntity ue = new UserEntity();
+        try {
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
     }
 
     /* METHODS FOR UNIFY ADMIN DASHBOARD */

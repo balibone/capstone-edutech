@@ -190,6 +190,8 @@
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <input type="hidden" name="reportedErrandID" value="<%= reportedErrandID%>" />
+                                <input type="hidden" name="reportedPosterID" value="<%= reportedPosterID%>" />
+                                <input type="hidden" name="loggedInUsername" value="<%= loggedInUsername%>" />
                                 <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm delisting?')">Delist Errand & Resolve</button>
                             </form>
                         </td>
