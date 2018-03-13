@@ -17,9 +17,6 @@ class ScheduleItemStore {
 
     @action
 	  populateScheduleItems(username){
-      // const username = "localStorage.getItem('username')";
-      // const userScheduleItem = await axios.get(`/scheduleitem/user/${username}`);
-
       axios.get(`/scheduleitem/user/${username}`)
       .then((res) => {
         this.scheduleItems = res.data;
@@ -50,7 +47,6 @@ class ScheduleItemStore {
 
      @action
      populateMergedScheduleItemsForGroup(groupId){
-
       axios.get(`/scheduleitem/members/${groupId}`)
         .then((res) => {
           this.userGroupScheduleItems = res.data;
@@ -163,9 +159,7 @@ class ScheduleItemStore {
         allDurationsInHr.filter((item) => item.itemDetails.id == groupId)
         console.log("KEY DATES filtered: ", allDurationsInHr)
         this.recentKeyDates = allDurationsInHr;
-        // return allDurationsInHr;
       }
-      // return allDurations;
       this.recentKeyDates = allDurations;
     }
 

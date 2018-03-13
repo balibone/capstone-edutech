@@ -20,6 +20,17 @@ class MainCalendar extends Component {
 		console.log("SCHEDULE ITEMS: ", scheduleItemTempArr)
 		if(scheduleItemTempArr && scheduleItemTempArr.length>0){
 			for(var i=0 ; i<scheduleItemTempArr.length ; i++){
+				var color = "";
+				switch(scheduleItemTempArr[i].type){
+					case "personal": color = '006400'
+						break;
+					case "meeting": color = 'FF8C00'
+						break;
+					case "timetable": color = '9932CC'
+						break;
+					case "assessment": color = '00BFFF'
+						break;
+				}
 				scheduleItemArr = scheduleItemArr.concat({
 					id: scheduleItemTempArr[i].id,
 					title: scheduleItemTempArr[i].title, 
@@ -29,7 +40,8 @@ class MainCalendar extends Component {
 					description: scheduleItemTempArr[i].description,
 					location: scheduleItemTempArr[i].location,
 					type: scheduleItemTempArr[i].type,
-					createdBy: scheduleItemTempArr[i].createdBy
+					createdBy: scheduleItemTempArr[i].createdBy,
+					hexColor: color
 				})
 			}
 		}

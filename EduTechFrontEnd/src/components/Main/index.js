@@ -54,8 +54,6 @@ class Main extends Component {
               console.log('YAaaaaz')
               const { groupId } = props.match.params
               const group = this.getSelectedGroup(groupId)
-
-              console.log("WHAT IS WRONG?", group);
               return(<div><GroupProfilePanel group={group} img={group.imagefilename} primaryInfo={group.title} secondaryInfo={group.description} /> <MembersPanel groupStore={GroupStore} getSelectedGroup={this.getSelectedGroup} {...props}/></div>)}
             }/>
           </Switch>

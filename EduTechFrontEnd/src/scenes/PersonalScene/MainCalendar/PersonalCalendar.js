@@ -60,6 +60,22 @@ class PersonalCalendar extends Component {
 		this.setState({openEditForm: true, openCalendarCard: false})
 	}
 
+	eventStyleGetter(event, start, end, isSelected) {
+    	console.log(event);
+    	var backgroundColor = '#' + event.hexColor;
+    	var style = {
+	        backgroundColor: backgroundColor,
+	        borderRadius: '0px',
+	        opacity: 0.8,
+	        color: 'black',
+	        border: '0px',
+	        display: 'block'
+    	};
+    	return {
+        	style: style
+    	};
+	}
+
 	render(){
 		let eventsArray = this.props.eventsArray;
 
@@ -72,13 +88,14 @@ class PersonalCalendar extends Component {
 				    	defaultDate = {new Date()}
 				    	onSelectSlot = {(slotInfo) => this.openCalendarForm(slotInfo)}
 				    	onSelectEvent = {(event)=> this.eventClicked(event) }
-				    	views={['month']}
-						popup={true}
-						popupOffset={{x:30, y:20}}
-						length={7}
-				    />
-
-
+				    	views={['month', 'agenda']}
+				    	popup={true}
+				    	popupOffset={{x: 30, y: 20}}
+				    	length = {7}
+				    	eventPropGetter = {this.eventStyleGetter}
+		
+				    />  
+				  
 				  {
 				  	this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>
 				  }

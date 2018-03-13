@@ -60,7 +60,6 @@ class ProjectGroupCalendar extends Component {
 	getEventArray(membersScheduleItems){
 		var scheduleItemArr = [];
 		
-		console.log("SCHEDULE ITEMS: ", membersScheduleItems)
 		if(membersScheduleItems && membersScheduleItems.length>0){
 			for(var i=0 ; i<membersScheduleItems.length ; i++){
 				var namesArr =[];
