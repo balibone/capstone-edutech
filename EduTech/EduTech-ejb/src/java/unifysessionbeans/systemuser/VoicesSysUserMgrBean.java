@@ -12,14 +12,19 @@ package unifysessionbeans.systemuser;
 
 import commoninfrastructureentities.UserEntity;
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
@@ -36,7 +41,12 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     private CategoryEntity categoryEntity;
     private CompanyReviewEntity reviewEntity;
     private CompanyRequestEntity requestEntity;
+    private Collection<CompanyReviewEntity> companyReviewSet;
     
+    SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+    DecimalFormat df_num = new DecimalFormat("0.00");
+    
+    @Override
     public List<Vector> viewCompanyList() {
         Query q = em.createQuery("SELECT c FROM Company c WHERE c.companyStatus='Active' AND c.categoryEntity.categoryActiveStatus = '1'");
         List<Vector> companyList = new ArrayList<Vector>();
@@ -62,9 +72,15 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
                     reviewDateList.add(cre.getReviewDate());
                     aveReviewRating += cre.getReviewRating();
                 }
-                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+                
+                Collections.sort(reviewDateList, new Comparator<Date>(){
+                    public int compare(Date o1, Date o2) {
+                        return o1.compareTo(o2);
+                    }
+                });
+                
                 companyVec.add(df.format(reviewDateList.get(reviewDateList.size()-1)));
-                companyVec.add(aveReviewRating/reviewDateList.size());
+                companyVec.add(df_num.format(aveReviewRating/reviewDateList.size()));
             } else {
                 companyVec.add("----/--/--");
                 companyVec.add(0.0);
@@ -75,20 +91,71 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
         return companyList;
     }
     
-    /*
+    @Override
+    public Vector viewCompanyDetails(long companyID) {
+        CompanyEntity compEntity = lookupCompany(companyID);
+        Vector companyDetailsVec = new Vector();
+
+        if (compEntity != null) {
+            companyDetailsVec.add(compEntity.getCompanyID());
+            companyDetailsVec.add(compEntity.getCompanyImage());
+            companyDetailsVec.add(compEntity.getCompanyName());
+            companyDetailsVec.add(compEntity.getCategoryEntity().getCategoryName());
+            companyDetailsVec.add(compEntity.getCompanyWebsite());
+            companyDetailsVec.add(compEntity.getCompanyHQ());
+            companyDetailsVec.add(compEntity.getCompanySize());
+            if(compEntity.getCompanyReviewSet().isEmpty()) {
+                companyDetailsVec.add(0.00);
+            } else {
+                companyReviewSet = compEntity.getCompanyReviewSet();
+                double rating = 0.00;
+                for(Object o: companyReviewSet) {
+                    CompanyReviewEntity companyReview = (CompanyReviewEntity) o;
+                    rating += companyReview.getReviewRating();
+                }
+                rating = rating/companyReviewSet.size();
+                companyDetailsVec.add(df_num.format(rating));
+            }
+            companyDetailsVec.add(compEntity.getCompanyDescription());
+            companyDetailsVec.add(compEntity.getCompanyAddress());
+        }
+        return companyDetailsVec;
+        
+    }
+    
+    @Override
     public String createCompanyReview(String companyIndustry, String companyName, String reviewTitle, String reviewPros, 
-                String reviewCons, String reviewRating, String reviewDescription, String employmentStatus ,String reviewPoster) {
+                String reviewCons, String reviewRating, String employmentStatus, String salaryRange, String reviewPoster) {
         
         reviewEntity = new CompanyReviewEntity();
-        if (reviewEntity.createReview(companyName, reviewTitle,reviewPros, reviewCons, reviewRating, reviewDescription, employmentStatus, reviewPoster)) {
+        UserEntity userEntity = lookupSystemUser(reviewPoster);
+        companyEntity = lookupCompany(companyName, companyIndustry);
+        if (reviewEntity.createReview(companyEntity, reviewTitle,reviewPros, reviewCons, Double.parseDouble(reviewRating), employmentStatus, salaryRange, userEntity)) {
                 em.persist(reviewEntity);
-                return "Company category has been created successfully!";
+                userEntity.getCompanyReviewSet().add(reviewEntity);
+                companyEntity.getCompanyReviewSet().add(reviewEntity);
+                em.merge(userEntity);
+                em.merge(companyEntity);
+                return "Company review has been created successfully!";
             } else {
-                return "There were some issues encountered while creating the company category. Please try again.";
+                return "There were some issues encountered while creating the company review. Please try again.";
             }
-      
+    } 
+    
+    @Override
+    public String createCompanyRequest(String requestCompany, String companyIndustry, String requestComment, String requestPoster) {
         
-    } */
+        requestEntity = new CompanyRequestEntity();
+        UserEntity userEntity = lookupSystemUser(requestPoster);
+        if (requestEntity.createRequest(requestCompany, companyIndustry, requestComment, userEntity)) {
+                em.persist(requestEntity);
+                userEntity.getCompanyRequestSet().add(requestEntity);
+                em.merge(userEntity);
+                return "Your request has been sent successfully!";
+            } else {
+                return "There were some issues encountered while sending the request. Please try again.";
+            }
+    } 
     
     @Override
     public List<String> populateCompanyIndustry() {
@@ -101,5 +168,76 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
         }
         
         return companyIndustryList;
+    }
+    
+    @Override
+    public String populateCompanyIndustryString() {
+        String companyIndustryStr = "";
+            Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'Voices' AND c.categoryActiveStatus = '1'");
+
+        for (Object o : q.getResultList()) {
+            CategoryEntity ce = (CategoryEntity) o;
+            companyIndustryStr += ce.getCategoryName() + ";";
+        }
+        if(companyIndustryStr.length()!=0) {
+            companyIndustryStr = companyIndustryStr.substring(0, companyIndustryStr.length()-1);
+        }
+        return companyIndustryStr;
+    }
+    
+    public UserEntity lookupSystemUser(String username) {
+        UserEntity ue = new UserEntity();
+        try {
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: System User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: System User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
+    }
+    
+    public CompanyEntity lookupCompany(long companyID) {
+        CompanyEntity ce = new CompanyEntity();
+        try {
+            Query q = em.createQuery("SELECT c FROM Company c WHERE c.companyID = :companyID");
+            q.setParameter("companyID", companyID);
+            ce = (CompanyEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Company cannot be found. " + enfe.getMessage());
+            em.remove(ce);
+            ce = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Company does not exist. " + nre.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        return ce;
+    }
+    
+    public CompanyEntity lookupCompany(String companyName, String companyIndustry) {
+        CompanyEntity ce = new CompanyEntity();
+        System.out.println(companyIndustry);
+        try {
+            Query q = em.createQuery("SELECT c from Company c WHERE c.companyName=:companyName And c.categoryEntity.categoryName=:companyIndustry");
+            q.setParameter("companyName", companyName);
+            q.setParameter("companyIndustry",companyIndustry);
+            ce = (CompanyEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Company cannot be found. " + enfe.getMessage());
+            em.remove(ce);
+            ce = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Company does not exist. " + nre.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        return ce;
     }
 }

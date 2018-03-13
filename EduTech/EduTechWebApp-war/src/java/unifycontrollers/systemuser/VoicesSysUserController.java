@@ -16,11 +16,18 @@ import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import unifysessionbeans.systemuser.VoicesSysUserMgrBeanRemote;
+
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 10,
+        maxFileSize = 1024 * 1024 * 50,
+        maxRequestSize = 1024 * 1024 * 100
+)
 
 public class VoicesSysUserController extends HttpServlet {
     @EJB
@@ -54,6 +61,26 @@ public class VoicesSysUserController extends HttpServlet {
                     responseMessage = createCompanyReview(request);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
+                    request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
+                    request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
+                    pageAction = "ViewCompanyListingSYS";
+                    break;
+                case "goToViewCompanyDetailsSYS":
+                    long companyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(companyID));
+                    pageAction="ViewCompanyDetailsSYS";
+                    break;
+                case "goToNewCompanyRequestSYS":
+                    request.setAttribute("industryStrSYS", vsmr.populateCompanyIndustryString());
+                    pageAction="NewCompanyRequestSYS";
+                    break;
+                case "createRequestSYS":
+                    responseMessage = createCompanyRequest(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
+                    request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
+                    pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToReviewListing":
                     pageAction = "ReviewListing";
@@ -81,12 +108,22 @@ public class VoicesSysUserController extends HttpServlet {
         String reviewPros = request.getParameter("companyPros");
         String reviewCons = request.getParameter("companyCons");
         String reviewRating = request.getParameter("companyRating");
-        String reviewDescription = request.getParameter("companyDescription");
         String employmentStatus = request.getParameter("employmentStatus");
+        String salaryRange = request.getParameter("salaryRange");
         String reviewPoster = request.getParameter("username");
         
-        //responseMessage = vsmr.createCompanyReview(companyIndustry, companyName, reviewTitle, 
-                //reviewPros, reviewCons, reviewRating, reviewDescription, employmentStatus, reviewPoster);
+        responseMessage = vsmr.createCompanyReview(companyIndustry, companyName, reviewTitle, 
+                reviewPros, reviewCons, reviewRating, employmentStatus, salaryRange, reviewPoster);
+        return responseMessage;
+    }
+    
+    private String createCompanyRequest(HttpServletRequest request) {
+        String companyIndustry = request.getParameter("companyIndustry");
+        String requestCompany = request.getParameter("requestCompany");
+        String requestComment = request.getParameter("requestComment");
+        String requestPoster = request.getParameter("username");
+        
+        responseMessage = vsmr.createCompanyRequest(requestCompany, companyIndustry, requestComment, requestPoster);
         return responseMessage;
     }
 

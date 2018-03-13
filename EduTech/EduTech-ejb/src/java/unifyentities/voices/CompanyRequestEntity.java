@@ -45,6 +45,17 @@ public class CompanyRequestEntity implements Serializable {
     public void creationDate() { this.requestDate = new Date(); }
 
     public CompanyRequestEntity() { this.setRequestID(System.nanoTime()); }
+    
+    public boolean createRequest(String requestCompany, String companyIndustry, String requestComment, UserEntity requestPoster) {
+        this.setRequestID(System.nanoTime());
+        this.requestDate = new Date();
+        this.requestCompany = requestCompany;
+        this.requestIndustry = companyIndustry;
+        this.requestStatus = "Pending";
+        this.requestComment = requestComment;
+        this.userEntity = requestPoster;
+        return true;
+    }
 
     public Long getRequestID() { return requestID; }
     public String getRequestCompany() { return requestCompany; }

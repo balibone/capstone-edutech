@@ -21,27 +21,22 @@ $(document).ready(function () {
         itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
     });
     
-    $('.itemCard').on('click', function(event) {
-        var itemID = $(this).attr('id');
-        if(itemID != null) {
-            $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToViewItemDetailsModalSYS&itemID=' + itemID);
-            $('#itemcard-iframe').iziModal('open', event);
-        } else {
-            alert("Item cannot be found. Please refresh the page and try again.")
-        }
+    $('#newCompanyRequest').on('click', function() {
+        $('iframe').attr('src', 'VoicesSysUser?pageTransit=goToNewCompanyRequestSYS&hiddenUsername='+ $('#username').val());
+        $('#newCompanyRequest-iframe').iziModal('open', event);
     });
     
-    $("#itemcard-iframe").iziModal({
-        title: 'Item Details',
-        subtitle: 'Item Description, Chat to Buy',
-        iconClass: 'fa fa-cubes',
+    $('#newCompanyRequest-iframe').iziModal({
+        title: 'Request for New Company',
+        subtitle: 'Fill in the information of the requested company here',
+        iconClass: 'fa fa-tag',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#337AB7',
-        width: 525,
+        headerColor: '#4D7496',
+        width: 500,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 425
+        iframeHeight: 325
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
