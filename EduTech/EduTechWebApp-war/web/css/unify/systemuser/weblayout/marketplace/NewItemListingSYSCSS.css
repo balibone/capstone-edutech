@@ -1,7 +1,1 @@
-#searchResults { z-index: 999; width: max-content; max-height: 250px; overflow-y: scroll; background-color: #ffffff; position: absolute; }
-.form-row .card { padding: 20px 0 20px 0; }
-.form-row .card:hover, .form-row .card.active { border-color: #4D7496; }
-
-input[type="file"] { display: none; }
-.image-upload { border: 3px dashed #D6D6D6; background-color: #FAFAFA; max-width: 151px; min-width: 151px; max-height: 156px; min-height: 156px;}
-#output-image { max-width: 145px; min-width: 145px; max-height: 150px; min-height: 150px; }
+#searchResults { z-index: 999; width: 100%; max-height: 250px; overflow-y: scroll; background-color: #ffffff; position: absolute; }

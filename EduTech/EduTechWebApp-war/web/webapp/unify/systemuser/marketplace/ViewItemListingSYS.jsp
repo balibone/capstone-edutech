@@ -162,9 +162,9 @@
                     <div class="col-4 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block mt-3">
                         <div class="d-flex align-items-center float-right abg-secondary">
                             <div class="btn-group btn-group-sm mr-3" role="group">
-                                <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
+                                <button type="button" class="btn btn-outline-theme newItemListingBtn">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
-                                </a>
+                                </button>
                                 <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
@@ -311,7 +311,7 @@
                                 <%
                                     ArrayList<Vector> itemListSYS = (ArrayList) request.getAttribute("itemListSYS");
                                     if (!itemListSYS.isEmpty()) {
-                                        for (int i = 0; i <= itemListSYS.size() - 1; i++) {
+                                        for (int i = 0; i <= itemListSYS.size()-1; i++) {
                                             Vector v = itemListSYS.get(i);
                                             String itemID = String.valueOf(v.get(0));
                                             String itemImage = String.valueOf(v.get(1));
@@ -323,7 +323,8 @@
                                             String itemPostingDate = String.valueOf(v.get(7));
                                             String itemPrice = String.valueOf(v.get(8));
                                             String itemNumOfLikes = String.valueOf(v.get(9));
-                                            String itemCondition = String.valueOf(v.get(10));
+                                            String itemLikeStatus = String.valueOf(v.get(10));
+                                            String itemCondition = String.valueOf(v.get(11));
                                 %>
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -347,7 +348,11 @@
                                                     </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
                                                         <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            <button id="likeBtn<%= itemID%>" class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
+                                                            <%  if(itemLikeStatus.equals("true")) {   %>
+                                                            <button type="button" id="likeItemBtn<%= itemID%>" class="btn btn-link btn-sm itemListingBtn likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this item"><i class="fa fa-heart"></i></button>
+                                                            <%  } else if(itemLikeStatus.equals("false")) {    %>
+                                                            <button type="button" id="likeItemBtn<%= itemID%>" class="btn btn-link btn-sm itemListingBtn noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
+                                                            <%  }   %>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -360,9 +365,9 @@
                                         <div class="card-footer text-muted mt-1">
                                             <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
                                             <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
-                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span>&nbsp;Like</span>
+                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"id="itemNumOfLikes<%= itemID%>"><%= itemNumOfLikes%></span>&nbsp;<span id="likeWording<%= itemID%>">Like</span></span>
                                             <%  } else {%>
-                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span>&nbsp;Likes</span>
+                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"id="itemNumOfLikes<%= itemID%>"><%= itemNumOfLikes%></span>&nbsp;<span id="likeWording<%= itemID%>">Likes</span>
                                             <%  }   %>
                                         </div>
                                     </div>
@@ -385,10 +390,11 @@
                     </div>
                 </div>
             </div>
-            <!-- <div id="unifyFooter"></div> -->
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
+            <div id="sellNewItem-iframe"></div>
+            <div id="unifyFooter"></div>
         </div>
 
 

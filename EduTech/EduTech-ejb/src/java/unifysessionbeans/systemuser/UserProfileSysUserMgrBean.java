@@ -244,6 +244,8 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             itemOfferVec.add(df.format(itemE.getItemPostingDate()));
             itemOfferVec.add(String.format ("%,.2f", itemE.getItemPrice()));
             itemOfferVec.add(getItemLikeCount(itemE.getItemID()));
+            if(lookupLike(itemE.getItemID(), username) == null) { itemOfferVec.add(false);}
+            else { itemOfferVec.add(true); }
             itemOfferVec.add(getPendingItemOfferCount(itemE.getItemID()));
             itemOfferVec.add(itemE.getItemCondition());
             itemOfferVec.add(itemE.getItemStatus());

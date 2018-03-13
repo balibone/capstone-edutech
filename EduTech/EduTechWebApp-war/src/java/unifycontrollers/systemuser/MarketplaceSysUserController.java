@@ -55,17 +55,17 @@ public class MarketplaceSysUserController extends HttpServlet {
             switch (pageAction) {
                 case "goToNewItemListingSYS":
                     request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "NewItemListingSYS";
                     break;
                 case "createItemListingSYS":
-                    responseMessage = createItemListing(request);
+                    responseMessage = createItemListing(loggedInUsername, request);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
+                    request.setAttribute("itemOfferListSYS", (ArrayList) usmr.viewItemOfferList(loggedInUsername));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
-                    pageAction = "NewItemListingSYS";
+                    pageAction = "UserAccountSYS";
                     break;
                 case "goToEditItemListingSYS":
                     long urlItemID = Long.parseLong(request.getParameter("urlItemID"));
@@ -92,12 +92,12 @@ public class MarketplaceSysUserController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList());
+                    request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewItemListingSYS";
                     break;
                 case "goToViewItemListingSYS":
-                    request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList());
+                    request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList(loggedInUsername));
                     request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewItemListingSYS";
@@ -120,19 +120,17 @@ public class MarketplaceSysUserController extends HttpServlet {
                     break;
                 case "sendItemOfferPrice":
                     long itemIDHidden = Long.parseLong(request.getParameter("itemIDHidden"));
-                    String usernameHidden = request.getParameter("usernameHidden");
                     String itemOfferPrice = request.getParameter("itemOfferPrice");
                     String itemOfferDescription = request.getParameter("itemOfferDescription");
                     
-                    responseMessage = msmr.sendItemOfferPrice(itemIDHidden, usernameHidden, itemOfferPrice, itemOfferDescription);
+                    responseMessage = msmr.sendItemOfferPrice(itemIDHidden, loggedInUsername, itemOfferPrice, itemOfferDescription);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
                 case "likeItemListingDetails":
                     long itemIDHid = Long.parseLong(request.getParameter("itemIDHid"));
-                    String usernameHid = request.getParameter("usernameHid");
                     
-                    responseMessage = msmr.likeUnlikeItem(itemIDHid, usernameHid);
+                    responseMessage = msmr.likeUnlikeItem(itemIDHid, loggedInUsername);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
@@ -162,7 +160,7 @@ public class MarketplaceSysUserController extends HttpServlet {
     public String getServletInfo() { return "Marketplace (Item) System User Servlet"; }
     
     /* KEY METHODS */
-    private String createItemListing(HttpServletRequest request) {
+    private String createItemListing(String username, HttpServletRequest request) {
         String itemImagefileName = "";
         try {
             Part filePart = request.getPart("itemImage");
@@ -208,7 +206,6 @@ public class MarketplaceSysUserController extends HttpServlet {
         String itemCondition = request.getParameter("itemCondition");
         String itemDescription = request.getParameter("itemDescription");
         long categoryID = Long.parseLong(request.getParameter("hiddenCategoryID"));
-        String username = request.getParameter("username");
         String tradeLocation = request.getParameter("tradeLocation");
         String tradeLat = request.getParameter("hiddenTradeLat");
         String tradeLong = request.getParameter("hiddenTradeLong");

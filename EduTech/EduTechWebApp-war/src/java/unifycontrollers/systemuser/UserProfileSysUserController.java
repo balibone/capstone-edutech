@@ -103,7 +103,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToUserProfile":
                     String itemSellerID = request.getParameter("itemSellerID");
-                    request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));
+                    request.setAttribute("userItemListSYS", msmr.viewUserItemList(loggedInUsername, itemSellerID));
                     
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
                     request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));

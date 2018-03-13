@@ -156,9 +156,9 @@
                     <div class="col-4 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block mt-3">
                         <div class="d-flex align-items-center float-right abg-secondary">
                             <div class="btn-group btn-group-sm mr-3" role="group">
-                                <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
+                                <button type="button" class="btn btn-outline-theme newItemListingBtn">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
-                                </a>
+                                </button>
                                 <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
@@ -431,11 +431,12 @@
                     </div>
                 </div>
             </div>
-            <!-- <div id="unifyFooter"></div> -->
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
+            <div id="sellNewItem-iframe"></div>
             <div id="itemLikeList-iframe"></div>
+            <div id="unifyFooter"></div>
             
             <div style="display:none;" id="offerTooltip">
                 Offer Price&nbsp;<span style="color:#FF0000;">*</span>:<br/>
@@ -444,7 +445,6 @@
                 <textarea rows="3" id="itemOfferDescription" class="offerFields" placeholder="e.g. Meetup Location, Open for Negotiation"></textarea><br/>
                 <button type="button" id="sendOfferBtn" style="margin:7px 0 7px 0;">Send Offer</button><br/>
                 <input type="hidden" id="itemIDHidden" value="<%= itemID%>" />
-                <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
                 <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
             </div>
         </div>

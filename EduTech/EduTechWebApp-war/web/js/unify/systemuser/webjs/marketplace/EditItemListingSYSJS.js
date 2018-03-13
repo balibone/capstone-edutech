@@ -28,7 +28,7 @@ $(document).ready(function () {
     var dbTradeLong = document.getElementById("dbTradeLong").value;
     var dbItemCategoryID = document.getElementById("dbItemCategoryID").value;
     
-    $('.form-row .product-slider-item').find("#" + dbItemCategoryID).addClass("active");
+    $('.form-row .assocItemCategory').find("#" + dbItemCategoryID).addClass("active");
     
     var $radios = $('input:radio[name=itemCondition]');
     if($('#dbItemCondition').val() == 'New') { $radios.filter('[value=New]').prop('checked', true); }

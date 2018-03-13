@@ -155,9 +155,9 @@
                     <div class="col-4 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block mt-3">
                         <div class="d-flex align-items-center float-right abg-secondary">
                             <div class="btn-group btn-group-sm mr-3" role="group">
-                                <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
+                                <button type="button" class="btn btn-outline-theme newItemListingBtn">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
-                                </a>
+                                </button>
                                 <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
@@ -291,8 +291,9 @@
                                         </div>
                                     </div><hr/>
                                     <div class="form-row">
+                                        <h5 class="info-text pt-2 pb-2">Item Category</h5>
                                         <input type="hidden" name="hiddenItemCategoryID" id="dbItemCategoryID" value="<%= itemCategoryID%>" />
-                                        <div class="owl-carousel owl-theme product-slider">
+                                        <div class="owl-carousel owl-theme">
                                             <%
                                                 ArrayList<Vector> itemCategoryListSYS = (ArrayList) request.getAttribute("itemCategoryListSYS");
                                                 if (!itemCategoryListSYS.isEmpty()) {
@@ -302,7 +303,7 @@
                                                         String categoryID = String.valueOf(v.get(1));
                                                         String categoryName = String.valueOf(v.get(2));
                                             %>
-                                            <div class="product-slider-item">
+                                            <div class="assocItemCategory">
                                                 <div class="card" id="<%= categoryID%>">
                                                     <div class="card-body" style="margin: 0 auto; text-align: center;">
                                                         <img src="uploads/unify/images/common/category/<%= categoryImage%>" style="width: 100px; height: 100px;" />
@@ -350,12 +351,13 @@
                     </div>
                 </div>
             </div>
-            <div id="unifyFooter"></div>
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
+            <div id="sellNewItem-iframe"></div>
+            <div id="unifyFooter"></div>
         </div>
-
+        
         <!-- #1. jQuery v2.2.4 -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
@@ -366,5 +368,17 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/EditItemListingSYSJS.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $('.owl-carousel').owlCarousel({
+                loop: false,
+                margin: 10,
+                nav: true,
+                responsive: {
+                    0: {items: 1},
+                    600: {items: 3},
+                    1000: {items: 5}
+                }
+            });
+        </script>
     </body>
 </html>

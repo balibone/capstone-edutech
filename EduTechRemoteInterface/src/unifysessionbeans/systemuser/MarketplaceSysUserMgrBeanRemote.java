@@ -6,7 +6,7 @@ import javax.ejb.Remote;
 
 @Remote
 public interface MarketplaceSysUserMgrBeanRemote {
-    public List<Vector> viewItemList();
+    public List<Vector> viewItemList(String username);
     public List<Vector> viewAssocCategoryItemList(String hiddenCategoryName, long hiddenItemID);
     public Vector viewItemDetails(long itemID);
     public Vector viewItemDetails(long itemID, String username);
@@ -25,7 +25,7 @@ public interface MarketplaceSysUserMgrBeanRemote {
     public List<Vector> viewItemCategoryList();
     
     /* USER PROFILE */
-    public List<Vector> viewUserItemList(String itemSellerID);
+    public List<Vector> viewUserItemList(String username, String itemSellerID);
     
     /*  ====================    MISCELLANEOUS METHODS    ==================== */
     public String populateItemCategory();

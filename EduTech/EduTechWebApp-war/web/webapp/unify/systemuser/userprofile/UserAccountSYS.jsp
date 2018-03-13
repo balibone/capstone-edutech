@@ -164,9 +164,9 @@
                     <div class="col-4 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block mt-3">
                         <div class="d-flex align-items-center float-right abg-secondary">
                             <div class="btn-group btn-group-sm mr-3" role="group">
-                                <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
+                                <button type="button" class="btn btn-outline-theme newItemListingBtn">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
-                                </a>
+                                </button>
                                 <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
@@ -247,6 +247,25 @@
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-8">
+                        <%  
+                            String successMessage = (String) request.getAttribute("successMessage");
+                            if (successMessage != null) {
+                        %>
+                        <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeSuccess">&times;</button>
+                            <%= successMessage%>
+                        </div>
+                        <%  }   %>
+                        <%
+                            String errorMessage = (String) request.getAttribute("errorMessage");
+                            if (errorMessage != null) {
+                        %>
+                        <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeError">&times;</button>
+                            <%= errorMessage%>
+                        </div>
+                        <%  }   %>
+                            
                         <div class="title"><span>Your Item Listing</span></div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
@@ -291,9 +310,10 @@
                                             String itemPostingDate = String.valueOf(v.get(7));
                                             String itemPrice = String.valueOf(v.get(8));
                                             String itemNumOfLikes = String.valueOf(v.get(9));
-                                            String itemNumOfPendingOffer = String.valueOf(v.get(10));
-                                            String itemCondition = String.valueOf(v.get(11));
-                                            String itemStatus = String.valueOf(v.get(12));
+                                            String itemLikeStatus = String.valueOf(v.get(10));
+                                            String itemNumOfPendingOffer = String.valueOf(v.get(11));
+                                            String itemCondition = String.valueOf(v.get(12));
+                                            String itemStatus = String.valueOf(v.get(13));
                                 %>
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -327,7 +347,11 @@
                                                     </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
                                                         <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            <button id="<%= itemID%>" class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
+                                                            <%  if(itemLikeStatus.equals("true")) {   %>
+                                                            <button type="button" id="likeItemBtn<%= itemID%>" class="btn btn-link btn-sm myAccountBtn likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this item"><i class="fa fa-heart"></i></button>
+                                                            <%  } else if(itemLikeStatus.equals("false")) {    %>
+                                                            <button type="button" id="likeItemBtn<%= itemID%>" class="btn btn-link btn-sm myAccountBtn noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
+                                                            <%  }   %>
                                                         </div>
                                                     </div>
                                                     <%  if (itemStatus.equals("Reserved")) { %>
@@ -345,8 +369,14 @@
                                         <div class="card-footer text-muted mt-1">
                                             <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
                                             <span class="float-right">
-                                                <button id="likeItemBtn<%= itemID%>" class="myAccountBtn"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span></button>&nbsp;&nbsp;
-                                                <button id="pendingItemOfferBtn<%= itemID%>" class="myAccountBtn"><i class="fa fa-users"></i>&nbsp;<span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span></button>
+                                                <button id="itemLikersBtn<%= itemID%>" class="myAccountBtn">
+                                                    <i class="fa fa-heart-o"></i>&nbsp;
+                                                    <span class="itemNumOfLikes" id="itemNumOfLikes<%= itemID%>"><%= itemNumOfLikes%></span>
+                                                </button>&nbsp;&nbsp;
+                                                <button id="pendingItemOfferBtn<%= itemID%>" class="myAccountBtn">
+                                                    <i class="fa fa-users"></i>&nbsp;
+                                                    <span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span>
+                                                </button>
                                             </span>
                                         </div>
                                     </div>
@@ -369,12 +399,12 @@
                     </div>
                 </div>
             </div>
-            <div id="unifyFooter"></div>
             <div id="itemLikeList-iframe"></div>
-            
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
+            <div id="sellNewItem-iframe"></div>
+            <div id="unifyFooter"></div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->

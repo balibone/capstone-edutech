@@ -48,7 +48,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     @Override
-    public List<Vector> viewItemList() {
+    public List<Vector> viewItemList(String username) {
         Date currentDate = new Date();
         String dateString = "";
 
@@ -106,6 +106,8 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemVec.add(df.format(itemE.getItemPostingDate()));
             itemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
             itemVec.add(getItemLikeCount(itemE.getItemID()));
+            if(lookupLike(itemE.getItemID(), username) == null) { itemVec.add(false);}
+            else { itemVec.add(true); }
             itemVec.add(itemE.getItemCondition());
             itemList.add(itemVec);
             dateString = "";
@@ -442,7 +444,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     
     /*  ====================    USER PROFILE    ==================== */
     @Override
-    public List<Vector> viewUserItemList(String itemSellerID) {
+    public List<Vector> viewUserItemList(String username, String itemSellerID) {
         Date currentDate = new Date();
         String dateString = "";
         
@@ -502,6 +504,8 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             userItemVec.add(df.format(userItemE.getItemPostingDate()));
             userItemVec.add(String.format ("%,.2f", userItemE.getItemPrice()));
             userItemVec.add(getItemLikeCount(userItemE.getItemID()));
+            if(lookupLike(userItemE.getItemID(), username) == null) { userItemVec.add(false);}
+            else { userItemVec.add(true); }
             userItemVec.add(userItemE.getItemCondition());
             userItemList.add(userItemVec);
             dateString = "";
