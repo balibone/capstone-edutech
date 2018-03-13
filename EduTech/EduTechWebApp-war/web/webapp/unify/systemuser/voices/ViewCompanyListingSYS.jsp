@@ -19,6 +19,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/voices/ViewCompanyListingSYSCSS.css" rel="stylesheet" type="text/css">
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -27,47 +28,6 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
-        <style>
-            .star-rating {
-                unicode-bidi: bidi-override;
-                width: 120px;
-                color: #ddd;
-                font-size: 0;
-                position: relative;
-                display: table;
-                text-shadow: 0px 1px 0 #a2a2a2;
-            }
-            
-            .star-rating span {
-                padding: 3px;
-                font-size: 15px;
-            }
-            
-            .star-rating-top {
-                color: #FFD700;
-                padding: 0;
-                position: absolute;
-                z-index: 1;
-                display: block;
-                top: 0;
-                left: 0;
-                overflow: hidden;
-                white-space: nowrap;
-            }
-
-            .star-rating-bottom {
-                padding: 0;
-                display: block;
-                z-index: 0;
-            }
-            
-            .companyRating {
-                margin-right: 10px; 
-                color: #ff9900; 
-                font-weight: bold;
-            }
-        </style>   
-        
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -238,6 +198,7 @@
                                     </div>
                                     <div class="filter-sidebar">
                                         <div class="subtitle" style="margin-bottom: 5px">Industry</div>
+                                        <div class="jplist-group-industry" data-control-type="checkbox-group-filter" data-control-action="filter" data-control-name="industry">
                                         <% ArrayList<Vector> industryList = (ArrayList) request.getAttribute("industryListSYS");
                                             for(Object obj: industryList) {
                                                 String industryStr = (String) obj;
@@ -253,13 +214,14 @@
                                                     industryString = industryString + "...";
                                                 }
                                                 String industryStr_path = "." + industryStr; %>
-                                            <div class="industry-control industry-checkbox">
-                                            <input data-control-type="radio-buttons-filters" data-control-action="filter" 
-                                                   data-control-name="<%= industryStr%>" data-path="<%= industryStr_path%>" type="checkbox" name="jplist" />&nbsp;
-                                            <label class="mr-4"><%= industryString%></label>
-                                            </div>
+                                            <input data-path="<%= industryStr_path%>" id="<%= industryStr%>" type="checkbox" class="industry-filter" style="border: 2px solid #26a69a; background-color: #26a69a;">
+                                            <label for="<%= industryStr%>"><%= industryString%></label><br/>
                                         <%  }
                                         %>
+                                        </div>
+                                        <button type="button" class="jplist-reset-btn btn-outline-secondary" data-control-type="reset" data-control-name="reset"
+                                                data-control-action="reset" style="height:30px;width:100px">Clear Filters &nbsp;
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -267,7 +229,14 @@
                     </div>
 
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Company Listing</span></div>
+                        <div class="title"><span>Company Listing</span>
+                            <div class="btn-group btn-group-sm mr-3" style="float: right;">
+                                <span class="btn btn-outline-theme" id="newCompanyRequest" role="button">
+                                    <input type="hidden" id="username" value="<%= loggedInUsername%>" />
+                                    <i class="fa fa-building d-none d-lg-inline-block"></i>&nbsp;Request New Company
+                                </span>
+                            </div>
+                        </div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
@@ -316,7 +285,6 @@
                                             if(industry_path.contains("&")) {
                                                 industry_path = industry_path.replace("&", "And");
                                             }
-                                            System.out.println(industry_path);
                                 %>
                                 <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -325,14 +293,14 @@
                                                 <div class="row">
                                                     <div class="col-xl-3 col-md-3 col-3">
                                                         <div class="img-wrapper">
-                                                            <a href="MarketplaceSysUser?pageTransit=goToViewCompanyDetailsSYS&hiddenItemID=<%= companyID%>&hiddenCategoryName=<%= companyIndustry%>">
+                                                            <a href="VoicesSysUser?pageTransit=goToViewCompanyDetailsSYS&hiddenCompanyID=<%= companyID%>&hiddenCategoryName=<%= companyIndustry%>">
                                                                 <img class="card-img-top" style="max-width: 150px; max-height: 150px; margin-left: 5px; margin-bottom: 10px;" src="uploads/unify/images/voices/company/<%= companyImage%>" />
                                                             </a>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6 col-md-6 col-6">
                                                         <div class="company-name">
-                                                            <span class="card-title companyName" style="color: #007bff; font-size: 25px; line-height: 2.5;"><strong><a href="MarketplaceSysUser?pageTransit=goToViewCompanyDetailsSYS&hiddenItemID=<%= companyID%>&hiddenCategoryName=<%= companyIndustry%>"><%= companyName%></a></strong></span><br/>
+                                                            <span class="card-title companyName" style="color: #007bff; font-size: 25px; line-height: 2.5;"><strong><a href="VoicesSysUser?pageTransit=goToViewCompanyDetailsSYS&hiddenCompanyID=<%= companyID%>&hiddenCategoryName=<%= companyIndustry%>"><%= companyName%></a></strong></span><br/>
                                                         </div>
                                                         <div class="company-industry">
                                                             <span class="card-text <%= industry_path%>" style="line-height: 2.0"><%= companyIndustry%></span>
@@ -398,7 +366,6 @@
                                                     <span><i class="fa fa-star">&nbsp;</i></span>
                                                 </div>
                                             </div>
-                                            
                                         </div>
                                     </div>
                                 </div>
@@ -428,6 +395,7 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="itemcard-iframe"></div>
+            <div id="newCompanyRequest-iframe"></div>
         </div>
 
 

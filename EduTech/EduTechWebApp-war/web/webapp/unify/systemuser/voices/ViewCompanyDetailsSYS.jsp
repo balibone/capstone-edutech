@@ -1,3 +1,9 @@
+<%-- 
+    Document   : ViewCompanyListingDetailsSYS
+    Created on : 10 Mar, 2018, 4:29:44 PM
+    Author     : Zhu Xinyi
+--%>
+
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -8,7 +14,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Company Review - New Review</title>
+        <title>Unify Company Review - Company Details</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -19,6 +25,8 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/marketplace/NewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
+        
+        <link href="css/unify/systemuser/weblayout/voices/ViewCompanyListingSYSCSS.css" rel="stylesheet" type="text/css">
     </head>
 
     <body class="nav-md">
@@ -141,121 +149,109 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Company Review (New Review)</li>
+                            <li class="breadcrumb-item active" aria-current="page">Company Review (Company Details)</li>
                         </ol>
                     </nav>
                 </div>
             </div>
-
-            <div class="container" style="margin-bottom: 30px;">
+            <%  Vector companyDetailsSYS = (Vector) request.getAttribute("companyDetailsSYS");
+                String companyID,companyImage, companyName, companyIndustry, companyWebsite, companyHQ, companySize,
+                       companyRating, companyDescription, companyAddress;
+                companyID= companyImage = companyName = companyIndustry = companyWebsite = companyHQ = companySize =
+                companyRating = companyDescription = companyAddress = "";
+                
+                if(companyDetailsSYS != null) {
+                    companyID = String.valueOf(companyDetailsSYS.get(0));
+                    companyImage = String.valueOf(companyDetailsSYS.get(1));
+                    companyName = String.valueOf(companyDetailsSYS.get(2));
+                    companyIndustry = String.valueOf(companyDetailsSYS.get(3));
+                    companyWebsite = String.valueOf(companyDetailsSYS.get(4));
+                    companyHQ = String.valueOf(companyDetailsSYS.get(5));
+                    companySize = String.valueOf(companyDetailsSYS.get(6));
+                    companyRating = String.valueOf(companyDetailsSYS.get(7));
+                    companyDescription = String.valueOf(companyDetailsSYS.get(8));
+                    companyAddress = String.valueOf(companyDetailsSYS.get(9));
+                }
+            %>
+            <div class="container jplist mb-3" id="contentArea">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
-                            <%                                
-                                String successMessage = (String) request.getAttribute("successMessage");
-                                if (successMessage != null) {
-                            %>
-                            <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
-                                <button type="button" class="close" id="closeSuccess">&times;</button>
-                                <%= successMessage %>
-                            </div>
-                            <%  } %>
-                            <%
-                                String errorMessage = (String) request.getAttribute("errorMessage");
-                                if (errorMessage != null) {
-                            %>
-                            <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
-                                <button type="button" class="close" id="closeError">&times;</button>
-                                <%= errorMessage %>
-                            </div>
-                            <%  } %>
-                            
-                            <%  String companyImage = (String) request.getAttribute("reviewedCompanyImage");
-                                String companyName = (String) request.getAttribute("reviewedCompanyName");
-                            %>
-                            
-                            <div class="x_title">
-                                <h5>Rate A Company</h5>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content">
-                                <p>It only takes a minute! And your anonymous review will help other job seekers.</p>
-                                <p>(<span class="asterik">*</span>) fields are mandatory.</p>
-                                <form action="VoicesSysUser" method="POST" enctype="multipart/form-data">
-                                    <div class="form-row" style="justify-content: center;">
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <div class="image-upload">
-                                                    <img id="output-image" src="uploads/unify/images/voices/company/<%= companyImage%>" />
+                    <div class="col-lg-1 col-md-3"></div>
+                    <div class="col-lg-10 col-md-6">
+                        <div class="card user-card">
+                            <div class="card-body p-4 mb-3 mb-md-0 mb-xl-3">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <div class="media">
+                                            <img class="img-thumbnail" src="uploads/unify/images/voices/company/<%= companyImage%>" style="width:80px;height:80px;"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <div class="company-name">
+                                            <span class="card-title companyName" style="color: #333; font-size: 25px; line-height: 2.5;"><strong>Barclays</strong></span><br/>
+                                        </div>
+                                        <div><span class="float-left">Average Rating: <span class="ml-1 card-text rating companyRating" id="average_rating"><%= companyRating%></span></span></div>
+                                            <div class="star-rating">
+                                                <% double rating = Double.parseDouble(companyRating);
+                                                   double percent = 0.0;
+                                                    while(rating > 0) {
+                                                        if(rating>=1) {
+                                                            percent += 20;
+                                                        } else {
+                                                            percent += (((rating*13.93)/23.02)*100.0)*0.2;
+                                                        }
+                                                        rating = rating-1;
+                                                    }%>
+                                                <div class="star-rating-top" id="star_rating_top" style="width: <%= percent%>%">
+                                                    <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
+                                                    <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
+                                                    <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
+                                                    <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
+                                                    <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
+                                                </div>
+                                                <div class="star-rating-bottom">
+                                                    <span><i class="fa fa-star">&nbsp;</i></span>
+                                                    <span><i class="fa fa-star">&nbsp;</i></span>
+                                                    <span><i class="fa fa-star">&nbsp;</i></span>
+                                                    <span><i class="fa fa-star">&nbsp;</i></span>
+                                                    <span><i class="fa fa-star">&nbsp;</i></span>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4 ml-2">
-                                            <div class="form-group">
-                                                <label for="companyName">Company Name:&nbsp;<span><u><%= companyName%></u></span></label>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="reviewTitle">Review Title&nbsp;<span class="asterik">*</span></label>
-                                                <input type="text" class="form-control" name="reviewTitle" required="required" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="employmentStatus">Employment Status&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="employmentStatus" data-width="75%">
-                                                    <option value="---Select---">Select</option>
-                                                    <option value="Full Time">Full Time</option>
-                                                    <option value="Part Time">Part Time</option>
-                                                    <option value="Contract">Contract</option>
-                                                    <option value="Intern">Intern</option>
-                                                    <option value="Freelance">Freelance</option>
-                                                    <option value="Prefer Not Show">Prefer Not Show</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="companyPros">Company Pros</label>
-                                                <textarea class="form-control" name="companyPros" rows="3" placeholder="Enter the company pros" required="required"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 ml-2">
-                                            <div class="form-group">
-                                                <label for="companyIndustry">Company Industry:&nbsp;<span><u><%= request.getAttribute("reviewedCompanyIndustry")%></u></span></label>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="companyRating">Overall Rating&nbsp;<span class="asterik">*</span></label>
-                                                <input type="number" step="0.01" min="0" max="5" class="form-control" name="companyRating" aria-label="companyRating" required="required" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="salaryRange">Salary Range&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="salaryRange" data-width="75%">
-                                                    <option value="---Select---">Select</option>
-                                                    <option value="Under 1000">Under 1000</option>
-                                                    <option value="1000-2000">1000-2000</option>
-                                                    <option value="2000-3000">2000-3000</option>
-                                                    <option value="3000-4000">3000-4000</option>
-                                                    <option value="4000-5000">4000-5000</option>
-                                                    <option value="Above 5000">Above 5000</option>
-                                                    <option value="Prefer Not Show">Prefer Not Show</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="companyCons">Company Cons</label>
-                                                <textarea class="form-control" name="companyCons" rows="3" placeholder="Enter the company cons" required="required"></textarea>
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="form-row" style="justify-content: center;">
-                                        <div class="col-md-6"></div>
-                                        <div class="col-md-2">
-                                            <input type="hidden" name="pageTransit" value="createCompanyReviewSYS" />
-                                            <input type="hidden" name="username" value="<%= loggedInUsername%>" />
-                                            <input type="hidden" name="hiddenCategoryName" value="<%= request.getAttribute("reviewedCompanyIndustry")%>" />
-                                            <input type="hidden" name="hiddenCompanyName" value="<%= companyName%>" />
-                                            <button type="submit" class="btn btn-outline btn-primary btn-sm btn-block">Submit</button>
-                                        </div>
+                                    <div class="col-lg-3">
+                                        <button class="btn btn-outline btn-primary btn-sm btn-block"><i class="fa fa-list-alt">&nbsp;&nbsp;</i>Add A Review</button><br/>
+                                        <button class="btn btn-outline btn-primary btn-sm btn-block"><i class="fa fa-list-alt">&nbsp;&nbsp;</i>Send Resume</button>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-1 col-md-3"></div>
+                </div>
+                <div class="row"><br/></div>
+                <div class="row">
+                    <div class="col-lg-1 col-md-3"></div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="collapse d-md-block pt-3 pt-md-0" id="collapseFilter">
+                            <div class="filter-sidebar">
+                                <div class="title"><span style="font-size: 15px"><strong>You may also like...</strong></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-6">
+                        <div class="card user-card">
+                            <div class="card-body p-4 mb-3 mb-md-0 mb-xl-3">
+                                <div>
+                                    <div class="tabbable tabbable-custom">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#companyInfo" data-toggle="tab">Overview</a></li>
+                                            <li><a href="#reviewList" data-toggle="tab">Review List</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 col-md-3"></div>
                 </div>
             </div>
             <!-- <div id="unifyFooter"></div> -->
