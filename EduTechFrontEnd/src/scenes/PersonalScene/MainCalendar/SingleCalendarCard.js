@@ -25,8 +25,23 @@ class SingleCalendarCard extends Component {
 
 	removeItem(){
 		var { id } = this.props.selectedEvent;
-		ScheduleItemStore.removeScheduleItem(id);
-		this.props.handleCloseAll();
+
+		swal({
+		  title: "Are you sure?",
+		  text: "You will not be able to recover this item!",
+		  icon: "warning",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+		  	ScheduleItemStore.removeScheduleItem(id);
+		    swal("Poof! Your imaginary file has been deleted!", {icon: "success"});
+			this.props.handleCloseAll();
+		  } 
+		});
+
+		
 	}
 
 	render(){

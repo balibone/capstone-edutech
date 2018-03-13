@@ -43,9 +43,7 @@ class PersonalCalendar extends Component {
 	openCalendarForm(selectedSlot){
 		var selectedDate = new Date(selectedSlot.end);
 		var today = new Date();
-		if(selectedDate < today){
-
-		} else{
+		if(selectedDate > today){
 			this.setState({openCalendarForm: true, selectedDate: selectedDate, openEditForm:false, openCalendarCard:false})
 		}
 	}
@@ -61,23 +59,37 @@ class PersonalCalendar extends Component {
 	}
 
 	eventStyleGetter(event, start, end, isSelected) {
-    	console.log(event);
     	var backgroundColor = '#' + event.hexColor;
     	var style = {
 	        backgroundColor: backgroundColor,
-	        borderRadius: '0px',
 	        opacity: 0.8,
 	        color: 'black',
-	        border: '0px',
 	        display: 'block'
     	};
-    	return {
-        	style: style
-    	};
+    	return { style: style };
 	}
 
 	render(){
 		let eventsArray = this.props.eventsArray;
+
+		let formats = {
+		    timeGutterFormat: 'HH:mm',
+		    eventTimeRangeFormat: ({
+		        start,
+		        end
+		      }, culture, local) =>
+		      local.format(start, 'HH:mm', culture) + '-' +
+		      local.format(end, 'HH:mm', culture),
+		    dayFormat: 'DD-MM' + ' ' + 'dd',
+		    agendaTimeRangeFormat: ({
+		        start,
+		        end
+		      }, culture, local) =>
+		      local.format(start, 'HH:mm', culture) + '-' +
+		      local.format(end, 'HH:mm', culture),
+		    agendaDateFormat: 'DD-MM' + ' ' + 'dd',
+
+		  }
 
 		// eventsArray = eventsArray.filter(event => event.type === "personal" || event.type === "meeting");
 		return(
@@ -93,6 +105,7 @@ class PersonalCalendar extends Component {
 				    	popupOffset={{x: 30, y: 20}}
 				    	length = {7}
 				    	eventPropGetter = {this.eventStyleGetter}
+				    	formats = {formats}
 		
 				    />  
 				  
