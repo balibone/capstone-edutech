@@ -313,78 +313,18 @@
         <jsp-file>/webapp/unify/admin/voices/ViewReviewListDetails.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - TAGS (JSP) -->
-    <servlet>
-        <servlet-name>EditTag</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/EditTag.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteTag</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/DeleteTag.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewTag</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/NewTag.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>TagListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/TagListing.jsp</jsp-file>
-    </servlet>
-    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - MARKETPLACE REPORTS (JSP) -->
-    <servlet>
-        <servlet-name>ReportedMarketplaceListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceListing.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedMarketplaceDetails2</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetails2.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedMarketplaceDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - JOB REVIEW REPORTS (JSP) -->
-    <servlet>
-        <servlet-name>ReportedErrandsReviewListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandsReviewListing.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedErrandReviewDetails</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandReviewDetails.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedErrandReviewDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandReviewDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - JOB REPORTS (JSP) -->
-    <servlet>
-        <servlet-name>ReportedErrandsListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandsListing.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedErrandDetails2</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetails2.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedErrandDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - COMPANY REVIEW REPORTS (JSP) -->
-    <servlet>
-        <servlet-name>ReportedReviewListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewListing.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedReviewDetails2</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetails2.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedReviewDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>AllReportedListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing.jsp</jsp-file>
-    </servlet>
+    <servlet><servlet-name>EditTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/EditTag.jsp</jsp-file></servlet>
+    <servlet><servlet-name>DeleteTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/DeleteTag.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/NewTag.jsp</jsp-file></servlet>
+    <servlet><servlet-name>TagListing</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/TagListing.jsp</jsp-file></servlet>
+
+    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - REPORTS (JSP) -->
+    <servlet><servlet-name>ReportedMarketplaceDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportedErrandReviewDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandReviewDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportedErrandDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportedReviewDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>AllReportedListing</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing.jsp</jsp-file></servlet>
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - EVENT REQUESTS (JSP) -->
     <servlet>
         <servlet-name>EventRequest</servlet-name>
