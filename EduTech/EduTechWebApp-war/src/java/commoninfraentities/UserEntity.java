@@ -49,6 +49,8 @@ public class UserEntity implements Serializable {
     private String usertype;
     private String email;
     private String contactNum;
+    //to store latest password reset token
+    private String resetToken;
     
     public UserEntity() {
     }
@@ -168,6 +170,14 @@ public class UserEntity implements Serializable {
 
     public void setContactNum(String contactNum) {
         this.contactNum = contactNum;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
     }
     
 }
