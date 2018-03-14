@@ -20,9 +20,9 @@ $(document).ready(function () {
     var startLocation = document.getElementById("startLocation").value;
     var startLatitude = document.getElementById("startLat").value;
     var startLongitude = document.getElementById("startLong").value;  
-    var endLocation = document.getElementById("startLocation").value;
-    var endLatitude = document.getElementById("startLat").value;
-    var endLongitude = document.getElementById("startLong").value;
+    var endLocation = document.getElementById("endLocation").value;
+    var endLatitude = document.getElementById("endLat").value;
+    var endLongitude = document.getElementById("endLong").value;
 
     var pointerIcon = L.icon({
         iconUrl: 'images/pointer.png',
@@ -32,7 +32,10 @@ $(document).ready(function () {
     });
 
     if (search_marker) { map.removeLayer(search_marker); }
-    search_marker = L.marker([startLatitude, startLongitude], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("start Location: " + startLocation);
+    search_marker = L.marker([startLatitude, startLongitude], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("Start Location: " + startLocation);
+
+    //if (search_marker_end) { map.removeLayer(search_marker_end); }
+    search_marker_end = L.marker([endLatitude, endLongitude], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("End Location: " + endLocation);
 
     $('#makeOfferBtn').qtip({
         content: { title: { text: 'Enter Your Offer Price', button: true }, text: $('#offerTooltip') },

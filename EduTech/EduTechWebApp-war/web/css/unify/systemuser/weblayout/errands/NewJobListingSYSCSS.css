@@ -1,0 +1,24 @@
+.asterik { color: #4D7496; }
+#searchResults { z-index: 999; width: max-content; max-height: 250px; overflow-y: scroll; background-color: #ffffff; position: absolute; }
+.form-row .card { padding: 20px 0 20px 0; }
+.category-list .card:hover, .category-list .card.active { border-color: #4D7496; }
+
+input[type="file"] { display: none; }
+.image-upload { border: 3px dashed #D6D6D6; background-color: #FAFAFA; max-width: 151px; min-width: 151px; max-height: 156px; min-height: 156px;}
+#output-image { max-width: 145px; min-width: 145px; max-height: 150px; min-height: 150px; }
+
+#category-pool {
+    width: 100%;
+    padding: 10px 0;
+    background-color: white;
+    margin-top: 2px;
+}
+
+
+.step-title{
+    font-size: 24px;
+    display: inline-block;
+    margin-top: 12px;
+    color: #4D7496;
+}
+

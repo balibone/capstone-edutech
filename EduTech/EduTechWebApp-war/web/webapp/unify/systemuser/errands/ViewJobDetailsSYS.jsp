@@ -215,11 +215,15 @@
                             %>
                             <tr>
                                 <td><i class="fa fa-tag" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Job Rate: </strong></span></td>
-                                <td><ul class="list-inline mb-0"><li class="list-inline-item">S$<%= jobRate%>/hour &nbsp;&nbsp; (Est. Duration: <%=jobDuration%> hr(s))</li></ul></td>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item">S$<%= jobRate%>/hour</li></ul></td>
                             </tr>
                             <%
                                 }
                             %>
+                            <tr>   
+                                <td><i class="fa fa-sticky-note" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Est. Duration: </strong></span></td>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=jobDuration%> hours</li></ul></td>
+                            </tr>
                             <tr>   
                                 <td><i class="fa fa-book" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Category: </strong></span></td>
                                 <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=categoryName%></li></ul></td>
@@ -256,7 +260,7 @@
                             <li class="nav-item"><a class="nav-link text-default active" id="itemTradePane-tab" data-toggle="tab" href="#itemTradePane" role="tab" aria-controls="itemTradePane" aria-selected="true">Work Information</a></li>
                             <%--<li class="nav-item"><a class="nav-link text-default" id="itemDescriptionPane-tab" data-toggle="tab" href="#itemDescriptionPane" role="tab" aria-controls="itemDescriptionPane" aria-selected="false">Item Information</a></li>--%>
                             <li class="nav-item">
-                                <a class="nav-link text-default" id="itemSellerPane-tab" data-toggle="tab" href="#itemSellerPane" role="tab" aria-controls="itemSellerPane" aria-selected="false">Poster Info</a>
+                                <a class="nav-link text-default" id="itemSellerPane-tab" data-toggle="tab" href="#itemSellerPane" role="tab" aria-controls="itemSellerPane" aria-selected="false">Meet the Poster</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -293,17 +297,17 @@
                                 </table>
                             </div>
                             <div class="tab-pane border border-top-0 p-3" id="itemSellerPane" role="tabpanel" aria-labelledby="itemSellerPane-tab">
-                                <h5 class="sellerInfo">Seller Information:</h5>
+                               
                                 <div class="media mb-2 mt-3">
-                                    <div class="mr-2">
+                                    <div class="mr-0">
                                         <a href="ProfileSysUser?pageTransit=goToUserProfile&posterID=<%= posterName%>">
-                                            <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= posterImage%>" />
+                                            <img class="user-img" src="uploads/commoninfrastructure/admin/images/<%= posterImage%>" height="50" width="50" />
                                         </a>
                                     </div>
-                                    <div class="media-body col-md-6">
-                                        <div style="cursor: pointer;" onclick="window.location='ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= posterName%>';">
+                                    <div class="media-body col-md-12">
+                                        <div style="cursor: pointer;" onclick="window.location='ProfileSysUser?pageTransit=goToUserProfile&posterID=<%= posterName%>';">
                                             <h5 class="user-name"><strong><%= posterName%></strong></h5>
-                                            Joined on <%= posterJoinDate%><br/>
+                                            
                                         </div>
                                         <br/>
                                         <div class="rating">
@@ -312,6 +316,25 @@
                                                 <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue">0</span></li>
                                                 <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue">0</span></li>
                                             </ul>
+                                        </div>
+                                        <br/>
+                                        <div class="summary-container">
+                                            <div class="summary-column">
+                                                <span class="count-title">LISTING ITEMS</span><br/>
+                                                <span class="count"><strong>12</strong></span>
+                                            </div>
+                                            <div class="summary-column">
+                                                <span class="count-title">LISTING JOBS</span><br/>
+                                                <span class="count"><strong>5</strong></span>
+                                            </div>
+                                            <div class="summary-column">
+                                                <span class="count-title">JOINED ON</span><br/>
+                                                <span class="count"><strong><%=posterJoinDate%></strong></span>
+                                            </div>
+                                            <div class="summary-col">
+                                                <span class="count-title">TITLE</span><br/>
+                                                <span class="count"><strong>5</strong></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -322,7 +345,7 @@
                 <div class="row mt-5">
                     <div class="col-12">
                         <div class="title">
-                            <span>Other jobs within the same category:</span>
+                            <span>You may also like</span>
                         </div>
                     </div>
                     <div class="col pl-sm-0 pr-sm-0">
@@ -344,12 +367,13 @@
                             <div class="product-slider-item">
                                 <div class="card card-product">
                                     <div class="card-header" style="font-size: 13px;">
-                                        <%= assocCategoryJobPosterID%><br/><%= assocCategoryJobPostedTime%>
+                                        <%= assocCategoryJobPosterID%><br/>
+                                        <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<%= assocCategoryJobPostedTime%>
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="img-wrapper">
-                                                <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= assocCategoryJobID%>&hiddenCategoryName=<%= assocCategoryName%>">
+                                                <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= assocCategoryJobID%>&hiddenCategoryName=<%= assocCategoryName%>">
                                                     <img class="card-img-top" src="uploads/unify/images/errands/job/<%= assocCategoryJobImage%>" />
                                                 </a>
                                                 <div class="tools tools-bottom" data-animate-in="fadeInDown" data-animate-out="flipOutX">

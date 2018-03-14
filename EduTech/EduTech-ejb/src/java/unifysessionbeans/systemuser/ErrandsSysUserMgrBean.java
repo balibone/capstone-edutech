@@ -41,6 +41,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     private MessageEntity mEntity;
     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy");
     DecimalFormat rateFormat = new DecimalFormat("0.00");
     
     @Override
@@ -223,7 +224,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobDetailsVec.add(sdf.format(jEntity.getJobWorkDate()));
             jobDetailsVec.add(jEntity.getUserEntity().getUsername());
             jobDetailsVec.add(jEntity.getUserEntity().getImgFileName());
-            jobDetailsVec.add(jEntity.getUserEntity().getUserCreationDate());
+            jobDetailsVec.add(df.format(jEntity.getUserEntity().getUserCreationDate()));
             jobDetailsVec.add(jEntity.getCategoryEntity().getCategoryID());
             jobDetailsVec.add(jEntity.getJobDuration());
             jobDetailsVec.add(jEntity.getJobInformation());
@@ -298,6 +299,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         }
         return assocCategoryJobList;
     }
+   
     
     @Override
     public String createJobListing(String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 

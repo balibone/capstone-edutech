@@ -16,3 +16,50 @@ img { vertical-align: middle; border: 0; }
 
 table{ table-layout:fixed; word-break: break-all; }
 table td{ border:0px solid; overflow:hidden; }
+
+.summary-container
+{
+    display: table;
+    width: 100%; /*Optional*/
+    table-layout: fixed; /*Optional*/
+    border-spacing: 15px; /*Optional*/
+    height: 80px;
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+}
+.summary-column
+{
+    display: table-cell;
+    background-color: white; /*Optional*/
+    border-style: solid;
+    border-color: grey;
+    border-width: 0px 1px 0px 0px;
+    text-align: center;
+    height: 50px;
+    
+}
+
+.summary-col
+{
+    display: table-cell;
+    background-color: white; /*Optional*/
+    text-align: center;
+}
+
+.count-title{
+    font-size: 12px;
+    color: grey;
+}
+
+.count{
+    display: inline-block;
+    color: #9fa5ad;
+    font-size: 17px;
+    margin-top: 10px;
+    
+}
+
+.user-img{
+    border-radius: 50%;
+}

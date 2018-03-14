@@ -3,6 +3,7 @@ $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
+    //document.getElementById("selected-category").innerHTML = "testtest";
     
     $('#startLocation').keyup(function () {
         var baseHtml = 'https://developers.onemap.sg/commonapi/search?searchVal=';
@@ -68,12 +69,14 @@ $(document).ready(function () {
         });
     });
     
-    $('.form-row .card').click(function() {
-        $('.form-row .card').removeClass('active');
+    $('.category-list .card').click(function() {
+        $('.category-list .card').removeClass('active');
         $(this).addClass('active');
         
         var categoryID = $(this).attr('id');
+        var categoryName = $(this).attr('name');
         document.getElementById("hiddenCategoryID").value = categoryID;
+        document.getElementById("selected-category").innerHTML = categoryName;
     });
     
     
@@ -135,13 +138,11 @@ function displayDuration(){
     var selectedValue = select.options[select.selectedIndex].value;
     
     if(selectedValue == "HR"){
-        var content = "<label for=\"jobDuration\">Job Duration&nbsp;<span class=\"asterik\">*</span></label>";
-        content = content + "<input type=\"number\" class=\"form-control\" name=\"jobDuration\" required=\"required\" />";
-        document.getElementById("jobDurationDiv").innerHTML = content;
+        document.getElementById("job-rate").innerHTML = "Job Rate (per hour)"
     }
     
     if(selectedValue == "Fixed"){
-        document.getElementById("jobDurationDiv").innerHTML = "";
+        document.getElementById("job-rate").innerHTML = "Job Rate";
     }
 }
 
