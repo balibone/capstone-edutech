@@ -28,7 +28,21 @@ class MeetingCard extends Component {
 	removeMeeting(){
 		var meetingId = this.props.meeting.id;
 		var groupId = this.props.groupId;
-		MeetingStore.removeMeeting(meetingId, groupId);
+
+		swal({
+		  title: "Are you sure?",
+		  text: "You will not be able to recover this item!",
+		  icon: "warning",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+  			MeetingStore.removeMeeting(meetingId, groupId);
+		    swal("Poof! Your imaginary file has been deleted!", {icon: "success"});
+		  } 
+		});
+
 	}
 
 	closeEditForm(){
