@@ -46,7 +46,8 @@ public class ShoutsEntity implements Serializable {
     //link to bookmarked entity
     
     //link to comments entity?
-    
+     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shoutsEntity")
+    private Collection<ShoutsCommentsEntity> shoutsCommentsSet = new ArrayList<ShoutsCommentsEntity>();
     
     @PrePersist
     public void creationDate() { this.shoutDate = new Date(); }

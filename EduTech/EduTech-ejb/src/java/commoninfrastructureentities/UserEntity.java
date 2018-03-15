@@ -32,6 +32,7 @@ import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.marketplace.ItemOfferEntity;
 import unifyentities.shouts.ShoutsLikesEntity;
+import unifyentities.shouts.ShoutsCommentsEntity;
 
 @Entity(name = "SystemUser")
 public class UserEntity implements Serializable {
@@ -85,6 +86,8 @@ public class UserEntity implements Serializable {
     private Collection<JobTransactionEntity> jobTransactionSet = new ArrayList<JobTransactionEntity>();
     @OneToMany(mappedBy = "userEntity")
     private Collection<ShoutsLikesEntity> shoutsLikesSet = new ArrayList<ShoutsLikesEntity>();    
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<ShoutsCommentsEntity> shoutsCommentsSet = new ArrayList<ShoutsCommentsEntity>(); 
     
     @PrePersist
     public void creationDate() { 
@@ -158,6 +161,7 @@ public class UserEntity implements Serializable {
     public Collection<ItemTransactionEntity> getItemTransactionSet() { return itemTransactionSet; }
     public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
     public Collection<ShoutsLikesEntity> getShoutsLikesSet() { return shoutsLikesSet; }
+    public Collection<ShoutsCommentsEntity> getShoutsCommentsSet() { return shoutsCommentsSet; }
     
     /* SETTER METHODS */
     public void setUsername(String username) { this.username = username; }
@@ -187,6 +191,7 @@ public class UserEntity implements Serializable {
     public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
     public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
     public void setShoutsLikesSet(Collection<ShoutsLikesEntity> shoutsLikesSet) { this.shoutsLikesSet = shoutsLikesSet; }
+    public void setShoutsCommentsSet(Collection<ShoutsCommentsEntity> shoutsCommentsSet) { this.shoutsCommentsSet = shoutsCommentsSet; }
     
     public String getEmail() {
         return email;

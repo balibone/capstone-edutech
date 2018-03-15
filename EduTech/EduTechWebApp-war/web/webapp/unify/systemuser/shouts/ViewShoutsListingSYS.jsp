@@ -294,6 +294,7 @@
                                             String shoutEditedDate = String.valueOf(v.get(7));
                                             String shoutDuration = String.valueOf(v.get(8));
                                             String shoutLikes = String.valueOf(v.get(9));
+                                            String shoutComments = String.valueOf(v.get(10));
                                 %>
                                 <div class="col-xl-6 col-md-6 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -316,7 +317,7 @@
                                                         <div class="shout-likes-info">
                                                             <a href =""><span class="card-text shoutUsername" style="font-size: 12px"><%= shoutLikes%> likes &nbsp;</span></a><i class="fa fa-thumbs-up" style="color: #64676d">&nbsp;</i>
                                                             &nbsp;&nbsp;
-                                                            <a href =""><span class="float-none" style="color: #64676d; font-size: 12px"># comments &nbsp;</span><i class="fa fa-comment">&nbsp;</i></a>
+                                                            <a href =""><span class="float-none" style="color: #64676d; font-size: 12px"><%= shoutComments%> comments &nbsp;</span><i class="fa fa-comment">&nbsp;</i></a>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-4 col-md-4 col-4">

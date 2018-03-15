@@ -86,6 +86,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             
             shoutVec.add(dateString);
             shoutVec.add(getShoutsLikesCount(shoutE.getShoutID()));
+            shoutVec.add(getShoutsCommentsCount(shoutE.getShoutID()));
             
             System.out.println(shoutVec.size());
             shoutList.add(shoutVec);
@@ -94,7 +95,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
         return shoutList;
     }
 
-    /* MISCELLANEOUS METHODS (ITEM LIKE) */
+    // SHOUTS LIKES COUNT
     public Long getShoutsLikesCount(long shoutID) {
         Long shoutsLikesCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(l.likeID) FROM ShoutsLikes l WHERE l.shoutsEntity.shoutID = :shoutID");
@@ -103,6 +104,20 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             shoutsLikesCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
             System.out.println("Exception in ShoutsSysUserMgrBean.getShoutsLikesCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return shoutsLikesCount;
+    }
+    
+    // SHOUTS COMMENTS COUNT
+    public Long getShoutsCommentsCount(long shoutID) {
+        Long shoutsLikesCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(l.commentID) FROM ShoutsComments l WHERE l.shoutsEntity.shoutID = :shoutID");
+        q.setParameter("shoutID", shoutID);
+        try {
+            shoutsLikesCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ShoutsSysUserMgrBean.getShoutsCommentsCount().getSingleResult()");
             ex.printStackTrace();
         }
         return shoutsLikesCount;
