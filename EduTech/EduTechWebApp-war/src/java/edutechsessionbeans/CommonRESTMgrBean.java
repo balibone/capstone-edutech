@@ -7,12 +7,17 @@ package edutechsessionbeans;
 
 
 import commoninfraentities.UserEntity;
+import edutechentities.common.AnnouncementEntity;
+import edutechentities.common.AttachmentEntity;
 import edutechentities.common.PostEntity;
 import edutechentities.common.RecurringEventEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.common.SemesterEntity;
 import edutechentities.common.TaskEntity;
+import edutechentities.group.BrainstormEntity;
+import edutechentities.group.IdeaEntity;
+import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -469,5 +474,168 @@ public class CommonRESTMgrBean {
         }
         return freeSlots;
     }
+
+    public List<AnnouncementEntity> getAllAnnouncements() {
+        Query q = em.createQuery("select a from Announcement a");
+        return q.getResultList();
+    }
+    
+    public AnnouncementEntity getOneAnnouncement(Long id) {
+        return em.find(AnnouncementEntity.class, id);
+    }
+
+    public List<AnnouncementEntity> getUserAnnouncements(String id) {
+        List<AnnouncementEntity> anns = new ArrayList<>();
+        UserEntity u = em.find(UserEntity.class, id);
+        Query q = em.createQuery("select a from Announcement a");
+        for(Object o : q.getResultList()){
+            AnnouncementEntity ann = (AnnouncementEntity) o;
+            if(u!=null && ann.getAssignedTo().contains(u)){
+                anns.add(ann);
+            }
+        }
+        return anns;
+    }
+
+    public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
+        em.persist(ann);
+        return ann;
+    }
+
+    public void deleteAnnouncement(String id) {
+        AnnouncementEntity ann = em.find(AnnouncementEntity.class, Long.valueOf(id));
+        if(ann!=null){
+            em.remove(ann);
+        }
+    }
+
+    public AnnouncementEntity editAnnouncement(String id, AnnouncementEntity replacement) {
+        AnnouncementEntity ann = em.find(AnnouncementEntity.class, Long.valueOf(id));
+        ann = replacement;
+        em.merge(ann);
+        return ann;
+    }
+
+    public AnnouncementEntity addUserToSeenBy(String id, UserEntity user) {
+        AnnouncementEntity ann = em.find(AnnouncementEntity.class, Long.valueOf(id));
+        if(ann!=null && user!=null){
+            ann.getSeenBy().add(user);
+        }
+        return ann;
+    }
+
+    public List<AttachmentEntity> getAllAttachments() {
+        Query q = em.createQuery("select a from Attachment a");
+        return q.getResultList();
+    }
+    
+    public AttachmentEntity getOneAttachment(Long id) {
+        return em.find(AttachmentEntity.class, id);
+    }
+
+    public AttachmentEntity createAttachment(AttachmentEntity attachment) {
+        em.persist(attachment);
+        return attachment;
+    }
+
+    public AttachmentEntity editAttachment(String id, AttachmentEntity replacement) {
+        AttachmentEntity att = em.find(AttachmentEntity.class, Long.valueOf(id));
+        att = replacement;
+        em.merge(att);
+        return att;
+    }
+
+    public void deleteAttachment(String id) {
+        AttachmentEntity att = em.find(AttachmentEntity.class, Long.valueOf(id));
+        if(att!=null){
+            em.remove(att);
+        }
+    }
+
+    public List<BrainstormEntity> getAllBrainstorms() {
+        Query q = em.createQuery("select b from Brainstorm b");
+        return q.getResultList();
+    }
+    
+    public BrainstormEntity getOneBrainstorm(Long id) {
+        return em.find(BrainstormEntity.class, id);
+    }
+
+    public BrainstormEntity createBrainstorm(BrainstormEntity brainstorm) {
+        em.persist(brainstorm);
+        return brainstorm;
+    }
+
+    public void deleteBrainstorm(String id) {
+        BrainstormEntity brain = em.find(BrainstormEntity.class, Long.valueOf(id));
+        if(brain!=null){
+            em.remove(brain);
+        }
+    }
+
+    public BrainstormEntity editBrainstorm(String id, BrainstormEntity replacement) {
+        BrainstormEntity brain = em.find(BrainstormEntity.class, Long.valueOf(id));
+        brain = replacement;
+        em.merge(brain);
+        return brain;
+    }
+
+    public List<IdeaEntity> getAllIdeas() {
+        Query q = em.createQuery("select i from Idea i");
+        return q.getResultList();
+    }
+    
+    public IdeaEntity getOneIdea(Long id) {
+        return em.find(IdeaEntity.class, id);
+    }
+
+    public IdeaEntity createIdea(IdeaEntity idea) {
+        em.persist(idea);
+        return idea;
+    }
+
+    public void deleteIdea(String id) {
+        IdeaEntity idea = em.find(IdeaEntity.class, Long.valueOf(id));
+        if(idea!=null){
+            em.remove(idea);
+        }
+    }
+
+    public IdeaEntity editIdea(String id, IdeaEntity replacement) {
+        IdeaEntity idea = em.find(IdeaEntity.class, Long.valueOf(id));
+        idea = replacement;
+        em.merge(idea);
+        return idea;
+    }
+
+    public List<LessonEntity> getAllLessons() {
+        Query q = em.createQuery("select l from Lesson l");
+        return q.getResultList();    
+    }
+    
+    public LessonEntity getOneLesson(Long id) {
+        return em.find(LessonEntity.class, id);
+    }
+
+    public LessonEntity createLesson(LessonEntity lesson) {
+        em.persist(lesson);
+        return lesson;
+    }
+
+    public void deleteLesson(String id) {
+        LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
+        if(lesson!=null){
+            em.remove(lesson);
+        }
+    }
+
+    public LessonEntity editLesson(String id, LessonEntity replacement) {
+        LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
+        lesson = replacement;
+        em.merge(lesson);
+        return lesson;
+    }
+
+    
 
 }
