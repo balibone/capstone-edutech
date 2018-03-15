@@ -20,7 +20,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     @Override
     public boolean createNewStudent(String salutation, String firstName, String lastName, String username, String password, String fileName) { 
         try{
-            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName);
+            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName,"","");
             em.persist(newStudent);
             return true;
         }catch(Exception e){
@@ -104,7 +104,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     @Override
     public boolean createNewInstructor(String salutation, String firstName, String lastName, String username, String password, String fileName) { 
         try{
-            UserEntity newInstructor= new UserEntity(username,salutation,firstName,lastName,password,"instructor",fileName);
+            UserEntity newInstructor= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName,"","");
             em.persist(newInstructor);//may throw null pointer if em is not created with proper syntax.
             return true;
         }catch(Exception e){
@@ -173,7 +173,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     @Override
     public boolean createNewAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName, String adminType) { 
         try{
-            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,adminType.trim().toLowerCase(),fileName);
+            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName,"","");
             em.persist(newStudent);//may throw null pointer if em is not created with proper syntax.
             return true;
         }catch(Exception e){
