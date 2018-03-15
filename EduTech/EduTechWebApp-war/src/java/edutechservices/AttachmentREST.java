@@ -42,6 +42,12 @@ public class AttachmentREST {
         return cmb.getAllAttachments();
     }
     
+    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public AttachmentEntity getOneAttachment(@PathParam("id") String id){
+        return cmb.getOneAttachment(Long.valueOf(id));
+    }
+    
+    
     @POST @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public AttachmentEntity createAttachment(AttachmentEntity attachment) {
         return cmb.createAttachment(attachment);

@@ -345,6 +345,6 @@
     <servlet-mapping><servlet-name>VoicesSysUser</servlet-name><url-pattern>/VoicesSysUser</url-pattern></servlet-mapping>
 
     <!-- MISCELLANEOUS -->
-    <session-config><session-timeout>5</session-timeout></session-config>
+    <session-config><session-timeout>400</session-timeout></session-config>
     <welcome-file-list><welcome-file>webapp/commoninfrastructure/IntegratedSPLogin.jsp</welcome-file></welcome-file-list>
 </web-app>

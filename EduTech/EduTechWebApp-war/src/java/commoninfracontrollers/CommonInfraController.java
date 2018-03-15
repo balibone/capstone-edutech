@@ -98,14 +98,15 @@ public class CommonInfraController extends HttpServlet {
                         response.sendRedirect("CommonInfra?pageTransit=logout&sessionInvalid=true");
                     }
                     //if session expired
-                    if(sessionExpire!=null && sessionExpire.equals("true")){
+                    else if(sessionExpire!=null && sessionExpire.equals("true")){
                         response.sendRedirect("CommonInfra?pageTransit=logout&sessionExpire=true");
                     }
-                    if(unauthorised!=null && unauthorised.equals("true")){
+                    else if(unauthorised!=null && unauthorised.equals("true")){
                         response.sendRedirect("CommonInfra?pageTransit=logout&unauthorised=true");
                     } 
                     //if just normal logout,
-                    response.sendRedirect("CommonInfra?pageTransit=logout");
+                    else 
+                        response.sendRedirect("CommonInfra?pageTransit=logout");
                     break;
                 case "logout":
                     sessionInvalid = request.getParameter("sessionInvalid");
