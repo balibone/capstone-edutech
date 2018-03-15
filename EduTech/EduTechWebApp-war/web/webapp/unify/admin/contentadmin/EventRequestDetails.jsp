@@ -168,6 +168,8 @@
                                 <input type="hidden" name="pageTransit" value="approveEventRequest"/>
                                 <input type="hidden" name="requestID" value="<%= requestID%>" />
                                 <input type="hidden" name="requestStatus" value="<%= requestStatus%>" />
+                                <input type="hidden" name="requesterID" value="<%= requesterID%>" />
+                                <input type="hidden" name="loggedInUsername" value="<%= loggedInUsername%>" />
                                 <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm approval?')">Approve</button>
                             </form>
                         </td>
@@ -177,6 +179,8 @@
                                 <input type="hidden" name="pageTransit" value="rejectEventRequest"/>
                                 <input type="hidden" name="requestID" value="<%= requestID%>" />
                                 <input type="hidden" name="requestStatus" value="<%= requestStatus%>" />
+                                <input type="hidden" name="requesterID" value="<%= requesterID%>" />
+                                <input type="hidden" name="loggedInUsername" value="<%= loggedInUsername%>" />
                                 <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm rejection?')">Reject</button>
                             </form>
                         </td>

@@ -307,7 +307,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
     @Override
     public List<Vector> viewReportedMarketplaceListing() {
-        Query q = em.createQuery("SELECT i FROM ItemReport i");
+        Query q = em.createQuery("SELECT i FROM ItemReport i ORDER BY i.itemReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -416,7 +416,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     //reported company reviews related
     @Override
     public List<Vector> viewReportedReviewListing() {
-        Query q = em.createQuery("SELECT i FROM CompanyReviewReport i");
+        Query q = em.createQuery("SELECT i FROM CompanyReviewReport i ORDER BY i.reviewReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -894,7 +894,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
     @Override
     public List<Vector> viewReportedErrandsListing() {
-        Query q = em.createQuery("SELECT i FROM JobReport i");
+        Query q = em.createQuery("SELECT i FROM JobReport i ORDER BY i.jobReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -1002,7 +1002,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     //reported jobs review related
     @Override
     public List<Vector> viewReportedErrandsReviewListing() {
-        Query q = em.createQuery("SELECT i FROM JobReviewReport i");
+        Query q = em.createQuery("SELECT i FROM JobReviewReport i ORDER BY i.jobReviewReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -1289,6 +1289,35 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
 
     }
+    
+    @Override
+    public String sendAlertEventRequest(String messageSenderID, String messageReceiverID, String eventID, String status) {
+
+        try {
+            /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
+            mEntity = new MessageEntity();
+          
+            String eventTitle = erEntity.getEventRequestTitle(Long.parseLong(eventID));
+            
+            mEntity.createContentMessage(messageSenderID, messageReceiverID,
+                    eventTitle + " (Request ID: " + eventID + ") was " + status + " by the administrator.",
+                    Long.parseLong(eventID), "System");
+
+            UserEntity user = lookupUnifyUser(messageSenderID);
+
+            mEntity.setUserEntity(user);
+
+            em.persist(mEntity);
+
+            return "Message successfully sent!";
+            
+        } catch (Exception nre) {
+            System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
+            
+            return "Error sending message to user";
+        }
+
+    }
 
     @Override
     public Long getUnresolvedErrandsReviewReportCount() {
@@ -1333,7 +1362,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     //event related
     @Override
     public List<Vector> viewEventRequestListing() {
-        Query q = em.createQuery("SELECT i FROM EventRequest i");
+        Query q = em.createQuery("SELECT i FROM EventRequest i ORDER BY i.eventRequestDate DESC");
         List<Vector> requestList = new ArrayList<Vector>();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");

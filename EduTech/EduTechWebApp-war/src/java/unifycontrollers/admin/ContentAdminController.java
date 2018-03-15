@@ -293,6 +293,12 @@ public class ContentAdminController extends HttpServlet {
                     } else {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
+                    
+                    //for sending message to poster of errand
+                    String delistPosterID3 = request.getParameter("reportedPosterID");
+                    String delistSenderID3 = request.getParameter("loggedInUsername");
+                    camr.sendAlertReport(delistSenderID3, delistPosterID3, delistJobReviewID);
+                    
                     request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount());
                     request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount());
                     request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListing());
@@ -363,6 +369,12 @@ public class ContentAdminController extends HttpServlet {
                     } else {
                         request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
                     }
+                    
+                    //for sending message to poster of errand
+                    String delistPosterID4 = request.getParameter("reportedPosterID");
+                    String delistSenderID4 = request.getParameter("loggedInUsername");
+                    camr.sendAlertReport(delistSenderID4, delistPosterID4, delistReviewID);
+                    
                     request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount());
                     request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount());
                     request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListing());
@@ -417,6 +429,12 @@ public class ContentAdminController extends HttpServlet {
                     } else {
                         request.setAttribute("errorMessage", responseMessage);
                     }
+                    
+                    //for sending message to inform requestor
+                    String requesterIDApprove = request.getParameter("requesterID");
+                    String adminEventUser = request.getParameter("loggedInUsername");
+                    camr.sendAlertEventRequest(adminEventUser, requesterIDApprove, approveEventRequestID, "approved");
+                    
                     request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListing());
                     request.setAttribute("pendingEventRequestCount", camr.getPendingEventRequestCount());
                     request.setAttribute("approvedEventRequestCount", camr.getApprovedEventRequestCount());
@@ -436,6 +454,12 @@ public class ContentAdminController extends HttpServlet {
                     } else {
                         request.setAttribute("errorMessage", responseMessage);
                     }
+                    
+                    //for sending message to inform requestor
+                    String requesterIDReject = request.getParameter("requesterID");
+                    String adminEventUser2 = request.getParameter("loggedInUsername");
+                    camr.sendAlertEventRequest(adminEventUser2, requesterIDReject, rejectEventRequestID, "reject");
+                    
                     request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListing());
                     request.setAttribute("pendingEventRequestCount", camr.getPendingEventRequestCount());
                     request.setAttribute("approvedEventRequestCount", camr.getApprovedEventRequestCount());

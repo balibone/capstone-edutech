@@ -59,6 +59,7 @@ public class EventRequestEntity implements Serializable {
     public Long getEventRequestID() { return eventRequestID; }
     public String getEventRequestStatus() { return eventRequestStatus; }
     public String getEventRequestTitle() { return eventRequestTitle; }
+    public String getEventRequestTitle(Long eventRequestID) { return eventRequestTitle; }
     public String getEventRequestDescription() { return eventRequestDescription; }
     public Date getEventRequestDate() { return eventRequestDate; }
     public Date getEventRequestStartDateTime() { return eventRequestStartDateTime; }

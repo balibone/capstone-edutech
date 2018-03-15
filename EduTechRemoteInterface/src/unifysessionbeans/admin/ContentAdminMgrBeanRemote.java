@@ -78,6 +78,7 @@ public interface ContentAdminMgrBeanRemote {
     public Long getResolvedCompanyReviewReportCount();
     //message sending
     public String sendAlertReport(String messageSenderID, String messageReceiverID, String itemReported);
+    public String sendAlertEventRequest(String messageSenderID, String messageReceiverID, String itemReported, String status);
     //event related
     public List<Vector> viewEventRequestListing();
     public List<Vector> viewEventRequestListingDashboard();
