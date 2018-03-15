@@ -18,9 +18,9 @@ public interface MarketplaceSysUserMgrBeanRemote {
             String tradeLocation, String tradeLat, String tradeLong, String tradeInformation);
     public String deleteItemListing(long itemIDToDelete);
     
-    public String sendItemOfferPrice(long itemIDHidden, String usernameHidden, String itemOfferPrice, 
-            String itemOfferDescription);
-    public String likeUnlikeItem(long itemIDHid, String usernameHid);
+    public String sendItemOfferPrice(long itemID, String username, String itemOfferPrice, String itemOfferDescription);
+    public String reportItemListing(long itemID, String username, String itemReportCategory, String itemReportDescription);
+    public String likeUnlikeItem(long itemID, String username);
     public List<Vector> viewItemLikeList(long itemID);
     public List<Vector> viewItemCategoryList();
     

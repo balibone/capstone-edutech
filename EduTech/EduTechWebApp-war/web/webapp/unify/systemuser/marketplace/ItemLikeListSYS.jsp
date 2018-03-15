@@ -15,7 +15,6 @@
         <link href="css/unify/systemuser/weblayout/marketplace/ItemLikeListSYSCSS.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <input type="hidden" name="messageUsername" value="<%= loggedInUsername%>" />
         <table id="itemLikeTable" class="table table-striped table-bordered dt-responsive nowrap" data-height="300" cellspacing="0" width="100%">
             <thead style="display:none;">
                 <tr><th>Item Likers</th></tr>

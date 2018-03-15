@@ -130,7 +130,6 @@
                                     <td>
                                         <div class="btn-group" role="group">
                                             <input type="hidden" id="itemIDHidden" value="<%= itemID%>" />
-                                            <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
                                             <%  if(itemLikeStatus.equals("true")) {   %>
                                             <button type="button" id="likeItemBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i>&nbsp;Like</button>
                                             <%  } else if(itemLikeStatus.equals("false")) {    %>

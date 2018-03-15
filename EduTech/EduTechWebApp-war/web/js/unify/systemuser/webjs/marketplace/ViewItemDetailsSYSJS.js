@@ -35,8 +35,88 @@ $(document).ready(function () {
         content: { title: { text: 'Enter Your Offer Price', button: true }, text: $('#offerTooltip') },
         position: { at: 'top center', my: 'bottom center' },
         style: { width: 250, height: 195 },
-        hide: { event: 'click', inactive: 10000 },
+        hide: { event: 'click' },
         show: 'click'
+    });
+    
+    $('.settingsBtn').click(function() {
+        var settingsBtnID = this.id;
+        if (settingsBtnID.indexOf('settingsBtn') >= 0) {
+            $('#qtipTrigger').qtip({
+                content: { title: { text: 'Report Item Listing', button: true }, text: $('#reportItemListingTip') },
+                position: { at: 'top center', my: 'right top' },
+                style: { width: 250, height: 195 },
+                hide: { event: 'click' },
+                show: 'click'
+            });
+        }
+    });
+    
+    $('.itemListingDetailsBtn').click(function() {
+        var tempItemDetailsBtn = this.id;
+        if (tempItemDetailsBtn.indexOf('sendOfferBtn') >= 0) {
+            $.ajax({
+                type: "POST",
+                url: "MarketplaceSysUser",
+                data: { 
+                    itemIDHidden: $('#itemIDHidden').val(),
+                    usernameHidden: $('#usernameHidden').val(),
+                    itemOfferPrice: $('#itemOfferPrice').val(),
+                    itemOfferDescription: $('#itemOfferDescription').val(),
+                    pageTransit: 'sendItemOfferPrice'
+                },
+                success: function(returnString) {
+                    $('#successOfferResponse').hide();
+                    $('#failedOfferResponse').hide();
+                    if(returnString.endsWith("!")) { $('#successOfferResponse').text(returnString).show(); }
+                    else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }
+                }
+            });
+        } else if(tempItemDetailsBtn.indexOf('reportItemListingBtn') >= 0) {
+            var itemID = tempItemDetailsBtn.replace('reportItemListingBtn', '');
+            $('#qtipTrigger').trigger("click");
+            $('#itemHiddenID').val(itemID);
+        } else if (tempItemDetailsBtn.indexOf('sendItemReportBtn') >= 0) {
+            $.ajax({
+                type: 'POST',
+                url: 'MarketplaceSysUser',
+                data: { 
+                    itemHiddenID: $('#itemHiddenID').val(),
+                    itemReportCategory: $('#itemReportCategory').val(),
+                    itemReportDescription: $('#itemReportDescription').val(),
+                    pageTransit: 'reportItemListing'
+                },
+                success: function(returnString) {
+                    $('#successReportResponse').hide();
+                    $('#failedReportResponse').hide();
+                    if(returnString.endsWith("!")) { $('#successReportResponse').text(returnString).show(); }
+                    else if(returnString.endsWith(".")) { $('#failedReportResponse').text(returnString).show(); }
+                }
+            });
+        } else if(tempItemDetailsBtn.indexOf('likeItemBtn') >= 0) {
+            $.ajax({
+                type: "POST",
+                url: "MarketplaceSysUser",
+                data: { 
+                    itemIDHid: $('#itemIDHidden').val(),
+                    usernameHid: $('#usernameHidden').val(),
+                    pageTransit: 'likeItemListingDetails'
+                },
+                success: function(returnString) {
+                    $('.likeCount').text("");
+                    $('.likeCount').text(returnString);
+                    if($('#likeItemBtn').hasClass('likeStatus')) {
+                        $('#likeItemBtn').removeClass('likeStatus');
+                        $('#likeItemBtn').addClass('noLikeStatus');
+                    } else if($('#likeItemBtn').hasClass('noLikeStatus')) {
+                        $('#likeItemBtn').removeClass('noLikeStatus');
+                        $('#likeItemBtn').addClass('likeStatus');
+                    }
+                    if(returnString > 1) { $('.likeWording').text("Likes"); }
+                    else { $('.likeWording').text("Like"); }
+                }
+            });
+        }
     });
     
     $('.itemLikes > a').click(function() {
@@ -55,50 +135,5 @@ $(document).ready(function () {
         overlayClose: true,
         iframe: true,
         iframeHeight: 450
-    });
-    
-    $('#sendOfferBtn').click(function() {
-        $.ajax({
-            type: "POST",
-            url: "MarketplaceSysUser",
-            data: { 
-                itemIDHidden: $('#itemIDHidden').val(),
-                usernameHidden: $('#usernameHidden').val(),
-                itemOfferPrice: $('#itemOfferPrice').val(),
-                itemOfferDescription: $('#itemOfferDescription').val(),
-                pageTransit: 'sendItemOfferPrice'
-            },
-            success: function(returnString) {
-                $('#successOfferResponse').hide();
-                $('#failedOfferResponse').hide();
-                if(returnString.endsWith("!")) { $('#successOfferResponse').text(returnString).show(); }
-                else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }
-            }
-        });
-    });
-    
-    $('#likeItemBtn').click(function() {
-        $.ajax({
-            type: "POST",
-            url: "MarketplaceSysUser",
-            data: { 
-                itemIDHid: $('#itemIDHidden').val(),
-                usernameHid: $('#usernameHidden').val(),
-                pageTransit: 'likeItemListingDetails'
-            },
-            success: function(returnString) {
-                $('.likeCount').text("");
-                $('.likeCount').text(returnString);
-                if($('#likeItemBtn').hasClass('likeStatus')) {
-                    $('#likeItemBtn').removeClass('likeStatus');
-                    $('#likeItemBtn').addClass('noLikeStatus');
-                } else if($('#likeItemBtn').hasClass('noLikeStatus')) {
-                    $('#likeItemBtn').removeClass('noLikeStatus');
-                    $('#likeItemBtn').addClass('likeStatus');
-                }
-                if(returnString > 1) { $('.likeWording').text("Likes"); }
-                else { $('.likeWording').text("Like"); }
-            }
-        });
     });
 });

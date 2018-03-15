@@ -6,6 +6,18 @@ $(document).ready(function () {
         itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
     });
     
+    $('.settingsBtn').click(function () {
+        var tempSettingsBtnID = this.id;
+        tempSettingsBtnID = tempSettingsBtnID.replace('settingsBtn', '');
+        $('#qtipTrigger' + tempSettingsBtnID).qtip({
+            content: { title: { text: 'Report Item Listing', button: true }, text: $('#reportItemListingTip') },
+            position: { at: 'top center', my: 'bottom center' },
+            style: { width: 250, height: 195 },
+            hide: { event: 'click' },
+            show: 'click'
+        });
+    });
+    
     $('.myAccountBtn').click(function () {
         var tempBtnID = this.id;
         if (tempBtnID.indexOf('likeItemBtn') >= 0) {
@@ -32,11 +44,34 @@ $(document).ready(function () {
         } else if (tempBtnID.indexOf('pendingItemOfferBtn') >= 0) {
             tempBtnID = tempBtnID.replace('pendingItemOfferBtn', '');
             window.open('ProfileSysUser?pageTransit=goToPendingItemOfferList&urlitemID=' + tempBtnID, '_self');
+        } else if(tempBtnID.indexOf('reportItemListingBtn') >= 0) {
+            tempBtnID = tempBtnID.replace('reportItemListingBtn', '');
+            $('#qtipTrigger' + tempBtnID).trigger("click");
+            $('#itemHiddenID').val(tempBtnID);
         } else if (tempBtnID.indexOf('itemLikersBtn') >= 0) {
             tempBtnID = tempBtnID.replace('itemLikersBtn', '');
             $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToItemLikeList&itemID=' + tempBtnID);
             $('#itemLikeList-iframe').iziModal('open', event);
         }
+    });
+    
+    $('#sendItemReportBtn').click(function() {
+        $.ajax({
+            type: 'POST',
+            url: 'MarketplaceSysUser',
+            data: { 
+                itemHiddenID: $('#itemHiddenID').val(),
+                itemReportCategory: $('#itemReportCategory').val(),
+                itemReportDescription: $('#itemReportDescription').val(),
+                pageTransit: 'reportItemListing'
+            },
+            success: function(returnString) {
+                $('#successReportResponse').hide();
+                $('#failedReportResponse').hide();
+                if(returnString.endsWith("!")) { $('#successReportResponse').text(returnString).show(); }
+                else if(returnString.endsWith(".")) { $('#failedReportResponse').text(returnString).show(); }
+            }
+        });
     });
 
     $("#itemLikeList-iframe").iziModal({
@@ -50,6 +85,14 @@ $(document).ready(function () {
         overlayClose: true,
         iframe: true,
         iframeHeight: 450
+    });
+    
+    $('#makeOfferBtn').qtip({
+        content: { title: { text: 'Report Item Listing', button: true }, text: $('#reportItemListingTip') },
+        position: { at: 'top center', my: 'bottom center' },
+        style: { width: 250, height: 195 },
+        hide: { event: 'click', inactive: 10000 },
+        show: 'click'
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

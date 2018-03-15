@@ -27,6 +27,7 @@ import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
 import unifyentities.marketplace.ItemEntity;
 import unifyentities.marketplace.ItemOfferEntity;
+import unifyentities.common.ItemReportEntity;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import commoninfrastructureentities.UserEntity;
@@ -39,6 +40,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
 
     private CategoryEntity cEntity;
     private ItemEntity iEntity;
+    private ItemReportEntity irEntity;
     private ItemOfferEntity ioEntity;
     private LikeListingEntity llEntity;
     private MessageEntity mEntity;
@@ -115,6 +117,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return itemList;
     }
 
+    /* FOR EDIT ITEM LISTING */ 
     @Override
     public Vector viewItemDetails(long itemID) {
         iEntity = lookupItem(itemID);
@@ -314,18 +317,17 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     }
     
     @Override
-    public String sendItemOfferPrice(long itemIDHidden, String usernameHidden, String itemOfferPrice, 
-            String itemOfferDescription) {
-        if (lookupItem(itemIDHidden) == null) { return "There are some issues with the item listing. Please try again."; }
-        else if(lookupUnifyUser(usernameHidden) == null) { return "There are some issues with your user profile. Please try again."; }
-        else if(lookupItemOffer(itemIDHidden, usernameHidden) != null) { return "You have sent an offer previously. Please go to your profile to check or update your offer."; }
+    public String sendItemOfferPrice(long itemID, String username, String itemOfferPrice, String itemOfferDescription) {
+        if (lookupItem(itemID) == null) { return "There are some issues with the item listing. Please try again."; }
+        else if(lookupUnifyUser(username) == null) { return "There are some issues with your user profile. Please try again."; }
+        else if(lookupItemOffer(itemID, username) != null) { return "You have sent an offer previously. Please go to your profile to check or update your offer."; }
         else if(itemOfferPrice.equals("")) { return "Item offer price cannot be empty."; }
         else if(!isNumeric(itemOfferPrice)) { return "Please enter a valid item offer price."; }
         else if(Double.parseDouble(itemOfferPrice) < 0.0 || Double.parseDouble(itemOfferPrice) > 9999.0) { return "Item offer price must be between 0 to 9999. Please try again."; }
         else {
-            iEntity = lookupItem(itemIDHidden);
-            itemBuyerOfferEntity = lookupUnifyUser(usernameHidden);
-            itemSellerEntity = lookupUnifyUser(lookupItem(itemIDHidden).getUserEntity().getUsername());
+            iEntity = lookupItem(itemID);
+            itemBuyerOfferEntity = lookupUnifyUser(username);
+            itemSellerEntity = lookupUnifyUser(lookupItem(itemID).getUserEntity().getUsername());
             ioEntity = new ItemOfferEntity();
             
             if(ioEntity.createItemOffer(Double.parseDouble(itemOfferPrice), itemOfferDescription)) {
@@ -339,7 +341,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                 mEntity = new MessageEntity();
                 mEntity.createContentMessage(itemBuyerOfferEntity.getUsername(), iEntity.getUserEntity().getUsername(), 
                         itemBuyerOfferEntity.getUsername() + " sent an offer for your " + iEntity.getItemName() + ". Check it out!", 
-                        iEntity.getItemID(), "Marketplace");
+                        iEntity.getItemID(), "Marketplace (Item Offer)");
                 /* ITEM BUYER WHO SENT THE OFFER IS THE USERENTITY_USERNAME */
                 mEntity.setUserEntity(itemBuyerOfferEntity);
                 itemSellerEntity.getMessageSet().add(mEntity);
@@ -357,13 +359,40 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     }
     
     @Override
-    public String likeUnlikeItem(long itemIDHid, String usernameHid) {
-        if (lookupItem(itemIDHid) == null) { return "0"; }
-        else if(lookupUnifyUser(usernameHid) == null) { return "0"; }
+    public String reportItemListing(long itemID, String username, String itemReportCategory, String itemReportDescription) {
+        if (lookupItem(itemID) == null) { return "There are some issues with the item listing. Please try again."; }
+        else if(lookupUnifyUser(username) == null) { return "There are some issues with your user profile. Please try again."; }
+        else if(lookupPendingItemReport(itemID, username) != null) { return "You have sent a report about this item previously. The administrators are looking into this."; }
+        else if(itemReportCategory.equals("") || itemReportDescription.equals("")) { return "Report Category and Report Description cannot be empty."; }
         else {
-            iEntity = lookupItem(itemIDHid);
-            uEntity = lookupUnifyUser(usernameHid);
-            if (lookupLike(itemIDHid, usernameHid) == null) {
+            iEntity = lookupItem(itemID);
+            uEntity = lookupUnifyUser(username);
+            irEntity = new ItemReportEntity();
+            
+            if(irEntity.createItemReport(itemReportCategory, itemReportDescription, iEntity.getUserEntity().getUsername())) {
+                irEntity.setItemEntity(iEntity);
+                irEntity.setUserEntity(uEntity);
+                iEntity.getItemReportSet().add(irEntity);
+                uEntity.getItemReportSet().add(irEntity);
+                
+                em.persist(irEntity);
+                em.merge(iEntity);
+                em.merge(uEntity);
+                return "Your item report has been sent. We will review your item report. Thank you!";
+            } else {
+                return "Error occured while sending your item report. Please try again.";
+            }
+        }
+    }
+    
+    @Override
+    public String likeUnlikeItem(long itemID, String username) {
+        if (lookupItem(itemID) == null) { return "0"; }
+        else if(lookupUnifyUser(username) == null) { return "0"; }
+        else {
+            iEntity = lookupItem(itemID);
+            uEntity = lookupUnifyUser(username);
+            if (lookupLike(itemID, username) == null) {
                 llEntity = new LikeListingEntity();
                 if(llEntity.addNewLike("Marketplace")) {
                     llEntity.setItemEntity(iEntity);
@@ -375,7 +404,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                     mEntity = new MessageEntity();
                     mEntity.createContentMessage(uEntity.getUsername(), iEntity.getUserEntity().getUsername(), 
                         uEntity.getUsername() + " likes your " + iEntity.getItemName() + ". Check it out!", 
-                        iEntity.getItemID(), "Marketplace");
+                        iEntity.getItemID(), "Marketplace (Item Like)");
                     /* ITEM LIKER IS THE USERENTITY_USERNAME */
                     mEntity.setUserEntity(uEntity);
                     (iEntity.getUserEntity()).getMessageSet().add(mEntity);
@@ -386,11 +415,11 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                     em.merge(uEntity);
                 }
             } else {
-                llEntity = lookupLike(itemIDHid, usernameHid);
+                llEntity = lookupLike(itemID, username);
                 iEntity.getLikeListingSet().remove(llEntity);
                 uEntity.getLikeListingSet().remove(llEntity);
                 
-                mEntity = lookupContentMessage(itemIDHid, usernameHid);
+                mEntity = lookupContentMessage(itemID, username);
                 (iEntity.getUserEntity()).getMessageSet().remove(mEntity);
                 
                 em.remove(llEntity);
@@ -400,7 +429,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                 em.clear();
             }
         }
-        return String.valueOf(getItemLikeCount(itemIDHid));
+        return String.valueOf(getItemLikeCount(itemID));
     }
     
     @Override
@@ -607,6 +636,26 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             ioe = null;
         }
         return ioe;
+    }
+    
+    public ItemReportEntity lookupPendingItemReport(long itemID, String username) {
+        ItemReportEntity ire = new ItemReportEntity();
+        try {
+            Query q = em.createQuery("SELECT ir FROM ItemReport ir WHERE ir.itemEntity.itemID = :itemID "
+                    + "AND ir.userEntity.username = :username AND ir.itemReportStatus='Unresolved'");
+            q.setParameter("itemID", itemID);
+            q.setParameter("username", username);
+            ire = (ItemReportEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Item report cannot be found. " + enfe.getMessage());
+            em.remove(ire);
+            ire = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Item report does not exist. " + nre.getMessage());
+            em.remove(ire);
+            ire = null;
+        }
+        return ire;
     }
     
     public LikeListingEntity lookupLike(long itemID, String username) {

@@ -19,6 +19,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/weblayout/marketplace/ViewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
@@ -329,7 +330,13 @@
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-header" style="font-size: 13px;">
-                                            <div id="settingsBtn<%= itemID%>" class="text-right close" style="padding-top:7px;"><img src="images/unifyimages/sidebar-divider-dots.png" /></div>
+                                            <button id="settingsBtn<%= itemID%>" type="button" class="text-right close settingsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:7px;">
+                                                <img src="images/unifyimages/sidebar-divider-dots.png" />
+                                            </button>
+                                            <button type="button" id="qtipTrigger<%= itemID%>" class="text-right close"></button>
+                                            <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="settingsBtn<%= itemID%>">
+                                                <button id="reportItemListingBtn<%= itemID%>" type="button" class="dropdown-item itemListingBtn">Report Listing</button>
+                                            </div>
                                             <div class="pull-left" style="padding-right: 10px;">
                                                 <div class="profilePicBorder">
                                                     <img class="profilePic" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
@@ -343,7 +350,7 @@
                                         <div class="card-content">
                                             <div class="card-body mb-2">
                                                 <div class="img-wrapper mb-2">
-                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>&hiddenUsername=<%= loggedInUsername%>">
+                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>">
                                                         <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
                                                     </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
@@ -395,9 +402,27 @@
             </a>
             <div id="sellNewItem-iframe"></div>
             <div id="unifyFooter"></div>
+            
+            <div style="display:none;" id="reportItemListingTip">
+                Report Category&nbsp;<span style="color:#FF0000;">*</span><br/>
+                <select id="itemReportCategory" class="itemReportFields" style="margin-bottom: 7px;">
+                    <option value="" disabled="disabled" selected="selected">- Please Select -</option>
+                    <option value="Counterfeit Item">Counterfeit Item</option>
+                    <option value="Prohibited Item">Prohibited Item</option>
+                    <option value="Wrong Item Category">Wrong Item Category</option>
+                    <option value="Irrelevant Keywords">Irrelevant Keywords</option>
+                    <option value="Duplicate Post">Duplicate Post</option>
+                    <option value="Offensive Content">Offensive Content</option>
+                    <option value="Mispriced Listing">Mispriced Listing</option>
+                </select><br/>
+                Report Description&nbsp;<span style="color:#FF0000;">*</span><br/>
+                <textarea rows="3" id="itemReportDescription" class="itemReportFields" placeholder="e.g. This listing contains inappropriate content ..."></textarea><br/>
+                <button type="button" id="sendItemReportBtn" style="margin:7px 0 7px 0;">Send Item Report</button><br/>
+                <input type="hidden" id="itemHiddenID" />
+                <span id="successReportResponse"></span><span id="failedReportResponse"></span>
+            </div>
         </div>
-
-
+        
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
@@ -407,6 +432,7 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/ViewItemListingSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>

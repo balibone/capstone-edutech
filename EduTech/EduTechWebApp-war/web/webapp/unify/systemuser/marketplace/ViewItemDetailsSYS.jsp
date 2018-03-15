@@ -11,17 +11,17 @@
         <title>Unify Marketplace - Item Listing Details</title>
         
         <!-- CASCADING STYLESHEET -->
-        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/marketplace/ViewItemDetailsSYSCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/marketplace/ViewItemDetailsSYSCSS.css" rel="stylesheet" type="text/css" />
     </head>
     <body onload="loadMap()">
         <!-- MOBILE SIDE NAVIGATION -->
@@ -235,10 +235,19 @@
                         </ul>
                     </div>
                     <div class="col-xl-8 col-lg-7 col-md-6">
-                        <table class="table table-detail" add-class-on-xs="table-sm">
+                        <table class="table table-detail" id="itemListingDetailsTable" add-class-on-xs="table-sm">
                             <tbody>
                                 <tr class="d-none d-md-table-row">
-                                    <td class="border-top-0" colspan="2"><h5><%= itemName%></h5></td>
+                                    <td class="border-top-0" colspan="2">
+                                        <button id="settingsBtn" type="button" class="text-right close settingsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:7px;">
+                                            <img src="images/unifyimages/sidebar-divider-dots.png" />
+                                        </button>
+                                        <button type="button" id="qtipTrigger" class="text-right close"></button>
+                                        <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="settingsBtn">
+                                            <button id="reportItemListingBtn<%= itemID%>" type="button" class="dropdown-item itemListingDetailsBtn">Report Listing</button>
+                                        </div>
+                                        <div class="pull-left"><h4><%= itemName%></h4></div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Item Condition</td>
@@ -285,9 +294,9 @@
                                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
                                             <%  }%>
                                             <%  if(itemLikeStatus.equals("true")) {   %>
-                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
+                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme likeStatus itemListingDetailsBtn" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
                                             <%  } else if(itemLikeStatus.equals("false")) {    %>
-                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
+                                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme noLikeStatus itemListingDetailsBtn" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
                                             <%  }   %>
                                             
                                         </div>
@@ -439,13 +448,31 @@
             <div id="unifyFooter"></div>
             
             <div style="display:none;" id="offerTooltip">
-                Offer Price&nbsp;<span style="color:#FF0000;">*</span>:<br/>
-                <input type="text" id="itemOfferPrice" class="offerFields" placeholder="Please omit the $ for your item offer price" style="margin-bottom: 7px;" /><br/>
-                Buyer Comments:<br/>
-                <textarea rows="3" id="itemOfferDescription" class="offerFields" placeholder="e.g. Meetup Location, Open for Negotiation"></textarea><br/>
-                <button type="button" id="sendOfferBtn" style="margin:7px 0 7px 0;">Send Offer</button><br/>
+                Offer Price&nbsp;<span style="color:#FF0000;">*</span><br/>
+                <input type="text" id="itemOfferPrice" class="itemOfferFields" placeholder="Please omit the $ for your item offer price" style="margin-bottom: 7px;" /><br/>
+                Buyer Comments<br/>
+                <textarea rows="3" id="itemOfferDescription" class="itemOfferFields" placeholder="e.g. Meetup Location, Open for Negotiation"></textarea><br/>
+                <button type="button" id="sendOfferBtn" class="itemListingDetailsBtn" style="margin:7px 0 7px 0;">Send Offer</button><br/>
                 <input type="hidden" id="itemIDHidden" value="<%= itemID%>" />
                 <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
+            </div>
+            <div style="display:none;" id="reportItemListingTip">
+                Report Category&nbsp;<span style="color:#FF0000;">*</span><br/>
+                <select id="itemReportCategory" class="itemReportFields" style="margin-bottom: 7px;">
+                    <option value="" disabled="disabled" selected="selected">- Please Select -</option>
+                    <option value="Counterfeit Item">Counterfeit Item</option>
+                    <option value="Prohibited Item">Prohibited Item</option>
+                    <option value="Wrong Item Category">Wrong Item Category</option>
+                    <option value="Irrelevant Keywords">Irrelevant Keywords</option>
+                    <option value="Duplicate Post">Duplicate Post</option>
+                    <option value="Offensive Content">Offensive Content</option>
+                    <option value="Mispriced Listing">Mispriced Listing</option>
+                </select><br/>
+                Report Description&nbsp;<span style="color:#FF0000;">*</span><br/>
+                <textarea rows="3" id="itemReportDescription" class="itemReportFields" placeholder="e.g. This listing contains inappropriate content ..."></textarea><br/>
+                <button type="button" id="sendItemReportBtn" class="itemListingDetailsBtn" style="margin:7px 0 7px 0;">Send Item Report</button><br/>
+                <input type="hidden" id="itemHiddenID" />
+                <span id="successReportResponse"></span><span id="failedReportResponse"></span>
             </div>
         </div>
 

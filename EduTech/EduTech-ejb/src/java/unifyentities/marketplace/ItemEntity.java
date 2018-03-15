@@ -31,6 +31,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
 
 import unifyentities.common.CategoryEntity;
+import unifyentities.common.ItemReportEntity;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.TagEntity;
 import commoninfrastructureentities.UserEntity;
@@ -65,6 +66,8 @@ public class ItemEntity implements Serializable {
     private Collection<LikeListingEntity> likeListingSet = new ArrayList<LikeListingEntity>();
     @OneToMany(mappedBy = "itemEntity")
     private Collection<ItemReviewEntity> itemReviewSet = new ArrayList<ItemReviewEntity>();
+    @OneToMany(mappedBy = "itemEntity")
+    private Collection<ItemReportEntity> itemReportSet = new ArrayList<ItemReportEntity>();
     @OneToMany(mappedBy = "itemEntity")
     private Collection<ItemTransactionEntity> itemTransactionSet = new ArrayList<ItemTransactionEntity>();
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy = "itemSet")
@@ -111,6 +114,7 @@ public class ItemEntity implements Serializable {
     public Collection<ItemOfferEntity> getItemOfferSet() { return itemOfferSet; }
     public Collection<LikeListingEntity> getLikeListingSet() { return likeListingSet; }
     public Collection<ItemReviewEntity> getItemReviewSet() { return itemReviewSet; }
+    public Collection<ItemReportEntity> getItemReportSet() { return itemReportSet; }
     public Collection<ItemTransactionEntity> getItemTransactionSet() { return itemTransactionSet; }
     public Set<TagEntity> getTagSet() { return tagSet; }
     
@@ -134,6 +138,7 @@ public class ItemEntity implements Serializable {
     public void setItemOfferSet(Collection<ItemOfferEntity> itemOfferSet) { this.itemOfferSet = itemOfferSet; }
     public void setLikeListingSet(Collection<LikeListingEntity> likeListingSet) { this.likeListingSet = likeListingSet; }
     public void setItemReviewSet(Collection<ItemReviewEntity> itemReviewSet) { this.itemReviewSet = itemReviewSet; }
+    public void setItemReportSet(Collection<ItemReportEntity> itemReportSet) { this.itemReportSet = itemReportSet; }
     public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
     public void setTagSet(Set<TagEntity> tagSet) { this.tagSet = tagSet; }
 }
