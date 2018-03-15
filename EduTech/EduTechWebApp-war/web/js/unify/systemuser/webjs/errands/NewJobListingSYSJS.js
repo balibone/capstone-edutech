@@ -138,11 +138,11 @@ function displayDuration(){
     var selectedValue = select.options[select.selectedIndex].value;
     
     if(selectedValue == "HR"){
-        document.getElementById("job-rate").innerHTML = "Job Rate (per hour)"
+        document.getElementsByName('jobRate')[0].placeholder='Job Rate(S$/hr)';
     }
     
     if(selectedValue == "Fixed"){
-        document.getElementById("job-rate").innerHTML = "Job Rate";
+         document.getElementsByName('jobRate')[0].placeholder = "Job Rate(S$)";
     }
 }
 

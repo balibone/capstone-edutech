@@ -177,8 +177,12 @@
                                 <div id="accordion" >
                                     <div class="card border-0">
                                         <div class="card-header" id="headingOne" style="background-color: white;">
-                                            <span class="step-title"><strong>1.Choose a category</strong></span> &nbsp;
+                                            <span class="step-title"><strong>1. Choose a category</strong></span> &nbsp;
+                                            <i class="fa fa-check-circle" aria-hidden="true"></i>
                                             Selected: <span id="selected-category"> </span>
+                                            
+                                                <button class="btn float-right mt-3" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                            
                                         </div>
 
                                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
@@ -202,7 +206,7 @@
                                                                     <div class="card-body">
                                                                         <div class="row">
                                                                             <div class="col-3"><img src="uploads/unify/images/common/category/<%= categoryImage%>" style="width: 60px; height: 60px; " /></div>
-                                                                            <div class="col-9"><span><%= categoryName%></span> <br/> test</div>
+                                                                            <div class="col-9"><span><strong><%= categoryName%></strong></span> <br/> test</div>
                                                                         </div>
         					
                                                                     </div>
@@ -213,7 +217,7 @@
                                                         </div>
                                                     </div>
                                                     <h5 class="mb-0">
-                                                    <button class="btn btn-primary float-right" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Next
+                                                    <button class="btn float-right next-button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Continue
                                                     </button>
                                                     </h5>
                                                 </div>
@@ -222,9 +226,9 @@
                                     </div>
                                     <div class="card border-0">
                                         <div class="card-header" id="headingTwo" style="background-color: white;">
-                                            <span class="step-title"><strong>2.Fill up job details</strong></span>
-                                            <button class="btn btn-primary collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Next
+                                            <span class="step-title"><strong>2. Fill up job details</strong></span>
+                                            <button class="btn float-right collapsed mt-3" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
                                             </button>
                                         </div>
                                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
@@ -235,85 +239,137 @@
                                                             <div class="image-upload">
                                                                 <img id="output-image" />
                                                             </div>
-                                                            <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 151px;">
+                                                            <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 171px;">
                                                                 <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
                                                             </label>
                                                             <input id="file-upload" name="jobImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" required="required" />
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4 ml-2">
-                                                        <div class="form-group">
-                                                            <label for="jobTitle">Job Title&nbsp;<span class="asterik">*</span></label>
-                                                            <input type="text" class="form-control" name="jobTitle" placeholder="Enter the job title" required="required" />
-                                                        </div>
-                                                        
-                                                        
-                                                        <div class="form-group">
-                                                            <label for="workDate">Work Date&nbsp;<span class="asterik">*</span></label>
-                                                            <input type="date" class="form-control" name="workDate" required="required" />
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="jobDescription">Job Description</label>
-                                                            <textarea class="form-control" name="jobDescription" rows="5" placeholder="Enter the job description" required="required"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 ml-2">
-                                                        <div class="form-group">
-                                                            <label for="jobRateType">Job Rate Type&nbsp;<span class="asterik">*</span></label><br/>
-                                                            <select class="select-dropdown" name="jobRateType" id="jobRateType" data-width="90%" onchange="javascript: displayDuration()">
-                                                                <option value="Fixed">Fixed Price</option>
-                                                                <option value="HR">Hourly Rate</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="fillup"></div>
-                                                        <div class="form-group">
-                                                            <label for="jobRate"><span id="job-rate">Job Rate</span><span class="asterik">&nbsp;*</span></label>
-                                                            <div class="input-group input-group-sm input-group-qty">
-                                                                <div class="input-group-prepend">
-                                                                    <button class="btn btn-outline-theme btn-down" type="button"><i class="fa fa-minus"></i></button>
-                                                                </div>
-                                                                <input type="text" class="form-control" name="jobRate" aria-label="jobRate" data-min="1" data-max="9999" required="required" />
-                                                                <div class="input-group-append">
-                                                                    <button class="btn btn-outline-theme btn-up" type="button"><i class="fa fa-plus"></i></button>
-                                                                </div>
+                                                    <div class="col-md-8 ml-3">
+                                                        <div class="form-group row">
+                                                            <label for="jobTitle" class="col-sm-3 col-form-label"><strong>Job Title</strong>&nbsp;<span class="asterik">*</span></label>
+                                                            <div class="col-sm-9">
+                                                              <input type="text" class="form-control" name="jobTitle" placeholder="Enter the job title">
                                                             </div>
                                                         </div>
-                                                        <div id="jobDurationDiv" class="form-group">
-                                                            <label for="jobDuration">Job Duration&nbsp;<span class="asterik">*</span></label>
-                                                            <input type="number" class="form-control" name="jobDuration" required="required" />
+                                                        
+                                                        <div class="form-group row">
+                                                            <label for="workDate" class="col-sm-3 col-form-label"><strong>Work Date & Time</strong>&nbsp;<span class="asterik">*</span></label>
+                                                            <div class="col-sm-5">
+                                                                <input type="date" class="form-control" name="workDate" required="required" />
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                              <input type="time" class="form-control" name="workTime" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="jobDescription" class="col-sm-3 col-form-label"><strong>Job Description</strong></label>
+                                                            <div class="col-sm-9">
+                                                                <textarea class="form-control" name="jobDescription" rows="5" placeholder="Enter the job description" required="required"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="workDate" class="col-sm-5 col-form-label"><strong>What is your budget for the job? </strong>&nbsp;<span class="asterik">*</span></label>
+                                                            
+                                                            <div class="col-sm-3">
+                                                                <select class="select-dropdown" name="jobRateType" id="jobRateType" data-width="100%" onchange="javascript: displayDuration()">
+                                                                    <option value="Fixed">Fixed Price</option>
+                                                                    <option value="HR">Hourly Rate</option>
+                                                                </select>
+                                                            </div>
+                                                           
+                                                            <div class="col-sm-3">
+                                                                <input type="number" class="form-control" name="jobRate" placeholder="Job Rate(S$)"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="jobDuration" class="col-sm-3 col-form-label"><strong>How big is the task? </strong>&nbsp;<span class="asterik">*</span></label>
+                                                            <div class="col-sm-3 mt-2">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                                                    <label class="form-check-label" for="inlineRadio1">Small: <1hr</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3 mt-2">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                                                    <label class="form-check-label" for="inlineRadio1">Medium: 2-3hrs</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3 mt-2">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                                                    <label class="form-check-label" for="inlineRadio1">Large: >4hrs</label>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="numOfHelpers" class="col-sm-6 col-form-label"><strong>How many helpers do you need for the job? </strong>&nbsp;<span class="asterik">*</span></label>
+                                                            <div class="col-sm-3">
+                                                                <input type="number" class="form-control" name="numOfHelpers"  placeholder="number of helpers" required="required"/>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
+                                                <button class="btn next-button float-right collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                Continue
+                                                </button>
                                             </div>
-                                            <h5 class="mb-0">
-                                            <button class="btn btn-primary collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Next
-                                            </button>
-                                            </h5>
+                                            
                                         </div>
                                     </div>
-                                    <div class="card">
-                                        <div class="card-header" id="headingThree">
-                                            <h5 class="mb-0">
-                                            <button class="btn btn-primary collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                            <span class="step-title"><strong>3.Enter work location</strong></span>
-                                            </button>
-                                            </h5>
+                                    <div class="card border-0">
+                                        <div class="card-header" id="headingThree" style="background-color: white;">
+                                            <span class="step-title"><strong>3. Select work location</strong></span>
+                                           
                                         </div>
                                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                                             <div class="card-body">
-                                                heard of them accusamus labore sustainable VHS.
+                                                <div class="form-row" style="justify-content: center;">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <div id="mapdiv" style="width: auto; height: 300px;"> </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 ml-2">
+                                                        <div class="form-group" style="position: relative;">
+                                                            <label for="startLocation"><strong>Start Location&nbsp;<span class="asterik">*</span></strong></label>
+                                                            <input type="text" class="form-control" id="startLocation" name="startLocation" placeholder="Enter the start location" required="required" />
+                                                            <div id="searchResults_start"></div>
+                                                        </div>
+                                                        <div class="form-group" style="position: relative;">
+                                                            <label for="endLocation"><strong>End Location&nbsp;<span class="asterik">*</span></strong></label>
+                                                            <input type="text" class="form-control" id="endLocation" name="endLocation" placeholder="Enter the end location" required="required" />
+                                                            <div id="searchResults_end"></div>
+                                                        </div>
+                                                          
+                                                    </div>
+                                                    
                                             </div>
+                                        </div>
+                                        <input type="hidden" name="pageTransit" value="createJobListingSYS" />
+                                        <input type="hidden" name="username" value="<%= loggedInUsername%>" />
+                                        <input type="hidden" name="hiddenStartLat" id="hiddenStartLat" />
+                                        <input type="hidden" name="hiddenStartLong" id="hiddenStartLong" />
+                                        <input type="hidden" name="hiddenEndLat" id="hiddenEndLat" />
+                                        <input type="hidden" name="hiddenEndLong" id="hiddenEndLong" />
+                                        <input type="hidden" name="hiddenCategoryID" id="hiddenCategoryID" />
+                                        <div class="form-group row" style="text-align: center;">
+                                            <div class="col-sm-12 mt-1">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                                    <label class="form-check-label" for="inlineRadio1">(Optional) <strong>I want to have a checking before job helpers complete the job.</strong></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="text-align: center;">
+                                            <button type="submit" class="btn btn-theme">Create Job Listing</button>
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" name="pageTransit" value="createJobListingSYS" />
-                                <input type="hidden" name="username" value="<%= loggedInUsername%>" />
-                                <input type="hidden" name="hiddenStartLat" id="hiddenStartLat" />
-                                <input type="hidden" name="hiddenStartLong" id="hiddenStartLong" />
-                                <input type="hidden" name="hiddenEndLat" id="hiddenEndLat" />
-                                <input type="hidden" name="hiddenEndLong" id="hiddenEndLong" />
-                                <input type="hidden" name="hiddenCategoryID" id="hiddenCategoryID" />
+                                
                             
                         </div>
                     </div>
