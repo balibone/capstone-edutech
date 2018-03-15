@@ -42,6 +42,11 @@ public class AnnouncementREST {
         return cmb.getAllAnnouncements();
     }
     
+    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public AnnouncementEntity getOneAnnouncement(@PathParam("id") String id){
+        return cmb.getOneAnnouncement(Long.valueOf(id));
+    }
+    
     @GET @Path("user/{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<AnnouncementEntity> getUserAnnouncements(@PathParam("id") String id) {
         return cmb.getUserAnnouncements(id);

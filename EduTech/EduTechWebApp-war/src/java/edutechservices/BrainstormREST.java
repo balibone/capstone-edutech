@@ -42,6 +42,12 @@ public class BrainstormREST {
         return cmb.getAllBrainstorms();
     }
     
+    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public BrainstormEntity getOneBrainstorm(@PathParam("id") String id){
+        return cmb.getOneBrainstorm(Long.valueOf(id));
+    }
+    
+    
     @POST @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public BrainstormEntity createBrainstorm(BrainstormEntity brainstorm) {
         return cmb.createBrainstorm(brainstorm);

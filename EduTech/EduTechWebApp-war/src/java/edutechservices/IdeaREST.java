@@ -42,6 +42,12 @@ public class IdeaREST {
         return cmb.getAllIdeas();
     }
     
+    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public IdeaEntity getOneIdea(@PathParam("id") String id){
+        return cmb.getOneIdea(Long.valueOf(id));
+    }
+    
+    
     @POST @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public IdeaEntity createIdea(IdeaEntity idea) {
         return cmb.createIdea(idea);

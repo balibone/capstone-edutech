@@ -479,6 +479,10 @@ public class CommonRESTMgrBean {
         Query q = em.createQuery("select a from Announcement a");
         return q.getResultList();
     }
+    
+    public AnnouncementEntity getOneAnnouncement(Long id) {
+        return em.find(AnnouncementEntity.class, id);
+    }
 
     public List<AnnouncementEntity> getUserAnnouncements(String id) {
         List<AnnouncementEntity> anns = new ArrayList<>();
@@ -524,6 +528,10 @@ public class CommonRESTMgrBean {
         Query q = em.createQuery("select a from Attachment a");
         return q.getResultList();
     }
+    
+    public AttachmentEntity getOneAttachment(Long id) {
+        return em.find(AttachmentEntity.class, id);
+    }
 
     public AttachmentEntity createAttachment(AttachmentEntity attachment) {
         em.persist(attachment);
@@ -547,6 +555,10 @@ public class CommonRESTMgrBean {
     public List<BrainstormEntity> getAllBrainstorms() {
         Query q = em.createQuery("select b from Brainstorm b");
         return q.getResultList();
+    }
+    
+    public BrainstormEntity getOneBrainstorm(Long id) {
+        return em.find(BrainstormEntity.class, id);
     }
 
     public BrainstormEntity createBrainstorm(BrainstormEntity brainstorm) {
@@ -572,6 +584,10 @@ public class CommonRESTMgrBean {
         Query q = em.createQuery("select i from Idea i");
         return q.getResultList();
     }
+    
+    public IdeaEntity getOneIdea(Long id) {
+        return em.find(IdeaEntity.class, id);
+    }
 
     public IdeaEntity createIdea(IdeaEntity idea) {
         em.persist(idea);
@@ -596,6 +612,10 @@ public class CommonRESTMgrBean {
         Query q = em.createQuery("select l from Lesson l");
         return q.getResultList();    
     }
+    
+    public LessonEntity getOneLesson(Long id) {
+        return em.find(LessonEntity.class, id);
+    }
 
     public LessonEntity createLesson(LessonEntity lesson) {
         em.persist(lesson);
@@ -615,5 +635,7 @@ public class CommonRESTMgrBean {
         em.merge(lesson);
         return lesson;
     }
+
+    
 
 }

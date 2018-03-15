@@ -42,6 +42,11 @@ public class LessonREST {
         return cmb.getAllLessons();
     }
     
+    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public LessonEntity getOneLesson(@PathParam("id") String id){
+        return cmb.getOneLesson(Long.valueOf(id));
+    }
+    
     @POST @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public LessonEntity createLesson(LessonEntity lesson) {
         return cmb.createLesson(lesson);
