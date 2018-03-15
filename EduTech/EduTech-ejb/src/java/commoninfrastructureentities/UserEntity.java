@@ -31,7 +31,7 @@ import unifyentities.common.JobReportEntity;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.marketplace.ItemOfferEntity;
-import unifyentities.errands.JobOfferEntity;
+import unifyentities.shouts.ShoutsLikesEntity;
 
 @Entity(name = "SystemUser")
 public class UserEntity implements Serializable {
@@ -83,6 +83,8 @@ public class UserEntity implements Serializable {
     private Collection<ItemTransactionEntity> itemTransactionSet = new ArrayList<ItemTransactionEntity>();
     @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<JobTransactionEntity> jobTransactionSet = new ArrayList<JobTransactionEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<ShoutsLikesEntity> shoutsLikesSet = new ArrayList<ShoutsLikesEntity>();    
     
     @PrePersist
     public void creationDate() { 
@@ -155,6 +157,7 @@ public class UserEntity implements Serializable {
     public Collection<JobReviewEntity> getJobReviewSet() { return jobReviewSet; }
     public Collection<ItemTransactionEntity> getItemTransactionSet() { return itemTransactionSet; }
     public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
+    public Collection<ShoutsLikesEntity> getShoutsLikesSet() { return shoutsLikesSet; }
     
     /* SETTER METHODS */
     public void setUsername(String username) { this.username = username; }
@@ -183,7 +186,8 @@ public class UserEntity implements Serializable {
     public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
     public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
     public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
-
+    public void setShoutsLikesSet(Collection<ShoutsLikesEntity> shoutsLikesSet) { this.shoutsLikesSet = shoutsLikesSet; }
+    
     public String getEmail() {
         return email;
     }

@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -220,11 +221,21 @@
 
                                     <%-- search by shout content --%>
                                     <div class="filter-sidebar">
-                                        <div class="title"><span>Shouts Filter</span></div>
+                                        <div class="title"><span>Search Filter</span></div>
+                                        <div class="subtitle" style="margin-bottom: 5px">Shout Content</div>
                                         <input type="text" data-path=".shoutContent" class="form-control" placeholder="Search Content" 
                                                aria-label="Search Content" data-control-type="textbox" id="name-filter"
-                                               data-control-name="transmission-text-filter" data-control-action="filter" />
+                                               data-control-name="content-text-filter" data-control-action="filter" />
                                     </div>
+
+                                    <%-- search by shout user *removed - to keep anonymity
+                                    <div class="filter-sidebar">
+                                        <div class="subtitle" style="margin-bottom: 5px">Shout User</div>
+                                        <input type="text" data-path=".shoutUsername" class="form-control" placeholder="Search User" 
+                                               aria-label="Search User" data-control-type="textbox" id="user-filter"
+                                               data-control-name="user-text-filter" data-control-action="filter" />
+                                    </div>
+                                    --%>
 
                                     <%-- to change --%>
                                     <div class="filter-sidebar">
@@ -234,12 +245,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="jplist-label" data-type="Page {current} of {pages}" 
-                             data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
-                        </div>
-                        <div class="jplist-pagination" data-control-type="pagination" 
-                             data-control-name="paging" data-control-action="paging">
-                        </div>
+
                     </div>
 
                     <div class="col-lg-9 col-md-8">
@@ -250,6 +256,13 @@
                                 <ul>
                                     <li><span data-path=".shoutID default" data-order="asc" data-type="text">Name Asc</span></li>
                                     <li><span data-path=".shoutID" data-order="desc" data-type="text">Name Desc</span></li>
+                                </ul>
+                            </div>
+                            <div class="dateSort jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
+                                <ul>
+                                    <li><span data-path=".shoutDate default" data-order="desc" data-type="text">Newest First</span></li>
+                                    <li><span data-path=".shoutDate" data-order="asc" data-type="text">Oldest First</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -279,14 +292,16 @@
                                             String shoutLong = String.valueOf(v.get(5));
                                             String shoutUsername = String.valueOf(v.get(6));
                                             String shoutEditedDate = String.valueOf(v.get(7));
+                                            String shoutDuration = String.valueOf(v.get(8));
+                                            String shoutLikes = String.valueOf(v.get(9));
                                 %>
-                                <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
+                                <div class="col-xl-6 col-md-6 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-content">
                                             <div class="card-body">
                                                 <div class="row">
 
-                                                    <div class="col-xl-9 col-md-9 col-9">
+                                                    <div class="col-xl-6 col-md-6 col-6">
                                                         <div class="shout-ID">
                                                             <span class="card-header shoutCategory" style="color: #007bff; font-size: 10px; line-height: 2.5;">Categories, Type</span>
                                                         </div>
@@ -297,14 +312,14 @@
                                                             <span class="card-content shoutContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><%= shoutContent%></span>
                                                         </div>
                                                         <br>
-                                                        <div class="shout-user-info">
-                                                            <i class="fa fa-users" style="color: #64676d">&nbsp;</i><span class="card-text shoutUsername" style="font-size: 12px"><%= shoutUsername%></span>
-                                                        </div>
-                                                        <div class="shout-post-date">
-                                                            <i class="fa fa-clock-o">&nbsp;</i><span class="float-none" style="color: #64676d; font-size: 12px">Posted On: &nbsp;<%= shoutDate%></span>
+                                                        <%-- like & comment --%>
+                                                        <div class="shout-likes-info">
+                                                            <a href =""><span class="card-text shoutUsername" style="font-size: 12px"><%= shoutLikes%> likes &nbsp;</span></a><i class="fa fa-thumbs-up" style="color: #64676d">&nbsp;</i>
+                                                            &nbsp;&nbsp;
+                                                            <a href =""><span class="float-none" style="color: #64676d; font-size: 12px"># comments &nbsp;</span><i class="fa fa-comment">&nbsp;</i></a>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-3 col-md-3 col-3">
+                                                    <div class="col-xl-4 col-md-4 col-4">
                                                         <div class="new-review">
                                                             <form action="VoicesSysUser" method="POST">
 
@@ -322,14 +337,18 @@
 
                                         <%-- card footer --%>
                                         <div class="card-footer text-muted mt-1">
-                                            
+                                            <%-- keep user anonymous 
                                             <div class="shout-user-info">
                                                 <i class="fa fa-users" style="color: #64676d">&nbsp;</i><span class="card-text shoutUsername" style="font-size: 12px"><%= shoutUsername%></span>
                                             </div>
+                                            --%>
                                             <div class="shout-post-date">
-                                                <i class="fa fa-clock-o">&nbsp;</i><span class="float-none" style="color: #64676d; font-size: 12px">Posted On: &nbsp;<%= shoutDate%></span>
-                                            </div>
+                                                <i class="fa fa-clock-o">&nbsp;</i><span class="float-none shoutDate" style="color: #64676d; font-size: 12px">Posted <%= shoutDuration%>
+                                                    <%--    on <%= shoutDate%> --%>
+                                                </span>
 
+                                                <span class = "float-right"><a href =""><i class="fa fa-flag">&nbsp;&nbsp;</i><span class="report" style="color: #64676d; font-size: 12px">Report Post</span></a></span>
+                                            </div>
 
                                         </div>
 
@@ -347,6 +366,11 @@
                             <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
                                  data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
                             </div>
+
+                            <div class="jplist-label" data-type="Page {current} of {pages}" 
+                                 data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
+                            </div>
+
                             <div class="jplist-pagination" data-control-animate-to-top="true" 
                                  data-control-type="pagination" data-control-name="paging" data-control-action="paging">
                             </div>
@@ -361,6 +385,7 @@
             <div id="itemcard-iframe"></div>
         </div>
 
+        <div id="reportShout-iframe"></div>                    
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>

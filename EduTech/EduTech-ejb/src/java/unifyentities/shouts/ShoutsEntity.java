@@ -13,6 +13,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import commoninfrastructureentities.UserEntity;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 
 @Entity(name = "Shouts")
 public class ShoutsEntity implements Serializable {
@@ -35,9 +39,10 @@ public class ShoutsEntity implements Serializable {
     
     @ManyToOne
     private UserEntity shoutUser;
-    
+      
     //link to likes entity
-    
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shoutsEntity")
+    private Collection<ShoutsLikesEntity> shoutsLikesSet = new ArrayList<ShoutsLikesEntity>();
     //link to bookmarked entity
     
     //link to comments entity?
