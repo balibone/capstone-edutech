@@ -363,6 +363,30 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         }
     }
     
+    @Override
+    public List<Vector> viewUserBuyerOfferList(String username) {
+        Query q = em.createQuery("SELECT io FROM ItemOffer io WHERE io.userEntity.username = :username ORDER BY io.itemOfferDate DESC");
+        q.setParameter("username", username);
+        List<Vector> userBuyerOfferList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            ItemOfferEntity userBuyerOfferE = (ItemOfferEntity) o;
+            Vector userBuyerOfferVec = new Vector();
+
+            /* ITEM SELLER IS THE PERSON WHO CREATED THE ITEM TRANSACTION */
+            userBuyerOfferVec.add(userBuyerOfferE.getItemEntity().getItemImage());
+            userBuyerOfferVec.add(userBuyerOfferE.getItemEntity().getItemName());
+            userBuyerOfferVec.add(String.format ("%,.2f", userBuyerOfferE.getItemEntity().getItemPrice()));
+            userBuyerOfferVec.add(userBuyerOfferE.getItemOfferID());
+            userBuyerOfferVec.add(String.format ("%,.2f", userBuyerOfferE.getItemOfferPrice()));
+            userBuyerOfferVec.add(userBuyerOfferE.getItemOfferStatus());
+            userBuyerOfferVec.add(userBuyerOfferE.getSellerComments());
+            userBuyerOfferVec.add(df.format(userBuyerOfferE.getItemOfferDate()));
+            userBuyerOfferList.add(userBuyerOfferVec);
+        }
+        return userBuyerOfferList;
+    }
+    
     /*  ====================    USER ITEM TRANSACTIONS    ==================== */
     @Override
     public List<Vector> viewItemTransaction(String username) {

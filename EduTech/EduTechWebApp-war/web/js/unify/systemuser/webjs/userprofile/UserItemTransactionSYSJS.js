@@ -1,18 +1,32 @@
-var itemTransDate, itemID, itemTransID;
+var itemName, itemID, itemTransID;
 
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
-    $('#itemTransTable').DataTable({ "responsive": true, "pageLength": 10, "lengthMenu": [10, 20, 30, 50] });
+    $('#itemTransTable').DataTable({
+        'dom': 'Bfrtip',
+        'responsive': true, 
+        'pageLength': 10,
+        'buttons': [
+            {
+                extend: 'collection',
+                text: 'Export Options',
+                autoClose: true,
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            }
+        ]
+    });
     
     $('#itemTransTable tbody').on('click', 'tr', function(event) {
         var rowData = $(this).children("td").map(function() {
             return $(this).text();
         }).get();
-        itemTransDate = $.trim(rowData[0]);
-        itemID = itemTransDate.split(';')[1];
-        itemTransID = itemTransDate.split(';')[2];
+        itemName = $.trim(rowData[4]);
+        itemID = itemName.split(';')[1];
+        itemTransID = itemName.split(';')[2];
         $('iframe').attr('src', 'ProfileSysUser?pageTransit=goToViewItemDetailsInModalSYS&itemID=' + itemID + '&itemTransID=' + itemTransID);
         $('#itemDetails-iframe').iziModal('open', event);
     });

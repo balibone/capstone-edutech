@@ -35,7 +35,7 @@
         <nav class="offcanvas">
             <div class="offcanvas-content">
                 <div id="list-menu" class="list-menu list-group" data-children=".submenu">
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
                         <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a></div>
@@ -48,7 +48,7 @@
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
                         <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
         </nav>
@@ -99,7 +99,7 @@
                                             <%  }   %>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
-                                                    <a href="ProfileSysUser?pageTransit=goToUserNotificationList" role="button" class="btn btn-outline-theme">
+                                                    <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
                                                         <i class="fa fa-envelope"></i>&nbsp;&nbsp;See All Notifications
                                                     </a>
                                                 </div>
@@ -111,7 +111,7 @@
                                 <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
-                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
+                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
                                     <option value="ProfileSysUser?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
                                 </select>
                             </ul>
@@ -183,7 +183,7 @@
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
+                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Pending Item Offer</li>
                         </ol>
                     </nav>
@@ -236,8 +236,8 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
-                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
+                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTransSYS" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-user"></i>&nbsp;My Marketplace Transaction
                                 </a>
                                 <a href="account-address.html" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
@@ -304,20 +304,20 @@
                                                      data-many-items-text="{num} selected">
                                                     <ul>
                                                         <li>
-                                                            <input data-path=".Accepted" id="Accepted" type="checkbox" />
-                                                            <label for="Accepted">Accepted</label>
-                                                        </li>
-                                                        <li>
                                                             <input data-path=".Pending" id="Pending" type="checkbox" />
                                                             <label for="Pending">Pending</label>
                                                         </li>
                                                         <li>
-                                                            <input data-path=".Rejected" id="Rejected" type="checkbox" />
-                                                            <label for="Rejected">Rejected</label>
+                                                            <input data-path=".Processing" id="Processing" type="checkbox" />
+                                                            <label for="Processing">Processing</label>
                                                         </li>
                                                         <li>
-                                                            <input data-path=".Negotiating" id="Negotiating" type="checkbox" />
-                                                            <label for="Negotiating">Negotiating</label>
+                                                            <input data-path=".Accepted" id="Accepted" type="checkbox" />
+                                                            <label for="Accepted">Accepted</label>
+                                                        </li>
+                                                        <li>
+                                                            <input data-path=".Rejected" id="Rejected" type="checkbox" />
+                                                            <label for="Rejected">Rejected</label>
                                                         </li>
                                                         <li>
                                                             <input data-path=".Completed" id="Completed" type="checkbox" />
@@ -369,16 +369,16 @@
                                                                 </div>
                                                                 <p class="card-text mb-0 pt-3" style="font-size:12px;">
                                                                     Offer Status:&nbsp;
-                                                                    <%  if(itemOfferStatus.equals("Accepted")) {   %>
+                                                                    <%  if(itemOfferStatus.equals("Pending")) {  %>
+                                                                    <span class="badge badge-primary custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
+                                                                    <%  } else if(itemOfferStatus.equals("Processing")) { %>
+                                                                    <span class="badge badge-warning custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
+                                                                    <%  } else if(itemOfferStatus.equals("Accepted")) {   %>
                                                                     <span class="badge badge-info custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
-                                                                    <%  } else if(itemOfferStatus.equals("Pending")) {  %>
-                                                                    <span class="badge badge-success custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                                     <%  } else if(itemOfferStatus.equals("Rejected")) { %>
                                                                     <span class="badge badge-danger custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
-                                                                    <%  } else if(itemOfferStatus.equals("Negotiating")) { %>
-                                                                    <span class="badge badge-warning custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                                     <%  } else if(itemOfferStatus.equals("Completed")) { %>
-                                                                    <span class="badge badge-primary custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
+                                                                    <span class="badge badge-success custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                                     <%  }   %>
                                                                 </p>
                                                                 <p class="card-text text-success mb-0 itemOfferPrice" style="font-size:16px;">

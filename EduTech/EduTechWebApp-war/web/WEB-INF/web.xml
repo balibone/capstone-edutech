@@ -441,6 +441,7 @@
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
     <servlet><servlet-name>UserAccountSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserAccountSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserItemOfferListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemOfferListSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserItemTransactionSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransactionSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserNotificationListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserNotificationListSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserProfileSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserProfileSYS.jsp</jsp-file></servlet>

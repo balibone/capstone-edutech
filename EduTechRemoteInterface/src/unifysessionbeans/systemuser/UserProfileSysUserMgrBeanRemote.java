@@ -15,9 +15,12 @@ public interface UserProfileSysUserMgrBeanRemote {
     
     /*  ====================    MISCELLANEOUS METHODS (USER ITEM OFFER)    ==================== */
     public List<Vector> viewItemOfferList(String username);
+    /* OFFER MADE BY THE UNIFY SYSTEM USERS TO THE SELLER */
     public List<Vector> viewItemOfferUserList(String username, long urlitemID);
     public String acceptAnItemOffer(long itemOfferID);
     public String rejectAnItemOffer(long itemOfferID);
+    /* OFFERS MADE BY THE USER (BUYER) HIMSELF */ 
+    public List<Vector> viewUserBuyerOfferList(String username);
     
     /*  ====================    MISCELLANEOUS METHODS (USER ITEM TRANSACTION)    ==================== */
     public List<Vector> viewItemTransaction(String username);

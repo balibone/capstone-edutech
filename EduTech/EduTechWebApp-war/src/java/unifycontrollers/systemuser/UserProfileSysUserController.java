@@ -49,16 +49,15 @@ public class UserProfileSysUserController extends HttpServlet {
             String loggedInUsername = getCookieUsername(request);
             
             switch (pageAction) {
-                case "goToUnifyUserAccount":
+                case "goToUnifyUserAccountSYS":
                     request.setAttribute("itemOfferListSYS", (ArrayList) usmr.viewItemOfferList(loggedInUsername));
                     
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserAccountSYS";
                     break;
-                case "goToMarketplaceTrans":
+                case "goToMarketplaceTransSYS":
                     request.setAttribute("itemTransListSYS", (ArrayList) usmr.viewItemTransaction(loggedInUsername));
-                    
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserItemTransactionSYS";
@@ -101,7 +100,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewItemTransDetailsInModalSYS";
                     break;
-                case "goToUserProfile":
+                case "goToUserProfileSYS":
                     String itemSellerID = request.getParameter("itemSellerID");
                     request.setAttribute("userItemListSYS", msmr.viewUserItemList(loggedInUsername, itemSellerID));
                     
@@ -117,7 +116,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userJobListing", esmr.viewUserJobList(user));
                     pageAction = "JobListingInUserProfileSYS";
                     break;
-                case "goToPendingItemOfferList":
+                case "goToPendingItemOfferListSYS":
                     long urlitemID = Long.parseLong(request.getParameter("urlitemID"));
                     request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, urlitemID));
                     
@@ -125,7 +124,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "PendingItemOfferSYS";
                     break;
-                case "acceptAnItemOffer":
+                case "acceptAnItemOfferSYS":
                     long itemIDHidden = Long.parseLong(request.getParameter("itemIDHidden"));
                     long urlItemOfferID = Long.parseLong(request.getParameter("urlItemOfferID"));
                     responseMessage = usmr.acceptAnItemOffer(urlItemOfferID);
@@ -137,7 +136,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "PendingItemOfferSYS";
                     break;
-                case "rejectAnItemOffer":
+                case "rejectAnItemOfferSYS":
                     long hiddenItemID = Long.parseLong(request.getParameter("hiddenItemID"));
                     long hiddenItemOfferID = Long.parseLong(request.getParameter("hiddenItemOfferID"));
                     responseMessage = usmr.rejectAnItemOffer(hiddenItemOfferID);
@@ -149,11 +148,17 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "PendingItemOfferSYS";
                     break;
-                case "goToUserNotificationList":
+                case "goToUserNotificationListSYS":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListSYS", usmr.viewUserMessageList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserNotificationListSYS";
+                    break;
+                case "goToUserBuyerOfferListSYS":
+                    request.setAttribute("userBuyerOfferListSYS", (ArrayList) usmr.viewUserBuyerOfferList(loggedInUsername));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "UserItemOfferListSYS";
                     break;
                 case "goToCompanyReview":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));

@@ -12,13 +12,13 @@ $(document).ready(function () {
             var acceptOfferConfirm = confirm("Are you sure to accept this item offer?");
             if (acceptOfferConfirm) { 
                 btnItemOfferID = btnItemOfferID.replace('acceptOfferBtn', '');
-                window.open('ProfileSysUser?pageTransit=acceptAnItemOffer&urlItemOfferID=' + btnItemOfferID + '&itemIDHidden=' + $('#hiddenItemID').val(), '_self');
+                window.open('ProfileSysUser?pageTransit=acceptAnItemOfferSYS&urlItemOfferID=' + btnItemOfferID + '&itemIDHidden=' + $('#hiddenItemID').val(), '_self');
             }
         } else if (btnItemOfferID.indexOf('rejectOfferBtn') >= 0) {
             var rejectOfferConfirm = confirm("Are you sure to reject this item offer?");
             if (rejectOfferConfirm) { 
                 btnItemOfferID = btnItemOfferID.replace('rejectOfferBtn', '');
-                window.open('ProfileSysUser?pageTransit=rejectAnItemOffer&hiddenItemOfferID=' + btnItemOfferID + '&hiddenItemID=' + $('#hiddenItemID').val(), '_self');
+                window.open('ProfileSysUser?pageTransit=rejectAnItemOfferSYS&hiddenItemOfferID=' + btnItemOfferID + '&hiddenItemID=' + $('#hiddenItemID').val(), '_self');
             }
         }
     });

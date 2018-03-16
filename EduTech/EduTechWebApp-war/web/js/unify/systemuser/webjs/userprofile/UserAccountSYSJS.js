@@ -43,7 +43,7 @@ $(document).ready(function () {
             });
         } else if (tempBtnID.indexOf('pendingItemOfferBtn') >= 0) {
             tempBtnID = tempBtnID.replace('pendingItemOfferBtn', '');
-            window.open('ProfileSysUser?pageTransit=goToPendingItemOfferList&urlitemID=' + tempBtnID, '_self');
+            window.open('ProfileSysUser?pageTransit=goToPendingItemOfferListSYS&urlitemID=' + tempBtnID, '_self');
         } else if(tempBtnID.indexOf('reportItemListingBtn') >= 0) {
             tempBtnID = tempBtnID.replace('reportItemListingBtn', '');
             $('#qtipTrigger' + tempBtnID).trigger("click");

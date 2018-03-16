@@ -36,11 +36,11 @@
                     <td>
                         <div class="media mb-2 mt-3">
                             <div class="mr-2">
-                                <a href="ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= username%>" target="_parent">
+                                <a href="ProfileSysUser?pageTransit=goToUserProfileSYS&itemSellerID=<%= username%>" target="_parent">
                                     <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= username%>" />
                                 </a>
                             </div>
-                            <div class="media-body" style="cursor: pointer;" onclick="window.open('ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= username%>', '_parent');">
+                            <div class="media-body" style="cursor: pointer;" onclick="window.open('ProfileSysUser?pageTransit=goToUserProfileSYS&itemSellerID=<%= username%>', '_parent');">
                                 <h5 style="font-size:15px;"><strong><%= userFirstName%>&nbsp;<%= userLastName%></strong></h5>
                                 <div class="rating">
                                     <ul class="profileRating">
@@ -63,7 +63,7 @@
         <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables-v1.10.16.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/ItemLikeListSYSJS.js" type="text/javascript"></script>
     </body>
 </html>

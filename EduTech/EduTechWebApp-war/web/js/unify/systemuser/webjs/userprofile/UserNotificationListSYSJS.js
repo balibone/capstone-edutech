@@ -21,7 +21,7 @@ $(document).ready(function () {
         msgContentID = msgContent.split(';')[1];
         
         if(msgType.indexOf('Marketplace') >= 0) {
-            window.open('ProfileSysUser?pageTransit=goToPendingItemOfferList&urlitemID=' + msgContentID, '_self');
+            window.open('ProfileSysUser?pageTransit=goToPendingItemOfferListSYS&urlitemID=' + msgContentID, '_self');
         } else if (msgType.indexOf('Errands') >= 0) {
             window.open('ProfileSysUser?pageTransit=', '_self');
         } else if (msgType.indexOf('Voices') >= 0) {
