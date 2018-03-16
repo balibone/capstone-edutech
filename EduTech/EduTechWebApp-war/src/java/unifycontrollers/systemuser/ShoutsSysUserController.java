@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import unifysessionbeans.systemuser.ShoutsSysUserMgrBeanRemote;
 
 public class ShoutsSysUserController extends HttpServlet {
+
     @EJB
     private ShoutsSysUserMgrBeanRemote ssmr;
-    
+    String responseMessage = "";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
@@ -23,23 +25,52 @@ public class ShoutsSysUserController extends HttpServlet {
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
             System.out.println(pageAction);
-            
+
             switch (pageAction) {
                 case "goToViewShoutsListingSYS":
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList());
                     pageAction = "ViewShoutsListingSYS";
                     break;
+                case "goToNewShoutSYS":
+                    pageAction = "NewShoutSYS";
+                    break;
+                case "goToCreateShout":
+                    System.out.println("At (ShoutsSysUserController.createShoutSYS");
+                    responseMessage = createShout(request);
+                    if (responseMessage.endsWith("!")) {
+                        request.setAttribute("successMessage", responseMessage);
+                    } else {
+                        request.setAttribute("errorMessage", responseMessage);
+                    }
+
+                    pageAction = "NewShoutSYS";
+                    break;
                 default:
                     break;
             }
             dispatcher = servletContext.getNamedDispatcher(pageAction);
-            dispatcher.forward(request, response);       
-        }
-        catch(Exception ex) {
+            dispatcher.forward(request, response);
+        } catch (Exception ex) {
             log("Exception in ShoutsSysUserController: processRequest()");
             ex.printStackTrace();
         }
-    
+
+    }
+
+    private String createShout(HttpServletRequest request) {
+        String shoutContent = request.getParameter("shoutContent");
+        String shoutPoster = request.getParameter("loggedInUsername");
+
+        System.out.println(shoutContent);
+        System.out.println(shoutPoster);
+
+        System.out.println("Shout created (ShoutsSysUserController.createShout)");
+
+        //responseMessage = vsmr.createCompanyReview(companyIndustry, companyName, reviewTitle, 
+        //reviewPros, reviewCons, reviewRating, reviewDescription, employmentStatus, reviewPoster);
+        responseMessage = ssmr.createShout(shoutContent, shoutPoster);
+
+        return responseMessage;
     }
 
     @Override
@@ -53,5 +84,7 @@ public class ShoutsSysUserController extends HttpServlet {
     }
 
     @Override
-    public String getServletInfo() { return "Shouts System User Servlet"; }
+    public String getServletInfo() {
+        return "Shouts System User Servlet";
+    }
 }

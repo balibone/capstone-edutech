@@ -252,17 +252,18 @@
                         <div class="title"><span>Shouts Listing</span></div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
+                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort"
+                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                 <ul>
-                                    <li><span data-path=".shoutID default" data-order="asc" data-type="text">Name Asc</span></li>
+                                    <li><span data-path=".shoutID" data-order="asc" data-type="text">Name Asc</span></li>
                                     <li><span data-path=".shoutID" data-order="desc" data-type="text">Name Desc</span></li>
                                 </ul>
                             </div>
                             <div class="dateSort jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
                                 <ul>
-                                    <li><span data-path=".shoutDate default" data-order="desc" data-type="text">Newest First</span></li>
-                                    <li><span data-path=".shoutDate" data-order="asc" data-type="text">Oldest First</span></li>
+                                    <li><span data-path=".shoutDuration" data-order="asc" data-type="text">Newest First</span></li>
+                                    <li><span data-path=".shoutDuration" data-order="desc" data-type="text">Oldest First</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -273,6 +274,11 @@
                                     <li><span data-number="12" data-default="true">12 per page</span></li>
                                     <li><span data-number="16">16 per page</span></li>
                                 </ul>
+                            </div>
+                            <div class="jplist-panel">
+                                <button type="button" class="jplist-reset-btn" data-control-type="reset" 
+                                        data-control-name="reset" data-control-action="reset"><i class="fa fa-retweet">&nbsp;&nbsp;Reset</i>
+                                </button>
                             </div>
                         </div>
 
@@ -344,11 +350,12 @@
                                             </div>
                                             --%>
                                             <div class="shout-post-date">
-                                                <i class="fa fa-clock-o">&nbsp;</i><span class="float-none shoutDate" style="color: #64676d; font-size: 12px">Posted <%= shoutDuration%>
+                                                <i class="fa fa-clock-o">&nbsp;</i><span class="float-none shoutDuration" style="color: #64676d; font-size: 12px">Posted <%= shoutDuration%>
                                                     <%--    on <%= shoutDate%> --%>
                                                 </span>
 
                                                 <span class = "float-right"><a href =""><i class="fa fa-flag">&nbsp;&nbsp;</i><span class="report" style="color: #64676d; font-size: 12px">Report Post</span></a></span>
+                                            
                                             </div>
 
                                         </div>

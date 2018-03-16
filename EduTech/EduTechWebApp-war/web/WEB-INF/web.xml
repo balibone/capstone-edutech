@@ -432,6 +432,7 @@
 
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - SHOUTS (JSP) -->
     <servlet><servlet-name>ViewShoutsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutsListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewShoutSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/NewShoutSYS.jsp</jsp-file></servlet>
 
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet>

@@ -8,5 +8,6 @@ import javax.ejb.Remote;
 public interface ShoutsSysUserMgrBeanRemote {
     
     public List<Vector> viewShoutList();
+     public String createShout(String shoutContent, String shoutPoster);
     
 }

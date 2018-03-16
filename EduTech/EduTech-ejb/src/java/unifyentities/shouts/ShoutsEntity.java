@@ -52,6 +52,12 @@ public class ShoutsEntity implements Serializable {
     @PrePersist
     public void creationDate() { this.shoutDate = new Date(); }
     
+    /* MISCELLANEOUS METHODS */
+    public boolean createShout(String shoutContent) {
+        this.shoutContent = shoutContent;
+        this.shoutStatus = "Active";
+        return true;
+    }
         
     /* GETTER METHODS */
     public Long getShoutID() { return shoutID; }
@@ -71,7 +77,7 @@ public class ShoutsEntity implements Serializable {
     public void setShoutContent(String shoutContent) { this.shoutContent = shoutContent; }
     public void setShoutDate(Date shoutDate) { this.shoutDate = shoutDate; }
     
-    public void setEventReviewedDate() { this.shoutEditedDate = new Date(); }
+    public void setShoutEditedDate() { this.shoutEditedDate = new Date(); }
     public void setShoutLat(String shoutLat) {this.shoutLat = shoutLat; }
     public void setShoutLong(String shoutLong) {this.shoutLong = shoutLong; }
     

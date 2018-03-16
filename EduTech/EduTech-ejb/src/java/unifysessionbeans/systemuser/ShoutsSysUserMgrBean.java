@@ -15,6 +15,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
 import unifyentities.shouts.ShoutsEntity;
+import commoninfrastructureentities.UserEntity;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 
 @Stateless
 public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
@@ -23,6 +26,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
 
     private CategoryEntity categoryEntity;
     private ShoutsEntity shoutsEntity;
+    private UserEntity userEntity;
     
     public List<Vector> viewShoutList() {
         Query q = em.createQuery("SELECT c FROM Shouts c WHERE c.shoutStatus='Active' ORDER BY c.shoutDate DESC");
@@ -95,6 +99,32 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
         return shoutList;
     }
 
+    @Override
+    public String createShout(String shoutContent, String shoutPoster) {
+        
+        shoutsEntity = new ShoutsEntity();
+        
+        //System.out.println(shoutPoster);
+        
+        userEntity = lookupUnifyUser(shoutPoster);
+        
+            if (shoutsEntity.createShout(shoutContent)) {
+                shoutsEntity.setUserEntity(userEntity);
+                
+                //temp
+                shoutsEntity.setShoutEditedDate();
+                shoutsEntity.setShoutLat("0");
+                shoutsEntity.setShoutLong("0");
+                
+                em.persist(shoutsEntity);
+                System.out.println("Shout created (ShoutsSysUserMgrBean.createShout)");
+                return "Shout has been posted successfully!";
+            } else {
+                return "System is not feeling well and cannot shout at the moment :'(' Please try again later.";
+            }
+        
+    }
+    
     // SHOUTS LIKES COUNT
     public Long getShoutsLikesCount(long shoutID) {
         Long shoutsLikesCount = new Long(0);
@@ -121,6 +151,27 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             ex.printStackTrace();
         }
         return shoutsLikesCount;
+    }
+ 
+    public UserEntity lookupUnifyUser(String username) {
+        UserEntity ue = new UserEntity();
+        try{
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity)q.getSingleResult();
+            System.out.println("FOUND USER");
+        }
+        catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        catch(NoResultException nre){
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
     }
     
 }
