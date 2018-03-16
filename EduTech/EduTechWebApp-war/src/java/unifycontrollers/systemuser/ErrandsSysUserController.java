@@ -146,15 +146,11 @@ public class ErrandsSysUserController extends HttpServlet {
             jobImagefileName = "";
         }
         
-        double jobDuration;
+        double jobDuration = Double.parseDouble(request.getParameter("jobDuration"));
         String jobTitle = request.getParameter("jobTitle");
         String jobRateType = (String)request.getParameter("jobRateType");
         double jobRate = Double.parseDouble(request.getParameter("jobRate"));
-        if(jobRateType.equals("HR")){
-            jobDuration = Double.parseDouble(request.getParameter("jobDuration"));
-        }else{
-            jobDuration = 0;
-        }
+        
         String jobDescription = request.getParameter("jobDescription");
         long categoryID = Long.parseLong(request.getParameter("hiddenCategoryID"));
         String username = request.getParameter("username");
@@ -164,18 +160,29 @@ public class ErrandsSysUserController extends HttpServlet {
         String endLocation = request.getParameter("endLocation");
         String endLat = (request.getParameter("hiddenEndLat"));
         String endLong = (request.getParameter("hiddenEndLong"));
-        String otherInformation = request.getParameter("jobInformation");
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        int numOfHelpers = Integer.parseInt(request.getParameter("numOfHelpers"));
+        boolean checking = false;
+        if(request.getParameter("checking")==null){
+            checking = false;
+        }else{
+            checking = true;
+        }
+        //String otherInformation = request.getParameter("jobInformation");
         Date jobWorkDate = new Date();
+        
+        System.out.println("workDate: " + request.getParameter("workDate"));
+        System.out.println("time: " + request.getParameter("workTime"));
+        
         try{
-            jobWorkDate = df.parse(request.getParameter("workDate"));
-            } catch (ParseException e) {
+            jobWorkDate = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(request.getParameter("workDate") + " " + request.getParameter("workTime"));
+        }catch(ParseException e){
             e.printStackTrace();
-            }
+        }
+        
         
         System.out.println("job title" + jobTitle);
         return esmr.createJobListing(jobTitle, jobRateType, jobRate, jobDuration, jobDescription, jobWorkDate, jobImagefileName, 
-                categoryID, username, startLocation, startLat, startLong, endLocation, endLat, endLong, otherInformation);
+                categoryID, username, startLocation, startLat, startLong, endLocation, endLat, endLong, "N.A.", numOfHelpers, checking);
     }
     
     /* MISCELLANEOUS METHODS */

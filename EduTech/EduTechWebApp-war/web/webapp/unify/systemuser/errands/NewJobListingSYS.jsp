@@ -173,15 +173,16 @@
                             
                             
                             
-                                <p>Enter the job information here. (<span class="asterik">*</span>) fields are mandatory.</p>
-                                <div id="accordion" >
+                            <p>Enter the job information here. (<span class="asterik">*</span>) fields are mandatory.</p>
+                            <div id="accordion" >
+                                <form id="jobDetailsForm" class="form-horizontal form-label-left" action="ErrandsSysUser" method="POST" enctype="multipart/form-data" target="_self">
                                     <div class="card border-0">
                                         <div class="card-header" id="headingOne" style="background-color: white;">
                                             <span class="step-title"><strong>1. Choose a category</strong></span> &nbsp;
                                             <i class="fa fa-check-circle" aria-hidden="true"></i>
                                             Selected: <span id="selected-category"> </span>
                                             
-                                                <button class="btn float-right mt-3" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                <button type="button" class="btn float-right mt-3" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                                             
                                         </div>
 
@@ -217,7 +218,7 @@
                                                         </div>
                                                     </div>
                                                     <h5 class="mb-0">
-                                                    <button class="btn float-right next-button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Continue
+                                                    <button type="button" class="btn float-right next-button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Continue
                                                     </button>
                                                     </h5>
                                                 </div>
@@ -227,7 +228,7 @@
                                     <div class="card border-0">
                                         <div class="card-header" id="headingTwo" style="background-color: white;">
                                             <span class="step-title"><strong>2. Fill up job details</strong></span>
-                                            <button class="btn float-right collapsed mt-3" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <button type="button" class="btn float-right collapsed mt-3" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                             <span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
                                             </button>
                                         </div>
@@ -242,7 +243,7 @@
                                                             <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 171px;">
                                                                 <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
                                                             </label>
-                                                            <input id="file-upload" name="jobImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" required="required" />
+                                                            <input id="file-upload" name="jobImage" type="file" accept="image/*" onchange="javascript: previewImage(event)"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-8 ml-3">
@@ -286,19 +287,19 @@
                                                             <label for="jobDuration" class="col-sm-3 col-form-label"><strong>How big is the task? </strong>&nbsp;<span class="asterik">*</span></label>
                                                             <div class="col-sm-3 mt-2">
                                                                 <div class="form-check form-check-inline">
-                                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                                                    <input class="form-check-input" type="radio" name="jobDuration" id="inlineRadio1" value="1">
                                                                     <label class="form-check-label" for="inlineRadio1">Small: <1hr</label>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-3 mt-2">
                                                                 <div class="form-check form-check-inline">
-                                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                                                    <input class="form-check-input" type="radio" name="jobDuration" id="inlineRadio1" value="2">
                                                                     <label class="form-check-label" for="inlineRadio1">Medium: 2-3hrs</label>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-3 mt-2">
                                                                 <div class="form-check form-check-inline">
-                                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                                                    <input class="form-check-input" type="radio" name="jobDuration" id="inlineRadio1" value="3">
                                                                     <label class="form-check-label" for="inlineRadio1">Large: >4hrs</label>
                                                                 </div>
                                                             </div>
@@ -313,7 +314,7 @@
                                                     </div>
                                                     
                                                 </div>
-                                                <button class="btn next-button float-right collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                <button type="button" class="btn next-button float-right collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                 Continue
                                                 </button>
                                             </div>
@@ -349,6 +350,15 @@
                                                     
                                             </div>
                                         </div>
+                                        
+                                        <div class="form-group row" style="text-align: center;">
+                                            <div class="col-sm-12 mt-1">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" name="checking" id="inlineRadio1" value="true">
+                                                    <label class="form-check-label" for="inlineRadio1">(Optional) <strong>I want to have a checking before job helpers complete the job.</strong></label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <input type="hidden" name="pageTransit" value="createJobListingSYS" />
                                         <input type="hidden" name="username" value="<%= loggedInUsername%>" />
                                         <input type="hidden" name="hiddenStartLat" id="hiddenStartLat" />
@@ -356,20 +366,12 @@
                                         <input type="hidden" name="hiddenEndLat" id="hiddenEndLat" />
                                         <input type="hidden" name="hiddenEndLong" id="hiddenEndLong" />
                                         <input type="hidden" name="hiddenCategoryID" id="hiddenCategoryID" />
-                                        <div class="form-group row" style="text-align: center;">
-                                            <div class="col-sm-12 mt-1">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                                    <label class="form-check-label" for="inlineRadio1">(Optional) <strong>I want to have a checking before job helpers complete the job.</strong></label>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="form-group" style="text-align: center;">
                                             <button type="submit" class="btn btn-theme">Create Job Listing</button>
                                         </div>
                                     </div>
                                 </div>
-                                
+                            </form>    
                             
                         </div>
                     </div>

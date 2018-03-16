@@ -56,6 +56,8 @@ public class JobEntity implements Serializable {
     private String jobImage;
     private String jobStatus;
     private int jobNumOfLikes;
+    private int numOfHelpers;
+    private boolean checking;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date jobPostDate;
@@ -87,7 +89,7 @@ public class JobEntity implements Serializable {
     }
     
     public boolean createJobListing(String jobTitle, String jobDescription, String jobImagefileName, String jobRateType, 
-            double jobRate, double jobDuration, String startLocation, String startLat, String startLong, String endLocation, String endLat, String endLong, Date workDate, String jobInformation){
+            double jobRate, double jobDuration, String startLocation, String startLat, String startLong, String endLocation, String endLat, String endLong, Date workDate, String jobInformation, int numOfHelpers, boolean checking){
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.jobImage = jobImagefileName;
@@ -102,6 +104,8 @@ public class JobEntity implements Serializable {
         this.jobEndLong = endLong;
         this.jobWorkDate = workDate;
         this.jobInformation = jobInformation;
+        this.numOfHelpers = numOfHelpers;
+        this.checking = checking;
         
         return true;
     }
@@ -126,7 +130,9 @@ public class JobEntity implements Serializable {
     public int getJobNumOfLikes() { return jobNumOfLikes; }
     public Date getJobPostDate() { return jobPostDate; }
     public String getJobTakerID() { return jobTakerID; }
-    public ArrayList getLikeList() {return likeList;}
+    public ArrayList getLikeList() {return likeList; }
+    public int getNumOfHelpers() { return numOfHelpers; }
+    public boolean getChecking() { return checking;}
     
     public CategoryEntity getCategoryEntity() { return categoryEntity; }
     public UserEntity getUserEntity() { return userEntity; }
@@ -154,7 +160,9 @@ public class JobEntity implements Serializable {
     public void setJobNumOfLikes(int jobNumOfLikes) { this.jobNumOfLikes = jobNumOfLikes; }
     public void setJobPostDate(Date jobPostDate) { this.jobPostDate = jobPostDate; }
     public void setJobTakerID(String jobTakerID) { this.jobTakerID = jobTakerID; }
-    public void setLikeList(ArrayList likeList) {this.likeList = likeList; }
+    public void setLikeList(ArrayList likeList) { this.likeList = likeList; }
+    public void setNumOfHelpers(int numOfHelpers) { this.numOfHelpers = numOfHelpers; }
+    public void setChecking(boolean checking) { this.checking = checking; }
     
     public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

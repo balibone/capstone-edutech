@@ -304,7 +304,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     @Override
     public String createJobListing(String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 
             Date jobWorkDate, String jobImagefileName, long categoryID, String username, String startLocation, 
-            String startLat, String startLong, String endLocation, String endLat, String endLong, String jobInformation) {
+            String startLat, String startLong, String endLocation, String endLat, String endLong, String jobInformation, int numOfHelpers, boolean checking) {
         if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
         else if (lookupCategory(categoryID) == null) { return "Selected category cannot be found. Please try again."; }
         else {
@@ -314,7 +314,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jEntity = new JobEntity();
             
             if(jEntity.createJobListing(jobTitle, jobDescription, jobImagefileName, jobRateType, jobRate, jobDuration, startLocation, 
-                    startLat, startLong, endLocation, endLat, endLong, jobWorkDate, jobInformation)) {
+                    startLat, startLong, endLocation, endLat, endLong, jobWorkDate, jobInformation, numOfHelpers, checking)) {
                 jEntity.setCategoryEntity(cEntity);
                 jEntity.setUserEntity(uEntity);
                 em.persist(jEntity);

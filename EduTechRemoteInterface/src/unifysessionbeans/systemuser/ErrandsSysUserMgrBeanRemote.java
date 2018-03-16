@@ -13,7 +13,7 @@ public interface ErrandsSysUserMgrBeanRemote {
     public List<Vector> viewAssocCategoryJobList(String hiddenCategoryName, long hiddenJobID);
     public String createJobListing(String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 
             Date jobWorkDate, String jobImagefileName, long categoryID, String username, String startLocation, 
-            String startLat, String startLong, String endLocation, String endLat, String endLong, String jobInformation);
+            String startLat, String startLong, String endLocation, String endLat, String endLong, String jobInformation, int numOfHelpers, boolean checking);
     public String editJobListing(long jobID, String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 
             Date jobWorkDate, String jobImagefileName, String startLocation, String startLat, String startLong, 
             String endLocation, String endLat, String endLong, long jobCategoryID, String username);

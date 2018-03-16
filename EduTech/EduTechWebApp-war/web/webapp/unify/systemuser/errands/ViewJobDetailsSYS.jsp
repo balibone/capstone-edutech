@@ -183,7 +183,7 @@
                         <div class="title"><span><%= jobTitle%></span></div>
                     </div>
                     <div class="col-xl-4 col-lg-5 col-md-6">
-                        <img src="uploads/unify/images/errands/job/<%= jobImage%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer;">
+                        <img src="uploads/unify/images/errands/job/<%= jobImage%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer; height: 300px;">
                         
                         
                         <ul class="list-inline d-none d-md-block" style="margin-top: 8px;">
