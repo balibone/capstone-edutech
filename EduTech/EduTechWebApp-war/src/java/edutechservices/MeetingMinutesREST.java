@@ -7,8 +7,8 @@ package edutechservices;
 
 //import edutechentities.common.GroupEntity;
 import commoninfraentities.UserEntity;
-import edutechentities.common.AnnouncementEntity;
 import edutechentities.group.GroupEntity;
+import edutechentities.group.MeetingMinuteEntity;
 import edutechsessionbeans.CommonRESTMgrBean;
 import edutechsessionbeans.GroupRESTMgrBean;
 import java.util.List;
@@ -31,47 +31,37 @@ import javax.ws.rs.core.MediaType;
  * @author nanda88
  */
 @RequestScoped
-@Path("announcement")
-public class AnnouncementREST {
+@Path("meetingminute")
+public class MeetingMinutesREST {
     
     @EJB
     CommonRESTMgrBean cmb;
+    @EJB
+    GroupRESTMgrBean etr;
     
     @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AnnouncementEntity> getAllAnnouncements() {
-        return cmb.getAllAnnouncements();
+    public List<MeetingMinuteEntity> getAllMeetingMinutes() {
+        return etr.getAllMeetingMinutes();
     }
     
     @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity getOneAnnouncement(@PathParam("id") String id){
-        return cmb.getOneAnnouncement(Long.valueOf(id));
-    }
-    
-    @GET @Path("user/{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AnnouncementEntity> getUserAnnouncements(@PathParam("id") String id) {
-        return cmb.getUserAnnouncements(id);
+    public MeetingMinuteEntity getOneMeetingMinute(@PathParam("id") String id){
+        return etr.getOneMeetingMinute(Long.valueOf(id));
     }
     
     @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
-        return cmb.createAnnouncement(ann);
+    public MeetingMinuteEntity createMeetingMinutes(MeetingMinuteEntity mm) {
+        return etr.createMeetingMinutes(mm);
     }
     
     @DELETE @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void deleteAnnouncement(@PathParam("id") String id) {
-        cmb.deleteAnnouncement(id);
+    public void deleteMeetingMinute(@PathParam("id") String id) {
+        etr.deleteMeetingMinute(Long.valueOf(id));
     }
     
     @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity editAnnouncement(@PathParam("id") String id, AnnouncementEntity replacement){
-        return cmb.editAnnouncement(id, replacement);
+    public MeetingMinuteEntity editMeetingMinute(@PathParam("id") String id, MeetingMinuteEntity replacement){
+        return etr.editMeetingMinute(Long.valueOf(id), replacement);
     }
-    
-    @PUT @Path("seen/{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity addUserToSeenBy(@PathParam("id") String id, UserEntity user){
-        return cmb.addUserToSeenBy(id,user);
-    }
-    
 
-    
 }
