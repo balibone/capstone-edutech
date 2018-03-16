@@ -31,8 +31,9 @@ public class ItemOfferEntity implements Serializable {
     private Long itemOfferID;
     private double itemOfferPrice;
     private String itemOfferDescription;
-    /* ITEM OFFER STATUS: PENDING, ACCEPTED, REJECTED */
-    private String itemOfferStatus;
+    /* ITEM OFFER STATUS: PENDING, PROCESSING, ACCEPTED, REJECTED, CANCELLED, COMPLETED */
+    private String sellerItemOfferStatus;
+    private String buyerItemOfferStatus;
     private String sellerComments;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -50,7 +51,8 @@ public class ItemOfferEntity implements Serializable {
     public boolean createItemOffer(double itemOfferPrice, String itemOfferDescription) {
         this.itemOfferPrice = itemOfferPrice;
         this.itemOfferDescription = itemOfferDescription;
-        this.itemOfferStatus = "Processing";
+        this.sellerItemOfferStatus = "Pending";
+        this.buyerItemOfferStatus = "Processing";
         this.sellerComments = "None";
         return true;
     }
@@ -59,7 +61,8 @@ public class ItemOfferEntity implements Serializable {
     public Long getItemOfferID() { return itemOfferID; }
     public double getItemOfferPrice() { return itemOfferPrice; }
     public String getItemOfferDescription() { return itemOfferDescription; }
-    public String getItemOfferStatus() { return itemOfferStatus; }
+    public String getSellerItemOfferStatus() { return sellerItemOfferStatus; }
+    public String getBuyerItemOfferStatus() { return buyerItemOfferStatus; }
     public String getSellerComments() { return sellerComments; }
     public Date getItemOfferDate() { return itemOfferDate; }
     
@@ -70,7 +73,8 @@ public class ItemOfferEntity implements Serializable {
     public void setItemOfferID(Long itemOfferID) { this.itemOfferID = itemOfferID; }
     public void setItemOfferPrice(double itemOfferPrice) { this.itemOfferPrice = itemOfferPrice; }
     public void setItemOfferDescription(String itemOfferDescription) { this.itemOfferDescription = itemOfferDescription; }
-    public void setItemOfferStatus(String itemOfferStatus) { this.itemOfferStatus = itemOfferStatus; }
+    public void setSellerItemOfferStatus(String sellerItemOfferStatus) { this.sellerItemOfferStatus = sellerItemOfferStatus; }
+    public void setBuyerItemOfferStatus(String buyerItemOfferStatus) { this.buyerItemOfferStatus = buyerItemOfferStatus; }
     public void setSellerComments(String sellerComments) { this.sellerComments = sellerComments; }
     public void setItemOfferDate(Date itemOfferDate) { this.itemOfferDate = itemOfferDate; }
     

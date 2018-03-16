@@ -274,6 +274,7 @@
                                             String itemNumOfLikes = String.valueOf(v.get(9));
                                             String itemLikeStatus = String.valueOf(v.get(10));
                                             String itemCondition = String.valueOf(v.get(11));
+                                            String itemStatus = String.valueOf(v.get(12));
                                 %>
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -281,8 +282,8 @@
                                             <button id="settingsBtn<%= itemID%>" type="button" class="text-right close settingsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:7px;">
                                                 <img src="images/unifyimages/sidebar-divider-dots.png" />
                                             </button>
-                                            <button type="button" id="qtipTrigger<%= itemID%>" class="text-right close"></button>
-                                            <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="settingsBtn<%= itemID%>">
+                                            <button type="button" id="qtipItemReportTrigger<%= itemID%>" class="text-right close qtipItemReportTrigger"></button>
+                                            <div class="dropdown-menu dropdown-menu-reportListing" aria-labelledby="settingsBtn<%= itemID%>">
                                                 <button id="reportItemListingBtn<%= itemID%>" type="button" class="dropdown-item userProfileBtn">Report Listing</button>
                                             </div>
                                             <div class="pull-left" style="padding-right: 10px;">
@@ -310,6 +311,11 @@
                                                             <%  }   %>
                                                         </div>
                                                     </div>
+                                                    <%  if (itemStatus.equals("Reserved")) { %>
+                                                    <span class="badge badge-warning custom-badge arrowed-left label label-top-right">Reserved</span>
+                                                    <%  } else if (itemStatus.equals("Sold")) { %>
+                                                    <span class="badge badge-danger custom-badge arrowed-left label label-top-right">Sold</span>
+                                                    <%  }%>
                                                 </div>
                                                 <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
                                                 <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>

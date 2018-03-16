@@ -39,17 +39,12 @@ $(document).ready(function () {
         show: 'click'
     });
     
-    $('.settingsBtn').click(function() {
-        var settingsBtnID = this.id;
-        if (settingsBtnID.indexOf('settingsBtn') >= 0) {
-            $('#qtipTrigger').qtip({
-                content: { title: { text: 'Report Item Listing', button: true }, text: $('#reportItemListingTip') },
-                position: { at: 'top center', my: 'right top' },
-                style: { width: 250, height: 195 },
-                hide: { event: 'click' },
-                show: 'click'
-            });
-        }
+    $('#qtipItemReportTrigger').qtip({
+        content: { title: { text: 'Report Item Listing', button: true }, text: $('#reportItemListingTip') },
+        position: { at: 'top center', my: 'right top' },
+        style: { width: 250, height: 195 },
+        hide: { event: 'click' },
+        show: 'click'
     });
     
     $('.itemListingDetailsBtn').click(function() {
@@ -74,7 +69,7 @@ $(document).ready(function () {
             });
         } else if(tempItemDetailsBtn.indexOf('reportItemListingBtn') >= 0) {
             var itemID = tempItemDetailsBtn.replace('reportItemListingBtn', '');
-            $('#qtipTrigger').trigger("click");
+            $('#qtipItemReportTrigger').trigger("click");
             $('#itemHiddenID').val(itemID);
         } else if (tempItemDetailsBtn.indexOf('sendItemReportBtn') >= 0) {
             $.ajax({

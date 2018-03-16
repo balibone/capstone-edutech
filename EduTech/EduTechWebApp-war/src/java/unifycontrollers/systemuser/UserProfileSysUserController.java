@@ -102,7 +102,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToUserProfileSYS":
                     String itemSellerID = request.getParameter("itemSellerID");
-                    request.setAttribute("userItemListSYS", msmr.viewUserItemList(loggedInUsername, itemSellerID));
+                    request.setAttribute("userItemListSYS", usmr.viewUserItemList(loggedInUsername, itemSellerID));
                     
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
                     request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));
@@ -164,6 +164,14 @@ public class UserProfileSysUserController extends HttpServlet {
                     long itemOfferHiddenID = Long.parseLong(request.getParameter("itemOfferHiddenID"));
                     
                     responseMessage = usmr.cancelPersonalItemOffer(itemOfferHiddenID);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
+                    break;
+                case "editPersonalItemOfferSYS":
+                    long itemOfferHidID = Long.parseLong(request.getParameter("itemOfferHiddenID"));
+                    double revisedOfferPrice = Double.parseDouble(request.getParameter("revisedItemOffer"));
+                    
+                    responseMessage = usmr.editPersonalItemOffer(itemOfferHidID, revisedOfferPrice);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;

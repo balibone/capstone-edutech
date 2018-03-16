@@ -242,8 +242,8 @@
                                         <button id="settingsBtn" type="button" class="text-right close settingsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:7px;">
                                             <img src="images/unifyimages/sidebar-divider-dots.png" />
                                         </button>
-                                        <button type="button" id="qtipTrigger" class="text-right close"></button>
-                                        <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="settingsBtn">
+                                        <button type="button" id="qtipItemReportTrigger" class="text-right close"></button>
+                                        <div class="dropdown-menu dropdown-menu-reportListing" aria-labelledby="settingsBtn">
                                             <button id="reportItemListingBtn<%= itemID%>" type="button" class="dropdown-item itemListingDetailsBtn">Report Listing</button>
                                         </div>
                                         <div class="pull-left"><h4><%= itemName%></h4></div>

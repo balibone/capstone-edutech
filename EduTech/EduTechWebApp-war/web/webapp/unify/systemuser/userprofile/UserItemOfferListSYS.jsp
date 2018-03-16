@@ -329,7 +329,7 @@
                 
                 Your Revised Offer Price&nbsp;<span style="color:#FF0000;">*</span><br/>
                 <input type="text" id="revisedItemOffer" class="revisedOfferFields" placeholder="e.g. 12.55 (without the $)" style="margin-bottom: 4px;" />
-                <button type="button" id="editItemOfferBtn" class="userItemOfferListBtn" style="margin:7px 0 7px 0;">Revise My Offer</button>
+                <button type="button" id="editItemOfferBtn" class="userItemOfferListBtn" style="margin:7px 0 7px 0;">Revise My Offer</button><br/>
                 <input type="hidden" id="itemOfferHiddenID" />
                 <span id="successItemOfferResponse"></span><span id="failedItemOfferResponse"></span>
             </div>

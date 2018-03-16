@@ -473,77 +473,6 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return itemCategoryList;
     }
     
-    /*  ====================    USER PROFILE    ==================== */
-    @Override
-    public List<Vector> viewUserItemList(String username, String itemSellerID) {
-        Date currentDate = new Date();
-        String dateString = "";
-        
-        Query q = em.createQuery("SELECT i FROM Item i WHERE i.userEntity.username = :username AND "
-                + "i.categoryEntity.categoryActiveStatus = '1' AND (i.itemStatus = 'Available' OR "
-                + "i.itemStatus = 'Reserved' OR i.itemStatus = 'Sold')");
-        q.setParameter("username", itemSellerID);
-        List<Vector> userItemList = new ArrayList<Vector>();
-
-        for (Object o : q.getResultList()) {
-            ItemEntity userItemE = (ItemEntity) o;
-            Vector userItemVec = new Vector();
-
-            userItemVec.add(userItemE.getItemID());
-            userItemVec.add(userItemE.getItemImage());
-            userItemVec.add(userItemE.getItemName());
-            userItemVec.add(userItemE.getCategoryEntity().getCategoryName());
-            userItemVec.add(userItemE.getUserEntity().getUsername());
-            userItemVec.add(userItemE.getUserEntity().getImgFileName());
-
-            long diff = currentDate.getTime() - userItemE.getItemPostingDate().getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000) % 24;
-            long diffDays = diff / (24 * 60 * 60 * 1000);
-
-            if (diffDays != 0) {
-                dateString = diffDays + " day";
-                if (diffDays == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffHours != 0) {
-                dateString = diffHours + " hour";
-                if (diffHours == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffMinutes != 0) {
-                dateString = diffMinutes + " minute";
-                if (diffMinutes == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffSeconds != 0) {
-                dateString = diffSeconds + " second";
-                if (diffSeconds == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            }
-            userItemVec.add(dateString);
-            userItemVec.add(df.format(userItemE.getItemPostingDate()));
-            userItemVec.add(String.format ("%,.2f", userItemE.getItemPrice()));
-            userItemVec.add(getItemLikeCount(userItemE.getItemID()));
-            if(lookupLike(userItemE.getItemID(), username) == null) { userItemVec.add(false);}
-            else { userItemVec.add(true); }
-            userItemVec.add(userItemE.getItemCondition());
-            userItemList.add(userItemVec);
-            dateString = "";
-        }
-        return userItemList;
-    }
-    
     /* MISCELLANEOUS METHODS */
     public UserEntity lookupUnifyUser(String username) {
         UserEntity ue = new UserEntity();
@@ -715,33 +644,6 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemCategoryStr = itemCategoryStr.substring(0, itemCategoryStr.length()-1);
         }
         return itemCategoryStr;
-    }
-    
-    /* MISCELLANEOUS METHODS (ITEM OFFER) */
-    public Long getPendingItemOfferCount(long itemID) {
-        Long pendingItemOfferCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(o.itemOfferID) FROM ItemOffer o WHERE o.itemEntity.itemID = :itemID AND o.itemOfferStatus = 'Pending'");
-        q.setParameter("itemID", itemID);
-        try {
-            pendingItemOfferCount = (Long) q.getSingleResult();
-        } catch (Exception ex) {
-            System.out.println("Exception in MarketplaceSysUserMgrBean.getPendingItemOfferCount().getSingleResult()");
-            ex.printStackTrace();
-        }
-        return pendingItemOfferCount;
-    }
-    
-    public Long getRejectedItemOfferCount(long itemID) {
-        Long rejectedItemOfferCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(o.itemOfferID) FROM ItemOffer o WHERE o.itemEntity.itemID = :itemID AND o.itemOfferStatus = 'Pending'");
-        q.setParameter("itemID", itemID);
-        try {
-            rejectedItemOfferCount = (Long) q.getSingleResult();
-        } catch (Exception ex) {
-            System.out.println("Exception in MarketplaceSysUserMgrBean.getRejectedItemOfferCount().getSingleResult()");
-            ex.printStackTrace();
-        }
-        return rejectedItemOfferCount;
     }
     
     /* MISCELLANEOUS METHODS (ITEM LIKE) */

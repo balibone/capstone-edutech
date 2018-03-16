@@ -152,6 +152,10 @@ a.bg-theme:hover,a.bg-theme:focus,button.bg-theme:hover,button.bg-theme:focus{ba
 .dropdown-menu-cart{font-size:13px;overflow-y:auto;width:300px;max-height:500px;padding:10px 10px 0 10px;}
 .dropdown-menu-cart .media{min-height:60px;margin-bottom:5px}
 .dropdown-menu-cart .media .media-body{line-height:1.2}
+.dropdown-menu-reportListing{font-size:13px;overflow-y:auto;width:150px;max-height:500px;}
+.dropdown-menu-reportListing .media{min-height:60px;margin-bottom:5px}
+.dropdown-menu-reportListing .media .media-body{line-height:1.2}
+
 .menu-btn-wrapper .btn-link{color:#666}
 .menu-btn-wrapper .btn-link:hover{cursor:pointer;color:#4D7496}
 .typeahead.dropdown-menu>li.active>.dropdown-item{color:#fff;text-decoration:none;background-color:#007bff}

@@ -24,9 +24,6 @@ public interface MarketplaceSysUserMgrBeanRemote {
     public List<Vector> viewItemLikeList(long itemID);
     public List<Vector> viewItemCategoryList();
     
-    /* USER PROFILE */
-    public List<Vector> viewUserItemList(String username, String itemSellerID);
-    
     /*  ====================    MISCELLANEOUS METHODS    ==================== */
     public String populateItemCategory();
 }

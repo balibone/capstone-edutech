@@ -22,6 +22,10 @@ public interface UserProfileSysUserMgrBeanRemote {
     /* OFFERS MADE BY THE USER (BUYER) HIMSELF */ 
     public List<Vector> viewPersonalBuyerOfferList(String username);
     public String cancelPersonalItemOffer(long itemOfferID);
+    public String editPersonalItemOffer(long itemOfferID, double revisedOfferPrice);
+    
+    /*  ====================    MISCELLANEOUS METHODS (USER PROFILE)    ==================== */
+    public List<Vector> viewUserItemList(String username, String itemSellerID);
     
     /*  ====================    MISCELLANEOUS METHODS (USER ITEM TRANSACTION)    ==================== */
     public List<Vector> viewItemTransaction(String username);

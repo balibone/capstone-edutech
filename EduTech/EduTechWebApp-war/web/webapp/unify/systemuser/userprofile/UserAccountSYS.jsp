@@ -324,8 +324,8 @@
                                             <button id="settingsBtn<%= itemID%>" type="button" class="text-right close settingsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:7px;">
                                                 <img src="images/unifyimages/sidebar-divider-dots.png" />
                                             </button>
-                                            <button type="button" id="qtipTrigger<%= itemID%>" class="text-right close"></button>
-                                            <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="settingsBtn<%= itemID%>">
+                                            <button type="button" id="qtipItemReportTrigger<%= itemID%>" class="text-right close qtipItemReportTrigger"></button>
+                                            <div class="dropdown-menu dropdown-menu-reportListing" aria-labelledby="settingsBtn<%= itemID%>">
                                                 <%  if(!itemNumOfPendingOffer.equals("0")) { %>
                                                 <button id="pendingItemOfferBtn<%= itemID%>" type="button" class="dropdown-item myAccountBtn">View Item Offers</button>
                                                 <%  }   %>

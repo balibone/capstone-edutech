@@ -55,7 +55,28 @@ $(document).ready(function () {
                 }); 
             }
         } else if(tempItemOfferID.indexOf('editItemOfferBtn') >= 0) {
-            
+            tempItemOfferID = tempItemOfferID.replace('editItemOfferBtn', '');
+            var editResponse = confirm("Are you sure to edit this item offer?");
+            if (editResponse) {
+                $.ajax({
+                    type: "POST",
+                    url: "ProfileSysUser",
+                    data: { 
+                        itemOfferHiddenID: $('#itemOfferHiddenID').val(),
+                        revisedItemOffer: $('#revisedItemOffer').val(),
+                        pageTransit: 'editPersonalItemOfferSYS'
+                    },
+                    success: function(returnString) {
+                        if(returnString.endsWith("!")) {
+                            $('#successItemOfferResponse').text(returnString.split(';')[0] + returnString.split(';')[4]).show();
+                            $('#itemOfferRow' + $('#itemOfferHiddenID').val() + " td:nth-child(4)").html("<span class='badge badge-warning custom-badge'>" + returnString.split(';')[1] + "</span>");
+                            $('#itemOfferRow' + $('#itemOfferHiddenID').val() + " td:nth-child(3)").html("$" + returnString.split(';')[2] + "<span style='display:none'>;</span><br/>($" + returnString.split(';')[3] + ")");
+                        } else if(returnString.endsWith(".")) {
+                            $('#failedItemOfferResponse').text(returnString).show();
+                        }
+                    }
+                }); 
+            }
         }
     });
     
