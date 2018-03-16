@@ -8,12 +8,15 @@ package edutechsessionbeans;
 import commoninfraentities.UserEntity;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.group.GroupEntity;
+import edutechentities.group.MMAgendaEntity;
+import edutechentities.group.MeetingMinuteEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -56,6 +59,62 @@ public class GroupRESTMgrBean {
         old = entity;
         //update curr entity in database. (reattach entity)
         em.merge(entity);
+    }
+
+    public List<MeetingMinuteEntity> getAllMeetingMinutes() {
+        Query q = em.createQuery("select m from MeetingMinute m");
+        return q.getResultList();
+    }
+
+    public MeetingMinuteEntity getOneMeetingMinute(Long id) {
+        return em.find(MeetingMinuteEntity.class, id);
+    }
+
+    public void deleteMeetingMinute(Long id) {
+        MeetingMinuteEntity mm = em.find(MeetingMinuteEntity.class, id);
+        if(mm!=null){
+            em.remove(mm);
+        }
+    }
+
+    public MeetingMinuteEntity createMeetingMinutes(MeetingMinuteEntity mm) {
+        em.persist(mm);
+        return mm;
+    }
+
+    public MeetingMinuteEntity editMeetingMinute(Long id, MeetingMinuteEntity replacement) {
+        MeetingMinuteEntity mm = em.find(MeetingMinuteEntity.class, id);
+        mm = replacement;
+        em.merge(mm);
+        return mm;
+    }
+
+    public List<MMAgendaEntity> getAllMMAgendas() {
+        Query q = em.createQuery("select mma from MMAgenda mma");
+        return q.getResultList();
+    }
+
+    public MMAgendaEntity getOneMMAgenda(Long id) {
+        return em.find(MMAgendaEntity.class, id);
+    }
+
+    public MMAgendaEntity createMMAgenda(MMAgendaEntity agenda) {
+        em.persist(agenda);
+        return agenda;
+    }
+
+    public void deleteMMAgenda(Long id) {
+        MMAgendaEntity mma= em.find(MMAgendaEntity.class, id);
+        if(mma!=null){
+            em.remove(mma);
+        }
+    }
+
+    public MMAgendaEntity editMMAgenda(Long id, MMAgendaEntity replacement) {
+        MMAgendaEntity mma = em.find(MMAgendaEntity.class, id);
+        mma = replacement;
+        em.merge(mma);
+        return mma;
     }
     
 }

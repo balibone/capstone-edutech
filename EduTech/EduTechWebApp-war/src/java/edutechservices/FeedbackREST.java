@@ -7,10 +7,11 @@ package edutechservices;
 
 //import edutechentities.common.GroupEntity;
 import commoninfraentities.UserEntity;
-import edutechentities.common.AnnouncementEntity;
 import edutechentities.group.GroupEntity;
+import edutechentities.module.FeedbackEntity;
 import edutechsessionbeans.CommonRESTMgrBean;
 import edutechsessionbeans.GroupRESTMgrBean;
+import edutechsessionbeans.ModuleRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -31,47 +32,39 @@ import javax.ws.rs.core.MediaType;
  * @author nanda88
  */
 @RequestScoped
-@Path("announcement")
-public class AnnouncementREST {
+@Path("feedback")
+public class FeedbackREST {
     
     @EJB
     CommonRESTMgrBean cmb;
+    @EJB
+    GroupRESTMgrBean etr;
+    @EJB
+    ModuleRESTMgrBean mmb;
     
     @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AnnouncementEntity> getAllAnnouncements() {
-        return cmb.getAllAnnouncements();
+    public List<FeedbackEntity> getAllFeedbacks() {
+        return mmb.getAllFeedbacks();
     }
     
     @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity getOneAnnouncement(@PathParam("id") String id){
-        return cmb.getOneAnnouncement(Long.valueOf(id));
-    }
-    
-    @GET @Path("user/{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AnnouncementEntity> getUserAnnouncements(@PathParam("id") String id) {
-        return cmb.getUserAnnouncements(id);
+    public FeedbackEntity getOneFeedback(@PathParam("id") String id){
+        return mmb.getOneFeedback(Long.valueOf(id));
     }
     
     @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
-        return cmb.createAnnouncement(ann);
+    public FeedbackEntity createFeedback(FeedbackEntity mm) {
+        return mmb.createFeedback(mm);
     }
     
     @DELETE @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void deleteAnnouncement(@PathParam("id") String id) {
-        cmb.deleteAnnouncement(id);
+    public void deleteFeedback(@PathParam("id") String id) {
+        mmb.deleteFeedback(Long.valueOf(id));
     }
     
     @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity editAnnouncement(@PathParam("id") String id, AnnouncementEntity replacement){
-        return cmb.editAnnouncement(id, replacement);
+    public FeedbackEntity editFeedback(@PathParam("id") String id, FeedbackEntity replacement){
+        return mmb.editFeedback(Long.valueOf(id), replacement);
     }
-    
-    @PUT @Path("seen/{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity addUserToSeenBy(@PathParam("id") String id, UserEntity user){
-        return cmb.addUserToSeenBy(id,user);
-    }
-    
 
-    
 }

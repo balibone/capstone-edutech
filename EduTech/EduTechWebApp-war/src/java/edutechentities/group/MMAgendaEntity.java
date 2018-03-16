@@ -3,32 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edutechentities.module;
+package edutechentities.group;
 
+import commoninfraentities.UserEntity;
+import edutechentities.common.AttachmentEntity;
+import edutechentities.common.ScheduleItemEntity;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
  * @author Derian
  */
-@Entity(name="Lesson")
+@Entity(name = "MMAgenda")
 @XmlRootElement
-public class LessonEntity implements Serializable {
-
-    @XmlElement
-    @XmlInverseReference(mappedBy = "lesson")
-    private SessionEntity session;
+public class MMAgendaEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String title; 
+    private String discussion; 
+    private String conclusion;
 
     public Long getId() {
         return id;
@@ -48,10 +50,10 @@ public class LessonEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LessonEntity)) {
+        if (!(object instanceof MMAgendaEntity)) {
             return false;
         }
-        LessonEntity other = (LessonEntity) object;
+        MMAgendaEntity other = (MMAgendaEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -60,7 +62,31 @@ public class LessonEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "edutechentities.module.LessonEntity[ id=" + id + " ]";
+        return "edutechentities.group.MeetingMinuteEntity[ id=" + id + " ]";
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDiscussion() {
+        return discussion;
+    }
+
+    public void setDiscussion(String discussion) {
+        this.discussion = discussion;
+    }
+
+    public String getConclusion() {
+        return conclusion;
+    }
+
+    public void setConclusion(String conclusion) {
+        this.conclusion = conclusion;
     }
     
 }

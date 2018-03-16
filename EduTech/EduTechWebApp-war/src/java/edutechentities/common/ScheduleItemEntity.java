@@ -6,10 +6,12 @@
 package edutechentities.common;
 
 import commoninfraentities.UserEntity;
+import edutechentities.group.MeetingMinuteEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +20,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
@@ -27,6 +31,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity(name = "ScheduleItem")
 @XmlRootElement
 public class ScheduleItemEntity implements Serializable {
+    
+    @XmlElement
+    @XmlInverseReference(mappedBy = "meeting")
+    private List<MeetingMinuteEntity> meetingMinutes;
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -163,6 +171,14 @@ public class ScheduleItemEntity implements Serializable {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<MeetingMinuteEntity> getMeetingMinutes() {
+        return meetingMinutes;
+    }
+
+    public void setMeetingMinutes(List<MeetingMinuteEntity> meetingMinutes) {
+        this.meetingMinutes = meetingMinutes;
     }
     
 }
