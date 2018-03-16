@@ -5,30 +5,28 @@
  */
 package edutechentities.module;
 
+import commoninfraentities.UserEntity;
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author Derian
  */
-@Entity(name="Lesson")
-@XmlRootElement
-public class LessonEntity implements Serializable {
-
-    @XmlElement
-    @XmlInverseReference(mappedBy = "lesson")
-    private SessionEntity session;
+@Entity(name="PollOption")
+public class PollOptionEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String title;
+    @OneToMany
+    private Collection<UserEntity> chosenBy;
+    private boolean isCorrect;
 
     public Long getId() {
         return id;
@@ -48,10 +46,10 @@ public class LessonEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LessonEntity)) {
+        if (!(object instanceof PollOptionEntity)) {
             return false;
         }
-        LessonEntity other = (LessonEntity) object;
+        PollOptionEntity other = (PollOptionEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -60,7 +58,30 @@ public class LessonEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "edutechentities.module.LessonEntity[ id=" + id + " ]";
+        return "edutechentities.module.PollOptionEntity[ id=" + id + " ]";
     }
-    
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Collection<UserEntity> getChosenBy() {
+        return chosenBy;
+    }
+
+    public void setChosenBy(Collection<UserEntity> chosenBy) {
+        this.chosenBy = chosenBy;
+    }
+
+    public boolean isIsCorrect() {
+        return isCorrect;
+    }
+
+    public void setIsCorrect(boolean isCorrect) {
+        this.isCorrect = isCorrect;
+    }
 }

@@ -7,8 +7,8 @@ package edutechservices;
 
 //import edutechentities.common.GroupEntity;
 import commoninfraentities.UserEntity;
-import edutechentities.common.AnnouncementEntity;
 import edutechentities.group.GroupEntity;
+import edutechentities.group.MMAgendaEntity;
 import edutechsessionbeans.CommonRESTMgrBean;
 import edutechsessionbeans.GroupRESTMgrBean;
 import java.util.List;
@@ -31,45 +31,37 @@ import javax.ws.rs.core.MediaType;
  * @author nanda88
  */
 @RequestScoped
-@Path("announcement")
-public class AnnouncementREST {
+@Path("agenda")
+public class MMAgendaREST {
     
     @EJB
     CommonRESTMgrBean cmb;
+    @EJB
+    GroupRESTMgrBean etr;
     
     @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AnnouncementEntity> getAllAnnouncements() {
-        return cmb.getAllAnnouncements();
+    public List<MMAgendaEntity> getAllMMAgendas(@PathParam("id") String id) {
+        return etr.getAllMMAgendas();
     }
     
     @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity getOneAnnouncement(@PathParam("id") String id){
-        return cmb.getOneAnnouncement(Long.valueOf(id));
-    }
-    
-    @GET @Path("user/{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AnnouncementEntity> getUserAnnouncements(@PathParam("id") String id) {
-        return cmb.getUserAnnouncements(id);
+    public MMAgendaEntity getOneMMAgenda(@PathParam("id") String id){
+        return etr.getOneMMAgenda(Long.valueOf(id));
     }
     
     @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
-        return cmb.createAnnouncement(ann);
+    public MMAgendaEntity createMMAgenda(MMAgendaEntity agenda) {
+        return etr.createMMAgenda(agenda);
     }
     
     @DELETE @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void deleteAnnouncement(@PathParam("id") String id) {
-        cmb.deleteAnnouncement(id);
+    public void deleteMMAgenda(@PathParam("id") String id) {
+        etr.deleteMMAgenda(Long.valueOf(id));
     }
     
     @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity editAnnouncement(@PathParam("id") String id, AnnouncementEntity replacement){
-        return cmb.editAnnouncement(id, replacement);
-    }
-    
-    @PUT @Path("seen/{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AnnouncementEntity addUserToSeenBy(@PathParam("id") String id, UserEntity user){
-        return cmb.addUserToSeenBy(id,user);
+    public MMAgendaEntity editMMAgenda(@PathParam("id") String id, MMAgendaEntity replacement){
+        return etr.editMMAgenda(Long.valueOf(id), replacement);
     }
     
 
