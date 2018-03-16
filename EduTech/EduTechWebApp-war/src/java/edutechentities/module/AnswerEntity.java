@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
  *
  * @author Derian
  */
-@Entity
+@Entity(name="Answer")
 public class AnswerEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

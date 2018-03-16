@@ -22,7 +22,7 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
  *
  * @author Derian
  */
-@Entity
+@Entity(name="ClassSession")
 public class SessionEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

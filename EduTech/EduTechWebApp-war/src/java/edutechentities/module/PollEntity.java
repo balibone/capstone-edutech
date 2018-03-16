@@ -21,7 +21,7 @@ import javax.persistence.OneToOne;
  *
  * @author Derian
  */
-@Entity
+@Entity(name="Poll")
 public class PollEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
  *
  * @author Derian
  */
-@Entity
+@Entity(name="PollOption")
 public class PollOptionEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

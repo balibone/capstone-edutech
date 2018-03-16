@@ -19,7 +19,7 @@ import javax.persistence.OneToOne;
  *
  * @author Derian
  */
-@Entity
+@Entity(name="Feedback")
 public class FeedbackEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
