@@ -154,11 +154,18 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserNotificationListSYS";
                     break;
-                case "goToUserBuyerOfferListSYS":
-                    request.setAttribute("userBuyerOfferListSYS", (ArrayList) usmr.viewUserBuyerOfferList(loggedInUsername));
+                case "goToMyBuyerOfferListSYS":
+                    request.setAttribute("userBuyerOfferListSYS", (ArrayList) usmr.viewPersonalBuyerOfferList(loggedInUsername));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserItemOfferListSYS";
+                    break;
+                case "cancelPersonalItemOfferSYS":
+                    long itemOfferHiddenID = Long.parseLong(request.getParameter("itemOfferHiddenID"));
+                    
+                    responseMessage = usmr.cancelPersonalItemOffer(itemOfferHiddenID);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
                     break;
                 case "goToCompanyReview":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));

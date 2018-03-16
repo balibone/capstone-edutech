@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Account</title>
+        <title>Unify - My Item Offer List</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
@@ -19,6 +19,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/weblayout/userprofile/UserItemOfferListSYSCSS.css" rel="stylesheet" type="text/css" />
         
         <link href="css/unify/systemuser/baselayout/datatable/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
@@ -218,7 +219,7 @@
                                 <a href="ProfileSysUser?pageTransit=goToMarketplaceTransSYS" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-user"></i>&nbsp;My Marketplace Transaction
                                 </a>
-                                <a href="ProfileSysUser?pageTransit=goToUserBuyerOfferListSYS" class="list-group-item list-group-item-action">
+                                <a href="ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-user"></i>&nbsp;My Item Offer List
                                 </a>
                                 <a href="account-address.html" class="list-group-item list-group-item-action">
@@ -229,6 +230,24 @@
                     </div>
                     <div class="col-lg-9 col-md-8">
                         <div class="title"><span>My Item Offers</span></div>
+                        <%
+                            String successMessage = (String) request.getAttribute("successMessage");
+                            if (successMessage != null) {
+                        %>
+                        <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeSuccess">&times;</button>
+                            <%= successMessage%>
+                        </div>
+                        <%  }   %>
+                        <%
+                            String errorMessage = (String) request.getAttribute("errorMessage");
+                            if (errorMessage != null) {
+                        %>
+                        <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeError">&times;</button>
+                            <%= errorMessage%>
+                        </div>
+                        <%  }%>
                         <div class="table-responsive">
                             <table id="userItemOfferTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                 <thead>
@@ -236,7 +255,7 @@
                                         <th>Item Image</th>
                                         <th>Item Name</th>
                                         <th>My Offer Price<br/>(Item Price)</th>
-                                        <th>Offer Date</th>
+                                        <th>Offer Status</th>
                                         <th>Offer Details</th>
                                         <th>Actions</th>
                                     </tr>
@@ -256,30 +275,37 @@
                                                 String sellerComments = String.valueOf(v.get(6));
                                                 String itemOfferDate = String.valueOf(v.get(7));
                                     %>
-                                    <tr>
+                                    <tr id="itemOfferRow<%= itemOfferID%>">
                                         <td><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width: 50px; height: 50px;" /></td>
                                         <td><%= itemName %></td>
-                                        <td>$<%= itemOfferPrice %><br/>($<%= itemPrice %>)</td>
-                                        <td><%= itemOfferDate%><span style="display:none;">;<%= itemOfferID%></span></td>
+                                        <td class="offerPriceTD">$<%= itemOfferPrice %><span style="display:none">;</span><br/>($<%= itemPrice %>)</td>
                                         <td>
-                                            <strong>Offer Status:</strong>&nbsp;&nbsp;
                                             <%  if(itemOfferStatus.equals("Pending")) {  %>
-                                            <span class="badge badge-primary custom-badge"><%= itemOfferStatus%></span><br/>
+                                            <span class="badge badge-primary custom-badge"><%= itemOfferStatus%></span>
                                             <%  } else if(itemOfferStatus.equals("Processing")) { %>
-                                            <span class="badge badge-warning custom-badge"><%= itemOfferStatus%></span><br/>
+                                            <span class="badge badge-warning custom-badge"><%= itemOfferStatus%></span>
                                             <%  } else if(itemOfferStatus.equals("Accepted")) {   %>
-                                            <span class="badge badge-info custom-badge"><%= itemOfferStatus%></span><br/>
+                                            <span class="badge badge-info custom-badge"><%= itemOfferStatus%></span>
                                             <%  } else if(itemOfferStatus.equals("Rejected")) { %>
-                                            <span class="badge badge-danger custom-badge"><%= itemOfferStatus%></span><br/>
+                                            <span class="badge badge-danger custom-badge"><%= itemOfferStatus%></span>
+                                            <%  } else if(itemOfferStatus.equals("Cancelled")) { %>
+                                            <span class="badge badge-danger custom-badge"><%= itemOfferStatus%></span>
                                             <%  } else if(itemOfferStatus.equals("Completed")) { %>
-                                            <span class="badge badge-success custom-badge"><%= itemOfferStatus%></span><br/>
+                                            <span class="badge badge-success custom-badge"><%= itemOfferStatus%></span>
                                             <%  }   %>
+                                        </td>
+                                        <td>
+                                            <strong>Offer Date:</strong>&nbsp;&nbsp;<%= itemOfferDate%><br/>
                                             <strong>Seller Comments:</strong><br/><%= sellerComments%>
                                         </td>
                                         <td>
                                             <ul class="list-inline">
-                                                <li class="list-inline-item"><button type="button" class="userItemOfferListBtn"><i class="fa fa-edit fa-lg"></i></button></li>
-                                                <li class="list-inline-item"><button type="button" class="userItemOfferListBtn"><i class="fa fa-trash fa-lg"></i></button></li>
+                                                <%  if(itemOfferStatus.equals("Pending") || itemOfferStatus.equals("Processing")) {  %>
+                                                <li class="list-inline-item"><button id="editItemOfferPanel<%= itemOfferID%>" type="button" class="userItemOfferListBtn qtipEditButton"><i class="fa fa-edit fa-lg"></i></button></li>
+                                                <li class="list-inline-item"><button id="cancelItemOffer<%= itemOfferID%>" type="button" class="userItemOfferListBtn"><i class="fa fa-trash fa-lg"></i></button></li>
+                                                <%  } else {    %>
+                                                <li>&nbsp;</li>
+                                                <%  }  %>
                                             </ul>
                                         </td>
                                     </tr>
@@ -296,6 +322,17 @@
             </a>
             <div id="sellNewItem-iframe"></div>
             <div id="unifyFooter"></div>
+            
+            <div style="display:none;" id="editItemOfferTip">
+                Previous Offer Price:&nbsp;
+                <strong style="color:#FF0000;"><u><span id="previousOfferPrice" /></u></strong><br/><br/>
+                
+                Your Revised Offer Price&nbsp;<span style="color:#FF0000;">*</span><br/>
+                <input type="text" id="revisedItemOffer" class="revisedOfferFields" placeholder="e.g. 12.55 (without the $)" style="margin-bottom: 4px;" />
+                <button type="button" id="editItemOfferBtn" class="userItemOfferListBtn" style="margin:7px 0 7px 0;">Revise My Offer</button>
+                <input type="hidden" id="itemOfferHiddenID" />
+                <span id="successItemOfferResponse"></span><span id="failedItemOfferResponse"></span>
+            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -307,6 +344,7 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/UserItemOfferListSYSJS.js" type="text/javascript"></script>
         
         <script src="js/unify/systemuser/basejs/datatable/buttons.html5.min.js" type="text/javascript"></script>

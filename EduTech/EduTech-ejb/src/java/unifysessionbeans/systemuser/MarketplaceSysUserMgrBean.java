@@ -413,6 +413,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                     em.persist(mEntity);
                     em.merge(iEntity);
                     em.merge(uEntity);
+                    em.merge(iEntity.getUserEntity());
                 }
             } else {
                 llEntity = lookupLike(itemID, username);
@@ -425,6 +426,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                 em.remove(llEntity);
                 em.remove(mEntity);
                 em.merge(uEntity);
+                em.merge(iEntity.getUserEntity());
                 em.flush();
                 em.clear();
             }

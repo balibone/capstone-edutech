@@ -149,7 +149,7 @@ a.bg-theme:hover,a.bg-theme:focus,button.bg-theme:hover,button.bg-theme:focus{ba
 .middle-header{background-color:#f9f9f9;box-shadow:0 2px 2px rgba(0,0,0,0.2)}
 .badge-counter{font-size:13px;position:absolute;top:0;right:-10px;width:20px;height:20px;text-align:center;color:#fff;border-radius:50%}
 
-.dropdown-menu-cart{font-size:13px;overflow-y:auto;width:175px;max-height:500px;}
+.dropdown-menu-cart{font-size:13px;overflow-y:auto;width:300px;max-height:500px;padding:10px 10px 0 10px;}
 .dropdown-menu-cart .media{min-height:60px;margin-bottom:5px}
 .dropdown-menu-cart .media .media-body{line-height:1.2}
 .menu-btn-wrapper .btn-link{color:#666}

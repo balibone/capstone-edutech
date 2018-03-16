@@ -39,6 +39,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     private ItemEntity iEntity;
     private ItemOfferEntity ioEntity;
     private ItemTransactionEntity itEntity;
+    private MessageEntity mEntity;
     private UserEntity uEntity;
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
@@ -345,9 +346,19 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             
             ioEntity.setItemOfferStatus("Accepted");
             iEntity.setItemStatus("Reserved");
-            em.merge(ioEntity);
-            em.merge(iEntity);
             
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(ioEntity.getItemEntity().getUserEntity().getUsername(), ioEntity.getUserEntity().getUsername(), 
+                    ioEntity.getItemEntity().getUserEntity().getUsername() + " has just accepted the item offer for the " + ioEntity.getItemEntity().getItemName() + ".", 
+                    ioEntity.getItemEntity().getItemID(), "Marketplace (My Item Offer)");
+            /* THE BUYER WHO CANCEL THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
+            mEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
+            (ioEntity.getUserEntity()).getMessageSet().add(mEntity);
+            
+            em.persist(mEntity);
+            em.merge(iEntity);
+            em.merge(ioEntity);
+            em.merge(ioEntity.getUserEntity());
             return "Item offer has been accepted!";
         }
     }
@@ -358,13 +369,25 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         else {
             ioEntity = lookupItemOffer(itemOfferID);
             ioEntity.setItemOfferStatus("Rejected");
+            
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(ioEntity.getItemEntity().getUserEntity().getUsername(), ioEntity.getUserEntity().getUsername(), 
+                    ioEntity.getItemEntity().getUserEntity().getUsername() + " has just rejected the item offer for the " + ioEntity.getItemEntity().getItemName() + ".", 
+                    ioEntity.getItemEntity().getItemID(), "Marketplace (My Item Offer)");
+            /* THE BUYER WHO CANCEL THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
+            mEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
+            (ioEntity.getUserEntity()).getMessageSet().add(mEntity);
+            
+            em.persist(mEntity);
             em.merge(ioEntity);
+            em.merge(ioEntity.getUserEntity());
             return "Item offer has been rejected!";
         }
     }
     
+    /* USERS PERSONAL ITEM OFFER */
     @Override
-    public List<Vector> viewUserBuyerOfferList(String username) {
+    public List<Vector> viewPersonalBuyerOfferList(String username) {
         Query q = em.createQuery("SELECT io FROM ItemOffer io WHERE io.userEntity.username = :username ORDER BY io.itemOfferDate DESC");
         q.setParameter("username", username);
         List<Vector> userBuyerOfferList = new ArrayList<Vector>();
@@ -385,6 +408,28 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             userBuyerOfferList.add(userBuyerOfferVec);
         }
         return userBuyerOfferList;
+    }
+    
+    @Override
+    public String cancelPersonalItemOffer(long itemOfferID) {
+        if (lookupItemOffer(itemOfferID) == null) { return "Some errors occured while processing your item offer. Please try again."; }
+        else {
+            ioEntity = lookupItemOffer(itemOfferID);
+            ioEntity.setItemOfferStatus("Cancelled");
+            
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(ioEntity.getUserEntity().getUsername(), ioEntity.getItemEntity().getUserEntity().getUsername(), 
+                    ioEntity.getUserEntity().getUsername() + " just cancelled the item offer for your " + ioEntity.getItemEntity().getItemName() + ".", 
+                    ioEntity.getItemEntity().getItemID(), "Marketplace (Item Offer)");
+            /* THE BUYER WHO CANCEL THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
+            mEntity.setUserEntity(ioEntity.getUserEntity());
+            (ioEntity.getItemEntity().getUserEntity()).getMessageSet().add(mEntity);
+            
+            em.persist(mEntity);
+            em.merge(ioEntity);
+            em.merge(ioEntity.getItemEntity().getUserEntity());
+            return "Item offer has been cancelled;" + ioEntity.getItemOfferStatus() + ";!";
+        }
     }
     
     /*  ====================    USER ITEM TRANSACTIONS    ==================== */

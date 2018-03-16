@@ -1,6 +1,6 @@
 .myAccountBtn { font-size: 11px;}
 
-.itemReportFields { margin-top: 7px; width: 100%; }
+.itemReportFields { margin-top: 5px; width: 100%; }
 .likeStatus { color: crimson; }
 .noLikeStatus { color: #FFFFFF; }
 #successReportResponse { color: #228B22; font-weight: bold; display: none; }

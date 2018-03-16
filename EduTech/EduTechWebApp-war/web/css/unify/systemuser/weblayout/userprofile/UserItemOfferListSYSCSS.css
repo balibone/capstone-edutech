@@ -1,4 +1,8 @@
+.revisedOfferFields { margin-top: 5px; width: 100%; }
 a.buttons-collection { margin-left: 1em; }
 
 .table { font-size: 13px; }
 .table > tbody > tr > td { vertical-align: middle; }
+
+#successItemOfferResponse { color: #228B22; font-weight: bold; display: none; }
+#failedItemOfferResponse { color: #FF0000; font-weight: bold; display: none; }

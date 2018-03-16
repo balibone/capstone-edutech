@@ -1,4 +1,4 @@
-.itemOfferFields, .itemReportFields { margin-top: 7px; width: 100%; }
+.itemOfferFields, .itemReportFields { margin-top: 5px; width: 100%; }
 .likeStatus { background-color: #4D7496; color: #FFFFFF; }
 .noLikeStatus { background-color: #FFFFFF; color: #4D7496; }
 #successOfferResponse, #successReportResponse { color: #228B22; font-weight: bold; display: none; }

@@ -320,6 +320,10 @@
                                                             <label for="Rejected">Rejected</label>
                                                         </li>
                                                         <li>
+                                                            <input data-path=".Cancelled" id="Cancelled" type="checkbox" />
+                                                            <label for="Cancelled">Cancelled</label>
+                                                        </li>
+                                                        <li>
                                                             <input data-path=".Completed" id="Completed" type="checkbox" />
                                                             <label for="Completed">Completed</label>
                                                         </li>
@@ -376,6 +380,8 @@
                                                                     <%  } else if(itemOfferStatus.equals("Accepted")) {   %>
                                                                     <span class="badge badge-info custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                                     <%  } else if(itemOfferStatus.equals("Rejected")) { %>
+                                                                    <span class="badge badge-danger custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
+                                                                    <%  } else if(itemOfferStatus.equals("Cancelled")) { %>
                                                                     <span class="badge badge-danger custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                                     <%  } else if(itemOfferStatus.equals("Completed")) { %>
                                                                     <span class="badge badge-success custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
