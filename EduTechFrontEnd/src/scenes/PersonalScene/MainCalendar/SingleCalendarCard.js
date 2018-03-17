@@ -36,7 +36,7 @@ class SingleCalendarCard extends Component {
 		.then((willDelete) => {
 		  if (willDelete) {
 		  	ScheduleItemStore.removeScheduleItem(id);
-		    swal("Poof! Your imaginary file has been deleted!", {icon: "success"});
+		    swal("Poof! The item has been deleted!", {icon: "success"});
 			this.props.handleCloseAll();
 		  } 
 		});

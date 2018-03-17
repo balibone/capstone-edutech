@@ -1,0 +1,15 @@
+.img-profile {
+  border: 3px solid #FFF;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  margin-bottom: 10px;
+}
+
+.profilePanel {
+  padding: 50px 0;
+  text-align: center;
+  background-image: linear-gradient(top, #333, #333 37%, transparent 37%, transparent 100%)
+}
+
+.profilePanel:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2) !important;
+}

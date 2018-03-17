@@ -15,6 +15,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import SingleCalendarCard from './SingleCalendarCard';
 import AddCalendarItemForm from './AddCalendarItemForm';
 import EditCalendarItemForm from './EditCalendarItemForm';
+import AddCalendarItemModal from './AddCalendarItemModal';
 
 import ScheduleItemStore from '../../../stores/ScheduleItemStore/ScheduleItemStore';
 
@@ -69,6 +70,10 @@ class PersonalCalendar extends Component {
     	return { style: style };
 	}
 
+	handleCloseModal(){
+		this.setState({openCalendarForm: false})
+	}
+
 	render(){
 		let eventsArray = this.props.eventsArray;
 
@@ -110,7 +115,12 @@ class PersonalCalendar extends Component {
 				    />  
 				  
 				  {
-				  	this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>
+				  	// this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>
+				  	this.state.openCalendarForm ? <AddCalendarItemModal 
+				  		scheduleItemStore={ScheduleItemStore} 
+				  		show={this.state.openCalendarForm} 
+				  		selectedDate={this.state.selectedDate} 
+				  		handleCloseModal={this.handleCloseModal.bind(this)}/> : <span></span>
 				  }
 				  {
 				  	this.state.openCalendarCard ? <SingleCalendarCard

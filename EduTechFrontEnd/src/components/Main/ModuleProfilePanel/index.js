@@ -1,41 +1,42 @@
-import React, { Component } from 'react';
+import React,{Component} from 'react';
 import { Paper } from 'material-ui';
 import { Button, FormControl } from 'react-bootstrap';
 import swal from 'sweetalert';
 
-import GroupStore from '../../../stores/GroupStore/GroupStore';
+import ModuleStore from '../../../stores/ModuleStore/ModuleStore';
 import './styles.css';
 
-class GroupProfilePanel extends Component {
-  state = {
+
+class ModuleProfilePanel extends Component{
+
+state = {
     editView: false,
-    groupTitle: this.props.primaryInfo,
-    groupDescription: this.props.secondaryInfo,
+    moduleCode: this.props.primaryInfo,
+    moduleTitle: this.props.secondaryInfo,
   }
 
   componentWillMount() {
     const { img, primaryInfo, secondaryInfo, group } = this.props;
     this.setState({
-      groupTitle: primaryInfo,
-      groupDescription: secondaryInfo
+      moduleCode: primaryInfo,
+      moduleTitle: secondaryInfo
     })
 
   }
   componentWillReceiveProps(newProps) {
     const { img, primaryInfo, secondaryInfo, group } = newProps;
     this.setState({
-      groupTitle: primaryInfo,
-      groupDescription: secondaryInfo
+      moduleCode: primaryInfo,
+      moduleTitle: secondaryInfo
     })
 
   }
 
   handleSaveEdit() {
-    if (this.state.groupTitle && this.state.groupDescription) {
-      this.props.group.title = this.state.groupTitle;
-      this.props.group.description = this.state.groupDescription;
-      GroupStore.editGroupDetails(this.props.group);
-      console.log('handleSaveEdit this.props.group.title', this.props.group.title)
+    if (this.state.moduleCode && this.state.moduleTitle) {
+      this.props.group.title = this.state.moduleCode;
+      this.props.group.description = this.state.moduleTitle;
+      // GroupStore.editGroupDetails(this.props.group);
       this.setState({editView: false});
     } else {
       swal("Ooops!", "Group name and description cannot be empty.", "error")
@@ -51,8 +52,8 @@ class GroupProfilePanel extends Component {
 
     let content = (
       <div>
-        <h4><span className="capitalize">{this.state.groupTitle}</span></h4>
-        <p>{this.state.groupDescription}</p>
+        <h4><span className="capitalize">{this.state.moduleCode}</span></h4>
+        <p>{this.state.moduleTitle}</p>
         <Button onClick={() => this.setState({editView: true})}> Edit </Button>
       </div>
     )
@@ -61,15 +62,15 @@ class GroupProfilePanel extends Component {
       content = (
         <div>
           <FormControl
-            onChange={e => this.setState({groupTitle: e.target.value})}
+            onChange={e => this.setState({moduleCode: e.target.value})}
             type="text"
-            value={this.state.groupTitle}
+            value={this.state.moduleCode}
             placeholder="Group Title"
           />
           <FormControl
-            onChange={e => this.setState({groupDescription: e.target.value})}
+            onChange={e => this.setState({moduleTitle: e.target.value})}
             type="text"
-            value={this.state.groupDescription}
+            value={this.state.moduleTitle}
             placeholder="Group Description"
           />
           <Button onClick={() => this.handleSaveEdit()} bsStyle="primary"> Save </Button>
@@ -85,4 +86,4 @@ class GroupProfilePanel extends Component {
   }
 }
 
-export default GroupProfilePanel;
+export default ModuleProfilePanel;

@@ -39,7 +39,7 @@ class MeetingCard extends Component {
 		.then((willDelete) => {
 		  if (willDelete) {
   			MeetingStore.removeMeeting(meetingId, groupId);
-		    swal("Poof! Your imaginary file has been deleted!", {icon: "success"});
+		    swal("Poof! The item has been deleted!", {icon: "success"});
 		  } 
 		});
 

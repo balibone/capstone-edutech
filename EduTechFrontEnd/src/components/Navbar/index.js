@@ -23,12 +23,11 @@ class Navbar extends Component {
 
 
   render(){
-    // const groupList = toJS(GroupStore.groupList);
-    // console.log(groupList)
     const { user, modules, groups, userStore} = this.props;
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const groupList = JSON.parse(localStorage.getItem('groupList'));
-
+    const moduleList = JSON.parse(localStorage.getItem('moduleList'));
+    console.log("MODLE IN NAV", moduleList)
     if(!groupList || !currentUser) {
       return (
         <div className="fakeBody">
@@ -45,8 +44,8 @@ class Navbar extends Component {
     // if(!groupList || !currentUser) {
     //   return <span>loading - please refresh if it takes too long</span>
     // }
-    console.log('currentUser', currentUser)
-    const moduleMenuItems = modules.map(module => <MenuItem eventKey={module.code}><Link to={`/module/${module.code}`}>{module.name}</Link></MenuItem>)
+
+    const moduleMenuItems = moduleList.map(module => <MenuItem eventKey={module.moduleCode}><Link to={`/module/${module.moduleCode}`}>{module.title}</Link></MenuItem>)
     const groupMenuItems = groupList.map(group => <MenuItem eventKey={group.id}><Link to={`/group/${group.id}`}>{group.title}</Link></MenuItem>)
 
     return(
