@@ -23,10 +23,18 @@
         <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/marketplace/NewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
-        
         <link href="css/unify/systemuser/weblayout/voices/ViewCompanyListingSYSCSS.css" rel="stylesheet" type="text/css">
+        
+        <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body class="nav-md">
@@ -182,14 +190,17 @@
                                 <div class="row">
                                     <div class="col-lg-2">
                                         <div class="media">
-                                            <img class="img-thumbnail" src="uploads/unify/images/voices/company/<%= companyImage%>" style="width:80px;height:80px;"/>
+                                            <img class="img-thumbnail" src="uploads/unify/images/voices/company/<%= companyImage%>" style="width:120px;height:120px; margin-left: 10px; margin-top: 10px;"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-7">
                                         <div class="company-name">
-                                            <span class="card-title companyName" style="color: #333; font-size: 25px; line-height: 2.5;"><strong>Barclays</strong></span><br/>
+                                            <span class="card-title companyName" style="color: #333; font-size: 25px; line-height: 2.5;"><strong><%= companyName%></strong></span><br/>
                                         </div>
-                                        <div><span class="float-left">Average Rating: <span class="ml-1 card-text rating companyRating" id="average_rating"><%= companyRating%></span></span></div>
+                                        <div class="company-industry">
+                                            <label><strong>Industry:&nbsp;</strong></label>
+                                            <span class="companyIndustry"><%= companyIndustry%></span><br/>
+                                        </div>
                                             <div class="star-rating">
                                                 <% double rating = Double.parseDouble(companyRating);
                                                    double percent = 0.0;
@@ -218,7 +229,15 @@
                                             </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button class="btn btn-outline btn-primary btn-sm btn-block"><i class="fa fa-list-alt">&nbsp;&nbsp;</i>Add A Review</button><br/>
+                                        <div class="new-review">
+                                            <form action="VoicesSysUser" method="POST">
+                                                <input type="hidden" name="pageTransit" value="goToNewReviewSYS"/>
+                                                <input type="hidden" name="hiddenCompanyImage" value="<%= companyImage %>"/>
+                                                <input type="hidden" name="hiddenCompanyName" value="<%= companyName %>"/>
+                                                <input type="hidden" name="hiddenCompanyIndustry" value="<%= companyIndustry %>"/>
+                                                <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit"><i class="fa fa-plus">&nbsp;&nbsp;</i>Add A Review</button>
+                                            </form>
+                                        </div>
                                         <button class="btn btn-outline btn-primary btn-sm btn-block"><i class="fa fa-list-alt">&nbsp;&nbsp;</i>Send Resume</button>
                                     </div>
                                 </div>
@@ -236,21 +255,225 @@
                                 <div class="title"><span style="font-size: 15px"><strong>You may also like...</strong></span></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-7 col-md-6">
-                        <div class="card user-card">
-                            <div class="card-body p-4 mb-3 mb-md-0 mb-xl-3">
-                                <div>
-                                    <div class="tabbable tabbable-custom">
-                                        <ul class="nav nav-tabs">
-                                            <li class="active"><a href="#companyInfo" data-toggle="tab">Overview</a></li>
-                                            <li><a href="#reviewList" data-toggle="tab">Review List</a></li>
-                                        </ul>
+                        <%  ArrayList<Vector> associatedCompanyListSYS = (ArrayList) request.getAttribute("companyListInIndustrySYS");
+                                if (!associatedCompanyListSYS.isEmpty()) {
+                                    for (int i = 0; i <= associatedCompanyListSYS.size() - 1; i++) {
+                                        Vector v = associatedCompanyListSYS.get(i);
+                                        String associatedCompanyID = String.valueOf(v.get(0));
+                                        String associatedCompanyImage = String.valueOf(v.get(1));
+                                        String associatedCompanyName = String.valueOf(v.get(2));
+                                        String associatedCompanyRating = String.valueOf(v.get(3));
+                        %>    
+                        <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
+                            <div class="card card-product">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-md-4 col-4">
+                                                <div class="img-wrapper">
+                                                    <img class="card-img-top" style="max-width: 100px; max-height: 100px;" src="uploads/unify/images/voices/company/<%= associatedCompanyImage%>" />
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-8 col-md-8 col-8">
+                                                <span><strong><%= associatedCompanyName%></strong></span><br/>
+                                                <span>Rating:&nbsp;<span class="ml-1 card-text rating companyRating"><%= associatedCompanyRating%></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer " style="padding: 2px">
+                                        <div class="row">
+                                            <div class="col-xl-6 col-md-6 col-6"></div>
+                                            <div class="col-xl-6 col-md-6 col-6">
+                                                <a style="text-decoration: none;" href="VoicesSysUser?pageTransit=goToViewCompanyDetailsSYS&hiddenCompanyID=<%= associatedCompanyID%>&hiddenCategoryName=<%= companyIndustry%>">
+                                                    <div><span style="margin-left: 20px; font-size: 12px">View More&nbsp;<i class="fa fa-chevron-right"></i></span></div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
+                       <%      }
+                           }
+                       %>
                     </div>
+                    <div class="col-lg-7 col-md-6">
+                        <%  String successMessage = (String) request.getAttribute("successMessage");
+                            if (successMessage != null) {
+                        %>
+                        <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                             <button type="button" class="close" id="closeSuccess">&times;</button>
+                             <%= successMessage%>
+                        </div>
+                        <%  }   %>
+                    <%  String errorMessage = (String) request.getAttribute("errorMessage");
+                        if (errorMessage != null) {
+                    %>
+                        <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeError">&times;</button>
+                            <%= errorMessage%>
+                        </div>
+                    <%  }   %>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item"><a class="nav-link text-default active" id="companyInfoPane-tab" data-toggle="tab" href="#companyInfoPane" role="tab" aria-controls="companyInfoPane" aria-selected="true">Overview</a></li>
+                            <li class="nav-item"><a class="nav-link text-default" id="reviewListPane-tab" data-toggle="tab" href="#reviewListPane" role="tab" aria-controls="reviewListPane" aria-selected="false">Review List</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane border border-top-0 p-3 show active" id="companyInfoPane" role="tabpanel" aria-labelledby="companyInfoPane-tab">
+                                <div class="infoEntity row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <label><strong>Company Website:&nbsp;</strong></label>
+                                        <span><a href="http://<%= companyWebsite%>" target="_blank" rel="nofollow noreferrer"><%= companyWebsite%></a></span>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                    <label><strong>Company Headquarter:&nbsp;</strong></label>
+                                    <span><%= companyHQ%></span>
+                                    </div>
+                                </div>
+                                <div class="infoEntity row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <label><strong>Company size:&nbsp;</strong></label>
+                                        <span><%= companySize%>&nbsp;Employees</span>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <label><strong>Average Rating:&nbsp;</strong></label>
+                                        <span><%= companyRating%></span>
+                                    </div>
+                                </div>
+                                <div class="infoEntity" row>
+                                    <label><strong>Company Address:&nbsp;</strong></label>
+                                    <span><%= companyAddress%></span>
+                                </div>
+                                <div class="infoEntity" row>
+                                    <label><strong>Description:</strong></label><br/>
+                                    <span><%= companyDescription%></span>
+                                </div>
+                            </div>
+                            <div class="tab-pane border border-top-0 p-3" id="reviewListPane" role="tabpanel" aria-labelledby="reviewListPane-tab">
+                                <div class="jplist-search sorting-bar">
+                                    <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+                                         data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
+                                        <ul>
+                                            <li><span data-path=".companyName" data-order="asc" data-type="text">Name Asc</span></li>
+                                            <li><span data-path=".companyName" data-order="desc" data-type="text">Name Desc</span></li>
+                                            <li><span data-path=".companyRating" data-order="asc" data-type="text">Rating Asc</span></li>
+                                            <li><span data-path=".companyRating" data-order="desc" data-type="text">Rating Desc</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
+                                         data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
+                                        <ul>
+                                            <li><span data-number="4">4 per page</span></li>
+                                            <li><span data-number="8">8 per page</span></li>
+                                            <li><span data-number="12" data-default="true">12 per page</span></li>
+                                            <li><span data-number="16">16 per page</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div id="reviewListing" class="row equal-height" add-class-on-xs="no-gutters">
+                                    <div class="list searchresult-row">
+                                        <%  ArrayList<Vector> reviewListSYS = (ArrayList) request.getAttribute("associatedReviewListSYS");
+                                            if (!reviewListSYS.isEmpty()) {
+                                                for (int i = 0; i <= reviewListSYS.size() - 1; i++) {
+                                                    Vector v = reviewListSYS.get(i);
+                                                    String reviewDate = String.valueOf(v.get(0));
+                                                    String reviewPoster = String.valueOf(v.get(1));
+                                                    String reviewTitle = String.valueOf(v.get(2));
+                                                    String reviewPros = String.valueOf(v.get(3));
+                                                    String reviewCons = String.valueOf(v.get(4));
+                                                    String reviewEmpType = String.valueOf(v.get(5));
+                                                    String reviewSalary = String.valueOf(v.get(6));
+                                                    String reviewRating = String.valueOf(v.get(7));
+                                                    String reviewThumbs = String.valueOf(v.get(8));
+                                                    String reviewID = String.valueOf(v.get(9));
+                                        %>
+                                        <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
+                                            <div class="card card-product">
+                                                <div class="card-content">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xl-2 col-md-2 col-2">
+                                                                <div class="img-wrapper">
+                                                                    <img class="card-img-top" style="max-width: 70px; max-height: 70px; margin-left: 10px; margin-bottom: 10px;" src="uploads/unify/images/voices/company/<%= companyImage%>" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-10 col-md-10 col-10">
+                                                                <div class="review-title">
+                                                                    <span class="card-title reviewTitle" style="color: #333; font-size: 18px; line-height: 1.5;"><strong><%= reviewTitle%></strong></span><br/>
+                                                                </div>
+                                                                <div class="row" style="margin-left: 0px">
+                                                                    <div style="margin-top: 2px"><span class="ml-1 card-text rating companyRating" id="average_rating"><%= reviewRating%></span></div>       
+                                                                    <div class="star-rating">
+                                                                    <% double review_rating = Double.parseDouble(reviewRating);
+                                                                        double review_percent = 0.0;
+                                                                        while(review_rating > 0) {
+                                                                        if(review_rating>=1) { review_percent += 20; } 
+                                                                        else { review_percent += (((review_rating*13.93)/23.02)*100.0)*0.2; }
+                                                                        review_rating--;
+                                                                        }
+                                                                    %>
+                                                                        <div class="star-rating-top" id="star_rating_top" style="width: <%= review_percent%>%">
+                                                                            <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
+                                                                            <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
+                                                                            <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
+                                                                            <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
+                                                                            <span class="vote-star"><i class="fa fa-star">&nbsp;</i></span>
+                                                                        </div>
+                                                                        <div class="star-rating-bottom">
+                                                                            <span><i class="fa fa-star">&nbsp;</i></span>
+                                                                            <span><i class="fa fa-star">&nbsp;</i></span>
+                                                                            <span><i class="fa fa-star">&nbsp;</i></span>
+                                                                            <span><i class="fa fa-star">&nbsp;</i></span>
+                                                                            <span><i class="fa fa-star">&nbsp;</i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="margin-left: 10px"><span class="ml-1 card-text companyEmpStatus" style="color: #8a8b8c"><%= reviewEmpType%></span></div>    
+                                                                </div>
+                                                                <div class="row" style="margin-left: 3px; margin-top: 2px">
+                                                                    <i class="fa fa-usd" style="margin-top: 3px">&nbsp;</i><span><%= reviewSalary%></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <i class="fa fa-calendar" style="margin-top: 3px">&nbsp;</i><span><%= reviewDate%></span>
+                                                                </div>
+                                                                <div class="row" style="margin-left: 3px; margin-top: 10px">
+                                                                    <div><span><strong>Pros</strong></span></div>
+                                                                </div>
+                                                                <div class="row" style="margin-left: 3px; margin-top: 3px">
+                                                                    <div><%= reviewPros%></div>
+                                                                </div>
+                                                                <div class="row" style="margin-left: 3px; margin-top: 10px">
+                                                                    <div><span><strong>Cons</strong></span></div>
+                                                                </div>
+                                                                <div class="row" style="margin-left: 3px; margin-top: 3px; margin-bottom: 10px">
+                                                                    <div><%= reviewCons%></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-md-7 col-7"></div>
+                                                            <div class="col-lg-2 col-md-2 col-2">
+                                                                <input type="hidden" id="companyID" value="<%= companyID%>" />
+                                                                <input type="hidden" id="reviewPoster" value="<%= reviewPoster%>" />
+                                                                <input type="hidden" id="reviewID" value="<%= reviewID%>" />
+                                                                <button id="newReviewReport" class="btn btn-outline-secondary btn-sm btn-block">Report</button>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-3">
+                                                                <button class="btn btn-outline-theme btn-sm btn-block">Helpful (<i class="fa fa-thumbs-up">&nbsp;&nbsp;</i><span><%= reviewThumbs%>)</span></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row"><br/></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%      }   %>
+                                    <%  }%>    
+                                </div>
+                            </div>
+                        </div>
                     <div class="col-lg-1 col-md-3"></div>
                 </div>
             </div>
@@ -258,7 +481,8 @@
 
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
-            </a>
+            </a></div>
+            <div id="newReviewReport-iframe"></div>
         </div>
 
         <!-- #1. jQuery v2.2.4 -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -270,7 +494,16 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/voices/ViewCompanyDetailsSYSJS.js" type="text/javascript"></script>
 
-        <script src="js/unify/systemuser/webjs/voices/NewReviewSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-toggle-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.history-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.jquery-ui-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.pagination-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.sort-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.textbox-filter.min.js"></script>
     </body>
 </html>
