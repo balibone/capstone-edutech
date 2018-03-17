@@ -3,37 +3,45 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edutechentities.module;
+package edutechentities;
 
-import commoninfraentities.UserEntity;
+import edutechentities.ScheduleItemEntity;
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Derian
  */
-@Entity(name="Answer")
+@Entity(name="Lesson")
 @XmlRootElement
-public class AnswerEntity implements Serializable {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String answer;
-    @OneToMany
-    private Collection<UserEntity> likedBy;
-    private boolean isCorrect; 
-
+    private SessionEntity session;
+    @ManyToOne
+    private RecurringEventEntity recurringEvent;
+    
+    public LessonEntity(){
+        super();
+    }
+    
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -48,10 +56,10 @@ public class AnswerEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AnswerEntity)) {
+        if (!(object instanceof LessonEntity)) {
             return false;
         }
-        AnswerEntity other = (AnswerEntity) object;
+        LessonEntity other = (LessonEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -60,31 +68,15 @@ public class AnswerEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "edutechentities.module.AnswerEntity[ id=" + id + " ]";
+        return "edutechentities.module.LessonEntity[ id=" + id + " ]";
     }
 
-    public String getAnswer() {
-        return answer;
+    public RecurringEventEntity getRecurringEvent() {
+        return recurringEvent;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public Collection<UserEntity> getLikedBy() {
-        return likedBy;
-    }
-
-    public void setLikedBy(Collection<UserEntity> likedBy) {
-        this.likedBy = likedBy;
-    }
-
-    public boolean isIsCorrect() {
-        return isCorrect;
-    }
-
-    public void setIsCorrect(boolean isCorrect) {
-        this.isCorrect = isCorrect;
+    public void setRecurringEvent(RecurringEventEntity recurringEvent) {
+        this.recurringEvent = recurringEvent;
     }
     
 }

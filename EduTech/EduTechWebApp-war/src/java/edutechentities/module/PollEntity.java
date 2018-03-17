@@ -16,12 +16,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Derian
  */
 @Entity(name="Poll")
+@XmlRootElement
 public class PollEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
