@@ -53,17 +53,17 @@ public class ScheduleItemREST {
     }
 
     @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public ScheduleItemEntity find(@PathParam("id") String id) {
+    public ScheduleItemEntity findScheduleItem(@PathParam("id") String id) {
         return etr.findScheduleItem(id);
     }
     
     @GET @Path("user/{username}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ScheduleItemEntity> findUser(@PathParam("username") String username) {
+    public List<ScheduleItemEntity> findUserScheduleItems(@PathParam("username") String username) {
         return etr.findUserScheduleItems(username);
     }
     
     @GET @Path("group/{groupId}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ScheduleItemEntity> findGroup(@PathParam("groupId") int groupId) {
+    public List<ScheduleItemEntity> findGroupMeetings(@PathParam("groupId") int groupId) {
         return etr.findGroupMeetings(groupId);
     }
     
@@ -78,7 +78,7 @@ public class ScheduleItemREST {
     }
 
     @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ScheduleItemEntity> findAll() {
+    public List<ScheduleItemEntity> findAllScheduleItems() {
         return etr.findAllScheduleItems();
     }
 
