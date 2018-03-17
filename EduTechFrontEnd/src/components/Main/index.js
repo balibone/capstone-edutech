@@ -68,8 +68,12 @@ class Main extends Component {
             <Route exact path="/group/:groupId" render={(props) => {
               const { groupId } = props.match.params
               const group = this.getSelectedGroup(groupId)
-              return(<div><GroupProfilePanel group={group} img={group.imagefilename} primaryInfo={group.title} secondaryInfo={group.description} /> <MembersPanel groupStore={GroupStore} getSelectedGroup={this.getSelectedGroup} {...props}/></div>)}
-            }/>
+              return(
+                <div>
+                    <GroupProfilePanel group={group} img={group.imagefilename} primaryInfo={group.title} secondaryInfo={group.description} /> 
+                    <MembersPanel groupStore={GroupStore} getSelectedGroup={this.getSelectedGroup} {...props}/>
+                </div>)
+            }}/>
           </Switch>
         </Col>
         <Col md={6} >

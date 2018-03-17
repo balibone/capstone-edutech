@@ -19,13 +19,15 @@ class UploadFileBtn extends Component {
     if(selectedFile){
 	    const formData = new FormData();
 	    formData.append('file', selectedFile)
-	    axios.post('/scheduleitem/meetingminute/upload', )
-	    .then((res) => {
-	    	console.log("upload success", res)
-	    })
-	    .catch((err) => {
-	    	console.log(err);
-	    })
+      console.log('SELECTED FILE: ', selectedFile)
+      console.log('UPLOADING FORM: ', formData)
+	    // axios.post('/scheduleitem/meetingminute/upload', )
+	    // .then((res) => {
+	    // 	console.log("upload success", res)
+	    // })
+	    // .catch((err) => {
+	    // 	console.log(err);
+	    // })
     }
 
     // this.fileUpload(this.state.file).then((response)=>{
