@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
@@ -23,6 +24,7 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
  * @author Derian
  */
 @Entity(name="ClassSession")
+@XmlRootElement
 public class SessionEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

@@ -14,7 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -22,6 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity(name="RecurringEvent")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RecurringEventEntity implements Serializable {
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,7 +36,7 @@ public class RecurringEventEntity implements Serializable {
     private DayOfWeek dayOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;
-    @ManyToOne
+    @XmlTransient
     private ModuleEntity module;
 
     public Long getId() {

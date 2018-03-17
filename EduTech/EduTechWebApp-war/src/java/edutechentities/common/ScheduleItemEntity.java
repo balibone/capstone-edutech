@@ -32,7 +32,6 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 @XmlRootElement
 public class ScheduleItemEntity implements Serializable {
     
-    @XmlElement
     @XmlInverseReference(mappedBy = "meeting")
     private List<MeetingMinuteEntity> meetingMinutes;
 

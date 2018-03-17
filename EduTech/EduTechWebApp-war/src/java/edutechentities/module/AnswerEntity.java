@@ -13,12 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Derian
  */
 @Entity(name="Answer")
+@XmlRootElement
 public class AnswerEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

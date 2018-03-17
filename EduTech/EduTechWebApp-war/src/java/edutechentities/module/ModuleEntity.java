@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -26,6 +28,7 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
  */
 @Entity(name="Module")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ModuleEntity implements Serializable {
 
     @Id
@@ -38,13 +41,13 @@ public class ModuleEntity implements Serializable {
     @OneToMany
     private Collection<UserEntity> members;
     //private Collection<LessonEntity> lessons;
+//    @XmlInverseReference(mappedBy="modules")
     @ManyToOne
     private SemesterEntity semester;
     //This annotation performs 2 things. Acts like the @XxxToXxx standard JPA annotation whilst also
     //solving the bidirectional relationship mapping issue with XML. 
     //Now all bidirectional entities can be marshalled&umarshalled properly
-    @XmlElement
-    @XmlInverseReference(mappedBy = "module")
+    @XmlInverseReference(mappedBy="module")
     private Collection<RecurringEventEntity> recurringEvents;
     
     public ModuleEntity() {
