@@ -37,13 +37,13 @@ $(document).ready(function () {
     //if (search_marker_end) { map.removeLayer(search_marker_end); }
     search_marker_end = L.marker([endLatitude, endLongitude], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("End Location: " + endLocation);
 
-    $('#makeOfferBtn').qtip({
+    /*$('#makeOfferBtn').qtip({
         content: { title: { text: 'Enter Your Offer Price', button: true }, text: $('#offerTooltip') },
         position: { at: 'top center', my: 'bottom center' },
         style: { width: 250, height: 195 },
         hide: { event: 'click', inactive: 10000 },
         show: 'click'
-    });
+    });*/
     
     $('.itemLikes > a').click(function(){
         $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToItemLikeList&itemID=' + $('#itemIDHidden').val());
@@ -63,16 +63,23 @@ $(document).ready(function () {
         iframeHeight: 450
     });
     
+    var priceType = document.getElementById("priceType").value;
+    if(priceType==='Fixed'){
+        document.getElementById("offerPriceType").innerHTML = "(S$/Fixed Rate)";
+    }else if(priceType==='HR'){
+        document.getElementById("offerPriceType").innerHTML = "(S$/hour)";
+    }
+    
     $('#sendOfferBtn').click(function(){
         $.ajax({
             type: "POST",
-            url: "MarketplaceSysUser",
+            url: "ErrandsSysUser",
             data: { 
                 itemIDHidden: $('#itemIDHidden').val(),
                 usernameHidden: $('#usernameHidden').val(),
                 itemOfferPrice: $('#itemOfferPrice').val(),
                 itemOfferDescription: $('#itemOfferDescription').val(),
-                pageTransit: 'sendItemOfferPrice'
+                pageTransit: 'sendJobOfferPrice'
             },
             success: function(returnString) {
                 $('#successOfferResponse').hide();
@@ -108,5 +115,10 @@ $(document).ready(function () {
         });
     });
 });
+
+function deleteAlert(jobID) {
+    var deleteReply = confirm("Are you sure to delete this job?");
+    if (deleteReply) { window.open('ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=' + jobID, '_parent'); }
+}
 
 

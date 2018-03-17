@@ -78,6 +78,32 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobCategoryListSYS", (ArrayList) esmr.viewJobCategoryList());
                     pageAction = "NewJobListingSYS";
                     break;
+                case "goToEditJobListing":
+                    long jID = Long.parseLong(request.getParameter("hiddenJobID"));
+                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jID));
+                    request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
+                    pageAction = "EditJobListingSYS";
+                    break;
+                case "editJobListingSYS":
+                    responseMessage = editJobListing(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    long job = Long.parseLong(request.getParameter("hiddenJobID"));
+                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(job));
+                    request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
+                    pageAction = "EditJobListingSYS";
+                    break;
+                case "deleteJobListingSYS":
+                    long jobIDToDelete = Long.parseLong(request.getParameter("hiddenJobID"));
+                    responseMessage = esmr.deleteJobListing(jobIDToDelete);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
+                    request.setAttribute("jobListSYS", (ArrayList) esmr.viewJobList());
+                    pageAction = "ViewJobListingSYS";
+                    break;
                 default:
                     break;
             }
@@ -183,6 +209,106 @@ public class ErrandsSysUserController extends HttpServlet {
         System.out.println("job title" + jobTitle);
         return esmr.createJobListing(jobTitle, jobRateType, jobRate, jobDuration, jobDescription, jobWorkDate, jobImagefileName, 
                 categoryID, username, startLocation, startLat, startLong, endLocation, endLat, endLong, "N.A.", numOfHelpers, checking);
+    }
+    
+    private String editJobListing(HttpServletRequest request) {
+        String itemImageFileName = "";
+        String imageUploadStatus = request.getParameter("imageUploadStatus");
+        
+        if(imageUploadStatus.equals("Uploaded")) {
+            try {
+                Part filePart = request.getPart("jobImage");
+                itemImageFileName = (String) getFileName(filePart);
+
+                String appPath = request.getServletContext().getRealPath("");
+                String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator 
+                        + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+                String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator 
+                        + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "errands" 
+                        + File.separator + "job" + File.separator;
+
+                InputStream inputStream = null;
+                OutputStream outputStream = null;
+                try {
+                    File outputFilePath = new File(imageDir + itemImageFileName);
+                    inputStream = filePart.getInputStream();
+                    outputStream = new FileOutputStream(outputFilePath);
+
+                    int read = 0;
+                    final byte[] bytes = new byte[1024];
+                    while ((read = inputStream.read(bytes)) != -1) {
+                        outputStream.write(bytes, 0, read);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    itemImageFileName = "";
+                } finally {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    if (outputStream != null) {
+                        outputStream.close();
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                itemImageFileName = "";
+            }
+        } else { itemImageFileName = request.getParameter("hiddenJobImage"); }
+        
+        long jobID = Long.parseLong(request.getParameter("hiddenJobID"));
+        
+        String jobTitle = request.getParameter("jobTitle");
+        if(jobTitle.equals("")) { jobTitle = request.getParameter("hiddenJobTitle"); }
+        
+        long jobCategoryID = Long.parseLong(request.getParameter("category"));
+        
+        Date jobWorkDate = new Date();
+        System.out.println("workDate: " + request.getParameter("workDate"));
+        System.out.println("time: " + request.getParameter("workTime"));
+        try{
+            jobWorkDate = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(request.getParameter("workDate") + " " + request.getParameter("workTime"));
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+        String jobRateType = request.getParameter("jobRateType");
+        //if(jobRateType.equals("")) { jobRateType = request.getParameter("hiddenJobRateType"); }
+        String jobRate = request.getParameter("jobRate");
+        if(jobRate.equals("")) { jobRate = request.getParameter("hiddenJobRate"); }
+        
+        double jobDuration = Double.parseDouble(request.getParameter("hiddenJobDuration"));
+        if(!((request.getParameter("jobDuration")).equals(""))) { jobDuration = Double.parseDouble(request.getParameter("jobDuration")); }
+        
+        int numOfHelpers = Integer.parseInt(request.getParameter("hiddenNumOfHelpers"));
+        if(!((request.getParameter("numOfHelpers")).equals(""))){ numOfHelpers = Integer.parseInt(request.getParameter("numOfHelpers")); }
+        
+        String jobDescription = request.getParameter("jobDescription");
+        if(jobDescription.equals("")) { jobDescription = request.getParameter("hiddenJobDescription"); }
+        
+        String username = request.getParameter("username");
+        
+        String startLocation = request.getParameter("startLocation");
+        if(startLocation.equals("")) { startLocation = request.getParameter("hiddenStartLocation"); }
+        String startLat = request.getParameter("hiddenStartLat");
+        String startLong = request.getParameter("hiddenStartLong");
+        
+        String endLocation = request.getParameter("endLocation");
+        if(endLocation.equals("")) { endLocation = request.getParameter("hiddenEndLocation"); }
+        String endLat = request.getParameter("hiddenEndLat");
+        String endLong = request.getParameter("hiddenEndLong");
+        //String tradeInformation = request.getParameter("tradeInformation");
+        //if(tradeInformation.equals("")) { tradeInformation = request.getParameter("hiddenTradeInformation"); }
+        
+        boolean checking = false;
+        if(request.getParameter("checking")==null){
+            checking = false;
+        }else{
+            checking = true;
+        } 
+        
+        return esmr.editJobListing(jobID, jobTitle, jobRateType, Double.parseDouble(jobRate), jobDuration, jobDescription, 
+                jobWorkDate, itemImageFileName, startLocation, startLat, startLong, endLocation, endLat, endLong, jobCategoryID, username, numOfHelpers, checking);
+        
     }
     
     /* MISCELLANEOUS METHODS */

@@ -16,7 +16,7 @@ public interface ErrandsSysUserMgrBeanRemote {
             String startLat, String startLong, String endLocation, String endLat, String endLong, String jobInformation, int numOfHelpers, boolean checking);
     public String editJobListing(long jobID, String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 
             Date jobWorkDate, String jobImagefileName, String startLocation, String startLat, String startLong, 
-            String endLocation, String endLat, String endLong, long jobCategoryID, String username);
+            String endLocation, String endLat, String endLong, long jobCategoryID, String username, int numOfHelpers, boolean checking);
     public String deleteJobListing(long jobIDToDelete);
     public List<Vector> viewJobCategoryList();
     public ArrayList<String> getJobCategoryList();

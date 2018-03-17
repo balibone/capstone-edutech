@@ -178,6 +178,7 @@
                     String jobDuration = String.valueOf(jobDetailsSYSVec.get(21));
                     String otherInformation = String.valueOf(jobDetailsSYSVec.get(22));
                 %>
+                <input type="hidden" id="priceType" value="<%=jobRateType%>"/>
                 <div class="row">
                     <div class="col-12 d-block d-md-none">
                         <div class="title"><span><%= jobTitle%></span></div>
@@ -195,6 +196,7 @@
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-warning"><i class="fa fa-fw fa-envelope"></i></button></li>
                         </ul>
                     </div>
+                        
                     <div class="col-xl-8 col-lg-7 col-md-6" >
                         <span class="border-top-0" id="job_title" style="margin-left: 10px;"><strong><%= jobTitle%></strong></span><br/>
                         <table class="job-information" style="margin-left: 10px;">
@@ -206,7 +208,7 @@
                             <%
                                 if(jobRateType.equals("Fixed")){
                             %>
-                            <tr>    
+                            <tr>
                                 <td><i class="fa fa-tag" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Job Rate: </strong></span></td>
                                 <td><ul class="list-inline mb-0"><li class="list-inline-item">S$<%= jobRate%>/Fixed Rate</li></ul></td>
                             </tr>
@@ -240,10 +242,46 @@
                         <br/>   
                         <div id="job-button" class="btn-group" role="group">
                             <%  if (posterName.equals(request.getAttribute("loggedInUsername"))) {%>
-                            <button id="edit-button" type="button" class="btn btn-outline-theme" onclick="location.href = 'MarketplaceSysUser?pageTransit=goToEditItemListingSYS&urlItemID=<%= jobID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
+                            <button id="edit-button" type="button" class="btn btn-outline-theme" onclick="location.href = 'ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
+                            <button type="button" class="btn btn-outline-theme" onclick="javascript:deleteAlert(<%= jobID%>)">Delete Job Listing</button>
                             <%  } else {    %>
                             <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
-                            <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
+                            <button id="makeOfferBtn" type="button" class="btn btn-outline-theme" data-toggle="modal" data-target="#offerModal"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
+                            
+                            
+                            <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <span class="modal-title" id="exampleModalLabel" style="color: #4D7496; font-size: 18px;"><strong><i class="fa fa-usd" aria-hidden="true"></i>&nbsp;Make offer to <u><%=posterName%></u></strong></span>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                 <form>
+                                   <div class="modal-body">
+                                      <div class="form-group row">
+                                        <label for="offerPrice" class="col-form-label col-3"><strong>Offer Price * : </strong></label>
+                                        <div class="col-3">
+                                            <input type="number" class="form-control" id="recipient-name" required>
+                                        </div>
+                                        <div class="col-4 mt-2 float-left">
+                                            <span id="offerPriceType"></span>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="comment" class="col-form-label"><strong>Other comments:</strong></label>
+                                        <textarea class="form-control" id="comment" name="comment"></textarea>
+                                      </div>
+                                   </div>
+                                   <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" id="sendOfferBtn" class="btn btn-primary">Send offer</button>
+                                   </div>
+                                 </form>
+                                </div>
+                              </div>
+                            </div>
                             <%  }%>
                             <%--<%  if(itemLikeStatus.equals("true")) {   %>
                             <button type="button" id="likeItemBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>

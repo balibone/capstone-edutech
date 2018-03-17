@@ -228,6 +228,10 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobDetailsVec.add(jEntity.getCategoryEntity().getCategoryID());
             jobDetailsVec.add(jEntity.getJobDuration());
             jobDetailsVec.add(jEntity.getJobInformation());
+            jobDetailsVec.add(jEntity.getNumOfHelpers());
+            jobDetailsVec.add(jEntity.getChecking());
+            System.out.println("checking " +  jEntity.getChecking());
+            System.out.println("work time " + sdf.format(jEntity.getJobWorkDate()));
             return jobDetailsVec;
         }
         return null;
@@ -328,7 +332,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     @Override
     public String editJobListing(long jobID, String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 
             Date jobWorkDate, String jobImagefileName, String startLocation, String startLat, String startLong, 
-            String endLocation, String endLat, String endLong, long jobCategoryID, String username) {
+            String endLocation, String endLat, String endLong, long jobCategoryID, String username, int numOfHelpers, boolean checking) {
         if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
         else if (lookupJob(jobID) == null) { return "There are some issues with your job listing. Please try again."; }
         else if (lookupCategory(jobCategoryID) == null) { return "Selected category cannot be found. Please try again."; }
