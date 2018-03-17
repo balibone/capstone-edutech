@@ -463,6 +463,7 @@
         <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/bootbox.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/PendingItemOfferSYSJS.js" type="text/javascript"></script>

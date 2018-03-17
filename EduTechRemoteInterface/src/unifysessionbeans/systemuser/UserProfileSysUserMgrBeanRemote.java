@@ -20,6 +20,7 @@ public interface UserProfileSysUserMgrBeanRemote {
     public String acceptAnItemOffer(long itemOfferID, String sellerComments);
     public String negotiateAnItemOffer(long itemOfferID, String sellerComments);
     public String rejectAnItemOffer(long itemOfferID);
+    public String completeAnItemOffer(long itemOfferID, String itemStatus);
     /* OFFERS MADE BY THE USER (BUYER) HIMSELF */ 
     public List<Vector> viewPersonalBuyerOfferList(String username);
     public String cancelPersonalItemOffer(long itemOfferID);

@@ -354,7 +354,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             mEntity.createContentMessage(ioEntity.getItemEntity().getUserEntity().getUsername(), ioEntity.getUserEntity().getUsername(), 
                     ioEntity.getItemEntity().getUserEntity().getUsername() + " has just accepted the item offer for the " + ioEntity.getItemEntity().getItemName() + ".", 
                     ioEntity.getItemEntity().getItemID(), "Marketplace (My Item Offer)");
-            /* THE BUYER WHO CANCEL THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
+            /* THE SELLER WHO ACCEPTS THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
             mEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
             (ioEntity.getUserEntity()).getMessageSet().add(mEntity);
             
@@ -380,7 +380,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             mEntity.createContentMessage(ioEntity.getItemEntity().getUserEntity().getUsername(), ioEntity.getUserEntity().getUsername(), 
                     ioEntity.getItemEntity().getUserEntity().getUsername() + " has just requested for negotiating the item offer for the " + ioEntity.getItemEntity().getItemName() + ".", 
                     ioEntity.getItemEntity().getItemID(), "Marketplace (My Item Offer)");
-            /* THE BUYER WHO CANCEL THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
+            /* THE SELLER WHO NEGOTIATES THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
             mEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
             (ioEntity.getUserEntity()).getMessageSet().add(mEntity);
             
@@ -403,7 +403,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             mEntity.createContentMessage(ioEntity.getItemEntity().getUserEntity().getUsername(), ioEntity.getUserEntity().getUsername(), 
                     ioEntity.getItemEntity().getUserEntity().getUsername() + " has just rejected the item offer for the " + ioEntity.getItemEntity().getItemName() + ".", 
                     ioEntity.getItemEntity().getItemID(), "Marketplace (My Item Offer)");
-            /* THE BUYER WHO CANCEL THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
+            /* THE SELLER WHO REJECTS THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
             mEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
             (ioEntity.getUserEntity()).getMessageSet().add(mEntity);
             
@@ -411,6 +411,32 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             em.merge(ioEntity);
             em.merge(ioEntity.getUserEntity());
             return "Item offer has been rejected!";
+        }
+    }
+    
+    @Override
+    public String completeAnItemOffer(long itemOfferID, String itemStatus) {
+        if (lookupItemOffer(itemOfferID) == null) { return "Some errors occured while processing your item offer. Please try again."; }
+        else {
+            ioEntity = lookupItemOffer(itemOfferID);
+            ioEntity.setSellerItemOfferStatus("Completed");
+            ioEntity.setBuyerItemOfferStatus("Completed");
+            iEntity = ioEntity.getItemEntity(); 
+            iEntity.setItemStatus(itemStatus);
+            
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(ioEntity.getItemEntity().getUserEntity().getUsername(), ioEntity.getUserEntity().getUsername(), 
+                    "You have just completed the deal (" + ioEntity.getItemEntity().getItemName() + ") with " + ioEntity.getItemEntity().getUserEntity().getUsername(), 
+                    ioEntity.getItemEntity().getItemID(), "Marketplace (My Item Offer)");
+            /* THE SELLER WHO SETS THE ITEM OFFER AS "COMPLETED" IS THE ONE WHO POST THE MESSAGE */
+            mEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
+            (ioEntity.getUserEntity()).getMessageSet().add(mEntity);
+            
+            em.persist(mEntity);
+            em.merge(ioEntity);
+            em.merge(iEntity);
+            em.merge(ioEntity.getUserEntity());
+            return "Item offer has been marked as completed! Leave a feedback about the buyer here!";
         }
     }
     
@@ -451,7 +477,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             mEntity.createContentMessage(ioEntity.getUserEntity().getUsername(), ioEntity.getItemEntity().getUserEntity().getUsername(), 
                     ioEntity.getUserEntity().getUsername() + " just cancelled the item offer for your " + ioEntity.getItemEntity().getItemName() + ".", 
                     ioEntity.getItemEntity().getItemID(), "Marketplace (Item Offer)");
-            /* THE BUYER WHO CANCEL THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
+            /* THE BUYER WHO CANCELS THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
             mEntity.setUserEntity(ioEntity.getUserEntity());
             (ioEntity.getItemEntity().getUserEntity()).getMessageSet().add(mEntity);
             
@@ -475,7 +501,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             mEntity.createContentMessage(ioEntity.getUserEntity().getUsername(), ioEntity.getItemEntity().getUserEntity().getUsername(), 
                     ioEntity.getUserEntity().getUsername() + " just edited the item offer for your " + ioEntity.getItemEntity().getItemName() + ".", 
                     ioEntity.getItemEntity().getItemID(), "Marketplace (Item Offer)");
-            /* THE BUYER WHO CANCEL THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
+            /* THE BUYER WHO EDITS THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
             mEntity.setUserEntity(ioEntity.getUserEntity());
             (ioEntity.getItemEntity().getUserEntity()).getMessageSet().add(mEntity);
             

@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
-import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.VoicesSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.ErrandsSysUserMgrBeanRemote;
 
@@ -151,13 +150,28 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "PendingItemOfferSYS";
                     break;
                 case "rejectAnItemOfferSYS":
-                    long itemIDHidden = Long.parseLong(request.getParameter("itemIDHidden"));
-                    long hiddenItemOfferID = Long.parseLong(request.getParameter("urlItemOfferID"));
-                    responseMessage = usmr.rejectAnItemOffer(hiddenItemOfferID);
+                    long itemIDHiddd = Long.parseLong(request.getParameter("itemIDHidden"));
+                    long hidddItemOfferID = Long.parseLong(request.getParameter("urlItemOfferID"));
+                    
+                    responseMessage = usmr.rejectAnItemOffer(hidddItemOfferID);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHidden));
+                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHiddd));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "PendingItemOfferSYS";
+                    break;
+                case "completeAnItemOfferSYS":
+                    long itemIDHidddd = Long.parseLong(request.getParameter("itemIDHidden"));
+                    long hiddddItemOfferID = Long.parseLong(request.getParameter("urlItemOfferID"));
+                    String itemStatusHidden = request.getParameter("itemStatus");
+                    
+                    responseMessage = usmr.completeAnItemOffer(hiddddItemOfferID, itemStatusHidden);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHidddd));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "PendingItemOfferSYS";
