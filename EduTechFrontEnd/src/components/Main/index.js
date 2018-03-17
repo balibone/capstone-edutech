@@ -58,10 +58,11 @@ class Main extends Component {
             <Route exact path="/module/:moduleCode" render={(props) => {
               const {moduleCode} = props.match.params;
               const module = this.getSelectedModule(moduleCode);
+              console.log("Selected module", module)
               return (
                 <div>
-                  <ModuleProfilePanel module={module} primaryInfo={module.moduleCode} secondaryInfo={module.title}/>
-                  <MembersPanel getSelectedGroup={this.getSelectedModule} {...props}/>
+                  <ModuleProfilePanel module={module} img={module.imagefilename} primaryInfo={module.moduleCode} secondaryInfo={module.title}/>
+                  <MembersPanel getSelectedModule={this.getSelectedModule} {...props}/>
                 </div>)
             }}/>
             <Route exact path="/group/:groupId" render={(props) => {

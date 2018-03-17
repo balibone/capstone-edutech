@@ -79,7 +79,7 @@ state = {
     }
     return (
       <Paper className="profilePanel">
-        <img src={`http://localhost:8080/EduTechWebApp-war/uploads/edutech/group/images/${img}`} alt="profile" height="110" className="img-circle img-profile" />
+        
         { content }
       </Paper>
     )
