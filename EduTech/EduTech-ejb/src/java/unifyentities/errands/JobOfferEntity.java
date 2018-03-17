@@ -35,6 +35,12 @@ public class JobOfferEntity implements Serializable {
     @PrePersist
     public void creationDate() { this.jobOfferDate = new Date(); }
     
+    /* DEFAULT CONSTRUCTOR */
+    public JobOfferEntity() { 
+        
+        setJobOfferID(System.nanoTime());
+    }
+    
     /* MISCELLANEOUS METHODS */
     public boolean createJobOffer(double jobOfferPrice, String jobOfferDescription) {
         this.jobOfferPrice = jobOfferPrice;

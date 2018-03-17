@@ -258,6 +258,7 @@
                                       <span aria-hidden="true">&times;</span>
                                     </button>
                                   </div>
+                                    <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
                                  <form id="offerDetails">
                                    <div class="modal-body">
                                       <div class="form-group row">
@@ -278,7 +279,7 @@
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="button" id="sendOfferBtn" class="btn btn-primary">Send offer</button>
                                     <br/>
-                                    <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
+                                    
                                    </div>
                                  </form>
                                 </div>

@@ -104,6 +104,16 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobListSYS", (ArrayList) esmr.viewJobList());
                     pageAction = "ViewJobListingSYS";
                     break;
+                case "sendJobOfferPrice":
+                    long jobIDHidden = Long.parseLong(request.getParameter("jobIDHidden"));
+                    String usernameHidden = request.getParameter("usernameHidden");
+                    String jobOfferPrice = request.getParameter("jobOfferPrice");
+                    String jobOfferDescription = request.getParameter("jobOfferDescription");
+                    
+                    responseMessage = esmr.sendJobOfferPrice(jobIDHidden, usernameHidden, jobOfferPrice, jobOfferDescription);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
+                    break;
                 default:
                     break;
             }

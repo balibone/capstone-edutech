@@ -23,6 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
 import unifyentities.errands.JobEntity;
+import unifyentities.errands.JobOfferEntity;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
 import unifyentities.common.LikeListingEntity;
@@ -37,7 +38,10 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     private CategoryEntity cEntity;
     private JobEntity jEntity;
     private UserEntity uEntity;
+    private UserEntity jobPosterEntity;
+    private UserEntity jobTakerEntity;
     private LikeListingEntity llEntity;
+    private JobOfferEntity joEntity;
     private MessageEntity mEntity;
     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -393,7 +397,47 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             return jobCategoryList;
     }
     
-    
+    public String sendJobOfferPrice(long jobID, String username, String jobOfferPrice, String jobOfferDescription){
+        
+        if (lookupJob(jobID) == null) { return "There are some issues with the job listing. Please try again."; }
+        else if(lookupUnifyUser(username) == null) { return "There are some issues with your user profile. Please try again."; }
+        else if(lookupJobOffer(jobID, username) != null) { return "You have sent an offer previously. Please go to your profile to check or update your offer."; }
+        else if(jobOfferPrice.equals("")) { return "Job offer price cannot be empty."; }
+        //else if(!isNumeric(jobOfferPrice)) { return "Please enter a valid item offer price."; }
+        else if(Double.parseDouble(jobOfferPrice) < 0.0 || Double.parseDouble(jobOfferPrice) > 9999.0) { return "Job offer price must be between 0 to 9999. Please try again."; }
+        else {
+            jEntity = lookupJob(jobID);
+            jobTakerEntity = lookupUnifyUser(username);
+            jobPosterEntity = lookupUnifyUser(lookupJob(jobID).getUserEntity().getUsername());
+            joEntity = new JobOfferEntity();
+            
+            if(joEntity.createJobOffer(Double.parseDouble(jobOfferPrice), jobOfferDescription)) {
+                joEntity.setJobEntity(jEntity);
+                joEntity.setUserEntity(jobTakerEntity);
+                jEntity.getJobOfferSet().add(joEntity);
+                jobTakerEntity.getJobOfferSet().add(joEntity);
+                jobPosterEntity.getJobOfferSet().add(joEntity);
+                
+                /* MESSAGE SENDER IS THE JOB TAKER WHO SENT THE OFFER, MESSAGE RECEIVER IS THE JOB POSTER */
+                mEntity = new MessageEntity();
+                mEntity.createContentMessage(jobTakerEntity.getUsername(), jEntity.getUserEntity().getUsername(), 
+                        jobTakerEntity.getUsername() + " sent an offer for your " + jEntity.getJobTitle() + ". Check it out!", 
+                        jEntity.getJobID(), "Errands");
+                /* JOB TAKER WHO SENT THE OFFER IS THE USERENTITY_USERNAME */
+                mEntity.setUserEntity(jobTakerEntity);
+                jobPosterEntity.getMessageSet().add(mEntity);
+                
+                em.persist(joEntity);
+                em.persist(mEntity);
+                em.merge(jEntity);
+                em.merge(jobTakerEntity);
+                em.merge(jobPosterEntity);
+                return "Your job offer has been sent successfully!";
+            } else {
+                return "Error occured while sending your job offer. Please try again.";
+            }
+        }
+    }
     
     /* MISCELLANEOUS METHODS */
     public CategoryEntity lookupCategory(long categoryID) {
@@ -472,6 +516,25 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             ue = null;
         }
         return ue;
+    }
+    
+    public JobOfferEntity lookupJobOffer(long jobID, String username) {
+        JobOfferEntity joe = new JobOfferEntity();
+        try {
+            Query q = em.createQuery("SELECT jo FROM JobOffer jo WHERE jo.jobEntity.jobID = :jobID AND jo.userEntity.username = :username");
+            q.setParameter("jobID", jobID);
+            q.setParameter("username", username);
+            joe = (JobOfferEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Job offer cannot be found. " + enfe.getMessage());
+            em.remove(joe);
+            joe = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Job offer does not exist. " + nre.getMessage());
+            em.remove(joe);
+            joe = null;
+        }
+        return joe;
     }
     
     public LikeListingEntity lookupLike(long itemID, String username) {
