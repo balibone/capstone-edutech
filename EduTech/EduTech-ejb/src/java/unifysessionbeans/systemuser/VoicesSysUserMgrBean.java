@@ -28,6 +28,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
+import unifyentities.common.CompanyReviewReportEntity;
 import unifyentities.voices.CompanyEntity;
 import unifyentities.voices.CompanyRequestEntity;
 import unifyentities.voices.CompanyReviewEntity;
@@ -41,6 +42,7 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     private CategoryEntity categoryEntity;
     private CompanyReviewEntity reviewEntity;
     private CompanyRequestEntity requestEntity;
+    private CompanyReviewReportEntity reportEntity;
     private Collection<CompanyReviewEntity> companyReviewSet;
     
     SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -124,6 +126,94 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     }
     
     @Override
+    public List<Vector> viewAssociatedReviewList(long companyID) {
+        companyEntity = lookupCompany(companyID);
+        List<Vector> companyReviewList = new ArrayList<Vector>();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        
+        if (companyEntity.getCompanyReviewSet()!= null) {
+            companyReviewSet = companyEntity.getCompanyReviewSet();
+            if (!companyReviewSet.isEmpty()) {
+                for (CompanyReviewEntity cre : companyReviewSet) {
+                    Vector companyReviewDetails = new Vector();
+                    
+                    if(cre.getReviewStatus().equals("Active")) {
+                        companyReviewDetails.add(df.format(cre.getReviewDate()));
+                        /* WE ASSUME THAT THE PERSON WHO POST THE REVIEW IS THE ONE WHO CREATES THE RECORD */
+                        companyReviewDetails.add(cre.getUserEntity().getUsername());
+                        companyReviewDetails.add(cre.getReviewTitle());
+                        companyReviewDetails.add(cre.getReviewPros());
+                        companyReviewDetails.add(cre.getReviewCons());
+                        companyReviewDetails.add(cre.getReviewEmpType());
+                        companyReviewDetails.add(cre.getReviewSalaryRange());
+                        companyReviewDetails.add(cre.getReviewRating());
+                        companyReviewDetails.add(cre.getReviewThumbsUp());
+                        companyReviewDetails.add(cre.getReviewID());
+                        companyReviewList.add(companyReviewDetails);
+                    }
+                }
+            } else {
+                Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.companyEntity.companyID = :companyID AND cr.reviewStatus='Active'");
+                q.setParameter("companyID", companyEntity.getCompanyID());
+
+                for (Object o : q.getResultList()) {
+                    CompanyReviewEntity cre = (CompanyReviewEntity) o;
+                    Vector companyReviewVec = new Vector();
+                    
+                    companyReviewVec.add(cre.getReviewDate());
+                    /* WE ASSUME THAT THE PERSON WHO POST THE REVIEW IS THE ONE WHO CREATES THE RECORD */
+                    companyReviewVec.add(cre.getUserEntity().getUsername());
+                    companyReviewVec.add(cre.getReviewTitle());
+                    companyReviewVec.add(cre.getReviewPros());
+                    companyReviewVec.add(cre.getReviewCons());
+                    companyReviewVec.add(cre.getReviewEmpType());
+                    companyReviewVec.add(cre.getReviewSalaryRange());
+                    companyReviewVec.add(cre.getReviewRating());
+                    companyReviewVec.add(cre.getReviewThumbsUp());
+                    companyReviewVec.add(cre.getReviewID());
+                    companyReviewList.add(companyReviewVec);
+                }
+            }
+        }
+        return companyReviewList;
+    }
+    
+    @Override
+    public List<Vector> viewCompanyInSameIndustry(long companyID) {
+        companyEntity = lookupCompany(companyID);
+        String companyIndustry = companyEntity.getCategoryEntity().getCategoryName();
+        
+        Query q = em.createQuery("SELECT c FROM Company c WHERE c.companyStatus='Active' AND c.categoryEntity.categoryName = :companyIndustry");
+        q.setParameter("companyIndustry", companyIndustry);
+        
+        List<Vector> companyList = new ArrayList<Vector>();
+        
+        for(Object o: q.getResultList()) {
+            CompanyEntity companyE = (CompanyEntity) o;
+            Collection<CompanyReviewEntity> reviewList = companyE.getCompanyReviewSet();
+            Vector companyVec = new Vector();
+            
+            if(companyE.getCompanyID()!= companyID) {
+                companyVec.add(companyE.getCompanyID());
+            companyVec.add(companyE.getCompanyImage());
+            companyVec.add(companyE.getCompanyName());
+            if (reviewList.size()!=0) {
+                double aveReviewRating = 0.0;
+                for(Object obj: reviewList) {
+                    CompanyReviewEntity cre = (CompanyReviewEntity) obj;
+                    aveReviewRating += cre.getReviewRating();
+                }
+                companyVec.add(df_num.format(aveReviewRating/reviewList.size()));
+            } else {
+                companyVec.add(0.0);
+            }
+            companyList.add(companyVec);
+            }
+        }
+        return companyList;
+    }
+    
+    @Override
     public String createCompanyReview(String companyIndustry, String companyName, String reviewTitle, String reviewPros, 
                 String reviewCons, String reviewRating, String employmentStatus, String salaryRange, String reviewPoster) {
         
@@ -155,7 +245,22 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             } else {
                 return "There were some issues encountered while sending the request. Please try again.";
             }
-    } 
+    }
+    
+    @Override
+    public String createReviewReport(String reviewID, String reviewPoster, String reportDescription, String reviewReporter) {
+        reportEntity = new CompanyReviewReportEntity();
+        UserEntity reporter = lookupSystemUser(reviewReporter);
+        System.out.println(reviewReporter);
+        if (reportEntity.createReport(reviewPoster, reportDescription, reviewID, reporter)) {
+                em.persist(reportEntity);
+                reporter.getCompanyReviewReportSet().add(reportEntity);
+                em.merge(reporter);
+                return "Your report has been sent successfully!";
+            } else {
+                return "There were some issues encountered while sending the report. Please try again.";
+            }
+    }
     
     @Override
     public List<String> populateCompanyIndustry() {

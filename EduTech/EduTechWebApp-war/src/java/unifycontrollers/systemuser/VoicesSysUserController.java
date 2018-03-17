@@ -68,6 +68,8 @@ public class VoicesSysUserController extends HttpServlet {
                 case "goToViewCompanyDetailsSYS":
                     long companyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
                     request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(companyID));
+                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID));
+                    request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(companyID));
                     pageAction="ViewCompanyDetailsSYS";
                     break;
                 case "goToNewCompanyRequestSYS":
@@ -81,6 +83,22 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
                     request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
                     pageAction = "ViewCompanyListingSYS";
+                    break;
+                case "goToNewReviewReportSYS":
+                    request.setAttribute("hiddenCompanyID", request.getParameter("hiddenCompanyID"));
+                    request.setAttribute("hiddenReviewID", request.getParameter("hiddenReviewID"));
+                    request.setAttribute("hiddenReviewPoster", request.getParameter("hiddenReviewPoster"));
+                    System.out.println(request.getParameter("hiddenReviewReporter"));
+                    pageAction = "NewReviewReportSYS";
+                    break;
+                case "createReviewReportSYS":
+                    responseMessage = createReviewReport(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    long returnCompanyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(returnCompanyID));
+                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(returnCompanyID));
+                    pageAction="ViewCompanyDetailsSYS";
                     break;
                 case "goToReviewListing":
                     pageAction = "ReviewListing";
@@ -124,6 +142,17 @@ public class VoicesSysUserController extends HttpServlet {
         String requestPoster = request.getParameter("username");
         
         responseMessage = vsmr.createCompanyRequest(requestCompany, companyIndustry, requestComment, requestPoster);
+        return responseMessage;
+    }
+    
+    private String createReviewReport(HttpServletRequest request) {
+        String reporter = request.getParameter("username");
+        System.out.println(reporter);
+        String reportDescription = request.getParameter("reportDescription");
+        String reviewPoster = request.getParameter("hiddenReviewPoster");
+        String reviewID = request.getParameter("hiddenReviewID");
+        
+        responseMessage = vsmr.createReviewReport(reviewID, reviewPoster, reportDescription, reporter);
         return responseMessage;
     }
 

@@ -46,6 +46,18 @@ public class CompanyReviewReportEntity implements Serializable {
     @PrePersist
     public void creationDate() { this.reviewReportDate = new Date(); }
     
+    public boolean createReport(String posterID, String reportDescription, String reviewID, UserEntity reporter) {
+        this.setReviewReportID(System.nanoTime());
+        this.reviewReportDate = new Date();
+        this.reviewPosterID = posterID;
+        this.reviewID = reviewID;
+        this.reviewReportStatus = "Unresolved";
+        this.reviewReportDescription = reportDescription;
+        this.userEntity = reporter;
+        this.reviewReporterID = reporter.getUsername();
+        return true;
+    }
+    
     /* GETTER METHODS */
     public Long getReviewReportID() { return reviewReportID; }
     public String getReviewReportStatus() { return reviewReportStatus; }
