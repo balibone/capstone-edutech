@@ -35,8 +35,8 @@ public class SemesterEntity implements Serializable {
     @Id @GeneratedValue
     private Long id;
     private String title;
-    @XmlInverseReference(mappedBy="semester")
-    @OneToMany(mappedBy = "semester")
+    //Semester cannot return list of modules.. will give cyclic error. Hence marked with XmlTransient to exclude from Json
+    @XmlTransient
     private List<ModuleEntity> modules;
     private LocalDate startDate;
     private LocalDate endDate;

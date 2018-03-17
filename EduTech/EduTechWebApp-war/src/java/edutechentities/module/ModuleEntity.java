@@ -41,8 +41,7 @@ public class ModuleEntity implements Serializable {
     @OneToMany
     private Collection<UserEntity> members;
     //private Collection<LessonEntity> lessons;
-//    @XmlInverseReference(mappedBy="modules")
-    @ManyToOne
+    @XmlInverseReference(mappedBy="modules")
     private SemesterEntity semester;
     //This annotation performs 2 things. Acts like the @XxxToXxx standard JPA annotation whilst also
     //solving the bidirectional relationship mapping issue with XML. 
