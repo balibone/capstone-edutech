@@ -54,14 +54,14 @@ class Main extends Component {
       <Grid>
         <Col md={3}>
           <Switch>
-            <Route exact path="/" render={() => <ProfilePanel img='4.png' primaryInfo={userfirstname + " " + userlastname} secondaryInfo={`@${username}`} />} />
+            <Route exact path="/" render={() => <ProfilePanel img={imgfilename} primaryInfo={userfirstname + " " + userlastname} secondaryInfo={`@${username}`} />} />
             <Route exact path="/module/:moduleCode" render={(props) => {
               const {moduleCode} = props.match.params;
               const module = this.getSelectedModule(moduleCode);
               console.log("Selected module", module)
               return (
                 <div>
-                  <ModuleProfilePanel module={module} img={module.imagefilename} primaryInfo={module.moduleCode} secondaryInfo={module.title}/>
+                  <ModuleProfilePanel module={module} primaryInfo={module.moduleCode} secondaryInfo={module.title}/>
                   <MembersPanel getSelectedModule={this.getSelectedModule} {...props}/>
                 </div>)
             }}/>
