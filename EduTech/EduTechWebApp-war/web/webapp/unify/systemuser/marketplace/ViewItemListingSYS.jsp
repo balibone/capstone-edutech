@@ -334,7 +334,7 @@
                                                 <img src="images/unifyimages/sidebar-divider-dots.png" />
                                             </button>
                                             <button type="button" id="qtipTrigger<%= itemID%>" class="text-right close"></button>
-                                            <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="settingsBtn<%= itemID%>">
+                                            <div class="dropdown-menu dropdown-menu-reportListing" aria-labelledby="settingsBtn<%= itemID%>">
                                                 <button id="reportItemListingBtn<%= itemID%>" type="button" class="dropdown-item itemListingBtn">Report Listing</button>
                                             </div>
                                             <div class="pull-left" style="padding-right: 10px;">

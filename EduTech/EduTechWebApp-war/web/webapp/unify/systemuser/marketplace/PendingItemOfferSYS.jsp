@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Account</title>
+        <title>Unify - Pending Item Offer List</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
@@ -396,9 +396,16 @@
                                                                 <p class="card-text pt-2"><%= itemOfferDescription%></p>
                                                                 <div class="rating">
                                                                     <ul class="offerAction">
-                                                                        <li><button type="button" id="acceptOfferBtn<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Accept</button></li>
-                                                                        <li><button type="button" class="btn btn-theme btn-sm">Negotiate</button></li>
+                                                                        <%  if(itemOfferStatus.equals("Pending")) {  %>
+                                                                        <li><button type="button" id="acceptOfferPanel<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn qtipAcceptOfferButton">Accept</button></li>
+                                                                        <li><button type="button" id="negotiateOfferPanel<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn qtipNegotiateOfferButton">Negotiate</button></li>
                                                                         <li><button type="button" id="rejectOfferBtn<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Reject</button></li>
+                                                                        <%  } else if(itemOfferStatus.equals("Accepted")) {   %>
+                                                                        <li><button type="button" id="markAsSold<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Mark As Sold</button></li>
+                                                                        <li><button type="button" id="markAsOpen<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Reopen Listing</button></li>
+                                                                        <%  } else {   %>
+                                                                        <li>&nbsp;</li>
+                                                                        <%  }   %>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -432,6 +439,21 @@
             </a>
             <div id="sellNewItem-iframe"></div>
             <div id="unifyFooter"></div>
+            
+            <div style="display:none;" id="acceptOfferTooltip">
+                Seller Comments&nbsp;<span style="color:#FF0000;">*</span><br/>
+                <textarea rows="3" id="sellerAcceptComments" class="acceptOfferFields" placeholder="e.g. Please meet at Raffles Place"></textarea><br/>
+                <button type="button" id="acceptOfferBtn" class="itemOfferBtn" style="margin:7px 0 7px 0;">Accept Offer</button><br/>
+                <input type="hidden" id="itemOfferHiddenID" />
+                <span id="successAcceptOfferResponse"></span><span id="failedAcceptOfferResponse"></span>
+            </div>
+            <div style="display:none;" id="negotiateOfferTooltip">
+                Seller Comments&nbsp;<span style="color:#FF0000;">*</span><br/>
+                <textarea rows="3" id="sellerNegotiateComments" class="negotiateOfferFields" placeholder="e.g. Your offer is too low"></textarea><br/>
+                <button type="button" id="negotiateOfferBtn" class="itemOfferBtn" style="margin:7px 0 7px 0;">Negotiate Offer</button><br/>
+                <input type="hidden" id="itemOfferHiddID" />
+                <span id="successNegotiateOfferResponse"></span><span id="failedNegotiateOfferResponse"></span>
+            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->

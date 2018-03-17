@@ -338,14 +338,16 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     }
     
     @Override
-    public String acceptAnItemOffer(long itemOfferID) {
+    public String acceptAnItemOffer(long itemOfferID, String sellerComments) {
         if (lookupItemOffer(itemOfferID) == null) { return "Some errors occured while processing your item offer. Please try again."; }
+        else if(sellerComments.equals("")) { return "Seller comment cannot be empty."; }
         else {
             ioEntity = lookupItemOffer(itemOfferID);
             iEntity = ioEntity.getItemEntity();
             
             ioEntity.setSellerItemOfferStatus("Accepted");
             ioEntity.setBuyerItemOfferStatus("Accepted");
+            ioEntity.setSellerComments(sellerComments);
             iEntity.setItemStatus("Reserved");
             
             mEntity = new MessageEntity();
@@ -361,6 +363,31 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             em.merge(ioEntity);
             em.merge(ioEntity.getUserEntity());
             return "Item offer has been accepted!";
+        }
+    }
+    
+    @Override
+    public String negotiateAnItemOffer(long itemOfferID, String sellerComments) {
+        if (lookupItemOffer(itemOfferID) == null) { return "Some errors occured while processing your item offer. Please try again."; }
+        else if(sellerComments.equals("")) { return "Seller comment cannot be empty."; }
+        else {
+            ioEntity = lookupItemOffer(itemOfferID);
+            ioEntity.setSellerItemOfferStatus("Processing");
+            ioEntity.setBuyerItemOfferStatus("Pending");
+            ioEntity.setSellerComments(sellerComments);
+            
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(ioEntity.getItemEntity().getUserEntity().getUsername(), ioEntity.getUserEntity().getUsername(), 
+                    ioEntity.getItemEntity().getUserEntity().getUsername() + " has just requested for negotiating the item offer for the " + ioEntity.getItemEntity().getItemName() + ".", 
+                    ioEntity.getItemEntity().getItemID(), "Marketplace (My Item Offer)");
+            /* THE BUYER WHO CANCEL THE ITEM OFFER IS THE ONE WHO POST THE MESSAGE */
+            mEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
+            (ioEntity.getUserEntity()).getMessageSet().add(mEntity);
+            
+            em.persist(mEntity);
+            em.merge(ioEntity);
+            em.merge(ioEntity.getUserEntity());
+            return "Negotiation request for this item offer has been sent!";
         }
     }
     

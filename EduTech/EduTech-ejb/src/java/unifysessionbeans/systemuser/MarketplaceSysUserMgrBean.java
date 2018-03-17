@@ -320,7 +320,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     public String sendItemOfferPrice(long itemID, String username, String itemOfferPrice, String itemOfferDescription) {
         if (lookupItem(itemID) == null) { return "There are some issues with the item listing. Please try again."; }
         else if(lookupUnifyUser(username) == null) { return "There are some issues with your user profile. Please try again."; }
-        else if(lookupItemOffer(itemID, username) != null) { return "You have sent an offer previously. Please go to your profile to check or update your offer."; }
+        else if(lookupItemOfferCurrStatus(itemID, username) != null) { return "You have sent an offer previously. Please go to your profile to check or update your offer."; }
         else if(itemOfferPrice.equals("")) { return "Item offer price cannot be empty."; }
         else if(!isNumeric(itemOfferPrice)) { return "Please enter a valid item offer price."; }
         else if(Double.parseDouble(itemOfferPrice) < 0.0 || Double.parseDouble(itemOfferPrice) > 9999.0) { return "Item offer price must be between 0 to 9999. Please try again."; }
@@ -550,10 +550,12 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return ite;
     }
     
-    public ItemOfferEntity lookupItemOffer(long itemID, String username) {
+    public ItemOfferEntity lookupItemOfferCurrStatus(long itemID, String username) {
         ItemOfferEntity ioe = new ItemOfferEntity();
         try {
-            Query q = em.createQuery("SELECT io FROM ItemOffer io WHERE io.itemEntity.itemID = :itemID AND io.userEntity.username = :username");
+            Query q = em.createQuery("SELECT io FROM ItemOffer io WHERE io.itemEntity.itemID = :itemID AND "
+                    + "io.userEntity.username = :username AND (io.buyerItemOfferStatus = 'Pending' OR "
+                    + "io.buyerItemOfferStatus = 'Processing' OR io.buyerItemOfferStatus = 'Accepted')");
             q.setParameter("itemID", itemID);
             q.setParameter("username", username);
             ioe = (ItemOfferEntity) q.getSingleResult();

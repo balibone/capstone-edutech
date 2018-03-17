@@ -32,8 +32,6 @@ public class UserProfileSysUserController extends HttpServlet {
     @EJB
     private UserProfileSysUserMgrBeanRemote usmr;
     @EJB
-    private MarketplaceSysUserMgrBeanRemote msmr;
-    @EJB
     private ErrandsSysUserMgrBeanRemote esmr;
     @EJB
     private VoicesSysUserMgrBeanRemote vsmr;
@@ -125,25 +123,41 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "PendingItemOfferSYS";
                     break;
                 case "acceptAnItemOfferSYS":
-                    long itemIDHidden = Long.parseLong(request.getParameter("itemIDHidden"));
-                    long urlItemOfferID = Long.parseLong(request.getParameter("urlItemOfferID"));
-                    responseMessage = usmr.acceptAnItemOffer(urlItemOfferID);
+                    long itemIDHid = Long.parseLong(request.getParameter("itemIDHidden"));
+                    long hidItemOfferID = Long.parseLong(request.getParameter("urlItemOfferID"));
+                    String sellerAcceptComments = request.getParameter("sellerAcceptComments");
+                    
+                    responseMessage = usmr.acceptAnItemOffer(hidItemOfferID, sellerAcceptComments);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHidden));
+                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHid));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "PendingItemOfferSYS";
+                    break;
+                case "negotiateAnItemOfferSYS":
+                    long itemIDHidd = Long.parseLong(request.getParameter("itemIDHidden"));
+                    long hiddItemOfferID = Long.parseLong(request.getParameter("urlItemOfferID"));
+                    String sellerNegotiateComments = request.getParameter("sellerNegotiateComments");
+                    
+                    responseMessage = usmr.negotiateAnItemOffer(hiddItemOfferID, sellerNegotiateComments);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHidd));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "PendingItemOfferSYS";
                     break;
                 case "rejectAnItemOfferSYS":
-                    long hiddenItemID = Long.parseLong(request.getParameter("hiddenItemID"));
-                    long hiddenItemOfferID = Long.parseLong(request.getParameter("hiddenItemOfferID"));
+                    long itemIDHidden = Long.parseLong(request.getParameter("itemIDHidden"));
+                    long hiddenItemOfferID = Long.parseLong(request.getParameter("urlItemOfferID"));
                     responseMessage = usmr.rejectAnItemOffer(hiddenItemOfferID);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, hiddenItemID));
+                    request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHidden));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "PendingItemOfferSYS";
