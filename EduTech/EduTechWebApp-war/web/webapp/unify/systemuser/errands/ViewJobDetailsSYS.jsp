@@ -258,12 +258,12 @@
                                       <span aria-hidden="true">&times;</span>
                                     </button>
                                   </div>
-                                 <form>
+                                 <form id="offerDetails">
                                    <div class="modal-body">
                                       <div class="form-group row">
                                         <label for="offerPrice" class="col-form-label col-3"><strong>Offer Price * : </strong></label>
                                         <div class="col-3">
-                                            <input type="number" class="form-control" id="recipient-name" required>
+                                            <input type="number" class="form-control" id="jobOfferPrice" name="jobOfferPrice" required>
                                         </div>
                                         <div class="col-4 mt-2 float-left">
                                             <span id="offerPriceType"></span>
@@ -271,12 +271,14 @@
                                       </div>
                                       <div class="form-group">
                                         <label for="comment" class="col-form-label"><strong>Other comments:</strong></label>
-                                        <textarea class="form-control" id="comment" name="comment"></textarea>
+                                        <textarea class="form-control" id="jobOfferDescription" name="jobOfferDescription"></textarea>
                                       </div>
                                    </div>
                                    <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="button" id="sendOfferBtn" class="btn btn-primary">Send offer</button>
+                                    <br/>
+                                    <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
                                    </div>
                                  </form>
                                 </div>
@@ -447,17 +449,11 @@
             </a>
             <div id="itemLikeList-iframe"></div>
             
-            <div style="display:none;" id="offerTooltip">
-                Offer Price&nbsp;<span style="color:#FF0000;">*</span>:<br/>
-                <input type="text" id="itemOfferPrice" class="offerFields" placeholder="Please omit the $ for your item offer price" style="margin-bottom: 7px;" /><br/>
-                Buyer Comments:<br/>
-                <textarea rows="3" id="itemOfferDescription" class="offerFields" placeholder="e.g. Meetup Location, Open for Negotiation"></textarea><br/>
                 <button type="button" id="sendOfferBtn" style="margin:7px 0 7px 0;">Send Offer</button><br/>
-                <input type="hidden" id="itemIDHidden" value="<%= jobID%>" />
-                <input type="hidden" id="itemIDHidden" value="<%= jobID%>" />
+                <input type="hidden" id="jobIDHidden" value="<%= jobID%>" />
                 <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
                 <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
-            </div>
+            
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->

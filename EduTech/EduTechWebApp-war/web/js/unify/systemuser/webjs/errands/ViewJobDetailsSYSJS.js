@@ -75,10 +75,10 @@ $(document).ready(function () {
             type: "POST",
             url: "ErrandsSysUser",
             data: { 
-                itemIDHidden: $('#itemIDHidden').val(),
+                jobIDHidden: $('#jobIDHidden').val(),
                 usernameHidden: $('#usernameHidden').val(),
-                itemOfferPrice: $('#itemOfferPrice').val(),
-                itemOfferDescription: $('#itemOfferDescription').val(),
+                jobOfferPrice: $('#jobOfferPrice').val(),
+                jobOfferDescription: $('#jobOfferDescription').val(),
                 pageTransit: 'sendJobOfferPrice'
             },
             success: function(returnString) {
