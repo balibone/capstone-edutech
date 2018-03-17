@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edutechentities.module;
+package edutechentities;
 
-import commoninfraentities.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -17,9 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
@@ -38,15 +36,6 @@ public class SessionEntity implements Serializable {
     private Collection<UserEntity> attendedBy;
     @OneToOne
     private LessonEntity lesson;
-    @XmlElement
-    @XmlInverseReference(mappedBy="classSession")
-    private Collection<PollEntity> polls;
-    @XmlElement
-    @XmlInverseReference(mappedBy="classSession")
-    private Collection<QuestionEntity> questions;
-    @XmlElement
-    @XmlInverseReference(mappedBy="classSession")
-    private Collection<FeedbackEntity> feedbacks;
     private boolean isLive;
 
     public Long getId() {
@@ -114,22 +103,6 @@ public class SessionEntity implements Serializable {
         this.lesson = lesson;
     }
 
-    public Collection<PollEntity> getPolls() {
-        return polls;
-    }
-
-    public void setPolls(Collection<PollEntity> polls) {
-        this.polls = polls;
-    }
-
-    public Collection<QuestionEntity> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(Collection<QuestionEntity> questions) {
-        this.questions = questions;
-    }
-
     public boolean isIsLive() {
         return isLive;
     }
@@ -138,12 +111,5 @@ public class SessionEntity implements Serializable {
         this.isLive = isLive;
     }
 
-    public Collection<FeedbackEntity> getFeedbacks() {
-        return feedbacks;
-    }
-
-    public void setFeedbacks(Collection<FeedbackEntity> feedbacks) {
-        this.feedbacks = feedbacks;
-    }
     
 }

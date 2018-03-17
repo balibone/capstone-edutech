@@ -6,11 +6,13 @@
 package edutechsessionbeans.admin;
 
 import commoninfrastructureentities.UserEntity;
+import edutechentities.LessonEntity;
 import edutechentities.ModuleEntity;
 import edutechentities.RecurringEventEntity;
 import edutechentities.SemesterEntity;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -389,6 +391,81 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         em.persist(event);
         //adds new event to this module.
         mod.getRecurringEvents().add(event);
+        
+        //CREATES LESSONS for this module according to this recurring event
+        //Lesson generation start
+        SemesterEntity currSem = mod.getSemester();
+        DayOfWeek semStartDay = currSem.getStartDate().getDayOfWeek();
+        //conversion = first lesson to create.
+        LessonEntity conversion = new LessonEntity();
+        conversion.setRecurringEvent(event);
+        event.getLessons().add(conversion);
+        //get difference in days between sem start day and event day.
+        //get value returns 1 to 7. sem start day value = 1 (Monday)
+        int difference = event.getDayOfWeek().getValue() - semStartDay.getValue();
+        LocalDate eventStartDate = null;
+        System.out.println("sem start date: "+currSem.getStartDate());
+        
+        if(difference == 0){//event day is same as sem start day (Monday)
+            //sets start date of new schedule to start date of semester, combined with start time in recurring event.
+            eventStartDate = currSem.getStartDate();
+            conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+            conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+            System.out.println("Event also on monday.");
+            System.out.println("event start date: "+conversion.getStartDate());
+            System.out.println("event end date: " +conversion.getEndDate());
+        }else if(difference > 0){//event day is after sem start day
+            //set first start date this week.
+            eventStartDate = currSem.getStartDate().plusDays(difference);
+            conversion.setStartDate(eventStartDate.atTime(event.getStartTime()));
+            conversion.setEndDate(eventStartDate.atTime(event.getEndTime()));
+            System.out.println("Event is "+difference+" days after monday.");
+            System.out.println("event start date: "+conversion.getStartDate());
+            System.out.println("event end date: " +conversion.getEndDate());
+        }
+        //set description
+        conversion.setDescription(event.getDescription());
+        //set location
+        conversion.setLocation(event.getLocation());
+        //set title
+        conversion.setTitle(event.getTitle());
+        //set type
+        conversion.setItemType("timetable");
+        //set moduleCode
+        conversion.setModuleCode(event.getModule().getModuleCode());
+        //set createdAt
+        conversion.setCreatedAt(LocalDateTime.now());
+        //set assignedTo
+        conversion.setAssignedTo(mod.getMembers());
+        //add 1st lesson item into list.
+        em.persist(conversion);
+        
+        LocalDateTime tempStartDate = conversion.getStartDate().plusWeeks(1);
+        LocalDateTime tempEndDate = conversion.getEndDate().plusWeeks(1);
+        //stop this while loop only when the (endDate+1 week) of new lesson entity is later than sem end date 2359.
+        while(!tempEndDate.isAfter(currSem.getEndDate().atTime(23, 59))){
+            //temp is used to temporarily store new lesson entity (the next week's one)
+            LessonEntity temp = new LessonEntity();
+            temp.setRecurringEvent(event);
+            event.getLessons().add(temp);
+            temp.setDescription(event.getDescription());
+            temp.setLocation(event.getLocation());
+            temp.setTitle(event.getTitle());
+            temp.setItemType("timetable");
+            temp.setCreatedAt(LocalDateTime.now());
+            temp.setAssignedTo(mod.getMembers());
+            temp.setModuleCode(mod.getModuleCode());
+            //set start date as 1 week after (time is actually already inside because this value is actually timestamp)
+            temp.setStartDate(tempStartDate);
+            //do same for end date
+            temp.setEndDate(tempEndDate);
+            System.out.println("temp lesson start date: "+temp.getStartDate());
+            System.out.println("temp lesson end date: "+temp.getEndDate());
+            em.persist(temp);
+            tempStartDate = tempStartDate.plusWeeks(1);
+            tempEndDate = tempEndDate.plusWeeks(1);
+        }
+        // Lesson generation end
         return true;
     }
     
@@ -466,6 +543,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     public void removeEventFromMod(String eventId, String id) {
         RecurringEventEntity event = em.find(RecurringEventEntity.class, Long.valueOf(eventId));
         ModuleEntity mod = em.find(ModuleEntity.class, id);
+        //detach event from module
         if(mod.getRecurringEvents().contains(event)){
             mod.getRecurringEvents().remove(event);
         }

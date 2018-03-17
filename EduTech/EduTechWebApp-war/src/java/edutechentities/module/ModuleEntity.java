@@ -40,12 +40,12 @@ public class ModuleEntity implements Serializable {
     private String description;
     @OneToMany
     private Collection<UserEntity> members;
-    //private Collection<LessonEntity> lessons;
+    @OneToMany
+    private Collection<LessonEntity> lessons;
+    @XmlElement
     @XmlInverseReference(mappedBy="modules")
     private SemesterEntity semester;
-    //This annotation performs 2 things. Acts like the @XxxToXxx standard JPA annotation whilst also
-    //solving the bidirectional relationship mapping issue with XML. 
-    //Now all bidirectional entities can be marshalled&umarshalled properly
+    @XmlElement
     @XmlInverseReference(mappedBy="module")
     private Collection<RecurringEventEntity> recurringEvents;
     
@@ -139,6 +139,14 @@ public class ModuleEntity implements Serializable {
 
     public void setRecurringEvents(Collection<RecurringEventEntity> recurringEvents) {
         this.recurringEvents = recurringEvents;
+    }
+
+    public Collection<LessonEntity> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Collection<LessonEntity> lessons) {
+        this.lessons = lessons;
     }
     
 }

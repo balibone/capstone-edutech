@@ -5,19 +5,24 @@
  */
 package edutechentities.common;
 
+import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
@@ -27,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RecurringEventEntity implements Serializable {
-    
+
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
@@ -38,6 +43,9 @@ public class RecurringEventEntity implements Serializable {
     private LocalTime endTime;
     @XmlTransient
     private ModuleEntity module;
+    @XmlElement
+    @XmlInverseReference(mappedBy = "recurringEvent")
+    private List<LessonEntity> lessons;
 
     public Long getId() {
         return id;
@@ -126,6 +134,14 @@ public class RecurringEventEntity implements Serializable {
 
     public void setModule(ModuleEntity module) {
         this.module = module;
+    }
+
+    public List<LessonEntity> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(List<LessonEntity> lessons) {
+        this.lessons = lessons;
     }
     
 }

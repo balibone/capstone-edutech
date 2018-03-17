@@ -20,6 +20,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
@@ -30,8 +32,9 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
  */
 @Entity(name = "ScheduleItem")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ScheduleItemEntity implements Serializable {
-    
+    @XmlElement
     @XmlInverseReference(mappedBy = "meeting")
     private List<MeetingMinuteEntity> meetingMinutes;
 
@@ -44,7 +47,7 @@ public class ScheduleItemEntity implements Serializable {
     private String location;
     @OneToMany
     private Collection<UserEntity> assignedTo;
-    private String type;
+    private String itemType;
     private String moduleCode;
     private int groupId;
     @ManyToOne
@@ -132,12 +135,12 @@ public class ScheduleItemEntity implements Serializable {
         this.assignedTo = assignedTo;
     }
 
-    public String getType() {
-        return type;
+    public String getItemType() {
+        return itemType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 
     public String getModuleCode() {

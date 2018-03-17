@@ -3,26 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edutechentities.module;
+package edutechentities;
 
-import edutechentities.common.AttachmentEntity;
-import edutechentities.common.RecurringEventEntity;
-import edutechentities.common.ScheduleItemEntity;
+import edutechentities.ScheduleItemEntity;
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
@@ -33,18 +26,16 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
-    @XmlElement
-    @XmlInverseReference(mappedBy = "lesson")
-    private SessionEntity session;
-    @XmlTransient
-    @ManyToOne
-    private RecurringEventEntity recurringEvent;
-    @OneToMany
-    private Collection<AttachmentEntity> resources; 
-
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    private SessionEntity session;
+    @ManyToOne
+    private RecurringEventEntity recurringEvent;
+    
+    public LessonEntity(){
+        super();
+    }
+    
     @Override
     public Long getId() {
         return id;
@@ -80,28 +71,12 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
         return "edutechentities.module.LessonEntity[ id=" + id + " ]";
     }
 
-    public SessionEntity getSession() {
-        return session;
-    }
-
-    public void setSession(SessionEntity session) {
-        this.session = session;
-    }
-
     public RecurringEventEntity getRecurringEvent() {
         return recurringEvent;
     }
 
     public void setRecurringEvent(RecurringEventEntity recurringEvent) {
         this.recurringEvent = recurringEvent;
-    }
-
-    public Collection<AttachmentEntity> getResources() {
-        return resources;
-    }
-
-    public void setResources(Collection<AttachmentEntity> resources) {
-        this.resources = resources;
     }
     
 }

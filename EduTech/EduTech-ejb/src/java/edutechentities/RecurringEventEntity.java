@@ -8,11 +8,14 @@ package edutechentities;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -31,7 +34,10 @@ public class RecurringEventEntity implements Serializable {
     private LocalTime endTime;
     @ManyToOne
     private ModuleEntity module = new ModuleEntity();
-
+    //cascade everything, uncluding deletion of recurring event. (will delete all lessons associated).
+    @OneToMany(mappedBy = "recurringEvent", cascade=CascadeType.ALL)
+    private List<LessonEntity> lessons;
+    
     public Long getId() {
         return id;
     }
@@ -119,6 +125,14 @@ public class RecurringEventEntity implements Serializable {
 
     public void setModule(ModuleEntity module) {
         this.module = module;
+    }
+
+    public List<LessonEntity> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(List<LessonEntity> lessons) {
+        this.lessons = lessons;
     }
     
 }

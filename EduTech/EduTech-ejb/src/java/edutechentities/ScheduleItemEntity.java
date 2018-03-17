@@ -35,7 +35,7 @@ public class ScheduleItemEntity implements Serializable {
     private String location;
     @OneToMany
     private Collection<UserEntity> assignedTo;
-    private String type;
+    private String itemType;
     private String moduleCode;
     private int groupId;
     @ManyToOne
@@ -123,12 +123,12 @@ public class ScheduleItemEntity implements Serializable {
         this.assignedTo = assignedTo;
     }
 
-    public String getType() {
-        return type;
+    public String getItemType() {
+        return itemType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 
     public String getModuleCode() {
