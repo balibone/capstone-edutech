@@ -67,8 +67,9 @@ public class VoicesSysUserController extends HttpServlet {
                     break;
                 case "goToViewCompanyDetailsSYS":
                     long companyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    String username = request.getParameter("hiddenUsername");
                     request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(companyID));
-                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID));
+                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID, username));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(companyID));
                     pageAction="ViewCompanyDetailsSYS";
                     break;
@@ -88,7 +89,6 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("hiddenCompanyID", request.getParameter("hiddenCompanyID"));
                     request.setAttribute("hiddenReviewID", request.getParameter("hiddenReviewID"));
                     request.setAttribute("hiddenReviewPoster", request.getParameter("hiddenReviewPoster"));
-                    System.out.println(request.getParameter("hiddenReviewReporter"));
                     pageAction = "NewReviewReportSYS";
                     break;
                 case "createReviewReportSYS":
@@ -96,8 +96,10 @@ public class VoicesSysUserController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     long returnCompanyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    String returnUsername = request.getParameter("username");
                     request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(returnCompanyID));
-                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(returnCompanyID));
+                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(returnCompanyID, returnUsername));
+                    request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(returnCompanyID));
                     pageAction="ViewCompanyDetailsSYS";
                     break;
                 case "goToReviewListing":

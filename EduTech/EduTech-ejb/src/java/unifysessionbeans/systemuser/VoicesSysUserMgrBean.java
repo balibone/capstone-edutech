@@ -29,6 +29,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
 import unifyentities.common.CompanyReviewReportEntity;
+import unifyentities.common.LikeListingEntity;
 import unifyentities.voices.CompanyEntity;
 import unifyentities.voices.CompanyRequestEntity;
 import unifyentities.voices.CompanyReviewEntity;
@@ -44,6 +45,7 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     private CompanyRequestEntity requestEntity;
     private CompanyReviewReportEntity reportEntity;
     private Collection<CompanyReviewEntity> companyReviewSet;
+    private Collection<LikeListingEntity> reviewLikes;
     
     SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
     DecimalFormat df_num = new DecimalFormat("0.00");
@@ -126,7 +128,7 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     }
     
     @Override
-    public List<Vector> viewAssociatedReviewList(long companyID) {
+    public List<Vector> viewAssociatedReviewList(long companyID, String username) {
         companyEntity = lookupCompany(companyID);
         List<Vector> companyReviewList = new ArrayList<Vector>();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -149,6 +151,8 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
                         companyReviewDetails.add(cre.getReviewRating());
                         companyReviewDetails.add(cre.getReviewThumbsUp());
                         companyReviewDetails.add(cre.getReviewID());
+                        if(lookupLike(cre.getReviewID(), username) == null) { companyReviewDetails.add(false);}
+                        else { companyReviewDetails.add(true); }
                         companyReviewList.add(companyReviewDetails);
                     }
                 }
@@ -344,5 +348,24 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             ce = null;
         }
         return ce;
+    }
+    
+    public LikeListingEntity lookupLike(long reviewID, String username) {
+        LikeListingEntity lle = new LikeListingEntity();
+        try {
+            Query q = em.createQuery("SELECT l FROM LikeListing l WHERE l.reviewEntity.reviewID = :reviewID AND l.userEntity.username = :username");
+            q.setParameter("reviewID", reviewID);
+            q.setParameter("username", username);
+            lle = (LikeListingEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Like cannot be found. " + enfe.getMessage());
+            em.remove(lle);
+            lle = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Like does not exist. " + nre.getMessage());
+            em.remove(lle);
+            lle = null;
+        }
+        return lle;
     }
 }

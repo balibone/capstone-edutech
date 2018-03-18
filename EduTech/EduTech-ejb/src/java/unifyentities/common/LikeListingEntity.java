@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 
 import unifyentities.marketplace.ItemEntity;
 import commoninfrastructureentities.UserEntity;
+import unifyentities.voices.CompanyReviewEntity;
 
 @Entity(name = "LikeListing")
 public class LikeListingEntity implements Serializable {
@@ -37,6 +38,8 @@ public class LikeListingEntity implements Serializable {
     
     @ManyToOne
     private ItemEntity itemEntity;
+    @ManyToOne
+    private CompanyReviewEntity reviewEntity;
     @ManyToOne
     private UserEntity userEntity;
     
@@ -55,6 +58,7 @@ public class LikeListingEntity implements Serializable {
     public Date getLikeDate() { return likeDate; }
     
     public ItemEntity getItemEntity() { return itemEntity; }
+    public CompanyReviewEntity getCompanyReviewEntity() { return reviewEntity; }
     public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
@@ -63,5 +67,6 @@ public class LikeListingEntity implements Serializable {
     public void setLikeDate(Date likeDate) { this.likeDate = likeDate; }
     
     public void setItemEntity(ItemEntity itemEntity) { this.itemEntity = itemEntity; }
+    public void setCompanyReviewEntity(CompanyReviewEntity reviewEntity) { this.reviewEntity = reviewEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

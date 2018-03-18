@@ -12,7 +12,10 @@ package unifyentities.voices;
 
 import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +24,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import unifyentities.common.LikeListingEntity;
 
 @Entity(name = "CompanyReview")
 public class CompanyReviewEntity implements Serializable {
@@ -46,6 +51,9 @@ public class CompanyReviewEntity implements Serializable {
     private UserEntity userEntity;
     @ManyToOne
     private CompanyEntity companyEntity;
+    
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "reviewEntity")
+    private Collection<LikeListingEntity> likeListingSet = new ArrayList<LikeListingEntity>();
     
     @PrePersist
     public void creationDate() { this.reviewDate = new Date(); }
@@ -82,6 +90,7 @@ public class CompanyReviewEntity implements Serializable {
     public String getReviewStatus() { return reviewStatus; }
     public UserEntity getUserEntity() { return userEntity; }
     public CompanyEntity getCompanyEntity() { return companyEntity; }
+    public Collection<LikeListingEntity> getLikeListingSet() { return likeListingSet; }
 
     /* SETTER METHODS */
     public void setReviewID(Long reviewID) { this.reviewID = reviewID; }
@@ -97,4 +106,5 @@ public class CompanyReviewEntity implements Serializable {
     public void setReviewReceiverID(String reviewReceiverID) { this.reviewReceiverID = reviewReceiverID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
     public void setCompanyEntity(CompanyEntity companyEntity) { this.companyEntity = companyEntity; }
+    public void setLikeListingSet(Collection<LikeListingEntity> likeListingSet) { this.likeListingSet = likeListingSet; }
 }

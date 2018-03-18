@@ -293,7 +293,7 @@
                                                 <div class="row">
                                                     <div class="col-xl-3 col-md-3 col-3">
                                                         <div class="img-wrapper">
-                                                            <a href="VoicesSysUser?pageTransit=goToViewCompanyDetailsSYS&hiddenCompanyID=<%= companyID%>&hiddenCategoryName=<%= companyIndustry%>">
+                                                            <a href="VoicesSysUser?pageTransit=goToViewCompanyDetailsSYS&hiddenCompanyID=<%= companyID%>&hiddenUsername=<%= loggedInUsername%>">
                                                                 <img class="card-img-top" style="max-width: 150px; max-height: 150px; margin-left: 15px; margin-top: 15px;" src="uploads/unify/images/voices/company/<%= companyImage%>" />
                                                             </a>
                                                         </div>
