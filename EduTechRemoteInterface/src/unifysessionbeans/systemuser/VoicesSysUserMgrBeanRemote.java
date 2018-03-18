@@ -19,5 +19,5 @@ public interface VoicesSysUserMgrBeanRemote {
     
     public List<String> populateCompanyIndustry();
     public String populateCompanyIndustryString();
-    
+    public String likeUnlikeReview(long reviewIDHid, String usernameHid);  
 }

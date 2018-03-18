@@ -462,14 +462,15 @@
                                                                 <input type="hidden" id="companyID" value="<%= companyID%>" />
                                                                 <input type="hidden" id="reviewPoster" value="<%= reviewPoster%>" />
                                                                 <input type="hidden" id="reviewID" value="<%= reviewID%>" />
+                                                                <input type="hidden" id="username" value="<%= loggedInUsername%>" />
                                                                 <button onclick="newReviewReport('<%= companyID%>', '<%= reviewPoster%>', '<%= reviewID%>')" class="btn btn-outline-secondary btn-sm btn-block">Report</button>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-3">
                                                                 <div class="btn-group" role="group">
                                                                     <%  if(reviewLikeStatus.equals("true")) {   %>
-                                                                        <button type="button" id="likeItemBtn" class="btn btn-outline-theme btn-sm likeStatus" data-toggle="tooltip" data-placement="top" >Helpful (<i class="fa fa-thumbs-up">&nbsp;&nbsp;</i><span><%= reviewThumbs%>)</span></button>
+                                                                        <button type="button" id="likeItemBtn-<%= reviewID%>" onclick="likeItemBtn('<%= reviewID%>')" class="btn btn-outline-theme btn-sm likeStatus" data-toggle="tooltip" data-placement="top" >Helpful (<i class="fa fa-thumbs-up">&nbsp;&nbsp;</i><span class="likeCount-<%= reviewID%>"><%= reviewThumbs%>)</span></button>
                                                                     <%  } else if(reviewLikeStatus.equals("false")) {    %>
-                                                                    <button type="button" id="likeItemBtn" class="btn btn-outline-theme btn-sm noLikeStatus" data-toggle="tooltip" data-placement="top" >Helpful (<i class="fa fa-thumbs-up">&nbsp;&nbsp;</i><span><%= reviewThumbs%>)</span></button>
+                                                                    <button type="button" id="likeItemBtn-<%= reviewID%>" onclick="likeItemBtn('<%= reviewID%>')" class="btn btn-outline-theme btn-sm noLikeStatus" data-toggle="tooltip" data-placement="top" >Helpful (<i class="fa fa-thumbs-up">&nbsp;&nbsp;</i><span class="likeCount-<%= reviewID%>"><%= reviewThumbs%>)</span></button>
                                                                     <%  }   %>
                                                                 </div>
                                                             </div>
