@@ -95,12 +95,21 @@ public class VoicesSysUserController extends HttpServlet {
                     responseMessage = createReviewReport(request);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
+                    
                     long returnCompanyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
                     String returnUsername = request.getParameter("username");
                     request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(returnCompanyID));
                     request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(returnCompanyID, returnUsername));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(returnCompanyID));
                     pageAction="ViewCompanyDetailsSYS";
+                    break;
+                case "likeReviewListingSYS":
+                    long reviewIDHid = Long.parseLong(request.getParameter("reviewIDHid"));
+                    String usernameHid = request.getParameter("usernameHid");
+                    
+                    responseMessage = vsmr.likeUnlikeReview(reviewIDHid, usernameHid);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
                     break;
                 case "goToReviewListing":
                     pageAction = "ReviewListing";

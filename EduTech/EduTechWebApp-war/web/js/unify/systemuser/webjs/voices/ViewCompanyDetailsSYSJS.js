@@ -1,11 +1,34 @@
 function newReviewReport(companyID, reviewPoster, reviewID) {
-    alert(companyID);
-    alert(reviewPoster);
-    alert(reviewID);
     $('iframe').attr('src', 'VoicesSysUser?pageTransit=goToNewReviewReportSYS&hiddenCompanyID='+ companyID
                                 +'&hiddenReviewPoster='+reviewPoster+'&hiddenReviewID='+reviewID);
     $('#newReviewReport-iframe').iziModal('open', event);
     
+}
+
+function likeItemBtn(reviewID) {
+    $.ajax({
+            type: "POST",
+            url: "VoicesSysUser",
+            data: { 
+                reviewIDHid: reviewID,
+                usernameHid: $('#username').val(),
+                pageTransit: 'likeReviewListingSYS'
+            },
+            success: function(returnString) {
+                var likeCount = 'likeCount-'+reviewID;
+                $('.'+likeCount).text(")");
+                $('.'+likeCount).text(returnString+")");
+                var itemID = "likeItemBtn-" + reviewID;
+                
+                if($('#'+itemID).hasClass('likeStatus')) {
+                    $('#'+itemID).removeClass('likeStatus');
+                    $('#'+itemID).addClass('noLikeStatus');
+                } else if($('#'+itemID).hasClass('noLikeStatus')) {
+                    $('#'+itemID).removeClass('noLikeStatus');
+                    $('#'+itemID).addClass('likeStatus');
+                }
+            }
+        });
 }
 
 $(document).ready(function () {
@@ -27,31 +50,6 @@ $(document).ready(function () {
     
     $('#contentArea').jplist({
         itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
-    });
-    
-    $('#likeItemBtn').click(function() {
-        $.ajax({
-            type: "POST",
-            url: "MarketplaceSysUser",
-            data: { 
-                itemIDHid: $('#itemIDHidden').val(),
-                usernameHid: $('#usernameHidden').val(),
-                pageTransit: 'likeItemListingDetails'
-            },
-            success: function(returnString) {
-                $('.likeCount').text("");
-                $('.likeCount').text(returnString);
-                if($('#likeItemBtn').hasClass('likeStatus')) {
-                    $('#likeItemBtn').removeClass('likeStatus');
-                    $('#likeItemBtn').addClass('noLikeStatus');
-                } else if($('#likeItemBtn').hasClass('noLikeStatus')) {
-                    $('#likeItemBtn').removeClass('noLikeStatus');
-                    $('#likeItemBtn').addClass('likeStatus');
-                }
-                if(returnString > 1) { $('.likeWording').text("Likes"); }
-                else { $('.likeWording').text("Like"); }
-            }
-        });
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

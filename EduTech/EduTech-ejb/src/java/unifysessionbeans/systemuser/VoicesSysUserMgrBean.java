@@ -30,6 +30,7 @@ import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
 import unifyentities.common.CompanyReviewReportEntity;
 import unifyentities.common.LikeListingEntity;
+import unifyentities.common.MessageEntity;
 import unifyentities.voices.CompanyEntity;
 import unifyentities.voices.CompanyRequestEntity;
 import unifyentities.voices.CompanyReviewEntity;
@@ -149,7 +150,7 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
                         companyReviewDetails.add(cre.getReviewEmpType());
                         companyReviewDetails.add(cre.getReviewSalaryRange());
                         companyReviewDetails.add(cre.getReviewRating());
-                        companyReviewDetails.add(cre.getReviewThumbsUp());
+                        companyReviewDetails.add(getReviewLikeCount(cre.getReviewID()));
                         companyReviewDetails.add(cre.getReviewID());
                         if(lookupLike(cre.getReviewID(), username) == null) { companyReviewDetails.add(false);}
                         else { companyReviewDetails.add(true); }
@@ -222,7 +223,7 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
                 String reviewCons, String reviewRating, String employmentStatus, String salaryRange, String reviewPoster) {
         
         reviewEntity = new CompanyReviewEntity();
-        UserEntity userEntity = lookupSystemUser(reviewPoster);
+        UserEntity userEntity = lookupUnifyUser(reviewPoster);
         companyEntity = lookupCompany(companyName, companyIndustry);
         if (reviewEntity.createReview(companyEntity, reviewTitle,reviewPros, reviewCons, Double.parseDouble(reviewRating), employmentStatus, salaryRange, userEntity)) {
                 em.persist(reviewEntity);
@@ -240,7 +241,7 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     public String createCompanyRequest(String requestCompany, String companyIndustry, String requestComment, String requestPoster) {
         
         requestEntity = new CompanyRequestEntity();
-        UserEntity userEntity = lookupSystemUser(requestPoster);
+        UserEntity userEntity = lookupUnifyUser(requestPoster);
         if (requestEntity.createRequest(requestCompany, companyIndustry, requestComment, userEntity)) {
                 em.persist(requestEntity);
                 userEntity.getCompanyRequestSet().add(requestEntity);
@@ -254,7 +255,7 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     @Override
     public String createReviewReport(String reviewID, String reviewPoster, String reportDescription, String reviewReporter) {
         reportEntity = new CompanyReviewReportEntity();
-        UserEntity reporter = lookupSystemUser(reviewReporter);
+        UserEntity reporter = lookupUnifyUser(reviewReporter);
         System.out.println(reviewReporter);
         if (reportEntity.createReport(reviewPoster, reportDescription, reviewID, reporter)) {
                 em.persist(reportEntity);
@@ -294,7 +295,54 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
         return companyIndustryStr;
     }
     
-    public UserEntity lookupSystemUser(String username) {
+    @Override
+    public String likeUnlikeReview(long reviewIDHid, String usernameHid) {
+        if (lookupReview(reviewIDHid) == null) { return "0"; }
+        else if(lookupUnifyUser(usernameHid) == null) { return "0"; }
+        else {
+            reviewEntity = lookupReview(reviewIDHid);
+            UserEntity userEntity = lookupUnifyUser(usernameHid);
+            if (lookupLike(reviewIDHid, usernameHid) == null) {
+                LikeListingEntity llEntity = new LikeListingEntity();
+                if(llEntity.addNewLike("Voices")) {
+                    llEntity.setCompanyReviewEntity(reviewEntity);
+                    llEntity.setUserEntity(userEntity);
+                    reviewEntity.getLikeListingSet().add(llEntity);
+                    userEntity.getLikeListingSet().add(llEntity);
+                    
+                    /* MESSAGE SENDER IS THE ITEM LIKER, MESSAGE RECEIVER IS THE ITEM SELLER */
+                    em.persist(llEntity);
+                    em.merge(reviewEntity);
+                    em.merge(userEntity);
+                }
+            } else {
+                LikeListingEntity llEntity = lookupLike(reviewIDHid, usernameHid);
+                reviewEntity.getLikeListingSet().remove(llEntity);
+                userEntity.getLikeListingSet().remove(llEntity);
+                
+                em.remove(llEntity);
+                em.merge(userEntity);
+                em.flush();
+                em.clear();
+            }
+        }
+        return String.valueOf(getReviewLikeCount(reviewIDHid));
+    }
+    
+    public Long getReviewLikeCount(long reviewID) {
+        Long reviewLikeCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(l.likeID) FROM LikeListing l WHERE l.reviewEntity.reviewID = :reviewID");
+        q.setParameter("reviewID", reviewID);
+        try {
+            reviewLikeCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in VoicesSysUserMgrBean.getItemLikeCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return reviewLikeCount;
+    }
+    
+    public UserEntity lookupUnifyUser(String username) {
         UserEntity ue = new UserEntity();
         try {
             Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
@@ -348,6 +396,24 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             ce = null;
         }
         return ce;
+    }
+    
+    public CompanyReviewEntity lookupReview(long reviewID) {
+        CompanyReviewEntity cre = new CompanyReviewEntity();
+        try {
+            Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.reviewID = :reviewID");
+            q.setParameter("reviewID", reviewID);
+            cre = (CompanyReviewEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Company Review cannot be found. " + enfe.getMessage());
+            em.remove(cre);
+            cre = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Company Review does not exist. " + nre.getMessage());
+            em.remove(cre);
+            cre = null;
+        }
+        return cre;
     }
     
     public LikeListingEntity lookupLike(long reviewID, String username) {
