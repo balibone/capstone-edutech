@@ -25,8 +25,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/marketplace/NewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/voices/ViewCompanyListingSYSCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/voices/ViewCompanyDetailsSYSCSS.css" rel="stylesheet" type="text/css">
         
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -356,8 +355,8 @@
                                     <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                          data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
                                         <ul>
-                                            <li><span data-path=".companyName" data-order="asc" data-type="text">Name Asc</span></li>
-                                            <li><span data-path=".companyName" data-order="desc" data-type="text">Name Desc</span></li>
+                                            <li><span data-path=".reviewTitle" data-order="asc" data-type="text">Name Asc</span></li>
+                                            <li><span data-path=".reviewTitle" data-order="desc" data-type="text">Name Desc</span></li>
                                             <li><span data-path=".companyRating" data-order="asc" data-type="text">Rating Asc</span></li>
                                             <li><span data-path=".companyRating" data-order="desc" data-type="text">Rating Desc</span></li>
                                         </ul>
@@ -365,15 +364,20 @@
                                     <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
                                          data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
                                         <ul>
+                                            <li><span data-number="2" data-default="true">2 per page</span></li>
                                             <li><span data-number="4">4 per page</span></li>
                                             <li><span data-number="8">8 per page</span></li>
-                                            <li><span data-number="12" data-default="true">12 per page</span></li>
-                                            <li><span data-number="16">16 per page</span></li>
+                                            <li><span data-number="12">12 per page</span></li>
                                         </ul>
+                                    </div>
+                                    <div class="input-group-addon" style="float: right; margin-top: 12px">
+                                        <input type="text" data-path=".reviewTitle" class="input-group-addon" placeholder="Search Review..." 
+                                               aria-label="Search Review" data-control-type="textbox" id="title-filter"
+                                               data-control-name="title-text-filter" data-control-action="filter" />
                                     </div>
                                 </div>
                                 
-                                <div id="reviewListing" class="row equal-height" add-class-on-xs="no-gutters">
+                                <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
                                     <div class="list searchresult-row">
                                         <%  ArrayList<Vector> reviewListSYS = (ArrayList) request.getAttribute("associatedReviewListSYS");
                                             if (!reviewListSYS.isEmpty()) {
@@ -389,6 +393,7 @@
                                                     String reviewRating = String.valueOf(v.get(7));
                                                     String reviewThumbs = String.valueOf(v.get(8));
                                                     String reviewID = String.valueOf(v.get(9));
+                                                    String reviewLikeStatus = String.valueOf(v.get(10));
                                         %>
                                         <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                                             <div class="card card-product">
@@ -457,10 +462,16 @@
                                                                 <input type="hidden" id="companyID" value="<%= companyID%>" />
                                                                 <input type="hidden" id="reviewPoster" value="<%= reviewPoster%>" />
                                                                 <input type="hidden" id="reviewID" value="<%= reviewID%>" />
-                                                                <button id="newReviewReport" class="btn btn-outline-secondary btn-sm btn-block">Report</button>
+                                                                <button onclick="newReviewReport('<%= companyID%>', '<%= reviewPoster%>', '<%= reviewID%>')" class="btn btn-outline-secondary btn-sm btn-block">Report</button>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-3">
-                                                                <button class="btn btn-outline-theme btn-sm btn-block">Helpful (<i class="fa fa-thumbs-up">&nbsp;&nbsp;</i><span><%= reviewThumbs%>)</span></button>
+                                                                <div class="btn-group" role="group">
+                                                                    <%  if(reviewLikeStatus.equals("true")) {   %>
+                                                                        <button type="button" id="likeItemBtn" class="btn btn-outline-theme btn-sm likeStatus" data-toggle="tooltip" data-placement="top" >Helpful (<i class="fa fa-thumbs-up">&nbsp;&nbsp;</i><span><%= reviewThumbs%>)</span></button>
+                                                                    <%  } else if(reviewLikeStatus.equals("false")) {    %>
+                                                                    <button type="button" id="likeItemBtn" class="btn btn-outline-theme btn-sm noLikeStatus" data-toggle="tooltip" data-placement="top" >Helpful (<i class="fa fa-thumbs-up">&nbsp;&nbsp;</i><span><%= reviewThumbs%>)</span></button>
+                                                                    <%  }   %>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="row"><br/></div>
@@ -468,9 +479,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <%      }   %>
+                                        <%  }%> 
                                     </div>
-                                    <%      }   %>
-                                    <%  }%>    
                                 </div>
                             </div>
                         </div>
