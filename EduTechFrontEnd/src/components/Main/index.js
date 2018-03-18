@@ -49,6 +49,7 @@ class Main extends Component {
     if(!currentUser) {
       return <span></span>
     }
+    
     const { imgfilename, userfirstname, userlastname, username} = currentUser;
     return(
       <Grid>

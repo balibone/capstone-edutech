@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 import Datetime from 'react-datetime';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
 import {observer} from 'mobx-react';
 import swal from 'sweetalert';
-import axios from 'axios';
 import './react-datetime.css';
 import './styles.css';
 
@@ -15,15 +13,8 @@ class AddCalendarItemForm extends Component {
 		super(props)
 		this.props.scheduleItemStore.addFormSuccess = false;
 		this.state = {
-			itemAdded: false,
-			name: "NanDa",
-			description: "",
 			startTime: null,
-			endTime: null,
-			isRecurring: false,
-			location: "",
-			createdBy: "",
-			recurringWeek: 1,
+			endTime: null
 		}
 	}
 
@@ -67,11 +58,6 @@ class AddCalendarItemForm extends Component {
 	changeEndTime(value){
 		var endTime = moment(value._d).format('HH:mm')
 		this.setState({endTime: endTime});
-	}
-
-	selectType(value){
-		console.log("dd type: ", value)
-		this.setState({type: value});
 	}
 
 	render(){
@@ -140,24 +126,6 @@ class AddCalendarItemForm extends Component {
 					    <input className="form-control" type="text" id="location" ref="location" />
 					  </div>
 					</div>
-
-					{/*<div className="row mt-2">
-						<label htmlFor={`selectDropdown${this.state.name}`}>Number of Recurring Week &nbsp; </label>
-						<select id={`selectDropdown${this.state.name}`} onChange={(e)=> this.setState({recurringWeek: e.target.value || null})} value={this.state.recurringWeek || '1'}>
-						  <option value="1">1</option>
-						  <option value="2">2</option>
-						  <option value="3">3</option>
-						  <option value="4">4</option>
-						  <option value="5">5</option>
-						  <option value="6">6</option>
-						  <option value="7">7</option>
-						  <option value="8">8</option>
-						  <option value="9">9</option>
-						  <option value="10">10</option>
-						  <option value="11">11</option>
-						  <option value="12">12</option>
-						</select>
-					</div>*/}
 
 				</form>
 				<div className="d-flex justify-content-end">

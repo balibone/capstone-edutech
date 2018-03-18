@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Table, thead, tbody} from 'react-bootstrap';
+import moment from 'moment';
 
 class SingleAssignment extends Component {
 
@@ -11,8 +12,8 @@ class SingleAssignment extends Component {
 				  <thead>
 				    <tr>
 				      <th>#</th>
-				      <th>Name</th>
-				      <th>Student ID</th>
+				      <th>Submited By</th>
+				      <th>Timestamp</th>
 				      <th>Submissions</th>
 				    </tr>
 				  </thead>
@@ -20,25 +21,25 @@ class SingleAssignment extends Component {
 				    <tr>
 				      <td>1</td>
 				      <td>Nan Da</td>
-				      <td>A8364836X</td>
+				      <td>{moment(new Date()).format('MMMM Do, h:mm:ss a')}</td>
 				      <td>
-				      	Assignment 1
-				      	<a href="https://www.w3schools.com" className="pull-right">View</a>
+				      	nanda_firstSubmission.docx
+				      	<a href="https://www.w3schools.com" className="pull-right">Download</a>
 				      </td>
 				    </tr>
 				    <tr>
 				      <td>2</td>
 				      <td>Tengku Hafidz</td>
-				      <td>A8374838X</td>
+				      <td>{moment(new Date()).format('MMMM Do, h:mm:ss a')}</td>
 				      <td>
-				      	<p>Assignment 1 <a href="https://www.w3schools.com" className="pull-right">View</a></p> 
-				      	<p>Assignment 2 <a href="https://www.w3schools.com" className="pull-right">View</a></p>     	
+				      	<p>Hafidz_asgn1.pdf <a href="https://www.w3schools.com" className="pull-right">Download</a></p> 
+				      	<p>hafidz_updated.pdf <a href="https://www.w3schools.com" className="pull-right">Download</a></p>     	
 				      </td>
 				    </tr>
 				    <tr>
 				      <td>2</td>
 				      <td>Jacob</td>
-				      <td>A6846273X</td>
+				      <td>{moment(new Date()).format('MMMM Do, h:mm:ss a')}</td>
 				      <td>None</td>
 				    </tr>
 				  </tbody>

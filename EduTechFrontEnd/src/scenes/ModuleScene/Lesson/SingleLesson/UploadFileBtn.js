@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios, { post } from 'axios';
-import {Button} from 'react-bootstrap';
+import {Button, Grid, Row, Col} from 'react-bootstrap';
 import swal from 'sweetalert';
 
 class UploadFileBtn extends Component {
@@ -54,7 +54,7 @@ class UploadFileBtn extends Component {
     return (
       <form className="standardTopGap" onSubmit={this.onFormSubmit}>
         <input type="file" onChange={this.onChange} size="1000" />
-        <Button className="standardTopGap" type="submit" bsStyle="primary">Upload Attachment</Button>
+        <Button className="standardTopGap" type="submit" bsStyle="primary" block>Upload Attachment</Button>
       </form>
 
    )

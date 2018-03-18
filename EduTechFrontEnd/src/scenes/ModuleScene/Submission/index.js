@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Table, thead, tbody, Button, Panel, PanelGroup} from 'react-bootstrap';
 import SingleAssignment from './SingleAssignment';
+import SingleAssignmentTable from './SingleAssignmentTable';
 
 class Submission extends Component {
 
@@ -25,7 +26,7 @@ class Submission extends Component {
 				      		<Panel.Title toggle>Assignment 2</Panel.Title>
 				    	</Panel.Heading>
 				    	<Panel.Body collapsible>
-				    		<SingleAssignment />
+				    		<SingleAssignmentTable />
 				    	</Panel.Body>
 			 		</Panel>
 

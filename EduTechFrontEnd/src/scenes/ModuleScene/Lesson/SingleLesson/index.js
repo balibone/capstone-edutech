@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Panel, Button} from 'react-bootstrap';
+import {Panel, Button, Grid, Row, Col} from 'react-bootstrap';
 import moment from 'moment';
 
 import UploadFileBtn from './UploadFileBtn';
@@ -8,11 +8,21 @@ class SingleLesson extends Component {
 
 
 	renderAttachmentBtn(){
+		const wellStyles = { maxWidth: 400, margin: '0 auto 10px' };
 		return (
-			<div className="pull-right">
-				<UploadFileBtn />
-				<Button className="standardTopGap" bsStyle="primary">Manage Session</Button>
-			</div>
+
+		        <Row className="show-grid">
+		          <Col xs={12} md={6}>
+		            
+		          </Col>
+		          <Col xs={6} md={6}>
+		            <div className="well" style={wellStyles}>
+		              <UploadFileBtn />
+		            </div>        
+					<Button className="standardTopGap" bsStyle="primary">Manage Session</Button>
+		          </Col>
+		        </Row>
+
 		)
 	}
 
@@ -25,7 +35,6 @@ class SingleLesson extends Component {
 		      		</Panel.Title>
 		    	</Panel.Heading>
 		    	<Panel.Body collapsible>
-		    			
 		      		{this.renderAttachmentBtn()}
 		    	</Panel.Body>
 		 	</Panel>

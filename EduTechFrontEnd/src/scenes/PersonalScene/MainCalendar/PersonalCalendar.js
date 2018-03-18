@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import { Paper } from 'material-ui';
+import { Modal,Button } from 'react-bootstrap';
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import BigCalendar from 'react-big-calendar';
@@ -63,15 +63,19 @@ class PersonalCalendar extends Component {
     	var backgroundColor = '#' + event.hexColor;
     	var style = {
 	        backgroundColor: backgroundColor,
-	        opacity: 0.8,
-	        color: 'black',
-	        display: 'block'
+	        // opacity: 0.8,
+	        // color: 'black',
+	        // display: 'block'
     	};
     	return { style: style };
 	}
 
 	handleCloseModal(){
 		this.setState({openCalendarForm: false})
+	}
+
+	handleClose() {
+		this.setState({ openCalendarForm: false });
 	}
 
 	render(){
@@ -95,7 +99,6 @@ class PersonalCalendar extends Component {
 		    agendaDateFormat: 'DD-MM' + ' ' + 'dd',
 
 		  }
-
 		// eventsArray = eventsArray.filter(event => event.type === "personal" || event.type === "meeting");
 		return(
 		    <div>
@@ -113,15 +116,17 @@ class PersonalCalendar extends Component {
 				    	formats = {formats}
 		
 				    />  
+				  		  	
+				  	 {/*this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>*/}
+				  	<Modal show={this.state.openCalendarForm} onHide={this.handleClose.bind(this)}>
+			          <Modal.Header closeButton>
+			            <Modal.Title>Add Calendar Item on {moment(this.state.selectedDate).format('D/M/YY')}</Modal.Title>
+			          </Modal.Header>
+			          <AddCalendarItemModal selectedDate={this.state.selectedDate} handleClose={this.handleClose.bind(this)} formSuccess={ScheduleItemStore.addFormSuccess}/>
+			        </Modal>
+				  	
+				 
 				  
-				  {
-				  	// this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>
-				  	this.state.openCalendarForm ? <AddCalendarItemModal 
-				  		scheduleItemStore={ScheduleItemStore} 
-				  		show={this.state.openCalendarForm} 
-				  		selectedDate={this.state.selectedDate} 
-				  		handleCloseModal={this.handleCloseModal.bind(this)}/> : <span></span>
-				  }
 				  {
 				  	this.state.openCalendarCard ? <SingleCalendarCard
 					  	selectedEvent={this.state.selectedEvent}
