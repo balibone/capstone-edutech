@@ -439,6 +439,156 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         }
     }
     
+    @Override
+    public List<Vector> viewOfferListOfAJob(String username, long urljobID) {
+        boolean jobInfoEntry = false;
+        Date currentDate = new Date();
+        String dateString = "";
+        List<Vector> jobOfferList = new ArrayList<Vector>();
+
+        Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobEntity.userEntity.username = :username "
+                + "AND o.jobEntity.jobID = :jobID");
+        q.setParameter("username", username);
+        q.setParameter("jobID", urljobID);
+        
+        for (Object o : q.getResultList()) {
+            JobOfferEntity jobOfferE = (JobOfferEntity) o;
+            Vector jobOfferDetailsVec = new Vector();
+            
+            if(jobInfoEntry == false) {
+                Vector jobDetailsVec = new Vector();
+                jobDetailsVec.add(jobOfferE.getJobEntity().getJobID());
+                jobDetailsVec.add(jobOfferE.getJobEntity().getJobTitle());
+                jobDetailsVec.add(jobOfferE.getJobEntity().getJobImage());
+                jobDetailsVec.add(String.format ("%,.2f", jobOfferE.getJobEntity().getJobRate()));
+                jobDetailsVec.add(jobOfferE.getJobEntity().getJobRateType());
+                jobOfferList.add(jobDetailsVec);
+                jobInfoEntry = true;
+            }
+            jobOfferDetailsVec.add(jobOfferE.getUserEntity().getUsername());
+            jobOfferDetailsVec.add(jobOfferE.getUserEntity().getUserFirstName());
+            jobOfferDetailsVec.add(jobOfferE.getUserEntity().getUserLastName());
+            jobOfferDetailsVec.add(jobOfferE.getUserEntity().getImgFileName());
+            //jobOfferDetailsVec.add(getPositiveItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+            //jobOfferDetailsVec.add(getNeutralItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+            //jobOfferDetailsVec.add(getNegativeItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+            jobOfferDetailsVec.add(String.format ("%,.2f", jobOfferE.getJobOfferPrice()));
+            jobOfferDetailsVec.add(jobOfferE.getJobOfferDescription());
+            jobOfferDetailsVec.add(jobOfferE.getJobOfferStatus());
+            
+            long diff = currentDate.getTime() - jobOfferE.getJobOfferDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            jobOfferDetailsVec.add(dateString);
+            jobOfferDetailsVec.add(df.format(jobOfferE.getJobOfferDate()));
+            jobOfferList.add(jobOfferDetailsVec);
+            dateString = "";
+        }
+        return jobOfferList;
+    }
+    
+    /* USER PROFILE */
+    @Override
+    public List<Vector> viewUserJobList(String username) {
+        Date currentDate = new Date();
+        String dateString = "";
+        
+        Query q = em.createQuery("SELECT j FROM Job j WHERE j.userEntity.username = :username AND "
+                + "j.categoryEntity.categoryActiveStatus = '1' AND (j.jobStatus = 'Available' OR "
+                + "j.jobStatus = 'Reserved' OR j.jobStatus = 'Completed')");
+        q.setParameter("username", username);
+        List<Vector> userJobList = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            JobEntity jE = (JobEntity) o;
+            Vector userJobVec = new Vector();
+
+            userJobVec.add(jE.getJobID());
+            userJobVec.add(jE.getJobImage());
+            userJobVec.add(jE.getJobTitle());
+            userJobVec.add(jE.getCategoryEntity().getCategoryName());
+            userJobVec.add(jE.getUserEntity().getUsername());
+            userJobVec.add(jE.getUserEntity().getImgFileName());
+
+            long diff = currentDate.getTime() - jE.getJobPostDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            userJobVec.add(dateString);
+            userJobVec.add(df.format(jE.getJobPostDate()));
+            userJobVec.add(String.format ("%,.2f", jE.getJobRate()));
+            //userJobVec.add(getItemLikeCount(jE.getJobID()));
+            userJobVec.add(jE.getJobRateType());
+            userJobList.add(userJobVec);
+            dateString = "";
+        }
+        System.out.println("size: " + userJobList.size());
+        return userJobList;
+    }
+    
     /* MISCELLANEOUS METHODS */
     public CategoryEntity lookupCategory(long categoryID) {
         CategoryEntity ce = new CategoryEntity();

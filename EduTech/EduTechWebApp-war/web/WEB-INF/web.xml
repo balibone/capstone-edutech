@@ -313,6 +313,63 @@
         <jsp-file>/webapp/unify/admin/voices/ViewReviewListDetails.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - TAGS (JSP) -->
+    <servlet>
+        <servlet-name>AddCompany</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/AddCompany.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewCompany</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/NewCompany.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewCompanyCategory</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/NewCompanyCategory.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewCompanyInModal</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/NewCompanyInModal.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyCategoryDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyCategoryDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyCategoryList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyCategoryList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyListDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyListDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyListDetailsInModal</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyListDetailsInModal.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyRequestList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyRequestList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyRequestListDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyRequestListDetails.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCompanyReviewList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewCompanyReviewList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewReviewList</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewReviewList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewReviewListDetails</servlet-name>
+        <jsp-file>/webapp/unify/admin/voices/ViewReviewListDetails.jsp</jsp-file>
+    </servlet>
+    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - TAGS (JSP) -->
     <servlet><servlet-name>EditTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/EditTag.jsp</jsp-file></servlet>
     <servlet><servlet-name>DeleteTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/DeleteTag.jsp</jsp-file></servlet>
     <servlet><servlet-name>NewTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/NewTag.jsp</jsp-file></servlet>
@@ -408,6 +465,22 @@
         <servlet-name>UserCompanyRequest</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyRequest.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>UserAccountSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserAccountSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>UserItemTransaction</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransaction.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>UserJobListingSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserJobListingSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>UserProfile</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
     <servlet>
         <servlet-name>ViewCompanyListingSYS</servlet-name>
@@ -443,18 +516,6 @@
     <servlet><servlet-name>EditShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/EditShoutCommentModalSYS.jsp</jsp-file></servlet>
 
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
-    <servlet>
-        <servlet-name>ViewJobDetailsInCategory</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobDetailsInCategory.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewJobTransactionListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobTransactionListing.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CommonInfra</servlet-name>
-        <url-pattern>/CommonInfra</url-pattern>
-    </servlet-mapping>
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>

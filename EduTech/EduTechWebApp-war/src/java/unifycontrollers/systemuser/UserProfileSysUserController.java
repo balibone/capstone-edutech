@@ -25,12 +25,15 @@ import javax.servlet.http.HttpServletResponse;
 import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.VoicesSysUserMgrBeanRemote;
+import unifysessionbeans.systemuser.ErrandsSysUserMgrBeanRemote;
 
 public class UserProfileSysUserController extends HttpServlet {
     @EJB
     private UserProfileSysUserMgrBeanRemote usmr;
     @EJB
     private MarketplaceSysUserMgrBeanRemote msmr;
+    @EJB
+    private ErrandsSysUserMgrBeanRemote esmr;
     @EJB
     private VoicesSysUserMgrBeanRemote vsmr;
     
@@ -59,6 +62,11 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
                     request.setAttribute("itemTransListSYS", (ArrayList) msmr.viewItemTransaction(username));
                     pageAction = "UserItemTransaction";
+                    break;
+                case "goToMyJobListing":
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("userJobListing", (ArrayList) esmr.viewUserJobList(username));
+                    pageAction = "UserJobListingSYS";
                     break;
                 case "goToViewItemDetailsInModalSYS":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
