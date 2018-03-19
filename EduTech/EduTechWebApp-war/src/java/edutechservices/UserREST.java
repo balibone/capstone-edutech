@@ -28,8 +28,8 @@ import javax.ws.rs.core.MediaType;
  * @author Derian
  */
 @RequestScoped
-@Path("systemuser")
-public class UserEntityREST {
+@Path("user")
+public class UserREST {
 
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
     private EntityManager em;

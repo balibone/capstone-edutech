@@ -66,11 +66,21 @@ public class CommonRESTMgrBean {
     }
 
     public List<UserEntity> findAllUsers() {
-        return em.createQuery("SELECT s FROM SystemUser s WHERE s.useractivestatus=1").getResultList();
+        List<UserEntity> allUsers = em.createQuery("SELECT s FROM SystemUser s WHERE s.useractivestatus=1").getResultList();
+        if(allUsers!=null){
+            for(UserEntity u : allUsers){
+                em.detach(u);//detach from persistence context so that password removal is not reflected in database.
+                u.setUserpassword("hidden");
+            }
+        }
+        return allUsers;
     }
 
     public UserEntity findUser(String username) {
-        return em.find(UserEntity.class, username);
+        UserEntity u = em.find(UserEntity.class, username);
+        em.detach(u);
+        u.setUserpassword("hidden");
+        return u;
     }
 
     public void removeUser(String id) {
