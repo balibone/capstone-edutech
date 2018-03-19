@@ -553,6 +553,34 @@ public class CommonRESTMgrBean {
         return lesson;
     }
 
+    public List<AttachmentEntity> downloadAllLessonAttachments(String id) {
+        List<AttachmentEntity> attList = new ArrayList<>();
+        LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
+        Collection<AttachmentEntity> resources = lesson.getResources();
+        //if resources of this lesson is empty or null, then attList will remain empty.
+        if(resources != null){
+            attList.addAll(lesson.getResources());
+        }
+        return attList;
+    }
+
+    public List<AttachmentEntity> uploadLessonAttachment(String id, AttachmentEntity att) {
+        List<AttachmentEntity> attList = new ArrayList<>();
+        LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
+        Collection<AttachmentEntity> resources = lesson.getResources();
+        resources.add(att);
+        //if resources of this lesson is empty or null, then attList will remain empty.
+        if(resources != null){
+            attList.addAll(lesson.getResources());
+        }
+        return attList;
+    }
+
+    public AttachmentEntity downloadAttachment(Long id) {
+        AttachmentEntity att = em.find(AttachmentEntity.class,id);
+        return att;
+    }
+
     
 
 }

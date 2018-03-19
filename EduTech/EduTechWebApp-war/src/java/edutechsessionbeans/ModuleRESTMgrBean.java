@@ -50,9 +50,7 @@ public class ModuleRESTMgrBean {
     }
 
     public List<ModuleEntity> findAllModules() {
-        System.out.println("****************Query ran.");
         Query q1 = em.createQuery("SELECT m FROM Module m");
-        System.out.println("****************Query finished.");
         return q1.getResultList();
     }
 

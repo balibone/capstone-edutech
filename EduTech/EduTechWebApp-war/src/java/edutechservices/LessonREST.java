@@ -7,6 +7,7 @@ package edutechservices;
 
 //import edutechentities.common.GroupEntity;
 import commoninfraentities.UserEntity;
+import edutechentities.common.AttachmentEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.module.LessonEntity;
 import edutechsessionbeans.CommonRESTMgrBean;
@@ -37,30 +38,54 @@ public class LessonREST {
     @EJB
     CommonRESTMgrBean cmb;
     
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<LessonEntity> getAllLessons() {
         return cmb.getAllLessons();
     }
     
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public LessonEntity getOneLesson(@PathParam("id") String id){
         return cmb.getOneLesson(Long.valueOf(id));
     }
     
-    @POST @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @POST
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public LessonEntity createLesson(LessonEntity lesson) {
         return cmb.createLesson(lesson);
     }
     
-    @DELETE @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @DELETE 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void deleteLesson(@PathParam("id") String id) {
         cmb.deleteLesson(id);
     }
     
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @PUT 
+    @Path("{id}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public LessonEntity editLesson(@PathParam("id") String id, LessonEntity replacement) {
         return cmb.editLesson(id, replacement);
     }
-
     
+    @POST
+    @Path("attachment/{id}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<AttachmentEntity> uploadLessonAttachment(@PathParam("id") String id, AttachmentEntity att) {
+        return cmb.uploadLessonAttachment(id, att);
+    }
+    
+    @GET
+    @Path("attachment/{id}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<AttachmentEntity> downloadAllLessonAttachments(@PathParam("id") String id) {
+        return cmb.downloadAllLessonAttachments(id);
+    }
 }
