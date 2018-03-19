@@ -37,31 +37,47 @@ public class AttachmentREST {
     @EJB
     CommonRESTMgrBean cmb;
     
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<AttachmentEntity> getAllAttachments() {
         return cmb.getAllAttachments();
     }
     
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public AttachmentEntity getOneAttachment(@PathParam("id") String id){
         return cmb.getOneAttachment(Long.valueOf(id));
     }
     
-    
-    @POST @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @POST 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public AttachmentEntity createAttachment(AttachmentEntity attachment) {
         return cmb.createAttachment(attachment);
     }
     
-    @DELETE @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void deleteAttachment(@PathParam("id") String id) {
-        cmb.deleteAttachment(id);
-    }
-    
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @PUT 
+    @Path("{id}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public AttachmentEntity editAttachment(@PathParam("id") String id, AttachmentEntity replacement) {
         return cmb.editAttachment(id, replacement);
     }
-
+    
+    @DELETE 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<AttachmentEntity> deleteAttachment(@PathParam("id") String id) {
+        cmb.deleteAttachment(id);
+        return cmb.getAllAttachments();
+    }
+    
+    @GET 
+    @Path("download/{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public AttachmentEntity downloadAttachment(@PathParam("id") String id){
+        return cmb.downloadAttachment(Long.valueOf(id));
+    }
     
 }

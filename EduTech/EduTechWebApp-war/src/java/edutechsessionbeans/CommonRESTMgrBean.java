@@ -51,8 +51,8 @@ public class CommonRESTMgrBean {
     }
     
     public void createUser(UserEntity entity) {
-        entity.setUsercreationdate(new Date());
-        entity.setUseractivestatus(new Integer(1).shortValue());
+        entity.setUserCreationDate(new Date());
+        entity.setUserActiveStatus(true);
         em.persist(entity);
     }
 
@@ -66,11 +66,11 @@ public class CommonRESTMgrBean {
     }
 
     public List<UserEntity> findAllUsers() {
-        List<UserEntity> allUsers = em.createQuery("SELECT s FROM SystemUser s WHERE s.useractivestatus=1").getResultList();
+        List<UserEntity> allUsers = em.createQuery("SELECT s FROM SystemUser s WHERE s.userActiveStatus=1").getResultList();
         if(allUsers!=null){
             for(UserEntity u : allUsers){
                 em.detach(u);//detach from persistence context so that password removal is not reflected in database.
-                u.setUserpassword("hidden");
+                u.setUserPassword("hidden");
             }
         }
         return allUsers;
@@ -79,7 +79,7 @@ public class CommonRESTMgrBean {
     public UserEntity findUser(String username) {
         UserEntity u = em.find(UserEntity.class, username);
         em.detach(u);
-        u.setUserpassword("hidden");
+        u.setUserPassword("hidden");
         return u;
     }
 
@@ -88,7 +88,7 @@ public class CommonRESTMgrBean {
     }
 
     public String countUsers() {
-        return  String.valueOf(em.createQuery("SELECT COUNT(s) FROM SystemUser s WHERE s.useractivestatus=1").getSingleResult());
+        return  String.valueOf(em.createQuery("SELECT COUNT(s) FROM SystemUser s WHERE s.userActiveStatus=1").getSingleResult());
     }
     
     public List<ScheduleItemEntity> findAllScheduleItems(){
@@ -551,6 +551,34 @@ public class CommonRESTMgrBean {
         lesson = replacement;
         em.merge(lesson);
         return lesson;
+    }
+
+    public List<AttachmentEntity> downloadAllLessonAttachments(String id) {
+        List<AttachmentEntity> attList = new ArrayList<>();
+        LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
+        Collection<AttachmentEntity> resources = lesson.getResources();
+        //if resources of this lesson is empty or null, then attList will remain empty.
+        if(resources != null){
+            attList.addAll(lesson.getResources());
+        }
+        return attList;
+    }
+
+    public List<AttachmentEntity> uploadLessonAttachment(String id, AttachmentEntity att) {
+        List<AttachmentEntity> attList = new ArrayList<>();
+        LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
+        Collection<AttachmentEntity> resources = lesson.getResources();
+        resources.add(att);
+        //if resources of this lesson is empty or null, then attList will remain empty.
+        if(resources != null){
+            attList.addAll(lesson.getResources());
+        }
+        return attList;
+    }
+
+    public AttachmentEntity downloadAttachment(Long id) {
+        AttachmentEntity att = em.find(AttachmentEntity.class,id);
+        return att;
     }
 
     

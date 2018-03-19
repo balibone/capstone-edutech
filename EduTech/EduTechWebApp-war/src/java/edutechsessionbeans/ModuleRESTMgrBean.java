@@ -12,6 +12,7 @@ import edutechentities.module.PollEntity;
 import edutechentities.module.PollOptionEntity;
 import edutechentities.module.QuestionEntity;
 import edutechentities.module.SessionEntity;
+import edutechentities.module.SubmissionEntity;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -50,9 +51,7 @@ public class ModuleRESTMgrBean {
     }
 
     public List<ModuleEntity> findAllModules() {
-        System.out.println("****************Query ran.");
         Query q1 = em.createQuery("SELECT m FROM Module m");
-        System.out.println("****************Query finished.");
         return q1.getResultList();
     }
 
@@ -222,6 +221,34 @@ public class ModuleRESTMgrBean {
         ses = replacement;
         em.merge(ses);
         return ses;
+    }
+
+    public List<SubmissionEntity> getAllSubmissions() {
+        Query q = em.createQuery("select s from Submission s");
+        return q.getResultList();
+    }
+
+    public SubmissionEntity getOneSubmission(Long id) {
+        return em.find(SubmissionEntity.class, id);
+    }
+
+    public SubmissionEntity createSubmission(SubmissionEntity sub) {
+        em.persist(sub);
+        return sub;
+    }
+
+    public void deleteSubmission(Long id) {
+        SessionEntity ses= em.find(SessionEntity.class, id);
+        if(ses!=null){
+            em.remove(ses);
+        }
+    }
+
+    public SubmissionEntity editSubmission(Long id, SubmissionEntity replacement) {
+        SubmissionEntity sub = em.find(SubmissionEntity.class, id);
+        sub = replacement;
+        em.merge(sub);
+        return sub;
     }
 
 }
