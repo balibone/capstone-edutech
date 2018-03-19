@@ -116,5 +116,22 @@ public class GroupRESTMgrBean {
         em.merge(mma);
         return mma;
     }
+
+    public List<GroupEntity> getAllGroups() {
+        Query q = em.createQuery("select g from ProjectGroup g");
+        return q.getResultList();
+    }
+
+    public GroupEntity createGroup(GroupEntity group) {
+        em.persist(group);
+        return group;
+    }
+
+    public void deleteGroup(String id) {
+        GroupEntity g= em.find(GroupEntity.class, id);
+        if(g!=null){
+            em.remove(g);
+        }
+    }
     
 }

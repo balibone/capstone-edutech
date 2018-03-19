@@ -42,27 +42,38 @@ public class AnswerREST {
     @EJB
     ModuleRESTMgrBean mmb;
     
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<AnswerEntity> getAllAnswers() {
         return mmb.getAllAnswers();
     }
     
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public AnswerEntity getOneAnswer(@PathParam("id") String id){
         return mmb.getOneAnswer(Long.valueOf(id));
     }
     
-    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @POST 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public AnswerEntity createAnswer(AnswerEntity mm) {
         return mmb.createAnswer(mm);
     }
     
-    @DELETE @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void deleteAnswer(@PathParam("id") String id) {
+    @DELETE 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<AnswerEntity> deleteAnswer(@PathParam("id") String id) {
         mmb.deleteAnswer(Long.valueOf(id));
+        return mmb.getAllAnswers();
     }
     
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @PUT 
+    @Path("{id}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public AnswerEntity editAnswer(@PathParam("id") String id, AnswerEntity replacement){
         return mmb.editAnswer(Long.valueOf(id), replacement);
     }

@@ -42,27 +42,38 @@ public class FeedbackREST {
     @EJB
     ModuleRESTMgrBean mmb;
     
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<FeedbackEntity> getAllFeedbacks() {
         return mmb.getAllFeedbacks();
     }
     
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public FeedbackEntity getOneFeedback(@PathParam("id") String id){
         return mmb.getOneFeedback(Long.valueOf(id));
     }
     
-    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public FeedbackEntity createFeedback(FeedbackEntity mm) {
-        return mmb.createFeedback(mm);
+    @POST 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public FeedbackEntity createFeedback(FeedbackEntity fb) {
+        return mmb.createFeedback(fb);
     }
     
-    @DELETE @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void deleteFeedback(@PathParam("id") String id) {
+    @DELETE 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<FeedbackEntity> deleteFeedback(@PathParam("id") String id) {
         mmb.deleteFeedback(Long.valueOf(id));
+        return mmb.getAllFeedbacks();
     }
     
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @PUT 
+    @Path("{id}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public FeedbackEntity editFeedback(@PathParam("id") String id, FeedbackEntity replacement){
         return mmb.editFeedback(Long.valueOf(id), replacement);
     }
