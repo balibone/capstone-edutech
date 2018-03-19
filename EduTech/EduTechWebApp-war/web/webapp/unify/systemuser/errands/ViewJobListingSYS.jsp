@@ -192,6 +192,33 @@
                                                aria-label="Search Job ..." data-control-type="textbox" 
                                                data-control-name="transmission-text-filter" data-control-action="filter" />
                                     </div>
+                                    
+                                    <div class="filter-sidebar">
+                                        <div class="title"><span>Category</span></div>
+                                        <div class="jplist-group" data-control-type="checkbox-group-filter" data-control-action="filter" data-control-name="category">
+                                            <input data-path="default" type="checkbox" name="jplist" checked="checked" />&nbsp;
+                                            <label class="mr-4">All</label><br/>
+                                        
+                                            <%
+                                                ArrayList<String> categoryList = (ArrayList) request.getAttribute("categoryList");
+                                                for(int i=0; i<categoryList.size(); i++){
+                                                    String categoryName = categoryList.get(i);
+                                                    String category_path = categoryName;
+                                                    if(category_path.contains(" ")){
+                                                        category_path = category_path.replace(" ", "");
+                                                    }
+                                            %>
+                                            <input  data-path=".<%= category_path%>" type="checkbox" name="jplist" />&nbsp;
+                                            <label class="mr-4"><%= categoryName%></label><br/>
+                                            <%
+                                                }
+                                            %>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    
+                                    
                                     <div class="filter-sidebar">
                                         <div class="jplist-range-slider" data-control-type="range-slider" 
                                              data-control-name="range-slider-weight" data-control-action="filter"
@@ -231,10 +258,12 @@
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
                                 <ul>
+                                    <li><span data-path=".jobPostDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
+                                    <li><span data-path=".numOfLikes" data-order="desc" data-type="number">Popularity</span></li>
                                     <li><span data-path=".jobTitle" data-order="asc" data-type="text">Title Asc</span></li>
                                     <li><span data-path=".jobTitle" data-order="desc" data-type="text">Title Desc</span></li>
-                                    <li><span data-path=".jobRate" data-order="asc" data-type="text">Job Rate Asc</span></li>
-                                    <li><span data-path=".jobRate" data-order="desc" data-type="text">Job Rate Desc</span></li>
+                                    <li><span data-path=".jobRate" data-order="asc" data-type="number">Job Rate Asc</span></li>
+                                    <li><span data-path=".jobRate" data-order="desc" data-type="number">Job Rate Desc</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -256,6 +285,7 @@
                                     if (!jobListSYS.isEmpty()) {
                                         for (int i = 0; i <= jobListSYS.size() - 1; i++) {
                                             Vector v = jobListSYS.get(i);
+                                            
                                             String jobID = String.valueOf(v.get(0));
                                             String jobImage = String.valueOf(v.get(1));
                                             String jobTitle = String.valueOf(v.get(2));
@@ -266,7 +296,12 @@
                                             String startLocation = String.valueOf(v.get(7));
                                             String jobRateType = String.valueOf(v.get(8));
                                             String jobRate = String.valueOf(v.get(9));
-                                            String numOfLikes = "4";
+                                            String numOfLikes = String.valueOf(v.get(10));
+                                            
+                                            String categoryPath = jobCategoryName;
+                                                if(categoryPath.contains(" ")){
+                                                    categoryPath = categoryPath.replace(" ", "");
+                                                }
                                 %>
                                 <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -283,19 +318,19 @@
                                                             
                                                     <div class="col-xl-7 col-md-7 col-7">
                                                         <span class="card-title jobTitle job-title"><strong><%= jobTitle%></strong></span><br/>
-                                                        <span class="card-text category"><%= jobCategoryName%></span><br/>
+                                                        <span class="card-text category <%= categoryPath%>"><%= jobCategoryName%></span><br/>
                                                         <i class="far fa-calendar-alt"></i>&nbsp; <span class="card-text date"><%= jobWorkDate%></span>&nbsp; 
                                                         <i class="fas fa-map-marker-alt"></i>&nbsp; <span class=" card-text location"><%= startLocation%></span><br/><br/>
                                                         <i class="fas fa-user-circle fa-lg"></i>&nbsp;<span class="card-text user"><strong>&nbsp;<%= jobPosterName%></strong></span>
                                                         <div class="post-date">
-                                                            <i class="far fa-clock"></i>&nbsp;<span class="card-text"><%= jobPostDate%></span><br/>
+                                                            <i class="far fa-clock"></i>&nbsp;<span class="card-text jobPostDate"><%= jobPostDate%></span><br/>
                                                         </div>
                                                         
                                                     </div>
                                                     <div class="col-xl-2 col-md-2 col-2">
                                                         <div class="like-button" >
                                                             
-                                                                <i class="fas fa-heart like"></i>&nbsp;<span><%=numOfLikes%></span>
+                                                                <i id="likeIcon<%=jobID%>" class="fas fa-heart like" onclick="javascript: likeAJob(<%=jobID%>)"></i>&nbsp;<span id="like-count" class="numOfLikes"><%=numOfLikes%></span>
                                                         </div>
                                                         <div class="job-price">
                                                             <span class="card-text rate jobRate"><strong>S$<%= jobRate%></strong></span><br/>

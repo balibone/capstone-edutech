@@ -31,6 +31,7 @@ import javax.persistence.TemporalType;
 
 import unifyentities.common.CategoryEntity;
 import commoninfrastructureentities.UserEntity;
+import unifyentities.common.LikeListingEntity;
 import unifyentities.common.TagEntity;
 
 @Entity(name = "Job")
@@ -55,17 +56,23 @@ public class JobEntity implements Serializable {
     private String jobImage;
     private String jobStatus;
     private int jobNumOfLikes;
+    private int numOfHelpers;
+    private boolean checking;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date jobPostDate;
 
     /* FOREIGN KEY */
     private String jobTakerID;
+    private ArrayList likeList = new ArrayList();
 
     @ManyToOne
     private CategoryEntity categoryEntity;
     @ManyToOne
     private UserEntity userEntity;
+    @OneToMany(mappedBy = "jobEntity")
+    private Collection<JobOfferEntity> jobOfferSet = new ArrayList<JobOfferEntity>();
+    
     @OneToMany(mappedBy = "jobEntity")
     private Collection<JobReviewEntity> jobReviewSet = new ArrayList<JobReviewEntity>();
     @OneToMany(mappedBy = "jobEntity")
@@ -76,8 +83,15 @@ public class JobEntity implements Serializable {
     @PrePersist
     public void creationDate() { this.jobPostDate = new Date(); }
     
+    /* DEFAULT CONSTRUCTOR */
+    public JobEntity() { 
+        
+        setJobID(System.nanoTime());
+        jobStatus = "Available";
+    }
+    
     public boolean createJobListing(String jobTitle, String jobDescription, String jobImagefileName, String jobRateType, 
-            double jobRate, double jobDuration, String startLocation, String startLat, String startLong, String endLocation, String endLat, String endLong, Date workDate){
+            double jobRate, double jobDuration, String startLocation, String startLat, String startLong, String endLocation, String endLat, String endLong, Date workDate, String jobInformation, int numOfHelpers, boolean checking){
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.jobImage = jobImagefileName;
@@ -91,6 +105,9 @@ public class JobEntity implements Serializable {
         this.jobEndLat = endLat;
         this.jobEndLong = endLong;
         this.jobWorkDate = workDate;
+        this.jobInformation = jobInformation;
+        this.numOfHelpers = numOfHelpers;
+        this.checking = checking;
         
         return true;
     }
@@ -115,9 +132,13 @@ public class JobEntity implements Serializable {
     public int getJobNumOfLikes() { return jobNumOfLikes; }
     public Date getJobPostDate() { return jobPostDate; }
     public String getJobTakerID() { return jobTakerID; }
+    public ArrayList getLikeList() {return likeList; }
+    public int getNumOfHelpers() { return numOfHelpers; }
+    public boolean getChecking() { return checking;}
     
     public CategoryEntity getCategoryEntity() { return categoryEntity; }
     public UserEntity getUserEntity() { return userEntity; }
+    public Collection<JobOfferEntity> getJobOfferSet() { return jobOfferSet; }
     public Collection<JobReviewEntity> getJobReviewSet() { return jobReviewSet; }
     public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
     public Set<TagEntity> getTagSet() { return tagSet; }
@@ -142,9 +163,13 @@ public class JobEntity implements Serializable {
     public void setJobNumOfLikes(int jobNumOfLikes) { this.jobNumOfLikes = jobNumOfLikes; }
     public void setJobPostDate(Date jobPostDate) { this.jobPostDate = jobPostDate; }
     public void setJobTakerID(String jobTakerID) { this.jobTakerID = jobTakerID; }
+    public void setLikeList(ArrayList likeList) { this.likeList = likeList; }
+    public void setNumOfHelpers(int numOfHelpers) { this.numOfHelpers = numOfHelpers; }
+    public void setChecking(boolean checking) { this.checking = checking; }
     
     public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setJobOfferSet(Collection<JobOfferEntity> jobOfferSet) { this.jobOfferSet = jobOfferSet; }
     public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
     public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
     public void setTagSet(Set<TagEntity> tagSet) { this.tagSet = tagSet; }

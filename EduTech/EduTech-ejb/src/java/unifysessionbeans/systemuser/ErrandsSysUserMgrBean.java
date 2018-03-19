@@ -23,8 +23,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
 import unifyentities.errands.JobEntity;
+import unifyentities.errands.JobOfferEntity;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
+import unifyentities.common.LikeListingEntity;
+import unifyentities.common.MessageEntity;
 
 @Stateless
 public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
@@ -35,8 +38,14 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     private CategoryEntity cEntity;
     private JobEntity jEntity;
     private UserEntity uEntity;
+    private UserEntity jobPosterEntity;
+    private UserEntity jobTakerEntity;
+    private LikeListingEntity llEntity;
+    private JobOfferEntity joEntity;
+    private MessageEntity mEntity;
     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy");
     DecimalFormat rateFormat = new DecimalFormat("0.00");
     
     @Override
@@ -98,7 +107,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobVec.add(jobE.getJobStartLocation());
             jobVec.add(jobE.getJobRateType());
             jobVec.add(jobE.getJobRate());
-            //jobVec.add(jobE.getJobNumOfLikes());
+            jobVec.add(jobE.getJobNumOfLikes());
             jobList.add(jobVec);
             dateString = "";
         }
@@ -106,8 +115,57 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         return jobList;
     }
     
+    public ArrayList<String> getJobCategoryList(){
+        
+        ArrayList<String> categoryNameList = new ArrayList();
+        
+        Query q = em.createQuery("SELECT c.categoryName FROM Category c WHERE c.categoryType = 'Errands'");
+        if(q.getResultList()!=null){
+            Vector categoryList = (Vector) q.getResultList();
+            for(int i=0; i<categoryList.size(); i++){
+                String name = (String) categoryList.get(i);
+                categoryNameList.add(name);
+            }
+        }
+        return categoryNameList;
+    }
+    
+    /*@Override
+    public boolean likeAJob(long jobID, String userName){
+        
+        jEntity = lookupJob(jobID);
+        if(jEntity!=null){
+            jEntity.getLikeList().add(userName);
+            int likeCount = jEntity.getJobNumOfLikes();
+            jEntity.setJobNumOfLikes(likeCount+1);
+            
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean unlikeAJob(long jobID, String userName){
+        
+        jEntity = lookupJob(jobID);
+        if(jEntity!=null){
+            jEntity.getLikeList().remove(userName);
+            int likeCount = jEntity.getJobNumOfLikes();
+            jEntity.setJobNumOfLikes(likeCount-1);
+            
+            return true;
+        }else{
+            return false;
+        }
+    }*/
+    
     @Override
     public Vector viewJobDetails(long jobID) {
+        
+        Date currentDate = new Date();
+        String dateString = "";
+        
         jEntity = lookupJob(jobID);
         Vector jobDetailsVec = new Vector();
 
@@ -126,13 +184,58 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobDetailsVec.add(jEntity.getJobEndLong());
             jobDetailsVec.add(jEntity.getJobImage());
             jobDetailsVec.add(jEntity.getJobStatus());
-            //jobDetailsVec.add(jEntity.getJobNumOfLikes());
-            jobDetailsVec.add(sdf.format(jEntity.getJobPostDate()));
+            jobDetailsVec.add(jEntity.getJobNumOfLikes());
+            
+            
+            
+            long diff = currentDate.getTime() - jEntity.getJobPostDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            
+            jobDetailsVec.add(dateString);
             jobDetailsVec.add(sdf.format(jEntity.getJobWorkDate()));
             jobDetailsVec.add(jEntity.getUserEntity().getUsername());
             jobDetailsVec.add(jEntity.getUserEntity().getImgFileName());
-            jobDetailsVec.add(jEntity.getUserEntity().getUserCreationDate());
+            jobDetailsVec.add(df.format(jEntity.getUserEntity().getUserCreationDate()));
             jobDetailsVec.add(jEntity.getCategoryEntity().getCategoryID());
+            jobDetailsVec.add(jEntity.getJobDuration());
+            jobDetailsVec.add(jEntity.getJobInformation());
+            jobDetailsVec.add(jEntity.getNumOfHelpers());
+            jobDetailsVec.add(jEntity.getChecking());
+            System.out.println("checking " +  jEntity.getChecking());
+            System.out.println("work time " + sdf.format(jEntity.getJobWorkDate()));
             return jobDetailsVec;
         }
         return null;
@@ -143,7 +246,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         Date currentDate = new Date();
         String dateString = "";
 
-        Query q = em.createQuery("SELECT j FROM Job i WHERE j.jobStatus = 'Available' AND "
+        Query q = em.createQuery("SELECT j FROM Job j WHERE j.jobStatus = 'Available' AND "
                 + "j.categoryEntity.categoryActiveStatus = '1' AND "
                 + "j.categoryEntity.categoryName = :hiddenCategoryName");
         q.setParameter("hiddenCategoryName", hiddenCategoryName);
@@ -204,20 +307,22 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         }
         return assocCategoryJobList;
     }
+   
     
     @Override
     public String createJobListing(String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 
             Date jobWorkDate, String jobImagefileName, long categoryID, String username, String startLocation, 
-            String startLat, String startLong, String endLocation, String endLat, String endLong) {
+            String startLat, String startLong, String endLocation, String endLat, String endLong, String jobInformation, int numOfHelpers, boolean checking) {
         if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
         else if (lookupCategory(categoryID) == null) { return "Selected category cannot be found. Please try again."; }
         else {
+            System.out.println("bean: ready to create job");
             uEntity = lookupUser(username);
             cEntity = lookupCategory(categoryID);
             jEntity = new JobEntity();
             
             if(jEntity.createJobListing(jobTitle, jobDescription, jobImagefileName, jobRateType, jobRate, jobDuration, startLocation, 
-                    startLat, startLong, endLocation, endLat, endLong, jobWorkDate)) {
+                    startLat, startLong, endLocation, endLat, endLong, jobWorkDate, jobInformation, numOfHelpers, checking)) {
                 jEntity.setCategoryEntity(cEntity);
                 jEntity.setUserEntity(uEntity);
                 em.persist(jEntity);
@@ -231,7 +336,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     @Override
     public String editJobListing(long jobID, String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 
             Date jobWorkDate, String jobImagefileName, String startLocation, String startLat, String startLong, 
-            String endLocation, String endLat, String endLong, long jobCategoryID, String username) {
+            String endLocation, String endLat, String endLong, long jobCategoryID, String username, int numOfHelpers, boolean checking) {
         if (lookupUser(username) == null) { return "There are some issues with your profile. Please try again."; }
         else if (lookupJob(jobID) == null) { return "There are some issues with your job listing. Please try again."; }
         else if (lookupCategory(jobCategoryID) == null) { return "Selected category cannot be found. Please try again."; }
@@ -290,6 +395,48 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         }
             System.out.println("cat id: " + jobCategoryList.get(0).get(1));
             return jobCategoryList;
+    }
+    
+    public String sendJobOfferPrice(long jobID, String username, String jobOfferPrice, String jobOfferDescription){
+        
+        if (lookupJob(jobID) == null) { return "There are some issues with the job listing. Please try again."; }
+        else if(lookupUnifyUser(username) == null) { return "There are some issues with your user profile. Please try again."; }
+        else if(lookupJobOffer(jobID, username) != null) { return "You have sent an offer previously. Please go to your profile to check or update your offer."; }
+        else if(jobOfferPrice.equals("")) { return "Job offer price cannot be empty."; }
+        //else if(!isNumeric(jobOfferPrice)) { return "Please enter a valid item offer price."; }
+        else if(Double.parseDouble(jobOfferPrice) < 0.0 || Double.parseDouble(jobOfferPrice) > 9999.0) { return "Job offer price must be between 0 to 9999. Please try again."; }
+        else {
+            jEntity = lookupJob(jobID);
+            jobTakerEntity = lookupUnifyUser(username);
+            jobPosterEntity = lookupUnifyUser(lookupJob(jobID).getUserEntity().getUsername());
+            joEntity = new JobOfferEntity();
+            
+            if(joEntity.createJobOffer(Double.parseDouble(jobOfferPrice), jobOfferDescription)) {
+                joEntity.setJobEntity(jEntity);
+                joEntity.setUserEntity(jobTakerEntity);
+                jEntity.getJobOfferSet().add(joEntity);
+                jobTakerEntity.getJobOfferSet().add(joEntity);
+                jobPosterEntity.getJobOfferSet().add(joEntity);
+                
+                /* MESSAGE SENDER IS THE JOB TAKER WHO SENT THE OFFER, MESSAGE RECEIVER IS THE JOB POSTER */
+                mEntity = new MessageEntity();
+                mEntity.createContentMessage(jobTakerEntity.getUsername(), jEntity.getUserEntity().getUsername(), 
+                        jobTakerEntity.getUsername() + " sent an offer for your " + jEntity.getJobTitle() + ". Check it out!", 
+                        jEntity.getJobID(), "Errands");
+                /* JOB TAKER WHO SENT THE OFFER IS THE USERENTITY_USERNAME */
+                mEntity.setUserEntity(jobTakerEntity);
+                jobPosterEntity.getMessageSet().add(mEntity);
+                
+                em.persist(joEntity);
+                em.persist(mEntity);
+                em.merge(jEntity);
+                em.merge(jobTakerEntity);
+                em.merge(jobPosterEntity);
+                return "Your job offer has been sent successfully!";
+            } else {
+                return "Error occured while sending your job offer. Please try again.";
+            }
+        }
     }
     
     /* MISCELLANEOUS METHODS */
@@ -351,7 +498,81 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         return ue;
     }
     
+    public UserEntity lookupUnifyUser(String username) {
+        UserEntity ue = new UserEntity();
+        try{
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity)q.getSingleResult();
+        }
+        catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        catch(NoResultException nre){
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
+    }
     
+    public JobOfferEntity lookupJobOffer(long jobID, String username) {
+        JobOfferEntity joe = new JobOfferEntity();
+        try {
+            Query q = em.createQuery("SELECT jo FROM JobOffer jo WHERE jo.jobEntity.jobID = :jobID AND jo.userEntity.username = :username");
+            q.setParameter("jobID", jobID);
+            q.setParameter("username", username);
+            joe = (JobOfferEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Job offer cannot be found. " + enfe.getMessage());
+            em.remove(joe);
+            joe = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Job offer does not exist. " + nre.getMessage());
+            em.remove(joe);
+            joe = null;
+        }
+        return joe;
+    }
     
+    public LikeListingEntity lookupLike(long itemID, String username) {
+        LikeListingEntity lle = new LikeListingEntity();
+        try {
+            Query q = em.createQuery("SELECT l FROM LikeListing l WHERE l.itemEntity.itemID = :itemID AND l.userEntity.username = :username");
+            q.setParameter("itemID", itemID);
+            q.setParameter("username", username);
+            lle = (LikeListingEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Like cannot be found. " + enfe.getMessage());
+            em.remove(lle);
+            lle = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Like does not exist. " + nre.getMessage());
+            em.remove(lle);
+            lle = null;
+        }
+        return lle;
+    }
+    
+    public MessageEntity lookupContentMessage(long itemID, String username) {
+        MessageEntity me = new MessageEntity();
+        try {
+            Query q = em.createQuery("SELECT m FROM Message m WHERE m.contentID = :itemID AND m.userEntity.username = :username");
+            q.setParameter("itemID", itemID);
+            q.setParameter("username", username);
+            me = (MessageEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Content Message cannot be found. " + enfe.getMessage());
+            em.remove(me);
+            me = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Content Message does not exist. " + nre.getMessage());
+            em.remove(me);
+            me = null;
+        }
+        return me;
+    }
     
 }

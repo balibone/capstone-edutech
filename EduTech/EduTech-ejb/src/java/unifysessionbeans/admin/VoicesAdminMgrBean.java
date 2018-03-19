@@ -50,7 +50,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
     
     @Override
     public List<Vector> viewCompanyCategoryList() {
-        Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'Voices' ");
+        Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'Voices' ORDER BY c.creationDate DESC");
         List<Vector> categoryList = new ArrayList<Vector>();
 
         for (Object o : q.getResultList()) {

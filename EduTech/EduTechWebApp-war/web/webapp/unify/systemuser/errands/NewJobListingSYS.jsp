@@ -18,8 +18,8 @@
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/marketplace/NewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/errands/NewJobListingSYSCSS.css" rel="stylesheet" type="text/css">
         
     </head>
 
@@ -171,149 +171,208 @@
                             </div>
                             <%  } %>
                             
-                            <div class="x_title">
-                                <h5>New Job Listing</h5>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content">
-                                <p>Enter the job information here. (<span class="asterik">*</span>) fields are mandatory.</p>
-                                <div id="wizard" class="form_wizard wizard_horizontal">
-                                    <ul class="wizard_steps nav nav-tabs" role="tablist" style="padding-bottom: 20px;">
-                                        <li>
-                                            <a href="#step-1">
-                                                <span class="step_no">1</span>
-                                                <span class="step_descr">Step 1<br /><small>Enter Job Details</small></span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#step-2">
-                                                <span class="step_no">2</span>
-                                                <span class="step_descr">Step 2<br /><small>Select Job Category</small></span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#step-3">
-                                                <span class="step_no">3</span>
-                                                <span class="step_descr">Step 3<br /><small>Enter Trade Details</small></span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <form class="form-horizontal form-label-left" action="ErrandsSysUser" method="POST" enctype="multipart/form-data">
-                                        <div id="step-1">
-                                            <div class="form-row" style="justify-content: center;">
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <div class="image-upload">
-                                                            <img id="output-image" />
-                                                        </div>
-                                                        <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 151px;">
-                                                            <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
-                                                        </label>
-                                                        <input id="file-upload" name="jobImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" required="required" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 ml-2">
-                                                    <div class="form-group">
-                                                        <label for="jobTitle">Job Title&nbsp;<span class="asterik">*</span></label>
-                                                        <input type="text" class="form-control" name="jobTitle" placeholder="Enter the job title" required="required" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="jobRateType">Job Rate Type&nbsp;<span class="asterik">*</span></label><br/>
-                                                        <select class="select-dropdown" name="jobRateType" data-width="90%">
-                                                            <option value="fixedPrice">Fixed Price</option>
-                                                            <option value="hourlyRate">Hourly Rate</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="workDate">Work Date&nbsp;<span class="asterik">*</span></label>
-                                                        <input type="date" class="form-control" name="workDate" required="required" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="jobDescription">Job Description</label>
-                                                        <textarea class="form-control" name="jobDescription" rows="5" placeholder="Enter the job description" required="required"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 ml-2">
-                                                    <br/>
-                                                    <br/>
-                                                    <br/><br/>
-                                                    <div class="fillup"></div>
-                                                    <div class="form-group">
-                                                        <label for="jobRate">Job Rate&nbsp;<span class="asterik">*</span></label>
-                                                        <div class="input-group input-group-sm input-group-qty">
-                                                            <div class="input-group-prepend">
-                                                                <button class="btn btn-outline-theme btn-down" type="button"><i class="fa fa-minus"></i></button>
+                            
+                            
+                            <p>Enter the job information here. (<span class="asterik">*</span>) fields are mandatory.</p>
+                            <div id="accordion" >
+                                <form id="jobDetailsForm" class="form-horizontal form-label-left" action="ErrandsSysUser" method="POST" enctype="multipart/form-data" target="_self">
+                                    <div class="card border-0">
+                                        <div class="card-header" id="headingOne" style="background-color: white;">
+                                            <span class="step-title"><strong>1. Choose a category</strong></span> &nbsp;
+                                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                            Selected: <span id="selected-category"> </span>
+                                            
+                                                <button type="button" class="btn float-right mt-3" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                            
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="choose-category">
+                                                    
+                                                    
+                                                    <div id="category-pool">
+                                                        <div class="row category-list">
+                                                            <%
+                                                                ArrayList<Vector> jobCategoryListSYS = (ArrayList) request.getAttribute("jobCategoryListSYS");
+                                                                if (!jobCategoryListSYS.isEmpty()) {
+                                                                for (int i = 0; i <= jobCategoryListSYS.size() - 1; i++) {
+                                                                    Vector v = jobCategoryListSYS.get(i);
+                                                                    String categoryImage = String.valueOf(v.get(0));
+                                                                    String categoryID = String.valueOf(v.get(1));
+                                                                    String categoryName = String.valueOf(v.get(2));
+                                                            %>
+                                                            <div class="col-sm-4 mt-2">
+                                                                <div class="card" id="<%=categoryID%>" name="<%=categoryName%>">
+                                                                    <div class="card-body">
+                                                                        <div class="row">
+                                                                            <div class="col-3"><img src="uploads/unify/images/common/category/<%= categoryImage%>" style="width: 60px; height: 60px; " /></div>
+                                                                            <div class="col-9"><span><strong><%= categoryName%></strong></span> <br/> test</div>
+                                                                        </div>
+        					
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <input type="text" class="form-control" name="jobRate" aria-label="jobRate" data-min="1" data-max="9999" required="required" />
-                                                            <div class="input-group-append">
-                                                                <button class="btn btn-outline-theme btn-up" type="button"><i class="fa fa-plus"></i></button>
-                                                            </div>
+                                                            <%      }   %>
+                                                            <%  }%>
                                                         </div>
                                                     </div>
+                                                    <h5 class="mb-0">
+                                                    <button type="button" class="btn float-right next-button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Continue
+                                                    </button>
+                                                    </h5>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="step-2">
-                                            <div class="form-row" style="justify-content: center;">
-                                                <div class="owl-carousel owl-theme product-slider">
-                                                    <%
-                                                        ArrayList<Vector> jobCategoryListSYS = (ArrayList) request.getAttribute("jobCategoryListSYS");
-                                                        if (!jobCategoryListSYS.isEmpty()) {
-                                                            for (int i = 0; i <= jobCategoryListSYS.size() - 1; i++) {
-                                                                Vector v = jobCategoryListSYS.get(i);
-                                                                String categoryImage = String.valueOf(v.get(0));
-                                                                String categoryID = String.valueOf(v.get(1));
-                                                                String categoryName = String.valueOf(v.get(2));
-                                                    %>
-                                                    <div class="product-slider-item">
-                                                        <div class="card" id="<%= categoryID%>">
-                                                            <div class="card-body" style="margin: 0 auto; text-align: center;">
-                                                                <img src="uploads/unify/images/common/category/<%= categoryImage%>" style="width: 130px; height: 150px; " />
-                                                                <br/>
-                                                                <h5 class="card-title"><%= categoryName%></h5>
+                                    </div>
+                                    <div class="card border-0">
+                                        <div class="card-header" id="headingTwo" style="background-color: white;">
+                                            <span class="step-title"><strong>2. Fill up job details</strong></span>
+                                            <button type="button" class="btn float-right collapsed mt-3" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                                            </button>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="form-row" style="justify-content: center;">
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <div class="image-upload">
+                                                                <img id="output-image" />
+                                                            </div>
+                                                            <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 171px;">
+                                                                <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
+                                                            </label>
+                                                            <input id="file-upload" name="jobImage" type="file" accept="image/*" onchange="javascript: previewImage(event)"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8 ml-3">
+                                                        <div class="form-group row">
+                                                            <label for="jobTitle" class="col-sm-3 col-form-label"><strong>Job Title</strong>&nbsp;<span class="asterik">*</span></label>
+                                                            <div class="col-sm-9">
+                                                              <input type="text" class="form-control" name="jobTitle" placeholder="Enter the job title">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group row">
+                                                            <label for="workDate" class="col-sm-3 col-form-label"><strong>Work Date & Time</strong>&nbsp;<span class="asterik">*</span></label>
+                                                            <div class="col-sm-5">
+                                                                <input type="date" class="form-control" name="workDate" required="required" />
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                              <input type="time" class="form-control" name="workTime" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="jobDescription" class="col-sm-3 col-form-label"><strong>Job Description</strong></label>
+                                                            <div class="col-sm-9">
+                                                                <textarea class="form-control" name="jobDescription" rows="5" placeholder="Enter the job description" required="required"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="workDate" class="col-sm-5 col-form-label"><strong>What is your budget for the job? </strong>&nbsp;<span class="asterik">*</span></label>
+                                                            
+                                                            <div class="col-sm-3">
+                                                                <select class="select-dropdown" name="jobRateType" id="jobRateType" data-width="100%" onchange="javascript: displayDuration()">
+                                                                    <option value="Fixed">Fixed Price</option>
+                                                                    <option value="HR">Hourly Rate</option>
+                                                                </select>
+                                                            </div>
+                                                           
+                                                            <div class="col-sm-3">
+                                                                <input type="number" class="form-control" name="jobRate" placeholder="Job Rate(S$)"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="jobDuration" class="col-sm-3 col-form-label"><strong>How big is the task? </strong>&nbsp;<span class="asterik">*</span></label>
+                                                            <div class="col-sm-3 mt-2">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="jobDuration" id="inlineRadio1" value="1">
+                                                                    <label class="form-check-label" for="inlineRadio1">Small: <1hr</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3 mt-2">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="jobDuration" id="inlineRadio1" value="2">
+                                                                    <label class="form-check-label" for="inlineRadio1">Medium: 2-3hrs</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3 mt-2">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="jobDuration" id="inlineRadio1" value="3">
+                                                                    <label class="form-check-label" for="inlineRadio1">Large: >4hrs</label>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="numOfHelpers" class="col-sm-6 col-form-label"><strong>How many helpers do you need for the job? </strong>&nbsp;<span class="asterik">*</span></label>
+                                                            <div class="col-sm-3">
+                                                                <input type="number" class="form-control" name="numOfHelpers"  placeholder="number of helpers" required="required"/>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <%      }   %>
-                                                    <%  }%>
+                                                    
+                                                </div>
+                                                <button type="button" class="btn next-button float-right collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                Continue
+                                                </button>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="card border-0">
+                                        <div class="card-header" id="headingThree" style="background-color: white;">
+                                            <span class="step-title"><strong>3. Select work location</strong></span>
+                                           
+                                        </div>
+                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="form-row" style="justify-content: center;">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <div id="mapdiv" style="width: auto; height: 300px;"> </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 ml-2">
+                                                        <div class="form-group" style="position: relative;">
+                                                            <label for="startLocation"><strong>Start Location&nbsp;<span class="asterik">*</span></strong></label>
+                                                            <input type="text" class="form-control" id="startLocation" name="startLocation" placeholder="Enter the start location" required="required" />
+                                                            <div id="searchResults_start"></div>
+                                                        </div>
+                                                        <div class="form-group" style="position: relative;">
+                                                            <label for="endLocation"><strong>End Location&nbsp;<span class="asterik">*</span></strong></label>
+                                                            <input type="text" class="form-control" id="endLocation" name="endLocation" placeholder="Enter the end location" required="required" />
+                                                            <div id="searchResults_end"></div>
+                                                        </div>
+                                                          
+                                                    </div>
+                                                    
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group row" style="text-align: center;">
+                                            <div class="col-sm-12 mt-1">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" name="checking" id="inlineRadio1" value="true">
+                                                    <label class="form-check-label" for="inlineRadio1">(Optional) <strong>I want to have a checking before job helpers complete the job.</strong></label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="step-3">
-                                            <div class="form-row" style="justify-content: center;">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <div id="mapdiv" style="width: auto; height: 300px;"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 ml-2">
-                                                    <div class="form-group" style="position: relative;">
-                                                        <label for="startLocation">Start Location&nbsp;<span class="asterik">*</span></label>
-                                                        <input type="text" class="form-control" id="startLocation" name="startLocation" placeholder="Enter the start location" required="required" />
-                                                        <div id="searchResults"></div>
-                                                    </div>
-                                                    <div class="form-group" style="position: relative;">
-                                                        <label for="endLocation">End Location&nbsp;<span class="asterik">*</span></label>
-                                                        <input type="text" class="form-control" id="endLocation" name="endLocation" placeholder="Enter the end location" required="required" />
-                                                        <div id="searchResults"></div>
-                                                    </div>
-                                                    <div class="form-group" style="text-align: center;">
-                                                        <input type="hidden" name="pageTransit" value="createJobListingSYS" />
-                                                        <input type="hidden" name="username" value="<%= loggedInUsername%>" />
-                                                        <input type="hidden" name="hiddenStartLat" id="hiddenStartLat" />
-                                                        <input type="hidden" name="hiddenStartLong" id="hiddenStartLong" />
-                                                        <input type="hidden" name="hiddenEndLat" id="hiddenEndLat" />
-                                                        <input type="hidden" name="hiddenEndLong" id="hiddenEndLong" />
-                                                        <input type="hidden" name="hiddenCategoryID" id="hiddenCategoryID" />
-                                                        <button type="submit" class="btn btn-theme">Create Job Listing</button>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
+                                        <input type="hidden" name="pageTransit" value="createJobListingSYS" />
+                                        <input type="hidden" name="username" value="<%= loggedInUsername%>" />
+                                        <input type="hidden" name="hiddenStartLat" id="hiddenStartLat" />
+                                        <input type="hidden" name="hiddenStartLong" id="hiddenStartLong" />
+                                        <input type="hidden" name="hiddenEndLat" id="hiddenEndLat" />
+                                        <input type="hidden" name="hiddenEndLong" id="hiddenEndLong" />
+                                        <input type="hidden" name="hiddenCategoryID" id="hiddenCategoryID" />
+                                        <div class="form-group" style="text-align: center;">
+                                            <button type="submit" class="btn btn-theme">Create Job Listing</button>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>    
+                            
                         </div>
                     </div>
                 </div>
@@ -337,7 +396,7 @@
 
         <script src="js/unify/systemuser/webjs/marketplace/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/custom.min.js"></script>
-        <script src="js/unify/systemuser/basejs/leaflet.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/marketplace/NewItemListingSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/errands/NewJobListingSYSJS.js" type="text/javascript"></script>
     </body>
 </html>

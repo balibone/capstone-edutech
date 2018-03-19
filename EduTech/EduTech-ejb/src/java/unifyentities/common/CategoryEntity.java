@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import unifyentities.voices.CompanyEntity;
 import unifyentities.marketplace.ItemEntity;
@@ -36,6 +39,8 @@ public class CategoryEntity implements Serializable {
     private String categoryDescription;
     private String categoryImage;
     private Boolean categoryActiveStatus;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
 
     @OneToMany(mappedBy = "categoryEntity")
     private Set<CompanyEntity> companySet = new HashSet<CompanyEntity>();
@@ -48,6 +53,8 @@ public class CategoryEntity implements Serializable {
     public CategoryEntity() { 
         categoryActiveStatus = true;
         setCategoryID(System.nanoTime());
+        Date now = new Date();
+        setCategoryCreationDate(now);
     }
     
     /* MISCELLANEOUS METHODS */
@@ -66,6 +73,7 @@ public class CategoryEntity implements Serializable {
     public String getCategoryDescription() { return categoryDescription; }
     public String getCategoryImage() { return categoryImage; }
     public Boolean getCategoryActiveStatus() { return categoryActiveStatus; }
+    public Date getCategoryCreationDate() { return creationDate; }
     public Set<CompanyEntity> getCompanySet() { return companySet; }
     public Collection<ItemEntity> getItemSet() { return itemSet; }
     public Collection<JobEntity> getJobSet() { return jobSet; }
@@ -77,6 +85,7 @@ public class CategoryEntity implements Serializable {
     public void setCategoryDescription(String categoryDescription) { this.categoryDescription = categoryDescription; }
     public void setCategoryImage(String categoryImage) { this.categoryImage = categoryImage; }
     public void setCategoryActiveStatus(Boolean categoryActiveStatus) { this.categoryActiveStatus = categoryActiveStatus; }
+    public void setCategoryCreationDate(Date creationDate) { this.creationDate = creationDate; }
     public void setCompanySet(Set<CompanyEntity> companySet) { this.companySet = companySet; }
     public void setItemSet(Collection<ItemEntity> itemSet) { this.itemSet = itemSet; }
     public void setJobSet(Collection<JobEntity> jobSet) { this.jobSet = jobSet; }

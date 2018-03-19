@@ -27,4 +27,8 @@ $(document).ready(function () {
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 });
 
+function likeAJob(jobID) {
+    document.getElementById("likeIcon" + jobID).style.color = "#e20";
+}
+
 
