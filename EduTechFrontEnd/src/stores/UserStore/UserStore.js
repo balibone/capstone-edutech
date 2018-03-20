@@ -11,7 +11,7 @@ class UserStore {
 
   async getUserDetails() {
     console.log('{localStorage.getItem()', localStorage.getItem('username'))
-    const user = await axios.get(`/systemuser/${localStorage.getItem('username')}`);
+    const user = await axios.get(`/user/${localStorage.getItem('username')}`);
     console.log('getUserDetails', user.data);
     localStorage.setItem('currentUser', JSON.stringify(user.data));
     console.log('getUserDetails', JSON.parse(localStorage.getItem('currentUser')));

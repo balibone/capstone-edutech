@@ -26,53 +26,12 @@ class MergeCalendar extends Component {
 		super(props);
 	}
 
-	// getEventArray(membersScheduleItems){
-	// 	let scheduleItemArr = [];
-	// 	let timetableAssignedTo = [];
-
-	// 	console.log("THIS GROUP ID", toJS(GroupStore.selectedGroup));
-	// 	let membersInGroup = toJS(GroupStore.selectedGroup).members;
-
-	// 	if(membersScheduleItems && membersScheduleItems.length>0){
-	// 		for(var i=0 ; i<membersScheduleItems.length ; i++){
-	// 			var namesArr =[];
-	// 			console.log(" membersScheduleItems ",membersScheduleItems[i]);
-	// 			if(membersScheduleItems[i].assignedTo || membersScheduleItems[i].type === "timetable"){
-	// 				if(membersScheduleItems[i].type === "timetable"){
-	// 					namesArr = this.filterAssignedTo(membersScheduleItems[i], membersInGroup);
-	// 				} else {
-	// 					for(var j=0 ; j<membersScheduleItems[i].assignedTo.length ; j++){
-	// 						namesArr.push(membersScheduleItems[i].assignedTo[j].username);
-	// 					}
-	// 				}
-
-	// 				console.log("NAME ARR before join", namesArr)
-
-	// 				scheduleItemArr = scheduleItemArr.concat({
-	// 					id: membersScheduleItems[i].id,
-	// 					title: namesArr.join(", "), 
-	// 					allDay: false, 
-	// 					start: new Date(membersScheduleItems[i].startDate), 
-	// 					end: new Date(membersScheduleItems[i].endDate), 
-	// 					description: membersScheduleItems[i].description,
-	// 					location: membersScheduleItems[i].location,
-	// 					type: membersScheduleItems[i].type,
-	// 					createdBy: membersScheduleItems[i].createdBy
-	// 				})
-	// 			}
-	// 		}
-	// 	}
-	// 	return scheduleItemArr;
-	// }
-
 	getEventArray(membersScheduleItems){
-		var scheduleItemArr = [];
-		
-		console.log("SCHEDULE ITEMS: ", membersScheduleItems)
+		var scheduleItemArr = [];		
 		if(membersScheduleItems && membersScheduleItems.length>0){
 			for(var i=0 ; i<membersScheduleItems.length ; i++){
 				var namesArr =[];
-				if(membersScheduleItems[i].type === "timetable"){
+				if(membersScheduleItems[i].itemType === "timetable"){
 					for(var j=0 ; j<membersScheduleItems[i].assignedTo.length ; j++){
 						namesArr.push(membersScheduleItems[i].assignedTo[j].username);
 					}
@@ -85,7 +44,7 @@ class MergeCalendar extends Component {
 						end: new Date(membersScheduleItems[i].endDate), 
 						description: membersScheduleItems[i].description,
 						location: membersScheduleItems[i].location,
-						type: membersScheduleItems[i].type,
+						type: membersScheduleItems[i].itemType,
 						createdBy: membersScheduleItems[i].createdBy
 					})
 				}
@@ -97,10 +56,7 @@ class MergeCalendar extends Component {
 
 	render(){
 		let membersScheduleItems = toJS(ScheduleItemStore.userGroupScheduleItems);
-		console.log("MEMBERS SCHEDULE ITEMS: ", membersScheduleItems);
 		let eventsArray = this.getEventArray(membersScheduleItems);
-		console.log("EVENTS ARRAY: ", eventsArray);
-
 
 		return(
 			<div id="merge-calendar">

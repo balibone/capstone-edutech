@@ -7,69 +7,42 @@ import GroupStore from '../../../stores/GroupStore/GroupStore';
 
 @observer
 class MembersPanel extends Component {
-	//
-	// constructor(){
-	// 	super()
-	// 	this.state ={
-	// 		members: [
-	// 			{
-	// 				id: '1',
-	// 				name: 'Nan Da',
-	// 				image: 'avatar.png'
-	// 			},
-	// 			{
-	// 				id: '2',
-	// 				name: 'Hafidz',
-	// 				image: 'steveJob.png'
-	// 			},
-	// 			{
-	// 				id:'3',
-	// 				name: 'Derian',
-	// 				image: 'cartoonAvatar.jpg'
-	// 			}
-	// 		]
-	// 	}
-	// }
-	// componentWillMount() {
-	// 	console.log('YAaaaaz')
-	// 	const { match, groupStore, getSelectedGroup } = this.props;
-	// 	const { groupId } = match.params
-	// 	const selectedGroup = getSelectedGroup(groupId)
-	// 	console.log('componentWillMount', selectedGroup);
-	// 	GroupStore.selectedGroup = selectedGroup;
-	// 	console.log('GroupStore.selectedGroup', GroupStore.selectedGroup)
-  // }
-  // componentWillReceiveProps(newProps) {
-	// 	console.log('NUUUU')
-	// 	const { match, groupStore, getSelectedGroup } = newProps;
-	// 	const { groupId } = match.params
-	// 	const selectedGroup = getSelectedGroup(groupId)
-	// 	console.log('componentWillReceiveProps', selectedGroup);
-	//
-	// 	GroupStore.selectedGroup = selectedGroup;
-	// 	console.log('GroupStore.selectedGroup', GroupStore.selectedGroup)
-	//
-  // }
 
 	getSelectedGroup(groupId) {
 		const groupList = JSON.parse(localStorage.getItem('groupList'))
-		console.log('groupListgroupList', groupList[0].id, "rwgwrg", groupId)
 		return groupList.find((group) => group.id === parseInt(groupId))
+	}
+
+	getSelectedModule(moduleCode){
+		const moduleList = JSON.parse(localStorage.getItem('moduleList'));
+		return moduleList.find((module) => module.moduleCode === moduleCode)
 	}
 
 
 	render(){
-		const { match, groupStore, getSelectedGroup } = this.props;
-		const { groupId } = match.params
-		const selectedGroup = getSelectedGroup(groupId)
+		const { match } = this.props;
+		let members = [];
+		if(match.params.groupId){
+			const { getSelectedGroup } = this.props;
+			const { groupId } = match.params;
+			const selectedGroup = getSelectedGroup(groupId)
+			members = selectedGroup.members;
+		}else{
+			const { getSelectedModule } = this.props;
+			const { moduleCode } = match.params;
+			const selectedModule = getSelectedModule(moduleCode)
+			console.log("selected module in members panel", selectedModule)
+			members = selectedModule.members;
+		}
 
+		
 
 		return(
 			<Paper className="paperDefault standardTopGap">
 		    	<h4> Members </h4>
 		    	{
-		    		selectedGroup ? (
-		    		selectedGroup.members.map((member) => {
+		    		(members.length>0) ? (
+		    		members.map((member) => {
 		    			return <SingleMember key={member.id} member={member}/>
 		    		})
 		    		) : (<p>No members exists.</p>)

@@ -5,6 +5,7 @@
  */
 package edutechsessionbeans;
 
+import edutechentities.common.ScheduleItemEntity;
 import edutechentities.module.AnswerEntity;
 import edutechentities.module.FeedbackEntity;
 import edutechentities.module.LessonEntity;
@@ -254,12 +255,17 @@ public class ModuleRESTMgrBean {
         return sub;
     }
 
-    public List<LessonEntity> getAllModuleLessons(String id) {
-        ArrayList<LessonEntity> modLessons = new ArrayList<>();
-        ModuleEntity mod = em.find(ModuleEntity.class, Long.valueOf(id));
-        Collection<LessonEntity> lessons = mod.getLessons();
+    public List<ScheduleItemEntity> getAllModuleLessons(String id) {
+        ArrayList<ScheduleItemEntity> modLessons = new ArrayList<>();
+        ModuleEntity mod = em.find(ModuleEntity.class, id);
+        Collection<ScheduleItemEntity> lessons = mod.getModuleEvents();
         if(lessons!=null){
+            System.out.println("TRY PRINTING......................");
             modLessons.addAll(lessons);
+            for(ScheduleItemEntity l : lessons){
+                System.out.println("TRY PRINTING ONE......................");
+                System.out.println(l);
+            }
         }
         return modLessons;
     }

@@ -9,11 +9,12 @@ export class ScheduleItem {
   @observable location;
   @observable createdBy;
   @observable assignedTo;
-  @observable type;
+  @observable itemType;
   @observable moduleCode;
   @observable groupId;
+  @observable dType;
 
-  constructor(title, description,startDate, endDate, location, createdBy, assignedTo, type, moduleCode, groupId) {
+  constructor(title, description,startDate, endDate, location, createdBy, assignedTo, itemType, moduleCode, groupId, dType) {
       this.title = title;
       this.description = description;
       this.startDate = startDate;
@@ -21,8 +22,9 @@ export class ScheduleItem {
       this.location = location;
       this.createdBy = createdBy;
       this.assignedTo = assignedTo;
-      this.type = type;
+      this.itemType = itemType;
       this.moduleCode = moduleCode;
       this.groupId = groupId;
+      this.dType = dType;
   }
 }

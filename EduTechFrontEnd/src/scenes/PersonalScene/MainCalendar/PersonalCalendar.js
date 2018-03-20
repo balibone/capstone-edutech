@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import { Paper } from 'material-ui';
+import { Modal,Button } from 'react-bootstrap';
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import BigCalendar from 'react-big-calendar';
@@ -15,6 +15,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import SingleCalendarCard from './SingleCalendarCard';
 import AddCalendarItemForm from './AddCalendarItemForm';
 import EditCalendarItemForm from './EditCalendarItemForm';
+import AddCalendarItemModal from './AddCalendarItemModal';
 
 import ScheduleItemStore from '../../../stores/ScheduleItemStore/ScheduleItemStore';
 
@@ -43,9 +44,7 @@ class PersonalCalendar extends Component {
 	openCalendarForm(selectedSlot){
 		var selectedDate = new Date(selectedSlot.end);
 		var today = new Date();
-		if(selectedDate < today){
-
-		} else{
+		if(selectedDate > today){
 			this.setState({openCalendarForm: true, selectedDate: selectedDate, openEditForm:false, openCalendarCard:false})
 		}
 	}
@@ -60,9 +59,46 @@ class PersonalCalendar extends Component {
 		this.setState({openEditForm: true, openCalendarCard: false})
 	}
 
+	eventStyleGetter(event, start, end, isSelected) {
+    	var backgroundColor = '#' + event.hexColor;
+    	var style = {
+	        backgroundColor: backgroundColor,
+	        // opacity: 0.8,
+	        // color: 'black',
+	        // display: 'block'
+    	};
+    	return { style: style };
+	}
+
+	handleCloseModal(){
+		this.setState({openCalendarForm: false})
+	}
+
+	handleClose() {
+		this.setState({ openCalendarForm: false });
+	}
+
 	render(){
 		let eventsArray = this.props.eventsArray;
 
+		let formats = {
+		    timeGutterFormat: 'HH:mm',
+		    eventTimeRangeFormat: ({
+		        start,
+		        end
+		      }, culture, local) =>
+		      local.format(start, 'HH:mm', culture) + '-' +
+		      local.format(end, 'HH:mm', culture),
+		    dayFormat: 'DD-MM' + ' ' + 'dd',
+		    agendaTimeRangeFormat: ({
+		        start,
+		        end
+		      }, culture, local) =>
+		      local.format(start, 'HH:mm', culture) + '-' +
+		      local.format(end, 'HH:mm', culture),
+		    agendaDateFormat: 'DD-MM' + ' ' + 'dd',
+
+		  }
 		// eventsArray = eventsArray.filter(event => event.type === "personal" || event.type === "meeting");
 		return(
 		    <div>
@@ -72,16 +108,25 @@ class PersonalCalendar extends Component {
 				    	defaultDate = {new Date()}
 				    	onSelectSlot = {(slotInfo) => this.openCalendarForm(slotInfo)}
 				    	onSelectEvent = {(event)=> this.eventClicked(event) }
-				    	views={['month']}
-						popup={true}
-						popupOffset={{x:30, y:20}}
-						length={7}
-				    />
-
-
-				  {
-				  	this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>
-				  }
+				    	views={['month', 'agenda']}
+				    	popup={true}
+				    	popupOffset={{x: 30, y: 20}}
+				    	length = {7}
+				    	eventPropGetter = {this.eventStyleGetter}
+				    	formats = {formats}
+		
+				    />  
+				  		  	
+				  	 {/*this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>*/}
+				  	<Modal show={this.state.openCalendarForm} onHide={this.handleClose.bind(this)}>
+			          <Modal.Header closeButton>
+			            <Modal.Title>Add Calendar Item on {moment(this.state.selectedDate).format('D/M/YY')}</Modal.Title>
+			          </Modal.Header>
+			          <AddCalendarItemModal selectedDate={this.state.selectedDate} handleClose={this.handleClose.bind(this)} formSuccess={ScheduleItemStore.addFormSuccess}/>
+			        </Modal>
+				  	
+				 
+				  
 				  {
 				  	this.state.openCalendarCard ? <SingleCalendarCard
 					  	selectedEvent={this.state.selectedEvent}
