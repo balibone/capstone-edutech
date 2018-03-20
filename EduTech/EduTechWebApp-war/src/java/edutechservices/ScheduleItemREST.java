@@ -30,8 +30,6 @@ import javax.ws.rs.core.MediaType;
 @Path("scheduleitem")
 public class ScheduleItemREST {
 
-    @PersistenceContext(unitName = "EduTechWebApp-warPU")
-    private EntityManager em;
     @EJB
     CommonRESTMgrBean etr;
     
@@ -67,7 +65,6 @@ public class ScheduleItemREST {
     }
     
     @GET 
-    @Path("{id}") 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<ScheduleItemEntity> getAllScheduleItems(@PathParam("id") String id) {
         return etr.getAllScheduleItems();
