@@ -78,7 +78,7 @@ class Main extends Component {
             }}/>
           </Switch>
         </Col>
-        <Col md={6} >
+        <Col md={9} >
           <KeyInfoPanel ScheduleItemStore={ScheduleItemStore}/>
           <Switch>
             <Route exact path="/" component={PersonalScene} />
@@ -86,10 +86,14 @@ class Main extends Component {
             <Route path="/group/:groupId" render={(props) => <GroupScene meetingStore={MeetingStore}{...props} />} />
           </Switch>
         </Col>
-        <Col md={3}>
+
+      {/*
+      <Col md={3}>
           <CalendarPanel />
           <TaskPanel />
         </Col>
+      */}
+        
       </Grid>
     )
   }

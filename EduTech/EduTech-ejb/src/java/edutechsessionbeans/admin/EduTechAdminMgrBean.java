@@ -437,6 +437,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         conversion.setCreatedAt(LocalDateTime.now());
         //set assignedTo
         conversion.setAssignedTo(mod.getMembers());
+        //add lesson to mod's events
+        mod.getModuleEvents().add(conversion);
         //add 1st lesson item into list.
         em.persist(conversion);
         
@@ -461,6 +463,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             temp.setEndDate(tempEndDate);
             System.out.println("temp lesson start date: "+temp.getStartDate());
             System.out.println("temp lesson end date: "+temp.getEndDate());
+            //add lesson to mod events
+            mod.getModuleEvents().add(temp);
             em.persist(temp);
             tempStartDate = tempStartDate.plusWeeks(1);
             tempEndDate = tempEndDate.plusWeeks(1);

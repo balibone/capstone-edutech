@@ -5,6 +5,7 @@
  */
 package edutechservices;
 
+import edutechentities.common.ScheduleItemEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import edutechsessionbeans.ModuleRESTMgrBean;
@@ -71,7 +72,7 @@ public class ModuleREST {
     @GET 
     @Path("lessons/{id}") 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<LessonEntity> getAllModuleLessons(@PathParam("id") String id) {
+    public List<ScheduleItemEntity> getAllModuleLessons(@PathParam("id") String id) {
         return mrb.getAllModuleLessons(id);
     }
 

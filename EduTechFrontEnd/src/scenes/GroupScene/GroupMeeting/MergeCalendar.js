@@ -31,7 +31,7 @@ class MergeCalendar extends Component {
 		if(membersScheduleItems && membersScheduleItems.length>0){
 			for(var i=0 ; i<membersScheduleItems.length ; i++){
 				var namesArr =[];
-				if(membersScheduleItems[i].type === "timetable"){
+				if(membersScheduleItems[i].itemType === "timetable"){
 					for(var j=0 ; j<membersScheduleItems[i].assignedTo.length ; j++){
 						namesArr.push(membersScheduleItems[i].assignedTo[j].username);
 					}
@@ -44,7 +44,7 @@ class MergeCalendar extends Component {
 						end: new Date(membersScheduleItems[i].endDate), 
 						description: membersScheduleItems[i].description,
 						location: membersScheduleItems[i].location,
-						type: membersScheduleItems[i].type,
+						type: membersScheduleItems[i].itemType,
 						createdBy: membersScheduleItems[i].createdBy
 					})
 				}

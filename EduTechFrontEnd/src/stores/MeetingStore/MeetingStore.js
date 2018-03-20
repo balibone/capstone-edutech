@@ -31,14 +31,15 @@ class MeetingStore {
 
 
      @action
-    addMeeting(title, description, startDate, endDate, location, groupId, type) {
+    addMeeting(title, description, startDate, endDate, location, groupId, itemType) {
       	if(!title || !description || !startDate || !endDate || !location){
           swal("Warning!", "Please make sure all fields are entered.", "warning");
         } else if(startDate > endDate) {
           swal("Time Error!", "Please make sure start time is earlier than end time.", "warning");
         } else{
+          const dType = "ScheduleItem";
           const createdBy = localStorage.getItem("username");
-          const newMeeting = new Meeting(title, description, startDate, endDate, location, createdBy, type, groupId);
+          const newMeeting = new Meeting(title, description, startDate, endDate, location, createdBy, itemType, groupId, [], dType);
           const dataSet = toJS(newMeeting);
           dataSet.createdBy ={username: dataSet.createdBy};
           console.log("Data Set : ", dataSet);

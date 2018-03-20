@@ -63,7 +63,7 @@ class ProjectGroupCalendar extends Component {
 		if(membersScheduleItems && membersScheduleItems.length>0){
 			for(var i=0 ; i<membersScheduleItems.length ; i++){
 				var namesArr =[];
-				if(membersScheduleItems[i].type === "meeting" || membersScheduleItems[i].type === "timetable"){
+				if(membersScheduleItems[i].itemType === "meeting" || membersScheduleItems[i].itemType === "timetable"){
 					for(var j=0 ; j<membersScheduleItems[i].assignedTo.length ; j++){
 						namesArr.push(membersScheduleItems[i].assignedTo[j].username);
 					}
@@ -76,7 +76,7 @@ class ProjectGroupCalendar extends Component {
 						end: new Date(membersScheduleItems[i].endDate), 
 						description: membersScheduleItems[i].description,
 						location: membersScheduleItems[i].location,
-						type: membersScheduleItems[i].type,
+						type: membersScheduleItems[i].itemType,
 						createdBy: membersScheduleItems[i].createdBy
 					})
 				} else{
@@ -88,7 +88,7 @@ class ProjectGroupCalendar extends Component {
 						end: new Date(membersScheduleItems[i].endDate), 
 						description: membersScheduleItems[i].description,
 						location: membersScheduleItems[i].location,
-						type: membersScheduleItems[i].type,
+						type: membersScheduleItems[i].itemType,
 						createdBy: membersScheduleItems[i].createdBy
 					})
 				}
