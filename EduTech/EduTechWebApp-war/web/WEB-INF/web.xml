@@ -494,6 +494,10 @@
         <servlet-name>UserCompanyReview</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyReview.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>UserCompanyRequest</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyRequest.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
     <servlet>
         <servlet-name>ViewCompanyListingSYS</servlet-name>

@@ -94,6 +94,22 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(username));
                     pageAction = "UserCompanyReview";
                     break;
+                case "goToCompanyRequest":
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("companyRequestListSYS", (ArrayList) vsmr.viewUserCompanyRequest(username));
+                    pageAction = "UserCompanyRequest";
+                    break;
+                case "goToCancelRequest":
+                    long delRequestID = Long.parseLong(request.getParameter("hiddenRequestID"));
+                    if (vsmr.cancelRequest(delRequestID)) {
+                        System.out.println("Selected request has been canceled successfully.");
+                    } else {
+                        System.out.println("Selected review cannot be canceled. Please try again later.");
+                    }
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("companyRequestListSYS", (ArrayList) vsmr.viewUserCompanyRequest(username));
+                    pageAction = "UserCompanyRequest";
+                    break;
                 case "goToLogout":
                     Cookie cookieUsername = new Cookie("username", "");
                     cookieUsername.setPath("/");
