@@ -6,17 +6,12 @@
 package edutechservices;
 
 //import edutechentities.common.GroupEntity;
-import commoninfraentities.UserEntity;
 import edutechentities.common.AttachmentEntity;
-import edutechentities.group.GroupEntity;
 import edutechentities.module.LessonEntity;
 import edutechsessionbeans.CommonRESTMgrBean;
-import edutechsessionbeans.GroupRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -61,8 +56,9 @@ public class LessonREST {
     @DELETE 
     @Path("{id}") 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void deleteLesson(@PathParam("id") String id) {
+    public List<LessonEntity> deleteLesson(@PathParam("id") String id) {
         cmb.deleteLesson(id);
+        return cmb.getAllLessons();
     }
     
     @PUT 
