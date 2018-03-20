@@ -206,6 +206,28 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     }
     
     @Override
+    public List<Vector> viewUserCompanyRequest(String username) {
+        Query q = em.createQuery("SELECT cr FROM CompanyRequest cr WHERE cr.userEntity.username = :username ORDER BY cr.requestDate DESC");
+        q.setParameter("username", username);
+        List<Vector> requestList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            CompanyRequestEntity cre = (CompanyRequestEntity) o;
+            Vector requestVec = new Vector();
+
+            requestVec.add(cre.getRequestID());
+            requestVec.add(df.format(cre.getRequestDate()));
+            requestVec.add(cre.getUserEntity().getUsername());
+            requestVec.add(cre.getRequestCompany());
+            requestVec.add(cre.getRequestIndustry());
+            requestVec.add(cre.getRequestComment());
+            requestVec.add(cre.getRequestStatus());
+            requestList.add(requestVec);
+        }
+        return requestList;
+    }
+    
+    @Override
     public List<Vector> viewCompanyInSameIndustry(long companyID) {
         companyEntity = lookupCompany(companyID);
         String companyIndustry = companyEntity.getCategoryEntity().getCategoryName();
@@ -324,14 +346,35 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
         Query q =em.createQuery("SELECT cr from CompanyReview cr WHERE cr.reviewID=:reviewID");
         q.setParameter("reviewID", reviewID);
         CompanyReviewEntity cre = (CompanyReviewEntity) q.getSingleResult();
+        
         if(cre!=null) {
             CompanyEntity ce = lookupCompany(cre.getCompanyEntity().getCompanyID());
+            UserEntity ue = cre.getUserEntity();
             ce.getCompanyReviewSet().remove(cre);
+            ue.getCompanyReviewSet().remove(cre);
             em.remove(cre);
             em.merge(ce);
+            em.merge(ue);
             reviewDeleteStatus = true;
         }
         return reviewDeleteStatus;
+    }
+    
+    @Override
+    public boolean cancelRequest(long requestID) {
+        boolean requestDeleteStatus = false;
+        
+        Query q =em.createQuery("SELECT cr from CompanyRequest cr WHERE cr.requestID=:requestID");
+        q.setParameter("requestID", requestID);
+        CompanyRequestEntity cre = (CompanyRequestEntity) q.getSingleResult();
+        if(cre!=null) {
+            UserEntity ue = cre.getUserEntity();
+            ue.getCompanyRequestSet().remove(cre);
+            em.remove(cre);
+            em.merge(ue);
+            requestDeleteStatus = true;
+        }
+        return requestDeleteStatus;
     }
     
     @Override
