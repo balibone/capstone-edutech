@@ -24,12 +24,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
+import unifysessionbeans.systemuser.VoicesSysUserMgrBeanRemote;
 
 public class UserProfileSysUserController extends HttpServlet {
     @EJB
     private UserProfileSysUserMgrBeanRemote usmr;
     @EJB
     private MarketplaceSysUserMgrBeanRemote msmr;
+    @EJB
+    private VoicesSysUserMgrBeanRemote vsmr;
     
     boolean firstVisit = true;
     String username = "";
@@ -74,6 +77,22 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
                     request.setAttribute("itemOfferUserListSYS", msmr.viewItemOfferUserList(username, urlitemID));
                     pageAction = "PendingItemOfferSYS";
+                    break;
+                case "goToCompanyReview":
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(username));
+                    pageAction = "UserCompanyReview";
+                    break;
+                case "goToDeleteReview":
+                    long delReviewID = Long.parseLong(request.getParameter("hiddenReviewID"));
+                    if (vsmr.deleteReview(delReviewID)) {
+                        System.out.println("Selected Review has been deleted successfully.");
+                    } else {
+                        System.out.println("Selected Review cannot be deleted. Please try again later.");
+                    }
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(username));
+                    pageAction = "UserCompanyReview";
                     break;
                 case "goToLogout":
                     Cookie cookieUsername = new Cookie("username", "");
