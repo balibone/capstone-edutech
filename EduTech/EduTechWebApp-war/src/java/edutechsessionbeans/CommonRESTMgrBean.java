@@ -50,22 +50,24 @@ public class CommonRESTMgrBean {
         return LocalDateTime.now().toString();
     }
     
-    public void createUser(UserEntity entity) {
+    public UserEntity createUser(UserEntity entity) {
         entity.setUserCreationDate(new Date());
         entity.setUserActiveStatus(true);
         em.persist(entity);
+        return entity;
     }
 
-    public void editUser(String id, UserEntity entity) {
+    public UserEntity editUser(String id, UserEntity entity) {
         //pull current entity based on id (entity is now detached)
         UserEntity old = em.find(UserEntity.class, id);
         //instantiate curr entity into new entity
         old = entity;
         //update curr entity in database. (reattach entity)
         em.merge(old);
+        return old;
     }
 
-    public List<UserEntity> findAllUsers() {
+    public List<UserEntity> getAllUsers() {
         List<UserEntity> allUsers = em.createQuery("SELECT s FROM SystemUser s WHERE s.userActiveStatus=1").getResultList();
         if(allUsers!=null){
             for(UserEntity u : allUsers){
@@ -76,26 +78,22 @@ public class CommonRESTMgrBean {
         return allUsers;
     }
 
-    public UserEntity findUser(String username) {
+    public UserEntity getOneUser(String username) {
         UserEntity u = em.find(UserEntity.class, username);
         em.detach(u);
         u.setUserPassword("hidden");
         return u;
     }
 
-    public void removeUser(String id) {
+    public void deleteUser(String id) {
         em.remove(em.find(UserEntity.class, id));
     }
 
     public String countUsers() {
         return  String.valueOf(em.createQuery("SELECT COUNT(s) FROM SystemUser s WHERE s.userActiveStatus=1").getSingleResult());
     }
-    
-    public List<ScheduleItemEntity> findAllScheduleItems(){
-        return em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
-    }
 
-    public void createScheduleItem(ScheduleItemEntity entity) {
+    public ScheduleItemEntity createScheduleItem(ScheduleItemEntity entity) {
         entity.setCreatedAt(LocalDateTime.parse(getCurrentISODate()));
         // get proper User - initially json createdBy only contains a username key
         UserEntity user = (UserEntity) entity.getCreatedBy();
@@ -116,12 +114,14 @@ public class CommonRESTMgrBean {
         entity.setAssignedTo(assignedTo);
         //persist
         em.persist(entity);
+        return entity;
     }
 
-    public void editScheduleItem(String id, ScheduleItemEntity entity) {
+    public ScheduleItemEntity editScheduleItem(String id, ScheduleItemEntity entity) {
         ScheduleItemEntity toEdit = em.find(ScheduleItemEntity.class, Long.valueOf(id));
         toEdit = entity;
         em.merge(toEdit);
+        return entity;
     }
 
     public void removeScheduleItem(String id) {
@@ -304,47 +304,52 @@ public class CommonRESTMgrBean {
         task.setVerifiedAt(getCurrentISODate());
     }
 
-    public void createRecurringEvent(RecurringEventEntity entity) {
+    public RecurringEventEntity createRecurringEvent(RecurringEventEntity entity) {
         em.persist(entity);
+        return entity;
     }
-    public void editRecurringEvent(Long id, RecurringEventEntity entity) {
+    
+    public RecurringEventEntity editRecurringEvent(Long id, RecurringEventEntity entity) {
         RecurringEventEntity old = em.find(RecurringEventEntity.class, id);
         old = entity;
         em.merge(old);
+        return old;
     }
 
     public void removeRecurringEvent(Long id) {
         em.remove(em.find(RecurringEventEntity.class, id));
     }
 
-    public RecurringEventEntity findRecurringEvent(Long id) {
+    public RecurringEventEntity getOneRecurringEvent(Long id) {
         return em.find(RecurringEventEntity.class, id);
     }
 
-    public List<RecurringEventEntity> findAllRecurringEvents() {
+    public List<RecurringEventEntity> getAllRecurringEvents() {
         Query q1 = em.createQuery("SELECT r FROM RecurringEvent r");
         return q1.getResultList() ;
     }
 
-    public void createSemester(SemesterEntity entity) {
+    public SemesterEntity createSemester(SemesterEntity entity) {
         em.persist(entity);
+        return entity;
     }
 
-    public void editSemester(Long id, SemesterEntity entity) {
+    public SemesterEntity editSemester(Long id, SemesterEntity entity) {
         SemesterEntity old = em.find(SemesterEntity.class, id);
         old = entity;
         em.merge(old);
+        return old;
     }
 
-    public void removeSemester(Long id) {
+    public void deleteSemester(Long id) {
         em.remove(em.find(SemesterEntity.class, id));
     }
 
-    public SemesterEntity findSemester(Long id) {
+    public SemesterEntity getOneSemester(Long id) {
         return em.find(SemesterEntity.class, id);    
     }
 
-    public List<SemesterEntity> findAllSemesters() {
+    public List<SemesterEntity> getAllSemester() {
         Query q1 = em.createQuery("SELECT s FROM Semester s");
         return q1.getResultList() ;
     }
@@ -579,6 +584,15 @@ public class CommonRESTMgrBean {
     public AttachmentEntity downloadAttachment(Long id) {
         AttachmentEntity att = em.find(AttachmentEntity.class,id);
         return att;
+    }
+
+    public List<ScheduleItemEntity> getAllScheduleItems() {
+        Query q1 = em.createQuery("SELECT s FROM ScheduleItem s");
+        return q1.getResultList();
+    }
+
+    public List<TaskEntity> getAllTasks() {
+        return em.createQuery("SELECT t FROM Task t").getResultList();
     }
 
     
