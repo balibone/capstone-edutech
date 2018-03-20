@@ -5,14 +5,12 @@
  */
 package edutechservices;
 
+import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import edutechsessionbeans.ModuleRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -33,41 +31,50 @@ public class ModuleREST {
     
     @EJB
     ModuleRESTMgrBean mrb;
+    
+    @GET 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<ModuleEntity> getAllModules() {
+        return mrb.getAllModules();
+    }
 
-    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(ModuleEntity entity) {
+    @GET 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public ModuleEntity getOneModule(@PathParam("id") String id) {
+        return mrb.getOneModule(id);
+    }
+    
+    @POST 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void createModule(ModuleEntity entity) {
         mrb.createModule(entity);
     }
 
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, ModuleEntity entity) {
+    @PUT 
+    @Path("{id}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void editModule(@PathParam("id") String id, ModuleEntity entity) {
         mrb.editModule(id,entity);
     }
 
-    @DELETE @Path("{id}")
-    public void remove(@PathParam("id") String id) {
-        mrb.removeModule(id);
+    @DELETE 
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<ModuleEntity> deleteModule(@PathParam("id") String id) {
+        mrb.deleteModule(id);
+        return mrb.getAllModules();
     }
 
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public ModuleEntity find(@PathParam("id") String id) {
-        return mrb.findModule(id);
+    @GET 
+    @Path("lessons/{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<LessonEntity> getAllModuleLessons(@PathParam("id") String id) {
+        return mrb.getAllModuleLessons(id);
     }
 
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ModuleEntity> findAll() {
-        return mrb.findAllModules();
-    }
-
-    //FOR FUTURE REFERENCE IF NEEDED TO IMPLEMENT
-//    @GET @Path("{from}/{to}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-//    public List<ModuleEntity> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-//        return 
-//    }
-//
-//    @GET @Path("count") @Produces(MediaType.TEXT_PLAIN)
-//    public String countREST() {
-//    }
-
+    
     
 }
