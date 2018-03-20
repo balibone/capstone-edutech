@@ -190,6 +190,12 @@
                                 <a href="account-address.html" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
                                 </a>
+                                <a href="ProfileSysUser?pageTransit=goToCompanyReview" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-building"></i>&nbsp;Company Review List
+                                </a>
+                                <a href="account-address.html" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-question-circle"></i>&nbsp;Company Request List
+                                </a>
                             </div>
                         </div>
                     </div>

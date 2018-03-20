@@ -184,6 +184,28 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     }
     
     @Override
+    public List<Vector> viewUserCompanyReview(String username) {
+        Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.userEntity.username = :username ORDER BY cr.reviewDate DESC");
+        q.setParameter("username", username);
+        List<Vector> reviewList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            CompanyReviewEntity cre = (CompanyReviewEntity) o;
+            Vector reviewVec = new Vector();
+
+            reviewVec.add(cre.getReviewID());
+            reviewVec.add(df.format(cre.getReviewDate()));
+            reviewVec.add(cre.getUserEntity().getUsername());
+            reviewVec.add(cre.getCompanyEntity().getCompanyName());
+            reviewVec.add(cre.getReviewTitle());
+            reviewVec.add(getReviewLikeCount(cre.getReviewID()));
+            reviewVec.add(cre.getReviewStatus());
+            reviewList.add(reviewVec);
+        }
+        return reviewList;
+    }
+    
+    @Override
     public List<Vector> viewCompanyInSameIndustry(long companyID) {
         companyEntity = lookupCompany(companyID);
         String companyIndustry = companyEntity.getCategoryEntity().getCategoryName();
@@ -293,6 +315,23 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             companyIndustryStr = companyIndustryStr.substring(0, companyIndustryStr.length()-1);
         }
         return companyIndustryStr;
+    }
+    
+    @Override
+    public boolean deleteReview(long reviewID) {
+        boolean reviewDeleteStatus = false;
+        
+        Query q =em.createQuery("SELECT cr from CompanyReview cr WHERE cr.reviewID=:reviewID");
+        q.setParameter("reviewID", reviewID);
+        CompanyReviewEntity cre = (CompanyReviewEntity) q.getSingleResult();
+        if(cre!=null) {
+            CompanyEntity ce = lookupCompany(cre.getCompanyEntity().getCompanyID());
+            ce.getCompanyReviewSet().remove(cre);
+            em.remove(cre);
+            em.merge(ce);
+            reviewDeleteStatus = true;
+        }
+        return reviewDeleteStatus;
     }
     
     @Override
