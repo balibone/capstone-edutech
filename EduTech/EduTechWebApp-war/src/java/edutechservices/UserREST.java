@@ -9,7 +9,6 @@ import edutechsessionbeans.CommonRESTMgrBean;
 import commoninfraentities.UserEntity;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,34 +36,42 @@ public class UserREST {
     CommonRESTMgrBean etr;
     
 
-    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(UserEntity entity) {
-        etr.createUser(entity);
+    @POST 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public UserEntity createUser(UserEntity entity) {
+        return etr.createUser(entity);
     }
 
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, UserEntity entity) {
-        etr.editUser(id, entity);
+    @PUT 
+    @Path("{id}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public UserEntity editUser(@PathParam("id") String id, UserEntity entity) {
+        return etr.editUser(id, entity);
     }
 
-    @DELETE @Path("{id}")
-    public void remove(@PathParam("id") String id) {
-        etr.removeUser(id);
+    @DELETE 
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<UserEntity> deleteUser(@PathParam("id") String id) {
+        etr.deleteUser(id);
+        return etr.getAllUsers();
     }
 
-    @GET @Path("{username}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public UserEntity find(@PathParam("username") String username) {
-        return etr.findUser(username);
+    @GET 
+    @Path("{username}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public UserEntity getOneUser(@PathParam("username") String username) {
+        return etr.getOneUser(username);
     }
 
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<UserEntity> findAll() {
-        return etr.findAllUsers();
+    @GET 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<UserEntity> getAllUsers() {
+        return etr.getAllUsers();
     }
 
-    @GET @Path("count") @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return etr.countUsers();
-    }
+
     
 }

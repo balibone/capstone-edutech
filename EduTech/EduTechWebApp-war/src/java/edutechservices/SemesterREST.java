@@ -31,45 +31,43 @@ import javax.ws.rs.core.MediaType;
 @Path("semester")
 public class SemesterREST{
 
-    @PersistenceContext(unitName = "EduTechWebApp-warPU")
-    private EntityManager em;
-
     @EJB
     CommonRESTMgrBean crmb;
 
-    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(SemesterEntity entity) {
-        crmb.createSemester(entity);
+    @POST 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public SemesterEntity createSemester(SemesterEntity entity) {
+        return crmb.createSemester(entity);
     }
 
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, SemesterEntity entity) {
-        crmb.editSemester(id, entity);
+    @PUT 
+    @Path("{id}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public SemesterEntity editSemester(@PathParam("id") Long id, SemesterEntity entity) {
+        return crmb.editSemester(id, entity);
     }
 
-    @DELETE @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        crmb.removeSemester(id);
+    @DELETE 
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<SemesterEntity> deleteSemester(@PathParam("id") Long id) {
+        crmb.deleteSemester(id);
+        return crmb.getAllSemester();
     }
 
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public SemesterEntity find(@PathParam("id") Long id) {
-        return crmb.findSemester(id);
+    @GET 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public SemesterEntity getOneSemester(@PathParam("id") Long id) {
+        return crmb.getOneSemester(id);
     }
 
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<SemesterEntity> findAll() {
-        return crmb.findAllSemesters();
+    @GET 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<SemesterEntity> getAllSemester() {
+        return crmb.getAllSemester();
     }
-
-//    @GET @Path("{from}/{to}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-//    public List<SemesterEntity> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-//        return super.findRange(new int[]{from, to});
-//    }
-//
-//    @GET @Path("count") @Produces(MediaType.TEXT_PLAIN)
-//    public String countREST() {
-//        return String.valueOf(super.count());
-//    }
     
 }
