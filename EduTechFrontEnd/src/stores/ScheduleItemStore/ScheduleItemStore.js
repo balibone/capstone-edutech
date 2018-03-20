@@ -58,15 +58,17 @@ class ScheduleItemStore {
      }
 
      @action
-    addScheduleItem(title, description, startDate, endDate, location, createdBy, assignedTo, type, moduleCode, groupId) {
-        if(!title || !description || !startDate || !endDate || !location || !type){
+    addScheduleItem(title, description, startDate, endDate, location, createdBy, assignedTo, itemType, moduleCode, groupId) {
+        if(!title || !description || !startDate || !endDate || !location || !itemType){
           swal("Warning!", "Please make sure all fields are entered.", "warning");
         } else if(startDate > endDate) {
           swal("Time Error!", "Please make sure start time is earlier than end time.", "warning");
         } else{
-          const newScheduleItem = new ScheduleItem(title, description, startDate, endDate, location, createdBy, assignedTo, type, moduleCode, groupId);
+          const dType = "ScheduleItem";
+          const newScheduleItem = new ScheduleItem(title, description, startDate, endDate, location, createdBy, assignedTo, itemType, moduleCode, groupId, dType);
           const dataSet = toJS(newScheduleItem);
           dataSet.createdBy ={username: dataSet.createdBy};
+
           axios.post('/scheduleitem', dataSet)
             .then((res) => {
               this.scheduleItems.push(newScheduleItem);

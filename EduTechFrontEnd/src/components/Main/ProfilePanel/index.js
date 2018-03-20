@@ -1,8 +1,6 @@
 import React from 'react';
 import { Paper } from 'material-ui';
 
-import UploadFile from '../../UploadFile';
-
 import './styles.css';
 
 const ProfilePanel = ({ img, primaryInfo, secondaryInfo }) => (
@@ -10,7 +8,6 @@ const ProfilePanel = ({ img, primaryInfo, secondaryInfo }) => (
     <img src={`http://localhost:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/${img}`} alt="profile" height="110" className="img-circle img-profile" />
     <h4><span className="capitalize">{primaryInfo}</span></h4>
     <p>{secondaryInfo}</p>
-    <UploadFile />
   </Paper>
 );
 

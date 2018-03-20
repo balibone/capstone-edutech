@@ -50,12 +50,13 @@ class Main extends Component {
       return <span></span>
     }
     
-    const { imgfilename, userfirstname, userlastname, username} = currentUser;
+    const { imgFileName, userFirstName, userLastName, username} = currentUser;
+
     return(
       <Grid>
         <Col md={3}>
           <Switch>
-            <Route exact path="/" render={() => <ProfilePanel img={imgfilename} primaryInfo={userfirstname + " " + userlastname} secondaryInfo={`@${username}`} />} />
+            <Route exact path="/" render={() => <ProfilePanel img={imgFileName} primaryInfo={userFirstName + " " + userLastName} secondaryInfo={`@${username}`} />} />
             <Route exact path="/module/:moduleCode" render={(props) => {
               const {moduleCode} = props.match.params;
               const module = this.getSelectedModule(moduleCode);

@@ -21,7 +21,7 @@ class MainCalendar extends Component {
 		if(scheduleItemTempArr && scheduleItemTempArr.length>0){
 			for(var i=0 ; i<scheduleItemTempArr.length ; i++){
 				var color = "";
-				switch(scheduleItemTempArr[i].type){
+				switch(scheduleItemTempArr[i].itemType){
 					case "personal": color = '006400'
 						break;
 					case "meeting": color = 'FF8C00'
@@ -39,7 +39,7 @@ class MainCalendar extends Component {
 					end: new Date(scheduleItemTempArr[i].endDate), 
 					description: scheduleItemTempArr[i].description,
 					location: scheduleItemTempArr[i].location,
-					type: scheduleItemTempArr[i].type,
+					type: scheduleItemTempArr[i].itemType,
 					createdBy: scheduleItemTempArr[i].createdBy,
 					hexColor: color
 				})
