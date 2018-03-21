@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -283,6 +285,9 @@ public class SystemAdminController extends HttpServlet {
         String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
                 + "uploads" + File.separator + "commoninfrastructure" + File.separator + "admin" + File.separator + "images"
                 + File.separator;
+        //creates directory path if not present.
+        Files.createDirectories(Paths.get(imageDir));
+        
         Part imagePart = request.getPart("profileImage");
         final String fileName;
         fileName= getFileName(imagePart);
@@ -297,7 +302,7 @@ public class SystemAdminController extends HttpServlet {
             final byte[] bytes = new byte[1024];
             //read image bytes from input stream until finish.
             while ((bytesRead = fileContent.read(bytes)) != -1) {
-                //write image bytes to output stream incrementally, until bytesRead = total file size --> means full image written.
+                
                 out.write(bytes, 0, bytesRead);
             }
         } catch (FileNotFoundException fne) {

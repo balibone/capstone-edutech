@@ -595,6 +595,4 @@ public class CommonRESTMgrBean {
         return em.createQuery("SELECT t FROM Task t").getResultList();
     }
 
-    
-
 }
