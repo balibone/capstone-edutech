@@ -78,6 +78,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     String itemSellerID = request.getParameter("itemSellerID");
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
                     request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));
+                    request.setAttribute("userJobListing", esmr.viewUserJobList(itemSellerID));
                     pageAction = "UserProfile";
                     break;
                 case "goToPendingItemOfferList":

@@ -444,6 +444,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         boolean jobInfoEntry = false;
         Date currentDate = new Date();
         String dateString = "";
+        jEntity = lookupJob(urljobID);
         List<Vector> jobOfferList = new ArrayList<Vector>();
 
         Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobEntity.userEntity.username = :username "
@@ -451,71 +452,89 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         q.setParameter("username", username);
         q.setParameter("jobID", urljobID);
         
-        for (Object o : q.getResultList()) {
-            JobOfferEntity jobOfferE = (JobOfferEntity) o;
-            Vector jobOfferDetailsVec = new Vector();
+        if(q.getResultList().size()==0){
+            Vector jobDetails = new Vector();
+            jobDetails.add(jEntity.getJobID());
+            jobDetails.add(jEntity.getJobTitle());
+            jobDetails.add(jEntity.getJobImage());
+            jobDetails.add(String.format ("%,.2f", jEntity.getJobRate()));
+            jobDetails.add(jEntity.getJobRateType());
+            jobDetails.add(jEntity.getCategoryEntity().getCategoryName());
+            jobDetails.add(jEntity.getNumOfHelpers());
+            jobOfferList.add(jobDetails);
+            jobInfoEntry = true;
             
-            if(jobInfoEntry == false) {
-                Vector jobDetailsVec = new Vector();
-                jobDetailsVec.add(jobOfferE.getJobEntity().getJobID());
-                jobDetailsVec.add(jobOfferE.getJobEntity().getJobTitle());
-                jobDetailsVec.add(jobOfferE.getJobEntity().getJobImage());
-                jobDetailsVec.add(String.format ("%,.2f", jobOfferE.getJobEntity().getJobRate()));
-                jobDetailsVec.add(jobOfferE.getJobEntity().getJobRateType());
-                jobOfferList.add(jobDetailsVec);
-                jobInfoEntry = true;
-            }
-            jobOfferDetailsVec.add(jobOfferE.getUserEntity().getUsername());
-            jobOfferDetailsVec.add(jobOfferE.getUserEntity().getUserFirstName());
-            jobOfferDetailsVec.add(jobOfferE.getUserEntity().getUserLastName());
-            jobOfferDetailsVec.add(jobOfferE.getUserEntity().getImgFileName());
-            //jobOfferDetailsVec.add(getPositiveItemReviewCount(itemOfferE.getUserEntity().getUsername()));
-            //jobOfferDetailsVec.add(getNeutralItemReviewCount(itemOfferE.getUserEntity().getUsername()));
-            //jobOfferDetailsVec.add(getNegativeItemReviewCount(itemOfferE.getUserEntity().getUsername()));
-            jobOfferDetailsVec.add(String.format ("%,.2f", jobOfferE.getJobOfferPrice()));
-            jobOfferDetailsVec.add(jobOfferE.getJobOfferDescription());
-            jobOfferDetailsVec.add(jobOfferE.getJobOfferStatus());
-            
-            long diff = currentDate.getTime() - jobOfferE.getJobOfferDate().getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000) % 24;
-            long diffDays = diff / (24 * 60 * 60 * 1000);
+        }else{
+        
+            for (Object o : q.getResultList()) {
+                JobOfferEntity jobOfferE = (JobOfferEntity) o;
+                Vector jobOfferDetailsVec = new Vector();
 
-            if (diffDays != 0) {
-                dateString = diffDays + " day";
-                if (diffDays == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
+                if(jobInfoEntry == false) {
+                    Vector jobDetailsVec = new Vector();
+                    jobDetailsVec.add(jobOfferE.getJobEntity().getJobID());
+                    jobDetailsVec.add(jobOfferE.getJobEntity().getJobTitle());
+                    jobDetailsVec.add(jobOfferE.getJobEntity().getJobImage());
+                    jobDetailsVec.add(String.format ("%,.2f", jobOfferE.getJobEntity().getJobRate()));
+                    jobDetailsVec.add(jobOfferE.getJobEntity().getJobRateType());
+                    jobDetailsVec.add(jobOfferE.getJobEntity().getCategoryEntity().getCategoryName());
+                    jobDetailsVec.add(jobOfferE.getJobEntity().getNumOfHelpers());
+                    jobOfferList.add(jobDetailsVec);
+                    jobInfoEntry = true;
                 }
-            } else if (diffHours != 0) {
-                dateString = diffHours + " hour";
-                if (diffHours == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
+                jobOfferDetailsVec.add(jobOfferE.getUserEntity().getUsername());
+                jobOfferDetailsVec.add(jobOfferE.getUserEntity().getUserFirstName());
+                jobOfferDetailsVec.add(jobOfferE.getUserEntity().getUserLastName());
+                jobOfferDetailsVec.add(jobOfferE.getUserEntity().getImgFileName());
+                //jobOfferDetailsVec.add(getPositiveItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+                //jobOfferDetailsVec.add(getNeutralItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+                //jobOfferDetailsVec.add(getNegativeItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+                jobOfferDetailsVec.add(String.format ("%,.2f", jobOfferE.getJobOfferPrice()));
+                jobOfferDetailsVec.add(jobOfferE.getJobOfferDescription());
+                jobOfferDetailsVec.add(jobOfferE.getJobOfferStatus());
+
+                long diff = currentDate.getTime() - jobOfferE.getJobOfferDate().getTime();
+                long diffSeconds = diff / 1000 % 60;
+                long diffMinutes = diff / (60 * 1000) % 60;
+                long diffHours = diff / (60 * 60 * 1000) % 24;
+                long diffDays = diff / (24 * 60 * 60 * 1000);
+
+                if (diffDays != 0) {
+                    dateString = diffDays + " day";
+                    if (diffDays == 1) {
+                        dateString += " ago";
+                    } else {
+                        dateString += "s ago";
+                    }
+                } else if (diffHours != 0) {
+                    dateString = diffHours + " hour";
+                    if (diffHours == 1) {
+                        dateString += " ago";
+                    } else {
+                        dateString += "s ago";
+                    }
+                } else if (diffMinutes != 0) {
+                    dateString = diffMinutes + " minute";
+                    if (diffMinutes == 1) {
+                        dateString += " ago";
+                    } else {
+                        dateString += "s ago";
+                    }
+                } else if (diffSeconds != 0) {
+                    dateString = diffSeconds + " second";
+                    if (diffSeconds == 1) {
+                        dateString += " ago";
+                    } else {
+                        dateString += "s ago";
+                    }
                 }
-            } else if (diffMinutes != 0) {
-                dateString = diffMinutes + " minute";
-                if (diffMinutes == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffSeconds != 0) {
-                dateString = diffSeconds + " second";
-                if (diffSeconds == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
+                jobOfferDetailsVec.add(dateString);
+                jobOfferDetailsVec.add(df.format(jobOfferE.getJobOfferDate()));
+                jobOfferList.add(jobOfferDetailsVec);
+                dateString = "";
             }
-            jobOfferDetailsVec.add(dateString);
-            jobOfferDetailsVec.add(df.format(jobOfferE.getJobOfferDate()));
-            jobOfferList.add(jobOfferDetailsVec);
-            dateString = "";
         }
+        System.out.println("offerList size: " + jobOfferList.size());
         return jobOfferList;
     }
     

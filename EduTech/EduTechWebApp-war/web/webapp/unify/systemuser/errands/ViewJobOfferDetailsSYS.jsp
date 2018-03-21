@@ -8,8 +8,8 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Job Listing</title>
-
+        <title>Unify Errands - Job Listing Details</title>
+        
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
@@ -19,13 +19,12 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/userprofile/UserItemTransactionCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/errands/ViewJobDetailsSYSCSS.css" rel="stylesheet" type="text/css">
         
-        <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
     </head>
-    <body>
+    <body onload="loadMap()">
         <!-- MOBILE SIDE NAVIGATION -->
         <nav class="offcanvas">
             <div class="offcanvas-content">
@@ -48,7 +47,7 @@
             </div>
         </nav>
         <div class="content-overlay"></div>
-        
+
         <!-- PAGE TOP HEADER -->
         <div class="top-header">
             <div class="container">
@@ -127,7 +126,7 @@
                                 <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </a>
-                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
+                                <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
@@ -145,107 +144,142 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Marketplace Transaction</li>
+                            <li class="breadcrumb-item active" aria-current="page">Job Offers</li>
                         </ol>
                     </nav>
                 </div>
             </div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                        <div class="card user-card">
-                            <%
-                                Vector userAccountVec = (Vector) request.getAttribute("userAccountVec");
-                                String username, userFirstName, userLastName, userImage, userCreationDate;
-                                username = userFirstName = userLastName = userImage = userCreationDate = "";
-
-                                if (userAccountVec != null) {
-                                    username = (String) userAccountVec.get(0);
-                                    userFirstName = (String) userAccountVec.get(1);
-                                    userLastName = (String) userAccountVec.get(2);
-                                    userImage = (String) userAccountVec.get(3);
-                                    userCreationDate = (String.valueOf(userAccountVec.get(4)));
-                                }
-                            %>
-                            <div class="card-body p-2 mb-3 mb-md-0 mb-xl-3">
-                                <div class="media">
-                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= userImage%>" style="width:50px;height:50px;"/>
-                                    <div class="media-body ml-2">
-                                        <h5 class="user-name"><strong><%= userFirstName%>&nbsp;<%= userLastName%></strong></h5>
-                                        <p>@<%= username%></p>
-                                        <small class="card-text text-muted mt-2">Joined <%= userCreationDate%></small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group list-group-flush">
-                                <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
-                                </a>
-                                <a href="account-address.html" class="list-group-item list-group-item-action">
-                                    <i clasrurs="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Your Job Listing</span></div>
-                        <div class="row">
-                            <%
-                                ArrayList<Vector> jobListing = (ArrayList) request.getAttribute("userJobListing");
-                                if(jobListing != null){
-                                    for(int i=0; i<jobListing.size(); i++){
-                                        Vector jobInfo = jobListing.get(i);
-                                        
-                                        long jobID = (Long)jobInfo.get(0);
-                                        String jobImg = (String)jobInfo.get(1);
-                                        String jobTitle = (String)jobInfo.get(2);
-                                        String categoryName = (String)jobInfo.get(3);
-                                        String userID = (String)jobInfo.get(4);
-                                        String postTime = (String)jobInfo.get(6);
-                                        String jobRate = (String)jobInfo.get(8);
-                                        String rateType = (String)jobInfo.get(9);
-                                        String jobRateType;
-                                        if(rateType.equals("HR")){
-                                            jobRateType = "hour";
-                                        }else{
-                                            jobRateType = "Fixed Rate";
-                                        }
-                            %>
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-4"><img src="uploads/unify/images/errands/job/<%= jobImg%>" style="height: 100px; width: 100px;"></div>
-                                            <div class="col-md-8">
-                                                <h5><%= jobTitle%></h5>
-                                                <span><%= categoryName%></span><br/>
-                                                <span>S$<%= jobRate%>/<%= jobRateType%></span><br/>
-                                                <a href="#" class="btn ">Edit</a>
-                                                <a href="#" class="btn ">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <%
-                                    }
-                                }
-                            %>
-                        </div>
-                    </div>
-            </div>
-            <div id="unifyFooter"></div>
-            <div id="itemDetails-iframe"></div>
             
-            <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
-                <i class="fa fa-angle-double-up"></i>
-            </a>
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-md-3">
+                    <div>
+                        <%
+                            ArrayList<Vector> jobList = (ArrayList)request.getAttribute("jobListSYS");
+                            if (jobList.size()!=0) {
+                                for (int i = 0; i <= jobList.size() - 1; i++) {
+                                    Vector v = jobList.get(i);
+                                            
+                                    String jobID = String.valueOf(v.get(0));
+                                    String jobImage = String.valueOf(v.get(1));
+                                    String jobTitle = String.valueOf(v.get(2));
+                                    String jobCategoryName = String.valueOf(v.get(3));
+                                    //String jobPosterName = String.valueOf(v.get(4));
+                                    //String jobPostDate = String.valueOf(v.get(5));
+                                    //String jobWorkDate = String.valueOf(v.get(6));
+                                    //String startLocation = String.valueOf(v.get(7));
+                                    String jobRateType = String.valueOf(v.get(8));
+                                    String jobRate = String.valueOf(v.get(9));
+                                    //String numOfLikes = String.valueOf(v.get(10));
+                        %>
+                        <div class="card">
+                          <div class="card-body">
+                              <div class="row">
+                                    <div class="col-xl-3 col-md-3 col-3">
+                                        <img src="uploads/unify/images/errands/job/<%= jobImage%>" style="height: 70px; width: 70px;">
+                                    </div>
+                                    <div class="col-xl-9 col-md-9 col-9">
+                                        <span><strong><%= jobTitle%></strong></span>
+                                        <p class="card-text"><%= jobCategoryName%></p>
+                                        <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+                        <%
+                                    }
+                            }
+                        %>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7 ml-1">
+                    <%
+                        ArrayList<Vector> offerList = (ArrayList)request.getAttribute("jobOfferList");
+                        if(offerList.size()!=0){
+                            Vector jobInfo = (Vector)offerList.get(0);
+                            
+                            long jobID = (Long)jobInfo.get(0);
+                            String jobTitle = (String)jobInfo.get(1);
+                            String jobImg = (String)jobInfo.get(2);
+                            String jobRate = (String)jobInfo.get(3);
+                            String jobRateType = (String)jobInfo.get(4);
+                            String category = (String)jobInfo.get(5);
+                            int numOfHelpers = (Integer)jobInfo.get(6);
+                        
+                    %>
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-5 col-md-6">
+                            <img src="uploads/unify/images/errands/job/<%= jobImg%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer; height: 180px;">
+                        </div>
+                        <div class="col-xl-8 col-lg-7 col-md-6" >
+                            <span><strong><%= jobTitle%></strong></span><br/>
+                            <span><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp; Category: <%= category%></span><br/>
+                            <span><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; Helpers required: <%= numOfHelpers%></span><br/>
+                            <span><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp; Job Rate: S$<%= jobRate%>/<%= jobRateType%></span>
+                        </div>
+                        
+                        <div class="col-12 mt-5">    
+                            <table class="table table-striped">
+                                <col width="130">
+                                <col width="65">
+                                <col width="105">
+                                <col width="55">
+                                <col width="150">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">The Offer is Made by</th>
+                                    <th scope="col">Offer Price</th>
+                                    <th scope="col">His/Her Comments</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Actions</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <%
+                                      for(int i=1; i<offerList.size(); i++){
+                                          Vector offerDetails = (Vector)offerList.get(i);
+                                          
+                                          String username = (String)offerDetails.get(0);
+                                          String firstName = (String)offerDetails.get(1);
+                                          String lastName = (String)offerDetails.get(2);
+                                          String userImg = (String)offerDetails.get(3);
+                                          String offerPrice = (String)offerDetails.get(4);
+                                          String offerDescription = (String)offerDetails.get(5);
+                                          String offerStatus = (String)offerDetails.get(6);
+                                          String offerTime = (String)offerDetails.get(7);
+                                      
+                                  %>
+                                  <tr>
+                                      <td>
+                                          <div class="row">
+                                            <div class="col-3">
+                                                <img src="uploads/commoninfrastructure/admin/images/<%= userImg%>" style="width:42px;height:42px;"/>
+                                            </div>
+                                            <div class="col-9">
+                                                <span><strong><%= username%></strong></span><br/>
+                                                <span><%= firstName%> <%= lastName%></span>
+                                            </div>
+                                          </div>
+                                      </td>
+                                    <td>S$<%= offerPrice%></td>
+                                    <td><%= offerDescription%></td>
+                                    <td><%= offerStatus%></td>
+                                    <td>
+                                        <button>Accept</button>
+                                        <button>Negotiate</button>
+                                        <button>Decline</button>
+                                    </td>
+                                  </tr>
+                                  <%
+                                      }
+                                    }
+                                  %>
+                                </tbody>
+                            </table> 
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
@@ -254,11 +288,17 @@
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
-    
-        <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/userprofile/UserItemTransactionJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/userprofile/UserAccountSYSJS.js" type="text/javascript"></script>
+
+        <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-toggle-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.history-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.jquery-ui-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.pagination-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.sort-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.textbox-filter.min.js"></script>
     </body>
 </html>

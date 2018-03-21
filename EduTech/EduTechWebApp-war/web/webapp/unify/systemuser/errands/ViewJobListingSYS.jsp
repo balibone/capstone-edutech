@@ -277,7 +277,7 @@
                             </div>
                         </div>
 
-                        <!-- ITEM LISTING -->
+                        <!-- JOB LISTING -->
                         <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
                             <div class="list searchresult-row">
                                 <%

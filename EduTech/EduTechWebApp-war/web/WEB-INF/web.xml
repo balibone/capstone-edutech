@@ -415,6 +415,14 @@
         <servlet-name>EditJobListingSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/errands/EditJobListingSYS.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ViewJobOfferListSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/errands/ViewJobOfferListSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobOfferDetailsSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/errands/ViewJobOfferDetailsSYS.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - MARKETPLACE (JSP) -->
     <servlet>
         <servlet-name>EditItemListingSYS</servlet-name>
