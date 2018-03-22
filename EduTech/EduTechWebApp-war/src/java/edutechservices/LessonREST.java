@@ -11,11 +11,14 @@ import edutechentities.common.ScheduleItemEntity;
 import edutechentities.module.LessonEntity;
 import edutechsessionbeans.CommonRESTMgrBean;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
@@ -106,13 +109,12 @@ public class LessonREST {
     }
     
     @POST
-    @Path("upload/{id}")
+    @Path("uploadAttachment/{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.MULTIPART_FORM_DATA})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<AttachmentEntity> uploadLessonAttachment(@PathParam("id") String id) throws IOException, ServletException, FileUploadException, Exception {
         String title ="";
         String fileName="";
-        String subFolder = "";
         
         String appPath = context.getRealPath("");
         System.out.println("app path is "+ appPath);
@@ -149,8 +151,8 @@ public class LessonREST {
                     
                     //where to save file.
                     String fileDir = truncatedAppPath + "web" + File.separator
-                            + "uploads" + File.separator + "edutech" + File.separator + "lesson" + File.separator + id
-                            + File.separator + subFolder;
+                            + "uploads" + File.separator + "edutech" + File.separator + "lesson" + File.separator + id;
+                           
                     System.out.println("FILE IS GETTING SAVED TO "+fileDir);
                     //creates directory path if not present.
                     Files.createDirectories(Paths.get(fileDir));
@@ -169,8 +171,54 @@ public class LessonREST {
         return cmb.getAllLessonAttachments(Long.valueOf(id));
     }
     
+    @DELETE
+    @Path("deleteAttachment/{lessonId}/{attachmentId}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<AttachmentEntity> deleteOneLessonAttachment(@PathParam("lessonId") String lessonId, @PathParam("attachmentId") String attachmentId ) throws IOException, ServletException, FileUploadException, Exception {
+        String fileName="";
+        
+        String appPath = context.getRealPath("");
+        System.out.println("app path is "+ appPath);
+        String truncatedAppPath = appPath.replace("build"+File.separator+"web", "");
+        System.out.println("truncated path is "+truncatedAppPath);
+        fileName = cmb.deleteAttachment(attachmentId);
+        //delete local file
+        try{
+            Files.deleteIfExists(Paths.get(truncatedAppPath + "web" + File.separator+ "uploads" + File.separator + "edutech" 
+                    + File.separator + "lesson" + File.separator + lessonId + File.separator + fileName));
+        }catch(NoSuchFileException e){
+            System.out.println("No such file/directory exists");
+        }catch(DirectoryNotEmptyException e){
+            System.out.println("Directory is not empty.");
+        }catch(IOException e){
+            System.out.println("Invalid permissions.");
+        }
+        System.out.println("Deletion of "+fileName+" is successful.");
+        return cmb.getAllLessonAttachments(Long.valueOf(lessonId));
+    }
+    
     @GET
-    @Path("downloadAll/{id}")
+    @Path("downloadAttachment/{lessonId}/{attachmentId}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadOneLessonAttachment(@PathParam("lessonId") String lessonId, @PathParam("attachmentId") String attachmentId) throws IOException, ServletException, FileUploadException, Exception {
+        String appPath = context.getRealPath("");
+        System.out.println("app path is "+ appPath);
+        String truncatedAppPath = appPath.replace("build"+File.separator+"web", "");
+        System.out.println("truncated path is "+truncatedAppPath);
+        //Extract file name of this attachment entity to display on HTTP response.
+        String fileName= cmb.getOneAttachment(Long.valueOf(attachmentId)).getFileName();
+        //extract local file
+        File resFile = new File(truncatedAppPath + "web" + File.separator+ "uploads" + File.separator + "edutech" 
+                    + File.separator + "lesson" + File.separator + lessonId + File.separator + fileName);
+        return Response
+            .ok(FileUtils.readFileToByteArray(resFile))
+            .type("application/octet-stream")
+            .header("Content-Disposition", "attachment; filename=\""+fileName+"\"")
+            .build();
+    }
+    
+    @GET
+    @Path("downloadAllAttachments/{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces("application/zip")
     public Response downloadAllLessonAttachments(@PathParam("id") String id) throws IOException {

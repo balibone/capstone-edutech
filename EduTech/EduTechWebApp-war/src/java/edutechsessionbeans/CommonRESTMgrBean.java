@@ -17,8 +17,15 @@ import edutechentities.common.SemesterEntity;
 import edutechentities.common.TaskEntity;
 import edutechentities.group.BrainstormEntity;
 import edutechentities.group.IdeaEntity;
+import edutechentities.group.MeetingMinuteEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
+import edutechentities.module.SubmissionEntity;
+import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -447,17 +454,12 @@ public class CommonRESTMgrBean {
     }
 
     public List<AttachmentEntity> getAllAttachments() {
-        Query q = em.createQuery("select a from Attachment a");
+        Query q = em.createQuery("SELECT a FROM Attachment a");
         return q.getResultList();
     }
     
     public AttachmentEntity getOneAttachment(Long id) {
         return em.find(AttachmentEntity.class, id);
-    }
-
-    public AttachmentEntity createAttachment(AttachmentEntity attachment) {
-        em.persist(attachment);
-        return attachment;
     }
 
     public AttachmentEntity editAttachment(String id, AttachmentEntity replacement) {
@@ -467,11 +469,42 @@ public class CommonRESTMgrBean {
         return att;
     }
 
-    public void deleteAttachment(String id) {
+    public String deleteAttachment(String id) {
+        String fileName = "";
         AttachmentEntity att = em.find(AttachmentEntity.class, Long.valueOf(id));
         if(att!=null){
+            fileName = att.getFileName();
+            //detach att from all lessons
+            Query q1 = em.createQuery("SELECT l FROM Lesson l");
+            for(Object o: q1.getResultList()){
+                LessonEntity l = (LessonEntity)o;
+                Collection<AttachmentEntity> attachments = l.getResources();
+                if(attachments.contains(att)){
+                    attachments.remove(att);
+                }
+            }
+            //detach att from all meeting minutes
+            Query q2 = em.createQuery("SELECT m FROM MeetingMinute m");
+            for(Object o: q2.getResultList()){
+                MeetingMinuteEntity m = (MeetingMinuteEntity)o;
+                Collection<AttachmentEntity> attachments = m.getAttachments();
+                if(attachments.contains(att)){
+                    attachments.remove(att);
+                }
+            }
+            //detach att from all submission
+            Query q3 = em.createQuery("SELECT s FROM Submission s");
+            for(Object o: q3.getResultList()){
+                SubmissionEntity s = (SubmissionEntity)o;
+                Collection<AttachmentEntity> attachments = s.getSubmissions();
+                if(attachments.contains(att)){
+                    attachments.remove(att);
+                }
+            }
+            
             em.remove(att);
         }
+        return fileName;
     }
 
     public List<BrainstormEntity> getAllBrainstorms() {
@@ -622,11 +655,6 @@ public class CommonRESTMgrBean {
                 }
             }
         }
-    }
-
-    public AttachmentEntity downloadAttachment(Long id) {
-        AttachmentEntity att = em.find(AttachmentEntity.class,id);
-        return att;
     }
 
     public List<ScheduleItemEntity> getAllScheduleItems() {
