@@ -69,6 +69,13 @@ public class LessonREST {
     }
     
     @GET 
+    @Path("allAttachments/{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<AttachmentEntity> getAllLessonAttachments(@PathParam("id") String id) {
+        return cmb.getAllLessonAttachments(Long.valueOf(id));
+    }
+    
+    @GET 
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public ScheduleItemEntity getOneLesson(@PathParam("id") String id){
@@ -99,7 +106,7 @@ public class LessonREST {
     }
     
     @POST
-    @Path("attachment/{id}")
+    @Path("upload/{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.MULTIPART_FORM_DATA})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<AttachmentEntity> uploadLessonAttachment(@PathParam("id") String id) throws IOException, ServletException, FileUploadException, Exception {
@@ -163,7 +170,7 @@ public class LessonREST {
     }
     
     @GET
-    @Path("attachment/{id}")
+    @Path("downloadAll/{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces("application/zip")
     public Response downloadAllLessonAttachments(@PathParam("id") String id) throws IOException {
