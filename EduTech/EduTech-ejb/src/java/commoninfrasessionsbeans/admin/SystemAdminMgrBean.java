@@ -6,21 +6,26 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
+import sessionbeans.CommonInfraMgrBean;
 
 @Stateless
 public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     @PersistenceContext
     EntityManager em;
-
+    
+    CommonInfraMgrBean cmb;
+    
     @Override
     public boolean createNewStudent(String salutation, String firstName, String lastName, String username, String password, String fileName) { 
         try{
-            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName,"","");
+            
+            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,cmb.encodePassword(username, password),"student",fileName,"","");
             em.persist(newStudent);
             return true;
         }catch(Exception e){
@@ -104,7 +109,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     @Override
     public boolean createNewInstructor(String salutation, String firstName, String lastName, String username, String password, String fileName) { 
         try{
-            UserEntity newInstructor= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName,"","");
+            UserEntity newInstructor= new UserEntity(username,salutation,firstName,lastName,cmb.encodePassword(username, password),"student",fileName,"","");
             em.persist(newInstructor);//may throw null pointer if em is not created with proper syntax.
             return true;
         }catch(Exception e){
@@ -173,7 +178,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     @Override
     public boolean createNewAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName, String adminType) { 
         try{
-            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,password,"student",fileName,"","");
+            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,cmb.encodePassword(username, password),"student",fileName,"","");
             em.persist(newStudent);//may throw null pointer if em is not created with proper syntax.
             return true;
         }catch(Exception e){
