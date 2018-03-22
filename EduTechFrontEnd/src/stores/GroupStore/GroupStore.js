@@ -18,13 +18,9 @@ class GroupStore {
 
 	@action
 	populateGroup(){
-		// const username = "nanda";
-		// axios.get(`/group/${username}`)
-
 		const username = localStorage.getItem('username');
 		axios.get(`/group/user/${username}`)
 		.then((res) =>{
-			console.log("GroupStore: ", res.data)
 			localStorage.setItem('groupList', JSON.stringify(res.data));
 			this.groupList = res.data;
 		})
@@ -40,20 +36,14 @@ class GroupStore {
 
 	@computed
 	get currentGroup() {
-		console.log('WHERE', this.groupId);
 		const whatThis = this.groupList.find(group => group.id === parseInt(this.groupId, 10))
-		console.log('currentGroup whatThis', whatThis);
 		return whatThis;
 	}
 
 	@action
 	getSelectedGroup(id){
-		console.log("search for this id", id)
-		console.log(this.groupList)
 		let groupList = toJS(this.groupList);
-		console.log(groupList)
 		this.selectedGroup = groupList.find((group) => group.id === parseInt(id))
-		console.log("selectedGroup in store: ", this.selectedGroup);
 		return this.selectedGroup;
 	}
 

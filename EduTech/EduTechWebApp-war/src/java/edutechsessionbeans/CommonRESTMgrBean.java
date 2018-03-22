@@ -17,8 +17,15 @@ import edutechentities.common.SemesterEntity;
 import edutechentities.common.TaskEntity;
 import edutechentities.group.BrainstormEntity;
 import edutechentities.group.IdeaEntity;
+import edutechentities.group.MeetingMinuteEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
+import edutechentities.module.SubmissionEntity;
+import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,22 +57,24 @@ public class CommonRESTMgrBean {
         return LocalDateTime.now().toString();
     }
     
-    public void createUser(UserEntity entity) {
+    public UserEntity createUser(UserEntity entity) {
         entity.setUserCreationDate(new Date());
         entity.setUserActiveStatus(true);
         em.persist(entity);
+        return entity;
     }
 
-    public void editUser(String id, UserEntity entity) {
+    public UserEntity editUser(String id, UserEntity entity) {
         //pull current entity based on id (entity is now detached)
         UserEntity old = em.find(UserEntity.class, id);
         //instantiate curr entity into new entity
         old = entity;
         //update curr entity in database. (reattach entity)
         em.merge(old);
+        return old;
     }
 
-    public List<UserEntity> findAllUsers() {
+    public List<UserEntity> getAllUsers() {
         List<UserEntity> allUsers = em.createQuery("SELECT s FROM SystemUser s WHERE s.userActiveStatus=1").getResultList();
         if(allUsers!=null){
             for(UserEntity u : allUsers){
@@ -76,26 +85,22 @@ public class CommonRESTMgrBean {
         return allUsers;
     }
 
-    public UserEntity findUser(String username) {
+    public UserEntity getOneUser(String username) {
         UserEntity u = em.find(UserEntity.class, username);
         em.detach(u);
         u.setUserPassword("hidden");
         return u;
     }
 
-    public void removeUser(String id) {
+    public void deleteUser(String id) {
         em.remove(em.find(UserEntity.class, id));
     }
 
     public String countUsers() {
         return  String.valueOf(em.createQuery("SELECT COUNT(s) FROM SystemUser s WHERE s.userActiveStatus=1").getSingleResult());
     }
-    
-    public List<ScheduleItemEntity> findAllScheduleItems(){
-        return em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
-    }
 
-    public void createScheduleItem(ScheduleItemEntity entity) {
+    public ScheduleItemEntity createScheduleItem(ScheduleItemEntity entity) {
         entity.setCreatedAt(LocalDateTime.parse(getCurrentISODate()));
         // get proper User - initially json createdBy only contains a username key
         UserEntity user = (UserEntity) entity.getCreatedBy();
@@ -116,12 +121,14 @@ public class CommonRESTMgrBean {
         entity.setAssignedTo(assignedTo);
         //persist
         em.persist(entity);
+        return entity;
     }
 
-    public void editScheduleItem(String id, ScheduleItemEntity entity) {
+    public ScheduleItemEntity editScheduleItem(String id, ScheduleItemEntity entity) {
         ScheduleItemEntity toEdit = em.find(ScheduleItemEntity.class, Long.valueOf(id));
         toEdit = entity;
         em.merge(toEdit);
+        return entity;
     }
 
     public void removeScheduleItem(String id) {
@@ -304,47 +311,52 @@ public class CommonRESTMgrBean {
         task.setVerifiedAt(getCurrentISODate());
     }
 
-    public void createRecurringEvent(RecurringEventEntity entity) {
+    public RecurringEventEntity createRecurringEvent(RecurringEventEntity entity) {
         em.persist(entity);
+        return entity;
     }
-    public void editRecurringEvent(Long id, RecurringEventEntity entity) {
+    
+    public RecurringEventEntity editRecurringEvent(Long id, RecurringEventEntity entity) {
         RecurringEventEntity old = em.find(RecurringEventEntity.class, id);
         old = entity;
         em.merge(old);
+        return old;
     }
 
     public void removeRecurringEvent(Long id) {
         em.remove(em.find(RecurringEventEntity.class, id));
     }
 
-    public RecurringEventEntity findRecurringEvent(Long id) {
+    public RecurringEventEntity getOneRecurringEvent(Long id) {
         return em.find(RecurringEventEntity.class, id);
     }
 
-    public List<RecurringEventEntity> findAllRecurringEvents() {
+    public List<RecurringEventEntity> getAllRecurringEvents() {
         Query q1 = em.createQuery("SELECT r FROM RecurringEvent r");
         return q1.getResultList() ;
     }
 
-    public void createSemester(SemesterEntity entity) {
+    public SemesterEntity createSemester(SemesterEntity entity) {
         em.persist(entity);
+        return entity;
     }
 
-    public void editSemester(Long id, SemesterEntity entity) {
+    public SemesterEntity editSemester(Long id, SemesterEntity entity) {
         SemesterEntity old = em.find(SemesterEntity.class, id);
         old = entity;
         em.merge(old);
+        return old;
     }
 
-    public void removeSemester(Long id) {
+    public void deleteSemester(Long id) {
         em.remove(em.find(SemesterEntity.class, id));
     }
 
-    public SemesterEntity findSemester(Long id) {
+    public SemesterEntity getOneSemester(Long id) {
         return em.find(SemesterEntity.class, id);    
     }
 
-    public List<SemesterEntity> findAllSemesters() {
+    public List<SemesterEntity> getAllSemester() {
         Query q1 = em.createQuery("SELECT s FROM Semester s");
         return q1.getResultList() ;
     }
@@ -442,17 +454,12 @@ public class CommonRESTMgrBean {
     }
 
     public List<AttachmentEntity> getAllAttachments() {
-        Query q = em.createQuery("select a from Attachment a");
+        Query q = em.createQuery("SELECT a FROM Attachment a");
         return q.getResultList();
     }
     
     public AttachmentEntity getOneAttachment(Long id) {
         return em.find(AttachmentEntity.class, id);
-    }
-
-    public AttachmentEntity createAttachment(AttachmentEntity attachment) {
-        em.persist(attachment);
-        return attachment;
     }
 
     public AttachmentEntity editAttachment(String id, AttachmentEntity replacement) {
@@ -462,11 +469,42 @@ public class CommonRESTMgrBean {
         return att;
     }
 
-    public void deleteAttachment(String id) {
+    public String deleteAttachment(String id) {
+        String fileName = "";
         AttachmentEntity att = em.find(AttachmentEntity.class, Long.valueOf(id));
         if(att!=null){
+            fileName = att.getFileName();
+            //detach att from all lessons
+            Query q1 = em.createQuery("SELECT l FROM Lesson l");
+            for(Object o: q1.getResultList()){
+                LessonEntity l = (LessonEntity)o;
+                Collection<AttachmentEntity> attachments = l.getResources();
+                if(attachments.contains(att)){
+                    attachments.remove(att);
+                }
+            }
+            //detach att from all meeting minutes
+            Query q2 = em.createQuery("SELECT m FROM MeetingMinute m");
+            for(Object o: q2.getResultList()){
+                MeetingMinuteEntity m = (MeetingMinuteEntity)o;
+                Collection<AttachmentEntity> attachments = m.getAttachments();
+                if(attachments.contains(att)){
+                    attachments.remove(att);
+                }
+            }
+            //detach att from all submission
+            Query q3 = em.createQuery("SELECT s FROM Submission s");
+            for(Object o: q3.getResultList()){
+                SubmissionEntity s = (SubmissionEntity)o;
+                Collection<AttachmentEntity> attachments = s.getSubmissions();
+                if(attachments.contains(att)){
+                    attachments.remove(att);
+                }
+            }
+            
             em.remove(att);
         }
+        return fileName;
     }
 
     public List<BrainstormEntity> getAllBrainstorms() {
@@ -525,62 +563,111 @@ public class CommonRESTMgrBean {
         return idea;
     }
 
-    public List<LessonEntity> getAllLessons() {
+    public List<ScheduleItemEntity> getAllLessons() {
         Query q = em.createQuery("select l from Lesson l");
         return q.getResultList();    
     }
     
-    public LessonEntity getOneLesson(Long id) {
-        return em.find(LessonEntity.class, id);
+    public ScheduleItemEntity getOneLesson(Long id) {
+        return em.find(ScheduleItemEntity.class, id);
     }
 
-    public LessonEntity createLesson(LessonEntity lesson) {
+    public ScheduleItemEntity createLesson(LessonEntity lesson) {
         em.persist(lesson);
         return lesson;
     }
 
     public void deleteLesson(String id) {
         LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
+        Query q1 = em.createQuery("SELECT m FROM Module m");
+        Query q2 = em.createQuery("SELECT r FROM RecurringEvent r");
         if(lesson!=null){
+            //DETACH LESSON FROM MODULE EVENTS.
+            for(Object o: q1.getResultList()){
+                ModuleEntity mod = (ModuleEntity) o;
+                Collection<ScheduleItemEntity> modEvents = mod.getModuleEvents();
+                if(modEvents!=null && modEvents.contains(lesson)){
+                    modEvents.remove(lesson);
+                }
+            }
+            //DETACH LESSON FROM RECURRING EVENT
+            for(Object o: q2.getResultList()){
+                RecurringEventEntity r = (RecurringEventEntity) o;
+                Collection<LessonEntity> lessons = r.getLessons();
+                if(lessons!=null && lessons.contains(lesson)){
+                    lessons.remove(lesson);
+                }
+            }
+            lesson.setMeetingMinutes(null);
+            lesson.setCreatedBy(null);
+            lesson.setSession(null);
+            lesson.setAssignedTo(null);
+            lesson.setResources(null);
+            lesson.setRecurringEvent(null);
             em.remove(lesson);
         }
     }
 
-    public LessonEntity editLesson(String id, LessonEntity replacement) {
-        LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
-        lesson = replacement;
-        em.merge(lesson);
+    public ScheduleItemEntity editLesson(String id, ScheduleItemEntity replacement) {
+        ScheduleItemEntity lesson = em.find(ScheduleItemEntity.class, Long.valueOf(id));
+        if(lesson!=null){
+            lesson=em.merge(replacement);
+        }
         return lesson;
     }
 
     public List<AttachmentEntity> downloadAllLessonAttachments(String id) {
         List<AttachmentEntity> attList = new ArrayList<>();
         LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
-        Collection<AttachmentEntity> resources = lesson.getResources();
-        //if resources of this lesson is empty or null, then attList will remain empty.
-        if(resources != null){
-            attList.addAll(lesson.getResources());
+        if(lesson!=null){
+            Collection<AttachmentEntity> resources = lesson.getResources();
+            //if resources of this lesson is empty or null, then attList will remain empty.
+            if(resources != null){
+                attList.addAll(lesson.getResources());
+            }
         }
         return attList;
     }
 
-    public List<AttachmentEntity> uploadLessonAttachment(String id, AttachmentEntity att) {
-        List<AttachmentEntity> attList = new ArrayList<>();
+    public void uploadLessonAttachment(String id, AttachmentEntity att) {
         LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
-        Collection<AttachmentEntity> resources = lesson.getResources();
-        resources.add(att);
-        //if resources of this lesson is empty or null, then attList will remain empty.
-        if(resources != null){
-            attList.addAll(lesson.getResources());
+        //get all attachments with the same file name. If this lesson already has attachment with this file name,
+        //edit the table record instead of adding a new one. 
+        Query q1 = em.createQuery("SELECT a FROM Attachment a WHERE a.fileName= :attFileName");
+        q1.setParameter("attFileName", att.getFileName());
+        if(lesson!=null){
+            Collection<AttachmentEntity> resources = lesson.getResources();
+            List sameNameAttachments = q1.getResultList();
+            //if there are no attachments with the same name, proceed normally.
+            if(sameNameAttachments.isEmpty()){
+                resources.add(att);
+                em.persist(att);
+                System.out.println("new attachment persisted");
+            }else{
+                for(Object o : sameNameAttachments){
+                    AttachmentEntity sameName = (AttachmentEntity)o;
+                    //lesson already contains resource with this name. update row.
+                    if(resources.contains(sameName)){
+                        sameName.setTitle(att.getTitle());
+                        System.out.println("existing attachment's title renamed");
+                        break;
+                    }
+                }
+            }
         }
-        return attList;
     }
 
-    public AttachmentEntity downloadAttachment(Long id) {
-        AttachmentEntity att = em.find(AttachmentEntity.class,id);
-        return att;
+    public List<ScheduleItemEntity> getAllScheduleItems() {
+        Query q1 = em.createQuery("SELECT s FROM ScheduleItem s");
+        return q1.getResultList();
     }
 
-    
+    public List<TaskEntity> getAllTasks() {
+        return em.createQuery("SELECT t FROM Task t").getResultList();
+    }
+
+    public List<AttachmentEntity> getAllLessonAttachments(Long id) {
+        return (List<AttachmentEntity>) em.find(LessonEntity.class, id).getResources();
+    }
 
 }

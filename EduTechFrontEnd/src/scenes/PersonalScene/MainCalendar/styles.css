@@ -6,3 +6,8 @@ a.btnHover:hover{
 	cursor: pointer;
 }
 
+.formGap {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+

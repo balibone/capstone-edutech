@@ -7,7 +7,6 @@ package edutechservices;
 
 import edutechsessionbeans.CommonRESTMgrBean;
 import edutechentities.common.ScheduleItemEntity;
-import edutechentities.group.GroupEntity;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -31,60 +30,72 @@ import javax.ws.rs.core.MediaType;
 @Path("scheduleitem")
 public class ScheduleItemREST {
 
-    @PersistenceContext(unitName = "EduTechWebApp-warPU")
-    private EntityManager em;
     @EJB
     CommonRESTMgrBean etr;
     
-    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(ScheduleItemEntity entity) {
+    @POST 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public ScheduleItemEntity createScheduleItem(ScheduleItemEntity entity) {
         System.out.println(entity.getStartDate());
-        etr.createScheduleItem(entity);
+        return etr.createScheduleItem(entity);
     }
 
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, ScheduleItemEntity entity) {
-        etr.editScheduleItem(id, entity);
+    @PUT 
+    @Path("{id}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public ScheduleItemEntity editScheduleItem(@PathParam("id") String id, ScheduleItemEntity entity) {
+        return etr.editScheduleItem(id, entity);
     }
 
-    @DELETE @Path("{id}")
-    public void remove(@PathParam("id") String id) {
+    @DELETE 
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<ScheduleItemEntity> removeScheduleItem(@PathParam("id") String id) {
         etr.removeScheduleItem(id);
+        return etr.getAllScheduleItems();
     }
 
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public ScheduleItemEntity findScheduleItem(@PathParam("id") String id) {
         return etr.findScheduleItem(id);
     }
     
-    @GET @Path("user/{username}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<ScheduleItemEntity> getAllScheduleItems(@PathParam("id") String id) {
+        return etr.getAllScheduleItems();
+    }
+    
+    @GET 
+    @Path("user/{username}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<ScheduleItemEntity> findUserScheduleItems(@PathParam("username") String username) {
         return etr.findUserScheduleItems(username);
     }
     
-    @GET @Path("group/{groupId}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("group/{groupId}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<ScheduleItemEntity> findGroupMeetings(@PathParam("groupId") int groupId) {
         return etr.findGroupMeetings(groupId);
     }
     
-    @GET @Path("members/{groupId}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("members/{groupId}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<ScheduleItemEntity> findGroupScheduleItems(@PathParam("groupId") int groupId) {
         return etr.findGroupScheduleItems(groupId);
     }
     
-    @GET @Path("suggest/{id}/{date}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("suggest/{id}/{date}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<String> getFreeSlots(@PathParam("id") int id, @PathParam("date") String date) {
         return etr.suggestFreeSlots(id,date);
-    }
-
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ScheduleItemEntity> findAllScheduleItems() {
-        return etr.findAllScheduleItems();
-    }
-
-    @GET @Path("count") @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return etr.countScheduleItems();
     }
     
 }

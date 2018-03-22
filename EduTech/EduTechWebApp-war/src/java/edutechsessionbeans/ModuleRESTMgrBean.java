@@ -5,14 +5,18 @@
  */
 package edutechsessionbeans;
 
+import edutechentities.common.ScheduleItemEntity;
 import edutechentities.module.AnswerEntity;
 import edutechentities.module.FeedbackEntity;
+import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import edutechentities.module.PollEntity;
 import edutechentities.module.PollOptionEntity;
 import edutechentities.module.QuestionEntity;
 import edutechentities.module.SessionEntity;
 import edutechentities.module.SubmissionEntity;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -41,16 +45,16 @@ public class ModuleRESTMgrBean {
         em.merge(mod);
     }
 
-    public void removeModule(String id) {
+    public void deleteModule(String id) {
         ModuleEntity mod = em.find(ModuleEntity.class, id);
         em.remove(mod);
     }
 
-    public ModuleEntity findModule(String id) {
+    public ModuleEntity getOneModule(String id) {
         return em.find(ModuleEntity.class, id);
     }
 
-    public List<ModuleEntity> findAllModules() {
+    public List<ModuleEntity> getAllModules() {
         Query q1 = em.createQuery("SELECT m FROM Module m");
         return q1.getResultList();
     }
@@ -249,6 +253,21 @@ public class ModuleRESTMgrBean {
         sub = replacement;
         em.merge(sub);
         return sub;
+    }
+
+    public List<ScheduleItemEntity> getAllModuleLessons(String id) {
+        ArrayList<ScheduleItemEntity> modLessons = new ArrayList<>();
+        ModuleEntity mod = em.find(ModuleEntity.class, id);
+        Collection<ScheduleItemEntity> lessons = mod.getModuleEvents();
+        if(lessons!=null){
+            System.out.println("TRY PRINTING......................");
+            modLessons.addAll(lessons);
+            for(ScheduleItemEntity l : lessons){
+                System.out.println("TRY PRINTING ONE......................");
+                System.out.println(l);
+            }
+        }
+        return modLessons;
     }
 
 }

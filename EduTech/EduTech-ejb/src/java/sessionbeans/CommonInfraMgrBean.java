@@ -1,6 +1,7 @@
 package sessionbeans;
 
 import commoninfrastructureentities.UserEntity;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -36,8 +37,17 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     @Override
     public boolean empLogin(String username, String userPassword) {
         String hashedPassword = "";
-        try{ hashedPassword = encodePassword(userPassword); }
-        catch(NoSuchAlgorithmException ex){ ex.printStackTrace(); }
+        try{ 
+            hashedPassword = encodePassword(username, userPassword); 
+        }
+        catch(NoSuchAlgorithmException ex){
+            ex.printStackTrace(); 
+            System.out.println("PASSWORD HASHING FAILED");
+        }
+        catch(UnsupportedEncodingException ex){
+            ex.printStackTrace();
+            System.out.println("SALT ENCODING FAILED");
+        }
         
         uEntity = new UserEntity();
         try{
@@ -56,15 +66,14 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
             uEntity = null;
         }
         if(uEntity == null) { return false; }
-        // if(uEntity.getUserPassword().equals(hashedPassword)) { return true; }
-        if(uEntity.getUserPassword().equals(userPassword)) { return true; }
+        if(uEntity.getUserPassword().equals(hashedPassword)) { return true; }
         return false;
     }
     
     @Override
     public boolean createSysUser(String salutation, String firstName, String lastName, String username, String password, String email, String contactNum){
         try{
-            UserEntity u = new UserEntity(salutation, firstName, lastName, username, password, email, contactNum);
+            UserEntity u = new UserEntity(salutation, firstName, lastName, username, encodePassword(username, password), email, contactNum);
             em.persist(u);
             return true;
         }catch(Exception e){
@@ -94,21 +103,21 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return ue;
     }
     
-    public String encodePassword(String password) throws NoSuchAlgorithmException {
+    public String encodePassword(String username, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String hashedValue = "";
-        
+        byte[] salt = username.getBytes("UTF-8");
         MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(password.getBytes());
-        byte[] bytes = md.digest();
+        md.update(salt);
+        byte[] passwordBytes = md.digest(password.getBytes("UTF-8"));
         
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < bytes.length; i++){
-            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            hashedValue = sb.toString();
-        }      
+        for(int i = 0; i < passwordBytes.length; i++){
+            sb.append(Integer.toString((passwordBytes[i] & 0xff) + 0x100, 16).substring(1));
+        }     
+        hashedValue = sb.toString();
         return hashedValue;
     }
-
+    
     @Override
     public boolean sendResetEmail(String username) {
         Query q1 = em.createQuery("SELECT s FROM SystemUser s WHERE s.username = :uName");
@@ -196,11 +205,18 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     public boolean resetPassword(String username, String password) {
         Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username=:uname");
         q1.setParameter("uname", username);
-        
+        String encPassword = "";
+        try {
+            encPassword = encodePassword(username,password);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         UserEntity u = (UserEntity) q1.getSingleResult();
-        if(u != null && !u.getUserPassword().equals(password)){
-            System.out.println("RECEIVED PASSWORD IS "+password);
-            u.setUserPassword(password);
+        if(u != null && !u.getUserPassword().equals(encPassword)){
+            System.out.println("RECEIVED PASSWORD IS "+encPassword);
+            u.setUserPassword(encPassword);
             return true;
         }else{
             return false;

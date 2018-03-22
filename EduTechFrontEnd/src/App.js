@@ -11,7 +11,9 @@ import { getUserModules, getModuleDetails } from './services/api/module';
 import { getUserGroups, getGroupDetails } from './services/api/group';
 
 import GroupStore from './stores/GroupStore/GroupStore';
+import ModuleStore from './stores/ModuleStore/ModuleStore';
 import UserStore from './stores/UserStore/UserStore';
+
 
 function getCookie(name) {
   const value = "; " + document.cookie;
@@ -26,6 +28,7 @@ if (getCookie('username')) {
   localStorage.setItem('username', getCookie('username'));
   const { currentUser } = UserStore;
   GroupStore.populateGroup();
+  ModuleStore.populateModule();
 
   App = () => (
     <MuiThemeProvider>

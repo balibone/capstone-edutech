@@ -22,8 +22,8 @@ public class AttachmentEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String fileName;
     private String title;
-    private int type;
     
     public Long getId() {
         return id;
@@ -66,12 +66,12 @@ public class AttachmentEntity implements Serializable {
         this.title = title;
     }
 
-    public int getType() {
-        return type;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
     
 }

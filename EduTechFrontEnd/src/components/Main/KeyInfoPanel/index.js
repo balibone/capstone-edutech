@@ -26,15 +26,11 @@ class KeyInfoPanel extends Component{
 
   renderKeyInfo(getRecentKeyDates){
     var length = 3;
-    console.log("keydates before", getRecentKeyDates)
     if(GroupStore.selectedGroup){
-      getRecentKeyDates = getRecentKeyDates.filter(item => item.itemDetails.type === "meeting")
-      console.log("keydates between", getRecentKeyDates)
+      getRecentKeyDates = getRecentKeyDates.filter(item => item.itemDetails.itemType === "meeting")
       getRecentKeyDates = getRecentKeyDates.filter(item => item.itemDetails.groupId === GroupStore.selectedGroup.id)
     }
-        console.log("keydates after", getRecentKeyDates)
-
-    getRecentKeyDates = getRecentKeyDates.filter(item => item.itemDetails.type !== "timetable")
+    getRecentKeyDates = getRecentKeyDates.filter(item => item.itemDetails.itemType !== "timetable")
     if(this.state.viewAll)
       length = getRecentKeyDates.length;
     if(getRecentKeyDates){

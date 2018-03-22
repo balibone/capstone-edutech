@@ -6,16 +6,12 @@
 package edutechservices;
 
 //import edutechentities.common.GroupEntity;
-import commoninfraentities.UserEntity;
-import edutechentities.group.GroupEntity;
 import edutechentities.group.MeetingMinuteEntity;
 import edutechsessionbeans.CommonRESTMgrBean;
 import edutechsessionbeans.GroupRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -39,27 +35,38 @@ public class MeetingMinutesREST {
     @EJB
     GroupRESTMgrBean etr;
     
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<MeetingMinuteEntity> getAllMeetingMinutes() {
         return etr.getAllMeetingMinutes();
     }
     
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public MeetingMinuteEntity getOneMeetingMinute(@PathParam("id") String id){
         return etr.getOneMeetingMinute(Long.valueOf(id));
     }
     
-    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @POST 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public MeetingMinuteEntity createMeetingMinutes(MeetingMinuteEntity mm) {
         return etr.createMeetingMinutes(mm);
     }
     
-    @DELETE @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void deleteMeetingMinute(@PathParam("id") String id) {
+    @DELETE 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<MeetingMinuteEntity> deleteMeetingMinute(@PathParam("id") String id) {
         etr.deleteMeetingMinute(Long.valueOf(id));
+        return etr.getAllMeetingMinutes();
     }
     
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @PUT 
+    @Path("{id}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public MeetingMinuteEntity editMeetingMinute(@PathParam("id") String id, MeetingMinuteEntity replacement){
         return etr.editMeetingMinute(Long.valueOf(id), replacement);
     }

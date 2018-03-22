@@ -50,34 +50,4 @@ public class AttachmentREST {
         return cmb.getOneAttachment(Long.valueOf(id));
     }
     
-    @POST 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AttachmentEntity createAttachment(AttachmentEntity attachment) {
-        return cmb.createAttachment(attachment);
-    }
-    
-    @PUT 
-    @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AttachmentEntity editAttachment(@PathParam("id") String id, AttachmentEntity replacement) {
-        return cmb.editAttachment(id, replacement);
-    }
-    
-    @DELETE 
-    @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AttachmentEntity> deleteAttachment(@PathParam("id") String id) {
-        cmb.deleteAttachment(id);
-        return cmb.getAllAttachments();
-    }
-    
-    @GET 
-    @Path("download/{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AttachmentEntity downloadAttachment(@PathParam("id") String id){
-        return cmb.downloadAttachment(Long.valueOf(id));
-    }
-    
 }

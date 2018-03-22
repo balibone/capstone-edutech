@@ -8,12 +8,10 @@ class MergeGroupStore {
 
 	@action
 	getMembersInGroup(groupId){
-		let membersArray = [];
-		const username = "nanda";
+		const username = localStorage.getItem('username');
 		axios.get(`/group/user/${username}`)
 		.then((res) => {
 			this.membersInGroup = res.data;
-			// console.log("Members in groupId: ", res.data);
 		})
 		.catch((err) => {
 			console.log(err);
@@ -31,8 +29,6 @@ class MergeGroupStore {
 		console.log('mergedScheduleItems', mergedScheduleItems);
 		runInAction(() => {
         	this.membersScheduleItems.push(...mergedScheduleItems);
-        	console.log('this.membersScheduleItem', this.membersScheduleItem);
-
       	});
       			return mergedScheduleItems;
 
