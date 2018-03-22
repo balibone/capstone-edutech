@@ -551,6 +551,11 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         if(mod.getRecurringEvents().contains(event)){
             mod.getRecurringEvents().remove(event);
         }
+        //detach module from event
+        event.setModule(null);
+        //detach lessons from module
+        mod.setModuleEvents(null);
+        //remove event and cascade delete of lessons
         em.remove(event);
     }
     
