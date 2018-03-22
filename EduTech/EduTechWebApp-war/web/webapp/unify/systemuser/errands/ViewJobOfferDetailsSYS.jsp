@@ -11,17 +11,35 @@
         <title>Unify Errands - Job Listing Details</title>
         
         <!-- CASCADING STYLESHEET -->
-        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/errands/ViewJobDetailsSYSCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css"/>
+        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/unify/systemuser/weblayout/errands/ViewJobDetailsSYSCSS.css" rel="stylesheet" type="text/css"/>
+        
+        <link href="css/unify/systemuser/weblayout/errands/ViewJobOfferDetailsSYSCSS" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="css/unify/systemuser/weblayout/errands/datatables.min.css"/>
+        
+        <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
+        
+        <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/baselayout/UnifyAdminPlugins.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/baselayout/plugin/datatables.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/baselayout/plugin/datatables_bootstrap.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         
     </head>
     <body onload="loadMap()">
@@ -142,7 +160,7 @@
             <div class="breadcrumb-container">
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
-                        <ol class="breadcrumb">
+                        <ol class="breadcrumb"  style="margin-left: 100px;">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Job Offers</li>
                         </ol>
@@ -150,9 +168,17 @@
                 </div>
             </div>
             
-            <div class="row justify-content-center">
-                <div class="col-lg-3 col-md-3">
-                    <div>
+            <div class="row justify-content-center" >
+                <div class="col-lg-3 col-md-3 ">
+                    <div id="contentArea" class="container jplist">
+                      <div class="jplist-search">
+                        <div class="title"><span>Job List</span></div>
+                        <input type="text" data-path=".jobTitle" class="form-control" placeholder="Search Job ..." 
+                                               aria-label="Search Job ..." data-control-type="textbox" 
+                                               data-control-name="transmission-text-filter" data-control-action="filter" />
+                      </div>
+                      <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
+                      <div class="list searchresult-row">
                         <%
                             ArrayList<Vector> jobList = (ArrayList)request.getAttribute("jobListSYS");
                             if (jobList.size()!=0) {
@@ -171,24 +197,32 @@
                                     String jobRate = String.valueOf(v.get(9));
                                     //String numOfLikes = String.valueOf(v.get(10));
                         %>
-                        <div class="card">
+                       <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
+                        <div class="card card-product">
                           <div class="card-body">
                               <div class="row">
-                                    <div class="col-xl-3 col-md-3 col-3">
+                                    <div class="col-xl-4 col-md-4 col-4">
                                         <img src="uploads/unify/images/errands/job/<%= jobImage%>" style="height: 70px; width: 70px;">
                                     </div>
-                                    <div class="col-xl-9 col-md-9 col-9">
-                                        <span><strong><%= jobTitle%></strong></span>
+                                    <div class="col-xl-8 col-md-8 col-8">
+                                        <span class="jobTitle"><strong><%= jobTitle%></strong></span>
                                         <p class="card-text"><%= jobCategoryName%></p>
                                         <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
                                     </div>
                                 </div>
                            </div>
                         </div>
+                        </div>
                         <%
                                     }
                             }
                         %>
+                    </div>
+                    </div>
+                    
+                    <div class="box jplist-no-results text-shadow align-center">
+                            <p><strong>No results found. Please refine your search.</strong></p>
+                    </div>
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-7 ml-1">
@@ -216,14 +250,17 @@
                             <span><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; Helpers required: <%= numOfHelpers%></span><br/>
                             <span><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp; Job Rate: S$<%= jobRate%>/<%= jobRateType%></span>
                         </div>
-                        
-                        <div class="col-12 mt-5">    
-                            <table class="table table-striped">
+                   
+                      <div id="offerList">    
+                        <div class="col-12 mt-5">
+                          
+                            <div class="list">
+                            <table class="table table-striped" id="offer-table">
                                 <col width="130">
-                                <col width="65">
+                                <col width="75">
                                 <col width="105">
                                 <col width="55">
-                                <col width="150">
+                                <col width="90">
                                 <thead>
                                   <tr>
                                     <th scope="col">The Offer is Made by</th>
@@ -248,19 +285,21 @@
                                           String offerTime = (String)offerDetails.get(7);
                                       
                                   %>
-                                  <tr>
+                                  
+                                  <tr class="list-item">
+                                     
                                       <td>
                                           <div class="row">
                                             <div class="col-3">
                                                 <img src="uploads/commoninfrastructure/admin/images/<%= userImg%>" style="width:42px;height:42px;"/>
                                             </div>
                                             <div class="col-9">
-                                                <span><strong><%= username%></strong></span><br/>
-                                                <span><%= firstName%> <%= lastName%></span>
+                                                <span class="senderName"><strong><%= username%></strong></span><br/>
+                                                <span class="senderName"><%= firstName%> <%= lastName%></span>
                                             </div>
                                           </div>
                                       </td>
-                                    <td>S$<%= offerPrice%></td>
+                                    <td>S$<span class="offerPrice"><%= offerPrice%></span></td>
                                     <td><%= offerDescription%></td>
                                     <td><%= offerStatus%></td>
                                     <td>
@@ -268,18 +307,25 @@
                                         <button>Negotiate</button>
                                         <button>Decline</button>
                                     </td>
+                                 
                                   </tr>
+                                 
                                   <%
                                       }
                                     }
                                   %>
                                 </tbody>
                             </table> 
-                        </div>
+                          </div>
+                        </div><br/>
+                       
+                      </div>
                     </div>
                 </div>
             </div>
-        </div>
+                                </div>
+          
+        
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
@@ -289,8 +335,10 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/userprofile/UserAccountSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/errands/ViewJobOfferDetailsSYSJS.js" type="text/javascript"></script>
 
+        <script src="js/unify/systemuser/webjs/errands/datatables.min.js" type="text/javascript"></script>
+        
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>
@@ -300,5 +348,5 @@
         <script src="js/unify/systemuser/basejs/jplist/jplist.pagination-bundle.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.sort-bundle.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.textbox-filter.min.js"></script>
-    </body>
+   </body>
 </html>
