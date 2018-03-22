@@ -104,13 +104,14 @@ public class LessonREST {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<AttachmentEntity> uploadLessonAttachment(@PathParam("id") String id) throws IOException, ServletException, FileUploadException, Exception {
         String title ="";
-        String fileType="";
         String fileName="";
         String subFolder = "";
         
         String appPath = context.getRealPath("");
-        String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
-                + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+        System.out.println("app path is "+ appPath);
+        String truncatedAppPath = appPath.replace("build"
+                +File.separator+"web", "");
+        System.out.println("truncated path is "+truncatedAppPath);
         
         // Check that we have a file upload request
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -124,7 +125,6 @@ public class LessonREST {
             ServletFileUpload upload = new ServletFileUpload(factory);
             // Parse the request
             List<FileItem> items = upload.parseRequest(request);
-            
             // Process the uploaded items
             Iterator<FileItem> iter = items.iterator();
             while (iter.hasNext()) {
@@ -133,56 +133,33 @@ public class LessonREST {
                 if (item.isFormField()) {
                     if(item.getFieldName().trim().equalsIgnoreCase("title")){
                         title=item.getString();
-                    }else if(item.getFieldName().trim().equalsIgnoreCase("type")){
-                        fileType=item.getString();
-                        //0: documents, 1: images, 2: audios, 3: videos
-                        switch(fileType){
-                            case "0":
-                                subFolder = "document";
-                                break;
-                            case "1":
-                                subFolder = "images";
-                                break;
-                            case "2":
-                                subFolder = "audios";
-                                break;
-                            case "3":
-                                subFolder = "videos";
-                                break;
-                            default:
-                                break;
-                        }
+                        System.out.println("title is "+title);
                     }
-                }else{
+                }else if(!item.isFormField()){
                     fileName = item.getName();
                     System.out.println("file name is "+fileName);
                     //START OF FILE UPLOAD
                     
                     //where to save file.
-                    String fileDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
+                    String fileDir = truncatedAppPath + "web" + File.separator
                             + "uploads" + File.separator + "edutech" + File.separator + "lesson" + File.separator + id
                             + File.separator + subFolder;
-                    
+                    System.out.println("FILE IS GETTING SAVED TO "+fileDir);
                     //creates directory path if not present.
                     Files.createDirectories(Paths.get(fileDir));
                     // Process a file upload
                     File uploadedFile = new File(fileDir + File.separator + fileName);
                     item.write(uploadedFile);
-                    InputStream uploadedStream = item.getInputStream();
-                    uploadedStream.close();
-                    // END OF FILE UPLOAD
+                    //END OF FILE UPLOAD
                 }
             }
-            System.out.println("title is "+title);
-            System.out.println("type is "+fileType);
             //create new attachment entity
             AttachmentEntity att = new AttachmentEntity();
             att.setTitle(title);
             att.setFileName(fileName);
-            att.setType(Integer.valueOf(fileType));
-            return cmb.uploadLessonAttachment(id,att);
+            cmb.uploadLessonAttachment(id, att);
         }
-        return cmb.getAllAttachments();
+        return cmb.getAllLessonAttachments(Long.valueOf(id));
     }
     
     @GET
@@ -191,20 +168,21 @@ public class LessonREST {
     @Produces("application/zip")
     public Response downloadAllLessonAttachments(@PathParam("id") String id) throws IOException {
         //Declare the directory which the zip will be created at.
-        String zipPath = context.getRealPath("").replace("dist" + File.separator + "gfdeploy" + File.separator
-                + "EduTech" + File.separator + "EduTechWebApp-war_war", "")
-                .concat("EduTechWebApp-war" + File.separator + "web" + File.separator
-                            + "uploads" + File.separator + "edutech" + File.separator + "lesson" + File.separator + id);
-        //for debugging
-        System.out.println(zipPath);
+        String zipPath = context.getRealPath("").replace("build"+File.separator+"web", "")
+                .concat("web" + File.separator
+                            + "uploads" + File.separator + "edutech" + File.separator + "lesson");
+        System.out.println("ZIP DIRECTORY IS AT "+zipPath);
+        //creates directory path if not present.
+        Files.createDirectories(Paths.get(zipPath+File.separator+id));
+        String zipName = "Lesson_"+id+"_Attachments.zip";
         //create new file at that location.
-        File zipFile = new File(zipPath+File.separator+"allResources.zip");
-        ZipUtil.pack(new File(zipPath), zipFile);
+        File zipFile = new File(zipPath+File.separator+zipName);
+        ZipUtil.pack(new File(zipPath+File.separator+id), zipFile);
         
         return Response
             .ok(FileUtils.readFileToByteArray(zipFile))
             .type("application/zip")
-            .header("Content-Disposition", "attachment; filename=\"filename.zip\"")
+            .header("Content-Disposition", "attachment; filename=\""+zipName+"\"")
             .build();
     }
 

@@ -596,19 +596,32 @@ public class CommonRESTMgrBean {
         return attList;
     }
 
-    public List<AttachmentEntity> uploadLessonAttachment(String id, AttachmentEntity att) {
-        List<AttachmentEntity> attList = new ArrayList<>();
+    public void uploadLessonAttachment(String id, AttachmentEntity att) {
         LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
+        //get all attachments with the same file name. If this lesson already has attachment with this file name,
+        //edit the table record instead of adding a new one. 
+        Query q1 = em.createQuery("SELECT a FROM Attachment a WHERE a.fileName= :attFileName");
+        q1.setParameter("attFileName", att.getFileName());
         if(lesson!=null){
             Collection<AttachmentEntity> resources = lesson.getResources();
-            resources.add(att);
-            em.persist(att);
-            //if resources of this lesson is empty or null, then attList will remain empty.
-            if(resources != null){
-                attList.addAll(lesson.getResources());
+            List sameNameAttachments = q1.getResultList();
+            //if there are no attachments with the same name, proceed normally.
+            if(sameNameAttachments.isEmpty()){
+                resources.add(att);
+                em.persist(att);
+                System.out.println("new attachment persisted");
+            }else{
+                for(Object o : sameNameAttachments){
+                    AttachmentEntity sameName = (AttachmentEntity)o;
+                    //lesson already contains resource with this name. update row.
+                    if(resources.contains(sameName)){
+                        sameName.setTitle(att.getTitle());
+                        System.out.println("existing attachment's title renamed");
+                        break;
+                    }
+                }
             }
         }
-        return attList;
     }
 
     public AttachmentEntity downloadAttachment(Long id) {
@@ -623,6 +636,10 @@ public class CommonRESTMgrBean {
 
     public List<TaskEntity> getAllTasks() {
         return em.createQuery("SELECT t FROM Task t").getResultList();
+    }
+
+    public List<AttachmentEntity> getAllLessonAttachments(Long id) {
+        return (List<AttachmentEntity>) em.find(LessonEntity.class, id).getResources();
     }
 
 }
