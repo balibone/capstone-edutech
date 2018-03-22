@@ -367,6 +367,8 @@ public class SystemAdminController extends HttpServlet {
             String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
                     + "uploads" + File.separator + "commoninfrastructure" + File.separator + "admin" + File.separator + "images"
                     + File.separator;
+            //creates directory path if not present.
+            Files.createDirectories(Paths.get(imageDir));
             Part imagePart = request.getPart("profileImage");
             fileName= getFileName(imagePart);
             

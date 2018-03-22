@@ -530,41 +530,68 @@ public class CommonRESTMgrBean {
         return idea;
     }
 
-    public List<LessonEntity> getAllLessons() {
+    public List<ScheduleItemEntity> getAllLessons() {
         Query q = em.createQuery("select l from Lesson l");
         return q.getResultList();    
     }
     
-    public LessonEntity getOneLesson(Long id) {
-        return em.find(LessonEntity.class, id);
+    public ScheduleItemEntity getOneLesson(Long id) {
+        return em.find(ScheduleItemEntity.class, id);
     }
 
-    public LessonEntity createLesson(LessonEntity lesson) {
+    public ScheduleItemEntity createLesson(LessonEntity lesson) {
         em.persist(lesson);
         return lesson;
     }
 
     public void deleteLesson(String id) {
         LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
+        Query q1 = em.createQuery("SELECT m FROM Module m");
+        Query q2 = em.createQuery("SELECT r FROM RecurringEvent r");
         if(lesson!=null){
+            //DETACH LESSON FROM MODULE EVENTS.
+            for(Object o: q1.getResultList()){
+                ModuleEntity mod = (ModuleEntity) o;
+                Collection<ScheduleItemEntity> modEvents = mod.getModuleEvents();
+                if(modEvents!=null && modEvents.contains(lesson)){
+                    modEvents.remove(lesson);
+                }
+            }
+            //DETACH LESSON FROM RECURRING EVENT
+            for(Object o: q2.getResultList()){
+                RecurringEventEntity r = (RecurringEventEntity) o;
+                Collection<LessonEntity> lessons = r.getLessons();
+                if(lessons!=null && lessons.contains(lesson)){
+                    lessons.remove(lesson);
+                }
+            }
+            lesson.setMeetingMinutes(null);
+            lesson.setCreatedBy(null);
+            lesson.setSession(null);
+            lesson.setAssignedTo(null);
+            lesson.setResources(null);
+            lesson.setRecurringEvent(null);
             em.remove(lesson);
         }
     }
 
-    public LessonEntity editLesson(String id, LessonEntity replacement) {
-        LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
-        lesson = replacement;
-        em.merge(lesson);
+    public ScheduleItemEntity editLesson(String id, ScheduleItemEntity replacement) {
+        ScheduleItemEntity lesson = em.find(ScheduleItemEntity.class, Long.valueOf(id));
+        if(lesson!=null){
+            lesson=em.merge(replacement);
+        }
         return lesson;
     }
 
     public List<AttachmentEntity> downloadAllLessonAttachments(String id) {
         List<AttachmentEntity> attList = new ArrayList<>();
         LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
-        Collection<AttachmentEntity> resources = lesson.getResources();
-        //if resources of this lesson is empty or null, then attList will remain empty.
-        if(resources != null){
-            attList.addAll(lesson.getResources());
+        if(lesson!=null){
+            Collection<AttachmentEntity> resources = lesson.getResources();
+            //if resources of this lesson is empty or null, then attList will remain empty.
+            if(resources != null){
+                attList.addAll(lesson.getResources());
+            }
         }
         return attList;
     }
@@ -572,11 +599,14 @@ public class CommonRESTMgrBean {
     public List<AttachmentEntity> uploadLessonAttachment(String id, AttachmentEntity att) {
         List<AttachmentEntity> attList = new ArrayList<>();
         LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
-        Collection<AttachmentEntity> resources = lesson.getResources();
-        resources.add(att);
-        //if resources of this lesson is empty or null, then attList will remain empty.
-        if(resources != null){
-            attList.addAll(lesson.getResources());
+        if(lesson!=null){
+            Collection<AttachmentEntity> resources = lesson.getResources();
+            resources.add(att);
+            em.persist(att);
+            //if resources of this lesson is empty or null, then attList will remain empty.
+            if(resources != null){
+                attList.addAll(lesson.getResources());
+            }
         }
         return attList;
     }
