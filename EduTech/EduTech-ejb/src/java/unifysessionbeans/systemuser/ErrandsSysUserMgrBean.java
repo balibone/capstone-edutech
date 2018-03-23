@@ -538,6 +538,38 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         return jobOfferList;
     }
     
+    @Override
+    public List<Vector> viewMyJobOffer(String username){
+        
+        List<Vector> myJobOfferList = new ArrayList<Vector>();
+        
+        Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.userEntity.username = :username");
+        q.setParameter("username", username);
+        
+        if(q.getResultList()!=null){
+            for(Object o:q.getResultList()){
+                Vector offerInfo = new Vector();
+                JobOfferEntity joE = (JobOfferEntity) o; 
+                offerInfo.add(joE.getJobEntity().getJobID());
+                offerInfo.add(joE.getJobEntity().getJobImage());
+                offerInfo.add(joE.getJobEntity().getJobTitle());
+                offerInfo.add(joE.getJobEntity().getCategoryEntity().getCategoryName());
+                offerInfo.add(joE.getJobEntity().getJobRate());
+                offerInfo.add(joE.getJobEntity().getJobRateType());
+                offerInfo.add(joE.getJobEntity().getUserEntity().getUsername());
+                offerInfo.add(joE.getJobOfferID());
+                offerInfo.add(joE.getJobOfferPrice());
+                offerInfo.add(joE.getJobOfferDescription());
+                offerInfo.add(joE.getJobOfferStatus());
+                offerInfo.add(joE.getJobOfferDate());
+                
+                myJobOfferList.add(offerInfo);
+            }
+        }
+        
+        return myJobOfferList;
+    }
+    
     /* USER PROFILE */
     @Override
     public List<Vector> viewUserJobList(String username) {

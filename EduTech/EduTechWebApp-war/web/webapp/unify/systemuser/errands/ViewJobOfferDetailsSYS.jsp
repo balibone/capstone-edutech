@@ -177,6 +177,7 @@
                                                aria-label="Search Job ..." data-control-type="textbox" 
                                                data-control-name="transmission-text-filter" data-control-action="filter" />
                       </div>
+                        <br/>
                       <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
                       <div class="list searchresult-row">
                         <%

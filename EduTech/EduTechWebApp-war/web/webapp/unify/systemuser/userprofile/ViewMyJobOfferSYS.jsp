@@ -20,7 +20,7 @@
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/userprofile/UserAccountSYSCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/userprofile/ViewMyJobOfferSYSCSS.css" rel="stylesheet" type="text/css">
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -117,7 +117,6 @@
                                         <option value="marketplace">Marketplace</option>
                                         <option value="errands">Errands</option>
                                         <option value="companyReview">Company Review</option>
-                                        <option value="shouts">Shouts</option>
                                     </select>
                                 </div>
                                 <input type="text" class="form-control" id="search-input" placeholder="Search here..." aria-label="Search here..." autocomplete="off" />
@@ -186,13 +185,7 @@
                             </div>
                             <div class="list-group list-group-flush">
                                 <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
-                                </a>
-                                <a href="ErrandsSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;My Job Offers
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers
                                 </a>
                                 <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
@@ -203,17 +196,11 @@
                                 <a href="account-address.html" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
                                 </a>
-                                <a href="ProfileSysUser?pageTransit=goToCompanyReview" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-building"></i>&nbsp;Company Review List
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToCompanyRequest" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-question-circle"></i>&nbsp;Company Request List
-                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Your Item Listing</span></div>
+                        <div class="title"><span>Job Offers(I've made)</span></div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
@@ -243,78 +230,109 @@
                         <div class="row equal-height" add-class-on-xs="no-gutters">
                             <div class="list searchresult-row">
                                 <%
-                                    ArrayList<Vector> itemOfferListSYS = (ArrayList) request.getAttribute("itemOfferListSYS");
-                                    if (!itemOfferListSYS.isEmpty()) {
-                                        for (int i = 0; i <= itemOfferListSYS.size() - 1; i++) {
-                                            Vector v = itemOfferListSYS.get(i);
-                                            String itemID = String.valueOf(v.get(0));
-                                            String itemImage = String.valueOf(v.get(1));
-                                            String itemName = String.valueOf(v.get(2));
-                                            String itemCategoryName = String.valueOf(v.get(3));
-                                            String itemSellerID = String.valueOf(v.get(4));
-                                            String itemSellerImage = String.valueOf(v.get(5));
-                                            String itemPostedDuration = String.valueOf(v.get(6));
-                                            String itemPostingDate = String.valueOf(v.get(7));
-                                            String itemPrice = String.valueOf(v.get(8));
-                                            String itemNumOfLikes = String.valueOf(v.get(9));
-                                            String itemNumOfPendingOffer = String.valueOf(v.get(10));
-                                            String itemCondition = String.valueOf(v.get(11));
-                                            String itemStatus = String.valueOf(v.get(12));
+                                    ArrayList<Vector> myJobOfferListSYS = (ArrayList) request.getAttribute("myJobOfferList");
+                                    if (!myJobOfferListSYS.isEmpty()) {
+                                        for (int i = 0; i <= myJobOfferListSYS.size() - 1; i++) {
+                                            Vector v = myJobOfferListSYS.get(i);
+                                            long jobID = (Long)v.get(0);
+                                            String jobImage = String.valueOf(v.get(1));
+                                            String jobTitle = String.valueOf(v.get(2));
+                                            String jobCategoryName = String.valueOf(v.get(3));
+                                            double jobRate = (Double)v.get(4);
+                                            String jobRateType = String.valueOf(v.get(5));
+                                            String jobPosterID = String.valueOf(v.get(6));
+                                            long offerID = (Long)v.get(7);
+                                            String offerPrice = String.valueOf(v.get(8));
+                                            String offerDescription = String.valueOf(v.get(9));
+                                            String offerStatus = String.valueOf(v.get(10));
+                                            String offerDate = String.valueOf(v.get(11));
                                 %>
-                                <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
+                                <div class="col-xl-12 col-md-312 col-12 d-block d-lg-none d-xl-block">
+                                <table class="table-header">
+                                    <col width="420">
+                                    <col width="400">
+                                    <tr>
+                                        <th>Job Info</th>
+                                        <th>My Offer</th>
+                                    </tr>
+                                </table>
+                                </div>
+                                <div class="col-xl-12 col-md-312 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
-                                        <div class="card-header" style="font-size: 13px;">
-                                            <div class="dropdown">
-                                                <a id="itemListDropdown" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-right make-it-regular close" style="padding-top:7px;"><img src="images/unifyimages/sidebar-divider-dots.png" /></span>
-                                                </a>
-                                                <div class="dropdown-menu" aria-labelledby="itemListDropdown">
-                                                    <%  if(!itemNumOfPendingOffer.equals("0")) { %>
-                                                    <a id="pendingItemOfferBtn<%= itemID%>" class="dropdown-item myAccountBtn" href="#">View Item Offers</a>
-                                                    <%  }   %>
-                                                    <a class="dropdown-item myAccountBtn" href="#">Report Listing</a>
-                                                </div>
-                                            </div>
-                                            <div class="pull-left" style="padding-right: 10px;">
-                                                <div class="profilePicBorder">
-                                                    <img class="profilePic" src="uploads/unify/images/marketplace/item/<%= itemSellerImage%>" />
-                                                </div>
-                                            </div>
-                                            <div class="profileContent">
-                                                <h3 class="profileHeader"><%= itemSellerID%></h3>
-                                                <time class="profileTime"><i class="fa fa-clock-o" style="margin-right: 5px;"></i><%= itemPostedDuration%></time>
-                                            </div>
-                                        </div>
                                         <div class="card-content">
                                             <div class="card-body mb-2">
-                                                <div class="img-wrapper mb-2">
-                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>&hiddenUsername=<%= loggedInUsername%>">
-                                                        <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
+                                              <div class='row'>
+                                                <div class="img-wrapper col-xl-2 col-md-2 col-2 mb-2">
+                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&hiddenUsername=<%= loggedInUsername%>">
+                                                        <img class="card-img-top" style="width: 120px; height: 120px;" src="uploads/unify/images/marketplace/item/<%= jobImage%>" />
                                                     </a>
-                                                    <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
-                                                        <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            <button id="<%= itemID%>" class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
-                                                        </div>
-                                                    </div>
-                                                    <%  if (itemStatus.equals("Reserved")) { %>
-                                                    <span class="badge badge-warning custom-badge arrowed-left label label-top-right">Reserved</span>
-                                                    <%  } else if (itemStatus.equals("Sold")) { %>
-                                                    <span class="badge badge-danger custom-badge arrowed-left label label-top-right">Sold</span>
-                                                    <%  }%>
+                                                    
                                                 </div>
-                                                <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
-                                                <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
-                                                <span class="card-text itemCategoryName" style="display:none;"><%= itemCategoryName%></span>
-                                                <span class="card-text itemCondition" style="font-size: 11px;">Condition:&nbsp;<strong><%= itemCondition%></strong></span>
+                                                <div class="col-xl-4 col-md-4 col-4 jobInfo">
+                                                    <span class="jobTitle"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>"><%= jobTitle%></a></strong></span><br/>
+                                                    <span class="card-text itemCategoryName"><%= jobCategoryName%></span><br/>
+                                                    <span class="card-text">S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
+                                                    <span class="card-text">Posted by&nbsp;&nbsp;<i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;<%= jobPosterID%></span>
+                                                </div>
+                                                <div class="col-xl-6 col-md-6 col-6 offerInfo">
+                                                    <span><strong><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;&nbsp;Status:</strong> <%=offerStatus%></span><br/>
+                                                    <span><strong><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp;My Offer Price: </strong>S$<%= offerPrice%></span><br/>
+                                                    <span><strong><i class="fa fa-comments" aria-hidden="true"></i>&nbsp;&nbsp;Comments: </strong><%=offerDescription%></span><br/>
+                                                    <span class="offerDate"><i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp;sent on <%=offerDate%></span><br/>
+                                                    <div class="action-button">
+                                                        <button id="makeOfferBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">Edit</button>
+                                                        <a role="button" href="#" class="btn btn-danger">Cancel</a>
+                                                    
+                            
+                                                    <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                          <div class="modal-header">
+                                                            <span class="modal-title" id="exampleModalLabel" style="color: #4D7496; font-size: 18px;"><strong>&nbsp;Edit Offer</strong></span>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                          </div>
+                                                            <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
+                                                         <form id="offerDetails">
+                                                           <div class="modal-body">
+                                                              <div class="form-group row">
+                                                                <label for="offerPrice" class="col-form-label col-3"><strong>Offer Price * : </strong></label>
+                                                                <div class="col-3">
+                                                                    <input type="number" class="form-control" id="jobOfferPrice" name="jobOfferPrice" placeholder="<%= offerPrice%>" required>
+                                                                </div>
+                                                                <div class="col-4 mt-2 float-left">
+                                                                    <span id="offerPriceType"></span>
+                                                                </div>
+                                                              </div>
+                                                              <div class="form-group">
+                                                                <label for="comment" class="col-form-label"><strong>Other comments:</strong></label>
+                                                                <textarea class="form-control" id="jobOfferDescription" name="jobOfferDescription" placeholder="<%= offerDescription%>"></textarea>
+                                                              </div>
+                                                           </div>
+                                                           <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <a role="button" href="#" class="btn btn-primary">Edit Offer</a>
+                                                            <br/>
+
+                                                           </div>
+                                                         </form>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    </div>
+                                                    <br/>
+                                                </div>
                                             </div>
+                                          </div>
                                         </div>
-                                        <div class="card-footer text-muted mt-1">
+                                        <%--<div class="card-footer text-muted mt-1">
                                             <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
                                             <span class="float-right">
                                                 <button id="likeItemBtn<%= itemID%>" class="myAccountBtn"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span></button>&nbsp;&nbsp;
                                                 <button id="pendingItemOfferBtn<%= itemID%>" class="myAccountBtn"><i class="fa fa-users"></i>&nbsp;<span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span></button>
                                             </span>
-                                        </div>
+                                        </div>--%>
                                     </div>
                                 </div>
                                 <%      }   %>

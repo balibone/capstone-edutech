@@ -47,6 +47,7 @@ public class UserProfileSysUserController extends HttpServlet {
             ServletContext servletContext = getServletContext();
             
             String pageAction = request.getParameter("pageTransit");
+            System.out.println(pageAction);
             
             switch (pageAction) {
                 case "goToUnifyUserAccount":
@@ -67,6 +68,11 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
                     request.setAttribute("userJobListing", (ArrayList) esmr.viewUserJobList(username));
                     pageAction = "UserJobListingSYS";
+                    break;
+                case "goToViewMyJobOfferSYS":
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(username));
+                    pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "goToViewItemDetailsInModalSYS":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
