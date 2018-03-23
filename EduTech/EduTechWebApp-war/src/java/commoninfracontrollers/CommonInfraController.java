@@ -194,9 +194,9 @@ public class CommonInfraController extends HttpServlet {
                     if(!isValidUser){
                         response.sendError(400, "Username does not exist in our system. Please make sure you have entered a valid username.");
                     }
-                    boolean resetPasswordSuccess = cir.resetPassword(request.getParameter("username"),request.getParameter("password"));
+                    boolean resetPasswordSuccess = cir.resetPassword(request.getParameter("username"), request.getParameter("oldPassword"),request.getParameter("password"));
                     if(!resetPasswordSuccess){
-                        response.sendError(400, "Please choose a different password than your existing one.");
+                        response.sendError(400, "Your existing password is invalid. Please make sure it is correct.");
                     }
                     //if both isValidUser and resetPasswordSuccess are true, then break is reached and AJAX call is returned with success. 
                     break;

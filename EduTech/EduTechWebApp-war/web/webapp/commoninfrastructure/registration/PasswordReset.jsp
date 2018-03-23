@@ -39,6 +39,14 @@
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/ForgotCSS.css">
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/dashboard/baselayout/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/coming-soon.min.css">
+        <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/PasswordResetCSS.css">
+        <style>
+            .form-group input{
+                text-align: center;
+            }
+        </style>
+        
+        
     </head>
     
     <body class="text-center">
@@ -52,28 +60,48 @@
             </div>
             <div class="form-group">
                 <label for="username">Current Password</label>
-                <input id="oldpass" type="text" class="form-control" placeholder="Enter your old password" required>
+                <div class="input-group mb-3">
+                    <input id="oldpass" type="password" class="form-control" placeholder="Enter your old password" required name="oldPassword">
+                    <div class="input-group-append" style="height: 38px;">
+                        <button class="btn btn-outline-secondary" type="button" onmousedown="showOldPass()" onmouseup="showOldPass()"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="username">New Password</label>
-                <input id="password1" type="text" class="form-control" placeholder="Enter your new password" required name="password">
-                <small id="passwordHelpBlock" class="form-text text-muted">
-                    Your password must be at least 8 characters long, alphanumeric, and must not contain spaces, special characters, or emojis.<br> <strong>It must be different from your current password.</strong>
-                </small>
+                <div class="input-group mb-1">
+                    <input id="password1" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control" placeholder="Enter your new password" required name="password">
+                    <div class="input-group-append" style="height: 38px;">
+                        <button class="btn btn-outline-secondary" type="button" onmousedown="showPassword1()" onmouseup="showPassword1()"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <div id="passwordHint" style="font-size: medium; ">
+                    <strong>Password must contain the following:</strong>
+                    <br>
+                    <div id="letter" class="invalid">A <b>lowercase</b> letter</div>
+                    <div id="capital" class="invalid">An <b>uppercase</b> letter</div>
+                    <div id="number" class="invalid">A <b>number</b></div>
+                    <div id="length" class="invalid">Minimum <b>8 characters</b></div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="username">Confirm New Password</label>
-                <input id="password2" type="text" class="form-control" placeholder="Re-enter your new password" required>
+                <div class="input-group mb-3">
+                    <input id="password2" type="password" class="form-control" placeholder="Re-enter your new password" required>
+                    <div class="input-group-append" style="height: 38px;">
+                        <button class="btn btn-outline-secondary" type="button" onmousedown="showPassword2()" onmouseup="showPassword2()"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
             </div>
             
             <input type="hidden" name="pageTransit" value="resetPassword"/>
-            <input type="hidden" id="username" name="username" value="<%=request.getParameter("username")%>"/>
             <%  if(request.getAttribute("failMsg") != null) {   %>
             <div class="alert alert-danger" role="alert"><%= request.getAttribute("failMsg")%></div>
             <%  }   %>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
             <a href="CommonInfra?pageTransit=goToLogout" class="btn btn-lg btn-info btn-block">Back To Login</a>
             <p class="mt-5 mb-3 text-muted">&copy; EduBox 2018</p>
+            
         </form>
         <!-- JavaScript (JS) -->
         <script src="js/commoninfrastructure/login/jquery.min.js" type="text/javascript"></script>
@@ -83,6 +111,8 @@
         <!--Custom JS-->
         <script src="js/commoninfrastructure/login/coming-soon.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/login/PasswordResetJS.js" type="text/javascript"></script>
-        
+        <!--Font Awesome 5-->
+        <script defer src="fonts/fa5/fontawesome-all.js"></script>
+        <script defer src="fonts/fa5/fa-v4-shims.js"></script>
     </body>
 </html>

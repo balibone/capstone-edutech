@@ -11,6 +11,6 @@ public interface CommonInfraMgrBeanRemote {
 
 //    public boolean validateToken(String username, String token);
 
-    public boolean resetPassword(String username, String password);
+    public boolean resetPassword(String username, String oldPassword, String password);
     public boolean isValidUser(String username);
 }
