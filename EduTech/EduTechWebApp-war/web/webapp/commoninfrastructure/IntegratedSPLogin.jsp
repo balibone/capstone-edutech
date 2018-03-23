@@ -62,6 +62,8 @@
                 Don't have an account? <a href="CommonInfra?pageTransit=Registration">Sign up here.</a>
                 <br>
                 Forgot your password? <a href="CommonInfra?pageTransit=ForgotPassword">Get a recovery email.</a>
+                <br>
+                Change your current password? <a href="CommonInfra?pageTransit=ResetPassword">Click here.</a>
             </p>
             <p class="mt-5 mb-3 text-muted">&copy; EduBox 2018</p>
         </form>

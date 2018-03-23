@@ -82,25 +82,13 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         }
     }
 
-    /* MISCELLANEOUS METHODS */
-    public UserEntity lookupUser(String username){
-        UserEntity ue = new UserEntity();
-        try{
-            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
-            q.setParameter("username", username);
-            ue = (UserEntity)q.getSingleResult();
+    @Override
+    public boolean isValidUser(String username){
+        if(em.find(UserEntity.class, username)!=null){
+            return true;
+        }else{
+            return false; 
         }
-        catch(EntityNotFoundException enfe){
-            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
-            em.remove(ue);
-            ue = null;
-        }
-        catch(NoResultException nre){
-            System.out.println("ERROR: User does not exist. " + nre.getMessage());
-            em.remove(ue);
-            ue = null;
-        }
-        return ue;
     }
     
     public String encodePassword(String username, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -124,10 +112,10 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         q1.setParameter("uName", username);
         UserEntity u = (UserEntity) q1.getSingleResult();
         if(u != null){
-            String resetToken = generateAlphaNum(5);
-            u.setResetToken(resetToken);
+            String tempPassword = generateAlphaNum(8);
             try {
-                generateAndSendEmail(u.getUsername(), u.getEmail(),resetToken);
+                generateAndSendEmail(u.getUsername(), u.getEmail(),tempPassword);
+                u.setUserPassword(tempPassword);
             } catch (MessagingException ex) {
                 System.out.println("**************Email sending failed!");
                 ex.printStackTrace();
@@ -153,7 +141,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return new String(generated);
     }
     
-    public void generateAndSendEmail(String username, String email, String token) throws AddressException, MessagingException {
+    public void generateAndSendEmail(String username, String email, String tempPassword) throws AddressException, MessagingException {
  
         // Step1
         System.out.println("\n 1st ===> setup Mail Server Properties..");
@@ -172,8 +160,8 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
         mailMessage.setSubject("Greetings from EduBox");
         String emailBody = "Hey "+ username + ",<br><br>"
-                + "Click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&username="+username+"&token="+token+"'>link</a> to reset your password.<br>"
-                + "Alternatively, you click <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&username="+username+"'>here</a> and paste your reset token <strong>"+ token +"</strong> manually."
+                + "Here is your temporary password: <strong>"+ tempPassword +"</strong>"
+                + "Please click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&username="+username+"'>link</a> to reset your password."
                 + "<a></a>" +"<br><br>Cheers,<br>EduBox Team";
         mailMessage.setContent(emailBody, "text/html");
         System.out.println("Mail Session has been created successfully..");
@@ -189,17 +177,17 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         transport.close();
     }
 
-    @Override
-    public boolean validateToken(String username, String token) {
-        Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username=:uname");
-        q1.setParameter("uname", username);
-        UserEntity u = (UserEntity) q1.getSingleResult();
-        if(u != null && u.getResetToken().equals(token)){
-            return true;
-        }else{
-            return false;
-        }
-    }
+//    @Override
+//    public boolean validateToken(String username, String token) {
+//        Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username=:uname");
+//        q1.setParameter("uname", username);
+//        UserEntity u = (UserEntity) q1.getSingleResult();
+//        if(u != null && u.getResetToken().equals(token)){
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
 
     @Override
     public boolean resetPassword(String username, String password) {

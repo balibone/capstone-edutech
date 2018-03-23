@@ -167,15 +167,6 @@ public class CommonInfraController extends HttpServlet {
                         response.sendRedirect("CommonInfra?pageTransit=goToLogout&unauthorised=true");
                     }
                     break;
-                case "goToSystemAdmin":
-                    pageAction = "SystemAdminDashboard";
-                    break;
-                case "goToEdutechAdmin":
-                    pageAction = "EduTechAdminDashboard";
-                    break;
-                case "goToUnifyAdmin":
-                    pageAction = "AdminDashboard";
-                    break;
                 case "registerUser":
                     try{
                         success = cir.createSysUser(request.getParameter("salutation"), request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("username"), request.getParameter("password"), request.getParameter("email"), request.getParameter("contactNum"));
@@ -197,17 +188,17 @@ public class CommonInfraController extends HttpServlet {
                         pageAction = "ForgotPassword";
                     }
                     break;
-                case "validateToken":
-                    success = cir.validateToken(request.getParameter("username"),request.getParameter("token"));
-                    if(!success){
-                        response.sendError(400, "The token you have supplied is invalid. Please use the links provided in email and ensure token is correct.");
-                    }
-                    break;
                 case "resetPassword":
-                    success = cir.resetPassword(request.getParameter("username"),request.getParameter("password"));
-                    if(!success){
-                        response.sendError(400, "Please choose a different password than your previous one. ");
+                    
+                    boolean isValidUser = cir.isValidUser(request.getParameter("username"));
+                    if(!isValidUser){
+                        response.sendError(400, "Username does not exist in our system. Please make sure you have entered a valid username.");
                     }
+                    boolean resetPasswordSuccess = cir.resetPassword(request.getParameter("username"),request.getParameter("password"));
+                    if(!resetPasswordSuccess){
+                        response.sendError(400, "Please choose a different password than your existing one.");
+                    }
+                    //if both isValidUser and resetPasswordSuccess are true, then break is reached and AJAX call is returned with success. 
                     break;
                 default:
                     break;

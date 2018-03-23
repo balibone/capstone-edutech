@@ -1,21 +1,4 @@
 $(function(){
-    $("#tokenEntry").on("submit", function(event){
-        event.preventDefault();
-        var formData1 = $(this).serialize();
-        $.ajax({
-            url: "CommonInfra",
-            type: 'POST',
-            data: formData1,
-            success: function(data){
-                $('#newPassword').modal({
-                    keyboard: false
-                });
-            },
-            error: function(jqXHR,status,error){
-                alert(status+": "+error);
-            }
-        });
-    });
     $("#resetPassword").on("submit", function(event){
         event.preventDefault();
         var pass1 = $("#password1").val();
@@ -23,14 +6,15 @@ $(function(){
         if(pass1 === pass2){
             if(pass1.length<8){
                 alert("Password needs to be at least 8 characters long");
+            }else if(pass1 === $("#oldpass").val()){
+                alert("New password must be different from old password!");
             }else{
-                var formData2 = $(this).serialize();
+                var formData = $(this).serialize();
                 $.ajax({
                     url: "CommonInfra",
                     type: 'POST',
-                    data: formData2,
+                    data: formData,
                     success: function(data){
-                        $('#newPassword').modal("hide");
                         alert('Password successfully changed');
                         window.location.replace("CommonInfra?pageTransit=goToLogout");
                     },

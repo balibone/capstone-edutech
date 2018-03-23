@@ -32,7 +32,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         
-        <title>Sign Up</title>
+        <title>Password Reset</title>
         
         <!-- Cascading Style Sheet (CSS) -->
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/bootstrapv4.min.css">
@@ -42,28 +42,31 @@
     </head>
     
     <body class="text-center">
-        <form id="tokenEntry" method="POST" action="CommonInfra" class="form-signin" style="background-color: #f2f2f2; border-radius: 24px;">
+        <form id="resetPassword" method="POST" action="CommonInfra" class="form-signin" style="background-color: #f2f2f2; border-radius: 24px;">
             <img class="mb-4" src="images/edubox-logo.png" width="auto" height="100">
             <h1 class="h3 mb-3 font-weight-normal">Reset your password.</h1>
-            <p>Enter your reset token below.</p>
             
             <div class="form-group">
-                <label for="username">Reset Token</label>
-                <%
-                    if(request.getParameter("token")!=null){
-                %>
-                <input id="token" value="<%=request.getParameter("token")%>" type="text" class="form-control" id="token" placeholder="Enter the token sent to your email" required name="token">
-                <%
-                    }else{
-                %>
-                <input id="token" type="text" class="form-control" id="token" placeholder="Enter the token sent to your email" required name="token">
-                <%
-}
-                %>
-                
+                <label for="username">Username</label>
+                <input id="username" type="text" class="form-control" placeholder="Enter your username" required name="username">
+            </div>
+            <div class="form-group">
+                <label for="username">Current Password</label>
+                <input id="oldpass" type="text" class="form-control" placeholder="Enter your old password" required>
+            </div>
+            <div class="form-group">
+                <label for="username">New Password</label>
+                <input id="password1" type="text" class="form-control" placeholder="Enter your new password" required name="password">
+                <small id="passwordHelpBlock" class="form-text text-muted">
+                    Your password must be at least 8 characters long, alphanumeric, and must not contain spaces, special characters, or emojis.<br> <strong>It must be different from your current password.</strong>
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="username">Confirm New Password</label>
+                <input id="password2" type="text" class="form-control" placeholder="Re-enter your new password" required>
             </div>
             
-            <input type="hidden" name="pageTransit" value="validateToken"/>
+            <input type="hidden" name="pageTransit" value="resetPassword"/>
             <input type="hidden" id="username" name="username" value="<%=request.getParameter("username")%>"/>
             <%  if(request.getAttribute("failMsg") != null) {   %>
             <div class="alert alert-danger" role="alert"><%= request.getAttribute("failMsg")%></div>
@@ -72,51 +75,6 @@
             <a href="CommonInfra?pageTransit=goToLogout" class="btn btn-lg btn-info btn-block">Back To Login</a>
             <p class="mt-5 mb-3 text-muted">&copy; EduBox 2018</p>
         </form>
-            
-            <!-- New Password Modal -->
-            <div class="modal fade mx-auto" id="newPassword" tabindex="-1" role="dialog" aria-labelledby="newPassword" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="newPassword">Set your new password.</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="resetPassword" method="POST" action="CommonInfra">
-                                <div class="form-group row">
-                                    <label for="password1" class="col-sm-3 col-form-label">New password</label>
-                                    <div class="col-sm-9">
-                                        <input required type="password" class="form-control" id="password1" placeholder="New Password" name="password">
-                                        <small id="passwordHelpBlock" class="form-text text-muted">
-                                            Your password must be at least 8 characters long, alphanumeric, and must not contain spaces, special characters, or emojis.
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="password2" class="col-sm-3 col-form-label">Re-enter</label>
-                                    <div class="col-sm-9">
-                                        <input required type="password" class="form-control" id="password2" placeholder="Re-enter New Password">
-                                    </div>
-                                </div>
-                                <input type="hidden" name="pageTransit" value="resetPassword"/>
-                                <input type="hidden" name="username" value="<%=request.getParameter("username")%>"/>
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary">Submit</button>&nbsp;
-                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-                                </div>
-                                
-                            </form>
-                        </div>
-<!--                        
-                        <div class="modal-footer">
-                            
-                        </div>-->
-                    </div>
-                </div>
-            </div>
-            
         <!-- JavaScript (JS) -->
         <script src="js/commoninfrastructure/login/jquery.min.js" type="text/javascript"></script>
         <script src="js/commoninfrastructure/login/bootstrapv4.min.js" type="text/javascript"></script>
