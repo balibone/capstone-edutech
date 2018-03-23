@@ -28,12 +28,8 @@
     </servlet>
     <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE (JSP) -->
     <servlet>
-        <servlet-name>IntegratedSPLanding</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/IntegratedSPLanding.jsp</jsp-file>
-    </servlet>
-    <servlet>
         <servlet-name>SystemAdminLanding</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/SystemAdminLanding.jsp</jsp-file>
+        <jsp-file>/webapp/commoninfrastructure/AdminLanding.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>DualAdminLanding</servlet-name>
@@ -49,7 +45,7 @@
     </servlet>
     <servlet>
         <servlet-name>SystemUserLanding</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/SystemUserLanding.jsp</jsp-file>
+        <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>IntegratedSPLogin</servlet-name>
