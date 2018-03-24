@@ -118,8 +118,8 @@ public class LessonREST {
         
         String appPath = context.getRealPath("");
         System.out.println("app path is "+ appPath);
-        String truncatedAppPath = appPath.replace("build"
-                +File.separator+"web", "");
+        String truncatedAppPath = appPath.replace("dist"
+                +File.separator+"gfdeploy"+File.separator+"EduTech"+File.separator+"EduTechWebApp-war_war", "");
         System.out.println("truncated path is "+truncatedAppPath);
         
         // Check that we have a file upload request
@@ -151,7 +151,7 @@ public class LessonREST {
                     
                     
                     //where to save file.
-                    String fileDir = truncatedAppPath + "web" + File.separator
+                    String fileDir = truncatedAppPath + "EduTechWebApp-war"+File.separator+"web" + File.separator
                             + "uploads" + File.separator + "edutech" + File.separator + "lesson" + File.separator + id;
                            
                     System.out.println("FILE IS GETTING SAVED TO "+fileDir);
@@ -181,12 +181,13 @@ public class LessonREST {
         
         String appPath = context.getRealPath("");
         System.out.println("app path is "+ appPath);
-        String truncatedAppPath = appPath.replace("build"+File.separator+"web", "");
+        String truncatedAppPath = appPath.replace("dist"
+                +File.separator+"gfdeploy"+File.separator+"EduTech"+File.separator+"EduTechWebApp-war_war", "");
         System.out.println("truncated path is "+truncatedAppPath);
         fileName = cmb.deleteAttachment(attachmentId);
         //delete local file
         try{
-            Files.deleteIfExists(Paths.get(truncatedAppPath + "web" + File.separator+ "uploads" + File.separator + "edutech" 
+            Files.deleteIfExists(Paths.get(truncatedAppPath + "EduTechWebApp-war"+File.separator+ "web" + File.separator+ "uploads" + File.separator + "edutech" 
                     + File.separator + "lesson" + File.separator + lessonId + File.separator + fileName));
         }catch(NoSuchFileException e){
             System.out.println("No such file/directory exists");
@@ -205,12 +206,13 @@ public class LessonREST {
     public Response downloadOneLessonAttachment(@PathParam("lessonId") String lessonId, @PathParam("attachmentId") String attachmentId) throws IOException, ServletException, FileUploadException, Exception {
         String appPath = context.getRealPath("");
         System.out.println("app path is "+ appPath);
-        String truncatedAppPath = appPath.replace("build"+File.separator+"web", "");
+        String truncatedAppPath = appPath.replace("dist"
+                +File.separator+"gfdeploy"+File.separator+"EduTech"+File.separator+"EduTechWebApp-war_war", "");
         System.out.println("truncated path is "+truncatedAppPath);
         //Extract file name of this attachment entity to display on HTTP response.
         String fileName= cmb.getOneAttachment(Long.valueOf(attachmentId)).getFileName();
         //extract local file
-        File resFile = new File(truncatedAppPath + "web" + File.separator+ "uploads" + File.separator + "edutech" 
+        File resFile = new File(truncatedAppPath + "EduTechWebApp-war"+File.separator+ "web" + File.separator+ "uploads" + File.separator + "edutech" 
                     + File.separator + "lesson" + File.separator + lessonId + File.separator + fileName);
         return Response
             .ok(FileUtils.readFileToByteArray(resFile))
@@ -223,18 +225,19 @@ public class LessonREST {
     @Path("downloadAllAttachments/{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces("application/zip")
-    public Response downloadAllLessonAttachments(@PathParam("id") String id) throws IOException {
+    public Response downloadAllLessonAttachments(@PathParam("id") String lessonId) throws IOException {
         //Declare the directory which the zip will be created at.
-        String zipPath = context.getRealPath("").replace("build"+File.separator+"web", "")
-                .concat("web" + File.separator
-                            + "uploads" + File.separator + "edutech" + File.separator + "lesson");
+        String zipPath = context.getRealPath("").replace("dist"
+                +File.separator+"gfdeploy"+File.separator+"EduTech"+File.separator+"EduTechWebApp-war_war", "")
+                .concat("EduTechWebApp-war"+File.separator+ "web" + File.separator+ "uploads" + File.separator + "edutech" 
+                    + File.separator + "lesson");
         System.out.println("ZIP DIRECTORY IS AT "+zipPath);
         //creates directory path if not present.
-        Files.createDirectories(Paths.get(zipPath+File.separator+id));
-        String zipName = "Lesson_"+id+"_Attachments.zip";
+        Files.createDirectories(Paths.get(zipPath+File.separator+lessonId));
+        String zipName = "Lesson_"+lessonId+"_Attachments.zip";
         //create new file at that location.
         File zipFile = new File(zipPath+File.separator+zipName);
-        ZipUtil.pack(new File(zipPath+File.separator+id), zipFile);
+        ZipUtil.pack(new File(zipPath+File.separator+lessonId), zipFile);
         
         return Response
             .ok(FileUtils.readFileToByteArray(zipFile))
