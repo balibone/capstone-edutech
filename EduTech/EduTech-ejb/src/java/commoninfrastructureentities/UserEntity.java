@@ -47,7 +47,7 @@ public class UserEntity implements Serializable {
     private String email;
     private String contactNum;
     //to store latest password reset token
-    private String resetToken;
+//    private String resetToken;
     @Temporal(TemporalType.TIMESTAMP)
     private Date userCreationDate;
     
@@ -188,12 +188,12 @@ public class UserEntity implements Serializable {
     public void setContactNum(String contactNum) {
         this.contactNum = contactNum;
     }
-
-    public String getResetToken() {
-        return resetToken;
-    }
-
-    public void setResetToken(String resetToken) {
-        this.resetToken = resetToken;
-    }
+//
+//    public String getResetToken() {
+//        return resetToken;
+//    }
+//
+//    public void setResetToken(String resetToken) {
+//        this.resetToken = resetToken;
+//    }
 }

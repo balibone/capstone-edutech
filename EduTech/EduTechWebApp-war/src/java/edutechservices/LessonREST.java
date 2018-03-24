@@ -125,6 +125,7 @@ public class LessonREST {
         // Check that we have a file upload request
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if(isMultipart){
+            //START OF FILE UPLOAD
             // Create a factory for disk-based file items
             DiskFileItemFactory factory = new DiskFileItemFactory();
             // Configure a repository (to ensure a secure temp location is used)
@@ -147,7 +148,7 @@ public class LessonREST {
                 }else if(!item.isFormField()){
                     fileName = item.getName();
                     System.out.println("file name is "+fileName);
-                    //START OF FILE UPLOAD
+                    
                     
                     //where to save file.
                     String fileDir = truncatedAppPath + "web" + File.separator
@@ -159,9 +160,10 @@ public class LessonREST {
                     // Process a file upload
                     File uploadedFile = new File(fileDir + File.separator + fileName);
                     item.write(uploadedFile);
-                    //END OF FILE UPLOAD
+                    
                 }
             }
+            //END OF FILE UPLOAD
             //create new attachment entity
             AttachmentEntity att = new AttachmentEntity();
             att.setTitle(title);
