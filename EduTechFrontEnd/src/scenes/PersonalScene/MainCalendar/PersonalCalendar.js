@@ -99,6 +99,7 @@ class PersonalCalendar extends Component {
 		    agendaDateFormat: 'DD-MM' + ' ' + 'dd',
 
 		  }
+		  console.log("EVENTS ARR:", eventsArray)
 		// eventsArray = eventsArray.filter(event => event.type === "personal" || event.type === "meeting");
 		return(
 		    <div>

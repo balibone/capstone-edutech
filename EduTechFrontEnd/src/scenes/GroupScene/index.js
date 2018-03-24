@@ -20,14 +20,6 @@ GroupStore.populateGroup();
 @observer
 class GroupScene extends Component {
 
-
-  componentDidMount(){
-    // MeetingStore.populateMeetings(this.props.match.params.groupId); 
-    const username = "nanda"
-    ScheduleItemStore.populateScheduleItems(username);
-  }
-
-
   componentDidMount(){
     let { groupId } = this.props.match.params;
 

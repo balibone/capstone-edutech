@@ -4,6 +4,8 @@ import moment from 'moment';
 
 import UploadFileBtn from './UploadFileBtn';
 
+import './styles.css';
+
 class SingleLesson extends Component {
 
 
@@ -13,12 +15,13 @@ class SingleLesson extends Component {
 
 		        <Row className="show-grid">
 		          <Col xs={12} md={6}>
-		            
+		            show uploaded files here
 		          </Col>
 		          <Col xs={6} md={6}>
 		            <div className="well" style={wellStyles}>
 		              <UploadFileBtn />
 		            </div>        
+		            <Button className="pull-right" >Download All Attachments</Button>
 					<Button className="standardTopGap" bsStyle="primary">Manage Session</Button>
 		          </Col>
 		        </Row>
@@ -27,11 +30,16 @@ class SingleLesson extends Component {
 	}
 
 	render(){
+		const {id, title, startDate, endDate} = this.props.lesson;
+		const start = moment(startDate).format("h:mm a");
+        const end = moment(endDate).format("h:mm a");
+        const date = moment(startDate).format("dddd, Do MMMM");
+
 		return(
-			<Panel eventKey={this.props.lesson.id}>
+			<Panel eventKey={id}>
 		    	<Panel.Heading>
-		      		<Panel.Title toggle>{this.props.lesson.title} - {moment(this.props.lesson.dateTime).format('dddd, Do MMMM')}
-			      		<Button className="pull-right" style={{marginTop: '-5px'}}>Download All Attachments</Button>
+		      		<Panel.Title toggle>{title} <p className="smallText">{date}, {start} - {end} </p>
+			      		
 		      		</Panel.Title>
 		    	</Panel.Heading>
 		    	<Panel.Body collapsible>

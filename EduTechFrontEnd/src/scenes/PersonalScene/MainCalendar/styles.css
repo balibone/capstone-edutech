@@ -11,3 +11,7 @@ a.btnHover:hover{
 	margin-right: 10px;
 }
 
+.rbc-height{
+	min-height: 20px;
+}
+

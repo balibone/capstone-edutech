@@ -19,7 +19,6 @@ class SingleCalendarCard extends Component {
 		this.props.handleCloseAll() 
 	}
 	editFormOpen(){ 
-		console.log("OPENING edit form")
 		this.props.editFormOpen() 
 	}	
 
@@ -46,8 +45,7 @@ class SingleCalendarCard extends Component {
 
 	render(){
 		var { title, start, end, description, type} = this.props.selectedEvent;
-		var duration = moment(start).format("HH:mm") + " - " + moment(end).format("HH:mm")
-		console.log("TYPE: ", this.props.selectedEvent);
+		var duration = moment(start).format("HH:mm") + " - " + moment(end).format("HH:mm");
 		var titleText = title + " on " + moment(start).format("DD/MM/YYYY")
 		var color = "";
 		switch(type){
