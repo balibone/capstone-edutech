@@ -48,7 +48,7 @@
     <body class="text-center">
         <form action="CommonInfra" method="POST" class="form-signin" style="background-color: #f2f2f2; border-radius: 24px;">
             <img class="mb-4" src="images/edubox-logo.png" width="auto" height="100">
-            <h1 class="h3 mb-3 font-weight-normal">Welcome, please sign in.</h1>
+            <h1 class="h4 mb-3 font-weight-normal"><i>Your campus, online.</i></h1>
             <label for="username">Username</label>
             <input type="text" class="form-control mb-1" name="username" autofocus required/>
             <label for="password">Password</label>

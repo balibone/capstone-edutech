@@ -9,6 +9,10 @@
   --speed: 1000ms;
 }
 
+a.enterButton {
+    box-sizing: unset;
+}
+
 html, body {
   overflow-x: hidden;
   padding:0;

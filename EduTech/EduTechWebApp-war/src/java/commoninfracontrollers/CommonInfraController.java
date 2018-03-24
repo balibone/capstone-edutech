@@ -20,6 +20,7 @@ public class CommonInfraController extends HttpServlet {
     @EJB
     private SystemAdminMgrBeanRemote sam;
     
+    String usernameString = "";
     String sessionInvalid = "";
     String sessionExpire = "";
     String unauthorised = "";
@@ -137,34 +138,29 @@ public class CommonInfraController extends HttpServlet {
                             if(c.getName().equals("userType") && !c.getValue().equals("")){
                                 uType = c.getValue();
                             }
+                            if(c.getName().equals("username") && !c.getValue().equals("")){
+                                usernameString = c.getValue();
+                            }
                         }
                     }
-                    if(uType != null){
+                    if(uType != null && usernameString != null){
                         switch(uType){
                             case "superadmin":
-                                pageAction="SystemAdminLanding";
-                                break;
                             case "dualadmin":
-                                pageAction="DualAdminLanding";
-                                break;
                             case "unifyadmin":
-                                pageAction="UnifyAdminLanding";
-                                break;
                             case "edutechadmin":
-                                pageAction="EduTechAdminLanding";
-                                break;
                             case "student":
                             case "instructor":
-                                pageAction="SystemUserLanding";
+                                pageAction="CommonLanding";
                                 break;
                             default:
-                                //user type invalid. redirect to logout page
+                                //user type cookie is invalid. redirect to logout page
                                 response.sendRedirect("CommonInfra?pageTransit=goToLogout&unauthorised=true");
                                 break;
                         }
                     }else{
                         //user type cookie is invalid. redirect to logout page
-                        response.sendRedirect("CommonInfra?pageTransit=goToLogout&unauthorised=true");
+                        response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
                     }
                     break;
                 case "registerUser":

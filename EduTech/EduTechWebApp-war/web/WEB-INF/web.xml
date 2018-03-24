@@ -28,23 +28,7 @@
     </servlet>
     <!-- SERVLET CLASS MAPPING - COMMON INFRASTRUCTURE (JSP) -->
     <servlet>
-        <servlet-name>SystemAdminLanding</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/AdminLanding.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>DualAdminLanding</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/DualAdminLanding.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>UnifyAdminLanding</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/UnifyAdminLanding.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>EduTechAdminLanding</servlet-name>
-        <jsp-file>/webapp/commoninfrastructure/EduTechAdminLanding.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>SystemUserLanding</servlet-name>
+        <servlet-name>CommonLanding</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/LandingPage.jsp</jsp-file>
     </servlet>
     <servlet>
