@@ -1,5 +1,6 @@
-package sessionbeans;
+package commoninfrasessionbeans;
 
+import commoninfrasessionbeans.CommonInfraMgrBeanRemote;
 import commoninfrastructureentities.UserEntity;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -91,6 +92,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         }
     }
     
+    @Override
     public String encodePassword(String username, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String hashedValue = "";
         byte[] salt = username.getBytes("UTF-8");
@@ -115,6 +117,29 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
             String tempPassword = generateAlphaNum(8);
             try {
                 generateAndSendEmail(u.getUsername(), u.getEmail(),tempPassword);
+                u.setUserPassword(encodePassword(username,tempPassword));
+            } catch (MessagingException ex) {
+                System.out.println("**************Email sending failed!");
+                ex.printStackTrace();
+                return false;
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    @Override 
+    public boolean sendCreateEmail(String username){
+        Query q1 = em.createQuery("SELECT s FROM SystemUser s WHERE s.username = :uName");
+        q1.setParameter("uName", username);
+        UserEntity u = (UserEntity) q1.getSingleResult();
+        if(u != null){
+            String tempPassword = generateAlphaNum(8);
+            try {
+                sendCreateEmail(u.getUsername(), u.getEmail(),tempPassword);
                 u.setUserPassword(encodePassword(username,tempPassword));
             } catch (MessagingException ex) {
                 System.out.println("**************Email sending failed!");
@@ -163,8 +188,46 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         mailMessage.setSubject("Greetings from EduBox");
         String emailBody = "Hey "+ username + ",<br><br>"
                 + "Here is your temporary password: <strong>"+ tempPassword +"</strong><br>"
-                + "Please click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&username="+username+"'>link</a> to reset your password."
-                + "<a></a>" +"<br><br>Cheers,<br>EduBox Team";
+                + "Please click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password."
+                + "<br><br>Cheers,<br>EduBox Team";
+        mailMessage.setContent(emailBody, "text/html");
+        System.out.println("Mail Session has been created successfully..");
+        
+        // Step3
+        System.out.println("\n\n 3rd ===> Get Session and Send mail");
+        Transport transport = mailSession.getTransport("smtp");
+        
+        // Enter your correct gmail UserID and Password
+        // if you have 2FA enabled then provide App Specific Password
+        transport.connect("smtp.gmail.com", "41capstone03@gmail.com", "8mccapstone");
+        transport.sendMessage(mailMessage, mailMessage.getAllRecipients());
+        transport.close();
+    }
+    
+    public void sendCreateEmail(String username, String email, String tempPassword) throws AddressException, MessagingException {
+ 
+        // Step1
+        System.out.println("\n 1st ===> setup Mail Server Properties..");
+        mailServerProperties = System.getProperties();
+        //mail server settings
+        mailServerProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        mailServerProperties.put("mail.smtp.port", "587");
+        mailServerProperties.put("mail.smtp.auth", "true");
+        mailServerProperties.put("mail.smtp.starttls.enable", "true");
+        System.out.println("Mail Server Properties have been setup successfully..");
+        
+        // Step2
+        System.out.println("\n\n 2nd ===> get Mail Session..");
+        mailSession = Session.getDefaultInstance(mailServerProperties, null);
+        mailMessage = new MimeMessage(mailSession);
+        mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+        mailMessage.setSubject("Greetings from EduBox");
+        String emailBody = "Hey "+ username + ",<br><br>"
+                + "We have created your account on EduBox!<br>"
+                + "Here is your temporary password: <strong>"+ tempPassword +"</strong><br>"
+                + "Please click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password.<br>"
+                + "Or click <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=goToLogout'>here</a> to login. "
+                + "<br><br>Cheers,<br>EduBox Team";
         mailMessage.setContent(emailBody, "text/html");
         System.out.println("Mail Session has been created successfully..");
         

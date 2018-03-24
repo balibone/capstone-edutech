@@ -54,18 +54,20 @@
                                 <%
                                     //Extracting field values from ArrayList passed from servlet to jsp.
                                     ArrayList userInfo = (ArrayList)request.getAttribute("userInfo");
-                                    String salutation,firstName,lastName,email,password,creationDate,type,imageFile;
-                                    salutation = firstName = lastName = email = password = creationDate = type = imageFile = "";
+                                    String salutation,firstName,lastName,email, contactNum, username,password,creationDate,type,imageFile;
+                                    salutation = firstName = lastName = email = contactNum = username = password = creationDate = type = imageFile = "";
                                     //ArrayList exists and is not empty. 
                                     if(userInfo!=null && !userInfo.isEmpty()){
                                         salutation = (String)userInfo.get(0);
                                         firstName = (String)userInfo.get(1);
                                         lastName = (String)userInfo.get(2);
                                         email = (String)userInfo.get(3);
-                                        password = (String)userInfo.get(4);
-                                        creationDate = (String)userInfo.get(5);
-                                        type = (String)userInfo.get(6);
-                                        imageFile = (String)userInfo.get(7);
+                                        contactNum = (String)userInfo.get(4);
+                                        username = (String)userInfo.get(5);
+                                        password = (String)userInfo.get(6);
+                                        creationDate = (String)userInfo.get(7);
+                                        type = (String)userInfo.get(8);
+                                        imageFile = (String)userInfo.get(9);
                                     }
                                 %>
                                 <div class="form-group">
@@ -87,17 +89,24 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Username:</label>
+                                    <label class="col-md-2 control-label required">E-mail:</label>
                                     <div class="col-md-5">
-                                        <input type="text" readonly value="<%=email%>" class="form-control" />
+                                        <input type="email" readonly value="<%=email%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Password:</label>
+                                    <label class="col-md-2 control-label required">Contact Number:</label>
                                     <div class="col-md-5">
-                                        <input type="text" readonly value="<%=password%>" class="form-control" />
+                                        <input readonly value="<%="+65"+contactNum%>" type="tel" class="form-control" id="contactNum" placeholder="Contact Number" required name="contactNum">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label required">Username:</label>
+                                    <div class="col-md-5">
+                                        <input type="text" readonly value="<%=username%>" class="form-control" />
+                                    </div>
+                                </div>
+                                
                                 <div class="form-group">
                                     <label class="col-md-2 control-label required">Created On:</label>
                                     <div class="col-md-5">
@@ -117,7 +126,7 @@
                             <div class="col-md-8">
                                 <div class="col-md-2"></div>
                                 <div class="col-md-5">
-                                    <a href="SystemAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Go Back To Student List</button></a>       
+                                    <a href="SystemAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Go Back</button></a>       
                                 </div>
                             </div>
                         </form>
