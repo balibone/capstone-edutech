@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -46,41 +47,41 @@ public class UserEntity implements Serializable {
     private String imgFileName = "defaultPhoto.jpg";
     private String email;
     private String contactNum;
-    //to store latest password reset token
-//    private String resetToken;
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date userCreationDate;
     
+    
     /* OBJECT-ORIENTED MAPPINGS (UNIFY) */
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Set<ItemEntity> itemSet = new HashSet<ItemEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<JobEntity> jobSet = new ArrayList<JobEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<ItemOfferEntity> itemOfferSet = new ArrayList<ItemOfferEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<JobOfferEntity> jobOfferSet = new ArrayList<JobOfferEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<LikeListingEntity> likeListingSet = new ArrayList<LikeListingEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<CompanyReviewReportEntity> companyReviewReportSet = new ArrayList<CompanyReviewReportEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<ItemReportEntity> itemReportSet = new ArrayList<ItemReportEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<JobReportEntity> jobReportSet = new ArrayList<JobReportEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<MessageEntity> messageSet = new ArrayList<MessageEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<CompanyReviewEntity> companyReviewSet = new ArrayList<CompanyReviewEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<CompanyRequestEntity> companyRequestSet = new ArrayList<CompanyRequestEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<ItemReviewEntity> itemReviewSet = new ArrayList<ItemReviewEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<JobReviewEntity> jobReviewSet = new ArrayList<JobReviewEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<ItemTransactionEntity> itemTransactionSet = new ArrayList<ItemTransactionEntity>();
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
     private Collection<JobTransactionEntity> jobTransactionSet = new ArrayList<JobTransactionEntity>();
     
     @PrePersist
@@ -188,12 +189,5 @@ public class UserEntity implements Serializable {
     public void setContactNum(String contactNum) {
         this.contactNum = contactNum;
     }
-//
-//    public String getResetToken() {
-//        return resetToken;
-//    }
-//
-//    public void setResetToken(String resetToken) {
-//        this.resetToken = resetToken;
-//    }
+
 }

@@ -5,11 +5,14 @@
  */
 package edutechentities.common;
 
+import commoninfraentities.UserEntity;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -24,6 +27,9 @@ public class AttachmentEntity implements Serializable {
     private Long id;
     private String fileName;
     private String title;
+    @OneToOne
+    private UserEntity createdBy;
+    private LocalDateTime createdAt = LocalDateTime.now();
     
     public Long getId() {
         return id;
@@ -72,6 +78,22 @@ public class AttachmentEntity implements Serializable {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public UserEntity getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(UserEntity createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
     
 }

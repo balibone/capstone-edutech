@@ -6,7 +6,7 @@
 package edutechservices;
 
 import edutechentities.common.SemesterEntity;
-import edutechsessionbeans.CommonRESTMgrBean;
+import edutechsessionbeans.CommonMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -32,7 +32,7 @@ import javax.ws.rs.core.MediaType;
 public class SemesterREST{
 
     @EJB
-    CommonRESTMgrBean crmb;
+    CommonMgrBean crmb;
 
     @POST 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

@@ -30,6 +30,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             return true;
         }catch(Exception e){
             System.out.println("ERROR IN CREATE STUDENT");
+            e.printStackTrace();
             return false;
         }
         
@@ -145,8 +146,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
         q1.setParameter("username", username);
         for(Object o : q1.getResultList()){
             UserEntity u = (UserEntity) o;
-            //logical delete, not physical delete.
-            u.setUserActiveStatus(Boolean.FALSE);
+            em.remove(u);
         }
         System.out.println(username+" DELETED");
     }
