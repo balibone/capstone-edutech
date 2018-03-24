@@ -179,6 +179,12 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
+                                <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
+                                </a>
                                 <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
                                 </a>
@@ -224,8 +230,8 @@
                                                 <h5><%= jobTitle%></h5>
                                                 <span><%= categoryName%></span><br/>
                                                 <span>S$<%= jobRate%>/<%= jobRateType%></span><br/>
-                                                <a href="#" class="btn ">Edit</a>
-                                                <a href="#" class="btn ">Delete</a>
+                                                <a href="ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>" class="btn btn-primary mt-2" style="padding: 5px 5px; font-size: 15px;">Edit</a>
+                                                <a href="ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=<%= jobID%>" onclick="return confirm('Are you sure to delete the job?')" class="btn btn-danger mt-2" style="padding: 5px 5px; font-size: 15px;">Delete</a>
                                             </div>
                                         </div>
                                     </div>
@@ -238,13 +244,16 @@
                         </div>
                     </div>
             </div>
-            <div id="unifyFooter"></div>
+            
+        </div>
+                        <div id="unifyFooter"></div>
             <div id="itemDetails-iframe"></div>
             
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-        </div>
+       </div>
+            
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>

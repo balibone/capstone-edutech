@@ -190,7 +190,7 @@
                                     String jobImage = String.valueOf(v.get(1));
                                     String jobTitle = String.valueOf(v.get(2));
                                     String jobCategoryName = String.valueOf(v.get(3));
-                                    //String jobPosterName = String.valueOf(v.get(4));
+                                    String jobPosterName = String.valueOf(v.get(4));
                                     //String jobPostDate = String.valueOf(v.get(5));
                                     //String jobWorkDate = String.valueOf(v.get(6));
                                     //String startLocation = String.valueOf(v.get(7));
@@ -202,11 +202,16 @@
                         <div class="card card-product">
                           <div class="card-body">
                               <div class="row">
+                                  <%--<a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">--%>
+                                    
                                     <div class="col-xl-4 col-md-4 col-4">
                                         <img src="uploads/unify/images/errands/job/<%= jobImage%>" style="height: 70px; width: 70px;">
                                     </div>
+                                    
                                     <div class="col-xl-8 col-md-8 col-8">
+                                        <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
                                         <span class="jobTitle"><strong><%= jobTitle%></strong></span>
+                                        </a>
                                         <p class="card-text"><%= jobCategoryName%></p>
                                         <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
                                     </div>
@@ -227,6 +232,7 @@
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-7 ml-1">
+                    <div class="title"><span>Job Info</span></div>
                     <%
                         ArrayList<Vector> offerList = (ArrayList)request.getAttribute("jobOfferList");
                         if(offerList.size()!=0){
@@ -246,10 +252,11 @@
                             <img src="uploads/unify/images/errands/job/<%= jobImg%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer; height: 180px;">
                         </div>
                         <div class="col-xl-8 col-lg-7 col-md-6" >
-                            <span><strong><%= jobTitle%></strong></span><br/>
-                            <span><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp; Category: <%= category%></span><br/>
-                            <span><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; Helpers required: <%= numOfHelpers%></span><br/>
-                            <span><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp; Job Rate: S$<%= jobRate%>/<%= jobRateType%></span>
+                            <span style="font-size: 18px; line-height: 28px;"><strong><%= jobTitle%></strong></span><br/>
+                            <span style="font-size: 16px;"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp; Category: <%= category%></span><br/>
+                            <span style="font-size: 16px;"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; Helpers required: <%= numOfHelpers%></span><br/>
+                            <span style="font-size: 16px;"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp; Job Rate: S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
+                            <a role="button" href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= category%>" class="btn btn-primary" >View Job Details</a>
                         </div>
                    
                       <div id="offerList">    

@@ -191,9 +191,6 @@
                                 <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
                                 </a>
-                                <a href="ErrandsSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;My Job Offers
-                                </a>
                                 <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
                                 </a>

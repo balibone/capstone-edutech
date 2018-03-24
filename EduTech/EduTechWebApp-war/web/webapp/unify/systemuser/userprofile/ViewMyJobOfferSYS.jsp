@@ -185,7 +185,10 @@
                             </div>
                             <div class="list-group list-group-flush">
                                 <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
                                 </a>
                                 <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
@@ -264,13 +267,13 @@
                                             <div class="card-body mb-2">
                                               <div class='row'>
                                                 <div class="img-wrapper col-xl-2 col-md-2 col-2 mb-2">
-                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&hiddenUsername=<%= loggedInUsername%>">
+                                                    <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>">
                                                         <img class="card-img-top" style="width: 120px; height: 120px;" src="uploads/unify/images/marketplace/item/<%= jobImage%>" />
                                                     </a>
                                                     
                                                 </div>
                                                 <div class="col-xl-4 col-md-4 col-4 jobInfo">
-                                                    <span class="jobTitle"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>"><%= jobTitle%></a></strong></span><br/>
+                                                    <span class="jobTitle"><strong><a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>"><%= jobTitle%></a></strong></span><br/>
                                                     <span class="card-text itemCategoryName"><%= jobCategoryName%></span><br/>
                                                     <span class="card-text">S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
                                                     <span class="card-text">Posted by&nbsp;&nbsp;<i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;<%= jobPosterID%></span>
@@ -283,7 +286,7 @@
                                                     <span class="offerDate"><i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp;sent on <%=offerDate%></span><br/>
                                                     <div class="action-button">
                                                         <button id="editOfferBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">Edit</button>
-                                                        <a role="button" href="ProfileSysUser?pageTransit=goToDeleteMyJobOfferSYS&offerID=<%= offerID%>" class="btn btn-danger" onClick="return confirm('Are you sure to withdraw your offer?')">Cancel</a>
+                                                        <a role="button" href="ProfileSysUser?pageTransit=goToDeleteMyJobOfferSYS&offerID=<%= offerID%>" class="btn btn-danger" onClick="return confirm('Are you sure to withdraw your offer?')">Withdraw</a>
                                                     
                             
                                                     <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

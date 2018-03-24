@@ -450,7 +450,7 @@
             </a>
             <div id="itemLikeList-iframe"></div>
             
-                <button type="button" id="sendOfferBtn" style="margin:7px 0 7px 0;">Send Offer</button><br/>
+                
                 <input type="hidden" id="jobIDHidden" value="<%= jobID%>" />
                 <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
                 <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>

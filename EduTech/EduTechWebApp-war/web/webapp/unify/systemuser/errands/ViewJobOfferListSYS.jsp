@@ -23,6 +23,18 @@
         <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/errands/ViewJobDetailsSYSCSS.css" rel="stylesheet" type="text/css">
         
+        <link href="css/unify/systemuser/weblayout/errands/ViewJobOfferDetailsSYSCSS" rel="stylesheet" type="text/css"/>
+        
+        <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
+        
+        
+        
     </head>
     <body onload="loadMap()">
         <!-- MOBILE SIDE NAVIGATION -->
@@ -151,11 +163,20 @@
             </div>
             
             <div class="row justify-content-center">
-                <div class="col-lg-3 col-md-3">
-                    <div>
+                <div class="col-lg-3 col-md-3 ">
+                    <div id="contentArea" class="container jplist">
+                      <div class="jplist-search">
+                        <div class="title"><span>Job List</span></div>
+                        <input type="text" data-path=".jobTitle" class="form-control" placeholder="Search Job ..." 
+                                               aria-label="Search Job ..." data-control-type="textbox" 
+                                               data-control-name="transmission-text-filter" data-control-action="filter" />
+                      </div>
+                        <br/>
+                      <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
+                      <div class="list searchresult-row">
                         <%
                             ArrayList<Vector> jobList = (ArrayList)request.getAttribute("jobListSYS");
-                            if (!jobList.isEmpty()) {
+                            if (jobList.size()!=0) {
                                 for (int i = 0; i <= jobList.size() - 1; i++) {
                                     Vector v = jobList.get(i);
                                             
@@ -171,29 +192,41 @@
                                     String jobRate = String.valueOf(v.get(9));
                                     //String numOfLikes = String.valueOf(v.get(10));
                         %>
-                        <div class="card" >
+                       <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
+                        <div class="card card-product">
                           <div class="card-body">
                               <div class="row">
-                                  <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
-                                    <div class="col-xl-3 col-md-3 col-3">
+                                  
+                                    <div class="col-xl-4 col-md-4 col-4">
+                                        <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
                                         <img src="uploads/unify/images/errands/job/<%= jobImage%>" style="height: 70px; width: 70px;">
+                                        </a>
                                     </div>
-                                  </a>
+                                  
                                     <div class="col-xl-8 col-md-8 col-8">
-                                        <span><strong><%= jobTitle%></strong></span>
+                                        <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
+                                            <span class="jobTitle"><strong><%= jobTitle%></strong></span>
+                                        </a>
                                         <p class="card-text"><%= jobCategoryName%></p>
                                         <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
                                     </div>
-                                  
                                 </div>
                            </div>
+                        </div>
                         </div>
                         <%
                                     }
                             }
                         %>
                     </div>
+                    </div>
+                    
+                    <div class="box jplist-no-results text-shadow align-center">
+                            <p><strong>No results found. Please refine your search.</strong></p>
+                    </div>
+                    </div>
                 </div>
+                    
                 <div class="col-lg-7 col-md-7 ml-1">
                      <div style="vertial-align: center">Browse the job lists to view the offers that you received!</div>   
                 </div>
@@ -209,8 +242,10 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/userprofile/UserAccountSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/errands/ViewJobOfferDetailsSYSJS.js" type="text/javascript"></script>
 
+        <script src="js/unify/systemuser/webjs/errands/datatables.min.js" type="text/javascript"></script>
+        
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>

@@ -462,13 +462,13 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 
                 
                 /* MESSAGE SENDER IS THE JOB TAKER WHO SENT THE OFFER, MESSAGE RECEIVER IS THE JOB POSTER */
-                /*mEntity = new MessageEntity();
+                mEntity = new MessageEntity();
                 mEntity.createContentMessage(jobTakerEntity.getUsername(), jEntity.getUserEntity().getUsername(), 
                         jobTakerEntity.getUsername() + " updated the offer for your " + jEntity.getJobTitle() + ". Check it out!", 
-                        jEntity.getJobID(), "Errands");*/
+                        jEntity.getJobID(), "Errands");
                 /* JOB TAKER WHO SENT THE OFFER IS THE USERENTITY_USERNAME */
-                /*mEntity.setUserEntity(jobTakerEntity);
-                jobPosterEntity.getMessageSet().add(mEntity);*/
+                mEntity.setUserEntity(jobTakerEntity);
+                jobPosterEntity.getMessageSet().add(mEntity);
                 
                 em.persist(joEntity);
                 //em.persist(mEntity);
@@ -617,7 +617,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 offerInfo.add(joE.getJobOfferPrice());
                 offerInfo.add(joE.getJobOfferDescription());
                 offerInfo.add(joE.getJobOfferStatus());
-                offerInfo.add(joE.getJobOfferDate());
+                offerInfo.add(df.format(joE.getJobOfferDate()));
                 
                 myJobOfferList.add(offerInfo);
             }
