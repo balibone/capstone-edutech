@@ -229,6 +229,16 @@
                         <!-- ITEM LISTING -->
                         <div class="row equal-height" add-class-on-xs="no-gutters">
                             <div class="list searchresult-row">
+                                <div class="col-xl-12 col-md-312 col-12 d-block d-lg-none d-xl-block">
+                                <table class="table-header">
+                                    <col width="420">
+                                    <col width="400">
+                                    <tr>
+                                        <th>Job Info</th>
+                                        <th>My Offer</th>
+                                    </tr>
+                                </table>
+                                </div>
                                 <%
                                     ArrayList<Vector> myJobOfferListSYS = (ArrayList) request.getAttribute("myJobOfferList");
                                     if (!myJobOfferListSYS.isEmpty()) {
@@ -247,16 +257,7 @@
                                             String offerStatus = String.valueOf(v.get(10));
                                             String offerDate = String.valueOf(v.get(11));
                                 %>
-                                <div class="col-xl-12 col-md-312 col-12 d-block d-lg-none d-xl-block">
-                                <table class="table-header">
-                                    <col width="420">
-                                    <col width="400">
-                                    <tr>
-                                        <th>Job Info</th>
-                                        <th>My Offer</th>
-                                    </tr>
-                                </table>
-                                </div>
+                                
                                 <div class="col-xl-12 col-md-312 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-content">
@@ -273,6 +274,7 @@
                                                     <span class="card-text itemCategoryName"><%= jobCategoryName%></span><br/>
                                                     <span class="card-text">S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
                                                     <span class="card-text">Posted by&nbsp;&nbsp;<i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;<%= jobPosterID%></span>
+                                                    <input type="hidden" id="jobIDHidden" value="<%= jobID%>">
                                                 </div>
                                                 <div class="col-xl-6 col-md-6 col-6 offerInfo">
                                                     <span><strong><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;&nbsp;Status:</strong> <%=offerStatus%></span><br/>
@@ -280,8 +282,8 @@
                                                     <span><strong><i class="fa fa-comments" aria-hidden="true"></i>&nbsp;&nbsp;Comments: </strong><%=offerDescription%></span><br/>
                                                     <span class="offerDate"><i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp;sent on <%=offerDate%></span><br/>
                                                     <div class="action-button">
-                                                        <button id="makeOfferBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">Edit</button>
-                                                        <a role="button" href="#" class="btn btn-danger">Cancel</a>
+                                                        <button id="editOfferBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">Edit</button>
+                                                        <a role="button" href="ProfileSysUser?pageTransit=goToDeleteMyJobOfferSYS&offerID=<%= offerID%>" class="btn btn-danger" onClick="return confirm('Are you sure to withdraw your offer?')">Cancel</a>
                                                     
                             
                                                     <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -293,13 +295,16 @@
                                                               <span aria-hidden="true">&times;</span>
                                                             </button>
                                                           </div>
+                                                            <div id="responseMessage">
                                                             <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
+                                                            </div>
                                                          <form id="offerDetails">
                                                            <div class="modal-body">
                                                               <div class="form-group row">
                                                                 <label for="offerPrice" class="col-form-label col-3"><strong>Offer Price * : </strong></label>
                                                                 <div class="col-3">
-                                                                    <input type="number" class="form-control" id="jobOfferPrice" name="jobOfferPrice" placeholder="<%= offerPrice%>" required>
+                                                                    <input type="number" class="form-control" id="jobOfferPrice" name="jobOfferPrice" placeholder="<%= offerPrice%>">
+                                                                    <input type="hidden" name="hiddenOfferPrice" id="hiddenOfferPrice" value="<%= offerPrice%>">
                                                                 </div>
                                                                 <div class="col-4 mt-2 float-left">
                                                                     <span id="offerPriceType"></span>
@@ -308,11 +313,12 @@
                                                               <div class="form-group">
                                                                 <label for="comment" class="col-form-label"><strong>Other comments:</strong></label>
                                                                 <textarea class="form-control" id="jobOfferDescription" name="jobOfferDescription" placeholder="<%= offerDescription%>"></textarea>
+                                                                <input type="hidden" id="hiddenOfferDescription" name="hiddenOfferDescription" value="<%= offerDescription%>">
                                                               </div>
                                                            </div>
                                                            <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <a role="button" href="#" class="btn btn-primary">Edit Offer</a>
+                                                            <button type="button" class="btn btn-primary" id="editOffer">Edit Offer</button>
                                                             <br/>
 
                                                            </div>
@@ -371,7 +377,7 @@
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/userprofile/UserAccountSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/userprofile/ViewMyJobOfferSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>

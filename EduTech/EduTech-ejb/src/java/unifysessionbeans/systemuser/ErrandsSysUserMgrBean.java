@@ -397,6 +397,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             return jobCategoryList;
     }
     
+    @Override
     public String sendJobOfferPrice(long jobID, String username, String jobOfferPrice, String jobOfferDescription){
         
         if (lookupJob(jobID) == null) { return "There are some issues with the job listing. Please try again."; }
@@ -436,6 +437,61 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             } else {
                 return "Error occured while sending your job offer. Please try again.";
             }
+        }
+    }
+    
+    @Override
+    public String editJobOfferPrice(long jobID, String username, String jobOfferPrice, String jobOfferDescription){
+        
+        System.out.println("esmr: edit offer");
+        
+        if (lookupJob(jobID) == null) { System.out.println("lookup job"); return "There are some issues with the job listing. Please try again."; }
+        else if(lookupUnifyUser(username) == null) { System.out.println("lookup user"); return "There are some issues with your user profile. Please try again."; }
+        else if(lookupJobOffer(jobID, username) == null) { System.out.println("lookup offer"); return "There are some issues with your job offer. Please try again."; }
+        else if(jobOfferPrice.equals("")) { System.out.println("null price"); return "Job offer price cannot be empty."; }
+        //else if(!isNumeric(jobOfferPrice)) { return "Please enter a valid item offer price."; }
+        else if(Double.parseDouble(jobOfferPrice) < 0.0 || Double.parseDouble(jobOfferPrice) > 9999.0) { System.out.println("price range"); return "Job offer price must be between 0 to 9999. Please try again."; }
+        else {
+                jEntity = lookupJob(jobID);
+                joEntity = lookupJobOffer(jobID, username);
+                jobTakerEntity = lookupUnifyUser(username);
+                jobPosterEntity = lookupUnifyUser(lookupJob(jobID).getUserEntity().getUsername());
+            
+                joEntity.setJobOfferPrice(Double.parseDouble(jobOfferPrice));
+                joEntity.setJobOfferDescription(jobOfferDescription);
+                
+                
+                /* MESSAGE SENDER IS THE JOB TAKER WHO SENT THE OFFER, MESSAGE RECEIVER IS THE JOB POSTER */
+                /*mEntity = new MessageEntity();
+                mEntity.createContentMessage(jobTakerEntity.getUsername(), jEntity.getUserEntity().getUsername(), 
+                        jobTakerEntity.getUsername() + " updated the offer for your " + jEntity.getJobTitle() + ". Check it out!", 
+                        jEntity.getJobID(), "Errands");*/
+                /* JOB TAKER WHO SENT THE OFFER IS THE USERENTITY_USERNAME */
+                /*mEntity.setUserEntity(jobTakerEntity);
+                jobPosterEntity.getMessageSet().add(mEntity);*/
+                
+                em.persist(joEntity);
+                //em.persist(mEntity);
+                em.merge(jEntity);
+                //em.merge(jobTakerEntity);
+                //em.merge(jobPosterEntity);
+                return "Your job offer has been updated successfully!";
+        }
+    }
+    
+    @Override
+    public String deleteJobOffer(long jobOfferIDToDelete) {
+        
+        Query q = em.createQuery("SELECT jo FROM JobOffer jo WHERE jo.jobOfferID = :offerID");
+        q.setParameter("offerID", jobOfferIDToDelete);
+        
+        if (q.getSingleResult() == null) { return "There are some issues with your job offer. Please try again."; }
+        else {
+            JobOfferEntity offerEntity = (JobOfferEntity)q.getSingleResult();
+            em.remove(offerEntity);
+            em.flush();
+            em.clear();
+            return "Job Offer has been deleted successfully!";
         }
     }
     

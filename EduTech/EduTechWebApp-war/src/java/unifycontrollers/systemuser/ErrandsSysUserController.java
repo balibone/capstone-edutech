@@ -129,6 +129,7 @@ public class ErrandsSysUserController extends HttpServlet {
                 default:
                     break;
             }
+            System.out.println("dispatch: " + pageAction);
             dispatcher = servletContext.getNamedDispatcher(pageAction);
             dispatcher.forward(request, response);       
         }

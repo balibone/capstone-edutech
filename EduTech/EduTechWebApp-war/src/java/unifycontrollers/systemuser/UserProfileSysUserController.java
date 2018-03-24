@@ -12,6 +12,7 @@ package unifycontrollers.systemuser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -47,7 +48,7 @@ public class UserProfileSysUserController extends HttpServlet {
             ServletContext servletContext = getServletContext();
             
             String pageAction = request.getParameter("pageTransit");
-            System.out.println(pageAction);
+            System.out.println("pageAction: " + pageAction);
             
             switch (pageAction) {
                 case "goToUnifyUserAccount":
@@ -70,6 +71,23 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "UserJobListingSYS";
                     break;
                 case "goToViewMyJobOfferSYS":
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(username));
+                    pageAction = "ViewMyJobOfferSYS";
+                    break;
+                case "editMyJobOfferSYS":
+                    String responseMessage = editJobOffer(request, username);
+                    
+                    System.out.println("controller: 0");
+                    
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
+                    
+                    //pageAction = "ViewMyJobOfferSYS";
+                    break;
+                case "goToDeleteMyJobOfferSYS":
+                    long offerID = Long.parseLong(request.getParameter("offerID"));
+                    String returnResponse = esmr.deleteJobOffer(offerID);
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(username));
                     pageAction = "ViewMyJobOfferSYS";
@@ -150,6 +168,7 @@ public class UserProfileSysUserController extends HttpServlet {
                 default:
                     break;
             }
+            System.out.println("dispatch: " + pageAction);
             dispatcher = servletContext.getNamedDispatcher(pageAction);
             dispatcher.forward(request, response);       
         }
@@ -171,4 +190,23 @@ public class UserProfileSysUserController extends HttpServlet {
 
     @Override
     public String getServletInfo() { return "User Profile System User Servlet"; }
+    
+    public String editJobOffer(HttpServletRequest request, String username){
+        
+        long jobID = Long.parseLong(request.getParameter("jobIDHidden"));
+        
+        String offerPrice = request.getParameter("jobOfferPrice");
+        if(offerPrice.equals("")) { offerPrice = request.getParameter("hiddenOfferPrice"); }
+        
+        String offerComment = request.getParameter("jobOfferDescription");
+        if(offerComment.equals("")) { offerComment = request.getParameter("hiddenOfferDescription"); }
+        
+        System.out.println(offerPrice + " " + offerComment);
+        
+        String message = esmr.editJobOfferPrice(jobID, username, offerPrice, offerComment);
+        
+        System.out.println(message);
+        
+        return message;
+    }
 }

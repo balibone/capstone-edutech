@@ -46,3 +46,10 @@ th {
 .btn{
     padding: 2px 10px;
 }
+
+#responseMessage{
+    text-align: center;
+}
+
+#successOfferResponse { color: #228B22; font-weight: bold; display: none; }
+#failedOfferResponse { color: #FF0000; font-weight: bold; display: none; }
