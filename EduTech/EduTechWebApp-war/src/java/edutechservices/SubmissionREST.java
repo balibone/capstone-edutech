@@ -6,9 +6,9 @@
 package edutechservices;
 
 //import edutechentities.common.GroupEntity;
-import edutechentities.module.AssignmentEntity;
-import edutechsessionbeans.CommonMgrBean;
-import edutechsessionbeans.GroupMgrBean;
+import edutechentities.module.SubmissionEntity;
+import edutechsessionbeans.CommonRESTMgrBean;
+import edutechsessionbeans.GroupRESTMgrBean;
 import edutechsessionbeans.ModuleRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
@@ -28,36 +28,36 @@ import javax.ws.rs.core.MediaType;
 public class SubmissionREST {
     
     @EJB
-    CommonMgrBean cmb;
+    CommonRESTMgrBean cmb;
     @EJB
-    GroupMgrBean etr;
+    GroupRESTMgrBean etr;
     @EJB
     ModuleRESTMgrBean mmb;
     
     @GET 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AssignmentEntity> getAllSubmissions() {
+    public List<SubmissionEntity> getAllSubmissions() {
         return mmb.getAllSubmissions();
     }
     
     @GET 
     @Path("{id}") 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AssignmentEntity getOneSubmission(@PathParam("id") String id){
+    public SubmissionEntity getOneSubmission(@PathParam("id") String id){
         return mmb.getOneSubmission(Long.valueOf(id));
     }
     
     @POST 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AssignmentEntity createSubmission(AssignmentEntity sub) {
+    public SubmissionEntity createSubmission(SubmissionEntity sub) {
         return mmb.createSubmission(sub);
     }
     
     @DELETE 
     @Path("{id}") 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AssignmentEntity> deleteSubmission(@PathParam("id") String id) {
+    public List<SubmissionEntity> deleteSubmission(@PathParam("id") String id) {
         mmb.deleteSubmission(Long.valueOf(id));
         return mmb.getAllSubmissions();
     }
@@ -66,7 +66,7 @@ public class SubmissionREST {
     @Path("{id}") 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AssignmentEntity editSubmission(@PathParam("id") String id, AssignmentEntity replacement){
+    public SubmissionEntity editSubmission(@PathParam("id") String id, SubmissionEntity replacement){
         return mmb.editSubmission(Long.valueOf(id), replacement);
     }
 

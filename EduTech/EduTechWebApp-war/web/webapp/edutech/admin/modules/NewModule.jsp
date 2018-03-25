@@ -97,7 +97,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label required">Description:</label>
                                     <div class="col-xs-8">
-                                        <textarea rows="10" required class="form-control" name="description" style="resize: none;"></textarea>
+                                        <textarea required class="form-control" name="description"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">

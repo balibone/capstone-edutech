@@ -9,8 +9,8 @@ package edutechservices;
 import commoninfraentities.UserEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.group.IdeaEntity;
-import edutechsessionbeans.CommonMgrBean;
-import edutechsessionbeans.GroupMgrBean;
+import edutechsessionbeans.CommonRESTMgrBean;
+import edutechsessionbeans.GroupRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -35,7 +35,7 @@ import javax.ws.rs.core.MediaType;
 public class IdeaREST {
     
     @EJB
-    CommonMgrBean cmb;
+    CommonRESTMgrBean cmb;
     
     @GET 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

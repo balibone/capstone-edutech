@@ -321,16 +321,14 @@ public class SystemAdminController extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String contactNum = request.getParameter("contactNum");
         
         if(userType.equals("admin")) {
             String adminType = request.getParameter("adminType");
-            return sam.createNewAdmin(salutation,firstName,lastName, email, contactNum,username, password, fileName,adminType);
+            return sam.createNewAdmin(salutation,firstName,lastName,username, password, fileName,adminType);
         } else if(userType.equals("student")){ 
-            return sam.createNewStudent(salutation,firstName,lastName,email, contactNum, username, password, fileName);
+            return sam.createNewStudent(salutation,firstName,lastName,username, password, fileName);
         } else {
-            return sam.createNewInstructor(salutation, firstName, lastName, email, contactNum, username, password, fileName);
+            return sam.createNewInstructor(salutation, firstName, lastName, username, password, fileName);
         }
     }
     private String getFileName(final Part part) {
@@ -406,8 +404,6 @@ public class SystemAdminController extends HttpServlet {
         String lastName = request.getParameter("lastName");       
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String contactNum = request.getParameter("contactNum");
-        return sam.editUser(username, salutation, firstName, lastName, password, userType, fileName, email, contactNum);   
+        return sam.editUser(username, salutation, firstName, lastName, password, userType, fileName);   
     }
 }

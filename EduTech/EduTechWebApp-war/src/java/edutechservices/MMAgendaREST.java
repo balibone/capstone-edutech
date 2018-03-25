@@ -7,8 +7,8 @@ package edutechservices;
 
 //import edutechentities.common.GroupEntity;
 import edutechentities.group.MMAgendaEntity;
-import edutechsessionbeans.CommonMgrBean;
-import edutechsessionbeans.GroupMgrBean;
+import edutechsessionbeans.CommonRESTMgrBean;
+import edutechsessionbeans.GroupRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -31,9 +31,9 @@ import javax.ws.rs.core.MediaType;
 public class MMAgendaREST {
     
     @EJB
-    CommonMgrBean cmb;
+    CommonRESTMgrBean cmb;
     @EJB
-    GroupMgrBean etr;
+    GroupRESTMgrBean etr;
     
     @GET 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

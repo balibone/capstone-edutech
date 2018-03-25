@@ -10,7 +10,6 @@ import edutechentities.common.RecurringEventEntity;
 import edutechentities.common.ScheduleItemEntity;
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,13 +29,17 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
  * @author Derian
  */
 @Entity(name="Lesson")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
-    @OneToOne
+    @XmlElement
+    @XmlInverseReference(mappedBy = "lesson")
     private SessionEntity session;
+    @XmlTransient
     @ManyToOne
     private RecurringEventEntity recurringEvent;
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany
     private Collection<AttachmentEntity> resources; 
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

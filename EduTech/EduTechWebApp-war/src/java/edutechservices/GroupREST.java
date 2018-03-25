@@ -8,7 +8,7 @@ package edutechservices;
 //import edutechentities.common.GroupEntity;
 import commoninfraentities.UserEntity;
 import edutechentities.group.GroupEntity;
-import edutechsessionbeans.GroupMgrBean;
+import edutechsessionbeans.GroupRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -33,7 +33,7 @@ import javax.ws.rs.core.MediaType;
 public class GroupREST {
     
     @EJB
-    GroupMgrBean etr;
+    GroupRESTMgrBean etr;
     
     @GET 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -45,14 +45,6 @@ public class GroupREST {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public GroupEntity createGroup(GroupEntity group) {
-        return etr.createGroup(group);
-    }
-    
-    @POST 
-    @Path("group/multiple")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public GroupEntity createAssignmentGroups(GroupEntity group) {
         return etr.createGroup(group);
     }
     

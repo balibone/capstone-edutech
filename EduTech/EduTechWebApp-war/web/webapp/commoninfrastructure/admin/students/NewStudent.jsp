@@ -57,8 +57,16 @@
                         <!--Submit form to SystemAdmin Servlet-->
                         <form action="SystemAdmin" method="POST" class="form-horizontal" enctype="multipart/form-data">
                             <div class="col-md-8">
+                                <!--
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">Salutation</label>
+                                    <label class="col-md-2 control-label required">Name</label>
+                                    <div class="col-md-5">
+                                        <input type="text" required class="form-control" name="name" />
+                                    </div>
+                                </div>
+                                -->
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label required">Salutation</label>
                                     <div class="col-md-5">
                                         <select required autofocus class="form-control" name="salutation">
                                             <option selected value="Mr.">Mr.</option>
@@ -70,33 +78,27 @@
                                 </div>
                                     
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">First Name: </label>
+                                    <label class="col-md-2 control-label required">First Name: </label>
                                     <div class="col-md-5">
                                         <input type="text" required class="form-control" name="firstName" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">Last Name: </label>
+                                    <label class="col-md-2 control-label required">Last Name: </label>
                                     <div class="col-md-5">
                                         <input type="text" required class="form-control" name="lastName" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">Username: </label>
+                                    <label class="col-md-2 control-label required">Username: </label>
                                     <div class="col-md-5">
                                         <input type="text" required class="form-control" name="username" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label required">Email: </label>
+                                    <label class="col-md-2 control-label required">Password: </label>
                                     <div class="col-md-5">
-                                        <input type="email" required class="form-control" name="email" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label required">Contact Number (+65): </label>
-                                    <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="contactNum" />
+                                        <input type="text" required class="form-control" name="password" />
                                     </div>
                                 </div>
                             </div>
@@ -109,12 +111,12 @@
                                 <input id="file-upload" required name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event)"/>
                             </div>
                             <div class="col-md-8">
-                                <div class="col-md-3">                                    
+                                <div class="col-md-2">                                    
                                 </div>
                                 <div class="col-md-5"> 
                                     <!-- Pass this to servlet to handle user creation -->
                                     <input type="hidden" name="pageTransit" value="createStudent"/>
-                                    <button type="submit" class="btn btn-primary" value="submit">Create Student</button><a href="SystemAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Go Back</button></a>
+                                    <button type="submit" class="btn btn-primary" value="submit">Create Student</button><a href="SystemAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Go Back To Student List</button></a>
                                 </div>                               
                             </div>
                         </form>

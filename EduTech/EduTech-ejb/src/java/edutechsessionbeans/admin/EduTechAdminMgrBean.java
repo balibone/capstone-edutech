@@ -9,7 +9,6 @@ import commoninfrastructureentities.UserEntity;
 import edutechentities.LessonEntity;
 import edutechentities.ModuleEntity;
 import edutechentities.RecurringEventEntity;
-import edutechentities.ScheduleItemEntity;
 import edutechentities.SemesterEntity;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -20,7 +19,6 @@ import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -211,7 +209,6 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         try{
             SemesterEntity sem = em.find(SemesterEntity.class, semID);
             ModuleEntity mod = new ModuleEntity(moduleCode,name,modularCredit,description,sem);
-            sem.getModules().add(mod);
             em.persist(mod);
             return true;
         }catch(Exception e){
@@ -249,23 +246,12 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     @Override
     public void deleteModule(String id) {
         ModuleEntity mod = em.find(ModuleEntity.class,id);
-        Query q1 = em.createQuery("SELECT s FROM Semester s");
-        if(mod!=null){
-            for(Object o : q1.getResultList()){
-                SemesterEntity s = (SemesterEntity) o;
-                Collection<ModuleEntity> mods = s.getModules();
-                if(s.getModules().contains(mod)){
-                    System.out.println("BEFORE: "+Arrays.toString(mods.toArray()));
-                    s.getModules().remove(mod);
-                    System.out.println(mod.getTitle()+" removed from "+s.getTitle());
-                    System.out.println("AFTER: "+Arrays.toString(mods.toArray()));
-                }
-            }
-            mod.setModuleEvents(null);
-            mod.setMembers(null);
-            em.flush();
-            em.remove(mod);
+        
+        for(RecurringEventEntity recevent : mod.getRecurringEvents()){
+            em.remove(recevent);
         }
+        em.remove(mod);
+        
     }
     
     @Override
@@ -371,32 +357,29 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         Query q1 = em.createQuery("SELECT r FROM RecurringEvent r");
         for(Object o : q1.getResultList()){
             RecurringEventEntity recur = (RecurringEventEntity) o;
-            //if new event falls in the same day as existing event.
-            if(recur.getDayOfWeek().equals(event.getDayOfWeek())){
-                LocalTime thisStartTime = recur.getStartTime();
-                LocalTime thisEndTime = recur.getEndTime();
-                //if recurring event has same location with the one to be created,
-                //disallow creation if there is overlap
-                if(recur.getLocation().equalsIgnoreCase(location.trim())){
-                    //Case 1 : new event start time is in between start and end.
-                    if(receivedStartTime.equals(thisStartTime)
-                            || (receivedStartTime.isAfter(thisStartTime) && receivedStartTime.isBefore(thisEndTime))
-                            || (receivedStartTime.equals(thisEndTime))
-                            ){
-                        return false;
-                    }
-                    //Case 2 : new event end time is between start and end.
-                    else if(receivedEndTime.equals(thisStartTime)
-                            || (receivedEndTime.isAfter(thisStartTime) && receivedEndTime.isBefore(thisEndTime))
-                            || (receivedEndTime.equals(thisEndTime))
-                            ){
-                        return false;
-                    }
-                    //Case 3 : new event start is before start & new event end is after end
-                    else if(receivedStartTime.isBefore(thisStartTime) && receivedEndTime.isAfter(thisEndTime)
-                            ){
-                        return false;
-                    }
+            LocalTime thisStartTime = recur.getStartTime();
+            LocalTime thisEndTime = recur.getEndTime();
+            //if recurring event has same location with the one to be created,
+            //disallow creation if there is overlap
+            if(recur.getLocation().equalsIgnoreCase(location.trim())){
+                //Case 1 : new event start time is in between start and end.
+                if(receivedStartTime.equals(thisStartTime)
+                        || (receivedStartTime.isAfter(thisStartTime) && receivedStartTime.isBefore(thisEndTime))
+                        || (receivedStartTime.equals(thisEndTime))
+                        ){
+                    return false;
+                }
+                //Case 2 : new event end time is between start and end.
+                else if(receivedEndTime.equals(thisStartTime)
+                        || (receivedEndTime.isAfter(thisStartTime) && receivedEndTime.isBefore(thisEndTime))
+                        || (receivedEndTime.equals(thisEndTime))
+                        ){
+                    return false;
+                }
+                //Case 3 : new event start is before start & new event end is after end
+                else if(receivedStartTime.isBefore(thisStartTime) && receivedEndTime.isAfter(thisEndTime)
+                        ){
+                    return false;
                 }
             }
         }

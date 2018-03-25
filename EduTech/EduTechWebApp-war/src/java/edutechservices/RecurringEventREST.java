@@ -6,7 +6,7 @@
 package edutechservices;
 
 import edutechentities.common.RecurringEventEntity;
-import edutechsessionbeans.CommonMgrBean;
+import edutechsessionbeans.CommonRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -30,7 +30,7 @@ import javax.ws.rs.core.MediaType;
 @Path("recurringevent")
 public class RecurringEventREST{
     @EJB
-    CommonMgrBean crmb;
+    CommonRESTMgrBean crmb;
     
     @POST 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

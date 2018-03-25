@@ -25,7 +25,7 @@ import javax.persistence.Query;
 
 @Stateless
 @LocalBean
-public class GroupMgrBean {
+public class GroupRESTMgrBean {
     @PersistenceContext
     private EntityManager em;
     
