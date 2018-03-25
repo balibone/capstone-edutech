@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -38,7 +37,6 @@ public class ModuleEntity implements Serializable {
     @OneToMany
     private Collection<ScheduleItemEntity> moduleEvents;
     private Long modularCredit;
-    @Lob
     private String description;
     @OneToMany
     private Collection<UserEntity> members;

@@ -7,8 +7,8 @@ package edutechservices;
 
 //import edutechentities.common.GroupEntity;
 import edutechentities.module.PollOptionEntity;
-import edutechsessionbeans.CommonMgrBean;
-import edutechsessionbeans.GroupMgrBean;
+import edutechsessionbeans.CommonRESTMgrBean;
+import edutechsessionbeans.GroupRESTMgrBean;
 import edutechsessionbeans.ModuleRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
@@ -32,9 +32,9 @@ import javax.ws.rs.core.MediaType;
 public class PollOptionREST {
     
     @EJB
-    CommonMgrBean cmb;
+    CommonRESTMgrBean cmb;
     @EJB
-    GroupMgrBean etr;
+    GroupRESTMgrBean etr;
     @EJB
     ModuleRESTMgrBean mmb;
     

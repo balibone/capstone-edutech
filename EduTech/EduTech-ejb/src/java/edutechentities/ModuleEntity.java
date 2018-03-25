@@ -3,11 +3,8 @@ package edutechentities;
 import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -20,13 +17,12 @@ public class ModuleEntity implements Serializable {
     @OneToMany
     private Collection<ScheduleItemEntity> moduleEvents;
     private Long modularCredit;
-    @Lob
     private String description;
     @OneToMany
     private Collection<UserEntity> members;
     @ManyToOne
     private SemesterEntity semester;
-    @OneToMany(mappedBy = "module",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "module")
     private Collection<RecurringEventEntity> recurringEvents;
     
     public ModuleEntity() {

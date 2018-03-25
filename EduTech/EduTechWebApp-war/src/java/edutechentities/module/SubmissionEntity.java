@@ -7,7 +7,6 @@ package edutechentities.module;
 
 import commoninfraentities.UserEntity;
 import edutechentities.common.AttachmentEntity;
-import edutechentities.group.GroupEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity(name="Submission")
 @XmlRootElement
-public class AssignmentEntity implements Serializable {
+public class SubmissionEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -39,8 +38,6 @@ public class AssignmentEntity implements Serializable {
     @OneToOne
     private UserEntity createdBy;
     private LocalDateTime createdAt; 
-    @OneToMany
-    private Collection<GroupEntity> groups;
     
     public Long getId() {
         return id;
@@ -60,10 +57,10 @@ public class AssignmentEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AssignmentEntity)) {
+        if (!(object instanceof SubmissionEntity)) {
             return false;
         }
-        AssignmentEntity other = (AssignmentEntity) object;
+        SubmissionEntity other = (SubmissionEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -129,14 +126,6 @@ public class AssignmentEntity implements Serializable {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Collection<GroupEntity> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(Collection<GroupEntity> groups) {
-        this.groups = groups;
     }
     
 }

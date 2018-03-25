@@ -2,18 +2,18 @@
 <%
                                     //Extracting field values from ArrayList passed from servlet to jsp.
                                     ArrayList userInfo = (ArrayList)request.getAttribute("userInfo");
-                                    String salutation,firstName,lastName,email,contactNum, username,  password,creationDate,type,imageFile;
-                                    salutation = firstName = lastName = email = contactNum = username = password = creationDate = type = imageFile = "";
+                                    String salutation,firstName,lastName,email,password,creationDate,type,imageFile;
+                                    salutation = firstName = lastName = email = password = creationDate = type = imageFile = "";
                                     //ArrayList exists and is not empty. 
                                     if(userInfo!=null && !userInfo.isEmpty()){
                                         salutation = (String)userInfo.get(0);
                                         firstName = (String)userInfo.get(1);
                                         lastName = (String)userInfo.get(2);
                                         email = (String)userInfo.get(3);
-                                        contactNum = (String)userInfo.get(4);
-                                        username = (String)userInfo.get(5);
-                                        type = (String)userInfo.get(8);
-                                        imageFile = (String)userInfo.get(9);
+                                        password = (String)userInfo.get(4);
+                                        creationDate = (String)userInfo.get(5);
+                                        type = (String)userInfo.get(6);
+                                        imageFile = (String)userInfo.get(7);
                                     }
                                 %>
 <%@include file="/webapp/edutech/admin/EduTechAdminSessionCheck.jspf"

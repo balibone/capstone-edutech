@@ -7,7 +7,7 @@ package edutechservices;
 
 import edutechentities.common.PostEntity;
 import edutechentities.common.ScheduleItemEntity;
-import edutechsessionbeans.CommonMgrBean;
+import edutechsessionbeans.CommonRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -33,7 +33,7 @@ public class PostREST {
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
     private EntityManager em;
     @EJB
-    CommonMgrBean etr;
+    CommonRESTMgrBean etr;
     
     
     @GET @Path("{pageId}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

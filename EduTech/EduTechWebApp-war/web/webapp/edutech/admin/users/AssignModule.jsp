@@ -7,7 +7,7 @@
     String firstName, lastName, username;
     firstName=lastName=username="";
     if(userInfo != null && !userInfo.isEmpty()){
-        username = (String) userInfo.get(5);
+        username = (String) userInfo.get(3);
         firstName = (String) userInfo.get(1);
         lastName = (String) userInfo.get(2);
     }
