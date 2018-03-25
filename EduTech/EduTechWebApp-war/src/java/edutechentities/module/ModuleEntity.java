@@ -11,6 +11,7 @@ import edutechentities.common.ScheduleItemEntity;
 import edutechentities.common.SemesterEntity;
 import java.io.Serializable;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -48,6 +49,7 @@ public class ModuleEntity implements Serializable {
     private SemesterEntity semester;
     @XmlElement
     @XmlInverseReference(mappedBy="module")
+    @OneToMany(cascade = CascadeType.ALL)
     private Collection<RecurringEventEntity> recurringEvents;
     
     public ModuleEntity() {

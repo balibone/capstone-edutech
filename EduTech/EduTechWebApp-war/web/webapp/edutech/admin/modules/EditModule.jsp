@@ -232,7 +232,7 @@
                                     <br>
                                     <div class="form-group">
                                         <label>Description:</label>
-                                        <textarea class="form-control" required name="description"></textarea>
+                                        <textarea rows="3" class="form-control" required name="description" style="resize:none;"></textarea>
                                     </div>
                                     <input type="hidden" name="id" value="<%=moduleCode%>">
                                     <input type="hidden" name="pageTransit" value="addEventToMod">

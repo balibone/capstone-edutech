@@ -32,15 +32,15 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 @Entity(name="Lesson")
 public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    //to remove
     @OneToOne
     private SessionEntity session;
     @ManyToOne
     private RecurringEventEntity recurringEvent;
     @OneToMany(cascade=CascadeType.ALL)
     private Collection<AttachmentEntity> resources; 
-
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     @Override
     public Long getId() {

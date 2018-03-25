@@ -30,6 +30,7 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    //to remove
     private SessionEntity session;
     @ManyToOne
     private RecurringEventEntity recurringEvent;

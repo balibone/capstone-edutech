@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -28,10 +29,12 @@ public class RecurringEventEntity implements Serializable {
     private Long id;
     private String title;
     private String location;
+    @Lob
     private String description;
     private DayOfWeek dayOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;
+    @ManyToOne
     private ModuleEntity module;
     //cascade everything, uncluding deletion of recurring event. (will delete all lessons associated).
     @OneToMany(mappedBy = "recurringEvent", cascade=CascadeType.ALL)
