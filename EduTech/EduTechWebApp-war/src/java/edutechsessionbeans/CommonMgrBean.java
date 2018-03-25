@@ -20,7 +20,7 @@ import edutechentities.group.IdeaEntity;
 import edutechentities.group.MeetingMinuteEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
-import edutechentities.module.SubmissionEntity;
+import edutechentities.module.AssignmentEntity;
 import java.io.IOException;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
@@ -47,7 +47,7 @@ import javax.persistence.Query;
  */
 @Stateless
 @LocalBean
-public class CommonRESTMgrBean {
+public class CommonMgrBean {
 
     @PersistenceContext
     private EntityManager em;
@@ -495,7 +495,7 @@ public class CommonRESTMgrBean {
             //detach att from all submission
             Query q3 = em.createQuery("SELECT s FROM Submission s");
             for(Object o: q3.getResultList()){
-                SubmissionEntity s = (SubmissionEntity)o;
+                AssignmentEntity s = (AssignmentEntity)o;
                 Collection<AttachmentEntity> attachments = s.getSubmissions();
                 if(attachments.contains(att)){
                     attachments.remove(att);

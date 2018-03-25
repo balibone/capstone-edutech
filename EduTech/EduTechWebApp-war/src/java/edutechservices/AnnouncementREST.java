@@ -8,7 +8,7 @@ package edutechservices;
 //import edutechentities.common.GroupEntity;
 import commoninfraentities.UserEntity;
 import edutechentities.common.AnnouncementEntity;
-import edutechsessionbeans.CommonRESTMgrBean;
+import edutechsessionbeans.CommonMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -31,7 +31,7 @@ import javax.ws.rs.core.MediaType;
 public class AnnouncementREST {
     
     @EJB
-    CommonRESTMgrBean cmb;
+    CommonMgrBean cmb;
     
     @GET 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

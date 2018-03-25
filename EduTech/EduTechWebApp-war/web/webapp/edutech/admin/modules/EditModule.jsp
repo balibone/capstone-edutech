@@ -104,7 +104,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label required">Description:</label>
                                     <div class="col-xs-8">
-                                        <textarea id="description" required class="form-control" name="description"></textarea>
+                                        <textarea rows="6" id="description" required class="form-control" name="description" style="resize: none;"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -142,7 +142,7 @@
                         <!--Recurring events table-->
                         <div class="row">
                             <div class="col-xs-3">
-                                <h3>Recurring Events</h3>
+                                <h3>Scheduled Lessons</h3>
                             </div>
                             <div class="col-xs-9 btn-group">
                                 <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#newEventModal"><span class="fas fa-plus"></span>&nbsp;&nbsp;Add</button>

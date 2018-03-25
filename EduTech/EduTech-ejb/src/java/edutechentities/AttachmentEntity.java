@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edutechentities.common;
+package edutechentities;
 
-import commoninfraentities.UserEntity;
+import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;

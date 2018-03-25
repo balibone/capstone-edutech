@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sessionbeans.CommonInfraMgrBeanRemote;
+import commoninfrasessionbeans.CommonInfraMgrBeanRemote;
 
 public class CommonInfraController extends HttpServlet {
     @EJB
@@ -44,12 +44,10 @@ public class CommonInfraController extends HttpServlet {
                         newCookie.setMaxAge(-1);
                         //set cookie path to "localhost/"
                         newCookie.setPath("/");
-                        //Hafidz if your react app cant get the cookie then remove this line
-                        //newCookie.setHttpOnly(true);
                         
                         //Insert user type data into "usertype" cookie using systemadminbean's get userinfo method
                         ArrayList userInfo = sam.getUserInfo(enteredUsername);
-                        String userType = (String) userInfo.get(6);
+                        String userType = (String) userInfo.get(8);
                         Cookie userTypeCookie = new Cookie("userType", userType);
                         // non-persistent cookie that will be deleted when browser closes.
                         userTypeCookie.setMaxAge(-1);

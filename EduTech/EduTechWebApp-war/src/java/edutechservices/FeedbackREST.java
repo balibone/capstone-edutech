@@ -9,8 +9,8 @@ package edutechservices;
 import commoninfraentities.UserEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.module.FeedbackEntity;
-import edutechsessionbeans.CommonRESTMgrBean;
-import edutechsessionbeans.GroupRESTMgrBean;
+import edutechsessionbeans.CommonMgrBean;
+import edutechsessionbeans.GroupMgrBean;
 import edutechsessionbeans.ModuleRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
@@ -36,9 +36,9 @@ import javax.ws.rs.core.MediaType;
 public class FeedbackREST {
     
     @EJB
-    CommonRESTMgrBean cmb;
+    CommonMgrBean cmb;
     @EJB
-    GroupRESTMgrBean etr;
+    GroupMgrBean etr;
     @EJB
     ModuleRESTMgrBean mmb;
     

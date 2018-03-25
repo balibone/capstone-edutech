@@ -9,7 +9,7 @@ package edutechservices;
 import edutechentities.common.AttachmentEntity;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.module.LessonEntity;
-import edutechsessionbeans.CommonRESTMgrBean;
+import edutechsessionbeans.CommonMgrBean;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -56,7 +56,7 @@ import org.zeroturnaround.zip.ZipUtil;
 public class LessonREST {
     
     @EJB
-    CommonRESTMgrBean cmb;
+    CommonMgrBean cmb;
     
     @Context
     private ServletContext context;

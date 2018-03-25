@@ -12,24 +12,28 @@ import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
-import sessionbeans.CommonInfraMgrBean;
+import commoninfrasessionbeans.CommonInfraMgrBean;
+import commoninfrasessionbeans.CommonInfraMgrBeanRemote;
 
 @Stateless
 public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     @PersistenceContext
     EntityManager em;
     
-    CommonInfraMgrBean cmb;
+    @EJB
+    CommonInfraMgrBeanRemote cmb;
     
     @Override
-    public boolean createNewStudent(String salutation, String firstName, String lastName, String username, String password, String fileName) { 
+    public boolean createNewStudent(String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName) { 
         try{
             
-            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,cmb.encodePassword(username, password),"student",fileName,"","");
+            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName, "","student",fileName,"","");
             em.persist(newStudent);
+            cmb.sendCreateEmail(username);
             return true;
         }catch(Exception e){
             System.out.println("ERROR IN CREATE STUDENT");
+            e.printStackTrace();
             return false;
         }
         
@@ -69,6 +73,8 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             userInfo.add(user.getUserFirstName());
             //store last name (editable)
             userInfo.add(user.getUserLastName());
+            userInfo.add(user.getEmail());
+            userInfo.add(user.getContactNum());
             //store username (pass in front but cannot edit)
             userInfo.add(user.getUsername());
             //store password (editable)
@@ -87,7 +93,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean editUser(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName) {
+    public boolean editUser(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName, String email, String contactNum) {
         Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username= :username");
         q1.setParameter("username", username);
         for(Object o:q1.getResultList()){
@@ -95,11 +101,12 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
             u.setUserSalutation(salutation);
             u.setUserFirstName(firstName);
             u.setUserLastName(lastName);
-            u.setUserPassword(password);
             u.setUserType(userType);
             //possible upgrade: delete old image file
             //update image file name. 
             u.setImgFileName(fileName);
+            u.setEmail(email);
+            u.setContactNum(contactNum);
             return true; 
         }
         System.out.println("No such user found");
@@ -107,7 +114,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean createNewInstructor(String salutation, String firstName, String lastName, String username, String password, String fileName) { 
+    public boolean createNewInstructor(String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName) { 
         try{
             UserEntity newInstructor= new UserEntity(username,salutation,firstName,lastName,cmb.encodePassword(username, password),"student",fileName,"","");
             em.persist(newInstructor);//may throw null pointer if em is not created with proper syntax.
@@ -145,8 +152,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
         q1.setParameter("username", username);
         for(Object o : q1.getResultList()){
             UserEntity u = (UserEntity) o;
-            //logical delete, not physical delete.
-            u.setUserActiveStatus(Boolean.FALSE);
+            em.remove(u);
         }
         System.out.println(username+" DELETED");
     }
@@ -176,7 +182,7 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean createNewAdmin(String salutation, String firstName, String lastName, String username, String password, String fileName, String adminType) { 
+    public boolean createNewAdmin(String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName, String adminType) { 
         try{
             UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,cmb.encodePassword(username, password),"student",fileName,"","");
             em.persist(newStudent);//may throw null pointer if em is not created with proper syntax.
