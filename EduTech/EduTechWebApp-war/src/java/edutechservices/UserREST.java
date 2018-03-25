@@ -5,7 +5,7 @@
  */
 package edutechservices;
 
-import edutechsessionbeans.CommonRESTMgrBean;
+import edutechsessionbeans.CommonMgrBean;
 import commoninfraentities.UserEntity;
 import java.util.List;
 import javax.ejb.EJB;
@@ -33,7 +33,7 @@ public class UserREST {
     @PersistenceContext(unitName = "EduTechWebApp-warPU")
     private EntityManager em;
     @EJB
-    CommonRESTMgrBean etr;
+    CommonMgrBean etr;
     
 
     @POST 

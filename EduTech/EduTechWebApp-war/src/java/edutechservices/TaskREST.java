@@ -6,7 +6,7 @@
 package edutechservices;
 
 import edutechentities.common.TaskEntity;
-import edutechsessionbeans.CommonRESTMgrBean;
+import edutechsessionbeans.CommonMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -29,7 +29,7 @@ import javax.ws.rs.core.MediaType;
 public class TaskREST {
 
     @EJB
-    CommonRESTMgrBean etr;
+    CommonMgrBean etr;
     
     @GET 
     @Path("user/{username}") 

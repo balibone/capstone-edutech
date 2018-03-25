@@ -35,7 +35,8 @@ public class GroupEntity implements Serializable {
     private String moduleCode;
     private String createdBy;
     private String createdAt;
-
+    private int groupSize;
+    
     public String getTitle() {
         return title;
     }
@@ -141,6 +142,14 @@ public class GroupEntity implements Serializable {
     @Override
     public String toString() {
         return "edutechentities.group.GroupEntity[ id=" + id + " ]";
+    }
+
+    public int getGroupSize() {
+        return groupSize;
+    }
+
+    public void setGroupSize(int groupSize) {
+        this.groupSize = groupSize;
     }
     
 }

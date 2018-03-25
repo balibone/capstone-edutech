@@ -7,8 +7,8 @@ package edutechservices;
 
 //import edutechentities.common.GroupEntity;
 import edutechentities.group.MeetingMinuteEntity;
-import edutechsessionbeans.CommonRESTMgrBean;
-import edutechsessionbeans.GroupRESTMgrBean;
+import edutechsessionbeans.CommonMgrBean;
+import edutechsessionbeans.GroupMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -31,9 +31,9 @@ import javax.ws.rs.core.MediaType;
 public class MeetingMinutesREST {
     
     @EJB
-    CommonRESTMgrBean cmb;
+    CommonMgrBean cmb;
     @EJB
-    GroupRESTMgrBean etr;
+    GroupMgrBean etr;
     
     @GET 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

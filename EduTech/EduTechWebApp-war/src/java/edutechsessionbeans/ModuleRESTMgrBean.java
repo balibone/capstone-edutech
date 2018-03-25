@@ -14,7 +14,7 @@ import edutechentities.module.PollEntity;
 import edutechentities.module.PollOptionEntity;
 import edutechentities.module.QuestionEntity;
 import edutechentities.module.SessionEntity;
-import edutechentities.module.SubmissionEntity;
+import edutechentities.module.AssignmentEntity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -227,16 +227,16 @@ public class ModuleRESTMgrBean {
         return ses;
     }
 
-    public List<SubmissionEntity> getAllSubmissions() {
+    public List<AssignmentEntity> getAllSubmissions() {
         Query q = em.createQuery("select s from Submission s");
         return q.getResultList();
     }
 
-    public SubmissionEntity getOneSubmission(Long id) {
-        return em.find(SubmissionEntity.class, id);
+    public AssignmentEntity getOneSubmission(Long id) {
+        return em.find(AssignmentEntity.class, id);
     }
 
-    public SubmissionEntity createSubmission(SubmissionEntity sub) {
+    public AssignmentEntity createSubmission(AssignmentEntity sub) {
         em.persist(sub);
         return sub;
     }
@@ -248,8 +248,8 @@ public class ModuleRESTMgrBean {
         }
     }
 
-    public SubmissionEntity editSubmission(Long id, SubmissionEntity replacement) {
-        SubmissionEntity sub = em.find(SubmissionEntity.class, id);
+    public AssignmentEntity editSubmission(Long id, AssignmentEntity replacement) {
+        AssignmentEntity sub = em.find(AssignmentEntity.class, id);
         sub = replacement;
         em.merge(sub);
         return sub;

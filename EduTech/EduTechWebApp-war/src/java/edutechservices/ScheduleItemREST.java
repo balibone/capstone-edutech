@@ -5,7 +5,7 @@
  */
 package edutechservices;
 
-import edutechsessionbeans.CommonRESTMgrBean;
+import edutechsessionbeans.CommonMgrBean;
 import edutechentities.common.ScheduleItemEntity;
 import java.util.List;
 import javax.ejb.EJB;
@@ -31,7 +31,7 @@ import javax.ws.rs.core.MediaType;
 public class ScheduleItemREST {
 
     @EJB
-    CommonRESTMgrBean etr;
+    CommonMgrBean etr;
     
     @POST 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

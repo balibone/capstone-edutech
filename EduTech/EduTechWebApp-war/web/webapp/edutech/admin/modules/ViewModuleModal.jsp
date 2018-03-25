@@ -81,7 +81,7 @@
                                     <div class="form-group">
                                         <label class="col-xs-4 control-label required">Description:</label>
                                         <div class="col-xs-8">
-                                            <input type="text" readonly value="<%=description%>" class="form-control" />
+                                            <textarea readonly class="form-control" rows="6" style="resize:none;"><%=description%></textarea>
                                         </div>
                                     </div>
                                 </form>
@@ -124,22 +124,22 @@
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Username</th>
                                                 <th>User Type</th>
+                                                <th>Username</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <%
                                                 for(Object o:users){
                                                     ArrayList userInfo = (ArrayList) o;
-                                                    String uname = (String)userInfo.get(0);
-                                                    String username = (String)userInfo.get(1);
+                                                    String username = (String)userInfo.get(0);
+                                                    String uname = (String)userInfo.get(1);
                                                     String uType = (String)userInfo.get(2);
                                             %>
                                             <tr>
                                                 <td><%=uname%></td>
-                                                <td><%=username%></td>
                                                 <td><%=uType%></td>
+                                                <td><%=username%></td>
                                             </tr>
                                             <% }
                                             %>
