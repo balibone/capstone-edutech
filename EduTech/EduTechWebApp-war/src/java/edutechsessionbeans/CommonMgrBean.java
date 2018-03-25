@@ -21,17 +21,9 @@ import edutechentities.group.MeetingMinuteEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import edutechentities.module.AssignmentEntity;
-import java.io.IOException;
-import java.nio.file.DirectoryNotEmptyException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Paths;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -600,7 +592,6 @@ public class CommonMgrBean {
             }
             lesson.setMeetingMinutes(null);
             lesson.setCreatedBy(null);
-            lesson.setSession(null);
             lesson.setAssignedTo(null);
             lesson.setResources(null);
             lesson.setRecurringEvent(null);

@@ -34,9 +34,6 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    //to remove
-    @OneToOne
-    private SessionEntity session;
     @ManyToOne
     private RecurringEventEntity recurringEvent;
     @OneToMany(cascade=CascadeType.ALL)
@@ -75,14 +72,6 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
     @Override
     public String toString() {
         return "edutechentities.module.LessonEntity[ id=" + id + " ]";
-    }
-
-    public SessionEntity getSession() {
-        return session;
-    }
-
-    public void setSession(SessionEntity session) {
-        this.session = session;
     }
 
     public RecurringEventEntity getRecurringEvent() {

@@ -30,8 +30,6 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    //to remove
-    private SessionEntity session;
     @ManyToOne
     private RecurringEventEntity recurringEvent;
     @OneToMany
@@ -82,14 +80,6 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
     public void setRecurringEvent(RecurringEventEntity recurringEvent) {
         this.recurringEvent = recurringEvent;
-    }
-
-    public SessionEntity getSession() {
-        return session;
-    }
-
-    public void setSession(SessionEntity session) {
-        this.session = session;
     }
 
     public Collection<AttachmentEntity> getResources() {
