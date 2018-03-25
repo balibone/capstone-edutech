@@ -223,9 +223,10 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
         mailMessage.setSubject("Greetings from EduBox");
         String emailBody = "Hey "+ username + ",<br><br>"
-                + "We have created your account on EduBox!<br>"
-                + "Here is your temporary password: <strong>"+ tempPassword +"</strong><br>"
-                + "Please click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password.<br>"
+                + "We just created an account for you on EduBox!<br>"
+                + "Here is your temporary password to get started: <strong>"+ tempPassword +"</strong><br>"
+                + "We highlighy recommend you to <strong>change your password</strong> first."
+                + "You can click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password.<br>"
                 + "Or click <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=goToLogout'>here</a> to login. "
                 + "<br><br>Cheers,<br>EduBox Team";
         mailMessage.setContent(emailBody, "text/html");
