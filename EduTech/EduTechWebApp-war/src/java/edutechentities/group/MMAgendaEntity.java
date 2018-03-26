@@ -5,13 +5,7 @@
  */
 package edutechentities.group;
 
-import commoninfraentities.UserEntity;
-import edutechentities.common.AttachmentEntity;
-import edutechentities.common.ScheduleItemEntity;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

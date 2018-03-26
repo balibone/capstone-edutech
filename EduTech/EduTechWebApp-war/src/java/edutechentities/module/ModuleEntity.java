@@ -43,7 +43,6 @@ public class ModuleEntity implements Serializable {
     private String description;
     @OneToMany
     private Collection<UserEntity> members;
-
     @XmlElement
     @XmlInverseReference(mappedBy="modules")
     private SemesterEntity semester;

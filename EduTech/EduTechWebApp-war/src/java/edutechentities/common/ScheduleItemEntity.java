@@ -35,10 +35,6 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ScheduleItemEntity implements Serializable {
-    @XmlElement
-    @XmlInverseReference(mappedBy = "meeting")
-    private List<MeetingMinuteEntity> meetingMinutes;
-
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
@@ -55,6 +51,9 @@ public class ScheduleItemEntity implements Serializable {
     @ManyToOne
     private UserEntity createdBy;
     private LocalDateTime createdAt;
+    @XmlElement
+    @XmlInverseReference(mappedBy = "meeting")
+    private List<MeetingMinuteEntity> meetingMinutes;
     
     public Long getId() {
         return id;

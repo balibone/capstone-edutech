@@ -36,7 +36,6 @@ public class RecurringEventEntity implements Serializable {
     private LocalTime endTime;
     @ManyToOne
     private ModuleEntity module;
-    //cascade everything, uncluding deletion of recurring event. (will delete all lessons associated).
     @OneToMany(mappedBy = "recurringEvent", cascade=CascadeType.ALL)
     private List<LessonEntity> lessons;
     
