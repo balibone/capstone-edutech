@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
+import {observer} from 'mobx-react';
 import axios, { post } from 'axios';
 import {Button, Grid, Row, Col} from 'react-bootstrap';
 import swal from 'sweetalert';
 
+import LessonStore from '../../../../stores/LessonStore/LessonStore';
+
+@observer
 class UploadFileBtn extends Component {
 
   constructor(props) {
@@ -16,18 +20,15 @@ class UploadFileBtn extends Component {
 
   onFormSubmit(event){
     event.preventDefault()
-    let selectedFile = this.state.file;
+    const selectedFile = this.state.file;
+    const lessonId = this.props.lessonId;
+    const title = "testing file upload";
 
     if(selectedFile){
       if(selectedFile.size > 10000000){   // 10MB is max file size
         swal("File Size Error!", "Your file size is more than 10MB.", "error");
       }else{
-        const formData = new FormData();
-        formData.append('file', selectedFile)
-        console.log('SELECTED FILE: ', selectedFile)
-        console.log('UPLOADING FORM: ', formData)
-        //call api method here
-        swal("Success !", `${selectedFile.name} is successfully uploaded.`, "success");
+        LessonStore.uploadAttachment(title, selectedFile, lessonId);
       }
     }
   }
@@ -35,18 +36,6 @@ class UploadFileBtn extends Component {
   onChange(e) {
     this.setState({file:e.target.files[0]})
   }
-
-  // fileUpload(file){
-  //   const url = 'http://example.com/file-upload';
-  //   const formData = new FormData();
-  //   formData.append('file',file)
-  //   const config = {
-  //       headers: {
-  //           'content-type': 'multipart/form-data'
-  //       }
-  //   }
-  //   return  post(url, formData,config)
-  // }
 
   render() {
   	let file = this.state.file;

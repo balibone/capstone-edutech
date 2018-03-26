@@ -11,13 +11,13 @@ class MinuteStore {
 
 	@action
 	getMinutesForMeeting(){
-		axios.get(`announcement/user/${username}`)
-		.then((res) => {
-			this.announcementList = res.data;
-		})
-		.catch((err) => {
-			console.log(err);
-		})
+		// axios.get(`/announcement/user/${username}`)
+		// .then((res) => {
+		// 	this.announcementList = res.data;
+		// })
+		// .catch((err) => {
+		// 	console.log(err);
+		// })
 	}
 
 }

@@ -11,9 +11,20 @@ class AnnouncementStore {
 	@action
 	getAnnouncementsForUser(){
     const username = localStorage.getItem('username');
-		axios.get(`announcement/user/${username}`)
+		axios.get(`/announcement/user/${username}`)
 		.then((res) => {
 			this.announcementList = res.data;
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+	}
+
+	@action
+	createAnnouncement(announcement){
+		axios.post('announcement', announcement)
+		.then((res) => {
+
 		})
 		.catch((err) => {
 			console.log(err);

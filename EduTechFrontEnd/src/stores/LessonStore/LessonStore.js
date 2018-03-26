@@ -3,38 +3,127 @@ import axios from 'axios';
 import moment from 'moment';
 import {Lesson} from './Lesson';
 import swal from 'sweetalert';
+import FileSaver from 'file-saver';
+import _ from 'lodash';
 
 class LessonStore {
 	@observable lessonList = [];
-
+  @observable uploadedFile = [];
 
 	@action
 	getLessonsForModule(moduleCode){
-		axios.get(`/module/lessons/${moduleCode}`)
+    const username = localStorage.getItem('username');
+    var unsoredLessonList = [];
+		axios.get(`/module/lessons/${moduleCode}`) // to replace with get modules for user
 		.then((res) => {
-			this.lessonList = res.data;
+      unsoredLessonList = res.data;
+      unsoredLessonList.sort(function(a,b) {return (a.startDate > b.startDate) ? 1 : ((b.startDate > a.startDate) ? -1 : 0);} );
+			this.lessonList = unsoredLessonList;
 		})
 		.catch((err) => {
 			console.log(err);
 		})
 	}
 
-	getNumberOfWeeks(){
-        axios.get('/semester')
-        .then((res) => {
-          const startD = moment(res.data[0].startDate);
-          const endD = moment(res.data[0].endDate);
+  @action
+  uploadAttachment(title, file, lessonId){
+    const formData = new FormData();
+    formData.append('title', title)
+    formData.append('file', file)
 
-          console.log("d1 d2", startD)
-          // var result = this.getNumberOfWeeks(startD, endD);
-          var result = endD.diff(startD, 'week') + 1;
+    axios.post(`/lesson/uploadAttachment/${lessonId}`,formData)
+    .then((res) => {
+      // console.log("uploaded file", res.data)
+      this.uploadedFile = res.data;
+      this.uploadedFile[0].lessonId = lessonId;
+      console.log("uploadedFile with lessonId:" , this.uploadedFile)
+      swal("Success !", `${file.name} is successfully uploaded.`, "success");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
 
-          console.log("RESULT No of Weeks: ", result);
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
+  @action
+  downloadAllFiles(lessonId){
+    axios.get(`/lesson/downloadAllAttachments/${lessonId}`,{responseType: 'blob'})
+    .then((res) => {
+      const downloadedZip = res.data;
+      console.log("downloadedZip: ", downloadedZip)
+      FileSaver.saveAs(downloadedZip, "edutechZip.zip");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  @action
+  downloadOneFile(lessonId, attachmentId){
+    console.log("DOWNLOADING ONE FILE", lessonId, attachmentId)
+    // axios.get(`/lesson/downloadAllAttachments/${lessonId}/${attachmentId}`,{responseType: 'blob'})
+    // .then((res) => {
+    //   const downloadedZip = res.data;
+    //   FileSaver.saveAs(downloadedZip, "edutechZip.zip");
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // })
+  }
+
+  @action
+  getFilesForLesson(lessonId){
+    var attachmentArr = [];
+    var index = _.findIndex(this.lessonList, (item) => {return item.id === lessonId});
+    axios.get(`/lesson/allAttachments/${lessonId}`)
+    .then((res) => {
+      this.lessonList[index].files = res.data;
+      console.log("lesson", this.lessonList[index])
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+
+  @action
+  fetchFilesForLeson(lessonId) {
+      var attachmentArr = [];
+      var index = _.findIndex(this.lessonList, (item) => {return item.id === lessonId});
+      
+      axios.get(`/lesson/allAttachments/${lessonId}`)
+      .then(action("fetchSuccess", res => {
+                // const filteredProjects = somePreprocessing(projects)
+                // this.githubProjects = filteredProjects
+                // this.state = "done"
+
+                this.lessonList[index].files = res.data;
+                console.log("lesson", this.lessonList[index])
+            }),
+            // inline created action
+            action("fetchError", error => {
+                console.log(error)
+            }) 
+      )
+    }  
+
+
+
+	// getNumberOfWeeks(){
+ //        axios.get('/semester')
+ //        .then((res) => {
+ //          const startD = moment(res.data[0].startDate);
+ //          const endD = moment(res.data[0].endDate);
+
+ //          console.log("d1 d2", startD)
+ //          // var result = this.getNumberOfWeeks(startD, endD);
+ //          var result = endD.diff(startD, 'week') + 1;
+
+ //          console.log("RESULT No of Weeks: ", result);
+ //        })
+ //        .catch((err) => {
+ //          console.log(err)
+ //        })
+ //    }
 
 
 }

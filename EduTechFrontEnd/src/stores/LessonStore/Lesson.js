@@ -13,8 +13,9 @@ export class Lesson {
   @observable moduleCode;
   @observable groupId;
   @observable dType;
+  @observable files;
 
-  constructor(title, description,startDate, endDate, location, createdBy, assignedTo, itemType, moduleCode, groupId, dType) {
+  constructor(title, description,startDate, endDate, location, createdBy, assignedTo, itemType, moduleCode, groupId, dType, files) {
       this.title = title;
       this.description = description;
       this.startDate = startDate;
@@ -26,5 +27,6 @@ export class Lesson {
       this.moduleCode = moduleCode;
       this.groupId = groupId;
       this.dType = dType;
+      this.files = files;
   }
 }
