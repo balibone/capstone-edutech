@@ -70,6 +70,7 @@ public class ItemEntity implements Serializable {
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy = "itemSet")
     private Set<TagEntity> tagSet = new HashSet<TagEntity>();
     
+    
     @PrePersist
     public void creationDate() { this.itemPostingDate = new Date(); }
     

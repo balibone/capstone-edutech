@@ -310,7 +310,7 @@
                                                 <div class="row">
                                                     <div class="col-xl-3 col-md-3 col-3">
                                                         <div class="img-wrapper" style="margin-bottom: 15px">
-                                                            <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>">
+                                                            <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%= loggedInUsername%>">
                                                                 <img class="card-img-top" style="width: 160px; height: 150px;" src="uploads/unify/images/errands/job/<%= jobImage%>" />
                                                             </a>
                                                         </div>

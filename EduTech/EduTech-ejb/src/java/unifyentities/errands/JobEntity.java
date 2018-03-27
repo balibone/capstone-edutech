@@ -64,7 +64,6 @@ public class JobEntity implements Serializable {
 
     /* FOREIGN KEY */
     private String jobTakerID;
-    private ArrayList likeList = new ArrayList();
 
     @ManyToOne
     private CategoryEntity categoryEntity;
@@ -77,6 +76,9 @@ public class JobEntity implements Serializable {
     private Collection<JobReviewEntity> jobReviewSet = new ArrayList<JobReviewEntity>();
     @OneToMany(mappedBy = "jobEntity")
     private Collection<JobTransactionEntity> jobTransactionSet = new ArrayList<JobTransactionEntity>();
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "jobEntity")
+    private Collection<LikeListingEntity> likeListingSet = new ArrayList<LikeListingEntity>();
+    
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy = "jobSet")
     private Set<TagEntity> tagSet = new HashSet<TagEntity>();
     
@@ -132,7 +134,6 @@ public class JobEntity implements Serializable {
     public int getJobNumOfLikes() { return jobNumOfLikes; }
     public Date getJobPostDate() { return jobPostDate; }
     public String getJobTakerID() { return jobTakerID; }
-    public ArrayList getLikeList() {return likeList; }
     public int getNumOfHelpers() { return numOfHelpers; }
     public boolean getChecking() { return checking;}
     
@@ -141,6 +142,7 @@ public class JobEntity implements Serializable {
     public Collection<JobOfferEntity> getJobOfferSet() { return jobOfferSet; }
     public Collection<JobReviewEntity> getJobReviewSet() { return jobReviewSet; }
     public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
+    public Collection<LikeListingEntity> getLikeListingSet() { return likeListingSet; }
     public Set<TagEntity> getTagSet() { return tagSet; }
 
     /* SETTER METHODS */
@@ -163,7 +165,6 @@ public class JobEntity implements Serializable {
     public void setJobNumOfLikes(int jobNumOfLikes) { this.jobNumOfLikes = jobNumOfLikes; }
     public void setJobPostDate(Date jobPostDate) { this.jobPostDate = jobPostDate; }
     public void setJobTakerID(String jobTakerID) { this.jobTakerID = jobTakerID; }
-    public void setLikeList(ArrayList likeList) { this.likeList = likeList; }
     public void setNumOfHelpers(int numOfHelpers) { this.numOfHelpers = numOfHelpers; }
     public void setChecking(boolean checking) { this.checking = checking; }
     
@@ -172,5 +173,6 @@ public class JobEntity implements Serializable {
     public void setJobOfferSet(Collection<JobOfferEntity> jobOfferSet) { this.jobOfferSet = jobOfferSet; }
     public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
     public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
+    public void setLikeListingSet(Collection<LikeListingEntity> likeListingSet) { this.likeListingSet = likeListingSet; }
     public void setTagSet(Set<TagEntity> tagSet) { this.tagSet = tagSet; }
 }

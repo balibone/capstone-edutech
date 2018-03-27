@@ -61,7 +61,8 @@ public class ErrandsSysUserController extends HttpServlet {
                 case "goToViewJobDetailsSYS":
                     long jobID = Long.parseLong(request.getParameter("hiddenJobID"));
                     String categoryName = request.getParameter("hiddenCategoryName");
-                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobID));
+                    String loggedinUsername = request.getParameter("loggedinUser");
+                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobID, loggedinUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(categoryName, jobID));
                     pageAction = "ViewJobDetailsSYS";
                     break;
@@ -80,7 +81,8 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "goToEditJobListing":
                     long jID = Long.parseLong(request.getParameter("hiddenJobID"));
-                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jID));
+                    String loginUser = request.getParameter("loginUser");
+                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jID, loginUser));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
                     pageAction = "EditJobListingSYS";
                     break;
@@ -90,7 +92,8 @@ public class ErrandsSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     long job = Long.parseLong(request.getParameter("hiddenJobID"));
-                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(job));
+                    String user = request.getParameter("username");
+                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(job, user));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
                     pageAction = "EditJobListingSYS";
                     break;
@@ -103,6 +106,14 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
                     request.setAttribute("jobListSYS", (ArrayList) esmr.viewJobList());
                     pageAction = "ViewJobListingSYS";
+                    break;
+                case "likeJobListingDetails":
+                    long jobIDHid = Long.parseLong(request.getParameter("jobIDHid"));
+                    String usernameHid = request.getParameter("usernameHid");
+                    
+                    responseMessage = esmr.likeUnlikeJob(jobIDHid, usernameHid);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
                     break;
                 case "sendJobOfferPrice":
                     long jobIDHidden = Long.parseLong(request.getParameter("jobIDHidden"));

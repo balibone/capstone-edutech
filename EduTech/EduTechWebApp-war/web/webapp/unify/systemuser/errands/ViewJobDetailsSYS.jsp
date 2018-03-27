@@ -177,6 +177,9 @@
                     String categoryID = String.valueOf(jobDetailsSYSVec.get(20));
                     String jobDuration = String.valueOf(jobDetailsSYSVec.get(21));
                     String otherInformation = String.valueOf(jobDetailsSYSVec.get(22));
+                    String numOfHelpers = (String.valueOf(jobDetailsSYSVec.get(23)));
+                    String checking = (String.valueOf(jobDetailsSYSVec.get(24)));
+                    String likeStatus = (String.valueOf(jobDetailsSYSVec.get(25)));
                 %>
                 <input type="hidden" id="priceType" value="<%=jobRateType%>"/>
                 <div class="row">
@@ -223,6 +226,10 @@
                                 }
                             %>
                             <tr>   
+                                <td><i class="fa fa-heart" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Likes: </strong></span></td>
+                                <td><ul class="list-inline mb-0"><li id="likeList" class="list-inline-item"><%=numOfLikes%> </li></ul></td>
+                            </tr>
+                            <tr>   
                                 <td><i class="fa fa-sticky-note" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Est. Duration: </strong></span></td>
                                 <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=jobDuration%> hours</li></ul></td>
                             </tr>
@@ -242,7 +249,7 @@
                         <br/>   
                         <div id="job-button" class="btn-group" role="group">
                             <%  if (posterName.equals(request.getAttribute("loggedInUsername"))) {%>
-                            <button id="edit-button" type="button" class="btn btn-outline-theme" onclick="location.href = 'ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
+                            <button id="edit-button" type="button" class="btn btn-outline-theme" onclick="location.href = 'ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>&loginUser=<%= loggedInUsername%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
                             <button type="button" class="btn btn-outline-theme" onclick="javascript:deleteAlert(<%= jobID%>)">Delete Job Listing</button>
                             <%  } else {    %>
                             <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
@@ -286,11 +293,11 @@
                               </div>
                             </div>
                             <%  }%>
-                            <%--<%  if(itemLikeStatus.equals("true")) {   %>
-                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
-                            <%  } else if(itemLikeStatus.equals("false")) {    %>
-                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
-                            <%  }   %>--%> 
+                            <%  if(likeStatus.equals("true")) {   %>
+                            <button type="button" id="likeJobBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
+                            <%  } else if(likeStatus.equals("false")) {    %>
+                            <button type="button" id="likeJobBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
+                            <%  }   %>
                         </div>
                        
                     </div>
@@ -448,7 +455,7 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-            <div id="itemLikeList-iframe"></div>
+            <div id="jobLikeList-iframe"></div>
             
                 
                 <input type="hidden" id="jobIDHidden" value="<%= jobID%>" />
