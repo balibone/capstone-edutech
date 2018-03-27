@@ -33,7 +33,6 @@ class LessonStore {
 
     axios.post(`/lesson/uploadAttachment/${lessonId}`,formData)
     .then((res) => {
-      // console.log("uploaded file", res.data)
       this.uploadedFile = res.data;
       this.uploadedFile[0].lessonId = lessonId;
       console.log("uploadedFile with lessonId:" , this.uploadedFile)
@@ -45,12 +44,12 @@ class LessonStore {
   }
 
   @action
-  downloadAllFiles(lessonId){
+  downloadAllFiles(lessonId, title, dateTimeFormat){
     axios.get(`/lesson/downloadAllAttachments/${lessonId}`,{responseType: 'blob'})
     .then((res) => {
       const downloadedZip = res.data;
-      console.log("downloadedZip: ", downloadedZip)
-      FileSaver.saveAs(downloadedZip, "edutechZip.zip");
+      var zipFileName = title.concat("_" + dateTimeFormat + ".zip");
+      FileSaver.saveAs(downloadedZip, zipFileName);
     })
     .catch((err) => {
       console.log(err);
@@ -58,16 +57,16 @@ class LessonStore {
   }
 
   @action
-  downloadOneFile(lessonId, attachmentId){
-    console.log("DOWNLOADING ONE FILE", lessonId, attachmentId)
-    // axios.get(`/lesson/downloadAllAttachments/${lessonId}/${attachmentId}`,{responseType: 'blob'})
-    // .then((res) => {
-    //   const downloadedZip = res.data;
-    //   FileSaver.saveAs(downloadedZip, "edutechZip.zip");
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // })
+  downloadOneFile(lessonId, attachmentId, fileName){
+    console.log("DOWNLOADING ONE FILE", lessonId, attachmentId, fileName)
+    axios.get(`/lesson/downloadAttachment/${lessonId}/${attachmentId}`,{responseType: 'blob'})
+    .then((res) => {
+      const downloadedFile = res.data;
+      FileSaver.saveAs(downloadedFile, fileName);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
   @action

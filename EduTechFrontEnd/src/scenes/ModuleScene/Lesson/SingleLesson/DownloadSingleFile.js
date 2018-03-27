@@ -11,9 +11,9 @@ import './styles.css';
 class DownloadSingleFile extends Component {
 
 	downloadFile(){
-		const { id } = this.props.file;
+		const { id, fileName } = this.props.file;
 		const { lessonId } = this.props;
-		LessonStore.downloadOneFile(lessonId, id);
+		LessonStore.downloadOneFile(lessonId, id, fileName);
 	}
 
 	render(){
@@ -22,7 +22,9 @@ class DownloadSingleFile extends Component {
 		return(
 			<ListGroupItem bsStyle="info">
 				{file.fileName}
-		  		<a className="pull-right downloadBtn" onClick={this.downloadFile.bind(this)}>download</a>
+				<a className="pull-right downloadBtn" onClick={this.downloadFile.bind(this)}>download</a>
+				<p className="smallText" style={{color: '#000000'}}>{file.title}</p>
+		  		
 		  	</ListGroupItem>
 		)
 	}

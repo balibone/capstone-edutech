@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Panel, Button, Grid, Row, Col,ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Panel, Button, Grid, Row, Col,ListGroup, ListGroupItem, Badge} from 'react-bootstrap';
 import moment from 'moment';
 import {observer} from 'mobx-react';
 import {toJS} from 'mobx';
@@ -57,7 +57,7 @@ renderAttachmentBtn(){
       fileListArea = files.map((file) => {
         return <DownloadSingleFile key={file.id} file={file} lessonId={lessonId}/>
       })
-      downloadAllFileBtnArea = (<DownloadAllFileBtn lessonId={lessonId}/>)
+      downloadAllFileBtnArea = (<DownloadAllFileBtn lessonId={lessonId} lesson={lesson}/>)
     }else{
       fileListArea = (<p>No file for this lesson.</p>)
     }
@@ -86,20 +86,25 @@ renderAttachmentBtn(){
     )
   }
 
-
-
-
-
   render(){
     const {id, title, startDate, endDate} = this.props.lesson;
     const start = moment(startDate).format("h:mm a");
     const end = moment(endDate).format("h:mm a");
     const date = moment(startDate).format("dddd, Do MMMM");
+    const currentDateTime = moment(new Date());
+    const lessonEndDateTime = moment(endDate);
+
  
     return(
       <Panel eventKey={id}>
           <Panel.Heading>
-              <Panel.Title toggle>{title} <p className="smallText">{date}, {start} - {end} </p>
+              <Panel.Title toggle>{title} 
+              {
+                currentDateTime>lessonEndDateTime ? 
+                (<Badge className="pull-right" style={{background: '#008B8B'}}>Completed</Badge>) : (<span></span>)
+              }
+
+              <p className="smallText">{date}, {start} - {end} </p>
                 
               </Panel.Title>
           </Panel.Heading>
