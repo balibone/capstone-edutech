@@ -45,6 +45,7 @@ class Navbar extends Component {
     //   return <span>loading - please refresh if it takes too long</span>
     // }
     console.log("module list in nav", moduleList)
+    console.log("group list in nav", groupList)
     const moduleMenuItems = moduleList.map(module => <MenuItem eventKey={module.moduleCode}><Link to={`/module/${module.moduleCode}`}>{module.title}</Link></MenuItem>)
     const groupMenuItems = groupList.map(group => <MenuItem eventKey={group.id}><Link to={`/group/${group.id}`}>{group.title}</Link></MenuItem>)
 

@@ -15,7 +15,7 @@ class ModuleStore {
 
 	@action
 	populateModule(){
-		axios.get('http://localhost:8080/EduTechWebApp-war/api/module')
+		axios.get('/module')
 		.then((res) => {
 			console.log('populate module', res.data)
 			localStorage.setItem('moduleList',JSON.stringify(res.data));

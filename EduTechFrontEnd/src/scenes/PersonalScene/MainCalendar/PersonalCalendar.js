@@ -44,6 +44,8 @@ class PersonalCalendar extends Component {
 	openCalendarForm(selectedSlot){
 		var selectedDate = new Date(selectedSlot.end);
 		var today = new Date();
+		console.log("Selected SLOT: ", selectedSlot)
+
 		if(selectedDate > today){
 			this.setState({openCalendarForm: true, selectedDate: selectedDate, openEditForm:false, openCalendarCard:false})
 		}
@@ -99,6 +101,7 @@ class PersonalCalendar extends Component {
 		    agendaDateFormat: 'DD-MM' + ' ' + 'dd',
 
 		  }
+		  console.log("EVENTS ARR:", eventsArray)
 		// eventsArray = eventsArray.filter(event => event.type === "personal" || event.type === "meeting");
 		return(
 		    <div>
@@ -108,7 +111,7 @@ class PersonalCalendar extends Component {
 				    	defaultDate = {new Date()}
 				    	onSelectSlot = {(slotInfo) => this.openCalendarForm(slotInfo)}
 				    	onSelectEvent = {(event)=> this.eventClicked(event) }
-				    	views={['month', 'agenda']}
+				    	views={['month', 'agenda', 'week']}
 				    	popup={true}
 				    	popupOffset={{x: 30, y: 20}}
 				    	length = {7}

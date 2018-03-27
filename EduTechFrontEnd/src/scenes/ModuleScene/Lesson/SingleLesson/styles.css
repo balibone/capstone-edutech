@@ -1,0 +1,7 @@
+.smallText {
+	font-size: x-small;
+}
+
+.downloadBtn:hover{
+	cursor: pointer;
+}

@@ -27,24 +27,6 @@ class ScheduleItemStore {
       });
      }
 
-     // @action
-     // populateGroupScheduleItems(userList){
-     //  var i = 0;
-     //  console.log(userList);
-     //  this.userGroupScheduleItems = []
-     //  while(i<userList){
-     //    axios.get(`/scheduleitem/user/${userList[i]}`)
-     //    .then((res) => {
-     //      this.userGroupScheduleItems[i] = res.data;
-     //      i++;
-     //    })
-     //    .catch((error)=>{
-     //      console.log(error);
-     //      // this.scheduleItems = null;
-     //    });
-     //  }
-     // }
-
      @action
      populateMergedScheduleItemsForGroup(groupId){
       axios.get(`/scheduleitem/members/${groupId}`)
@@ -144,7 +126,6 @@ class ScheduleItemStore {
       var allDurationsInHr = []
       var startDate = []
       if(scheduleItemsSort){
-        console.log("scheduleItem sort: ", scheduleItemsSort)
           for(var i =0 ; i<scheduleItemsSort.length ; i++){
           startDate[i] = moment(scheduleItemsSort[i].startDate);
           allDurations[i] = moment.duration(startDate[i].diff(now));

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Paper } from 'material-ui';
 import {observer} from 'mobx-react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Badge } from 'react-bootstrap';
 import moment from 'moment';
 
 import ScheduleItemStore from '../../../stores/ScheduleItemStore/ScheduleItemStore';
@@ -26,6 +26,8 @@ class KeyInfoPanel extends Component{
 
   renderKeyInfo(getRecentKeyDates){
     var length = 3;
+    var color = "";
+
     if(GroupStore.selectedGroup){
       getRecentKeyDates = getRecentKeyDates.filter(item => item.itemDetails.itemType === "meeting")
       getRecentKeyDates = getRecentKeyDates.filter(item => item.itemDetails.groupId === GroupStore.selectedGroup.id)
@@ -33,18 +35,30 @@ class KeyInfoPanel extends Component{
     getRecentKeyDates = getRecentKeyDates.filter(item => item.itemDetails.itemType !== "timetable")
     if(this.state.viewAll)
       length = getRecentKeyDates.length;
+
     if(getRecentKeyDates){
+
       return getRecentKeyDates.slice(0,length).map((item)=>{
-          
+          let { id, title, startDate, endDate, itemType } = item.itemDetails;
+          switch(itemType){
+            case "personal": color = '#006400'
+              break;
+            case "meeting": color = '#FF8C00'
+              break;
+            case "timetable": color = '#9932CC'
+              break;
+            case "assessment": color = '#00BFFF'
+              break;
+          }
           return (
-            <Col md={4} key={item.itemDetails.id}>
+            <Col md={4} key={id}>
                 <Paper className="keyInfoCard paperDefault">
-                  <h4 className="truncate"> {item.itemDetails.title} </h4>
+                  <h4 className="truncate"> {title} &nbsp;<Badge style={{background: color}}>{itemType}</Badge></h4>
                   <p className="thinFont truncate"> 
-                    {moment(item.itemDetails.startDate).format('MMM DD YYYY')}
+                    {moment(startDate).format('MMM DD YYYY')}
                   </p>
                   <p className="truncate">
-                    {moment(item.itemDetails.startDate).format('HH:mm')} - {moment(item.itemDetails.endDate).format('HH:mm')}
+                    {moment(startDate).format('HH:mm')} - {moment(endDate).format('HH:mm')}
                   </p>
                 </Paper>
             </Col>)
