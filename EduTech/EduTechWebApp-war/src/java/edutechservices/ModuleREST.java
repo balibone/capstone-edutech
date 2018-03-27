@@ -75,6 +75,13 @@ public class ModuleREST {
     public List<ScheduleItemEntity> getAllModuleLessons(@PathParam("id") String id) {
         return mrb.getAllModuleLessons(id);
     }
+    
+    @GET
+    @Path("user/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ModuleEntity> getUserModules(@PathParam("id") String userId){
+        return mrb.getUserModules(userId);
+    }
 
     
     

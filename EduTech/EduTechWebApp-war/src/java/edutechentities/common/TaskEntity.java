@@ -28,6 +28,7 @@ public class TaskEntity implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
+    //ISO DateTime
     private String deadline;   
     @OneToMany
     private Collection<UserEntity> assignedTo;
@@ -37,12 +38,15 @@ public class TaskEntity implements Serializable {
     private String moduleCode;
     @ManyToOne
     private UserEntity createdBy;
+    //ISO DateTime
     private String createdAt;
     @ManyToOne
     private UserEntity modifiedBy;
+    //ISO DateTime
     private String modifiedAt;
     @ManyToOne
     private UserEntity verifiedBy;
+    //ISO DateTime
     private String verifiedAt;
 
     public Long getId() {

@@ -5,6 +5,7 @@
  */
 package edutechsessionbeans;
 
+import commoninfraentities.UserEntity;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.module.ModuleEntity;
 import edutechentities.module.AssignmentEntity;
@@ -95,4 +96,18 @@ public class ModuleRESTMgrBean {
         return modLessons;
     }
 
+    public List<ModuleEntity> getUserModules(String userId) {
+        List<ModuleEntity> moduleList = new ArrayList<>();
+        Query q1 = em.createQuery("SELECT m FROM Module m");
+        UserEntity u = em.find(UserEntity.class, userId);
+        if(u != null){
+            for(Object o: q1.getResultList()){
+                ModuleEntity m = (ModuleEntity)o;
+                if(m.getMembers().contains(u)){
+                    moduleList.add(m);
+                }
+            }
+        }
+        return moduleList;
+    }
 }

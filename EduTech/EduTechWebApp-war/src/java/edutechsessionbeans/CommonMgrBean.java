@@ -156,27 +156,40 @@ public class CommonMgrBean {
     
     public List<ScheduleItemEntity> findUserScheduleItems(String username) {
         UserEntity user = em.find(UserEntity.class, username);
-        //to store all schedule items for this user. (immediate schedule items + converted recurring events)
+        //to store all schedule items for this user. (schedule items , lessons and converted tasks)
         List<ScheduleItemEntity> userScheduleItems = new ArrayList();
-        
-        //GET ALL SCHEDULE ITEMS
-        List<ScheduleItemEntity> allScheduleItems = em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
-        //GET IMMEDIATE SCHEDULE ITEMS
-        for(ScheduleItemEntity scheduleItem: allScheduleItems){
-            if(scheduleItem.getAssignedTo().contains(user)){
-                userScheduleItems.add(scheduleItem);
+        if(user!=null){
+            //GET ALL SCHEDULE ITEMS
+            List<ScheduleItemEntity> allScheduleItems = em.createQuery("SELECT s FROM ScheduleItem s").getResultList();
+            //GET IMMEDIATE SCHEDULE ITEMS
+            for(ScheduleItemEntity scheduleItem: allScheduleItems){
+                if(scheduleItem.getAssignedTo().contains(user)){
+                    userScheduleItems.add(scheduleItem);
+                }
+            }
+            //Get all tasks assigned to this user.
+            Query q1 = em.createQuery("SELECT t FROM Task t");
+            for(Object o : q1.getResultList()){
+                TaskEntity t = (TaskEntity) o;
+                if(t.getAssignedTo().contains(user)){
+                    //convert task to schedule item and add it to userScheduleItems.
+                    ScheduleItemEntity convert = new ScheduleItemEntity();
+                    convert.setAssignedTo(t.getAssignedTo());
+                    convert.setCreatedAt(LocalDateTime.parse(t.getCreatedAt()));
+                    convert.setCreatedBy(t.getCreatedBy());
+                    convert.setDescription("please remove this field if type=task");
+                    convert.setStartDate(LocalDateTime.parse(t.getDeadline()));
+                    convert.setEndDate(LocalDateTime.parse(t.getDeadline()));
+                    convert.setGroupId(t.getGroupId());
+                    convert.setItemType("task");
+                    convert.setLocation("please remove this field if type=task");
+                    convert.setModuleCode(t.getModuleCode());
+                    convert.setTitle(t.getTitle());
+                    //add converted schedule item into list.
+                    userScheduleItems.add(convert);
+                }
             }
         }
-        
-//        //GET ALL LESSONS
-//        List<LessonEntity> allLessons = em.createQuery("SELECT ; FROM Lesson l").getResultList();
-//        //GET IMMEDIATE LESSONS
-//        for(LessonEntity lesson: allLessons){
-//            if(lesson.getAssignedTo().contains(user)){
-//                userScheduleItems.add(lesson);
-//            }
-//        }
-        
         return userScheduleItems;
     }
     
@@ -272,6 +285,7 @@ public class CommonMgrBean {
                 UserEntity taskOwner = (UserEntity) entity.getCreatedBy(); 
                 assignedTo.add(taskOwner);
                 entity.setAssignedTo(assignedTo);
+                break;
         }            
         // persist
         em.persist(entity);    
