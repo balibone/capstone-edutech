@@ -7,6 +7,7 @@ package edutechentities.common;
 
 import commoninfraentities.UserEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -48,6 +48,22 @@ public class TaskEntity implements Serializable {
     private UserEntity verifiedBy;
     //ISO DateTime
     private String verifiedAt;
+
+    public TaskEntity() {
+        this.title = "";
+        this.deadline = "";
+        this.assignedTo = new ArrayList<>();
+        this.progressCode = 0;
+        this.type = "";
+        this.groupId = 0;
+        this.moduleCode = "";
+        this.createdBy = new UserEntity();
+        this.createdAt = "";
+        this.modifiedBy = new UserEntity();
+        this.modifiedAt = "";
+        this.verifiedBy = new UserEntity();
+        this.verifiedAt = "";
+    }
 
     public Long getId() {
         return id;

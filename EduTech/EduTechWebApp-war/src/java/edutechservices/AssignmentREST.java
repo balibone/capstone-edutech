@@ -9,7 +9,7 @@ package edutechservices;
 import edutechentities.module.AssignmentEntity;
 import edutechsessionbeans.CommonMgrBean;
 import edutechsessionbeans.GroupMgrBean;
-import edutechsessionbeans.ModuleRESTMgrBean;
+import edutechsessionbeans.ModuleMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -24,50 +24,60 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @RequestScoped
-@Path("submission")
-public class SubmissionREST {
+@Path("assignment")
+public class AssignmentREST {
     
     @EJB
     CommonMgrBean cmb;
     @EJB
     GroupMgrBean etr;
     @EJB
-    ModuleRESTMgrBean mmb;
+    ModuleMgrBean mmb;
     
     @GET 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AssignmentEntity> getAllSubmissions() {
-        return mmb.getAllSubmissions();
+    public List<AssignmentEntity> getAllAssignments() {
+        return mmb.getAllAssignments();
     }
     
     @GET 
     @Path("{id}") 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AssignmentEntity getOneSubmission(@PathParam("id") String id){
-        return mmb.getOneSubmission(Long.valueOf(id));
+    public AssignmentEntity getOneAssignment(@PathParam("id") String id){
+        return mmb.getOneAssignment(Long.valueOf(id));
     }
     
     @POST 
+    @Path("individual")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AssignmentEntity createSubmission(AssignmentEntity sub) {
-        return mmb.createSubmission(sub);
+    public AssignmentEntity createIndividualAssignment(AssignmentEntity sub) {
+        return mmb.createIndividualAssignment(sub);
+    }
+    
+    @POST 
+    @Path("group/{numOfGroups}/{groupSize}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public AssignmentEntity createGroupAssignment(AssignmentEntity sub, @PathParam("numOfGroups") String numOfGroups,
+            @PathParam("groupSize") String groupSize) {
+        return mmb.createGroupAssignment(sub, numOfGroups, groupSize);
     }
     
     @DELETE 
     @Path("{id}") 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<AssignmentEntity> deleteSubmission(@PathParam("id") String id) {
-        mmb.deleteSubmission(Long.valueOf(id));
-        return mmb.getAllSubmissions();
+    public List<AssignmentEntity> deleteAssignment(@PathParam("id") String id) {
+        mmb.deleteAssignment(Long.valueOf(id));
+        return mmb.getAllAssignments();
     }
     
     @PUT 
     @Path("{id}") 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AssignmentEntity editSubmission(@PathParam("id") String id, AssignmentEntity replacement){
-        return mmb.editSubmission(Long.valueOf(id), replacement);
+    public AssignmentEntity editAssignment(@PathParam("id") String id, AssignmentEntity replacement){
+        return mmb.editAssignment(Long.valueOf(id), replacement);
     }
 
 }

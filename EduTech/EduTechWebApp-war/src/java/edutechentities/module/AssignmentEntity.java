@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Derian
  */
-@Entity(name="Submission")
+@Entity(name="Assignment")
 @XmlRootElement
 public class AssignmentEntity implements Serializable {
 
