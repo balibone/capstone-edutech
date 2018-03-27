@@ -8,6 +8,7 @@ package edutechentities;
 import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -43,6 +44,20 @@ public class ScheduleItemEntity implements Serializable {
     @ManyToOne
     private UserEntity createdBy;
     private LocalDateTime createdAt;
+
+    public ScheduleItemEntity() {
+        this.title = "";
+        this.description = "";
+        this.startDate = LocalDateTime.now();
+        this.endDate = LocalDateTime.now();
+        this.location = "";
+        this.assignedTo = new ArrayList<>();
+        this.itemType = "";
+        this.moduleCode = "";
+        this.groupId = 0;
+        this.createdBy = new UserEntity();
+        this.createdAt = LocalDateTime.now();
+    }
     
     public Long getId() {
         return id;

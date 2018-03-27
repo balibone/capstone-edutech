@@ -8,6 +8,7 @@ package edutechentities;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -38,6 +39,17 @@ public class RecurringEventEntity implements Serializable {
     private ModuleEntity module;
     @OneToMany(mappedBy = "recurringEvent", cascade=CascadeType.ALL)
     private List<LessonEntity> lessons;
+
+    public RecurringEventEntity() {
+        this.title = "";
+        this.location = "";
+        this.description = "";
+        this.dayOfWeek = DayOfWeek.MONDAY;
+        this.startTime = LocalTime.now();
+        this.endTime = LocalTime.now();
+        this.module = new ModuleEntity();
+        this.lessons = new ArrayList<>();
+    }
     
     public Long getId() {
         return id;

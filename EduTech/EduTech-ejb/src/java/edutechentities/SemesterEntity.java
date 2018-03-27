@@ -7,6 +7,7 @@ package edutechentities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,10 @@ public class SemesterEntity implements Serializable {
     private LocalDate endDate;
 
     public SemesterEntity() {
+        this.title = "";
+        this.modules = new ArrayList<>();
+        this.startDate = LocalDate.now();
+        this.endDate = LocalDate.now();
     }
 
     public SemesterEntity(String title, LocalDate startDate, LocalDate endDate) {

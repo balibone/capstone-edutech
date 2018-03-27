@@ -31,6 +31,12 @@ public class AttachmentEntity implements Serializable {
     private UserEntity createdBy;
     private LocalDateTime createdAt = LocalDateTime.now();
     
+    public AttachmentEntity() {
+        this.fileName = "";
+        this.title = "";
+        this.createdBy = new UserEntity();
+    }
+    
     public Long getId() {
         return id;
     }

@@ -9,6 +9,7 @@ import commoninfraentities.UserEntity;
 import edutechentities.group.MeetingMinuteEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -54,6 +55,21 @@ public class ScheduleItemEntity implements Serializable {
     @XmlElement
     @XmlInverseReference(mappedBy = "meeting")
     private List<MeetingMinuteEntity> meetingMinutes;
+    
+    public ScheduleItemEntity() {
+        this.title = "";
+        this.description = "";
+        this.startDate = LocalDateTime.now();
+        this.endDate = LocalDateTime.now();
+        this.location = "";
+        this.assignedTo = new ArrayList<>();
+        this.itemType = "";
+        this.moduleCode = "";
+        this.groupId = 0;
+        this.createdBy = new UserEntity();
+        this.createdAt = LocalDateTime.now();
+        this.meetingMinutes = new ArrayList<>();
+    }
     
     public Long getId() {
         return id;

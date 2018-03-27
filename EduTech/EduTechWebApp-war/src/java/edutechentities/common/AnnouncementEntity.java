@@ -8,6 +8,7 @@ package edutechentities.common;
 import commoninfraentities.UserEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,6 +34,16 @@ public class AnnouncementEntity implements Serializable {
     @OneToMany
     private Collection<UserEntity> seenBy;
     private String path;
+
+    public AnnouncementEntity() {
+        this.assignedTo = new ArrayList<>();
+        this.title = "";
+        this.message = "";
+        this.createdBy = new UserEntity();
+        this.createdAt = LocalDateTime.now();
+        this.seenBy = new ArrayList<>();
+        this.path = "";
+    }
     
     public Long getId() {
         return id;

@@ -10,6 +10,7 @@ import edutechentities.common.AttachmentEntity;
 import edutechentities.group.GroupEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,6 +42,17 @@ public class AssignmentEntity implements Serializable {
     private LocalDateTime createdAt; 
     @OneToMany
     private Collection<GroupEntity> groups;
+
+    public AssignmentEntity() {
+        this.title = "";
+        this.openDate = LocalDateTime.now();
+        this.closeDate = LocalDateTime.now();
+        this.submissions = new ArrayList<>();
+        this.module = new ModuleEntity();
+        this.createdBy = new UserEntity();
+        this.createdAt = LocalDateTime.now();
+        this.groups = new ArrayList<>();
+    }
     
     public Long getId() {
         return id;

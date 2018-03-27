@@ -26,6 +26,12 @@ public class MMAgendaEntity implements Serializable {
     private String discussion; 
     private String conclusion;
 
+    public MMAgendaEntity() {
+        this.title = "";
+        this.discussion = "";
+        this.conclusion = "";
+    }
+
     public Long getId() {
         return id;
     }

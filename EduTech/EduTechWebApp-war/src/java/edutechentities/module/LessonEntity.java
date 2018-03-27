@@ -9,6 +9,7 @@ import edutechentities.common.AttachmentEntity;
 import edutechentities.common.RecurringEventEntity;
 import edutechentities.common.ScheduleItemEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -31,6 +32,12 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
     private RecurringEventEntity recurringEvent;
     @OneToMany(cascade=CascadeType.ALL)
     private Collection<AttachmentEntity> resources; 
+
+    public LessonEntity() {
+        super();
+        this.recurringEvent = new RecurringEventEntity();
+        this.resources = new ArrayList<>();
+    }
 
     @Override
     public Long getId() {

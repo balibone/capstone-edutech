@@ -10,18 +10,17 @@ import edutechentities.common.RecurringEventEntity;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.common.SemesterEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
@@ -50,10 +49,18 @@ public class ModuleEntity implements Serializable {
     @XmlInverseReference(mappedBy="module")
     @OneToMany(cascade = CascadeType.ALL)
     private Collection<RecurringEventEntity> recurringEvents;
-    
-    public ModuleEntity() {
-    }
 
+    public ModuleEntity() {
+        this.moduleCode = "";
+        this.title = "";
+        this.moduleEvents = new ArrayList<>();
+        this.modularCredit = Long.valueOf(0);
+        this.description = "";
+        this.members = new ArrayList<>();
+        this.semester = new SemesterEntity();
+        this.recurringEvents = new ArrayList<>();
+    }
+    
     public ModuleEntity(String moduleCode, String name, Long modularCredit, String description, SemesterEntity semester) {
         this.moduleCode = moduleCode;
         this.title = name;

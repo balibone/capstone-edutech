@@ -7,6 +7,7 @@ package edutechentities.group;
 
 import commoninfraentities.UserEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,6 +34,13 @@ public class IdeaEntity implements Serializable {
     private Collection<UserEntity> votedBy;
     @OneToOne
     private BrainstormEntity brainstormSession;
+
+    public IdeaEntity() {
+        this.title = "";
+        this.createdBy = new UserEntity();
+        this.votedBy = new ArrayList<>();
+        this.brainstormSession = new BrainstormEntity();
+    }
 
     public Long getId() {
         return id;

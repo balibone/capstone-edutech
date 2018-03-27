@@ -7,6 +7,7 @@ package edutechentities.common;
 
 import commoninfraentities.UserEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -41,6 +42,16 @@ public class PostEntity implements Serializable {
     private UserEntity createdBy;
     private String createdAt;
     private String modifiedAt;
+
+    public PostEntity() {
+        this.pageId = "";
+        this.message = "";
+        this.replies = new ArrayList<>();
+        this.likedBy = new ArrayList<>();
+        this.createdBy = new UserEntity();
+        this.createdAt = "";
+        this.modifiedAt = "";
+    }
 
     public Long getId() {
         return id;
