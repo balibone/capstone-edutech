@@ -412,6 +412,10 @@
         <jsp-file>/webapp/unify/systemuser/errands/ViewJobDetailsSYS.jsp</jsp-file>
     </servlet>
     <servlet>
+        <servlet-name>jobLikeListSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/errands/jobLikeListSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>EditJobListingSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/errands/EditJobListingSYS.jsp</jsp-file>
     </servlet>

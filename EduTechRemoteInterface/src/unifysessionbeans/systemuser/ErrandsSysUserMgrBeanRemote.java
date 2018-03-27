@@ -19,6 +19,7 @@ public interface ErrandsSysUserMgrBeanRemote {
             String endLocation, String endLat, String endLong, long jobCategoryID, String username, int numOfHelpers, boolean checking);
     public String deleteJobListing(long jobIDToDelete);
     public String likeUnlikeJob(long jobIDHid, String username);
+    public List<Vector> viewJobLikeList(long jobID);
     public List<Vector> viewJobCategoryList();
     public ArrayList<String> getJobCategoryList();
     public String sendJobOfferPrice(long jobID, String username, String jobOfferPrice, String jobOfferDescription);

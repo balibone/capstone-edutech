@@ -426,6 +426,27 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     }
     
     @Override
+    public List<Vector> viewJobLikeList(long jobID) {
+        Query q = em.createQuery("SELECT ll FROM LikeListing ll WHERE ll.jobEntity.jobID = :jobID");
+        q.setParameter("jobID", jobID);
+        List<Vector> jobLikeList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            LikeListingEntity likeListingE = (LikeListingEntity) o;
+            Vector likeListingVec = new Vector();
+
+            likeListingVec.add(likeListingE.getUserEntity().getUsername());
+            likeListingVec.add(likeListingE.getUserEntity().getUserFirstName());
+            likeListingVec.add(likeListingE.getUserEntity().getUserLastName());
+            //likeListingVec.add(getPositiveItemReviewCount(likeListingE.getUserEntity().getUsername()));
+            //likeListingVec.add(getNeutralItemReviewCount(likeListingE.getUserEntity().getUsername()));
+            //likeListingVec.add(getNegativeItemReviewCount(likeListingE.getUserEntity().getUsername()));
+            jobLikeList.add(likeListingVec);
+        }
+        return jobLikeList;
+    }
+    
+    @Override
     public List<Vector> viewJobCategoryList(){
         Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryType = 'Errands' "
                 + "AND c.categoryActiveStatus = '1'");

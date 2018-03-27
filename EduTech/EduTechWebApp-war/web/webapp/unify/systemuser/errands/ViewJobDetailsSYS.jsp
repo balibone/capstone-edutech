@@ -227,7 +227,7 @@
                             %>
                             <tr>   
                                 <td><i class="fa fa-heart" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Likes: </strong></span></td>
-                                <td><ul class="list-inline mb-0"><li id="likeList" class="list-inline-item"><%=numOfLikes%> </li></ul></td>
+                                <td><a href="#"><ul class="list-inline mb-0"><li id="likeList" class="list-inline-item"><%=numOfLikes%> </li></ul></a></td>
                             </tr>
                             <tr>   
                                 <td><i class="fa fa-sticky-note" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Est. Duration: </strong></span></td>

@@ -45,14 +45,14 @@ $(document).ready(function () {
         show: 'click'
     });*/
     
-    $('.itemLikes > a').click(function(){
-        $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToItemLikeList&itemID=' + $('#itemIDHidden').val());
-        $('#itemLikeList-iframe').iziModal('open', event);
+    $('#likeList').click(function(){
+        $('iframe').attr('src', 'ErrandsSysUser?pageTransit=goToJobLikeList&jobID=' + $('#jobIDHidden').val());
+        $('#jobLikeList-iframe').iziModal('open', event);
     });
     
-    $("#itemLikeList-iframe").iziModal({
-        title: 'Your Item Likers',
-        subtitle: 'List of users who like your item',
+    $("#jobLikeList-iframe").iziModal({
+        title: 'Your Job Likers',
+        subtitle: 'List of users who like your job',
         iconClass: 'fa fa-heart-o',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
