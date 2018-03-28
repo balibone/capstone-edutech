@@ -7,10 +7,15 @@ package edutechsessionbeans;
 
 import commoninfraentities.UserEntity;
 import edutechentities.common.ScheduleItemEntity;
+import edutechentities.common.TaskEntity;
+import edutechentities.group.BrainstormEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.group.MMAgendaEntity;
 import edutechentities.group.MeetingMinuteEntity;
+import edutechentities.module.AssignmentEntity;
+import edutechentities.module.ModuleEntity;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -53,11 +58,6 @@ public class GroupMgrBean {
     }
     
     public void editGroup(String id, GroupEntity entity) {
-        //pull current entity based on id (entity is now detached)
-        GroupEntity old = em.find(GroupEntity.class, Long.valueOf(id));
-        //instantiate curr entity into new entity
-        old = entity;
-        //update curr entity in database. (reattach entity)
         em.merge(entity);
     }
 
@@ -128,10 +128,66 @@ public class GroupMgrBean {
     }
 
     public void deleteGroup(String id) {
-        GroupEntity g= em.find(GroupEntity.class, id);
+        GroupEntity g= em.find(GroupEntity.class, Long.valueOf(id));
+        //to detach group from assignments
+        Query allAssignments = em.createQuery("SELECT a FROM Assignment a");
+        //to detach group from tasks
+        Query allTasks = em.createQuery("SELECT t FROM Task t");
+        //to detach group from brainstorms
+        Query allBrains = em.createQuery("SELECT b FROM Brainstorm b");
         if(g!=null){
+            //detach group from all assignments
+            for(Object o : allAssignments.getResultList()){
+                AssignmentEntity a = (AssignmentEntity) o;
+                if(a.getGroups().contains(g))
+                    a.getGroups().remove(g);
+            }
+            //detach group from tasks
+            for(Object o : allTasks.getResultList()){
+                TaskEntity t = (TaskEntity) o;
+                if(t.getGroupId()==g.getId()){
+                    t.setGroupId(0);
+                    
+                }
+            }
+            //detach group from brainstorm
+            for(Object o : allBrains.getResultList()){
+                BrainstormEntity b = (BrainstormEntity) o;
+                if(b.getGroup().equals(g)){
+                    b.setGroup(null);
+                }
+            }
+            //remove group members.
+            g.setMembers(null);
             em.remove(g);
         }
+    }
+
+    public List<GroupEntity> getAllGroupsForModule(String moduleCode) {
+        Query q1 = em.createQuery("SELECT g FROM ProjectGroup g WHERE g.moduleCode = :modCode");
+        q1.setParameter("modCode", moduleCode);
+        return q1.getResultList();
+    }
+
+    public GroupEntity joinGroup(String id, String username) {
+        GroupEntity g = em.find(GroupEntity.class, Long.valueOf(id));
+        UserEntity u = em.find(UserEntity.class, username);
+        Collection<UserEntity> gMembers = g.getMembers();
+        //IF GROUP STILL HAS SPACE AND USER ISNT ALREADY INSIDE GROUP, ALLOW JOINING.
+        //Collection.add() will still run even though u is inside, and cause PK conflict, so need to check if u is inside first.
+        if(gMembers.size() < g.getGroupSize() && !gMembers.contains(u)){
+            gMembers.add(u);
+        }
+        return g;
+    }
+
+    public GroupEntity leaveGroup(String id, String username) {
+        GroupEntity g = em.find(GroupEntity.class, Long.valueOf(id));
+        UserEntity u = em.find(UserEntity.class, username);
+        //REMOVE USER FROM GROUP.
+        //Collection.remove() will not run if u is not inside collection.
+        g.getMembers().remove(u);
+        return g;
     }
     
 }
