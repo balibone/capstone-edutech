@@ -17,7 +17,7 @@ class ModuleStore {
 	populateModule(){
 		axios.get('/module')
 		.then((res) => {
-			console.log('populate module', res.data)
+			// console.log('populate module', res.data)
 			localStorage.setItem('moduleList',JSON.stringify(res.data));
 			this.moduleList = res.data;
 		})

@@ -70,6 +70,20 @@ class LessonStore {
   }
 
   @action
+  removeOneFile(lessonId, attachmentId, fileName){
+    axios.delete(`/lesson/deleteAttachment/${lessonId}/${attachmentId}`)
+    .then((res) => {
+      console.log("delete file success!", res.data);
+      swal(`${fileName} has been deleted!`, {icon: "success"});
+
+      // swal("Sucess !", "File removed.", "success");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  @action
   getFilesForLesson(lessonId){
     var attachmentArr = [];
     var index = _.findIndex(this.lessonList, (item) => {return item.id === lessonId});

@@ -135,7 +135,7 @@ export default class SinglePost extends Component {
       <Paper className="paperDefault standardTopGap feedPaper">
         <Media>
           <Media.Left>
-            <img width={64} height={64} src={`http://localhost:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/${post.createdBy.imgfilename}`} alt="thumbnail" className="img-circle" />
+            <img width={64} height={64} src={`http://localhost:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/${post.createdBy.imgFileName}`} alt="thumbnail" className="img-circle" />
           </Media.Left>
           <Media.Body>
             <Media.Heading>

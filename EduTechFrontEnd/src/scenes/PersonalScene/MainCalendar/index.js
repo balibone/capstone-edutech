@@ -51,7 +51,6 @@ class MainCalendar extends Component {
 
 	render(){
 		let eventsArray = this.getEventArray();
-		{console.log("DAY OF THE WEEK TEST", moment("2018-04-02").isoWeekday())}
 
 		return(
 			<Paper className="standardTopGap standardBottomGap paperDefault">

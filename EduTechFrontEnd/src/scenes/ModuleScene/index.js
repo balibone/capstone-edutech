@@ -8,6 +8,8 @@ import Feed from '../../components/Feed';
 import Lesson from './Lesson';
 import Submission from './Submission';
 import Assignment from './Assignment';
+import GroupingInstructor from './GroupingInstructor';
+import GroupingStudent from './GroupingStudent';
 
 import LessonStore from '../../stores/LessonStore/LessonStore';
 
@@ -35,11 +37,14 @@ class ModuleScene extends Component {
           <Tab eventKey={2} title="Lessons">
             <Lesson />
           </Tab>
-          <Tab eventKey={3} title="Submissions">
-            <Submission />
-          </Tab>
-          <Tab eventKey={4} title="Assignment">
+          <Tab eventKey={3} title="Assignment">
             <Assignment />
+          </Tab>
+          <Tab eventKey={4} title="Grouping Instructor">
+            <GroupingInstructor />
+          </Tab>
+          <Tab eventKey={5} title="Grouping Student">
+            <GroupingStudent />
           </Tab>
         </Tabs>
       </Paper>

@@ -52,8 +52,8 @@ class KeyInfoPanel extends Component{
           }
           return (
             <Col md={4} key={id}>
-                <Paper className="keyInfoCard paperDefault">
-                  <h4 className="truncate"> {title} &nbsp;<Badge style={{background: color}}>{itemType}</Badge></h4>
+                <Paper className="keyInfoCard paperDefault" style={{backgroundColor: color}}>
+                  <h4 className="truncate"> {title} &nbsp;</h4>
                   <p className="thinFont truncate"> 
                     {moment(startDate).format('MMM DD YYYY')}
                   </p>

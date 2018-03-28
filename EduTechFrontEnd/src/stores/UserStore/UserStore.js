@@ -10,16 +10,16 @@ class UserStore {
   }
 
   async getUserDetails() {
-    console.log('{localStorage.getItem()', localStorage.getItem('username'))
+    // console.log('{localStorage.getItem()', localStorage.getItem('username'))
     const user = await axios.get(`/user/${localStorage.getItem('username')}`);
-    console.log('getUserDetails', user.data);
+    // console.log('getUserDetails', user.data);
     localStorage.setItem('currentUser', JSON.stringify(user.data));
-    console.log('getUserDetails', JSON.parse(localStorage.getItem('currentUser')));
+    // console.log('getUserDetails', JSON.parse(localStorage.getItem('currentUser')));
 
     runInAction(() => {
       this.currentUser = user.data;
     });
-    console.log('getUserDetailsm this.currentUser', this.currentUser);
+    // console.log('getUserDetailsm this.currentUser', this.currentUser);
 
   }
 }
