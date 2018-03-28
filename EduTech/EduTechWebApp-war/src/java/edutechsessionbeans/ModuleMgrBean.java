@@ -14,6 +14,7 @@ import edutechentities.module.AssignmentEntity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -66,25 +67,22 @@ public class ModuleMgrBean {
         return em.find(AssignmentEntity.class, id);
     }
 
-    public AssignmentEntity createIndividualAssignment(AssignmentEntity ass) {
-        //assign task to all of this module's students
-        ArrayList<UserEntity> modUsers = (ArrayList<UserEntity>) ass.getModule().getMembers();
-        for(UserEntity u : modUsers){
-            if(u.getUserType().equalsIgnoreCase("student")){
-                //create assignment task for this student
-                TaskEntity assignmentTask = new TaskEntity();
-                assignmentTask.getAssignedTo().add(u);
-                assignmentTask.setCreatedAt(ass.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                assignmentTask.setCreatedBy(ass.getCreatedBy());
-                assignmentTask.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                assignmentTask.setModuleCode(ass.getModule().getModuleCode());
-                assignmentTask.setTitle(ass.getTitle());
-                assignmentTask.setType("module");
-                //persist this new task.
-                em.persist(assignmentTask);
-            }
-        }
+    public AssignmentEntity createIndividualAssignment(AssignmentEntity ass, String moduleCode, String username) {
+        //NEED TO MANUALLY EXTRACT USER ENTITY BASED ON username SUBMITTED
+        UserEntity creator = em.find(UserEntity.class, username);
+        System.out.println("creator is "+creator);
+        //NEED TO MANUALLY EXTRACT MODULE ENTITY BASED ON moduleCode SUBMITTED
+        ModuleEntity assignedMod = em.find(ModuleEntity.class, moduleCode);
+        System.out.println("module is "+assignedMod.getModuleCode()+" "+assignedMod.getTitle());
+        System.out.println("module members are :"+Arrays.toString(assignedMod.getMembers().toArray()));
+        LocalDateTime closeDate = ass.getCloseDate();
+        LocalDateTime createdAt = ass.getCreatedAt();
+        String assTitle = ass.getTitle();
+        //create assignment tasks for all students.
+//        assignAssignmentTasks(assTitle, closeDate, createdAt, assignedMod, creator);
         //return created entity with ID.
+        ass.setCreatedBy(creator);
+        ass.setModule(assignedMod);
         em.persist(ass);
         return ass;
     }
@@ -174,6 +172,24 @@ public class ModuleMgrBean {
         }
         return moduleList;
     }
-
+    
+    private void assignAssignmentTasks( String assTitle, LocalDateTime closeDate, LocalDateTime createdAt, ModuleEntity assignedMod, UserEntity creator){
+        //assign task to all of this module's students
+        for(UserEntity u : assignedMod.getMembers()){
+            if(u.getUserType().equalsIgnoreCase("student")){
+                //create assignment task for this student
+                TaskEntity assignmentTask = new TaskEntity();
+                assignmentTask.getAssignedTo().add(u);
+                assignmentTask.setCreatedAt(createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                assignmentTask.setCreatedBy(creator);
+                assignmentTask.setDeadline(closeDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                assignmentTask.setModuleCode(assignedMod.getModuleCode());
+                assignmentTask.setTitle(assTitle);
+                assignmentTask.setType("module");
+                //persist this new task.
+                em.persist(assignmentTask);
+            }
+        }
+    }
    
 }
