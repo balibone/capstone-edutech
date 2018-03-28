@@ -41,18 +41,17 @@ public class GroupREST {
         return etr.getAllGroups();
     }
     
+    @GET 
+    @Path("module/{moduleCode}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<GroupEntity> getAllGroupsForModule(@PathParam("moduleCode") String moduleCode) {
+        return etr.getAllGroupsForModule(moduleCode);
+    }
+    
     @POST 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public GroupEntity createGroup(GroupEntity group) {
-        return etr.createGroup(group);
-    }
-    
-    @POST 
-    @Path("group/multiple")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public GroupEntity createAssignmentGroups(GroupEntity group) {
         return etr.createGroup(group);
     }
     
@@ -68,8 +67,25 @@ public class GroupREST {
     @Path("{id}") 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, GroupEntity entity) {
+    public List<GroupEntity> editGroup(@PathParam("id") String id, GroupEntity entity) {
         etr.editGroup(id, entity);
+        return etr.getAllGroups();
+    }
+    
+    @PUT 
+    @Path("join/{id}/{username}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public GroupEntity joinGroup(@PathParam("id") String id, @PathParam("username") String username) {
+        return etr.joinGroup(id, username);
+    }
+    
+    @PUT 
+    @Path("leave/{id}/{username}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public GroupEntity leaveGroup(@PathParam("id") String id, @PathParam("username") String username) {
+        return etr.leaveGroup(id, username);
     }
     
     @GET 
@@ -82,7 +98,7 @@ public class GroupREST {
     @GET 
     @Path("{id}") 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public GroupEntity getGroupDetails(@PathParam("id") String id) {
+    public GroupEntity getOneGroup(@PathParam("id") String id) {
         return etr.findGroup(id);
     }
     
