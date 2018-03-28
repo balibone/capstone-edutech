@@ -7,6 +7,7 @@ package edutechentities.module;
 
 import commoninfraentities.UserEntity;
 import edutechentities.common.AttachmentEntity;
+import edutechentities.common.TaskEntity;
 import edutechentities.group.GroupEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -34,7 +35,7 @@ public class AssignmentEntity implements Serializable {
     private String title;
     private LocalDateTime openDate;
     private LocalDateTime closeDate;
-    @OneToMany (cascade = CascadeType.ALL)
+    @OneToMany
     private Collection<AttachmentEntity> submissions;
     @OneToOne
     private ModuleEntity module;
@@ -43,6 +44,8 @@ public class AssignmentEntity implements Serializable {
     private LocalDateTime createdAt; 
     @OneToMany
     private Collection<GroupEntity> groups;
+    @OneToMany
+    private Collection<TaskEntity> tasks;
 
     public AssignmentEntity() {
         this.title = "";
@@ -150,6 +153,14 @@ public class AssignmentEntity implements Serializable {
 
     public void setGroups(Collection<GroupEntity> groups) {
         this.groups = groups;
+    }
+
+    public Collection<TaskEntity> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Collection<TaskEntity> tasks) {
+        this.tasks = tasks;
     }
     
 }

@@ -6,6 +6,7 @@
 package edutechsessionbeans;
 
 import commoninfraentities.UserEntity;
+import edutechentities.common.AttachmentEntity;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.common.TaskEntity;
 import edutechentities.group.GroupEntity;
@@ -78,7 +79,7 @@ public class ModuleMgrBean {
         System.out.println("module is "+assignedMod.getModuleCode()+" "+assignedMod.getTitle());
         System.out.println("module members are :"+Arrays.toString(assignedMod.getMembers().toArray()));
         //create assignment tasks for all students.
-        assignAssignmentTasks(ass);
+        createAssignmentTasks(ass);
         //return created entity with ID.
         em.persist(ass);
         return ass;
@@ -95,7 +96,7 @@ public class ModuleMgrBean {
         System.out.println("module is "+assignedMod.getModuleCode()+" "+assignedMod.getTitle());
         System.out.println("module members are :"+Arrays.toString(assignedMod.getMembers().toArray()));
         //create assignment tasks for all students.
-        assignAssignmentTasks(ass);
+        createAssignmentTasks(ass);
         
         
         //create groups
@@ -104,7 +105,7 @@ public class ModuleMgrBean {
         ass.setGroups(assGroups);
         int gSize = Integer.valueOf(groupSize);
         int numGroups = Integer.valueOf(numOfGroups);
-        for(int i = 0 ; i < numGroups ; i++){
+        for(int i = 1 ; i <= numGroups ; i++){
             GroupEntity group = new GroupEntity();
             group.setCreatedBy(creator.getUsername());
             group.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
@@ -127,15 +128,48 @@ public class ModuleMgrBean {
     public void deleteAssignment(Long id) {
         AssignmentEntity ass= em.find(AssignmentEntity.class, id);
         if(ass!=null){
+            Collection<GroupEntity> groups = ass.getGroups();
+            Collection<TaskEntity> tasks = ass.getTasks();
+            //detach groups
             ass.setGroups(null);
+            //delete assignment groups if any
+            for(GroupEntity g : groups){
+                g.setMembers(null);
+                em.remove(g);
+            }
+            
+            //detach tasks
+            ass.setTasks(null);
+            //delete tasks if any
+            for(TaskEntity t : tasks){
+                t.setAssignedTo(null);
+                em.remove(t);
+            }
+            
+            //detach submissions
+            ass.setSubmissions(null);
+            
             em.remove(ass);
         }
     }
 
     public AssignmentEntity editAssignment(Long id, AssignmentEntity replacement) {
+//update assignment
         AssignmentEntity ass = em.find(AssignmentEntity.class, id);
-        ass = replacement;
-        em.merge(ass);
+        ass.setCloseDate(replacement.getCloseDate());
+        ass.setTitle(replacement.getTitle());
+        //update tasks which were created for this assignment.
+        for(TaskEntity g : ass.getTasks()){
+            g.setTitle(ass.getModule().getModuleCode()+" "+ass.getTitle());
+            g.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        }
+        //update groups which were created for this assignment.
+        int i = 1;
+        for(GroupEntity g : ass.getGroups()){
+            g.setTitle(ass.getModule().getTitle()+" Assignment "+ass.getTitle()+" Group "+i);
+            g.setDescription("Created for "+ass.getModule().getTitle()+" Assignment :"+ass.getTitle());
+            i++;
+        }
         return ass;
     }
 
@@ -169,11 +203,13 @@ public class ModuleMgrBean {
         return moduleList;
     }
     
-    private void assignAssignmentTasks( AssignmentEntity ass){
-        //NEED TO MANUALLY PULL & ASSIGN USER ENTITY FROM DATABASE 
+    private void createAssignmentTasks( AssignmentEntity ass){
+        ArrayList<TaskEntity> tasks = new ArrayList<>();
+        ass.setTasks(tasks);
+        
         UserEntity creator = ass.getCreatedBy();
-        //NEED TO MANUALLY PULL & ASSIGN MODULE ENTITY FROM DATABASE
         ModuleEntity assignedMod = ass.getModule();
+        
         String modCode = assignedMod.getModuleCode();
         //assign task to all of this module's students
         for(UserEntity u : assignedMod.getMembers()){
@@ -184,10 +220,11 @@ public class ModuleMgrBean {
                 assignmentTask.setCreatedBy(creator);
                 assignmentTask.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                 assignmentTask.setModuleCode(modCode);
-                assignmentTask.setTitle(ass.getTitle());
+                assignmentTask.setTitle(ass.getModule().getModuleCode()+" "+ass.getTitle());
                 assignmentTask.setType("module");
 //                //persist this new task.
                 em.persist(assignmentTask);
+                tasks.add(assignmentTask);
             }
         }
     }
