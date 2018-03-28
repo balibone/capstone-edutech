@@ -48,12 +48,12 @@ public class AssignmentREST {
     }
     
     @POST 
-    @Path("individual/{moduleCode}/{username}")
+    @Path("individual")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AssignmentEntity createIndividualAssignment(AssignmentEntity ass, @PathParam("moduleCode") String moduleCode, @PathParam("username") String username) {
+    public AssignmentEntity createIndividualAssignment(AssignmentEntity ass) {
 //        return ass;
-        return mmb.createIndividualAssignment(ass, moduleCode, username);
+        return mmb.createIndividualAssignment(ass);
     }
     
     @POST 

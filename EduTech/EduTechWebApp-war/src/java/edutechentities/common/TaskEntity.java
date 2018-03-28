@@ -57,11 +57,11 @@ public class TaskEntity implements Serializable {
         this.type = "";
         this.groupId = 0;
         this.moduleCode = "";
-        this.createdBy = new UserEntity();
+        this.createdBy = null;
         this.createdAt = "";
-        this.modifiedBy = new UserEntity();
+        this.modifiedBy = null;
         this.modifiedAt = "";
-        this.verifiedBy = new UserEntity();
+        this.verifiedBy = null;
         this.verifiedAt = "";
     }
 

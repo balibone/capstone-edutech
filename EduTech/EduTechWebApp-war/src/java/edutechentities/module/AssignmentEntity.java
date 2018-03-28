@@ -49,8 +49,8 @@ public class AssignmentEntity implements Serializable {
         this.openDate = LocalDateTime.now();
         this.closeDate = LocalDateTime.now();
         this.submissions = new ArrayList<>();
-        this.module = new ModuleEntity();
-        this.createdBy = new UserEntity();
+        this.module = null;
+        this.createdBy = null;
         this.createdAt = LocalDateTime.now();
         this.groups = new ArrayList<>();
     }
