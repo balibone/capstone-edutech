@@ -6,6 +6,7 @@
 package edutechsessionbeans;
 
 import commoninfraentities.UserEntity;
+import edutechentities.common.AttachmentEntity;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.common.TaskEntity;
 import edutechentities.group.GroupEntity;
@@ -14,6 +15,7 @@ import edutechentities.module.AssignmentEntity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -67,65 +69,58 @@ public class ModuleMgrBean {
     }
 
     public AssignmentEntity createIndividualAssignment(AssignmentEntity ass) {
-        //assign task to all of this module's students
-        ArrayList<UserEntity> modUsers = (ArrayList<UserEntity>) ass.getModule().getMembers();
-        for(UserEntity u : modUsers){
-            if(u.getUserType().equalsIgnoreCase("student")){
-                //create assignment task for this student
-                TaskEntity assignmentTask = new TaskEntity();
-                assignmentTask.getAssignedTo().add(u);
-                assignmentTask.setCreatedAt(ass.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                assignmentTask.setCreatedBy(ass.getCreatedBy());
-                assignmentTask.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                assignmentTask.setModuleCode(ass.getModule().getModuleCode());
-                assignmentTask.setTitle(ass.getTitle());
-                assignmentTask.setType("module");
-                //persist this new task.
-                em.persist(assignmentTask);
-            }
-        }
+        //NEED TO MANUALLY PULL & ASSIGN USER ENTITY FROM DATABASE 
+        UserEntity creator = em.find(UserEntity.class, ass.getCreatedBy().getUsername());
+        ass.setCreatedBy(creator);
+        System.out.println("creator is "+creator);
+        //NEED TO MANUALLY PULL & ASSIGN MODULE ENTITY FROM DATABASE
+        ModuleEntity assignedMod = em.find(ModuleEntity.class, ass.getModule().getModuleCode());
+        ass.setModule(assignedMod);
+        System.out.println("module is "+assignedMod.getModuleCode()+" "+assignedMod.getTitle());
+        System.out.println("module members are :"+Arrays.toString(assignedMod.getMembers().toArray()));
+        //create assignment tasks for all students.
+        createAssignmentTasks(ass);
         //return created entity with ID.
         em.persist(ass);
         return ass;
     }
     
     public AssignmentEntity createGroupAssignment(AssignmentEntity ass, String numOfGroups, String groupSize) {
-        ArrayList<GroupEntity> assGroups = (ArrayList<GroupEntity>) ass.getGroups();
+        //NEED TO MANUALLY PULL & ASSIGN USER ENTITY FROM DATABASE 
+        UserEntity creator = em.find(UserEntity.class, ass.getCreatedBy().getUsername());
+        ass.setCreatedBy(creator);
+        System.out.println("creator is "+creator);
+        //NEED TO MANUALLY PULL & ASSIGN MODULE ENTITY FROM DATABASE
+        ModuleEntity assignedMod = em.find(ModuleEntity.class, ass.getModule().getModuleCode());
+        ass.setModule(assignedMod);
+        System.out.println("module is "+assignedMod.getModuleCode()+" "+assignedMod.getTitle());
+        System.out.println("module members are :"+Arrays.toString(assignedMod.getMembers().toArray()));
+        //create assignment tasks for all students.
+        createAssignmentTasks(ass);
+        
+        
         //create groups
+        Collection<GroupEntity> assGroups = new ArrayList<>();
+        //initially null because JSON value not filled.
+        ass.setGroups(assGroups);
         int gSize = Integer.valueOf(groupSize);
         int numGroups = Integer.valueOf(numOfGroups);
-        for(int i = 0 ; i < numGroups ; i++){
+        for(int i = 1 ; i <= numGroups ; i++){
             GroupEntity group = new GroupEntity();
-            group.setCreatedBy(ass.getCreatedBy().getUsername());
+            group.setCreatedBy(creator.getUsername());
             group.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             group.setDescription("Created for "+ass.getModule().getTitle()+" Assignment :"+ass.getTitle());
             group.setGroupSize(gSize);
-            group.setModuleCode(ass.getModule().getModuleCode());
+            group.setModuleCode(assignedMod.getModuleCode());
             group.setTitle(ass.getModule().getTitle()+" Assignment "+ass.getTitle()+" Group "+i);
             //assign group to assignment.
             assGroups.add(group);
             //persist new group
             em.persist(group);
         }
-        
-        //assign task to all of this module's students
-        ArrayList<UserEntity> modUsers = (ArrayList<UserEntity>) ass.getModule().getMembers();
-        for(UserEntity u : modUsers){
-            if(u.getUserType().equalsIgnoreCase("student")){
-                //create assignment task for this student
-                TaskEntity assignmentTask = new TaskEntity();
-                assignmentTask.getAssignedTo().add(u);
-                assignmentTask.setCreatedAt(ass.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                assignmentTask.setCreatedBy(ass.getCreatedBy());
-                assignmentTask.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                assignmentTask.setModuleCode(ass.getModule().getModuleCode());
-                assignmentTask.setTitle(ass.getTitle());
-                assignmentTask.setType("module");
-                //persist this new task.
-                em.persist(assignmentTask);
-            }
-        }
+        //persist assignment
         em.persist(ass);
+        
         //return created entity with ID.
         return ass;
     }
@@ -133,15 +128,48 @@ public class ModuleMgrBean {
     public void deleteAssignment(Long id) {
         AssignmentEntity ass= em.find(AssignmentEntity.class, id);
         if(ass!=null){
+            Collection<GroupEntity> groups = ass.getGroups();
+            Collection<TaskEntity> tasks = ass.getTasks();
+            //detach groups
             ass.setGroups(null);
+            //delete assignment groups if any
+            for(GroupEntity g : groups){
+                g.setMembers(null);
+                em.remove(g);
+            }
+            
+            //detach tasks
+            ass.setTasks(null);
+            //delete tasks if any
+            for(TaskEntity t : tasks){
+                t.setAssignedTo(null);
+                em.remove(t);
+            }
+            
+            //detach submissions
+            ass.setSubmissions(null);
+            
             em.remove(ass);
         }
     }
 
     public AssignmentEntity editAssignment(Long id, AssignmentEntity replacement) {
+//update assignment
         AssignmentEntity ass = em.find(AssignmentEntity.class, id);
-        ass = replacement;
-        em.merge(ass);
+        ass.setCloseDate(replacement.getCloseDate());
+        ass.setTitle(replacement.getTitle());
+        //update tasks which were created for this assignment.
+        for(TaskEntity g : ass.getTasks()){
+            g.setTitle(ass.getModule().getModuleCode()+" "+ass.getTitle());
+            g.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        }
+        //update groups which were created for this assignment.
+        int i = 1;
+        for(GroupEntity g : ass.getGroups()){
+            g.setTitle(ass.getModule().getTitle()+" Assignment "+ass.getTitle()+" Group "+i);
+            g.setDescription("Created for "+ass.getModule().getTitle()+" Assignment :"+ass.getTitle());
+            i++;
+        }
         return ass;
     }
 
@@ -174,6 +202,31 @@ public class ModuleMgrBean {
         }
         return moduleList;
     }
-
+    
+    private void createAssignmentTasks( AssignmentEntity ass){
+        ArrayList<TaskEntity> tasks = new ArrayList<>();
+        ass.setTasks(tasks);
+        
+        UserEntity creator = ass.getCreatedBy();
+        ModuleEntity assignedMod = ass.getModule();
+        
+        String modCode = assignedMod.getModuleCode();
+        //assign task to all of this module's students
+        for(UserEntity u : assignedMod.getMembers()){
+            if(u.getUserType().equalsIgnoreCase("student")){
+                TaskEntity assignmentTask = new TaskEntity();
+                assignmentTask.getAssignedTo().add(u);
+                assignmentTask.setCreatedAt(ass.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                assignmentTask.setCreatedBy(creator);
+                assignmentTask.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                assignmentTask.setModuleCode(modCode);
+                assignmentTask.setTitle(ass.getModule().getModuleCode()+" "+ass.getTitle());
+                assignmentTask.setType("module");
+//                //persist this new task.
+                em.persist(assignmentTask);
+                tasks.add(assignmentTask);
+            }
+        }
+    }
    
 }

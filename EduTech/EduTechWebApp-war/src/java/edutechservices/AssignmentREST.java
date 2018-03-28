@@ -51,17 +51,18 @@ public class AssignmentREST {
     @Path("individual")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AssignmentEntity createIndividualAssignment(AssignmentEntity sub) {
-        return mmb.createIndividualAssignment(sub);
+    public AssignmentEntity createIndividualAssignment(AssignmentEntity ass) {
+//        return ass;
+        return mmb.createIndividualAssignment(ass);
     }
     
     @POST 
     @Path("group/{numOfGroups}/{groupSize}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public AssignmentEntity createGroupAssignment(AssignmentEntity sub, @PathParam("numOfGroups") String numOfGroups,
+    public AssignmentEntity createGroupAssignment(AssignmentEntity ass, @PathParam("numOfGroups") String numOfGroups,
             @PathParam("groupSize") String groupSize) {
-        return mmb.createGroupAssignment(sub, numOfGroups, groupSize);
+        return mmb.createGroupAssignment(ass, numOfGroups, groupSize);
     }
     
     @DELETE 

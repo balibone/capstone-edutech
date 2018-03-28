@@ -48,7 +48,7 @@ public class PostEntity implements Serializable {
         this.message = "";
         this.replies = new ArrayList<>();
         this.likedBy = new ArrayList<>();
-        this.createdBy = new UserEntity();
+        this.createdBy = null;
         this.createdAt = "";
         this.modifiedAt = "";
     }

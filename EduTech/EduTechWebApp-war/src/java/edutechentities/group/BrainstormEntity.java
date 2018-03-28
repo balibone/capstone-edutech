@@ -45,16 +45,14 @@ public class BrainstormEntity implements Serializable {
     public BrainstormEntity() {
         this.title = "";
         this.description = "";
-        this.group = new GroupEntity();
+        this.group = null;
         this.ideas = new ArrayList<>();
         this.phaseCode = 0;
-        this.createdBy = new UserEntity();
+        this.createdBy = null;
         this.createdAt = LocalDateTime.now();
-        this.modifiedBy = new UserEntity();
+        this.modifiedBy = null;
         this.modifiedAt = LocalDateTime.now();
     }
-    
-    
 
     public Long getId() {
         return id;

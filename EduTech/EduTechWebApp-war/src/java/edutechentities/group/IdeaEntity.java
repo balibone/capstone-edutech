@@ -37,9 +37,9 @@ public class IdeaEntity implements Serializable {
 
     public IdeaEntity() {
         this.title = "";
-        this.createdBy = new UserEntity();
+        this.createdBy = null;
         this.votedBy = new ArrayList<>();
-        this.brainstormSession = new BrainstormEntity();
+        this.brainstormSession = null;
     }
 
     public Long getId() {

@@ -57,7 +57,7 @@ public class ModuleEntity implements Serializable {
         this.modularCredit = Long.valueOf(0);
         this.description = "";
         this.members = new ArrayList<>();
-        this.semester = new SemesterEntity();
+        this.semester = null;
         this.recurringEvents = new ArrayList<>();
     }
     

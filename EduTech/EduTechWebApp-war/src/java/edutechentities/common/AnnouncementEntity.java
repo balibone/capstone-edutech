@@ -39,7 +39,7 @@ public class AnnouncementEntity implements Serializable {
         this.assignedTo = new ArrayList<>();
         this.title = "";
         this.message = "";
-        this.createdBy = new UserEntity();
+        this.createdBy = null;
         this.createdAt = LocalDateTime.now();
         this.seenBy = new ArrayList<>();
         this.path = "";

@@ -44,7 +44,7 @@ public class MeetingMinuteEntity implements Serializable {
     private Collection<AttachmentEntity> attachments; 
 
     public MeetingMinuteEntity() {
-        this.meeting = new ScheduleItemEntity();
+        this.meeting = null;
         this.startTime = LocalDateTime.now();
         this.endTime = LocalDateTime.now();
         this.attendees = new ArrayList<>();

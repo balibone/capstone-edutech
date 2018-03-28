@@ -38,7 +38,7 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
     
     public LessonEntity(){
         super();
-        this.recurringEvent = new RecurringEventEntity();
+        this.recurringEvent = null;
         this.resources = new ArrayList<>();
     }
     
