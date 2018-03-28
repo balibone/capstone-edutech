@@ -6,21 +6,12 @@
 package commoninfraentities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -43,7 +34,6 @@ public class UserEntity implements Serializable {
     private String imgFileName = "defaultPhoto.jpg";
     private String email;
     private String contactNum;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date userCreationDate;
     
@@ -52,7 +42,19 @@ public class UserEntity implements Serializable {
         this.userCreationDate = new Date(); }
     
     /* DEFAULT CONSTRUCTOR */
-    public UserEntity() { userActiveStatus = true; }
+
+    public UserEntity() {
+        this.username = "";
+        this.userSalutation = "";
+        this.userFirstName = "";
+        this.userLastName = "";
+        this.userPassword = "";
+        this.userType = "";
+        this.email = "";
+        this.contactNum = "";
+        this.userCreationDate = new Date();
+    }
+    
 
     public UserEntity(String username, String userSalutation, String userFirstName, String userLastName, String userPassword, String userType, String imgFileName, String email, String contactNum) {
         this.username = username;

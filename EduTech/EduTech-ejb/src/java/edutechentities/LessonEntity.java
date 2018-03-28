@@ -5,16 +5,16 @@
  */
 package edutechentities;
 
-import edutechentities.ScheduleItemEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,14 +30,16 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private SessionEntity session;
     @ManyToOne
     private RecurringEventEntity recurringEvent;
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     private Collection<AttachmentEntity> resources; 
+    
     
     public LessonEntity(){
         super();
+        this.recurringEvent = new RecurringEventEntity();
+        this.resources = new ArrayList<>();
     }
     
     @Override
@@ -81,14 +83,6 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
     public void setRecurringEvent(RecurringEventEntity recurringEvent) {
         this.recurringEvent = recurringEvent;
-    }
-
-    public SessionEntity getSession() {
-        return session;
-    }
-
-    public void setSession(SessionEntity session) {
-        this.session = session;
     }
 
     public Collection<AttachmentEntity> getResources() {

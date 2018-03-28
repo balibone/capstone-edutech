@@ -9,6 +9,7 @@ import edutechentities.common.AttachmentEntity;
 import edutechentities.common.RecurringEventEntity;
 import edutechentities.common.ScheduleItemEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -17,13 +18,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
@@ -32,15 +26,18 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 @Entity(name="Lesson")
 public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
-    @OneToOne
-    private SessionEntity session;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @ManyToOne
     private RecurringEventEntity recurringEvent;
     @OneToMany(cascade=CascadeType.ALL)
     private Collection<AttachmentEntity> resources; 
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    public LessonEntity() {
+        super();
+        this.recurringEvent = new RecurringEventEntity();
+        this.resources = new ArrayList<>();
+    }
 
     @Override
     public Long getId() {
@@ -75,14 +72,6 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
     @Override
     public String toString() {
         return "edutechentities.module.LessonEntity[ id=" + id + " ]";
-    }
-
-    public SessionEntity getSession() {
-        return session;
-    }
-
-    public void setSession(SessionEntity session) {
-        this.session = session;
     }
 
     public RecurringEventEntity getRecurringEvent() {

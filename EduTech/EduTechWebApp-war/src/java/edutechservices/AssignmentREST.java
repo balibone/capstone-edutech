@@ -6,10 +6,10 @@
 package edutechservices;
 
 //import edutechentities.common.GroupEntity;
-import edutechentities.module.SessionEntity;
+import edutechentities.module.AssignmentEntity;
 import edutechsessionbeans.CommonMgrBean;
 import edutechsessionbeans.GroupMgrBean;
-import edutechsessionbeans.ModuleRESTMgrBean;
+import edutechsessionbeans.ModuleMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -23,55 +23,61 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-/**
- *
- * @author nanda88
- */
 @RequestScoped
-@Path("session")
-public class SessionREST {
+@Path("assignment")
+public class AssignmentREST {
     
     @EJB
     CommonMgrBean cmb;
     @EJB
     GroupMgrBean etr;
     @EJB
-    ModuleRESTMgrBean mmb;
+    ModuleMgrBean mmb;
     
     @GET 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<SessionEntity> getAllSessions() {
-        return mmb.getAllSessions();
+    public List<AssignmentEntity> getAllAssignments() {
+        return mmb.getAllAssignments();
     }
     
     @GET 
     @Path("{id}") 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public SessionEntity getOneSession(@PathParam("id") String id){
-        return mmb.getOneSession(Long.valueOf(id));
+    public AssignmentEntity getOneAssignment(@PathParam("id") String id){
+        return mmb.getOneAssignment(Long.valueOf(id));
     }
     
     @POST 
+    @Path("individual")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public SessionEntity createSession(SessionEntity mm) {
-        return mmb.createSession(mm);
+    public AssignmentEntity createIndividualAssignment(AssignmentEntity sub) {
+        return mmb.createIndividualAssignment(sub);
+    }
+    
+    @POST 
+    @Path("group/{numOfGroups}/{groupSize}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public AssignmentEntity createGroupAssignment(AssignmentEntity sub, @PathParam("numOfGroups") String numOfGroups,
+            @PathParam("groupSize") String groupSize) {
+        return mmb.createGroupAssignment(sub, numOfGroups, groupSize);
     }
     
     @DELETE 
     @Path("{id}") 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<SessionEntity> deleteSession(@PathParam("id") String id) {
-        mmb.deleteSession(Long.valueOf(id));
-        return mmb.getAllSessions();
+    public List<AssignmentEntity> deleteAssignment(@PathParam("id") String id) {
+        mmb.deleteAssignment(Long.valueOf(id));
+        return mmb.getAllAssignments();
     }
     
     @PUT 
     @Path("{id}") 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public SessionEntity editSession(@PathParam("id") String id, SessionEntity replacement){
-        return mmb.editSession(Long.valueOf(id), replacement);
+    public AssignmentEntity editAssignment(@PathParam("id") String id, AssignmentEntity replacement){
+        return mmb.editAssignment(Long.valueOf(id), replacement);
     }
 
 }

@@ -7,6 +7,7 @@ package edutechentities.group;
 
 import commoninfraentities.UserEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +37,19 @@ public class GroupEntity implements Serializable {
     private String createdBy;
     private String createdAt;
     private int groupSize;
+
+    public GroupEntity() {
+        this.title = "";
+        this.description = "";
+        this.imagefilename = "";
+        this.members = new ArrayList<>();
+        this.moduleCode = "";
+        this.createdBy = "";
+        this.createdAt = "";
+        this.groupSize = 0;
+        this.modifiedBy = "";
+        this.modifiedAt = "";
+    }
     
     public String getTitle() {
         return title;

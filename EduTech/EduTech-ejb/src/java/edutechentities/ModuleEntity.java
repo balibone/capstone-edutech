@@ -2,9 +2,9 @@ package edutechentities;
 
 import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -30,6 +30,14 @@ public class ModuleEntity implements Serializable {
     private Collection<RecurringEventEntity> recurringEvents;
     
     public ModuleEntity() {
+        this.moduleCode = "";
+        this.title = "";
+        this.moduleEvents = new ArrayList<>();
+        this.modularCredit = Long.valueOf(0);
+        this.description = "";
+        this.members = new ArrayList<>();
+        this.semester = new SemesterEntity();
+        this.recurringEvents = new ArrayList<>();
     }
 
     public ModuleEntity(String moduleCode, String name, Long modularCredit, String description, SemesterEntity semester) {

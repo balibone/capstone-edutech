@@ -9,6 +9,7 @@ import commoninfraentities.UserEntity;
 import edutechentities.group.MeetingMinuteEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -34,13 +36,10 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ScheduleItemEntity implements Serializable {
-    @XmlElement
-    @XmlInverseReference(mappedBy = "meeting")
-    private List<MeetingMinuteEntity> meetingMinutes;
-
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
+    @Lob
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -53,6 +52,24 @@ public class ScheduleItemEntity implements Serializable {
     @ManyToOne
     private UserEntity createdBy;
     private LocalDateTime createdAt;
+    @XmlElement
+    @XmlInverseReference(mappedBy = "meeting")
+    private List<MeetingMinuteEntity> meetingMinutes;
+    
+    public ScheduleItemEntity() {
+        this.title = "";
+        this.description = "";
+        this.startDate = LocalDateTime.now();
+        this.endDate = LocalDateTime.now();
+        this.location = "";
+        this.assignedTo = new ArrayList<>();
+        this.itemType = "";
+        this.moduleCode = "";
+        this.groupId = 0;
+        this.createdBy = new UserEntity();
+        this.createdAt = LocalDateTime.now();
+        this.meetingMinutes = new ArrayList<>();
+    }
     
     public Long getId() {
         return id;

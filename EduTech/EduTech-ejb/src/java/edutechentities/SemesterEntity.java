@@ -7,15 +7,13 @@ package edutechentities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -23,16 +21,19 @@ import javax.persistence.TemporalType;
  */
 @Entity(name="Semester")
 public class SemesterEntity implements Serializable {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
-    //private Collection<ScheduleEntity> keyEvents;
     @OneToMany(mappedBy = "semester")
     private List<ModuleEntity> modules;
     private LocalDate startDate;
     private LocalDate endDate;
 
     public SemesterEntity() {
+        this.title = "";
+        this.modules = new ArrayList<>();
+        this.startDate = LocalDate.now();
+        this.endDate = LocalDate.now();
     }
 
     public SemesterEntity(String title, LocalDate startDate, LocalDate endDate) {

@@ -8,6 +8,7 @@ package edutechentities.group;
 import commoninfraentities.UserEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,6 +41,19 @@ public class BrainstormEntity implements Serializable {
     @OneToOne
     private UserEntity modifiedBy;
     private LocalDateTime modifiedAt;
+
+    public BrainstormEntity() {
+        this.title = "";
+        this.description = "";
+        this.group = new GroupEntity();
+        this.ideas = new ArrayList<>();
+        this.phaseCode = 0;
+        this.createdBy = new UserEntity();
+        this.createdAt = LocalDateTime.now();
+        this.modifiedBy = new UserEntity();
+        this.modifiedAt = LocalDateTime.now();
+    }
+    
     
 
     public Long getId() {

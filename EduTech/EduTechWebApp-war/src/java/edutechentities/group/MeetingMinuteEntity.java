@@ -9,8 +9,8 @@ import commoninfraentities.UserEntity;
 import edutechentities.common.AttachmentEntity;
 import edutechentities.common.ScheduleItemEntity;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,6 +43,16 @@ public class MeetingMinuteEntity implements Serializable {
     @OneToMany
     private Collection<AttachmentEntity> attachments; 
 
+    public MeetingMinuteEntity() {
+        this.meeting = new ScheduleItemEntity();
+        this.startTime = LocalDateTime.now();
+        this.endTime = LocalDateTime.now();
+        this.attendees = new ArrayList<>();
+        this.agendas = new ArrayList<>();
+        this.createdAt = LocalDateTime.now();
+        this.attachments = new ArrayList<>();
+    }
+    
     public Long getId() {
         return id;
     }

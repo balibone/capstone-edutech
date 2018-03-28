@@ -7,9 +7,9 @@ package edutechentities.common;
 
 import commoninfraentities.UserEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.CascadeType.PERSIST;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +32,7 @@ public class PostEntity implements Serializable {
     
     private String pageId;
     private String message;
-    @OneToMany(cascade=PERSIST)
+    @OneToMany(cascade=CascadeType.PERSIST)
     private Collection<PostEntity> replies;
     private Long replyTo = null;
     private boolean isPinned = false;
@@ -42,6 +42,16 @@ public class PostEntity implements Serializable {
     private UserEntity createdBy;
     private String createdAt;
     private String modifiedAt;
+
+    public PostEntity() {
+        this.pageId = "";
+        this.message = "";
+        this.replies = new ArrayList<>();
+        this.likedBy = new ArrayList<>();
+        this.createdBy = new UserEntity();
+        this.createdAt = "";
+        this.modifiedAt = "";
+    }
 
     public Long getId() {
         return id;

@@ -5,13 +5,7 @@
  */
 package edutechentities.group;
 
-import commoninfraentities.UserEntity;
-import edutechentities.common.AttachmentEntity;
-import edutechentities.common.ScheduleItemEntity;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,6 +25,12 @@ public class MMAgendaEntity implements Serializable {
     private String title; 
     private String discussion; 
     private String conclusion;
+
+    public MMAgendaEntity() {
+        this.title = "";
+        this.discussion = "";
+        this.conclusion = "";
+    }
 
     public Long getId() {
         return id;

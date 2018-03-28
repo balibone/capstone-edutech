@@ -8,7 +8,7 @@ package edutechservices;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
-import edutechsessionbeans.ModuleRESTMgrBean;
+import edutechsessionbeans.ModuleMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -31,7 +31,7 @@ import javax.ws.rs.core.MediaType;
 public class ModuleREST {
     
     @EJB
-    ModuleRESTMgrBean mrb;
+    ModuleMgrBean mrb;
     
     @GET 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -74,6 +74,13 @@ public class ModuleREST {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<ScheduleItemEntity> getAllModuleLessons(@PathParam("id") String id) {
         return mrb.getAllModuleLessons(id);
+    }
+    
+    @GET
+    @Path("user/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ModuleEntity> getUserModules(@PathParam("id") String userId){
+        return mrb.getUserModules(userId);
     }
 
     

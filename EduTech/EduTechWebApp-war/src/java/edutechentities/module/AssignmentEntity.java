@@ -10,7 +10,9 @@ import edutechentities.common.AttachmentEntity;
 import edutechentities.group.GroupEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Derian
  */
-@Entity(name="Submission")
+@Entity(name="Assignment")
 @XmlRootElement
 public class AssignmentEntity implements Serializable {
 
@@ -32,7 +34,7 @@ public class AssignmentEntity implements Serializable {
     private String title;
     private LocalDateTime openDate;
     private LocalDateTime closeDate;
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL)
     private Collection<AttachmentEntity> submissions;
     @OneToOne
     private ModuleEntity module;
@@ -41,6 +43,17 @@ public class AssignmentEntity implements Serializable {
     private LocalDateTime createdAt; 
     @OneToMany
     private Collection<GroupEntity> groups;
+
+    public AssignmentEntity() {
+        this.title = "";
+        this.openDate = LocalDateTime.now();
+        this.closeDate = LocalDateTime.now();
+        this.submissions = new ArrayList<>();
+        this.module = new ModuleEntity();
+        this.createdBy = new UserEntity();
+        this.createdAt = LocalDateTime.now();
+        this.groups = new ArrayList<>();
+    }
     
     public Long getId() {
         return id;
