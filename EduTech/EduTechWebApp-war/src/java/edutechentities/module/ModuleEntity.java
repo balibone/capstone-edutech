@@ -40,8 +40,7 @@ public class ModuleEntity implements Serializable {
     private String description;
     @OneToMany
     private Collection<UserEntity> members;
-    @OneToMany
-    private Collection<LessonEntity> lessons;
+
     @XmlElement
     @XmlInverseReference(mappedBy="modules")
     private SemesterEntity semester;
@@ -139,14 +138,6 @@ public class ModuleEntity implements Serializable {
 
     public void setRecurringEvents(Collection<RecurringEventEntity> recurringEvents) {
         this.recurringEvents = recurringEvents;
-    }
-
-    public Collection<LessonEntity> getLessons() {
-        return lessons;
-    }
-
-    public void setLessons(Collection<LessonEntity> lessons) {
-        this.lessons = lessons;
     }
     
 }

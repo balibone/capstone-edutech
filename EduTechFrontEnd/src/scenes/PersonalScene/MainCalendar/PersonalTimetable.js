@@ -33,6 +33,19 @@ class PersonalTimetable extends Component {
 		this.setState({openCalendarCard: false, openEditForm: false, openCalendarForm: false});
 	}
 
+	eventStyleGetter(event, start, end, isSelected) {
+    	var backgroundColor = '#' + event.hexColor;
+    	var style = {
+	        backgroundColor: backgroundColor,
+	        borderRadius: '0px',
+	        opacity: 0.8,
+	        color: 'black',
+	        border: '0px',
+	        display: 'block'
+    	};
+    	return { style: style };
+	}
+
 	render(){
 		let today = moment();
 		let am6 = today.set('hour', 6).set('minutes', 0).toDate();
@@ -51,6 +64,7 @@ class PersonalTimetable extends Component {
 				    	popup={true}
 				    	popupOffset={{x: 30, y: 20}}
 				    	length = {7}
+				    	eventPropGetter = {this.eventStyleGetter}
 				    	
 				    />  
 				{

@@ -6,8 +6,6 @@
 package edutechservices;
 
 //import edutechentities.common.GroupEntity;
-import commoninfraentities.UserEntity;
-import edutechentities.group.GroupEntity;
 import edutechentities.module.PollOptionEntity;
 import edutechsessionbeans.CommonRESTMgrBean;
 import edutechsessionbeans.GroupRESTMgrBean;
@@ -15,8 +13,6 @@ import edutechsessionbeans.ModuleRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -42,27 +38,38 @@ public class PollOptionREST {
     @EJB
     ModuleRESTMgrBean mmb;
     
-    @GET @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<PollOptionEntity> getAllPollOptions() {
         return mmb.getAllPollOptions();
     }
     
-    @GET @Path("{id}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public PollOptionEntity getOnePollOption(@PathParam("id") String id){
         return mmb.getOnePollOption(Long.valueOf(id));
     }
     
-    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @POST 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON}) 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public PollOptionEntity createPollOptions(PollOptionEntity mm) {
         return mmb.createPollOptions(mm);
     }
     
-    @DELETE @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void deletePollOption(@PathParam("id") String id) {
+    @DELETE 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<PollOptionEntity> deletePollOption(@PathParam("id") String id) {
         mmb.deletePollOption(Long.valueOf(id));
+        return mmb.getAllPollOptions();
     }
     
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @PUT 
+    @Path("{id}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON}) 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public PollOptionEntity editPollOption(@PathParam("id") String id, PollOptionEntity replacement){
         return mmb.editPollOption(Long.valueOf(id), replacement);
     }

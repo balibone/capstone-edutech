@@ -47,9 +47,13 @@ class GroupMeeting extends Component{
       let memberStart = new Date(membersScheduleItems[i].startDate);
       let memnberEnd = new Date(membersScheduleItems[i].endDate);
       if((startTime>memberStart && startTime<memnberEnd) || (endTime>memberStart && endTime<memnberEnd)){
+        // console.log("1 selected: ",startTime, endTime)
+        // console.log("1 member: ", memberStart, memnberEnd)
         swal("Warning!", "Your chosen time is clashing with your member schedule.", "warning");
         return false;
-      }else if(memberStart>startTime && startTime<memnberEnd){
+      }else if(memberStart>startTime && memberStart<endTime){
+        // console.log("2 selected: ",startTime, endTime)
+        // console.log("2 member: ", memberStart, memnberEnd)
         swal("Warning!", "Your chosen time is clashing with your member schedule.", "warning");
         return false;
       }

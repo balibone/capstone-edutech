@@ -20,6 +20,7 @@ public class CommonInfraController extends HttpServlet {
     @EJB
     private SystemAdminMgrBeanRemote sam;
     
+    String usernameString = "";
     String sessionInvalid = "";
     String sessionExpire = "";
     String unauthorised = "";
@@ -137,44 +138,30 @@ public class CommonInfraController extends HttpServlet {
                             if(c.getName().equals("userType") && !c.getValue().equals("")){
                                 uType = c.getValue();
                             }
+                            if(c.getName().equals("username") && !c.getValue().equals("")){
+                                usernameString = c.getValue();
+                            }
                         }
                     }
-                    if(uType != null){
+                    if(uType != null && usernameString != null){
                         switch(uType){
                             case "superadmin":
-                                pageAction="SystemAdminLanding";
-                                break;
                             case "dualadmin":
-                                pageAction="DualAdminLanding";
-                                break;
                             case "unifyadmin":
-                                pageAction="UnifyAdminLanding";
-                                break;
                             case "edutechadmin":
-                                pageAction="EduTechAdminLanding";
-                                break;
                             case "student":
                             case "instructor":
-                                pageAction="SystemUserLanding";
+                                pageAction="CommonLanding";
                                 break;
                             default:
-                                //user type invalid. redirect to logout page
+                                //user type cookie is invalid. redirect to logout page
                                 response.sendRedirect("CommonInfra?pageTransit=goToLogout&unauthorised=true");
                                 break;
                         }
                     }else{
                         //user type cookie is invalid. redirect to logout page
-                        response.sendRedirect("CommonInfra?pageTransit=goToLogout&unauthorised=true");
+                        response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
                     }
-                    break;
-                case "goToSystemAdmin":
-                    pageAction = "SystemAdminDashboard";
-                    break;
-                case "goToEdutechAdmin":
-                    pageAction = "EduTechAdminDashboard";
-                    break;
-                case "goToUnifyAdmin":
-                    pageAction = "AdminDashboard";
                     break;
                 case "registerUser":
                     try{
@@ -197,17 +184,17 @@ public class CommonInfraController extends HttpServlet {
                         pageAction = "ForgotPassword";
                     }
                     break;
-                case "validateToken":
-                    success = cir.validateToken(request.getParameter("username"),request.getParameter("token"));
-                    if(!success){
-                        response.sendError(400, "The token you have supplied is invalid. Please use the links provided in email and ensure token is correct.");
-                    }
-                    break;
                 case "resetPassword":
-                    success = cir.resetPassword(request.getParameter("username"),request.getParameter("password"));
-                    if(!success){
-                        response.sendError(400, "Please choose a different password than your previous one. ");
+                    
+                    boolean isValidUser = cir.isValidUser(request.getParameter("username"));
+                    if(!isValidUser){
+                        response.sendError(400, "Username does not exist in our system. Please make sure you have entered a valid username.");
                     }
+                    boolean resetPasswordSuccess = cir.resetPassword(request.getParameter("username"), request.getParameter("oldPassword"),request.getParameter("password"));
+                    if(!resetPasswordSuccess){
+                        response.sendError(400, "Your existing password is invalid. Please make sure it is correct.");
+                    }
+                    //if both isValidUser and resetPasswordSuccess are true, then break is reached and AJAX call is returned with success. 
                     break;
                 default:
                     break;

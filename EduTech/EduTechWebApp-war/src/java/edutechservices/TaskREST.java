@@ -10,8 +10,6 @@ import edutechsessionbeans.CommonRESTMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -29,43 +27,60 @@ import javax.ws.rs.core.MediaType;
 @RequestScoped
 @Path("task")
 public class TaskREST {
-    @PersistenceContext(unitName = "EduTechWebApp-warPU")
-    private EntityManager em;
+
     @EJB
     CommonRESTMgrBean etr;
     
-    @GET @Path("user/{username}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("user/{username}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<TaskEntity> getUserTasks(@PathParam("username") String username) {
         return etr.findUserTasks(username);
     }
     
-    @GET @Path("group/{groupId}") @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @GET 
+    @Path("group/{groupId}") 
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<TaskEntity> getGroupTasks(@PathParam("groupId") int groupId) {
         return etr.findGroupTasks(groupId);
     }
     
-    @POST @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(TaskEntity entity) {
+    @POST 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void createTask(TaskEntity entity) {
         etr.createTask(entity);
     }
     
-    @PUT @Path("{id}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, TaskEntity entity) {
+    @PUT 
+    @Path("{id}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void editTask(@PathParam("id") String id, TaskEntity entity) {
         etr.editTask(id, entity);
     }
          
-    @PUT @Path("{id}/{progressCode}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void updateProgress(@PathParam("id") String id, @PathParam("progressCode") int progressCode) {
+    @PUT 
+    @Path("{id}/{progressCode}") 
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void updateTaskProgress(@PathParam("id") String id, @PathParam("progressCode") int progressCode) {
         etr.updateTaskProgress(id, progressCode);
     }
     
-    @DELETE @Path("{id}")
-    public void remove(@PathParam("id") String id) {
+    @DELETE
+    @Path("{id}")
+    public List<TaskEntity> removeTask(@PathParam("id") String id) {
         etr.removeTask(id);
+        return etr.getAllTasks();
     }
     
-    @PUT @Path("verify/{id}/{username}") @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void verify(@PathParam("id") String id, @PathParam("username") String username) {
+    @GET
+    public List<TaskEntity> getAllTasks(){
+        return etr.getAllTasks();   
+    }
+    
+    @PUT
+    @Path("verify/{id}/{username}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void verifyTask(@PathParam("id") String id, @PathParam("username") String username) {
         etr.verifyTask(id, username);
     }
     

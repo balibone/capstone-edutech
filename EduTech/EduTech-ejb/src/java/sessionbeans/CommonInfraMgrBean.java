@@ -1,6 +1,7 @@
 package sessionbeans;
 
 import commoninfrastructureentities.UserEntity;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -36,8 +37,17 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     @Override
     public boolean empLogin(String username, String userPassword) {
         String hashedPassword = "";
-        try{ hashedPassword = encodePassword(userPassword); }
-        catch(NoSuchAlgorithmException ex){ ex.printStackTrace(); }
+        try{ 
+            hashedPassword = encodePassword(username, userPassword); 
+        }
+        catch(NoSuchAlgorithmException ex){
+            ex.printStackTrace(); 
+            System.out.println("PASSWORD HASHING FAILED");
+        }
+        catch(UnsupportedEncodingException ex){
+            ex.printStackTrace();
+            System.out.println("SALT ENCODING FAILED");
+        }
         
         uEntity = new UserEntity();
         try{
@@ -56,15 +66,14 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
             uEntity = null;
         }
         if(uEntity == null) { return false; }
-        // if(uEntity.getUserPassword().equals(hashedPassword)) { return true; }
-        if(uEntity.getUserPassword().equals(userPassword)) { return true; }
+        if(uEntity.getUserPassword().equals(hashedPassword)) { return true; }
         return false;
     }
     
     @Override
     public boolean createSysUser(String salutation, String firstName, String lastName, String username, String password, String email, String contactNum){
         try{
-            UserEntity u = new UserEntity(salutation, firstName, lastName, username, password, email, contactNum);
+            UserEntity u = new UserEntity(salutation, firstName, lastName, username, encodePassword(username, password), email, contactNum);
             em.persist(u);
             return true;
         }catch(Exception e){
@@ -73,56 +82,46 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         }
     }
 
-    /* MISCELLANEOUS METHODS */
-    public UserEntity lookupUser(String username){
-        UserEntity ue = new UserEntity();
-        try{
-            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
-            q.setParameter("username", username);
-            ue = (UserEntity)q.getSingleResult();
+    @Override
+    public boolean isValidUser(String username){
+        if(em.find(UserEntity.class, username)!=null){
+            return true;
+        }else{
+            return false; 
         }
-        catch(EntityNotFoundException enfe){
-            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
-            em.remove(ue);
-            ue = null;
-        }
-        catch(NoResultException nre){
-            System.out.println("ERROR: User does not exist. " + nre.getMessage());
-            em.remove(ue);
-            ue = null;
-        }
-        return ue;
     }
     
-    public String encodePassword(String password) throws NoSuchAlgorithmException {
+    public String encodePassword(String username, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String hashedValue = "";
-        
+        byte[] salt = username.getBytes("UTF-8");
         MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(password.getBytes());
-        byte[] bytes = md.digest();
+        md.update(salt);
+        byte[] passwordBytes = md.digest(password.getBytes("UTF-8"));
         
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < bytes.length; i++){
-            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            hashedValue = sb.toString();
-        }      
+        for(int i = 0; i < passwordBytes.length; i++){
+            sb.append(Integer.toString((passwordBytes[i] & 0xff) + 0x100, 16).substring(1));
+        }     
+        hashedValue = sb.toString();
         return hashedValue;
     }
-
+    
     @Override
     public boolean sendResetEmail(String username) {
         Query q1 = em.createQuery("SELECT s FROM SystemUser s WHERE s.username = :uName");
         q1.setParameter("uName", username);
         UserEntity u = (UserEntity) q1.getSingleResult();
         if(u != null){
-            String resetToken = generateAlphaNum(5);
-            u.setResetToken(resetToken);
+            String tempPassword = generateAlphaNum(8);
             try {
-                generateAndSendEmail(u.getUsername(), u.getEmail(),resetToken);
+                generateAndSendEmail(u.getUsername(), u.getEmail(),tempPassword);
+                u.setUserPassword(encodePassword(username,tempPassword));
             } catch (MessagingException ex) {
                 System.out.println("**************Email sending failed!");
                 ex.printStackTrace();
                 return false;
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
             }
             return true;
         }else{
@@ -144,7 +143,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return new String(generated);
     }
     
-    public void generateAndSendEmail(String username, String email, String token) throws AddressException, MessagingException {
+    public void generateAndSendEmail(String username, String email, String tempPassword) throws AddressException, MessagingException {
  
         // Step1
         System.out.println("\n 1st ===> setup Mail Server Properties..");
@@ -163,8 +162,8 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
         mailMessage.setSubject("Greetings from EduBox");
         String emailBody = "Hey "+ username + ",<br><br>"
-                + "Click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&username="+username+"&token="+token+"'>link</a> to reset your password.<br>"
-                + "Alternatively, you click <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&username="+username+"'>here</a> and paste your reset token <strong>"+ token +"</strong> manually."
+                + "Here is your temporary password: <strong>"+ tempPassword +"</strong><br>"
+                + "Please click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset&username="+username+"'>link</a> to reset your password."
                 + "<a></a>" +"<br><br>Cheers,<br>EduBox Team";
         mailMessage.setContent(emailBody, "text/html");
         System.out.println("Mail Session has been created successfully..");
@@ -181,26 +180,22 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     }
 
     @Override
-    public boolean validateToken(String username, String token) {
+    public boolean resetPassword(String username, String oldPassword, String password) {
         Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username=:uname");
         q1.setParameter("uname", username);
-        UserEntity u = (UserEntity) q1.getSingleResult();
-        if(u != null && u.getResetToken().equals(token)){
-            return true;
-        }else{
-            return false;
+        String encPassword = "";
+        String encOldPassword = "";
+        try {
+            encPassword = encodePassword(username,password);
+            encOldPassword = encodePassword(username, oldPassword);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    @Override
-    public boolean resetPassword(String username, String password) {
-        Query q1 = em.createQuery("SELECT u FROM SystemUser u WHERE u.username=:uname");
-        q1.setParameter("uname", username);
-        
         UserEntity u = (UserEntity) q1.getSingleResult();
-        if(u != null && !u.getUserPassword().equals(password)){
-            System.out.println("RECEIVED PASSWORD IS "+password);
-            u.setUserPassword(password);
+        //if user exists & old password is correct, proceed with reset.
+        if(u != null && u.getUserPassword().equals(encOldPassword)){
+            System.out.println("RECEIVED PASSWORD IS "+encPassword);
+            u.setUserPassword(encPassword);
             return true;
         }else{
             return false;

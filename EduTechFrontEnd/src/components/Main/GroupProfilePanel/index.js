@@ -47,7 +47,7 @@ class GroupProfilePanel extends Component {
 
   render() {
     const { img, primaryInfo, secondaryInfo, group } = this.props;
-    console.log('?????', primaryInfo)
+
 
     let content = (
       <div>

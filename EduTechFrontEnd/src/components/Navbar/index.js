@@ -23,12 +23,11 @@ class Navbar extends Component {
 
 
   render(){
-    // const groupList = toJS(GroupStore.groupList);
-    // console.log(groupList)
     const { user, modules, groups, userStore} = this.props;
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const groupList = JSON.parse(localStorage.getItem('groupList'));
-
+    const moduleList = JSON.parse(localStorage.getItem('moduleList'));
+    console.log("MODLE IN NAV", moduleList)
     if(!groupList || !currentUser) {
       return (
         <div className="fakeBody">
@@ -45,8 +44,8 @@ class Navbar extends Component {
     // if(!groupList || !currentUser) {
     //   return <span>loading - please refresh if it takes too long</span>
     // }
-    console.log('currentUser', currentUser)
-    const moduleMenuItems = modules.map(module => <MenuItem eventKey={module.code}><Link to={`/module/${module.code}`}>{module.name}</Link></MenuItem>)
+    console.log("module list in nav", moduleList)
+    const moduleMenuItems = moduleList.map(module => <MenuItem eventKey={module.moduleCode}><Link to={`/module/${module.moduleCode}`}>{module.title}</Link></MenuItem>)
     const groupMenuItems = groupList.map(group => <MenuItem eventKey={group.id}><Link to={`/group/${group.id}`}>{group.title}</Link></MenuItem>)
 
     return(
@@ -70,7 +69,7 @@ class Navbar extends Component {
           </NavItem>
           <NavDropdown
             eventKey={4}
-            title={<img src={`http://localhost:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/${currentUser.imgfilename}`} alt="profile" className="img-circle" height="20" />}
+            title={<img src={`http://localhost:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/${currentUser.imgFileName}`} alt="profile" className="img-circle" height="20" />}
             id="groups-nav-dropdown"
           >
             <MenuItem eventKey={4.2} onClick={() =>  window.location.replace('http://localhost:8080/EduTechWebApp-war/')}>EduBox</MenuItem>
@@ -83,42 +82,3 @@ class Navbar extends Component {
 }
 
 export default Navbar;
-
-
-// const Navbar = ({ user, modules, groups }) => {
-//   const moduleMenuItems = modules.map(module => <MenuItem eventKey={module.code}><Link to={`/module/${module.code}`}>{module.name}</Link></MenuItem>)
-//   const groupMenuItems = groups.map(group => <MenuItem eventKey={group.id}><Link to={`/group/${group.id}`}>{group.name}</Link></MenuItem>)
-
-//   return (
-//     <BootstrapNavbar staticTop="true">
-//       <BootstrapNavbar.Header>
-//         <BootstrapNavbar.Brand>
-//           <Link to="/">EDUTECH</Link>
-//         </BootstrapNavbar.Brand>
-//       </BootstrapNavbar.Header>
-//       {console.log("Group in navbar: ", GroupStore.groupList)}
-//       <Nav>
-//         <NavDropdown eventKey={1} title="Modules" id="modules-nav-dropdown">
-//           {moduleMenuItems}
-//         </NavDropdown>
-//         <NavDropdown eventKey={2} title="Groups" id="groups-nav-dropdown">
-//           {groupMenuItems}
-//         </NavDropdown>
-//       </Nav>
-//       <Nav pullRight>
-//         <NavItem eventKey={3} href="#">
-//           <i className="far fa-bell" />
-//         </NavItem>
-//         <NavDropdown
-//           eventKey={4}
-//           title={<img src={`/img/${user.img}`} alt="profile" className="img-circle" height="20" />}
-//           id="groups-nav-dropdown"
-//         >
-//           <MenuItem eventKey={4.1}>Action</MenuItem>
-//           <MenuItem eventKey={4.2}>Another action</MenuItem>
-//         </NavDropdown>
-//       </Nav>
-//     </BootstrapNavbar>
-//   );
-// };
-// export default Navbar;
