@@ -59,7 +59,7 @@ public class RecurringEventEntity implements Serializable {
         this.dayOfWeek = DayOfWeek.MONDAY;
         this.startTime = LocalTime.now();
         this.endTime = LocalTime.now();
-        this.module = new ModuleEntity();
+        this.module = null;
         this.lessons = new ArrayList<>();
     }
     

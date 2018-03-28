@@ -55,7 +55,7 @@ public class ScheduleItemEntity implements Serializable {
         this.itemType = "";
         this.moduleCode = "";
         this.groupId = 0;
-        this.createdBy = new UserEntity();
+        this.createdBy = null;
         this.createdAt = LocalDateTime.now();
     }
     

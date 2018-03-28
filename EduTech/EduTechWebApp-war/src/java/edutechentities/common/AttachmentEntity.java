@@ -34,7 +34,7 @@ public class AttachmentEntity implements Serializable {
     public AttachmentEntity() {
         this.fileName = "";
         this.title = "";
-        this.createdBy = new UserEntity();
+        this.createdBy = null;
     }
     
     public Long getId() {
