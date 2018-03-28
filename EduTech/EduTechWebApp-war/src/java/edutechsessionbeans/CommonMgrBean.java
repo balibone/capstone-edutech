@@ -23,6 +23,7 @@ import edutechentities.module.ModuleEntity;
 import edutechentities.module.AssignmentEntity;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -171,18 +172,19 @@ public class CommonMgrBean {
             Query q1 = em.createQuery("SELECT t FROM Task t");
             for(Object o : q1.getResultList()){
                 TaskEntity t = (TaskEntity) o;
-                if(t.getAssignedTo().contains(user)){
+                //if task has been assigned to this user and task has deadline,
+                if(t.getAssignedTo().contains(user) && t.getDeadline()!=null){
                     //convert task to schedule item and add it to userScheduleItems.
                     ScheduleItemEntity convert = new ScheduleItemEntity();
                     convert.setAssignedTo(t.getAssignedTo());
                     convert.setCreatedAt(LocalDateTime.parse(t.getCreatedAt()));
                     convert.setCreatedBy(t.getCreatedBy());
-                    convert.setDescription("please remove this field if type=task");
+                    convert.setDescription("please dont show this field if type=task");
                     convert.setStartDate(LocalDateTime.parse(t.getDeadline()));
                     convert.setEndDate(LocalDateTime.parse(t.getDeadline()));
                     convert.setGroupId(t.getGroupId());
                     convert.setItemType("task");
-                    convert.setLocation("please remove this field if type=task");
+                    convert.setLocation("please dont show this field if type=task");
                     convert.setModuleCode(t.getModuleCode());
                     convert.setTitle(t.getTitle());
                     //add converted schedule item into list.

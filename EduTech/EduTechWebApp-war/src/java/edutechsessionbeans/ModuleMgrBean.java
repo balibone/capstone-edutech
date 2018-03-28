@@ -131,9 +131,10 @@ public class ModuleMgrBean {
     }
 
     public void deleteAssignment(Long id) {
-        AssignmentEntity ses= em.find(AssignmentEntity.class, id);
-        if(ses!=null){
-            em.remove(ses);
+        AssignmentEntity ass= em.find(AssignmentEntity.class, id);
+        if(ass!=null){
+            ass.setGroups(null);
+            em.remove(ass);
         }
     }
 

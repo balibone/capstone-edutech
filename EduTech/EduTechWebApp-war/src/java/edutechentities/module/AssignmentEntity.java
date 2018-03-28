@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,7 @@ public class AssignmentEntity implements Serializable {
     private String title;
     private LocalDateTime openDate;
     private LocalDateTime closeDate;
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL)
     private Collection<AttachmentEntity> submissions;
     @OneToOne
     private ModuleEntity module;
