@@ -28,4 +28,5 @@ public interface ErrandsSysUserMgrBeanRemote {
     public List<Vector> viewOfferListOfAJob(String username, long urljobID);
     public List<Vector> viewUserJobList(String username);
     public List<Vector> viewMyJobOffer(String username);
+    public String reportJobListing(long jobID, String username, String reportReason);
 }

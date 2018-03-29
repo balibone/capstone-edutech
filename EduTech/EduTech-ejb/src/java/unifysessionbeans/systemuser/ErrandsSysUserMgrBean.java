@@ -24,6 +24,7 @@ import javax.persistence.Query;
 import unifyentities.common.CategoryEntity;
 import unifyentities.errands.JobEntity;
 import unifyentities.errands.JobOfferEntity;
+import unifyentities.common.JobReportEntity;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
 import unifyentities.common.LikeListingEntity;
@@ -42,6 +43,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     private UserEntity jobTakerEntity;
     private LikeListingEntity llEntity;
     private JobOfferEntity joEntity;
+    private JobReportEntity jrEntity;
     private MessageEntity mEntity;
     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -309,6 +311,47 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         return assocCategoryJobList;
     }
    
+    @Override
+    public String reportJobListing(long jobID, String username, String reportReason){
+        
+        if (lookupJob(jobID) == null) { return "There are some issues with the job listing. Please try again."; }
+        else if(lookupUnifyUser(username) == null) { return "There are some issues with your user profile. Please try again."; }
+        else {
+            jEntity = lookupJob(jobID);
+            UserEntity jobReporterEntity = lookupUnifyUser(username);
+            jobPosterEntity = lookupUnifyUser(lookupJob(jobID).getUserEntity().getUsername());
+            jrEntity = new JobReportEntity();
+            System.out.println("esmr: test1");
+            
+            if(jrEntity.createJobReport(reportReason)) {
+                jrEntity.setJobEntity(jEntity);
+                jrEntity.setUserEntity(jobReporterEntity);
+                jEntity.getJobReportSet().add(jrEntity);
+                jobReporterEntity.getJobReportSet().add(jrEntity);
+                jobPosterEntity.getJobReportSet().add(jrEntity);
+                
+                System.out.println("esmr: test2");
+                
+                /* MESSAGE SENDER IS THE JOB TAKER WHO REPORT THE JOB, MESSAGE RECEIVER IS THE JOB POSTER */
+                mEntity = new MessageEntity();
+                mEntity.createContentMessage(jobReporterEntity.getUsername(), jEntity.getUserEntity().getUsername(), 
+                        jobReporterEntity.getUsername() + " report your " + jEntity.getJobTitle() + ". Please check", 
+                        jEntity.getJobID(), "Errands");
+                /* JOB TAKER WHO SENT THE OFFER IS THE USERENTITY_USERNAME */
+                mEntity.setUserEntity(jobReporterEntity);
+                jobPosterEntity.getMessageSet().add(mEntity);
+                
+                em.persist(jrEntity);
+                em.persist(mEntity);
+                em.merge(jEntity);
+                em.merge(jobReporterEntity);
+                em.merge(jobPosterEntity);
+                return "Thanks! We will review your report shortly!";
+            } else {
+                return "Error occured while sending the report. Please try again.";
+            }
+        }
+    }
     
     @Override
     public String createJobListing(String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 
@@ -333,6 +376,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             }
         }
     }
+    
+    
     
     @Override
     public String editJobListing(long jobID, String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 

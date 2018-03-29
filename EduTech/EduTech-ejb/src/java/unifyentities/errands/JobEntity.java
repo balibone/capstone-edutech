@@ -33,6 +33,7 @@ import unifyentities.common.CategoryEntity;
 import commoninfrastructureentities.UserEntity;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.TagEntity;
+import unifyentities.common.JobReportEntity;
 
 @Entity(name = "Job")
 public class JobEntity implements Serializable {
@@ -71,7 +72,8 @@ public class JobEntity implements Serializable {
     private UserEntity userEntity;
     @OneToMany(mappedBy = "jobEntity")
     private Collection<JobOfferEntity> jobOfferSet = new ArrayList<JobOfferEntity>();
-    
+    @OneToMany(mappedBy = "jobEntity")
+    private Collection<JobReportEntity> jobReportSet = new ArrayList<JobReportEntity>();
     @OneToMany(mappedBy = "jobEntity")
     private Collection<JobReviewEntity> jobReviewSet = new ArrayList<JobReviewEntity>();
     @OneToMany(mappedBy = "jobEntity")
@@ -140,6 +142,7 @@ public class JobEntity implements Serializable {
     public CategoryEntity getCategoryEntity() { return categoryEntity; }
     public UserEntity getUserEntity() { return userEntity; }
     public Collection<JobOfferEntity> getJobOfferSet() { return jobOfferSet; }
+    public Collection<JobReportEntity> getJobReportSet() { return jobReportSet; }
     public Collection<JobReviewEntity> getJobReviewSet() { return jobReviewSet; }
     public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
     public Collection<LikeListingEntity> getLikeListingSet() { return likeListingSet; }
@@ -171,6 +174,7 @@ public class JobEntity implements Serializable {
     public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
     public void setJobOfferSet(Collection<JobOfferEntity> jobOfferSet) { this.jobOfferSet = jobOfferSet; }
+    public void setJobReportSet(Collection<JobReportEntity> jobReportSet) { this.jobReportSet = jobReportSet; }
     public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
     public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
     public void setLikeListingSet(Collection<LikeListingEntity> likeListingSet) { this.likeListingSet = likeListingSet; }

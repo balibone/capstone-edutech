@@ -114,11 +114,40 @@ $(document).ready(function () {
             }
         });
     });
+    
+    $('#reportJobBtn').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "ErrandsSysUser",
+            data: { 
+                jobID: $('#jobIDHidden').val(),
+                username: $('#usernameHidden').val(),
+                reportReason: $('#reportReason').val(),
+                pageTransit: 'reportJobListing'
+            },
+            success: function(returnString) {
+               alert(returnString);
+            }
+        });
+    });
 });
 
 function deleteAlert(jobID) {
     var deleteReply = confirm("Are you sure to delete this job?");
     if (deleteReply) { window.open('ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=' + jobID, '_parent'); }
-}
+};
+
+function otherReason(){
+    var select = document.getElementById("reportReason");
+    var selectedValue = select.options[select.selectedIndex].value;
+    
+    var innerContent = '<input type=\"text\" name=\"otherReason\" size=\"65\" placeholder=\" Please specify the reason.*\" />';
+    
+    if(selectedValue == "others"){
+        document.getElementById('otherReason').innerHTML = innerContent;
+    }else{
+        document.getElementById('otherReason').innerHTML = "";
+    }
+};
 
 

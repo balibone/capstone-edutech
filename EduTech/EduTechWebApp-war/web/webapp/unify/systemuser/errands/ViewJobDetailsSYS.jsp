@@ -197,7 +197,37 @@
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-fw fa-google-plus"></i></button></li>
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-linkedin"></i></button></li>
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-warning"><i class="fa fa-fw fa-envelope"></i></button></li>
+                            <li class="list-inline-item"><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#reportJobModal"><i class="fa fa-flag" aria-hidden="true"></i> &nbsp; Report</button></li>
                         </ul>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="reportJobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Report Job Listing</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body" >
+                                <span><strong>Why are you reporting this job listing?</strong></span><br/>
+                                <br/>
+                                <select class="select-dropdown" name="reportReason" id="reportReason" onchange="javascript: otherReason()">
+                                    <option value="wrongCategory">The job is wrongly categorized.</option>
+                                    <option value="inappropirateListing">Inappropriate content. </option>
+                                    <option value="fakeEvent">Fake event/job.</option>
+                                    <option value="others">Other reasons. </option>
+                                </select>
+                                <div class="mt-3" id="otherReason" ></div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="reportJobBtn">Report</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                         
                     <div class="col-xl-8 col-lg-7 col-md-6" >
@@ -227,7 +257,7 @@
                             %>
                             <tr>   
                                 <td><i class="fa fa-heart" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Likes: </strong></span></td>
-                                <td><a href="#"><ul class="list-inline mb-0"><li id="likeList" class="list-inline-item"><%=numOfLikes%> </li></ul></a></td>
+                                <td><a href="#"><ul class="list-inline mb-0"><li id="likeList" class="list-inline-item likeCount"><%=numOfLikes%> </li></ul></a></td>
                             </tr>
                             <tr>   
                                 <td><i class="fa fa-sticky-note" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Est. Duration: </strong></span></td>
