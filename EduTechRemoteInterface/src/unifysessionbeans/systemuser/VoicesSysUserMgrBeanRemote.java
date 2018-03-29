@@ -18,6 +18,8 @@ public interface VoicesSysUserMgrBeanRemote {
                 String reviewCons, String reviewRating, String employmentStatus, String salaryRange, String reviewPoster);
     public String createCompanyRequest(String requestCompany, String companyIndustry, String requestComment, String requestPoster);
     public String createReviewReport(String reviewID, String reviewPoster, String reportDescription, String reviewReporter);
+    public String createResume(String userFullName, String contactNum, String emailAddr, String postalAddr, 
+                               String[] workExprList, String[] eduExprList, String[] proExprList, String[] skillList, String fileName, String username);
     
     public List<String> populateCompanyIndustry();
     public String populateCompanyIndustryString();

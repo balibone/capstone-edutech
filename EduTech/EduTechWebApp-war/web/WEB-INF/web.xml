@@ -493,6 +493,11 @@
         <servlet-name>NewReviewReportSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/voices/NewReviewReportSYS.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>NewResumeSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/voices/NewResumeSYS.jsp</jsp-file>
+    </servlet>
+
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - SHOUTS (JSP) -->
     <servlet>
         <servlet-name>ViewShoutsListingSYS</servlet-name>

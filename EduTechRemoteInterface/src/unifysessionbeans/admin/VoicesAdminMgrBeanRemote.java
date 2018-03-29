@@ -44,7 +44,7 @@ public interface VoicesAdminMgrBeanRemote {
     
     public List<Vector> viewCompanyRequestList();
     public Vector viewCompanyRequestDetails(String requestCompany, String requestPosterID);
-    public boolean solveRequest(String requestCompany, String requestPosterID);
+    public boolean solveRequest(String requestCompany, String requestPosterID, String username);
     public boolean rejectRequest(String requestCompany, String requestPosterID);
     
     /* METHODS FOR UNIFY ADMIN DASHBOARD */
