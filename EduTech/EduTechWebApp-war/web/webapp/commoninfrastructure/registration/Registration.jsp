@@ -1,27 +1,27 @@
 <%  
-    String loggedInUsername=null; 
-    String userType = null; 
- 
-    /* 
-    HttpServletRequest object is already available to JSP page by default as variable "request" 
-    See https://www.tutorialspoint.com/jsp/jsp_implicit_objects.htm 
-    */ 
-    Cookie[] reqCookies = request.getCookies(); 
-    if(reqCookies != null){ 
-        for(Cookie c : reqCookies){ 
-            //if username cookie is valid, extract cookie value. 
-            if("username".equals(c.getName()) && !c.getValue().equals("")){ 
-                loggedInUsername = c.getValue(); 
-            } 
-            //if userType cookie is valid, extract cookie value. 
-            else if("userType".equals(c.getName()) && !c.getValue().equals("")){ 
-                userType = c.getValue(); 
-            } 
-        } 
-    }  
-    if (loggedInUsername != null) { 
-        response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding"); 
-    } 
+//    String loggedInUsername=null; 
+//    String userType = null; 
+// 
+//    /* 
+//    HttpServletRequest object is already available to JSP page by default as variable "request" 
+//    See https://www.tutorialspoint.com/jsp/jsp_implicit_objects.htm 
+//    */ 
+//    Cookie[] reqCookies = request.getCookies(); 
+//    if(reqCookies != null){ 
+//        for(Cookie c : reqCookies){ 
+//            //if username cookie is valid, extract cookie value. 
+//            if("username".equals(c.getName()) && !c.getValue().equals("")){ 
+//                loggedInUsername = c.getValue(); 
+//            } 
+//            //if userType cookie is valid, extract cookie value. 
+//            else if("userType".equals(c.getName()) && !c.getValue().equals("")){ 
+//                userType = c.getValue(); 
+//            } 
+//        } 
+//    }  
+//    if (loggedInUsername != null) { 
+//        response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding"); 
+//    } 
  
 %>
 <!doctype html>
@@ -36,9 +36,9 @@
         
         <!-- Cascading Style Sheet (CSS) -->
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/bootstrapv4.min.css">
-        <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/RegistrationCSS.css">
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/dashboard/baselayout/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/coming-soon.min.css">
+        <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/RegistrationCSS.css">
     </head>
     
     <body class="text-center">
@@ -74,15 +74,25 @@
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password" required name="password">
-                <small id="passwordHelpBlock" class="form-text text-muted">
-                    Your password must be at least 8 characters long, alphanumeric, and must not contain spaces, special characters, or emojis.
-                </small>
+                <div class="input-group mb-1">
+                    <input id="password1" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control" placeholder="Enter your password" required name="password">
+                    <div class="input-group-append" style="height: 38px;">
+                        <button class="btn btn-outline-secondary" type="button" onmousedown="showPassword1()" onmouseup="showPassword1()"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <div id="passwordHint" style="font-size: medium; ">
+                    <strong>Password must contain the following:</strong>
+                    <br>
+                    <div id="letter" class="invalid">A <b>lowercase</b> letter</div>
+                    <div id="capital" class="invalid">An <b>uppercase</b> letter</div>
+                    <div id="number" class="invalid">A <b>number</b></div>
+                    <div id="length" class="invalid">Minimum <b>8 characters</b></div>
+                </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-6">
                     <label for="email">E-mail</label>
-                    <input type="email" class="form-control" id="username" placeholder="E-mail" required name="email">
+                    <input type="email" class="form-control" placeholder="E-mail" required name="email">
                 </div>
                 <div class="form-group col-sm-6">
                     <label for="contactNum">Contact Number</label>
@@ -109,44 +119,9 @@
         <script src="js/commoninfrastructure/login/jquery.vide.min.js" type="text/javascript"></script>
         <!--Custom JS-->
         <script src="js/commoninfrastructure/login/coming-soon.min.js" type="text/javascript"></script>
-        
-<!--        <script>
-            $(function(){
-                $("#newUser").on("submit", function(event){
-                    event.preventDefault();
-                    var username = $("#username").val();
-                    var password = $("#password").val();
-                    var contact = $("#contactNum").val();
-                    var goodToSubmit = true;
-                    //validate username
-                    if(username.length < 8){
-                        goodToSubmit = false;
-                        
-                    }
-                    //validate password
-                    //validate contactNum
-                    if(startTime >= endTime){
-                        alert("Invalid time range!");
-                    }
-                    if(goodToSubmit){
-                        var formData = $(this).serialize();
-                        console.log(formData);
-                        $.ajax({
-                            url: "EduTechAdmin",
-                            type: 'POST',
-                            data: formData,
-                            success: function(data){
-                                $('#newEventModal').modal('hide');
-                                alert('Event successfully created');
-                                top.location.reload();
-                            },
-                            error: function(jqXHR,status,error){
-                                alert(status+": "+error);
-                            }
-                        });
-                    }
-                });
-            });
-        </script>-->
+        <script src="js/commoninfrastructure/login/RegistrationJS.js"></script>
+        <!--Font Awesome 5-->
+        <script defer src="fonts/fa5/fontawesome-all.js"></script>
+        <script defer src="fonts/fa5/fa-v4-shims.js"></script>
     </body>
 </html>
