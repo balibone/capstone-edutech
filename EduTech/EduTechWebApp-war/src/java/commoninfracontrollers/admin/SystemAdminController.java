@@ -323,14 +323,14 @@ public class SystemAdminController extends HttpServlet {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String contactNum = request.getParameter("contactNum");
-        
+        int localPort = request.getLocalPort();
         if(userType.equals("admin")) {
             String adminType = request.getParameter("adminType");
-            return sam.createNewAdmin(salutation,firstName,lastName, email, contactNum,username, password, fileName,adminType);
+            return sam.createNewAdmin(localPort,salutation,firstName,lastName, email, contactNum,username, password, fileName,adminType);
         } else if(userType.equals("student")){ 
-            return sam.createNewStudent(salutation,firstName,lastName,email, contactNum, username, password, fileName);
+            return sam.createNewStudent(localPort,salutation,firstName,lastName,email, contactNum, username, password, fileName);
         } else {
-            return sam.createNewInstructor(salutation, firstName, lastName, email, contactNum, username, password, fileName);
+            return sam.createNewInstructor(localPort,salutation, firstName, lastName, email, contactNum, username, password, fileName);
         }
     }
     private String getFileName(final Part part) {

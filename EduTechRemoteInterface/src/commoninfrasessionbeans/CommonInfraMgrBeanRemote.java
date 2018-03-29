@@ -9,8 +9,8 @@ public interface CommonInfraMgrBeanRemote {
     public boolean empLogin(String username, String password);
     public boolean createSysUser(String salutation, String firstName, String lastName, String username, String password, String email, String contactNum);
 
-    public boolean sendResetEmail(String username);
-    public boolean sendCreateEmail(String username);
+    public boolean sendResetEmail(String username, int localPort);
+    public boolean sendCreateEmail(String username, int localPort);
 
 //    public boolean validateToken(String username, String token);
 

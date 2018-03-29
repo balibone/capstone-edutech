@@ -173,7 +173,7 @@ public class CommonInfraController extends HttpServlet {
                     
                     break;
                 case "sendResetEmail":
-                    success = cir.sendResetEmail(request.getParameter("username"));
+                    success = cir.sendResetEmail(request.getParameter("username"),request.getLocalPort());
                     if(success){
                         request.setAttribute("successMsg", "Recover email has been sent. Please check your inbox."); 
                         pageAction = "IntegratedSPLogin";
