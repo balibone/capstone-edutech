@@ -1,3 +1,35 @@
+#passwordHint {
+    display:none;
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+}
+
+/*#passwordHint p {
+    padding: 10px 35px;
+    font-size: 18px;
+}*/
+
+.valid {
+    color: green;
+}
+
+.valid:before {
+    position: relative;
+    left: -15px;
+    content: "✔";
+}
+
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    position: relative;
+    left: -15px;
+    content: "✖";
+}
+
 html,
 body {
     height: 100%;

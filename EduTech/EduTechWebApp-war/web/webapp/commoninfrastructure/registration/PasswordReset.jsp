@@ -1,28 +1,28 @@
 <%  
-    String loggedInUsername=null; 
-    String userType = null; 
- 
-    /* 
-    HttpServletRequest object is already available to JSP page by default as variable "request" 
-    See https://www.tutorialspoint.com/jsp/jsp_implicit_objects.htm 
-    */ 
-    Cookie[] reqCookies = request.getCookies(); 
-    if(reqCookies != null){ 
-        for(Cookie c : reqCookies){ 
-            //if username cookie is valid, extract cookie value. 
-            if("username".equals(c.getName()) && !c.getValue().equals("")){ 
-                loggedInUsername = c.getValue(); 
-            } 
-            //if userType cookie is valid, extract cookie value. 
-            else if("userType".equals(c.getName()) && !c.getValue().equals("")){ 
-                userType = c.getValue(); 
-            } 
-        } 
-    }  
-    if (loggedInUsername != null) { 
-        response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding"); 
-    } 
- 
+//    String loggedInUsername=null; 
+//    String userType = null; 
+// 
+//    /* 
+//    HttpServletRequest object is already available to JSP page by default as variable "request" 
+//    See https://www.tutorialspoint.com/jsp/jsp_implicit_objects.htm 
+//    */ 
+//    Cookie[] reqCookies = request.getCookies(); 
+//    if(reqCookies != null){ 
+//        for(Cookie c : reqCookies){ 
+//            //if username cookie is valid, extract cookie value. 
+//            if("username".equals(c.getName()) && !c.getValue().equals("")){ 
+//                loggedInUsername = c.getValue(); 
+//            } 
+//            //if userType cookie is valid, extract cookie value. 
+//            else if("userType".equals(c.getName()) && !c.getValue().equals("")){ 
+//                userType = c.getValue(); 
+//            } 
+//        } 
+//    }  
+//    if (loggedInUsername != null) { 
+//        response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding"); 
+//    } 
+// 
 %>
 <!doctype html>
 <html lang="en">
