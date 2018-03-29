@@ -53,35 +53,35 @@ public class UserEntity implements Serializable {
     
     
     /* OBJECT-ORIENTED MAPPINGS (UNIFY) */
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Set<ItemEntity> itemSet = new HashSet<ItemEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<JobEntity> jobSet = new ArrayList<JobEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<ItemOfferEntity> itemOfferSet = new ArrayList<ItemOfferEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<JobOfferEntity> jobOfferSet = new ArrayList<JobOfferEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<LikeListingEntity> likeListingSet = new ArrayList<LikeListingEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<CompanyReviewReportEntity> companyReviewReportSet = new ArrayList<CompanyReviewReportEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<ItemReportEntity> itemReportSet = new ArrayList<ItemReportEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<JobReportEntity> jobReportSet = new ArrayList<JobReportEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<MessageEntity> messageSet = new ArrayList<MessageEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<CompanyReviewEntity> companyReviewSet = new ArrayList<CompanyReviewEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<CompanyRequestEntity> companyRequestSet = new ArrayList<CompanyRequestEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<ItemReviewEntity> itemReviewSet = new ArrayList<ItemReviewEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<JobReviewEntity> jobReviewSet = new ArrayList<JobReviewEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<ItemTransactionEntity> itemTransactionSet = new ArrayList<ItemTransactionEntity>();
-    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade=CascadeType.REMOVE)
     private Collection<JobTransactionEntity> jobTransactionSet = new ArrayList<JobTransactionEntity>();
     
     @PrePersist
