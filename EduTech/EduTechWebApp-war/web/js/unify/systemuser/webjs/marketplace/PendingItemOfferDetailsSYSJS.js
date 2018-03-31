@@ -73,11 +73,9 @@ $(document).ready(function () {
                     }
                 }
             });
-        } else if (btnItemOfferID.indexOf('markAsOpen') >= 0) {
-
         }
     });
-
+    
     $('#closeSuccess').click(function () { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function () { $('#errorPanel').fadeOut(300); });
 });

@@ -7,6 +7,26 @@ body::before{display:none;content:'unset'}
 .message-content { font-size: 12px; }
 .messageDIV:hover { background-color: #4D7496; color: #FFFFFF; cursor: pointer; }
 
+/* CUSTOM MODAL CSS */
+#modal-custom .iziModal-content section { padding: 20px; }
+#modal-custom .iziModal-content section .card:hover { cursor: pointer; }
+#modal-custom .iziModal-content .icon-close {
+    background: #FFFFFF;
+    margin-bottom: 10px;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    color: #A9A9A9;
+    cursor: pointer;
+}
+#modal-custom .iziModal-content .icon-close:hover, #modal-custom .iziModal-content .icon-close:focus { color: #000000; }
+
 /* FORM CSS (ADD-ON) */
 .x_panel { width: 100%; padding: 10px 17px; display: inline-block; background: #fff; border: 1px solid #E6E9ED; -webkit-column-break-inside: avoid; opacity: 1; transition: all .2s ease; }
 .x_title { border-bottom: 2px solid #E6E9ED; padding: 1px 5px 6px; }

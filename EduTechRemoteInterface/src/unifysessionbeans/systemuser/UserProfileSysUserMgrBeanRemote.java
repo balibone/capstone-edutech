@@ -8,10 +8,20 @@ import javax.ejb.Remote;
 public interface UserProfileSysUserMgrBeanRemote {
     /*  ====================    MISCELLANEOUS METHODS (USER PROFILE)    ==================== */
     public Vector viewUserProfileDetails(String username);
+    public List<Vector> viewUserItemWishlist(String username);
     
     /*  ====================    MISCELLANEOUS METHODS (USER NOTIFICATION)    ==================== */
     public List<Vector> viewUserMessageListTopThree(String username);
     public List<Vector> viewUserMessageList(String username);
+    public List<Vector> viewUserChatBuyingList(String username, String itemID);
+    public List<Vector> viewUserChatSellingList(String username, String itemID);
+    
+    public Vector viewChatContentInfo(String username, long chatID);
+    public List<Vector> viewChatListContent(long chatID);
+    public List<Vector> viewAssocBuyingList(String username, String itemID);
+    public List<Vector> viewAssocSellingList(String username, String itemID);
+    public String addNewChatContent(String senderID, String receiverID, String chatContent, 
+            String buyerOrSellerStat, String buyerOrSellerID, long itemID);
     
     /*  ====================    MISCELLANEOUS METHODS (USER ITEM OFFER)    ==================== */
     public List<Vector> viewItemOfferList(String username);

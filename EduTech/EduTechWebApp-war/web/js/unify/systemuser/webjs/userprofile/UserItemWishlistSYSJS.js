@@ -4,9 +4,9 @@ $(document).ready(function () {
     
     var dbItemCategory = $('#dbItemCategory').val();
     var splitResult = dbItemCategory.split(';');
-    $("#itemCategory ul").append('<li><span data-path="default">All Listings</span></li>');
+    $("#itemCategoryDropdown ul").append('<li><span data-path="default">All Item Categories</span></li>');
     splitResult.forEach(function (itemCategoryEntry) {
-        $("#itemCategory ul").append('<li><span data-path=".' + itemCategoryEntry.replace(" ", "") + '">' + itemCategoryEntry + '</span></li>');
+        $("#itemCategoryDropdown ul").append('<li><span data-path=".' + itemCategoryEntry.replace(" ", "") + '">' + itemCategoryEntry + '</span></li>');
     });
     
     jQuery.fn.jplist.settings = {
@@ -37,7 +37,7 @@ $(document).ready(function () {
         show: 'click'
     });
     
-    $('.itemListingBtn').click(function () {
+    $('.itemWishlistBtn').click(function () {
         var tempBtnID = this.id;
         if (tempBtnID.indexOf('likeItemBtn') >= 0) {
             tempBtnID = tempBtnID.replace('likeItemBtn', '');
@@ -90,4 +90,6 @@ $(document).ready(function () {
             
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
+    $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
 });
+

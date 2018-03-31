@@ -111,6 +111,22 @@ function selectedLocation(lat, lng, postalAddress, location) {
 }
 
 function deleteAlert(itemID) {
-    var deleteReply = confirm("Are you sure to delete this item?");
-    if (deleteReply) { window.open('MarketplaceSysUser?pageTransit=deleteItemListingSYS&hiddenItemID=' + itemID, '_parent'); }
+    bootbox.dialog({
+        title: '<h5>Confirmation Required</h5>',
+        message: "<p>Are you sure that you want this item to be deleted?</p>",
+        closeButton: false,
+        buttons: {
+            "Confirm Delete": {
+                label: "Confirm Delete",
+                className: 'btn-danger',
+                callback: function () {
+                    window.open('MarketplaceSysUser?pageTransit=deleteItemListingSYS&hiddenItemID=' + itemID, '_parent');
+                }
+            },
+            cancel: {
+                label: "Close",
+                className: 'btn-theme'
+            }
+        }
+    });
 }

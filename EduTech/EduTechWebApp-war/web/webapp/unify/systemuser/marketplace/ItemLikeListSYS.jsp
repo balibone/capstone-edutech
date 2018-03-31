@@ -26,18 +26,19 @@
                         for (int i = 0; i <= itemLikeListSYS.size()-1; i++) {
                             Vector v = itemLikeListSYS.get(i);
                             String username = String.valueOf(v.get(0));
-                            String userFirstName = String.valueOf(v.get(1));
-                            String userLastName = String.valueOf(v.get(2));
-                            String userItemPositiveRatingCount = String.valueOf(v.get(3));
-                            String userItemNeutralRatingCount = String.valueOf(v.get(4));
-                            String userItemNegativeRatingCount = String.valueOf(v.get(5));
+                            String usernameIMG = String.valueOf(v.get(1));
+                            String userFirstName = String.valueOf(v.get(2));
+                            String userLastName = String.valueOf(v.get(3));
+                            String userItemPositiveRatingCount = String.valueOf(v.get(4));
+                            String userItemNeutralRatingCount = String.valueOf(v.get(5));
+                            String userItemNegativeRatingCount = String.valueOf(v.get(6));
                 %>
                 <tr>
                     <td>
                         <div class="media mb-2 mt-3">
                             <div class="mr-2">
                                 <a href="ProfileSysUser?pageTransit=goToUserProfileSYS&itemSellerID=<%= username%>" target="_parent">
-                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= username%>" />
+                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= usernameIMG%>" style="width:40px;height:40px;" />
                                 </a>
                             </div>
                             <div class="media-body" style="cursor: pointer;" onclick="window.open('ProfileSysUser?pageTransit=goToUserProfileSYS&itemSellerID=<%= username%>', '_parent');">

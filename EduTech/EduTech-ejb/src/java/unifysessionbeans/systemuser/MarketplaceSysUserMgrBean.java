@@ -24,6 +24,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import unifyentities.common.CategoryEntity;
 import unifyentities.marketplace.ItemEntity;
 import unifyentities.marketplace.ItemOfferEntity;
@@ -115,6 +118,78 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             dateString = "";
         }
         return itemList;
+    }
+    
+    @Override
+    public String viewProximityItemListing(String username) {
+        Date currentDate = new Date();
+        String dateString = "";
+
+        JSONObject jsonNode;
+        JSONArray jsonNodeArr = new JSONArray();
+        
+        Query q = em.createQuery("SELECT i FROM Item i WHERE i.itemStatus = 'Available' AND "
+                + "i.categoryEntity.categoryActiveStatus = '1'");
+
+        for (Object o : q.getResultList()) {
+            ItemEntity itemE = (ItemEntity) o;
+            jsonNode = new JSONObject();
+            
+            jsonNode.put("itemID", itemE.getItemID());
+            jsonNode.put("itemImage", itemE.getItemImage());
+            jsonNode.put("itemName", itemE.getItemName());
+            jsonNode.put("itemCategory", itemE.getCategoryEntity().getCategoryName());
+            jsonNode.put("itemSellerID", itemE.getUserEntity().getUsername());
+            jsonNode.put("itemSellerImage", itemE.getUserEntity().getImgFileName());
+            
+            long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            jsonNode.put("itemPostedDuration", dateString);
+            jsonNode.put("itemPostingDate", df.format(itemE.getItemPostingDate()));
+            jsonNode.put("itemPrice", String.format ("%,.2f", itemE.getItemPrice()));
+            jsonNode.put("itemLikeCount", getItemLikeCount(itemE.getItemID()));
+            if(lookupLike(itemE.getItemID(), username) == null) { jsonNode.put("userItemLikeStatus", false); }
+            else { jsonNode.put("userItemLikeStatus", true); }
+            jsonNode.put("itemCondition", itemE.getItemCondition());
+            jsonNode.put("itemTradeLat", itemE.getTradeLat());
+            jsonNode.put("itemTradeLong", itemE.getTradeLong());
+            
+            jsonNodeArr.add(jsonNode);
+        }
+        return jsonNodeArr.toJSONString();
     }
 
     /* FOR EDIT ITEM LISTING */ 
@@ -243,6 +318,13 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             }
         }
         return assocCategoryItemList;
+    }
+    
+    /* SOLELY FOR USED BY MarketplaceSysUserController "goToMsgViewItemDetailsSYS" */
+    @Override
+    public String lookupCategoryName(long itemID) {
+        iEntity = lookupItem(itemID);
+        return iEntity.getCategoryEntity().getCategoryName();
     }
     
     @Override
@@ -445,6 +527,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             Vector likeListingVec = new Vector();
 
             likeListingVec.add(likeListingE.getUserEntity().getUsername());
+            likeListingVec.add(likeListingE.getUserEntity().getImgFileName());
             likeListingVec.add(likeListingE.getUserEntity().getUserFirstName());
             likeListingVec.add(likeListingE.getUserEntity().getUserLastName());
             likeListingVec.add(getPositiveItemReviewCount(likeListingE.getUserEntity().getUsername()));

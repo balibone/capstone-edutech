@@ -19,7 +19,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/marketplace/PendingItemOfferSYSCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/marketplace/PendingItemOfferListSYSCSS.css" rel="stylesheet" type="text/css" />
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -96,6 +96,9 @@
                                             </div>
                                             <div class="dropdown-divider"></div>
                                             <%      }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
                                             <%  }   %>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
@@ -166,7 +169,7 @@
                                 <button type="button" class="btn btn-outline-theme newItemListingBtn">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </button>
-                                <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
+                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
@@ -253,182 +256,7 @@
                         <div class="x_panel">
                             <div class="title"><span>Your Pending Item Offer</span></div>
                             <div class="x_content">
-                                <form class="form-horizontal" action="MarketplaceSysUser" method="POST">
-                                    <%
-                                        ArrayList<Vector> itemOfferUserListSYS = (ArrayList) request.getAttribute("itemOfferUserListSYS");
-                                        if (!itemOfferUserListSYS.isEmpty()) {
-                                            String itemID = String.valueOf(itemOfferUserListSYS.get(0).get(0));
-                                            String itemName = String.valueOf(itemOfferUserListSYS.get(0).get(1));
-                                            String itemImage = String.valueOf(itemOfferUserListSYS.get(0).get(2));
-                                            String itemPrice = String.valueOf(itemOfferUserListSYS.get(0).get(3));
-                                            String itemCondition = String.valueOf(itemOfferUserListSYS.get(0).get(4));
-                                    %>
-                                    <div class="formDiv">
-                                        <div class="form-row media">
-                                            <img class="img-thumbnail" src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width:50px;height:50px;"/>
-                                            <div class="media-body ml-3">
-                                                <input type="hidden" id="hiddenItemID" value="<%= itemID%>" />
-                                                <h5 class="user-name"><strong><%= itemName%></strong></h5>
-                                                <p class="card-text mb-0">$<%= itemPrice%></p>
-                                                <p class="card-text mb-3">Item Condition:&nbsp;&nbsp;
-                                                    <%  if (itemCondition.equals("New")) { %>
-                                                    <span class="badge badge-success custom-badge"><%= itemCondition%></span>
-                                                    <%  } else if (itemCondition.equals("Used")) { %>
-                                                    <span class="badge badge-danger custom-badge"><%= itemCondition%></span>
-                                                    <%  }   %>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="formDiv">
-                                        <div class="form-row" style="padding: 20px 0 30px 0;">
-                                            <h5 class="user-name" style="font-size: 15px;"><strong>List of item offers</strong></h5>
-                                            <div class="jplist-search sorting-bar">
-                                                <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                                     data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
-                                                     data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
-                                                    <ul>
-                                                        <li><span data-path=".itemOfferDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
-                                                        <li><span data-path=".itemOfferPrice" data-order="asc" data-type="number">Offer Price Asc</span></li>
-                                                        <li><span data-path=".itemOfferPrice" data-order="desc" data-type="number">Offer Price Desc</span></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
-                                                     data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
-                                                    <ul>
-                                                        <li><span data-number="2" data-default="true">2 per page</span></li>
-                                                        <li><span data-number="4">4 per page</span></li>
-                                                        <li><span data-number="8">8 per page</span></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="jplist-checkbox-dropdown" data-control-type="checkbox-dropdown" 
-                                                     data-control-name="category-checkbox-dropdown" data-control-action="filter" 
-                                                     data-no-selected-text="Filter by:" data-one-item-text="{num} selected" 
-                                                     data-many-items-text="{num} selected">
-                                                    <ul>
-                                                        <li>
-                                                            <input data-path=".Pending" id="Pending" type="checkbox" />
-                                                            <label for="Pending">Pending</label>
-                                                        </li>
-                                                        <li>
-                                                            <input data-path=".Processing" id="Processing" type="checkbox" />
-                                                            <label for="Processing">Processing</label>
-                                                        </li>
-                                                        <li>
-                                                            <input data-path=".Accepted" id="Accepted" type="checkbox" />
-                                                            <label for="Accepted">Accepted</label>
-                                                        </li>
-                                                        <li>
-                                                            <input data-path=".Rejected" id="Rejected" type="checkbox" />
-                                                            <label for="Rejected">Rejected</label>
-                                                        </li>
-                                                        <li>
-                                                            <input data-path=".Cancelled" id="Cancelled" type="checkbox" />
-                                                            <label for="Cancelled">Cancelled</label>
-                                                        </li>
-                                                        <li>
-                                                            <input data-path=".Completed" id="Completed" type="checkbox" />
-                                                            <label for="Completed">Completed</label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="jplist-panel">
-                                                    <button type="button" class="jplist-reset-btn" data-control-type="reset" 
-                                                            data-control-name="reset" data-control-action="reset"><i class="fa fa-retweet">&nbsp;&nbsp;Reset</i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="list searchresult-row">
-                                                <%
-                                                    for (int i = 1; i <= itemOfferUserListSYS.size()-1; i++) {
-                                                        Vector v = itemOfferUserListSYS.get(i);
-                                                        String itemOfferID = String.valueOf(v.get(0));
-                                                        String itemOfferUserID = String.valueOf(v.get(1));
-                                                        String itemOfferUserFirstName = String.valueOf(v.get(2));
-                                                        String itemOfferUserLastName = String.valueOf(v.get(3));
-                                                        String itemOfferUserImage = String.valueOf(v.get(4));
-                                                        String itemOfferUserPositiveCount = String.valueOf(v.get(5));
-                                                        String itemOfferUserNeutralCount = String.valueOf(v.get(6));
-                                                        String itemOfferUserNegativeCount = String.valueOf(v.get(7));
-                                                        String itemOfferPrice = String.valueOf(v.get(8));
-                                                        String itemOfferDescription = String.valueOf(v.get(9));
-                                                        String itemOfferStatus = String.valueOf(v.get(10));
-                                                        String itemOfferPostedDuration = String.valueOf(v.get(11));
-                                                        String itemOfferDate = String.valueOf(v.get(12));
-                                                %>
-                                                <div class="col-sm-6 pl-1 pr-1 list-item">
-                                                    <div class="card">
-                                                        <div class="card-body media">
-                                                            <img class="img-circle pull-left mr-3 d-flex align-self-start" src="uploads/commoninfrastructure/admin/images/<%= itemOfferUserImage%>" style="width:50px;height:50px;" />
-                                                            <div class="media-body">
-                                                                <span class="text-muted pull-right mt-0">
-                                                                    <span class="itemOfferDate" style="display:none;"><%= itemOfferDate%></span>
-                                                                    <small class="text-muted"><%= itemOfferPostedDuration%></small>
-                                                                </span>
-                                                                <strong class="text-primary"><%= itemOfferUserFirstName%>&nbsp;<%= itemOfferUserLastName%></strong>
-                                                                <div class="rating">
-                                                                    <ul class="profileRating">
-                                                                        <li><span class="card-text text-muted">@<%= itemOfferUserID%></span></li>
-                                                                        <li>[&nbsp;<img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%= itemOfferUserPositiveCount%></span></li>
-                                                                        <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%= itemOfferUserNeutralCount%></span></li>
-                                                                        <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%= itemOfferUserNegativeCount%></span>&nbsp;]</li>
-                                                                    </ul>
-                                                                </div>
-                                                                <p class="card-text mb-0 pt-3" style="font-size:12px;">
-                                                                    Offer Status:&nbsp;
-                                                                    <%  if(itemOfferStatus.equals("Pending")) {  %>
-                                                                    <span class="badge badge-primary custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
-                                                                    <%  } else if(itemOfferStatus.equals("Processing")) { %>
-                                                                    <span class="badge badge-warning custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
-                                                                    <%  } else if(itemOfferStatus.equals("Accepted")) {   %>
-                                                                    <span class="badge badge-info custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
-                                                                    <%  } else if(itemOfferStatus.equals("Rejected")) { %>
-                                                                    <span class="badge badge-danger custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
-                                                                    <%  } else if(itemOfferStatus.equals("Cancelled")) { %>
-                                                                    <span class="badge badge-danger custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
-                                                                    <%  } else if(itemOfferStatus.equals("Completed")) { %>
-                                                                    <span class="badge badge-success custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
-                                                                    <%  }   %>
-                                                                </p>
-                                                                <p class="card-text text-success mb-0 itemOfferPrice" style="font-size:16px;">
-                                                                    <i class="fa fa-bullhorn"></i>&nbsp;&nbsp;<strong>$<%= itemOfferPrice%></strong>
-                                                                </p>
-                                                                <p class="card-text pt-2"><%= itemOfferDescription%></p>
-                                                                <div class="rating">
-                                                                    <ul class="offerAction">
-                                                                        <%  if(itemOfferStatus.equals("Pending")) {  %>
-                                                                        <li><button type="button" id="acceptOfferPanel<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn qtipAcceptOfferButton">Accept</button></li>
-                                                                        <li><button type="button" id="negotiateOfferPanel<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn qtipNegotiateOfferButton">Negotiate</button></li>
-                                                                        <li><button type="button" id="rejectOfferBtn<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Reject</button></li>
-                                                                        <%  } else if(itemOfferStatus.equals("Accepted")) {   %>
-                                                                        <li><button type="button" id="markAsSold<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Mark As Sold</button></li>
-                                                                        <li><button type="button" id="markAsOpen<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Reopen Listing</button></li>
-                                                                        <%  } else {   %>
-                                                                        <li>&nbsp;</li>
-                                                                        <%  }   %>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <%      }   %>
-                                                <%  }%>
-                                            </div>
-                                            <div class="box jplist-no-results text-shadow align-center">
-                                                <p><strong>No results found. Please refine your search.</strong></p>
-                                            </div>
-                                            <div class="jplist-search">
-                                                <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
-                                                     data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
-                                                </div>
-                                                <div class="jplist-pagination" data-control-animate-to-top="true" 
-                                                     data-control-type="pagination" data-control-name="paging" data-control-action="paging">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                
                             </div>
                         </div>
                     </div>
@@ -439,21 +267,6 @@
             </a>
             <div id="sellNewItem-iframe"></div>
             <div id="unifyFooter"></div>
-            
-            <div style="display:none;" id="acceptOfferTooltip">
-                Seller Comments&nbsp;<span style="color:#FF0000;">*</span><br/>
-                <textarea rows="3" id="sellerAcceptComments" class="acceptOfferFields" placeholder="e.g. Please meet at Raffles Place"></textarea><br/>
-                <button type="button" id="acceptOfferBtn" class="itemOfferBtn" style="margin:7px 0 7px 0;">Accept Offer</button><br/>
-                <input type="hidden" id="itemOfferHiddenID" />
-                <span id="successAcceptOfferResponse"></span><span id="failedAcceptOfferResponse"></span>
-            </div>
-            <div style="display:none;" id="negotiateOfferTooltip">
-                Seller Comments&nbsp;<span style="color:#FF0000;">*</span><br/>
-                <textarea rows="3" id="sellerNegotiateComments" class="negotiateOfferFields" placeholder="e.g. Your offer is too low"></textarea><br/>
-                <button type="button" id="negotiateOfferBtn" class="itemOfferBtn" style="margin:7px 0 7px 0;">Negotiate Offer</button><br/>
-                <input type="hidden" id="itemOfferHiddID" />
-                <span id="successNegotiateOfferResponse"></span><span id="failedNegotiateOfferResponse"></span>
-            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -466,7 +279,7 @@
         <script src="js/unify/systemuser/basejs/bootbox.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/marketplace/PendingItemOfferSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/marketplace/PendingItemOfferListSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>

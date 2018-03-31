@@ -23,11 +23,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.VoicesSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.ErrandsSysUserMgrBeanRemote;
 
 public class UserProfileSysUserController extends HttpServlet {
+    @EJB
+    private MarketplaceSysUserMgrBeanRemote msmr;
     @EJB
     private UserProfileSysUserMgrBeanRemote usmr;
     @EJB
@@ -114,12 +117,15 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "JobListingInUserProfileSYS";
                     break;
                 case "goToPendingItemOfferListSYS":
+                    pageAction = "PendingItemOfferListSYS";
+                    break;
+                case "goToPendingItemOfferDetailsSYS":
                     long urlitemID = Long.parseLong(request.getParameter("urlitemID"));
                     request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, urlitemID));
                     
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
-                    pageAction = "PendingItemOfferSYS";
+                    pageAction = "PendingItemOfferDetailsSYS";
                     break;
                 case "acceptAnItemOfferSYS":
                     long itemIDHid = Long.parseLong(request.getParameter("itemIDHidden"));
@@ -133,7 +139,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHid));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
-                    pageAction = "PendingItemOfferSYS";
+                    pageAction = "PendingItemOfferDetailsSYS";
                     break;
                 case "negotiateAnItemOfferSYS":
                     long itemIDHidd = Long.parseLong(request.getParameter("itemIDHidden"));
@@ -147,7 +153,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHidd));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
-                    pageAction = "PendingItemOfferSYS";
+                    pageAction = "PendingItemOfferDetailsSYS";
                     break;
                 case "rejectAnItemOfferSYS":
                     long itemIDHiddd = Long.parseLong(request.getParameter("itemIDHidden"));
@@ -160,7 +166,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHiddd));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
-                    pageAction = "PendingItemOfferSYS";
+                    pageAction = "PendingItemOfferDetailsSYS";
                     break;
                 case "completeAnItemOfferSYS":
                     long itemIDHidddd = Long.parseLong(request.getParameter("itemIDHidden"));
@@ -174,7 +180,15 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemOfferUserListSYS", usmr.viewItemOfferUserList(loggedInUsername, itemIDHidddd));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
-                    pageAction = "PendingItemOfferSYS";
+                    pageAction = "PendingItemOfferDetailsSYS";
+                    break;
+                case "goToUserItemWishlistSYS":
+                    request.setAttribute("userItemWishlistSYS", (ArrayList) usmr.viewUserItemWishlist(loggedInUsername));
+                    request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
+                    
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "UserItemWishlistSYS";
                     break;
                 case "goToUserNotificationListSYS":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
@@ -200,6 +214,35 @@ public class UserProfileSysUserController extends HttpServlet {
                     double revisedOfferPrice = Double.parseDouble(request.getParameter("revisedItemOffer"));
                     
                     responseMessage = usmr.editPersonalItemOffer(itemOfferHidID, revisedOfferPrice);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
+                    break;
+                case "goToViewChatListSYS":
+                    String assocItemID = request.getParameter("assocItemID");
+                    request.setAttribute("userChatBuyingListSYS", usmr.viewUserChatBuyingList(loggedInUsername, assocItemID));
+                    request.setAttribute("userChatSellingListSYS", usmr.viewUserChatSellingList(loggedInUsername, assocItemID));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "UserChatListSYS";
+                    break;
+                case "goToViewChatListContentSYS":
+                    long hidChatID = Long.parseLong(request.getParameter("hidChatID"));
+                    request.setAttribute("contentChatID", hidChatID);
+                    request.setAttribute("chatListContentSYS", usmr.viewChatListContent(hidChatID));
+                    request.setAttribute("chatContentInfoVecSYS", usmr.viewChatContentInfo(loggedInUsername, hidChatID));
+                    request.setAttribute("assocBuyingListSYS", usmr.viewAssocBuyingList(loggedInUsername, ""));
+                    request.setAttribute("assocSellingListSYS", usmr.viewAssocSellingList(loggedInUsername, ""));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "UserChatListContentSYS";
+                    break;
+                case "addNewChatContent":
+                    String receiverID = request.getParameter("receiverID");
+                    String chatContent = request.getParameter("chatContent");
+                    String buyerOrSellerStat = request.getParameter("buyerOrSellerStat");
+                    String buyerOrSellerID = request.getParameter("buyerOrSellerID");
+                    long hiddenItemID = Long.parseLong(request.getParameter("hiddenItemID"));
+                    
+                    responseMessage = usmr.addNewChatContent(loggedInUsername, receiverID, chatContent, 
+                            buyerOrSellerStat, buyerOrSellerID, hiddenItemID);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
@@ -263,7 +306,7 @@ public class UserProfileSysUserController extends HttpServlet {
             }
             System.out.println("dispatch: " + pageAction);
             dispatcher = servletContext.getNamedDispatcher(pageAction);
-            dispatcher.forward(request, response);       
+            dispatcher.forward(request, response);
         }
         catch(Exception ex) {
             log("Exception in UserProfileSysUserController: processRequest()");

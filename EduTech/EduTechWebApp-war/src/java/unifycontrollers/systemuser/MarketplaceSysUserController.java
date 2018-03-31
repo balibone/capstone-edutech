@@ -92,9 +92,10 @@ public class MarketplaceSysUserController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList(loggedInUsername));
+                    request.setAttribute("itemOfferListSYS", (ArrayList) usmr.viewItemOfferList(loggedInUsername));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
-                    pageAction = "ViewItemListingSYS";
+                    pageAction = "UserAccountSYS";
                     break;
                 case "goToViewItemListingSYS":
                     request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList(loggedInUsername));
@@ -108,6 +109,15 @@ public class MarketplaceSysUserController extends HttpServlet {
                     
                     request.setAttribute("assocCategoryItemListSYS", (ArrayList) msmr.viewAssocCategoryItemList(hiddenCategoryName, hiddenItemID));
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(hiddenItemID, loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewItemDetailsSYS";
+                    break;
+                case "goToMsgViewItemDetailsSYS":
+                    long itemHidID = Long.parseLong(request.getParameter("itemHidID"));
+                    String categoryName = msmr.lookupCategoryName(itemHidID);
+                    
+                    request.setAttribute("assocCategoryItemListSYS", (ArrayList) msmr.viewAssocCategoryItemList(categoryName, itemHidID));
+                    request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(itemHidID, loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewItemDetailsSYS";
                     break;
@@ -141,6 +151,12 @@ public class MarketplaceSysUserController extends HttpServlet {
                     responseMessage = msmr.likeUnlikeItem(itemIDHid, loggedInUsername);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
+                    break;
+                case "goToProximityItemListingSYS":
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    responseMessage = msmr.viewProximityItemListing(loggedInUsername);
+                    request.setAttribute("jsonResponse", responseMessage);
+                    pageAction = "ProximityItemListingSYS";
                     break;
                 default:
                     break;

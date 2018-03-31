@@ -70,8 +70,7 @@
                                             <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <% 
-                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                            <%                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
                                                     for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
                                                         Vector v = userMessageListTopThreeSYS.get(i);
@@ -96,7 +95,10 @@
                                             </div>
                                             <div class="dropdown-divider"></div>
                                             <%      }   %>
-                                            <%  }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
+                                            <%  }%>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
@@ -219,6 +221,22 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
+                                <button type="button" class="list-group-item list-group-item-action marketplaceBtn active">
+                                    <i class="fa fa-fw fa-shopping-cart"></i>&nbsp;My Marketplace
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-comments"></i>&nbsp;My Whispers
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
                                 <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList&username=<%=loggedInUsername%>" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
                                 </a>
@@ -227,12 +245,6 @@
                                 </a>
                                 <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTransSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;My Marketplace Transaction
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;My Item Offer List
                                 </a>
                                 <a href="account-address.html" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
@@ -250,7 +262,7 @@
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-8">
-                        <%  
+                        <%
                             String successMessage = (String) request.getAttribute("successMessage");
                             if (successMessage != null) {
                         %>
@@ -268,30 +280,35 @@
                             <%= errorMessage%>
                         </div>
                         <%  }   %>
-                            
+
                         <div class="title"><span>Your Item Listing</span></div>
                         <div class="jplist-search sorting-bar">
-                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
-                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
-                                <ul>
-                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
-                                    <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
-                                    <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
-                                    <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
-                                    <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
-                                </ul>
-                            </div>
-                            <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
-                                 data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
-                                <ul>
-                                    <li><span data-number="4">4 per page</span></li>
-                                    <li><span data-number="8">8 per page</span></li>
-                                    <li><span data-number="12" data-default="true">12 per page</span></li>
-                                    <li><span data-number="16">16 per page</span></li>
-                                </ul>
+                            <button class="btn btn-outline-theme btn-block dropdown-toggle d-md-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                                Search Filter
+                            </button>
+                            <div class="collapse d-md-block pt-3 pt-md-0" id="collapseFilter">
+                                <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+                                     data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
+                                     data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
+                                    <ul>
+                                        <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
+                                        <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
+                                        <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
+                                        <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
+                                        <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
+                                        <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
+                                        <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
+                                    </ul>
+                                </div>
+                                <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
+                                     data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
+                                    <ul>
+                                        <li><span data-number="4">4 per page</span></li>
+                                        <li><span data-number="8">8 per page</span></li>
+                                        <li><span data-number="12" data-default="true">12 per page</span></li>
+                                        <li><span data-number="16">16 per page</span></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
@@ -321,19 +338,21 @@
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-header" style="font-size: 13px;">
-                                            <button id="settingsBtn<%= itemID%>" type="button" class="text-right close settingsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:7px;">
+                                            <button type="button" class="text-right close" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:7px;">
                                                 <img src="images/unifyimages/sidebar-divider-dots.png" />
                                             </button>
                                             <button type="button" id="qtipItemReportTrigger<%= itemID%>" class="text-right close qtipItemReportTrigger"></button>
-                                            <div class="dropdown-menu dropdown-menu-reportListing" aria-labelledby="settingsBtn<%= itemID%>">
-                                                <%  if(!itemNumOfPendingOffer.equals("0")) { %>
+                                            <div class="dropdown-menu dropdown-menu-reportListing">
+                                                <%  if (!itemNumOfPendingOffer.equals("0")) {%>
                                                 <button id="pendingItemOfferBtn<%= itemID%>" type="button" class="dropdown-item myAccountBtn">View Item Offers</button>
                                                 <%  }   %>
+                                                <%  if (!loggedInUsername.equals(itemSellerID)) {%>
                                                 <button id="reportItemListingBtn<%= itemID%>" type="button" class="dropdown-item myAccountBtn">Report Listing</button>
+                                                <%  }%>
                                             </div>
                                             <div class="pull-left" style="padding-right: 10px;">
                                                 <div class="profilePicBorder">
-                                                    <img class="profilePic" src="uploads/unify/images/marketplace/item/<%= itemSellerImage%>" />
+                                                    <img class="profilePic" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
                                                 </div>
                                             </div>
                                             <div class="profileContent">
@@ -349,11 +368,11 @@
                                                     </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
                                                         <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            <%  if(itemLikeStatus.equals("true")) {   %>
+                                                            <%  if (itemLikeStatus.equals("true")) {%>
                                                             <button type="button" id="likeItemBtn<%= itemID%>" class="btn btn-link btn-sm myAccountBtn likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this item"><i class="fa fa-heart"></i></button>
-                                                            <%  } else if(itemLikeStatus.equals("false")) {    %>
+                                                                <%  } else if (itemLikeStatus.equals("false")) {%>
                                                             <button type="button" id="likeItemBtn<%= itemID%>" class="btn btn-link btn-sm myAccountBtn noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
-                                                            <%  }   %>
+                                                                <%  }   %>
                                                         </div>
                                                     </div>
                                                     <%  if (itemStatus.equals("Reserved")) { %>
@@ -401,13 +420,12 @@
                     </div>
                 </div>
             </div>
-            <div id="itemLikeList-iframe"></div>
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
+            <div id="itemLikeList-iframe"></div>
             <div id="sellNewItem-iframe"></div>
-            <div id="unifyFooter"></div>
-            
+
             <div style="display:none;" id="reportItemListingTip">
                 Report Category&nbsp;<span style="color:#FF0000;">*</span><br/>
                 <select id="itemReportCategory" class="itemReportFields" style="margin-bottom: 7px;">
@@ -425,6 +443,57 @@
                 <button type="button" id="sendItemReportBtn" style="margin:7px 0 7px 0;">Send Item Report</button><br/>
                 <input type="hidden" id="itemHiddenID" />
                 <span id="successReportResponse"></span><span id="failedReportResponse"></span>
+            </div>
+
+            <div id="modal-custom">
+                <button data-iziModal-close class="icon-close"><i class="fa fa-times"></i></button>
+                <div class="sections">
+                    <section>
+                        <p class="text-center"><strong>Select one of the following to view.</strong></p>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUnifyUserAccountSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-shopping-cart display-2"></i></h1>
+                                        <h6>My Listings</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToMarketplaceTransSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
+                                        <h6>My Transactions</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUserItemWishlistSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-heart display-2"></i></h1>
+                                        <h6>My Wishlist</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-edit display-2"></i></h1>
+                                        <h6>My Offers</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToPendingItemOfferListSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-bullhorn display-2"></i></h1>
+                                        <h6>Marketplace Offers</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
 

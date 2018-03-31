@@ -1,0 +1,7 @@
+#itemListingContent { font-size: 11.5px; }
+.profileBorder { text-align: center; position: relative; }
+.profilePic { border-radius: 50%; width: 32px; height: 32px; padding-right: 5px; }
+
+.profileContent { display: block; vertical-align: top; }
+.profileHeader { color: #333333; font-size: inherit; font-weight: 600; margin-bottom: 1px; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.profileTime { color: #B3B3B3; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }

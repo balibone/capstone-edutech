@@ -99,6 +99,9 @@
                                             </div>
                                             <div class="dropdown-divider"></div>
                                             <%      }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
                                             <%  }   %>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">

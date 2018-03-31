@@ -96,6 +96,9 @@
                                             </div>
                                             <div class="dropdown-divider"></div>
                                             <%      }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
                                             <%  }   %>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
@@ -222,8 +225,7 @@
                                         <ul>
                                             <li>
                                                 <input type="text" data-path=".itemName" class="form-control" placeholder="Search Item ..." 
-                                                       aria-label="Search Item ..." data-control-type="textbox" 
-                                                       data-control-name="transmission-text-filter" data-control-action="filter" />
+                                                       aria-label="Search Item ..." data-control-type="textbox" data-control-action="filter" />
                                             </li>
                                             <li class="form-group mt-3">Item Condition</li>
                                             <li>
@@ -330,12 +332,14 @@
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-header" style="font-size: 13px;">
-                                            <button id="settingsBtn<%= itemID%>" type="button" class="text-right close settingsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:7px;">
+                                            <button type="button" class="text-right close" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:7px;">
                                                 <img src="images/unifyimages/sidebar-divider-dots.png" />
                                             </button>
-                                            <button type="button" id="qtipTrigger<%= itemID%>" class="text-right close"></button>
-                                            <div class="dropdown-menu dropdown-menu-reportListing" aria-labelledby="settingsBtn<%= itemID%>">
+                                            <button type="button" id="qtipItemReportTrigger<%= itemID%>" class="text-right close qtipItemReportTrigger"></button>
+                                            <div class="dropdown-menu dropdown-menu-reportListing">
+                                                <%  if(!loggedInUsername.equals(itemSellerID)) { %>
                                                 <button id="reportItemListingBtn<%= itemID%>" type="button" class="dropdown-item itemListingBtn">Report Listing</button>
+                                                <%  }   %>
                                             </div>
                                             <div class="pull-left" style="padding-right: 10px;">
                                                 <div class="profilePicBorder">
@@ -372,9 +376,9 @@
                                         <div class="card-footer text-muted mt-1">
                                             <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
                                             <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
-                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"id="itemNumOfLikes<%= itemID%>"><%= itemNumOfLikes%></span>&nbsp;<span id="likeWording<%= itemID%>">Like</span></span>
+                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes" id="itemNumOfLikes<%= itemID%>"><%= itemNumOfLikes%></span>&nbsp;<span id="likeWording<%= itemID%>">Like</span></span>
                                             <%  } else {%>
-                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"id="itemNumOfLikes<%= itemID%>"><%= itemNumOfLikes%></span>&nbsp;<span id="likeWording<%= itemID%>">Likes</span>
+                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes" id="itemNumOfLikes<%= itemID%>"><%= itemNumOfLikes%></span>&nbsp;<span id="likeWording<%= itemID%>">Likes</span></span>
                                             <%  }   %>
                                         </div>
                                     </div>

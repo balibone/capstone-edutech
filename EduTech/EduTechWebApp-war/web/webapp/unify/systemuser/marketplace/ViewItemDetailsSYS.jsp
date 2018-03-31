@@ -89,6 +89,9 @@
                                             </div>
                                             <div class="dropdown-divider"></div>
                                             <%      }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
                                             <%  }   %>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
@@ -288,9 +291,9 @@
                                     <td>
                                         <div class="btn-group" role="group">
                                             <%  if (itemSellerID.equals(request.getAttribute("loggedInUsername"))) {%>
-                                            <button type="button" class="btn btn-outline-theme" onclick="location.href = 'MarketplaceSysUser?pageTransit=goToEditItemListingSYS&urlItemID=<%= itemID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
+                                            <button type="button" class="btn btn-outline-theme" onclick="location.href='MarketplaceSysUser?pageTransit=goToEditItemListingSYS&urlItemID=<%= itemID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
                                             <%  } else {    %>
-                                            <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
+                                            <button type="button" class="btn btn-outline-theme" onclick="location.href='ProfileSysUser?pageTransit=goToViewChatListSYS&assocItemID=<%= itemID%>'"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
                                             <%  }%>
                                             <%  if(itemLikeStatus.equals("true")) {   %>

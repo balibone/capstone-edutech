@@ -93,6 +93,9 @@
                                             </div>
                                             <div class="dropdown-divider"></div>
                                             <%      }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
                                             <%  }   %>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
@@ -215,9 +218,22 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
-                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTransSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;My Marketplace Transaction
-                                </a>
+                                <button type="button" class="list-group-item list-group-item-action marketplaceBtn active">
+                                    <i class="fa fa-fw fa-shopping-cart"></i>&nbsp;My Marketplace
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-comments"></i>&nbsp;My Whispers
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
                                 <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList&username=<%=loggedInUsername%>" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
                                 </a>
@@ -226,9 +242,6 @@
                                 </a>
                                 <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;My Item Offer List
                                 </a>
                                 <a href="account-address.html" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
@@ -298,7 +311,57 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="sellNewItem-iframe"></div>
-            <div id="unifyFooter"></div>
+            
+            <div id="modal-custom">
+                <button data-iziModal-close class="icon-close"><i class="fa fa-times"></i></button>
+                <div class="sections">
+                    <section>
+                        <p class="text-center"><strong>Select one of the following to view.</strong></p>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUnifyUserAccountSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-shopping-cart display-2"></i></h1>
+                                        <h6>My Listings</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToMarketplaceTransSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
+                                        <h6>My Transactions</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUserItemWishlistSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-heart display-2"></i></h1>
+                                        <h6>My Wishlist</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-edit display-2"></i></h1>
+                                        <h6>My Offers</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToPendingItemOfferListSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-bullhorn display-2"></i></h1>
+                                        <h6>Marketplace Offers</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->

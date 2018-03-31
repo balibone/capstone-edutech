@@ -13,6 +13,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="marketplaceNAV" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Marketplace</a>
                             <div class="dropdown-menu t-90 smooth" aria-labelledby="marketplaceNAV">
                                 <a class="dropdown-item" href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a>
+                                <a class="dropdown-item" href="MarketplaceSysUser?pageTransit=goToProximityItemListingSYS">Item Listing Around Me</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

@@ -411,38 +411,23 @@
         <jsp-file>/webapp/unify/systemuser/errands/ViewJobOfferDetailsSYS.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - MARKETPLACE (JSP) -->
-    <servlet>
-        <servlet-name>EditItemListingSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/marketplace/EditItemListingSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ItemLikeListSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/marketplace/ItemLikeListSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewItemListingSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/marketplace/NewItemListingSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>PendingItemOfferSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/marketplace/PendingItemOfferSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewItemListingSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/marketplace/ViewItemListingSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewItemDetailsSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/marketplace/ViewItemDetailsSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewItemTransDetailsInModalSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/marketplace/ViewItemTransDetailsInModalSYS.jsp</jsp-file>
-    </servlet>
+    <servlet><servlet-name>EditItemListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/EditItemListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ItemLikeListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ItemLikeListSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewItemListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/NewItemListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>PendingItemOfferDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/PendingItemOfferDetailsSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>PendingItemOfferListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/PendingItemOfferListSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ProximityItemListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ProximityItemListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewItemListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewItemDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemDetailsSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewItemTransDetailsInModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemTransDetailsInModalSYS.jsp</jsp-file></servlet>   
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
     <servlet><servlet-name>UserAccountSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserAccountSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserChatListContentSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserChatListContentSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserChatListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserChatListSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserItemOfferListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemOfferListSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserItemTransactionSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransactionSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserItemWishlistSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemWishlistSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserNotificationListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserNotificationListSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserProfileSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserProfileSYS.jsp</jsp-file></servlet>
 

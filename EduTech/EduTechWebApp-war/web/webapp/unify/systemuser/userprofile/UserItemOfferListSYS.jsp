@@ -21,7 +21,7 @@
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/weblayout/userprofile/UserItemOfferListSYSCSS.css" rel="stylesheet" type="text/css" />
-        
+
         <link href="css/unify/systemuser/baselayout/datatable/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css" />
@@ -68,7 +68,7 @@
                                             <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <% 
+                                            <%  
                                                 ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
                                                     for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
@@ -94,7 +94,10 @@
                                             </div>
                                             <div class="dropdown-divider"></div>
                                             <%      }   %>
-                                            <%  }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
+                                            <%  }%>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
@@ -216,15 +219,22 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
-                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTransSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;My Marketplace Transaction
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;My Item Offer List
-                                </a>
-                                <a href="account-address.html" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
-                                </a>
+                                <button type="button" class="list-group-item list-group-item-action marketplaceBtn active">
+                                    <i class="fa fa-fw fa-shopping-cart"></i>&nbsp;My Marketplace
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-comments"></i>&nbsp;My Whispers
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -264,7 +274,7 @@
                                     <%
                                         ArrayList<Vector> userBuyerOfferListSYS = (ArrayList) request.getAttribute("userBuyerOfferListSYS");
                                         if (!userBuyerOfferListSYS.isEmpty()) {
-                                            for (int i = 0; i <= userBuyerOfferListSYS.size()-1; i++) {
+                                            for (int i = 0; i <= userBuyerOfferListSYS.size() - 1; i++) {
                                                 Vector v = userBuyerOfferListSYS.get(i);
                                                 String itemImage = String.valueOf(v.get(0));
                                                 String itemName = String.valueOf(v.get(1));
@@ -277,22 +287,22 @@
                                     %>
                                     <tr id="itemOfferRow<%= itemOfferID%>">
                                         <td><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width: 50px; height: 50px;" /></td>
-                                        <td><%= itemName %></td>
-                                        <td class="offerPriceTD">$<%= itemOfferPrice %><span style="display:none">;</span><br/>($<%= itemPrice %>)</td>
+                                        <td><%= itemName%></td>
+                                        <td class="offerPriceTD">$<%= itemOfferPrice%><span style="display:none">;</span><br/>($<%= itemPrice%>)</td>
                                         <td>
-                                            <%  if(itemOfferStatus.equals("Pending")) {  %>
+                                            <%  if (itemOfferStatus.equals("Pending")) {%>
                                             <span class="badge badge-primary custom-badge"><%= itemOfferStatus%></span>
-                                            <%  } else if(itemOfferStatus.equals("Processing")) { %>
+                                            <%  } else if (itemOfferStatus.equals("Processing")) {%>
                                             <span class="badge badge-warning custom-badge"><%= itemOfferStatus%></span>
-                                            <%  } else if(itemOfferStatus.equals("Accepted")) {   %>
+                                            <%  } else if (itemOfferStatus.equals("Accepted")) {%>
                                             <span class="badge badge-info custom-badge"><%= itemOfferStatus%></span>
-                                            <%  } else if(itemOfferStatus.equals("Rejected")) { %>
+                                            <%  } else if (itemOfferStatus.equals("Rejected")) {%>
                                             <span class="badge badge-danger custom-badge"><%= itemOfferStatus%></span>
-                                            <%  } else if(itemOfferStatus.equals("Cancelled")) { %>
+                                            <%  } else if (itemOfferStatus.equals("Cancelled")) {%>
                                             <span class="badge badge-danger custom-badge"><%= itemOfferStatus%></span>
-                                            <%  } else if(itemOfferStatus.equals("Completed")) { %>
+                                            <%  } else if (itemOfferStatus.equals("Completed")) {%>
                                             <span class="badge badge-success custom-badge"><%= itemOfferStatus%></span>
-                                            <%  }   %>
+                                            <%  }%>
                                         </td>
                                         <td>
                                             <strong>Offer Date:</strong>&nbsp;&nbsp;<%= itemOfferDate%><br/>
@@ -300,7 +310,7 @@
                                         </td>
                                         <td>
                                             <ul class="list-inline">
-                                                <%  if(itemOfferStatus.equals("Pending") || itemOfferStatus.equals("Processing")) {  %>
+                                                <%  if (itemOfferStatus.equals("Pending") || itemOfferStatus.equals("Processing")) {%>
                                                 <li class="list-inline-item"><button id="editItemOfferPanel<%= itemOfferID%>" type="button" class="userItemOfferListBtn qtipEditButton"><i class="fa fa-edit fa-lg"></i></button></li>
                                                 <li class="list-inline-item"><button id="cancelItemOffer<%= itemOfferID%>" type="button" class="userItemOfferListBtn"><i class="fa fa-trash fa-lg"></i></button></li>
                                                 <%  } else {    %>
@@ -321,17 +331,67 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="sellNewItem-iframe"></div>
-            <div id="unifyFooter"></div>
-            
+
             <div style="display:none;" id="editItemOfferTip">
                 Previous Offer Price:&nbsp;
                 <strong style="color:#FF0000;"><u><span id="previousOfferPrice" /></u></strong><br/><br/>
-                
+
                 Your Revised Offer Price&nbsp;<span style="color:#FF0000;">*</span><br/>
                 <input type="text" id="revisedItemOffer" class="revisedOfferFields" placeholder="e.g. 12.55 (without the $)" style="margin-bottom: 4px;" />
                 <button type="button" id="editItemOfferBtn" class="userItemOfferListBtn" style="margin:7px 0 7px 0;">Revise My Offer</button><br/>
                 <input type="hidden" id="itemOfferHiddenID" />
                 <span id="successItemOfferResponse"></span><span id="failedItemOfferResponse"></span>
+            </div>
+
+            <div id="modal-custom">
+                <button data-iziModal-close class="icon-close"><i class="fa fa-times"></i></button>
+                <div class="sections">
+                    <section>
+                        <p class="text-center"><strong>Select one of the following to view.</strong></p>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUnifyUserAccountSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-shopping-cart display-2"></i></h1>
+                                        <h6>My Listings</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMarketplaceTransSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
+                                        <h6>My Transactions</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUserItemWishlistSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-heart display-2"></i></h1>
+                                        <h6>My Wishlist</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-edit display-2"></i></h1>
+                                        <h6>My Offers</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToPendingItemOfferListSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-bullhorn display-2"></i></h1>
+                                        <h6>Marketplace Offers</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
 
@@ -346,7 +406,7 @@
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/UserItemOfferListSYSJS.js" type="text/javascript"></script>
-        
+
         <script src="js/unify/systemuser/basejs/datatable/buttons.html5.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/buttons.print.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>

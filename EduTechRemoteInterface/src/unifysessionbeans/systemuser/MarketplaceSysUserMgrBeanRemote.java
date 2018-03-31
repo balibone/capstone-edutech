@@ -7,7 +7,10 @@ import javax.ejb.Remote;
 @Remote
 public interface MarketplaceSysUserMgrBeanRemote {
     public List<Vector> viewItemList(String username);
+    public String viewProximityItemListing(String username);
     public List<Vector> viewAssocCategoryItemList(String hiddenCategoryName, long hiddenItemID);
+    public String lookupCategoryName(long itemID);
+    
     public Vector viewItemDetails(long itemID);
     public Vector viewItemDetails(long itemID, String username);
     public String createItemListing(String itemName, double itemPrice, String itemCondition, 

@@ -8,20 +8,17 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Company Review - New Review</title>
-
+        <title>Unify Marketplace - My Chat List</title>
+        
         <!-- CASCADING STYLESHEET -->
-        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/marketplace/NewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/userprofile/UserChatListContentSYSCSS.css" rel="stylesheet" type="text/css" />
     </head>
-
-    <body class="nav-md">
+    <body>
         <!-- MOBILE SIDE NAVIGATION -->
         <nav class="offcanvas">
             <div class="offcanvas-content">
@@ -52,8 +49,7 @@
                     <div class="col">
                         <div class="d-flex justify-content-between">
                             <nav class="nav">
-                                <a class="nav-item nav-link d-none d-sm-block" href="#">Unify @ EduBox</a>
-                                <a class="nav-item nav-link d-none d-sm-block" href="#"><i class="fa fa-phone"></i> +123-456-789</a>
+                                <a class="nav-item nav-link d-sm-block" href="#">Unify @ EduBox</a>
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
@@ -62,7 +58,7 @@
                                             <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <% 
+                                            <%
                                                 ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
                                                     for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
@@ -161,7 +157,7 @@
                                 <button type="button" class="btn btn-outline-theme newItemListingBtn">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </button>
-                                <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
+                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
@@ -178,140 +174,171 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Company Review (New Review)</li>
+                            <li class="breadcrumb-item active" aria-current="page">My Chat List</li>
                         </ol>
                     </nav>
                 </div>
             </div>
-
             <div class="container" style="margin-bottom: 30px;">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
-                            <%                                
-                                String successMessage = (String) request.getAttribute("successMessage");
-                                if (successMessage != null) {
-                            %>
-                            <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
-                                <button type="button" class="close" id="closeSuccess">&times;</button>
-                                <%= successMessage %>
-                            </div>
-                            <%  } %>
-                            <%
-                                String errorMessage = (String) request.getAttribute("errorMessage");
-                                if (errorMessage != null) {
-                            %>
-                            <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
-                                <button type="button" class="close" id="closeError">&times;</button>
-                                <%= errorMessage %>
-                            </div>
-                            <%  } %>
-                            
-                            <%  String companyImage = (String) request.getAttribute("reviewedCompanyImage");
-                                String companyName = (String) request.getAttribute("reviewedCompanyName");
-                            %>
-                            
-                            <div class="x_title">
-                                <h5>Rate A Company</h5>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content">
-                                <p>It only takes a minute! And your anonymous review will help other job seekers.</p>
-                                <p>(<span class="asterik">*</span>) fields are mandatory.</p>
-                                <form action="VoicesSysUser" method="POST" enctype="multipart/form-data">
-                                    <div class="form-row" style="justify-content: center;">
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <div class="image-upload">
-                                                    <img id="output-image" src="uploads/unify/images/voices/company/<%= companyImage%>" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 ml-2">
-                                            <div class="form-group">
-                                                <label for="companyName">Company Name:&nbsp;<span><u><%= companyName%></u></span></label>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="reviewTitle">Review Title&nbsp;<span class="asterik">*</span></label>
-                                                <input type="text" class="form-control" name="reviewTitle" required="required" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="employmentStatus">Employment Status&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="employmentStatus" data-width="75%" required>
-                                                    <option value="">Select</option>
-                                                    <option value="Full Time">Full Time</option>
-                                                    <option value="Part Time">Part Time</option>
-                                                    <option value="Contract">Contract</option>
-                                                    <option value="Intern">Intern</option>
-                                                    <option value="Freelance">Freelance</option>
-                                                    <option value="Prefer Not Show">Prefer Not Show</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="companyPros">Company Pros</label>
-                                                <textarea class="form-control" name="companyPros" rows="3" placeholder="Enter the company pros" required="required"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 ml-2">
-                                            <div class="form-group">
-                                                <label for="companyIndustry">Company Industry:&nbsp;<span><u><%= request.getAttribute("reviewedCompanyIndustry")%></u></span></label>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="companyRating">Overall Rating&nbsp;<span class="asterik">*</span></label>
-                                                <input type="number" step="0.01" min="0" max="5" class="form-control" name="companyRating" aria-label="companyRating" required="required" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="salaryRange">Salary Range&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="salaryRange" data-width="75%" required>
-                                                    <option value="">Select</option>
-                                                    <option value="Under 1000">Under 1000</option>
-                                                    <option value="1000-2000">1000-2000</option>
-                                                    <option value="2000-3000">2000-3000</option>
-                                                    <option value="3000-4000">3000-4000</option>
-                                                    <option value="4000-5000">4000-5000</option>
-                                                    <option value="Above 5000">Above 5000</option>
-                                                    <option value="Prefer Not Show">Prefer Not Show</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="companyCons">Company Cons</label>
-                                                <textarea class="form-control" name="companyCons" rows="3" placeholder="Enter the company cons" required="required"></textarea>
-                                            </div>
+                <div id="frame">
+                    <div id="sidepanel">
+                        <div id="top-bar">
+                            <button type="button" onclick="javascript:toggleBuying();">
+                                <i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i>
+                                <span>Buying</span>
+                            </button>
+                            <button type="button" onclick="javascript:toggleSelling();">
+                                <i class="fa fa-send-o fa-fw" aria-hidden="true"></i>
+                                <span>Selling</span>
+                            </button>
+                        </div>
+                        <div id="search"><input type="text" placeholder="Search Contacts..." /></div>
+                        <div id="buyingContacts">
+                            <ul class="buyingContacts">
+                                <%
+                                    ArrayList<Vector> assocBuyingListSYS = (ArrayList) request.getAttribute("assocBuyingListSYS");
+                                    if (!assocBuyingListSYS.isEmpty()) {
+                                        for (int i = 0; i <= assocBuyingListSYS.size()-1; i++) {
+                                            Vector v = assocBuyingListSYS.get(i);
+                                            String chatID = String.valueOf(v.get(0));
+                                            String itemSellerImage = String.valueOf(v.get(1));
+                                            String itemSellerID = String.valueOf(v.get(2));
+                                            String itemName = String.valueOf(v.get(3));
+                                            String chatStatus = String.valueOf(v.get(4));
+                                            String chatContent = String.valueOf(v.get(5));
+                                %>
+                                <li id="contact<%= chatID%>" class="contact">
+                                    <div class="wrap">
+                                        <img src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
+                                        <div class="meta">
+                                            <%  if(chatStatus.equals("Unread")) {   %>
+                                            <p class="name" style="font-weight:bolder;"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
+                                            <p class="name" style="font-weight:bolder;"><%= itemName%></p>
+                                            <p class="preview" style="font-weight:bolder;"><%= chatContent%></p>
+                                            <%  } else if(chatStatus.equals("Read")) {  %>
+                                            <p class="name"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
+                                            <p class="name"><%= itemName%></p>
+                                            <p class="preview"><%= chatContent%></p>
+                                            <%  }   %>
                                         </div>
                                     </div>
-                                    <div class="form-row" style="justify-content: center;">
-                                        <div class="col-md-6"></div>
-                                        <div class="col-md-2">
-                                            <input type="hidden" name="pageTransit" value="createCompanyReviewSYS" />
-                                            <input type="hidden" name="username" value="<%= loggedInUsername%>" />
-                                            <input type="hidden" name="hiddenCategoryName" value="<%= request.getAttribute("reviewedCompanyIndustry")%>" />
-                                            <input type="hidden" name="hiddenCompanyName" value="<%= companyName%>" />
-                                            <button type="submit" class="btn btn-outline btn-primary btn-sm btn-block">Submit</button>
+                                </li>
+                                <%      }   %>
+                                <%  } else {    %>
+                                <p class="noChatRecords">There are no buying chats archived.</p>
+                                <%  } %>
+                            </ul>
+                        </div>
+                        <div id="sellingContacts">
+                            <ul class="sellingContacts">
+                                <%
+                                    ArrayList<Vector> assocSellingListSYS = (ArrayList) request.getAttribute("assocSellingListSYS");
+                                    if (!assocSellingListSYS.isEmpty()) {
+                                        for (int i = 0; i <= assocSellingListSYS.size()-1; i++) {
+                                            Vector v = assocSellingListSYS.get(i);
+                                            String chatID = String.valueOf(v.get(0));
+                                            String itemSellerImage = String.valueOf(v.get(1));
+                                            String itemSellerID = String.valueOf(v.get(2));
+                                            String itemName = String.valueOf(v.get(3));
+                                            String chatStatus = String.valueOf(v.get(4));
+                                            String chatContent = String.valueOf(v.get(5));
+                                %>
+                                <li id="contact<%= chatID%>" class="contact">
+                                    <div class="wrap">
+                                        <img src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
+                                        <div class="meta">
+                                            <%  if(chatStatus.equals("Unread")) {   %>
+                                            <p class="name" style="font-weight:bolder;"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
+                                            <p class="name" style="font-weight:bolder;"><%= itemName%></p>
+                                            <p class="preview" style="font-weight:bolder;"><%= chatContent%></p>
+                                            <%  } else if(chatStatus.equals("Read")) {  %>
+                                            <p class="name"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
+                                            <p class="name"><%= itemName%></p>
+                                            <p class="preview"><%= chatContent%></p>
+                                            <%  }   %>
                                         </div>
                                     </div>
-                                </form>
+                                </li>
+                                <%      }   %>
+                                <%  } else {    %>
+                                <p class="noChatRecords">There are no selling chats archived.</p>
+                                <%  } %>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <%
+                            Vector chatContentInfoVecSYS = (Vector) request.getAttribute("chatContentInfoVecSYS");
+                            String receiverImage, receiverID, senderImage, buyerOrSellerStat, buyerOrSellerID, itemID;
+                            receiverImage = receiverID = senderImage = buyerOrSellerStat = buyerOrSellerID = itemID = "";
+
+                            if (chatContentInfoVecSYS != null) {
+                                receiverImage = (String) chatContentInfoVecSYS.get(0);
+                                receiverID = (String) chatContentInfoVecSYS.get(1);
+                                senderImage = (String) chatContentInfoVecSYS.get(2);
+                                buyerOrSellerStat = (String) chatContentInfoVecSYS.get(3);
+                                buyerOrSellerID = (String) chatContentInfoVecSYS.get(4);
+                                itemID = (String.valueOf(chatContentInfoVecSYS.get(5)));
+                            }
+                        %>
+                        <div class="contact-profile">
+                            <img src="uploads/commoninfrastructure/admin/images/<%= receiverImage%>" />
+                            <p id="receiverID"><%= receiverID%></p>
+                            <input type="hidden" id="senderIMG" value="<%= senderImage%>" />
+                            <input type="hidden" id="receiverIMG" value="<%= receiverImage%>" />
+                            <input type="hidden" id="contentChatID" value="<%= request.getAttribute("contentChatID")%>" />
+                            
+                            <input type="hidden" id="buyerOrSellerStat" value="<%= buyerOrSellerStat%>" />
+                            <input type="hidden" id="buyerOrSellerID" value="<%= buyerOrSellerID%>" />
+                            <input type="hidden" id="hiddenItemID" value="<%= itemID%>" />
+                        </div>
+                        <div class="messages">
+                            <ul class="messageContent">
+                                <%
+                                    ArrayList<Vector> chatListContentSYS = (ArrayList) request.getAttribute("chatListContentSYS");
+                                    if (!chatListContentSYS.isEmpty()) {
+                                        for (int i = 0; i <= chatListContentSYS.size()-1; i++) {
+                                            Vector v = chatListContentSYS.get(i);
+                                            String chatContent = String.valueOf(v.get(0));
+                                            String chatSenderID = String.valueOf(v.get(1));
+                                            String chatSenderImage = String.valueOf(v.get(2));
+                                            String chatReceiverID = String.valueOf(v.get(3));
+                                            String chatReceiverImage = String.valueOf(v.get(4));
+                                            String buyerORSellerID = String.valueOf(v.get(5));
+                                            if(buyerORSellerID.equals(chatSenderID) && !chatContent.equals("")) {
+                                %>
+                                <li class="sent">
+                                    <img class="chatSenderIMG" src="uploads/commoninfrastructure/admin/images/<%= chatSenderImage%>" />
+                                    <p><%= chatContent%></p>
+                                </li>
+                                <%          }  else if(buyerORSellerID.equals(chatReceiverID) && !chatContent.equals("")) {  %>
+                                <li class="replies">
+                                    <img src="uploads/commoninfrastructure/admin/images/<%= chatReceiverImage%>" />
+                                    <p><%= chatContent%></p>
+                                </li>
+                                <%          }    %>
+                                <%      }    %>
+                                <%  } %>
+                            </ul>
+                        </div>
+                        <div class="message-input">
+                            <div class="wrap">
+                                <input type="text" placeholder="Write your message..." />
+                                <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
-                <i class="fa fa-angle-double-up"></i>
-            </a>
-            <div id="sellNewItem-iframe"></div>
-            <div id="unifyFooter"></div>
         </div>
-
-        <!-- #1. jQuery v2.2.4 -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
+        
+        <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
-
-        <script src="js/unify/systemuser/webjs/voices/NewReviewSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/userprofile/UserChatListContentSYSJS.js" type="text/javascript"></script>
     </body>
 </html>

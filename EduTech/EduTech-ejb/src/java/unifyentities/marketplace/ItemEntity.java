@@ -31,6 +31,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
 
 import unifyentities.common.CategoryEntity;
+import unifyentities.common.ChatEntity;
 import unifyentities.common.ItemReportEntity;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.TagEntity;
@@ -60,6 +61,8 @@ public class ItemEntity implements Serializable {
     private CategoryEntity categoryEntity;
     @ManyToOne
     private UserEntity userEntity;
+    @OneToMany(mappedBy = "itemEntity")
+    private Collection<ChatEntity> chatSet = new ArrayList<ChatEntity>();
     @OneToMany(mappedBy = "itemEntity")
     private Collection<ItemOfferEntity> itemOfferSet = new ArrayList<ItemOfferEntity>();
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "itemEntity")
@@ -111,6 +114,7 @@ public class ItemEntity implements Serializable {
     
     public CategoryEntity getCategoryEntity() { return categoryEntity; }
     public UserEntity getUserEntity() { return userEntity; }
+    public Collection<ChatEntity> getChatSet() { return chatSet; }
     public Collection<ItemOfferEntity> getItemOfferSet() { return itemOfferSet; }
     public Collection<LikeListingEntity> getLikeListingSet() { return likeListingSet; }
     public Collection<ItemReviewEntity> getItemReviewSet() { return itemReviewSet; }
@@ -135,6 +139,7 @@ public class ItemEntity implements Serializable {
     
     public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setChatSet(Collection<ChatEntity> chatSet) { this.chatSet = chatSet; }
     public void setItemOfferSet(Collection<ItemOfferEntity> itemOfferSet) { this.itemOfferSet = itemOfferSet; }
     public void setLikeListingSet(Collection<LikeListingEntity> likeListingSet) { this.likeListingSet = likeListingSet; }
     public void setItemReviewSet(Collection<ItemReviewEntity> itemReviewSet) { this.itemReviewSet = itemReviewSet; }

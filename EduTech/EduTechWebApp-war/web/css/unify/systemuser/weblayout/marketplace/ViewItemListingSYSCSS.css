@@ -1,6 +1,6 @@
 .itemReportFields { margin-top: 5px; width: 100%; }
-.likeStatus { color: crimson; }
-.noLikeStatus { color: #FFFFFF; }
+.likeStatus { background-color: #EB014B; }
+.noLikeStatus { background-color: rgba(0,0,0,0.55); }
 #successReportResponse { color: #228B22; font-weight: bold; display: none; }
 #failedReportResponse { color: #FF0000; font-weight: bold; display: none; }
 

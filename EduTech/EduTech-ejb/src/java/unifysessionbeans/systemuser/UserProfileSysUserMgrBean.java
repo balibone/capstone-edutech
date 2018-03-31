@@ -2,7 +2,6 @@
 *   Title:                  UserProfileSysUserMgrBean.java
 *   Purpose:                LIST OF MANAGER BEAN METHODS FOR UNIFY DASHBOARD & PROFILE - SYSUSER (EDUBOX)
 *   Created & Modified By:  TAN CHIN WEE WINSTON
-*   Credits:                CHEN MENG, NIGEL LEE TJON YI, TAN CHIN WEE WINSTON, ZHU XINYI
 *   Date:                   19 FEBRUARY 2018
 *   Code version:           1.0
 *   Availability:           === NO REPLICATE ALLOWED. YOU HAVE BEEN WARNED. ===
@@ -25,8 +24,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import commoninfrastructureentities.UserEntity;
-import unifyentities.common.MessageEntity;
+import unifyentities.common.ChatEntity;
 import unifyentities.common.LikeListingEntity;
+import unifyentities.common.MessageEntity;
 import unifyentities.marketplace.ItemEntity;
 import unifyentities.marketplace.ItemOfferEntity;
 import unifyentities.marketplace.ItemTransactionEntity;
@@ -36,6 +36,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     @PersistenceContext
     private EntityManager em;
     
+    private ChatEntity chEntity;
     private ItemEntity iEntity;
     private ItemOfferEntity ioEntity;
     private ItemTransactionEntity itEntity;
@@ -58,6 +59,81 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return userProfileDetailsVec;
     }
 
+    @Override
+    public List<Vector> viewUserItemWishlist(String username) {
+        Date currentDate = new Date();
+        String dateString = "";
+        
+        Query q = em.createQuery("SELECT ll FROM LikeListing ll WHERE ll.userEntity.username = :username AND "
+                + "ll.itemEntity.categoryEntity.categoryActiveStatus = '1' AND (ll.itemEntity.itemStatus = 'Available' OR "
+                + "ll.itemEntity.itemStatus = 'Reserved' OR ll.itemEntity.itemStatus = 'Sold')");
+        q.setParameter("username", username);
+        List<Vector> userItemWishlist = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            LikeListingEntity likeListE = (LikeListingEntity) o;
+            Vector likeListVec = new Vector();
+            
+            likeListVec.add(likeListE.getItemEntity().getItemID());
+            likeListVec.add(likeListE.getItemEntity().getItemImage());
+            likeListVec.add(likeListE.getItemEntity().getItemName());
+            likeListVec.add(likeListE.getItemEntity().getCategoryEntity().getCategoryName());
+            likeListVec.add(likeListE.getItemEntity().getUserEntity().getUsername());
+            likeListVec.add(likeListE.getItemEntity().getUserEntity().getImgFileName());
+
+            long diff = currentDate.getTime() - likeListE.getItemEntity().getItemPostingDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            if(!dateString.equals("")) {
+                likeListVec.add(dateString);
+            } else {
+                likeListVec.add("Just Now");
+            }
+            likeListVec.add(df.format(likeListE.getItemEntity().getItemPostingDate()));
+            likeListVec.add(String.format ("%,.2f", likeListE.getItemEntity().getItemPrice()));
+            likeListVec.add(getItemLikeCount(likeListE.getItemEntity().getItemID()));
+            if(lookupLike(likeListE.getItemEntity().getItemID(), username) == null) { likeListVec.add(false);}
+            else { likeListVec.add(true); }
+            likeListVec.add(likeListE.getItemEntity().getItemCondition());
+            likeListVec.add(likeListE.getItemEntity().getItemStatus());
+            userItemWishlist.add(likeListVec);
+            dateString = "";
+        }
+        return userItemWishlist;
+    }
+    
     @Override
     public List<Vector> viewUserMessageListTopThree(String username) {
         Date currentDate = new Date();
@@ -183,6 +259,330 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return messageList;
     }
     
+    @Override
+    public List<Vector> viewUserChatBuyingList(String username, String itemID) {
+        ArrayList<String> nameHolderArrList = new ArrayList<>();
+        chEntity = lookupEmptyChat(username);
+        
+        if(!itemID.equals("")) {
+            if (chEntity != null) {
+                uEntity = chEntity.getUserEntity();
+                uEntity.getChatSet().remove(chEntity);
+                iEntity = chEntity.getItemEntity();
+                iEntity.getChatSet().remove(chEntity);
+
+                em.merge(uEntity);
+                em.merge(iEntity);
+                em.remove(chEntity);
+                em.flush();
+                em.clear();
+            }
+            iEntity = lookupItem(Long.parseLong(itemID));
+            ChatEntity newChatE = new ChatEntity();
+            if((iEntity.getUserEntity().getUsername()).equals(username)) {
+                newChatE.createChat(iEntity.getUserEntity().getUsername(), "", username, "");
+            } else if(!(iEntity.getUserEntity().getUsername()).equals(username)) {
+                newChatE.createChat(iEntity.getUserEntity().getUsername(), username, "", "");
+            }
+            newChatE.setItemEntity(iEntity);
+            newChatE.setUserEntity(lookupUnifyUser(username));
+            em.persist(newChatE);
+        } else if(itemID.equals("")) {
+            if (chEntity != null) {
+                uEntity = chEntity.getUserEntity();
+                uEntity.getChatSet().remove(chEntity);
+                iEntity = chEntity.getItemEntity();
+                iEntity.getChatSet().remove(chEntity);
+
+                em.merge(uEntity);
+                em.merge(iEntity);
+                em.remove(chEntity);
+                em.flush();
+                em.clear();
+            }
+        }
+        
+        Query q = em.createQuery("SELECT c FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemBuyerID = :username ORDER BY c.chatPostingDate DESC");
+        q.setParameter("username", username);
+        List<Vector> userChatList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            ChatEntity chatE = (ChatEntity) o;
+            Vector userChatVec = new Vector();
+            
+            if((chatE.getUserEntity().getUsername()).equals(username)) {
+                if(!nameHolderArrList.contains(chatE.getChatReceiverID())) {
+                    userChatVec.add(chatE.getChatID()+1);
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
+                    userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatStatus());
+                    userChatVec.add(chatE.getChatContent());
+                    nameHolderArrList.add(chatE.getChatReceiverID());
+                }
+            } else if((chatE.getChatReceiverID()).equals(username)) {
+                if(!nameHolderArrList.contains(chatE.getUserEntity().getUsername())) {
+                    userChatVec.add(chatE.getChatID()+1);
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
+                    userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatStatus());
+                    userChatVec.add(chatE.getChatContent());
+                    nameHolderArrList.add(chatE.getUserEntity().getUsername());
+                }
+            }
+            userChatList.add(userChatVec);
+        }
+        return userChatList;
+    }
+    
+    @Override
+    public List<Vector> viewUserChatSellingList(String username, String itemID) {
+        ArrayList<String> nameHolderArrList = new ArrayList<>();
+        chEntity = lookupEmptyChat(username);
+        
+        if(!itemID.equals("")) {
+            if (chEntity != null) {
+                uEntity = chEntity.getUserEntity();
+                uEntity.getChatSet().remove(chEntity);
+                iEntity = chEntity.getItemEntity();
+                iEntity.getChatSet().remove(chEntity);
+
+                em.merge(uEntity);
+                em.merge(iEntity);
+                em.remove(chEntity);
+                em.flush();
+                em.clear();
+            }
+            iEntity = lookupItem(Long.parseLong(itemID));
+            ChatEntity newChatE = new ChatEntity();
+            if((iEntity.getUserEntity().getUsername()).equals(username)) {
+                newChatE.createChat(iEntity.getUserEntity().getUsername(), "", username, "");
+            } else if(!(iEntity.getUserEntity().getUsername()).equals(username)) {
+                newChatE.createChat(iEntity.getUserEntity().getUsername(), username, "", "");
+            }
+            newChatE.setItemEntity(iEntity);
+            newChatE.setUserEntity(lookupUnifyUser(username));
+            em.persist(newChatE);
+        } else if(itemID.equals("")) {
+            if (chEntity != null) {
+                uEntity = chEntity.getUserEntity();
+                uEntity.getChatSet().remove(chEntity);
+                iEntity = chEntity.getItemEntity();
+                iEntity.getChatSet().remove(chEntity);
+
+                em.merge(uEntity);
+                em.merge(iEntity);
+                em.remove(chEntity);
+                em.flush();
+                em.clear();
+            }
+        }
+        
+        Query q = em.createQuery("SELECT c FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemSellerID = :username ORDER BY c.chatPostingDate DESC");
+        q.setParameter("username", username);
+        List<Vector> userChatList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            ChatEntity chatE = (ChatEntity) o;
+            Vector userChatVec = new Vector();
+            
+            if((chatE.getUserEntity().getUsername()).equals(username)) {
+                if(!nameHolderArrList.contains(chatE.getChatReceiverID())) {
+                    userChatVec.add(chatE.getChatID()+1);
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
+                    userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatStatus());
+                    userChatVec.add(chatE.getChatContent());
+                    nameHolderArrList.add(chatE.getChatReceiverID());
+                }
+            } else if((chatE.getChatReceiverID()).equals(username)) {
+                if(!nameHolderArrList.contains(chatE.getUserEntity().getUsername())) {
+                    userChatVec.add(chatE.getChatID()+1);
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
+                    userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatStatus());
+                    userChatVec.add(chatE.getChatContent());
+                    nameHolderArrList.add(chatE.getUserEntity().getUsername());
+                }
+            }
+            userChatList.add(userChatVec);
+        }
+        return userChatList;
+    }
+    
+    /* PACKAGED X4 */
+    @Override
+    public Vector viewChatContentInfo(String username, long chatID) {
+        chEntity = lookupChat(chatID);
+        uEntity = lookupUnifyUser(username);
+        Vector chatContentInfoVec = new Vector();
+        
+        if(chEntity != null) {
+            if(chEntity.getChatReceiverID().equals(username)) {
+                chatContentInfoVec.add(chEntity.getUserEntity().getImgFileName());
+                chatContentInfoVec.add(chEntity.getUserEntity().getUsername());
+            } else {
+                chatContentInfoVec.add(lookupUnifyUser(chEntity.getChatReceiverID()).getImgFileName());
+                chatContentInfoVec.add(lookupUnifyUser(chEntity.getChatReceiverID()).getUsername());
+            }
+            chatContentInfoVec.add(uEntity.getImgFileName());
+            if(!chEntity.getItemBuyerID().equals("")) {
+                chatContentInfoVec.add("Item Buyer");
+                chatContentInfoVec.add(chEntity.getItemBuyerID());
+            } else {
+                chatContentInfoVec.add("Item Seller");
+                chatContentInfoVec.add(chEntity.getItemSellerID());
+            }
+            chatContentInfoVec.add(chEntity.getItemEntity().getItemID());
+        }
+        return chatContentInfoVec;
+    }
+    
+    @Override
+    public List<Vector> viewChatListContent(long chatID) {
+        List<Vector> chatListContent = new ArrayList<Vector>();
+        chEntity = lookupChat(chatID);
+        
+        if(chEntity != null) {
+            if(!(chEntity.getItemBuyerID()).equals("")) {
+                Query q = em.createQuery("SELECT c FROM Chat c WHERE c.itemEntity.itemID = :itemID AND c.itemBuyerID = :chatAssocID ORDER BY c.chatPostingDate ASC");
+                q.setParameter("itemID", chEntity.getItemEntity().getItemID());
+                q.setParameter("chatAssocID", chEntity.getItemBuyerID());
+
+                for (Object o : q.getResultList()) {
+                    ChatEntity chatE = (ChatEntity) o;
+                    Vector chatContentE = new Vector();
+                    
+                    chatContentE.add(chatE.getChatContent());
+                    chatContentE.add(chatE.getUserEntity().getUsername());
+                    chatContentE.add(chatE.getUserEntity().getImgFileName());
+                    chatContentE.add(chatE.getChatReceiverID());
+                    chatContentE.add(lookupUnifyUser(chatE.getChatReceiverID()).getImgFileName());
+                    chatContentE.add(chatE.getItemBuyerID());
+                    chatListContent.add(chatContentE);
+                }
+            } else if(!(chEntity.getItemSellerID()).equals("")) {
+                Query q = em.createQuery("SELECT c FROM Chat c WHERE c.itemEntity.itemID = :itemID AND c.itemSellerID = :chatAssocID ORDER BY c.chatPostingDate ASC");
+                q.setParameter("itemID", chEntity.getItemEntity().getItemID());
+                q.setParameter("chatAssocID", chEntity.getItemSellerID());
+                
+                for (Object o : q.getResultList()) {
+                    ChatEntity chatE = (ChatEntity) o;
+                    Vector chatContentE = new Vector();
+                    
+                    chatContentE.add(chatE.getChatContent());
+                    chatContentE.add(chatE.getUserEntity().getUsername());
+                    chatContentE.add(chatE.getUserEntity().getImgFileName());
+                    chatContentE.add(chatE.getChatReceiverID());
+                    chatContentE.add(lookupUnifyUser(chatE.getChatReceiverID()).getImgFileName());
+                    chatContentE.add(chatE.getItemSellerID());
+                    chatListContent.add(chatContentE);
+                }
+            }
+        }
+        return chatListContent;
+    }
+    
+    @Override
+    public List<Vector> viewAssocBuyingList(String username, String itemID) {
+        ArrayList<String> nameHolderArrList = new ArrayList<>();
+        
+        Query q = em.createQuery("SELECT c FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemBuyerID = :username ORDER BY c.chatPostingDate DESC");
+        q.setParameter("username", username);
+        List<Vector> userChatList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            ChatEntity chatE = (ChatEntity) o;
+            Vector userChatVec = new Vector();
+            
+            if((chatE.getUserEntity().getUsername()).equals(username)) {
+                if(!nameHolderArrList.contains(chatE.getChatReceiverID())) {
+                    userChatVec.add(chatE.getChatID());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
+                    userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatStatus());
+                    userChatVec.add(chatE.getChatContent());
+                    nameHolderArrList.add(chatE.getChatReceiverID());
+                }
+            } else if((chatE.getChatReceiverID()).equals(username)) {
+                if(!nameHolderArrList.contains(chatE.getUserEntity().getUsername())) {
+                    userChatVec.add(chatE.getChatID());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
+                    userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatStatus());
+                    userChatVec.add(chatE.getChatContent());
+                    nameHolderArrList.add(chatE.getUserEntity().getUsername());
+                }
+            }
+            userChatList.add(userChatVec);
+        }
+        return userChatList;
+    }
+    
+    @Override
+    public List<Vector> viewAssocSellingList(String username, String itemID) {
+        ArrayList<String> nameHolderArrList = new ArrayList<>();
+        
+        Query q = em.createQuery("SELECT c FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemSellerID = :username ORDER BY c.chatPostingDate DESC");
+        q.setParameter("username", username);
+        List<Vector> userChatList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            ChatEntity chatE = (ChatEntity) o;
+            Vector userChatVec = new Vector();
+            
+            if((chatE.getUserEntity().getUsername()).equals(username)) {
+                if(!nameHolderArrList.contains(chatE.getChatReceiverID())) {
+                    userChatVec.add(chatE.getChatID());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
+                    userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatStatus());
+                    userChatVec.add(chatE.getChatContent());
+                    nameHolderArrList.add(chatE.getChatReceiverID());
+                }
+            } else if((chatE.getChatReceiverID()).equals(username)) {
+                if(!nameHolderArrList.contains(chatE.getUserEntity().getUsername())) {
+                    userChatVec.add(chatE.getChatID());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
+                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
+                    userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatStatus());
+                    userChatVec.add(chatE.getChatContent());
+                    nameHolderArrList.add(chatE.getUserEntity().getUsername());
+                }
+            }
+            userChatList.add(userChatVec);
+        }
+        return userChatList;
+    }
+    
+    @Override
+    public String addNewChatContent(String senderID, String receiverID, String chatContent, 
+            String buyerOrSellerStat, String buyerOrSellerID, long itemID) {
+        chEntity = new ChatEntity();
+        uEntity = lookupUnifyUser(senderID);
+        iEntity = lookupItem(itemID);
+        
+        if(buyerOrSellerStat.equals("Item Buyer")) {
+            chEntity.createChat(receiverID, buyerOrSellerID, "", chatContent);
+        } else if(buyerOrSellerStat.equals("Item Seller")) {
+            chEntity.createChat(receiverID, "", buyerOrSellerID, chatContent);
+        }
+        chEntity.setUserEntity(uEntity);
+        chEntity.setItemEntity(iEntity);
+        
+        em.merge(uEntity);
+        em.merge(iEntity);
+        em.persist(chEntity);
+        return "Message has been sent successfully!";
+    }
+    
     /*  ====================    USER ITEM OFFERS    ==================== */
     @Override
     public List<Vector> viewItemOfferList(String username) {
@@ -241,7 +641,11 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                     dateString += "s ago";
                 }
             }
-            itemOfferVec.add(dateString);
+            if(!dateString.equals("")) {
+                itemOfferVec.add(dateString);
+            } else {
+                itemOfferVec.add("Just Now");
+            }
             itemOfferVec.add(df.format(itemE.getItemPostingDate()));
             itemOfferVec.add(String.format ("%,.2f", itemE.getItemPrice()));
             itemOfferVec.add(getItemLikeCount(itemE.getItemID()));
@@ -676,6 +1080,42 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             ue = null;
         }
         return ue;
+    }
+    
+    public ChatEntity lookupChat(long chatID) {
+        ChatEntity che = new ChatEntity();
+        try {
+            Query q = em.createQuery("SELECT c FROM Chat c WHERE c.chatID = :chatID");
+            q.setParameter("chatID", chatID);
+            che = (ChatEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: This chat record cannot be found. " + enfe.getMessage());
+            em.remove(che);
+            che = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: This chat record does not exist. " + nre.getMessage());
+            em.remove(che);
+            che = null;
+        }
+        return che;
+    }
+    
+    public ChatEntity lookupEmptyChat(String username) {
+        ChatEntity che = new ChatEntity();
+        try {
+            Query q = em.createQuery("SELECT c FROM Chat c WHERE c.userEntity.username = :username AND c.itemBuyerID = :username AND c.chatContent IS NOT NULL");
+            q.setParameter("username", username);
+            che = (ChatEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Empty Chat cannot be found. " + enfe.getMessage());
+            em.remove(che);
+            che = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Empty Chat does not exist. " + nre.getMessage());
+            em.remove(che);
+            che = null;
+        }
+        return che;
     }
     
     public ItemEntity lookupItem(long itemID) {

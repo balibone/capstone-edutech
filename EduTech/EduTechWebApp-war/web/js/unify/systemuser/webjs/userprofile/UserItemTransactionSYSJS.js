@@ -43,4 +43,6 @@ $(document).ready(function () {
         iframe: true,
         iframeHeight: 450
     });
+    
+    $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
 });
