@@ -1,0 +1,34 @@
+
+
+.bookmarkThis .fa-bookmark,
+.bookmarkThis:hover .fa-bookmark-o {
+    display: none;
+}
+.bookmarkThis:hover .fa-bookmark {
+    display: inline;
+}
+
+
+.reportThis .fa-flag,
+.reportThis:hover .fa-flag-o {
+    display: none;
+}
+.reportThis:hover .fa-flag {
+    display: inline;
+}
+
+.likeThis .fa-thumbs-up,
+.likeThis:hover .fa-thumbs-o-up {
+    display: none;
+}
+.likeThis:hover .fa-thumbs-up {
+    display: inline;
+}
+
+.viewComment .fa-comment,
+.viewComment:hover .fa-comment-o {
+    display: none;
+}
+.viewComment:hover .fa-comment {
+    display: inline;
+}

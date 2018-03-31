@@ -27,7 +27,12 @@
                                 <a class="dropdown-item" href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a>
                             </div>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="venuemap.html">Venue Map</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="shoutsNAV" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shouts</a>
+                            <div class="dropdown-menu t-90 smooth" aria-labelledby="shoutsNAV">
+                                <a class="dropdown-item" href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS">Shouts Listing</a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

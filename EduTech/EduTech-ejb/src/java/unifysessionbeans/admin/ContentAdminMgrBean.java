@@ -37,6 +37,7 @@ import unifyentities.errands.JobEntity;
 import unifyentities.errands.JobReviewEntity;
 import unifyentities.common.JobReviewReportEntity;
 import unifyentities.common.EventRequestEntity;
+import unifyentities.common.MessageEntity;
 import unifyentities.event.EventEntity;
 import unifyentities.voices.CompanyEntity;
 
@@ -58,6 +59,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     private EventRequestEntity erEntity;
     private EventEntity eEntity;
     private CompanyEntity cEntity;
+    private MessageEntity mEntity;
 
     @Override
     public List<Vector> viewTagListing() {
@@ -305,7 +307,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
     @Override
     public List<Vector> viewReportedMarketplaceListing() {
-        Query q = em.createQuery("SELECT i FROM ItemReport i");
+        Query q = em.createQuery("SELECT i FROM ItemReport i ORDER BY i.itemReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -414,7 +416,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     //reported company reviews related
     @Override
     public List<Vector> viewReportedReviewListing() {
-        Query q = em.createQuery("SELECT i FROM CompanyReviewReport i");
+        Query q = em.createQuery("SELECT i FROM CompanyReviewReport i ORDER BY i.reviewReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -892,7 +894,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
     @Override
     public List<Vector> viewReportedErrandsListing() {
-        Query q = em.createQuery("SELECT i FROM JobReport i");
+        Query q = em.createQuery("SELECT i FROM JobReport i ORDER BY i.jobReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -1000,7 +1002,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     //reported jobs review related
     @Override
     public List<Vector> viewReportedErrandsReviewListing() {
-        Query q = em.createQuery("SELECT i FROM JobReviewReport i");
+        Query q = em.createQuery("SELECT i FROM JobReviewReport i ORDER BY i.jobReviewReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -1163,7 +1165,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
 
     }
-    
+
     @Override
     public String resolveDelistErrandReview(String reportID) {
 
@@ -1262,6 +1264,62 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
+    public String sendAlertReport(String messageSenderID, String messageReceiverID, String itemReported) {
+
+        try {
+            /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
+            mEntity = new MessageEntity();
+          
+            mEntity.createContentMessage(messageSenderID, messageReceiverID,
+                    itemReported + " was delisted due to violation of posting guidelines.",
+                    Long.parseLong(itemReported), "System");
+
+            UserEntity user = lookupUnifyUser(messageSenderID);
+
+            mEntity.setUserEntity(user);
+
+            em.persist(mEntity);
+
+            return "Message successfully sent!";
+            
+        } catch (Exception nre) {
+            System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
+            
+            return "Error sending message to user";
+        }
+
+    }
+    
+    @Override
+    public String sendAlertEventRequest(String messageSenderID, String messageReceiverID, String eventID, String status) {
+
+        try {
+            /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
+            mEntity = new MessageEntity();
+          
+            String eventTitle = erEntity.getEventRequestTitle(Long.parseLong(eventID));
+            
+            mEntity.createContentMessage(messageSenderID, messageReceiverID,
+                    eventTitle + " (Request ID: " + eventID + ") was " + status + " by the administrator.",
+                    Long.parseLong(eventID), "System");
+
+            UserEntity user = lookupUnifyUser(messageSenderID);
+
+            mEntity.setUserEntity(user);
+
+            em.persist(mEntity);
+
+            return "Message successfully sent!";
+            
+        } catch (Exception nre) {
+            System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
+            
+            return "Error sending message to user";
+        }
+
+    }
+
+    @Override
     public Long getUnresolvedErrandsReviewReportCount() {
         Long unresolvedErrandsReviewReportCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.jobReviewReportID) FROM JobReviewReport c WHERE c.jobReviewReportStatus='Unresolved'");
@@ -1304,7 +1362,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     //event related
     @Override
     public List<Vector> viewEventRequestListing() {
-        Query q = em.createQuery("SELECT i FROM EventRequest i");
+        Query q = em.createQuery("SELECT i FROM EventRequest i ORDER BY i.eventRequestDate DESC");
         List<Vector> requestList = new ArrayList<Vector>();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -1321,6 +1379,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
             requestVec.add(df.format(requestE.getEventRequestDate()));
             requestVec.add(username);
+
+            requestVec.add(requestE.getEventRequestTitle());
 
             requestList.add(requestVec);
         }
@@ -1380,6 +1440,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
             requestDetails.add(erEntity.getEventRequestVenueLat());
             requestDetails.add(erEntity.getEventRequestVenueLong());
+
+            requestDetails.add(erEntity.getEventRequestTitle());
 
             System.out.println("ADDED EVENT REQUEST DETAILS");
 
@@ -1531,6 +1593,24 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             te = null;
         }
         return te;
+    }
+
+    public UserEntity lookupUnifyUser(String username) {
+        UserEntity ue = new UserEntity();
+        try {
+            Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            ue = (UserEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
+            em.remove(ue);
+            ue = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: User does not exist. " + nre.getMessage());
+            em.remove(ue);
+            ue = null;
+        }
+        return ue;
     }
 
     /* METHODS FOR UNIFY ADMIN DASHBOARD */

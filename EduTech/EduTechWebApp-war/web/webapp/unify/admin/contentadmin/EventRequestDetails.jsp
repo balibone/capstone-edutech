@@ -42,9 +42,9 @@
     <body style="background-color: #FFFFFF;">
         <%            Vector eventRequestVec = (Vector) request.getAttribute("eventRequestVec");
             String requestID, requestStatus, requestDate, requesterID, requestDescription,
-                    requestVenue, requestStartDateTime, requestEndDateTime, requestReviewedDate, requestVenueLat, requestVenueLong;
+                    requestVenue, requestStartDateTime, requestEndDateTime, requestReviewedDate, requestVenueLat, requestVenueLong, requestTitle;
             requestID = requestStatus = requestDate = requesterID = requestDescription
-                    = requestVenue = requestStartDateTime = requestEndDateTime = requestReviewedDate = requestVenueLat = requestVenueLong = "";
+                    = requestVenue = requestStartDateTime = requestEndDateTime = requestReviewedDate = requestVenueLat = requestVenueLong = requestTitle = "";
             if (eventRequestVec != null) {
                 requestID = (String.valueOf(eventRequestVec.get(0)));
                 requestStatus = (String.valueOf(eventRequestVec.get(1)));
@@ -60,6 +60,8 @@
 
                 requestVenueLat = (String.valueOf(eventRequestVec.get(9)));
                 requestVenueLong = (String.valueOf(eventRequestVec.get(10)));
+                
+                requestTitle = (String.valueOf(eventRequestVec.get(11)));
             }
         %>
 
@@ -115,6 +117,10 @@
                                 <td><%= requestID%></td>
                             </tr>
                             <tr>
+                                <td>Request Title</td>
+                                <td><%= requestTitle%></td>
+                            </tr>
+                            <tr>
                                 <td>Request Status</td>
                                 <%
                                     if (requestStatus.equals("Approved")) {
@@ -162,6 +168,8 @@
                                 <input type="hidden" name="pageTransit" value="approveEventRequest"/>
                                 <input type="hidden" name="requestID" value="<%= requestID%>" />
                                 <input type="hidden" name="requestStatus" value="<%= requestStatus%>" />
+                                <input type="hidden" name="requesterID" value="<%= requesterID%>" />
+                                <input type="hidden" name="loggedInUsername" value="<%= loggedInUsername%>" />
                                 <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm approval?')">Approve</button>
                             </form>
                         </td>
@@ -171,6 +179,8 @@
                                 <input type="hidden" name="pageTransit" value="rejectEventRequest"/>
                                 <input type="hidden" name="requestID" value="<%= requestID%>" />
                                 <input type="hidden" name="requestStatus" value="<%= requestStatus%>" />
+                                <input type="hidden" name="requesterID" value="<%= requesterID%>" />
+                                <input type="hidden" name="loggedInUsername" value="<%= loggedInUsername%>" />
                                 <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm rejection?')">Reject</button>
                             </form>
                         </td>
