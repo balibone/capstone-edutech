@@ -16,15 +16,14 @@ import javax.persistence.TemporalType;
 import unifyentities.shouts.ShoutsEntity;
 import commoninfrastructureentities.UserEntity;
 
-@Entity(name = "ShoutsLikes")
-public class ShoutsLikesEntity implements Serializable {
+@Entity(name = "ShoutsBookmarks")
+public class ShoutsBookmarksEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long likeID;
-    private String likeType;
+    private Long bookmarkID;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Date likeDate;
+    private Date bookmarkDate;
     
     @ManyToOne
     private ShoutsEntity shoutsEntity;
@@ -32,27 +31,26 @@ public class ShoutsLikesEntity implements Serializable {
     private UserEntity userEntity;
     
     @PrePersist
-    public void creationDate() { this.likeDate = new Date(); }
+    public void creationDate() { this.bookmarkDate = new Date(); }
     
     /* MISCELLANEOUS METHODS */
-    public boolean addNewLike(UserEntity userEntity, ShoutsEntity shoutsEntity) {
+    public boolean addBookmark(UserEntity userEntity, ShoutsEntity shoutsEntity) {
         this.userEntity = userEntity;
         this.shoutsEntity = shoutsEntity;
+        
         return true;
     }
     
     /* GETTER METHODS */
-    public Long getLikeID() { return likeID; }
-    public String getLikeType() { return likeType; }
-    public Date getLikeDate() { return likeDate; }
+    public Long getBookmarkID() { return bookmarkID; }
+    public Date getBookmarkDate() { return bookmarkDate; }
     
     public ShoutsEntity getShoutsEntity() { return shoutsEntity; }
     public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
-    public void setLikeID(Long likeID) { this.likeID = likeID; }
-    public void setLikeType(String likeType) { this.likeType = likeType; }
-    public void setLikeDate(Date likeDate) { this.likeDate = likeDate; }
+    public void setBookmarkID(Long bookmarkID) { this.bookmarkID = bookmarkID; }
+    public void setBookmarkDate(Date bookmarkDate) { this.bookmarkDate = bookmarkDate; }
     
     public void setShoutsEntity(ShoutsEntity shoutsEntity) { this.shoutsEntity = shoutsEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
