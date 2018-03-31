@@ -259,8 +259,13 @@ public class SystemAdminController extends HttpServlet {
                 default:
                     break;
             }
-            dispatcher = servletContext.getNamedDispatcher(pageAction);
-            dispatcher.forward(request, response);       
+            if(pageAction != null && !pageAction.equals("")){
+                dispatcher = servletContext.getNamedDispatcher(pageAction);
+                if(dispatcher!=null)
+                    dispatcher.forward(request, response);
+            }else{
+                System.out.println("WARNING: Your pageAction is null!");
+            }
         }
         catch(Exception ex) {
             log("Exception in CommonInfraController: processRequest()");
