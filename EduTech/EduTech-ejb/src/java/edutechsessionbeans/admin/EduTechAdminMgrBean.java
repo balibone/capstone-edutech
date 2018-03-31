@@ -549,8 +549,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             LocalDate startDate = s.getStartDate();
             LocalDate endDate = s.getEndDate();
             //if semester starts before or on today's date and end after or on today's date, then it is current semester
-            //assumption : there are no 2 sems which dates overlap.
             if( (startDate.isBefore(currDate) || startDate.isEqual(currDate)) && (endDate.isAfter(currDate) || endDate.isEqual(currDate)) ){
+                semInfo.add(s.getId());//get sem Id
                 semInfo.add(s.getTitle());//get title
                 //System.out.println("SEM TITLE IS: "+s.getTitle());
                 semInfo.add(String.valueOf(s.getModules().size()));//get number of modules

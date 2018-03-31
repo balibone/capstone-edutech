@@ -1,8 +1,8 @@
 :root {
   --splitcontainer-bg-color: #333;
-  --left-bg-color: rgba(49, 49, 205, 0.5);
+  --left-bg-color: rgba(49, 49, 205, 0.6);
   --left-enterButton-hover-color: rgba(92, 92, 92, 0.3);
-  --right-bg-color: rgba(234, 127, 4, 0.5);
+  --right-bg-color: rgba(234, 127, 4, 0.7);
   --right-enterButton-hover-color: rgba(161, 11, 11, 0.3);
   --hover-width: 75%;
   --other-width: 25%;
@@ -30,13 +30,14 @@ h1 {
 }
 
 p {
-  font-size: 1rem;
+  font-size: 2rem;
   color: #fff;
   position: absolute;
   left: 50%;
-  top: 43%;
+  top: 39%;
   transform: translateX(-50%);
   white-space: nowrap;
+  /*font-weight: 500;*/
 }
 
 .enterButton {
