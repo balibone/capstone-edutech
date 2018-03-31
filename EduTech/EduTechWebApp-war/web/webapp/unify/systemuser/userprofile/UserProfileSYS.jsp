@@ -233,27 +233,53 @@
                     <div class="col-lg-9 col-md-8">
                         <div class="title"><span><%= username%>'s Item Listing</span></div>
                         <div class="jplist-search sorting-bar">
-                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
-                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
-                                <ul>
-                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
-                                    <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
-                                    <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
-                                    <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
-                                    <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
-                                </ul>
-                            </div>
-                            <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
-                                 data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
-                                <ul>
-                                    <li><span data-number="4">4 per page</span></li>
-                                    <li><span data-number="8">8 per page</span></li>
-                                    <li><span data-number="12" data-default="true">12 per page</span></li>
-                                    <li><span data-number="16">16 per page</span></li>
-                                </ul>
+                            <button class="btn btn-outline-theme btn-block dropdown-toggle d-md-none mt-2" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                                Search Filter
+                            </button>
+                            <div class="collapse d-md-block pt-3 pt-md-0" id="collapseFilter">
+                                <div class="mt-2" remove-class-on-xs="mt-2" add-class-on-xs="w-100">
+                                    <span>Item Name:</span>
+                                    <input type="text" data-path=".itemName" class="searchInputText w-25" placeholder="Search Item ..." 
+                                           remove-class-on-xs="w-25" add-class-on-xs="w-100" aria-label="Search Item ..." 
+                                           data-control-type="textbox" data-control-action="filter" />
+                                </div>
+                                <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100">
+                                    <input type="hidden" id="dbItemCategory" value="<%= request.getAttribute("itemCategoryStr")%>" />
+                                    <div id="itemCategoryDropdown" class="jplist-drop-down-search" add-class-on-xs="w-100" 
+                                         data-control-type="filter-drop-down" data-control-name="category-filter" data-control-action="filter">
+                                        <ul></ul>
+                                    </div>
+                                </div>
+                                <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+                                     data-control-type="filter-drop-down" data-control-name="category-filter" 
+                                     data-control-action="filter">
+                                        <ul>
+                                            <li><span data-path="default">All Item Conditions</span></li>
+                                            <li><span data-path=".New">New</span></li>
+                                            <li><span data-path=".Used">Used</span></li>
+                                        </ul>
+                                </div>
+                                <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+                                     data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
+                                     data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
+                                    <ul>
+                                        <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
+                                        <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
+                                        <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
+                                        <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
+                                        <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
+                                        <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
+                                    </ul>
+                                </div>
+                                <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
+                                     data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
+                                    <ul>
+                                        <li><span data-number="4">4 per page</span></li>
+                                        <li><span data-number="8">8 per page</span></li>
+                                        <li><span data-number="12" data-default="true">12 per page</span></li>
+                                        <li><span data-number="16">16 per page</span></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
@@ -325,7 +351,7 @@
                                                 <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
                                                 <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
                                                 <span class="card-text <%= itemCategoryName.replaceAll(" ", "")%>" style="display:none;"><%= itemCategoryName%></span>
-                                                <span class="card-text <%= itemCondition%>" style="font-size: 11px;">Condition:&nbsp;<strong><%= itemCondition%></strong></span>
+                                                <span class="card-text" style="font-size: 11px;">Condition:&nbsp;<span class="<%= itemCondition%>"><strong><%= itemCondition%></strong></span></span>
                                             </div>
                                         </div>
                                         <div class="card-footer text-muted mt-1">

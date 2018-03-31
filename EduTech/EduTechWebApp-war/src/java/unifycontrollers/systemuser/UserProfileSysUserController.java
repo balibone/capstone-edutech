@@ -51,6 +51,7 @@ public class UserProfileSysUserController extends HttpServlet {
             switch (pageAction) {
                 case "goToUnifyUserAccountSYS":
                     request.setAttribute("itemOfferListSYS", (ArrayList) usmr.viewItemOfferList(loggedInUsername));
+                    request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
                     
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
@@ -103,6 +104,7 @@ public class UserProfileSysUserController extends HttpServlet {
                 case "goToUserProfileSYS":
                     String itemSellerID = request.getParameter("itemSellerID");
                     request.setAttribute("userItemListSYS", usmr.viewUserItemList(loggedInUsername, itemSellerID));
+                    request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
                     
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
                     request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));

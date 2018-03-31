@@ -2,6 +2,13 @@ $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
 
+    var dbItemCategory = $('#dbItemCategory').val();
+    var splitResult = dbItemCategory.split(';');
+    $("#itemCategoryDropdown ul").append('<li><span data-path="default">All Item Categories</span></li>');
+    splitResult.forEach(function (itemCategoryEntry) {
+        $("#itemCategoryDropdown ul").append('<li><span data-path=".' + itemCategoryEntry.replace(" ", "") + '">' + itemCategoryEntry + '</span></li>');
+    });
+    
     $('#contentArea').jplist({
         itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
     });
