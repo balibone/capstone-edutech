@@ -245,7 +245,7 @@
                             String jobRateType = (String)jobInfo.get(4);
                             String category = (String)jobInfo.get(5);
                             int numOfHelpers = (Integer)jobInfo.get(6);
-                        
+                            int num = 0;
                     %>
                     <div class="row">
                         <div class="col-xl-4 col-lg-5 col-md-6">
@@ -263,12 +263,12 @@
                         <div class="col-12 mt-5">
                           
                             <div class="list">
-                            <table class="table table-striped" id="offer-table">
-                                <col width="140">
+                            <table class="table table-striped" id="offer-table" style="font-size: 13px;">
+                                <col width="130">
                                 <col width="70">
                                 <col width="105">
                                 <col width="55">
-                                <col width="85">
+                                <col width="80">
                                 <thead>
                                   <tr>
                                     <th scope="col">The Offer is Made by</th>
@@ -282,7 +282,7 @@
                                   <%
                                       for(int i=1; i<offerList.size(); i++){
                                           Vector offerDetails = (Vector)offerList.get(i);
-                                          
+                                          num +=1;
                                           String username = (String)offerDetails.get(0);
                                           String firstName = (String)offerDetails.get(1);
                                           String lastName = (String)offerDetails.get(2);
@@ -298,17 +298,17 @@
                                      
                                       <td>
                                           <div class="row">
-                                            <div class="col-3">
-                                                <img src="uploads/commoninfrastructure/admin/images/<%= userImg%>" style="width:42px;height:42px;"/>
+                                            <div class="col-2">
+                                                <img src="uploads/commoninfrastructure/admin/images/<%= userImg%>" style="width:40px; height:40px;"/>
                                             </div>
-                                            <div class="col-9">
+                                            <div class="col-10">
                                                 <span class="senderName"><strong><%= username%></strong></span><br/>
                                                 <span class="senderName"><%= firstName%> <%= lastName%></span>
                                             </div>
                                           </div>
                                       </td>
                                     <td>S$<span class="offerPrice"><%= offerPrice%></span></td>
-                                    <td><%= offerDescription%></td>
+                                    <td><%= offerDescription%>/<%=i%></td>
                                     <td><%= offerStatus%></td>
                                     <td>
                                         <%
@@ -320,12 +320,38 @@
                                             }else{
                                         %>
                                         <a role="button" class="btn btn-success" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>">Accept</a>
-                                        <a role="button" class="btn btn-primary"><span style="color: white;">Negotiate</span></a>
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#negotiateMessage<%=i%>"><span style="color: white;">Negotiate</span></button>
                                         <a role="button" class="btn btn-danger" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>">Reject</a>
                                         <%}%>
                                     </td>
                                  
                                   </tr>
+                                  <!-- Modal -->
+                                    <div class="modal fade" id="negotiateMessage<%=i%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                          <div class="modal-content">
+                                          <div class="modal-header">
+                                            <span class="modal-title" id="exampleModalLongTitle"><strong>Negotiating <%=i%></strong></span>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Negotiating Message:</label>
+                                                <textarea class="form-control" id="negotiateContent<%=i%>"></textarea>
+                                                <input type="hidden" id="offerID<%=i%>" value="<%=jobOfferID%>"/>
+                                                <input type="hidden" id="username<%=i%>" value="<%=loggedInUsername%>"/>
+                                                <input type="hidden" id="jobID<%=i%>" value="<%=jobID%>"/>
+                                            </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" onclick="negotiateBtn(<%=i%>)">Send Message</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                  
                                   <%
                                       }

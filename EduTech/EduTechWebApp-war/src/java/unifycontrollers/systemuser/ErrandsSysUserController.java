@@ -172,6 +172,20 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(logInUser, relatedJob));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
+                case "negotiateJobOffer":
+                    long offerid = Long.parseLong(request.getParameter("offerID"));
+                    String loggedInUser = request.getParameter("username");
+                    long jobRelated = Long.parseLong(request.getParameter("jobID"));
+                    String message = request.getParameter("message");
+                    System.out.println(offerid);
+                    System.out.println(loggedInUser);
+                    System.out.println(message);
+                    String returnStr = esmr.negotiateJobOffer(offerid, loggedInUser, message);
+                    
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUser));
+                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUser, jobRelated));
+                    pageAction = "ViewJobOfferDetailsSYS"; 
+                    break;
                 default:
                     break;
             }

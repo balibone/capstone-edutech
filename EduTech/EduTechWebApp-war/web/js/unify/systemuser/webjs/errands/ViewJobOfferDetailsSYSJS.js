@@ -9,3 +9,14 @@ $(document).ready(function () {
     });
 
 });
+
+function negotiateBtn(n){
+    
+        
+        var message = document.getElementById("negotiateContent"+n).value;
+        var offerID = document.getElementById("offerID"+n).value;
+        var jobID = document.getElementById("jobID"+n).value;
+        var username = document.getElementById("username"+n).value;
+        
+        window.location = "ErrandsSysUser?pageTransit=negotiateJobOffer&offerID=" + offerID + "&username=" + username + "&jobID=" + jobID + "&message=" + message;
+};

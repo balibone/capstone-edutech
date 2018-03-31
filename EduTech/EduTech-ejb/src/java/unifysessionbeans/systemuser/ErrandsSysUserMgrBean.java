@@ -722,6 +722,20 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             offer.setJobOfferStatusForPoster("Accepted");
             offer.setJobOfferStatusForSender("Accepted");
             
+            /* MESSAGE SENDER IS THE JOB POSTER WHO ACCEPTS THE OFFER, MESSAGE RECEIVER IS THE JOB OFFER SENDER */
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(offer.getJobEntity().getUserEntity().getUsername(), offer.getUserEntity().getUsername(), 
+                        offer.getJobEntity().getUserEntity().getUsername() + " accepted your offer of " + offer.getJobEntity().getJobTitle() + ". Check it out!", 
+                        offer.getJobOfferID(), "Errands");
+            /* JOB POSTER WHO ACCEPTS THE OFFER IS THE USERENTITY_USERNAME */
+            mEntity.setUserEntity(offer.getJobEntity().getUserEntity());
+            offer.getJobEntity().getUserEntity().getMessageSet().add(mEntity);
+            
+            em.persist(mEntity);
+            em.merge(offer);
+            //em.merge(jobTakerEntity);
+            //em.merge(jobPosterEntity);
+            
             return "The offer status is updated sucessfully!";
         }else{
             return "There is something wrong with the offer. Please try again.";
@@ -739,10 +753,51 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             offer.setJobOfferStatusForPoster("Rejected");
             offer.setJobOfferStatusForSender("Rejected");
             
+            /* MESSAGE SENDER IS THE JOB POSTER WHO REJECTS THE OFFER, MESSAGE RECEIVER IS THE JOB OFFER SENDER */
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(offer.getJobEntity().getUserEntity().getUsername(), offer.getUserEntity().getUsername(), 
+                        offer.getJobEntity().getUserEntity().getUsername() + " rejected your offer of " + offer.getJobEntity().getJobTitle() + ". Check it out!", 
+                        offer.getJobOfferID(), "Errands");
+            /* JOB POSTER WHO ACCEPTS THE OFFER IS THE USERENTITY_USERNAME */
+            mEntity.setUserEntity(offer.getJobEntity().getUserEntity());
+            offer.getJobEntity().getUserEntity().getMessageSet().add(mEntity);
+            
+            em.persist(mEntity);
+            em.merge(offer);
+            
             return "The offer status is updated sucessfully!";
         }else{
             return "There is something wrong with the offer. Please try again.";
         }  
+    }
+    
+    public String negotiateJobOffer(long jobOfferID, String username, String negotiateMessage){
+        
+        Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobOfferID = :offerID");
+        q.setParameter("offerID", jobOfferID);
+        
+        if(q.getSingleResult()!=null){
+            JobOfferEntity offer = (JobOfferEntity)q.getSingleResult();
+            offer.setJobOfferStatusForPoster("Negotiating");
+            offer.setJobOfferStatusForSender("Pending");
+            
+            /* MESSAGE SENDER IS THE JOB POSTER WHO NEGOTIATES THE OFFER, MESSAGE RECEIVER IS THE JOB OFFER SENDER */
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(offer.getJobEntity().getUserEntity().getUsername(), offer.getUserEntity().getUsername(), 
+                        offer.getJobEntity().getUserEntity().getUsername() + " negotiates on your offer of " + offer.getJobEntity().getJobTitle() + ". Here is his/her message: " + negotiateMessage, 
+                        offer.getJobOfferID(), "Errands");
+            /* JOB POSTER WHO ACCEPTS THE OFFER IS THE USERENTITY_USERNAME */
+            mEntity.setUserEntity(offer.getJobEntity().getUserEntity());
+            offer.getJobEntity().getUserEntity().getMessageSet().add(mEntity);
+            
+            em.persist(mEntity);
+            em.merge(offer);
+            
+            return "The offer status is updated sucessfully!";
+        }else{
+            return "There is something wrong with the offer. Please try again.";
+        }
+        
     }
     
     @Override
