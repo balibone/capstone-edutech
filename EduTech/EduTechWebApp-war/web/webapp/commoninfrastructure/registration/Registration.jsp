@@ -92,7 +92,7 @@
             <div class="form-row">
                 <div class="form-group col-sm-6">
                     <label for="email">E-mail</label>
-                    <input type="email" class="form-control" placeholder="E-mail" required name="email">
+                    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" class="form-control" placeholder="E-mail" required name="email">
                 </div>
                 <div class="form-group col-sm-6">
                     <label for="contactNum">Contact Number</label>
@@ -100,7 +100,7 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text">+65</div>
                         </div>
-                        <input type="tel" class="form-control" id="contactNum" placeholder="Contact Number" required name="contactNum">
+                        <input type="tel" pattern="[0-9]{8}" maxlength="8" class="form-control" id="contactNum" placeholder="Contact Number" required name="contactNum">
                     </div>
                 </div>
             </div>
