@@ -1,16 +1,16 @@
 function viewComment(shoutIDContent) {
-    
+
     //alert(shoutIDContent)
 
     if (!shoutIDContent)
         return [];
     var i = shoutIDContent.indexOf(',');
     if (i > 0) {
-        
+
         //alert(shoutIDContent.substring(0, i));
         //alert(shoutIDContent.substring(i + 1));
 
-        $('iframe').attr('src', 'ShoutsSysUser?pageTransit=goToViewShoutCommentModalSYS&hiddenShoutID=' + shoutIDContent.substring(0, i) + '&hiddentShoutContent=' + shoutIDContent.substring(i + 1) +'');
+        $('iframe').attr('src', 'ShoutsSysUser?pageTransit=goToViewShoutCommentModalSYS&hiddenShoutID=' + shoutIDContent.substring(0, i) + '&hiddentShoutContent=' + shoutIDContent.substring(i + 1) + '');
     } else
         return [shoutIDContent];
 
@@ -18,10 +18,29 @@ function viewComment(shoutIDContent) {
     $('#viewComment-iframe').iziModal('open', event);
 }
 
-function reportShout(shoutID) {
+function reportShout(shoutIDContent) {
 
-    $('iframe').attr('src', 'ShoutsSysUser?pageTransit=goToReportShoutModalSYS&hiddenShoutID=' + shoutID + '');
+    if (!shoutIDContent)
+        return [];
+    var i = shoutIDContent.indexOf(',');
+    if (i > 0) {
+        //$('iframe').attr('src', 'ShoutsSysUser?pageTransit=goToViewShoutCommentModalSYS&hiddenShoutID=' + shoutIDContent.substring(0, i) + '&hiddentShoutContent=' + shoutIDContent.substring(i + 1) + '');
+    } else
+        return [shoutIDContent];
+
+
+    $('iframe').attr('src', 'ShoutsSysUser?pageTransit=goToReportShoutModalSYS&hiddenShoutID=' + shoutIDContent.substring(0, i) + '&hiddentShoutContent=' + shoutIDContent.substring(i + 1) + '');
     $('#reportShout-iframe').iziModal('open', event);
+}
+
+function deleteAlert(shoutID) {
+
+    confirm('Confirm delete?');
+    
+    $.get('ShoutsSysUser?pageTransit=goToDeleteShoutSYS&hiddenShoutID=' + shoutID + '');
+
+
+    $('#deleteShout-alert').iziModal('open', event);
 }
 
 function bookmarkAlert(shoutIDusername) {
@@ -42,6 +61,26 @@ function bookmarkAlert(shoutIDusername) {
         return [shoutIDusername];
 
     $('#bookmark-alert').iziModal('open', event);
+}
+
+function unbookmarkAlert(shoutIDusername) {
+
+    //alert(shoutIDusername)
+
+    if (!shoutIDusername)
+        return [];
+    var i = shoutIDusername.indexOf(',');
+    if (i > 0) {
+        //alert("TEST");
+        //alert(shoutIDusername.substring(0, i));
+        //alert(shoutIDusername.substring(i + 1));
+        $.get('ShoutsSysUser?pageTransit=goToRemoveBookmarkSYS&hiddenShoutID=' + shoutIDusername.substring(0, i) + '&loggedInUsername=' + shoutIDusername.substring(i + 1) + '');
+        //return [shoutIDusername.substring(0, i), shoutIDusername.substring(i + 1)];
+
+    } else
+        return [shoutIDusername];
+
+    $('#unbookmark-alert').iziModal('open', event);
 }
 
 function bookmarkFrame(shoutIDusername) {
@@ -65,15 +104,15 @@ function bookmarkFrame(shoutIDusername) {
     $('#bookmark-iframe').iziModal('open', event);
 }
 
-function like(shoutIDusername) {
+function likeAlert(shoutIDusername) {
 
     //alert(shoutIDusername)
 
     if (!shoutIDusername)
         return [];
-    var i = shoutIDusername.indexOf(', ');
+    var i = shoutIDusername.indexOf(',');
     if (i > 0) {
-        //alert("TEST");
+        //alert("likeShout TEST");
         //alert(shoutIDusername.substring(0, i));
         //alert(shoutIDusername.substring(i + 1));
         //$.get('localhost/myWebbApp/executeInit.jsp');
@@ -86,6 +125,34 @@ function like(shoutIDusername) {
 
     $('#like-alert').iziModal('open', event);
 }
+
+function unlikeAlert(shoutIDusername) {
+
+    //alert(shoutIDusername)
+
+    if (!shoutIDusername)
+        return [];
+    var i = shoutIDusername.indexOf(',');
+    if (i > 0) {
+        //alert("likeShout TEST");
+        //alert(shoutIDusername.substring(0, i));
+        //alert(shoutIDusername.substring(i + 1));
+        //$.get('localhost/myWebbApp/executeInit.jsp');
+        //return [shoutIDusername.substring(0, i), shoutIDusername.substring(i + 1)];
+        $.get('ShoutsSysUser?pageTransit=goToRemoveLikeSYS&hiddenShoutID=' + shoutIDusername.substring(0, i) + '&loggedInUsername=' + shoutIDusername.substring(i + 1) + '');
+
+    } else
+        return [shoutIDusername];
+
+
+    $('#unlike-alert').iziModal('open', event);
+}
+
+function newShout() {
+    $('iframe').attr('src', 'ShoutsSysUser?pageTransit=goToNewShoutModalSYS');
+    $('#newShout-iframe').iziModal('open', event);
+}
+
 
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
@@ -128,10 +195,28 @@ $(document).ready(function () {
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#4D7496',
-        width: 400,
+        width: 500,
         overlayClose: true,
         iframe: true,
-        iframeHeight: 400
+        iframeHeight: 500,
+        onClosed: function () {
+            window.location.reload(true);
+        }
+    });
+
+    $('#newShout-iframe').iziModal({
+        title: 'Create A Shout',
+        iconClass: 'fa fa-bullhorn',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#4D7496',
+        width: 500,
+        overlayClose: true,
+        iframe: true,
+        iframeHeight: 500,
+        onClosed: function () {
+            window.location.reload(true);
+        }
     });
 
     $('#reportShout-iframe').iziModal({
@@ -155,7 +240,23 @@ $(document).ready(function () {
         width: 500,
         overlayClose: true,
         iframe: true,
-        iframeHeight: 100,
+        iframeHeight: 100
+    });
+    
+    $('#deleteShout-alert').iziModal({
+        title: 'Shout Deleted!',
+        iconClass: 'fa fa-trash',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        width: 400,
+        overlayClose: true,
+        timeout: 10,
+        timeoutProgressbar: true,
+        pauseOnHover: false,
+        timeoutProgressbarColor: 'rgba(255,255,255,0.5)',
+        onClosed: function () {
+            window.location.reload(true);
+        }
     });
 
     $('#bookmark-alert').iziModal({
@@ -169,6 +270,25 @@ $(document).ready(function () {
         timeoutProgressbar: true,
         pauseOnHover: false,
         timeoutProgressbarColor: 'rgba(255,255,255,0.5)',
+        onClosed: function () {
+            window.location.reload(true);
+        }
+    });
+
+    $('#unbookmark-alert').iziModal({
+        title: 'Post Unbookmarked!',
+        iconClass: 'fa fa-bookmark',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        width: 400,
+        overlayClose: true,
+        timeout: 10,
+        timeoutProgressbar: true,
+        pauseOnHover: false,
+        timeoutProgressbarColor: 'rgba(255,255,255,0.5)',
+        onClosed: function () {
+            window.location.reload(true);
+        }
     });
 
     $('#like-alert').iziModal({
@@ -182,6 +302,27 @@ $(document).ready(function () {
         timeoutProgressbar: true,
         pauseOnHover: false,
         timeoutProgressbarColor: 'rgba(255,255,255,0.5)',
+        onClosed: function () {
+            window.location.reload(true);
+        }
+    });
+
+
+
+    $('#unlike-alert').iziModal({
+        title: 'Post Unliked!',
+        iconClass: 'fa fa-bookmark',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        width: 400,
+        overlayClose: true,
+        timeout: 10,
+        timeoutProgressbar: true,
+        pauseOnHover: false,
+        timeoutProgressbarColor: 'rgba(255,255,255,0.5)',
+        onClosed: function () {
+            window.location.reload(true);
+        }
     });
 
 

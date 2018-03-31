@@ -222,8 +222,8 @@
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Shouts Listing</li>
+                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS&loggedInUsername=<%=loggedInUsername%>">Shouts Listing</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -279,7 +279,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <a OnClick="newShout()"><button type="button" class="btn btn-outline-info center"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Create A New Shout</button></a>   
                     </div>
 
                     <div class="col-lg-9 col-md-8">
@@ -308,6 +308,11 @@
                                         data-control-name="reset" data-control-action="reset"><i class="fa fa-retweet">&nbsp;&nbsp;Reset</i>
                                 </button>
                             </div>
+                            <%-- removed
+                            <div class="jplist-panel">
+                                <a OnClick="newShout()"><button type="button" class="btn btn-outline-info center"><i class="fa fa-plus"></i>&nbsp;&nbsp;New Shout</button></a>
+                            </div>
+                            --%>
                         </div>
 
                         <!-- SHOUTS LISTING -->
@@ -329,6 +334,8 @@
                                             String shoutDuration = String.valueOf(v.get(8));
                                             String shoutLikes = String.valueOf(v.get(9));
                                             String shoutComments = String.valueOf(v.get(10));
+                                            String shoutBookmarkStatus = String.valueOf(v.get(11));
+                                            String shoutLikeStatus = String.valueOf(v.get(12));
                                 %>
                                 <div class="col-xl-6 col-md-6 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -349,13 +356,23 @@
                                                         <br>
                                                         <%-- like & comment --%>
                                                         <div class="shout-likes-info">
-                                                            <span class="card-text shoutUsername" style="font-size: 12px"><%= shoutLikes%> likes &nbsp;
-                                                            </span><a onClick ="like('<%= shoutID%>,<%= loggedInUsername%>')" class="likeThis">
+                                                            <span class="card-text shoutLike" style="font-size: 12px"><%= shoutLikes%> likes &nbsp;
+                                                            </span>
+                                                            <%
+                                                                if (shoutLikeStatus.equals("false")) {
+                                                            %>
+                                                            <a onClick ="likeAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="likeThis">
                                                                 <i class="fa fa-thumbs-up icon"></i>
                                                                 <i class="fa fa-thumbs-o-up icon"></i>
-
                                                             </a>
-
+                                                            <%
+                                                            } else if (shoutLikeStatus.equals("true")) {
+                                                            %>
+                                                            <a onClick ="unlikeAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="likedThis">
+                                                                <i class="fa fa-thumbs-up icon"></i>
+                                                                <i class="fa fa-thumbs-o-up icon"></i>
+                                                            </a>
+                                                            <%  }%>   
                                                             &nbsp;&nbsp;
                                                             <i class="viewComment">
                                                                 <a onClick ="viewComment('<%= shoutID%>,<%= shoutContent%>')" textDecoration = "underline"><span class="float-none" style="color: #64676d; font-size: 12px"><%= shoutComments%> comments &nbsp;</span>
@@ -367,11 +384,50 @@
                                                     </div>
                                                     <div class="col-xl-4 col-md-4 col-4 float-right">
                                                         <div class="bookmark-Shout">
+                                                            <%
+
+                                                                if (shoutBookmarkStatus.equals("false")) {
+                                                            %>
                                                             <span class = "float-right"><a onClick ="bookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkThis">
                                                                     <i class="fa fa-bookmark icon"></i>
                                                                     <i class="fa fa-bookmark-o icon"></i>
                                                                     <span class="bookmark" style="color: #64676d; font-size: 12px">Bookmark This</span>
                                                                 </a></span>
+                                                                <%
+
+                                                                } else if (shoutBookmarkStatus.equals("true")) {
+                                                                %>     
+                                                            <span class = "float-right"><a onClick ="unbookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkedThis">
+                                                                    <i class="fa fa-bookmark icon"></i>
+                                                                    <i class="fa fa-bookmark-o icon"></i>
+                                                                    <span class="bookmark" style="color: #64676d; font-size: 12px">Bookmarked</span>
+                                                                </a></span>
+                                                                <%  }%>
+                                                        </div>
+
+                                                        <%-- updated with delete-Shout2
+                                                        <div class="delete-Shout">
+                                                            <%
+
+                                                                if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
+                                                            %>
+                                                            <span class = "float-right"><a href = "ShoutsSysUser?pageTransit=goToDeleteShoutSYS&hiddenUsername=<%=loggedInUsername%>&hiddenShoutID=<%=shoutID%>" onclick="return confirm('Confirm delete?')" class="deleteThis">
+                                                                    <i class="fa fa-trash icon"></i>
+                                                                    <i class="fa fa-trash-o icon"></i>
+                                                                    <span class="float-none shoutDelete" style="color: #64676d; font-size: 12px">&nbsp;Delete Shout</a></span>
+                                                                    <%  }%>
+                                                        </div>
+                                                        --%>
+
+                                                        <div class="delete-Shout2">
+                                                            <%
+                                                                if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
+                                                            %>
+                                                            <span class = "float-right"><a onClick = "deleteAlert(<%=shoutID%>)" onclick="return confirm('Confirm delete?')" class="deleteThis">
+                                                                    <i class="fa fa-trash icon"></i>
+                                                                    <i class="fa fa-trash-o icon"></i>
+                                                                    <span class="float-none shoutDelete" style="color: #64676d; font-size: 12px">&nbsp;Delete Shout</a></span>
+                                                                    <%  }%>
                                                         </div>
                                                         <%-- bookmark alert in iframe 
                                                             <div class="bookmark-Shout">
@@ -397,7 +453,7 @@
                                                     <%--    on <%= shoutDate%> --%>
                                                 </span>
 
-                                                <span class = "float-right"><a onClick ="reportShout(<%= shoutID%>)" class="reportThis">
+                                                <span class = "float-right"><a onClick ="reportShout('<%= shoutID%>,<%= shoutContent%>')" class="reportThis">
                                                         <i class="fa fa-flag icon"></i>
                                                         <i class="fa fa-flag-o icon"></i>
                                                         <span class="report" style="color: #64676d; font-size: 12px">Report Post</span>
@@ -460,10 +516,14 @@
         </div>
 
         <div id="reportShout-iframe"></div>                    
-        <div id="viewComment-iframe"></div>                    
+        <div id="viewComment-iframe"></div>
+        <div id="newShout-iframe"></div>
+        <div id="deleteShout-alert"></div> 
         <div id="bookmark-alert"></div> 
-        <div id="bookmark-iframe"></div> 
-        <div id="like-alert"></div> 
+        <div id="unbookmark-alert"></div> 
+        <div id="like-alert"></div>
+        <div id="unlike-alert"></div> 
+
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>

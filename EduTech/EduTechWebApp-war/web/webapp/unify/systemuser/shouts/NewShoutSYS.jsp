@@ -232,16 +232,19 @@
                                         </div>
 
                                     </div>
-                                    <div class="form-row" style="justify-content: center;">
+                                    <div class="form-row" >
 
                                         <div class="col-md-2">
                                             <input type="hidden" name="pageTransit" value="goToCreateShout" />
                                             <input type="hidden" name="loggedInUsername" value= "<%= loggedInUsername%>" />
-                                            <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button></div>
-
+                                            <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button>
+                                        </div>
                                     </div>  
 
                                 </form>
+                                <div class ="col-md-2">
+                                    <a href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS&loggedInUsername=<%= loggedInUsername%>" ><button class="btn btn-outline-warning btn-primary btn-sm btn-block"  type="cancel">Cancel</button></a>
+                                </div>
                             </div>
                         </div>
                     </div>

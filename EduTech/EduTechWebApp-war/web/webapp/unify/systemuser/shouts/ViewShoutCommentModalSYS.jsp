@@ -154,9 +154,11 @@
                                                         <div class="shout-ID">
                                                             <span class="card-header commentCategory" style="color: #007bff; font-size: 10px; line-height: 2.5;">Categories, Type</span>
                                                         </div>
+                                                        <%-- removed
                                                         <div class="shout-ID">
                                                             <span class="card-title commentID" style="color: #2b3233; font-size: 25px; line-height: 2.5;"><strong>#<%= commentID%></strong></span>
                                                         </div>
+                                                        --%>
                                                         <div class="shout-content">
                                                             <span class="card-content commentContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><%= commentContent%></span>
                                                         </div>

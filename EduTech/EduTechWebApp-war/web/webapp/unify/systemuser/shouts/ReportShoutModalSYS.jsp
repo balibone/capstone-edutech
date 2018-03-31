@@ -56,6 +56,7 @@
                             
                             <%
                                 String shoutID = (String) request.getAttribute("reportShoutID");
+                                String shoutContent = (String) request.getAttribute("reportShoutContent");
                             %>
                             
                             
@@ -64,7 +65,8 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <p>Share what is wrong with post #<%= shoutID %></p>
+                                <p>Share what is wrong with post #<%= shoutID %>:</p>
+                                <i><p><%= shoutContent %></p></i>
                                 <p><i>(<span class="asterik">*</span>) Your report is kept anonymous and confidential</i></p>
                                 
                                     <form class="form-horizontal form-label-left" action="ShoutsSysUser" method="POST" enctype="form-data">
