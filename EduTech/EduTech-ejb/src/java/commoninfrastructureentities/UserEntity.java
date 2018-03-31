@@ -31,8 +31,11 @@ import unifyentities.common.JobReportEntity;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.marketplace.ItemOfferEntity;
+import unifyentities.errands.JobOfferEntity;
 import unifyentities.shouts.ShoutsLikesEntity;
 import unifyentities.shouts.ShoutsCommentsEntity;
+import unifyentities.shouts.ShoutsBookmarksEntity;
+import unifyentities.shouts.ShoutsReportEntity;
 
 @Entity(name = "SystemUser")
 public class UserEntity implements Serializable {
@@ -87,7 +90,11 @@ public class UserEntity implements Serializable {
     @OneToMany(mappedBy = "userEntity")
     private Collection<ShoutsLikesEntity> shoutsLikesSet = new ArrayList<ShoutsLikesEntity>();    
     @OneToMany(mappedBy = "userEntity")
-    private Collection<ShoutsCommentsEntity> shoutsCommentsSet = new ArrayList<ShoutsCommentsEntity>(); 
+    private Collection<ShoutsCommentsEntity> shoutsCommentsSet = new ArrayList<ShoutsCommentsEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<ShoutsBookmarksEntity> shoutsBookmarksSet = new ArrayList<ShoutsBookmarksEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<ShoutsReportEntity> shoutsReportSet = new ArrayList<ShoutsReportEntity>();
     
     @PrePersist
     public void creationDate() { 
@@ -162,6 +169,8 @@ public class UserEntity implements Serializable {
     public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
     public Collection<ShoutsLikesEntity> getShoutsLikesSet() { return shoutsLikesSet; }
     public Collection<ShoutsCommentsEntity> getShoutsCommentsSet() { return shoutsCommentsSet; }
+    public Collection<ShoutsBookmarksEntity> getShoutsBookmarksSet() { return shoutsBookmarksSet; }
+    public Collection<ShoutsReportEntity> getShoutsReportSet() { return shoutsReportSet; }
     
     /* SETTER METHODS */
     public void setUsername(String username) { this.username = username; }
@@ -192,6 +201,8 @@ public class UserEntity implements Serializable {
     public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
     public void setShoutsLikesSet(Collection<ShoutsLikesEntity> shoutsLikesSet) { this.shoutsLikesSet = shoutsLikesSet; }
     public void setShoutsCommentsSet(Collection<ShoutsCommentsEntity> shoutsCommentsSet) { this.shoutsCommentsSet = shoutsCommentsSet; }
+    public void setShoutsBookmarksSet(Collection<ShoutsBookmarksEntity> shoutsBookmarksSet) { this.shoutsBookmarksSet = shoutsBookmarksSet; }
+    public void setShoutsReportSet(Collection<ShoutsReportEntity> shoutsReportSet) { this.shoutsReportSet = shoutsReportSet; }
     
     public String getEmail() {
         return email;

@@ -20,6 +20,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/shouts/ViewShoutsListingSYSCSS.css" rel="stylesheet" type="text/css">
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -237,10 +238,6 @@
                                     </div>
                                     --%>
 
-                                    <%-- to change --%>
-                                    <div class="filter-sidebar">
-
-                                    </div>
                                     <%-- additional filters --%>
                                 </div>
                             </div>
@@ -251,19 +248,13 @@
                     <div class="col-lg-9 col-md-8">
                         <div class="title"><span>Shouts Listing</span></div>
                         <div class="jplist-search sorting-bar">
-                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+
+                            <div class="dateSort jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort"
                                  data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                 <ul>
-                                    <li><span data-path=".shoutID" data-order="asc" data-type="text">Name Asc</span></li>
-                                    <li><span data-path=".shoutID" data-order="desc" data-type="text">Name Desc</span></li>
-                                </ul>
-                            </div>
-                            <div class="dateSort jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
-                                <ul>
-                                    <li><span data-path=".shoutDuration" data-order="asc" data-type="text">Newest First</span></li>
-                                    <li><span data-path=".shoutDuration" data-order="desc" data-type="text">Oldest First</span></li>
+                                    <li><span data-path=".shoutDuration" data-order="desc" data-type="datetime" data-default="true">Newest First</span></li>
+                                    <li><span data-path=".shoutDuration" data-order="asc" data-type="datetime">Oldest First</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -308,7 +299,7 @@
                                             <div class="card-body">
                                                 <div class="row">
 
-                                                    <div class="col-xl-6 col-md-6 col-6">
+                                                    <div class="col-xl-8 col-md-8 col-8">
                                                         <div class="shout-ID">
                                                             <span class="card-header shoutCategory" style="color: #007bff; font-size: 10px; line-height: 2.5;">Categories, Type</span>
                                                         </div>
@@ -321,22 +312,37 @@
                                                         <br>
                                                         <%-- like & comment --%>
                                                         <div class="shout-likes-info">
-                                                            <a href =""><span class="card-text shoutUsername" style="font-size: 12px"><%= shoutLikes%> likes &nbsp;</span></a><i class="fa fa-thumbs-up" style="color: #64676d">&nbsp;</i>
+                                                            <span class="card-text shoutUsername" style="font-size: 12px"><%= shoutLikes%> likes &nbsp;
+                                                            </span><a onClick ="like('<%= shoutID%>,<%= loggedInUsername%>')" class="likeThis">
+                                                                <i class="fa fa-thumbs-up icon"></i>
+                                                                <i class="fa fa-thumbs-o-up icon"></i>
+
+                                                            </a>
+
                                                             &nbsp;&nbsp;
-                                                            <a href =""><span class="float-none" style="color: #64676d; font-size: 12px"><%= shoutComments%> comments &nbsp;</span><i class="fa fa-comment">&nbsp;</i></a>
+                                                            <i class="viewComment">
+                                                                <a onClick ="viewComment('<%= shoutID%>,<%= shoutContent%>')" textDecoration = "underline"><span class="float-none" style="color: #64676d; font-size: 12px"><%= shoutComments%> comments &nbsp;</span>
+                                                                    <i class="fa fa-comment icon"></i>
+                                                                    <i class="fa fa-comment-o icon"></i>
+                                                                </a>
+                                                            </i>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-4 col-md-4 col-4">
-                                                        <div class="new-review">
-                                                            <form action="VoicesSysUser" method="POST">
-
-                                                                <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit"><i class="fa fa-plus">&nbsp;&nbsp;</i>Report</button>
-                                                            </form>
+                                                    <div class="col-xl-4 col-md-4 col-4 float-right">
+                                                        <div class="bookmark-Shout">
+                                                            <span class = "float-right"><a onClick ="bookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkThis">
+                                                                    <i class="fa fa-bookmark icon"></i>
+                                                                    <i class="fa fa-bookmark-o icon"></i>
+                                                                    <span class="bookmark" style="color: #64676d; font-size: 12px">Bookmark This</span>
+                                                                </a></span>
                                                         </div>
+                                                        <%-- bookmark alert in iframe 
+                                                            <div class="bookmark-Shout">
+                                                            <span class = "float-right"><a onClick ="bookmarkFrame('<%= shoutID%>,<%=loggedInUsername%>')"><i class="fa fa-bookmark">&nbsp;&nbsp;</i><span class="bookmark" style="color: #64676d; font-size: 12px">Bookmark This</span></a></span>
+                                                        </div>
+                                                        --%>
 
                                                     </div> 
-
-
 
                                                 </div>
                                             </div>
@@ -354,8 +360,12 @@
                                                     <%--    on <%= shoutDate%> --%>
                                                 </span>
 
-                                                <span class = "float-right"><a href =""><i class="fa fa-flag">&nbsp;&nbsp;</i><span class="report" style="color: #64676d; font-size: 12px">Report Post</span></a></span>
-                                            
+                                                <span class = "float-right"><a onClick ="reportShout(<%= shoutID%>)" class="reportThis">
+                                                        <i class="fa fa-flag icon"></i>
+                                                        <i class="fa fa-flag-o icon"></i>
+                                                        <span class="report" style="color: #64676d; font-size: 12px">Report Post</span>
+                                                    </a></span>
+
                                             </div>
 
                                         </div>
@@ -394,6 +404,10 @@
         </div>
 
         <div id="reportShout-iframe"></div>                    
+        <div id="viewComment-iframe"></div>                    
+        <div id="bookmark-alert"></div> 
+        <div id="bookmark-iframe"></div> 
+        <div id="like-alert"></div> 
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
