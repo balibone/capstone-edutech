@@ -1,9 +1,7 @@
 package commoninfrasessionbeans;
 
-import commoninfrasessionbeans.CommonInfraMgrBeanRemote;
 import commoninfrastructureentities.UserEntity;
 import java.io.UnsupportedEncodingException;
-import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -25,7 +23,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.servlet.ServletRequest;
 
 @Stateless
 public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {

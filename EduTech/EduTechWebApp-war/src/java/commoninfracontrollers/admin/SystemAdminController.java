@@ -210,7 +210,6 @@ public class SystemAdminController extends HttpServlet {
                     break;
                 case "editAdmin":
                     id = request.getParameter("id");
-                    
                     success = processEditUser(request,response);//pass request to helper method for parsing & store success boolean
                     msg = "";
                     if (success){

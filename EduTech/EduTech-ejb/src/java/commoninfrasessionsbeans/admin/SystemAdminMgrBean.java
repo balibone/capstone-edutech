@@ -1,8 +1,6 @@
 package commoninfrasessionsbeans.admin;
 
 import commoninfrastructureentities.UserEntity;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +9,6 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolationException;
-import commoninfrasessionbeans.CommonInfraMgrBean;
 import commoninfrasessionbeans.CommonInfraMgrBeanRemote;
 
 @Stateless

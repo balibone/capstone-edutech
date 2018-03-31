@@ -15,8 +15,8 @@
 /EduTech/EduTechWebApp-war/dist/
 /EduTech/EduTechWebApp-war/nbproject/private/
 
-
+# ignore uploads folder 
 /EduTech/EduTechWebApp-war/web/uploads/
 
-/EduTechFront/node_modules/
-/EduTechFrontEnd/nbproject/private/
+# ignore all "node_modules" folders.
+node_modules/
