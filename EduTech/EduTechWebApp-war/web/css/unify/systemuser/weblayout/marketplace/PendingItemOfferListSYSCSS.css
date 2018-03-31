@@ -1,0 +1,17 @@
+.searchInputText {
+    margin-left: 5px;
+    padding: 3px 5px 3px 5px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #495057;
+    background-color: transparent;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.profileRating { padding: 0; margin: 0; list-style: none; font-size: 12px; }
+.profileRating li { display: inline-block; padding-right: 5px; }
+.offerAction { padding: 0; margin: 0; list-style: none; font-size: 12px; }
+.offerAction li { display: inline-block; padding-right: 5px; }

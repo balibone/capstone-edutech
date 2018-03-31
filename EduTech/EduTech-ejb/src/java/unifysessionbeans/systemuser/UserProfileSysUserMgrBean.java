@@ -583,9 +583,9 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return "Message has been sent successfully!";
     }
     
-    /*  ====================    USER ITEM OFFERS    ==================== */
+    /*  ====================    USER ITEM OFFERS (ACCOUNT)    ==================== */
     @Override
-    public List<Vector> viewItemOfferList(String username) {
+    public List<Vector> viewUserItemAccountList(String username) {
         Date currentDate = new Date();
         String dateString = "";
         
@@ -660,15 +660,66 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return itemOfferList;
     }
     
+    /* OFFERS SENT FROM THE MARKETPLACE USERS */
     @Override
-    public List<Vector> viewItemOfferUserList(String username, long urlitemID) {
+    public List<Vector> viewUserMarketplaceOfferList(String username) {
+        boolean insertTempOffer = true;
+        ArrayList<String> tempMarketplaceOfferList = new ArrayList<>();
+        List<Vector> marketplaceOfferList = new ArrayList<Vector>();
+        
+        Query q = em.createQuery("SELECT io FROM ItemOffer io WHERE io.itemEntity.userEntity.username = :username");
+        q.setParameter("username", username);
+        
+        for (Object o : q.getResultList()) {
+            ItemOfferEntity itemOfferE = (ItemOfferEntity) o;
+            
+            for(int i = 0; i < tempMarketplaceOfferList.size(); i++) {
+                String tempIndexValue = tempMarketplaceOfferList.get(i);
+                long tempItemID = Long.parseLong(tempIndexValue.split(";")[0]);
+                
+                if(itemOfferE.getItemEntity().getItemID() == tempItemID) {
+                    int tempPendingCount = Integer.parseInt(tempIndexValue.split(";")[1]);
+                    int tempTotalCount = Integer.parseInt(tempIndexValue.split(";")[2]);
+                    if((itemOfferE.getSellerItemOfferStatus()).equals("Pending")) {
+                        tempPendingCount++;
+                    } else {
+                        tempTotalCount++;
+                    }
+                    tempMarketplaceOfferList.set(i, tempItemID + ";" + tempPendingCount + ";" + tempTotalCount);
+                    insertTempOffer = false;
+                }
+            }
+            if(insertTempOffer == true) {
+                if((itemOfferE.getSellerItemOfferStatus()).equals("Pending")) {
+                    tempMarketplaceOfferList.add(itemOfferE.getItemEntity().getItemID() + ";1;0;" + itemOfferE.getItemEntity().getItemName() + ";" + itemOfferE.getItemEntity().getItemImage() + ";" + itemOfferE.getItemEntity().getItemPrice() + ";" + itemOfferE.getItemEntity().getItemCondition());
+                } else {
+                    tempMarketplaceOfferList.add(itemOfferE.getItemEntity().getItemID() + ";0;1;" + itemOfferE.getItemEntity().getItemName() + ";" + itemOfferE.getItemEntity().getItemImage() + ";" + itemOfferE.getItemEntity().getItemPrice() + ";" + itemOfferE.getItemEntity().getItemCondition());
+                }
+            }
+        }
+        for(int i = 0; i < tempMarketplaceOfferList.size(); i++) {
+            Vector marketplaceOfferVec = new Vector();
+            marketplaceOfferVec.add((tempMarketplaceOfferList.get(i)).split(";")[0]);   // Item ID
+            marketplaceOfferVec.add((tempMarketplaceOfferList.get(i)).split(";")[1]);   // Pending Item Offer Count
+            marketplaceOfferVec.add((tempMarketplaceOfferList.get(i)).split(";")[2]);   // Total Item Offer Count
+            marketplaceOfferVec.add((tempMarketplaceOfferList.get(i)).split(";")[3]);   // Item Name
+            marketplaceOfferVec.add((tempMarketplaceOfferList.get(i)).split(";")[4]);   // Item Image File Path
+            marketplaceOfferVec.add((tempMarketplaceOfferList.get(i)).split(";")[5]);   // Item Price
+            marketplaceOfferVec.add((tempMarketplaceOfferList.get(i)).split(";")[6]);   // Item Condition
+            marketplaceOfferList.add(marketplaceOfferVec);
+        }
+        return marketplaceOfferList;
+    }
+    
+    @Override
+    public List<Vector> viewAnItemOfferUserList(String username, long urlitemID) {
         boolean itemInfoEntry = false;
         Date currentDate = new Date();
         String dateString = "";
         List<Vector> itemOfferUserList = new ArrayList<Vector>();
 
-        Query q = em.createQuery("SELECT o FROM ItemOffer o WHERE o.itemEntity.userEntity.username = :username "
-                + "AND o.itemEntity.itemID = :itemID");
+        Query q = em.createQuery("SELECT io FROM ItemOffer io WHERE io.itemEntity.userEntity.username = :username "
+                + "AND io.itemEntity.itemID = :itemID");
         q.setParameter("username", username);
         q.setParameter("itemID", urlitemID);
         

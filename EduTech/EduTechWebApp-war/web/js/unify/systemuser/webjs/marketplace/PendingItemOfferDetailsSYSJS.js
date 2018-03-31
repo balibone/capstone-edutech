@@ -78,4 +78,5 @@ $(document).ready(function () {
     
     $('#closeSuccess').click(function () { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function () { $('#errorPanel').fadeOut(300); });
+    $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
 });

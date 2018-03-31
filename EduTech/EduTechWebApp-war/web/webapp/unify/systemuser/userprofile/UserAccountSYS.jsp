@@ -338,10 +338,10 @@
                         <div class="row equal-height" add-class-on-xs="no-gutters">
                             <div class="list searchresult-row">
                                 <%
-                                    ArrayList<Vector> itemOfferListSYS = (ArrayList) request.getAttribute("itemOfferListSYS");
-                                    if (!itemOfferListSYS.isEmpty()) {
-                                        for (int i = 0; i <= itemOfferListSYS.size() - 1; i++) {
-                                            Vector v = itemOfferListSYS.get(i);
+                                    ArrayList<Vector> userItemAccountListSYS = (ArrayList) request.getAttribute("userItemAccountListSYS");
+                                    if (!userItemAccountListSYS.isEmpty()) {
+                                        for (int i = 0; i <= userItemAccountListSYS.size() - 1; i++) {
+                                            Vector v = userItemAccountListSYS.get(i);
                                             String itemID = String.valueOf(v.get(0));
                                             String itemImage = String.valueOf(v.get(1));
                                             String itemName = String.valueOf(v.get(2));

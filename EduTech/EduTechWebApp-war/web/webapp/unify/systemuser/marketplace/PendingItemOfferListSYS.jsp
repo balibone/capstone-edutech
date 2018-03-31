@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - Pending Item Offer List</title>
+        <title>Unify - Pending Item Offer Details</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
@@ -17,9 +17,10 @@
         <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/marketplace/PendingItemOfferListSYSCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/marketplace/PendingItemOfferDetailsSYSCSS.css" rel="stylesheet" type="text/css" />
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -239,26 +240,151 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
-                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTransSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;My Marketplace Transaction
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;My Item Offer List
-                                </a>
-                                <a href="account-address.html" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
-                                </a>
+                                <button type="button" class="list-group-item list-group-item-action marketplaceBtn active">
+                                    <i class="fa fa-fw fa-shopping-cart"></i>&nbsp;My Marketplace
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-comments"></i>&nbsp;My Whispers
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-9 col-md-8">
-                        <div class="x_panel">
-                            <div class="title"><span>Your Pending Item Offer</span></div>
-                            <div class="x_content">
-                                
+                        <div class="title"><span>Your Pending Item Offer</span></div>
+                        
+                        <form class="form-horizontal" action="MarketplaceSysUser" method="POST">
+                            <div class="formDiv">
+                                <div class="form-row" style="padding: 5px 0 30px 0;">
+                                    <div class="jplist-search sorting-bar">
+                                        <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+                                             data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
+                                             data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
+                                            <ul>
+                                                <li><span data-path=".itemOfferDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
+                                                <li><span data-path=".itemOfferPrice" data-order="asc" data-type="number">Offer Price Asc</span></li>
+                                                <li><span data-path=".itemOfferPrice" data-order="desc" data-type="number">Offer Price Desc</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
+                                             data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
+                                            <ul>
+                                                <li><span data-number="2" data-default="true">2 per page</span></li>
+                                                <li><span data-number="4">4 per page</span></li>
+                                                <li><span data-number="8">8 per page</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="jplist-checkbox-dropdown" data-control-type="checkbox-dropdown" 
+                                             data-control-name="category-checkbox-dropdown" data-control-action="filter" 
+                                             data-no-selected-text="Filter by:" data-one-item-text="{num} selected" 
+                                             data-many-items-text="{num} selected">
+                                            <ul>
+                                                <li>
+                                                    <input data-path=".Pending" id="Pending" type="checkbox" />
+                                                    <label for="Pending">Pending</label>
+                                                </li>
+                                                <li>
+                                                    <input data-path=".Processing" id="Processing" type="checkbox" />
+                                                    <label for="Processing">Processing</label>
+                                                </li>
+                                                <li>
+                                                    <input data-path=".Accepted" id="Accepted" type="checkbox" />
+                                                    <label for="Accepted">Accepted</label>
+                                                </li>
+                                                <li>
+                                                    <input data-path=".Rejected" id="Rejected" type="checkbox" />
+                                                    <label for="Rejected">Rejected</label>
+                                                </li>
+                                                <li>
+                                                    <input data-path=".Cancelled" id="Cancelled" type="checkbox" />
+                                                    <label for="Cancelled">Cancelled</label>
+                                                </li>
+                                                <li>
+                                                    <input data-path=".Completed" id="Completed" type="checkbox" />
+                                                    <label for="Completed">Completed</label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="jplist-panel">
+                                            <button type="button" class="jplist-reset-btn" data-control-type="reset" 
+                                                    data-control-name="reset" data-control-action="reset"><i class="fa fa-retweet">&nbsp;&nbsp;Reset</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="list searchresult-row">
+                                        <%
+                                            ArrayList<Vector> userMarketplaceOfferListSYS = (ArrayList) request.getAttribute("userMarketplaceOfferListSYS");
+                                            if (!userMarketplaceOfferListSYS.isEmpty()) {
+                                                for (int i = 0; i <= userMarketplaceOfferListSYS.size()-1; i++) {
+                                                    Vector v = userMarketplaceOfferListSYS.get(i);
+                                                    String itemID = String.valueOf(v.get(0));
+                                                    String pendingItemOfferCount = String.valueOf(v.get(1));
+                                                    String totalItemOfferCount = String.valueOf(v.get(2));
+                                                    String itemName = String.valueOf(v.get(3));
+                                                    String itemImage = String.valueOf(v.get(4));
+                                                    String itemPrice = String.valueOf(v.get(5));
+                                                    String itemCondition = String.valueOf(v.get(6));
+                                        %>
+                                        <div class="col-sm-6 pl-1 pr-1 list-item">
+                                            <div class="card">
+                                                <div class="card-body media">
+                                                    <img class="img-circle pull-left mr-3 d-flex align-self-start" src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width:70px;height:70px;" />
+                                                    <div class="media-body">
+                                                        <span class="<%= itemName%>"><strong class="text-primary"><%= itemName%></strong></span>
+                                                        <ul class="profileRating">
+                                                            <%  if(!pendingItemOfferCount.equals("0")){    %>
+                                                            <li><span class="card-text">Pending Offers:&nbsp;<span class="pendingItemOfferCount" style="color:#FF0000;"><strong><%= pendingItemOfferCount%></strong></span></span></li>
+                                                            <%  } else {    %>
+                                                            <li><span class="card-text">Pending Offers:&nbsp;<span class="pendingItemOfferCount"><strong><%= pendingItemOfferCount%></strong></span></span></li>
+                                                            <%  }   %>
+                                                            <li><span class="card-text">Total Offers:&nbsp;<span class="totalItemOfferCount"><strong><%= totalItemOfferCount%></strong></span></span></li>
+                                                        </ul>
+                                                        <p class="card-text mb-0 pt-3" style="font-size:12px;">
+                                                            Item Condition:&nbsp;
+                                                            <%  if(itemCondition.equals("New")) {  %>
+                                                            <span class="badge badge-success custom-badge arrowed-left <%= itemCondition%>"><%= itemCondition%></span>
+                                                            <%  } else if(itemCondition.equals("Used")) { %>
+                                                            <span class="badge badge-primary custom-badge arrowed-left <%= itemCondition%>"><%= itemCondition%></span>
+                                                            <%  }   %>
+                                                        </p>
+                                                        <p class="card-text text-success mb-0 itemPrice" style="font-size:16px;">
+                                                            <strong>$<%= itemPrice%></strong>
+                                                        </p>
+                                                        <ul class="offerAction mt-2">
+                                                            <li><button type="button" class="btn btn-theme btn-sm" onclick="location.href='MarketplaceSysUser?pageTransit=goToMsgViewItemDetailsSYS&itemHidID=<%= itemID%>'">View Item Details</button></li>
+                                                            <li><button type="button" class="btn btn-theme btn-sm" onclick="location.href='ProfileSysUser?pageTransit=goToPendingItemOfferDetailsSYS&urlitemID=<%= itemID%>'">See Offers</button></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <%      }   %>
+                                        <%  }%>
+                                    </div>
+                                    <div class="box jplist-no-results text-shadow align-center">
+                                        <p><strong>No results found. Please refine your search.</strong></p>
+                                    </div>
+                                    <div class="jplist-search">
+                                        <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
+                                             data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
+                                        </div>
+                                        <div class="jplist-pagination" data-control-animate-to-top="true" 
+                                             data-control-type="pagination" data-control-name="paging" data-control-action="paging">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -266,7 +392,57 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="sellNewItem-iframe"></div>
-            <div id="unifyFooter"></div>
+            
+            <div id="modal-custom">
+                <button data-iziModal-close class="icon-close"><i class="fa fa-times"></i></button>
+                <div class="sections">
+                    <section>
+                        <p class="text-center"><strong>Select one of the following to view.</strong></p>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUnifyUserAccountSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-shopping-cart display-2"></i></h1>
+                                        <h6>My Listings</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToMarketplaceTransSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
+                                        <h6>My Transactions</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUserItemWishlistSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-heart display-2"></i></h1>
+                                        <h6>My Wishlist</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-edit display-2"></i></h1>
+                                        <h6>My Offers</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToPendingItemOfferListSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-bullhorn display-2"></i></h1>
+                                        <h6>Marketplace Offers</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -276,10 +452,11 @@
         <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/bootbox.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/marketplace/PendingItemOfferListSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/marketplace/PendingItemOfferDetailsSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>

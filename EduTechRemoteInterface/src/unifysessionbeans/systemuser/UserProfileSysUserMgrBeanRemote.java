@@ -24,9 +24,10 @@ public interface UserProfileSysUserMgrBeanRemote {
             String buyerOrSellerStat, String buyerOrSellerID, long itemID);
     
     /*  ====================    MISCELLANEOUS METHODS (USER ITEM OFFER)    ==================== */
-    public List<Vector> viewItemOfferList(String username);
+    public List<Vector> viewUserItemAccountList(String username);
+    public List<Vector> viewUserMarketplaceOfferList(String username);
     /* OFFER MADE BY THE UNIFY SYSTEM USERS TO THE SELLER */
-    public List<Vector> viewItemOfferUserList(String username, long urlitemID);
+    public List<Vector> viewAnItemOfferUserList(String username, long urlitemID);
     public String acceptAnItemOffer(long itemOfferID, String sellerComments);
     public String negotiateAnItemOffer(long itemOfferID, String sellerComments);
     public String rejectAnItemOffer(long itemOfferID);

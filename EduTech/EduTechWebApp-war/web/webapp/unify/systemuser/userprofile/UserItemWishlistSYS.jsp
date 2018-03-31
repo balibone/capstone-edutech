@@ -343,7 +343,7 @@
                                             <div class="dropdown-menu dropdown-menu-reportListing">
                                                 <%  if (!loggedInUsername.equals(itemSellerID)) {%>
                                                 <button id="reportItemListingBtn<%= itemID%>" type="button" class="dropdown-item itemWishlistBtn">Report Listing</button>
-                                                <%  }%>
+                                                <%  }   %>
                                             </div>
                                             <div class="pull-left" style="padding-right: 10px;">
                                                 <div class="profilePicBorder">
