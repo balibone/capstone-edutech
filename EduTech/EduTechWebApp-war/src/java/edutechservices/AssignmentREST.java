@@ -81,4 +81,10 @@ public class AssignmentREST {
         return mmb.editAssignment(Long.valueOf(id), replacement);
     }
 
+    @GET
+    @Path("module/{moduleCode}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<AssignmentEntity> getModuleAssignments(@PathParam("moduleCode") String moduleCode){
+        return etr.getModuleAssignments(moduleCode);
+    }
 }

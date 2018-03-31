@@ -189,5 +189,16 @@ public class GroupMgrBean {
         g.getMembers().remove(u);
         return g;
     }
+
+    public List<AssignmentEntity> getModuleAssignments(String moduleCode) {
+        ModuleEntity mod = em.find(ModuleEntity.class, moduleCode);
+        List<AssignmentEntity> modAsses = new ArrayList<>();
+        if(mod!=null){
+            Query q = em.createQuery("SELECT ass FROM Assignment ass WHERE ass.module= :modCode");
+            q.setParameter("modCode", mod);
+            modAsses = q.getResultList();
+        }
+        return modAsses;
+    }
     
 }
