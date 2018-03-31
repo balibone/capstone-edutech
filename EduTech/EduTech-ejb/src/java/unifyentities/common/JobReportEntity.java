@@ -10,6 +10,7 @@
 package unifyentities.common;
 
 import commoninfrastructureentities.UserEntity;
+import unifyentities.errands.JobEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -34,28 +35,35 @@ public class JobReportEntity implements Serializable {
     private Date jobReportDate;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Date jobReviewedDate;
-    
-    /* FOREIGN KEY */
-    private Long jobID;
-    private String jobPosterID;
-    private String jobReporterID;
+    private Date jobReviewedDate;    
     
     @ManyToOne
-    private UserEntity userEntity;
+    private UserEntity userEntity; //reporter
+    @ManyToOne
+    private JobEntity jobEntity;
     
     @PrePersist
     public void creationDate() { this.jobReportDate = new Date(); }
+    
+    public JobReportEntity(){
+        
+        setJobReportID(System.nanoTime());
+        jobReportStatus = "Unresolved";
+    }
+    
+    public boolean createJobReport(String reportReason){
+        this.setJobReportDescription(reportReason);
+        this.setJobReportDate(new Date());
+        return true;
+    }
     
     /* GETTER METHODS */
     public Long getJobReportID() { return jobReportID; }
     public String getJobReportStatus() { return jobReportStatus; }
     public String getJobReportDescription() { return jobReportDescription; }
     public Date getJobReportDate() { return jobReportDate; }
-    public Long getJobID() { return jobID; }
-    public String getJobPosterID() { return jobPosterID; }
-    public String getJobReporterID() { return jobReporterID; }
     public UserEntity getUserEntity() { return userEntity; }
+    public JobEntity getJobEntity() { return jobEntity; }
     public Date getJobReviewedDate() { return jobReviewedDate; }
     
     /* SETTER METHODS */
@@ -63,9 +71,7 @@ public class JobReportEntity implements Serializable {
     public void setJobReportStatus(String jobReportStatus) { this.jobReportStatus = jobReportStatus; }
     public void setJobReportDescription(String jobReportDescription) { this.jobReportDescription = jobReportDescription; }
     public void setJobReportDate(Date jobReportDate) { this.jobReportDate = jobReportDate; }
-    public void setJobID(Long jobID) { this.jobID = jobID; }
-    public void setJobPosterID(String jobPosterID) { this.jobPosterID = jobPosterID; }
-    public void setJobReporterID(String jobReporterID) { this.jobReporterID = jobReporterID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setJobEntity(JobEntity jobEntity) { this.jobEntity = jobEntity; }
     public void setJobReviewedDate() { this.jobReviewedDate = new Date(); }
 }

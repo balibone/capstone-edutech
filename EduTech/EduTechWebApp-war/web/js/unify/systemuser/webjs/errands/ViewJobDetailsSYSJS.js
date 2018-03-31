@@ -45,14 +45,14 @@ $(document).ready(function () {
         show: 'click'
     });*/
     
-    $('.itemLikes > a').click(function(){
-        $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToItemLikeList&itemID=' + $('#itemIDHidden').val());
-        $('#itemLikeList-iframe').iziModal('open', event);
+    $('#likeList').click(function(){
+        $('iframe').attr('src', 'ErrandsSysUser?pageTransit=goToJobLikeList&jobID=' + $('#jobIDHidden').val());
+        $('#jobLikeList-iframe').iziModal('open', event);
     });
     
-    $("#itemLikeList-iframe").iziModal({
-        title: 'Your Item Likers',
-        subtitle: 'List of users who like your item',
+    $("#jobLikeList-iframe").iziModal({
+        title: 'Your Job Likers',
+        subtitle: 'List of users who like your job',
         iconClass: 'fa fa-heart-o',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
@@ -90,27 +90,43 @@ $(document).ready(function () {
         });
     });
     
-    $('#likeItemBtn').click(function(){
+    $('#likeJobBtn').click(function(){
         $.ajax({
             type: "POST",
-            url: "MarketplaceSysUser",
+            url: "ErrandsSysUser",
             data: { 
-                itemIDHid: $('#itemIDHidden').val(),
+                jobIDHid: $('#jobIDHidden').val(),
                 usernameHid: $('#usernameHidden').val(),
-                pageTransit: 'likeItemListingDetails'
+                pageTransit: 'likeJobListingDetails'
             },
             success: function(returnString) {
                 $('.likeCount').text("");
                 $('.likeCount').text(returnString);
-                if($('#likeItemBtn').hasClass('likeStatus')) {
-                    $('#likeItemBtn').removeClass('likeStatus');
-                    $('#likeItemBtn').addClass('noLikeStatus');
-                } else if($('#likeItemBtn').hasClass('noLikeStatus')) {
-                    $('#likeItemBtn').removeClass('noLikeStatus');
-                    $('#likeItemBtn').addClass('likeStatus');
+                if($('#likeJobBtn').hasClass('likeStatus')) {
+                    $('#likeJobBtn').removeClass('likeStatus');
+                    $('#likeJobBtn').addClass('noLikeStatus');
+                } else if($('#likeJobBtn').hasClass('noLikeStatus')) {
+                    $('#likeJobBtn').removeClass('noLikeStatus');
+                    $('#likeJobBtn').addClass('likeStatus');
                 }
                 if(returnString > 1) { $('.likeWording').text("Likes"); }
                 else { $('.likeWording').text("Like"); }
+            }
+        });
+    });
+    
+    $('#reportJobBtn').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "ErrandsSysUser",
+            data: { 
+                jobID: $('#jobIDHidden').val(),
+                username: $('#usernameHidden').val(),
+                reportReason: $('#reportReason').val(),
+                pageTransit: 'reportJobListing'
+            },
+            success: function(returnString) {
+               alert(returnString);
             }
         });
     });
@@ -119,6 +135,19 @@ $(document).ready(function () {
 function deleteAlert(jobID) {
     var deleteReply = confirm("Are you sure to delete this job?");
     if (deleteReply) { window.open('ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=' + jobID, '_parent'); }
-}
+};
+
+function otherReason(){
+    var select = document.getElementById("reportReason");
+    var selectedValue = select.options[select.selectedIndex].value;
+    
+    var innerContent = '<input type=\"text\" name=\"otherReason\" size=\"65\" placeholder=\" Please specify the reason.*\" />';
+    
+    if(selectedValue == "others"){
+        document.getElementById('otherReason').innerHTML = innerContent;
+    }else{
+        document.getElementById('otherReason').innerHTML = "";
+    }
+};
 
 

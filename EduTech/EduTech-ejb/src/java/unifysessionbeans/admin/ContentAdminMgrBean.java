@@ -907,9 +907,9 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getJobReportStatus());
             reportedVec.add(reportedE.getJobReportDescription());
             reportedVec.add(df.format(reportedE.getJobReportDate()));
-            reportedVec.add(reportedE.getJobID());
-            reportedVec.add(reportedE.getJobPosterID());
-            reportedVec.add(reportedE.getJobReporterID());
+            reportedVec.add(reportedE.getJobEntity().getJobID());
+            //reportedVec.add(reportedE.getJobPosterID());
+            //reportedVec.add(reportedE.getJobReporterID());
             reportedList.add(reportedVec);
         }
         return reportedList;
@@ -930,9 +930,9 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getJobReportStatus());
             reportedVec.add(reportedE.getJobReportDescription());
             reportedVec.add(df.format(reportedE.getJobReportDate()));
-            reportedVec.add(reportedE.getJobID());
-            reportedVec.add(reportedE.getJobPosterID());
-            reportedVec.add(reportedE.getJobReporterID());
+            reportedVec.add(reportedE.getJobEntity().getJobID());
+            //reportedVec.add(reportedE.getJobPosterID());
+            //reportedVec.add(reportedE.getJobReporterID());
             reportedList.add(reportedVec);
         }
         return reportedList;
@@ -951,14 +951,14 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             errandDetails.add(jrEntity.getJobReportStatus());
             errandDetails.add(jrEntity.getJobReportDescription());
             errandDetails.add(df.format(jrEntity.getJobReportDate()));
-            errandDetails.add(jrEntity.getJobID());
-            errandDetails.add(jrEntity.getJobPosterID());
-            errandDetails.add(jrEntity.getJobReporterID());
+            errandDetails.add(jrEntity.getJobEntity().getJobID());
+            //errandDetails.add(jrEntity.getJobPosterID());
+            //errandDetails.add(jrEntity.getJobReporterID());
             errandDetails.add(df.format(jrEntity.getJobReviewedDate()));
             System.out.println("ADDED ERRAND REPORT DETAILS");
             //from job entity
-            if (lookupJob(jrEntity.getJobID()) != null) {
-                jEntity = lookupJob(jrEntity.getJobID());
+            if (lookupJob(jrEntity.getJobEntity().getJobID()) != null) {
+                jEntity = lookupJob(jrEntity.getJobEntity().getJobID());
                 errandDetails.add(jEntity.getJobTitle());
                 errandDetails.add(jEntity.getJobDescription());
                 errandDetails.add(jEntity.getJobImage());

@@ -313,6 +313,7 @@
         <jsp-file>/webapp/unify/admin/voices/ViewReviewListDetails.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - TAGS (JSP) -->
+    <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - TAGS (JSP) -->
     <servlet><servlet-name>EditTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/EditTag.jsp</jsp-file></servlet>
     <servlet><servlet-name>DeleteTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/DeleteTag.jsp</jsp-file></servlet>
     <servlet><servlet-name>NewTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/NewTag.jsp</jsp-file></servlet>
@@ -355,8 +356,20 @@
         <jsp-file>/webapp/unify/systemuser/errands/ViewJobDetailsSYS.jsp</jsp-file>
     </servlet>
     <servlet>
+        <servlet-name>jobLikeListSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/errands/jobLikeListSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>EditJobListingSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/errands/EditJobListingSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobOfferListSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/errands/ViewJobOfferListSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobOfferDetailsSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/errands/ViewJobOfferDetailsSYS.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - MARKETPLACE (JSP) -->
     <servlet>
@@ -389,14 +402,6 @@
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
     <servlet>
-        <servlet-name>UserAccountSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/userprofile/UserAccountSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>UserItemTransaction</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransaction.jsp</jsp-file>
-    </servlet>
-    <servlet>
         <servlet-name>UserProfile</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserProfile.jsp</jsp-file>
     </servlet>
@@ -407,6 +412,22 @@
     <servlet>
         <servlet-name>UserCompanyRequest</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyRequest.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>UserAccountSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserAccountSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>UserItemTransaction</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransaction.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>UserJobListingSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserJobListingSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewMyJobOfferSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/ViewMyJobOfferSYS.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
     <servlet>
@@ -443,18 +464,6 @@
     <servlet><servlet-name>EditShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/EditShoutCommentModalSYS.jsp</jsp-file></servlet>
 
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
-    <servlet>
-        <servlet-name>ViewJobDetailsInCategory</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobDetailsInCategory.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewJobTransactionListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/errands/ViewJobTransactionListing.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CommonInfra</servlet-name>
-        <url-pattern>/CommonInfra</url-pattern>
-    </servlet-mapping>
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>

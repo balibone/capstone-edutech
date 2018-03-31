@@ -177,6 +177,9 @@
                     String categoryID = String.valueOf(jobDetailsSYSVec.get(20));
                     String jobDuration = String.valueOf(jobDetailsSYSVec.get(21));
                     String otherInformation = String.valueOf(jobDetailsSYSVec.get(22));
+                    String numOfHelpers = (String.valueOf(jobDetailsSYSVec.get(23)));
+                    String checking = (String.valueOf(jobDetailsSYSVec.get(24)));
+                    String likeStatus = (String.valueOf(jobDetailsSYSVec.get(25)));
                 %>
                 <input type="hidden" id="priceType" value="<%=jobRateType%>"/>
                 <div class="row">
@@ -194,7 +197,37 @@
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-fw fa-google-plus"></i></button></li>
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-linkedin"></i></button></li>
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-warning"><i class="fa fa-fw fa-envelope"></i></button></li>
+                            <li class="list-inline-item"><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#reportJobModal"><i class="fa fa-flag" aria-hidden="true"></i> &nbsp; Report</button></li>
                         </ul>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="reportJobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Report Job Listing</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body" >
+                                <span><strong>Why are you reporting this job listing?</strong></span><br/>
+                                <br/>
+                                <select class="select-dropdown" name="reportReason" id="reportReason" onchange="javascript: otherReason()">
+                                    <option value="wrongCategory">The job is wrongly categorized.</option>
+                                    <option value="inappropirateListing">Inappropriate content. </option>
+                                    <option value="fakeEvent">Fake event/job.</option>
+                                    <option value="others">Other reasons. </option>
+                                </select>
+                                <div class="mt-3" id="otherReason" ></div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="reportJobBtn">Report</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                         
                     <div class="col-xl-8 col-lg-7 col-md-6" >
@@ -223,6 +256,10 @@
                                 }
                             %>
                             <tr>   
+                                <td><i class="fa fa-heart" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Likes: </strong></span></td>
+                                <td><a href="#"><ul class="list-inline mb-0"><li id="likeList" class="list-inline-item likeCount"><%=numOfLikes%> </li></ul></a></td>
+                            </tr>
+                            <tr>   
                                 <td><i class="fa fa-sticky-note" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Est. Duration: </strong></span></td>
                                 <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=jobDuration%> hours</li></ul></td>
                             </tr>
@@ -242,7 +279,7 @@
                         <br/>   
                         <div id="job-button" class="btn-group" role="group">
                             <%  if (posterName.equals(request.getAttribute("loggedInUsername"))) {%>
-                            <button id="edit-button" type="button" class="btn btn-outline-theme" onclick="location.href = 'ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
+                            <button id="edit-button" type="button" class="btn btn-outline-theme" onclick="location.href = 'ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>&loginUser=<%= loggedInUsername%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
                             <button type="button" class="btn btn-outline-theme" onclick="javascript:deleteAlert(<%= jobID%>)">Delete Job Listing</button>
                             <%  } else {    %>
                             <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
@@ -286,11 +323,11 @@
                               </div>
                             </div>
                             <%  }%>
-                            <%--<%  if(itemLikeStatus.equals("true")) {   %>
-                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
-                            <%  } else if(itemLikeStatus.equals("false")) {    %>
-                            <button type="button" id="likeItemBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
-                            <%  }   %>--%> 
+                            <%  if(likeStatus.equals("true")) {   %>
+                            <button type="button" id="likeJobBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
+                            <%  } else if(likeStatus.equals("false")) {    %>
+                            <button type="button" id="likeJobBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
+                            <%  }   %>
                         </div>
                        
                     </div>
@@ -448,9 +485,9 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-            <div id="itemLikeList-iframe"></div>
+            <div id="jobLikeList-iframe"></div>
             
-                <button type="button" id="sendOfferBtn" style="margin:7px 0 7px 0;">Send Offer</button><br/>
+                
                 <input type="hidden" id="jobIDHidden" value="<%= jobID%>" />
                 <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
                 <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>

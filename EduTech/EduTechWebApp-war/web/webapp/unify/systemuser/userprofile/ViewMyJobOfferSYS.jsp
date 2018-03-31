@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Errands - Job Listing</title>
+        <title>Unify - My Account</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -19,6 +19,8 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/weblayout/userprofile/ViewMyJobOfferSYSCSS.css" rel="stylesheet" type="text/css">
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -27,10 +29,6 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
-        
-        <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-        <link href="css/unify/systemuser/weblayout/errands/ViewJobListingSysCSS.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -64,7 +62,6 @@
                         <div class="d-flex justify-content-between">
                             <nav class="nav">
                                 <a class="nav-item nav-link d-sm-block" href="#">Unify @ EduBox</a>
-                                <a class="nav-item nav-link d-none d-sm-block" href="#"><i class="fa fa-phone"></i> +123-456-789</a>
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
@@ -97,7 +94,7 @@
                     <div class="col-2 col-sm-1 d-block d-lg-none">
                         <div class="d-flex align-items-center justify-content-center menu-btn-wrapper">
                             <button class="btn btn-lg border-0 btn-link offcanvas-btn p-0" type="button">
-                                <i class="fa fa-bars"> </i>
+                                <i class="fa fa-bars"></i>
                             </button>
                         </div>
                     </div>
@@ -135,7 +132,7 @@
                                 <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </a>
-                                <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
+                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
@@ -153,117 +150,72 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Errands (Job Listing)</li>
+                            <li class="breadcrumb-item active" aria-current="page">User Account</li>
                         </ol>
                     </nav>
                 </div>
             </div>
 
-            <div id="contentArea" class="container jplist" style="margin-bottom: 30px;">
-                <%                    
-                    String successMessage = (String) request.getAttribute("successMessage");
-                    if (successMessage != null) {
-                %>
-                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
-                    <button type="button" class="close" id="closeSuccess">&times;</button>
-                    <%= successMessage%>
-                </div>
-                <%  }   %>
-                <%
-                    String errorMessage = (String) request.getAttribute("errorMessage");
-                    if (errorMessage != null) {
-                %>
-                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
-                    <button type="button" class="close" id="closeError">&times;</button>
-                    <%= errorMessage%>
-                </div>
-                <%  }   %>
+            <div id="contentArea" class="container jplist mb-3">
                 <div class="row">
-                    <div class="col-lg-3 col-md-4 mb-3 jplist-search">
-                        <button class="btn btn-outline-theme btn-block dropdown-toggle d-md-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                            Search Filter
-                        </button>
-                        <div class="collapse d-md-block pt-3 pt-md-0" id="collapseFilter">
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-12">
-                                    <div class="filter-sidebar">
-                                        <div class="title"><span>Job Filter</span></div>
-                                        <input type="text" data-path=".jobTitle" class="form-control" placeholder="Search Job ..." 
-                                               aria-label="Search Job ..." data-control-type="textbox" 
-                                               data-control-name="transmission-text-filter" data-control-action="filter" />
-                                    </div>
-                                    
-                                    <div class="filter-sidebar">
-                                        <div class="title"><span>Category</span></div>
-                                        <div class="jplist-group" data-control-type="checkbox-group-filter" data-control-action="filter" data-control-name="category">
-                                            <input data-path="default" type="checkbox" name="jplist" checked="checked" />&nbsp;
-                                            <label class="mr-4">All</label><br/>
-                                        
-                                            <%
-                                                ArrayList<String> categoryList = (ArrayList) request.getAttribute("categoryList");
-                                                for(int i=0; i<categoryList.size(); i++){
-                                                    String categoryName = categoryList.get(i);
-                                                    String category_path = categoryName;
-                                                    if(category_path.contains(" ")){
-                                                        category_path = category_path.replace(" ", "");
-                                                    }
-                                            %>
-                                            <input  data-path=".<%= category_path%>" type="checkbox" name="jplist" />&nbsp;
-                                            <label class="mr-4"><%= categoryName%></label><br/>
-                                            <%
-                                                }
-                                            %>
-                                        </div>
-                                        
-                                    </div>
-                                    
-                                    
-                                    
-                                    <div class="filter-sidebar">
-                                        <div class="jplist-range-slider" data-control-type="range-slider" 
-                                             data-control-name="range-slider-weight" data-control-action="filter"
-                                             data-path=".jobRate" data-slider-func="priceSlider" data-setvalues-func="priceValues">
+                    <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                        <div class="card user-card">
+                            <%
+                                Vector userAccountVec = (Vector) request.getAttribute("userAccountVec");
+                                String username, userFirstName, userLastName, userImage, userCreationDate;
+                                username = userFirstName = userLastName = userImage = userCreationDate = "";
 
-                                            <div class="title"><span>Price Filter</span></div>
-                                            <div class="input-group input-group-sm mb-3" data-control-type="range-slider" 
-                                                 data-control-name="range-slider-weight" data-control-action="filter" data-path=".itemPrice">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">Min : $</span>
-                                                </div>
-                                                <input type="text" class="form-control" name="min-price" id="min-price" />
-                                                <div class="input-group-append input-group-prepend">
-                                                    <span class="input-group-text">Max : $</span>
-                                                </div>
-                                                <input type="text" class="form-control" name="max-price" id="max-price" />
-                                            </div>
-                                            <div class="price-range">
-                                                <div data-type="ui-slider"></div>
-                                            </div>
-                                        </div>
+                                if (userAccountVec != null) {
+                                    username = (String) userAccountVec.get(0);
+                                    userFirstName = (String) userAccountVec.get(1);
+                                    userLastName = (String) userAccountVec.get(2);
+                                    userImage = (String) userAccountVec.get(3);
+                                    userCreationDate = (String.valueOf(userAccountVec.get(4)));
+                                }
+                            %>
+                            <div class="card-body p-2 mb-3 mb-md-0 mb-xl-3">
+                                <div class="media">
+                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= userImage%>" style="width:50px;height:50px;"/>
+                                    <div class="media-body ml-2">
+                                        <h5 class="user-name"><strong><%= userFirstName%>&nbsp;<%= userLastName%></strong></h5>
+                                        <p>@<%= username%></p>
+                                        <small class="card-text text-muted mt-2">Joined <%= userCreationDate%></small>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="jplist-label" data-type="Page {current} of {pages}" 
-                             data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
-                        </div>
-                        <div class="jplist-pagination" data-control-type="pagination" 
-                             data-control-name="paging" data-control-action="paging">
+                            <div class="list-group list-group-flush">
+                                <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
+                                </a>
+                                <a href="account-address.html" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
+                                </a>
+                            </div>
                         </div>
                     </div>
-
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Job Listing</span></div>
+                        <div class="title"><span>Job Offers(I've made)</span></div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
+                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
+                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                 <ul>
-                                    <li><span data-path=".jobPostDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
-                                    <li><span data-path=".numOfLikes" data-order="desc" data-type="number">Popularity</span></li>
-                                    <li><span data-path=".jobTitle" data-order="asc" data-type="text">Title Asc</span></li>
-                                    <li><span data-path=".jobTitle" data-order="desc" data-type="text">Title Desc</span></li>
-                                    <li><span data-path=".jobRate" data-order="asc" data-type="number">Job Rate Asc</span></li>
-                                    <li><span data-path=".jobRate" data-order="desc" data-type="number">Job Rate Desc</span></li>
+                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
+                                    <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
+                                    <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
+                                    <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
+                                    <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
+                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
+                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -277,81 +229,119 @@
                             </div>
                         </div>
 
-                        <!-- JOB LISTING -->
-                        <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
+                        <!-- ITEM LISTING -->
+                        <div class="row equal-height" add-class-on-xs="no-gutters">
                             <div class="list searchresult-row">
+                                <div class="col-xl-12 col-md-312 col-12 d-block d-lg-none d-xl-block">
+                                <table class="table-header">
+                                    <col width="420">
+                                    <col width="400">
+                                    <tr>
+                                        <th>Job Info</th>
+                                        <th>My Offer</th>
+                                    </tr>
+                                </table>
+                                </div>
                                 <%
-                                    ArrayList<Vector> jobListSYS = (ArrayList) request.getAttribute("jobListSYS");
-                                    if (!jobListSYS.isEmpty()) {
-                                        for (int i = 0; i <= jobListSYS.size() - 1; i++) {
-                                            Vector v = jobListSYS.get(i);
-                                            
-                                            String jobID = String.valueOf(v.get(0));
+                                    ArrayList<Vector> myJobOfferListSYS = (ArrayList) request.getAttribute("myJobOfferList");
+                                    if (!myJobOfferListSYS.isEmpty()) {
+                                        for (int i = 0; i <= myJobOfferListSYS.size() - 1; i++) {
+                                            Vector v = myJobOfferListSYS.get(i);
+                                            long jobID = (Long)v.get(0);
                                             String jobImage = String.valueOf(v.get(1));
                                             String jobTitle = String.valueOf(v.get(2));
                                             String jobCategoryName = String.valueOf(v.get(3));
-                                            String jobPosterName = String.valueOf(v.get(4));
-                                            String jobPostDate = String.valueOf(v.get(5));
-                                            String jobWorkDate = String.valueOf(v.get(6));
-                                            String startLocation = String.valueOf(v.get(7));
-                                            String jobRateType = String.valueOf(v.get(8));
-                                            String jobRate = String.valueOf(v.get(9));
-                                            String numOfLikes = String.valueOf(v.get(10));
-                                            
-                                            String categoryPath = jobCategoryName;
-                                                if(categoryPath.contains(" ")){
-                                                    categoryPath = categoryPath.replace(" ", "");
-                                                }
+                                            double jobRate = (Double)v.get(4);
+                                            String jobRateType = String.valueOf(v.get(5));
+                                            String jobPosterID = String.valueOf(v.get(6));
+                                            long offerID = (Long)v.get(7);
+                                            String offerPrice = String.valueOf(v.get(8));
+                                            String offerDescription = String.valueOf(v.get(9));
+                                            String offerStatus = String.valueOf(v.get(10));
+                                            String offerDate = String.valueOf(v.get(11));
                                 %>
-                                <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
+                                
+                                <div class="col-xl-12 col-md-312 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-content">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-xl-3 col-md-3 col-3">
-                                                        <div class="img-wrapper" style="margin-bottom: 15px">
-                                                            <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%= loggedInUsername%>">
-                                                                <img class="card-img-top" style="width: 160px; height: 150px;" src="uploads/unify/images/errands/job/<%= jobImage%>" />
-                                                            </a>
+                                            <div class="card-body mb-2">
+                                              <div class='row'>
+                                                <div class="img-wrapper col-xl-2 col-md-2 col-2 mb-2">
+                                                    <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%=loggedInUsername%>">
+                                                        <img class="card-img-top" style="width: 120px; height: 120px;" src="uploads/unify/images/marketplace/item/<%= jobImage%>" />
+                                                    </a>
+                                                    
+                                                </div>
+                                                <div class="col-xl-4 col-md-4 col-4 jobInfo">
+                                                    <span class="jobTitle"><strong><a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%=loggedInUsername%>"><%= jobTitle%></a></strong></span><br/>
+                                                    <span class="card-text itemCategoryName"><%= jobCategoryName%></span><br/>
+                                                    <span class="card-text">S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
+                                                    <span class="card-text">Posted by&nbsp;&nbsp;<i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;<%= jobPosterID%></span>
+                                                    <input type="hidden" id="jobIDHidden" value="<%= jobID%>">
+                                                </div>
+                                                <div class="col-xl-6 col-md-6 col-6 offerInfo">
+                                                    <span><strong><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;&nbsp;Status:</strong> <%=offerStatus%></span><br/>
+                                                    <span><strong><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp;My Offer Price: </strong>S$<%= offerPrice%></span><br/>
+                                                    <span><strong><i class="fa fa-comments" aria-hidden="true"></i>&nbsp;&nbsp;Comments: </strong><%=offerDescription%></span><br/>
+                                                    <span class="offerDate"><i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp;sent on <%=offerDate%></span><br/>
+                                                    <div class="action-button">
+                                                        <button id="editOfferBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">Edit</button>
+                                                        <a role="button" href="ProfileSysUser?pageTransit=goToDeleteMyJobOfferSYS&offerID=<%= offerID%>" class="btn btn-danger" onClick="return confirm('Are you sure to withdraw your offer?')">Withdraw</a>
+                                                    
+                            
+                                                    <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                          <div class="modal-header">
+                                                            <span class="modal-title" id="exampleModalLabel" style="color: #4D7496; font-size: 18px;"><strong>&nbsp;Edit Offer</strong></span>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                          </div>
+                                                            <div id="responseMessage">
+                                                            <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
+                                                            </div>
+                                                         <form id="offerDetails">
+                                                           <div class="modal-body">
+                                                              <div class="form-group row">
+                                                                <label for="offerPrice" class="col-form-label col-3"><strong>Offer Price * : </strong></label>
+                                                                <div class="col-3">
+                                                                    <input type="number" class="form-control" id="jobOfferPrice" name="jobOfferPrice" placeholder="<%= offerPrice%>">
+                                                                    <input type="hidden" name="hiddenOfferPrice" id="hiddenOfferPrice" value="<%= offerPrice%>">
+                                                                </div>
+                                                                <div class="col-4 mt-2 float-left">
+                                                                    <span id="offerPriceType"></span>
+                                                                </div>
+                                                              </div>
+                                                              <div class="form-group">
+                                                                <label for="comment" class="col-form-label"><strong>Other comments:</strong></label>
+                                                                <textarea class="form-control" id="jobOfferDescription" name="jobOfferDescription" placeholder="<%= offerDescription%>"></textarea>
+                                                                <input type="hidden" id="hiddenOfferDescription" name="hiddenOfferDescription" value="<%= offerDescription%>">
+                                                              </div>
+                                                           </div>
+                                                           <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary" id="editOffer">Edit Offer</button>
+                                                            <br/>
+
+                                                           </div>
+                                                         </form>
                                                         </div>
+                                                      </div>
                                                     </div>
-                                                            
-                                                    <div class="col-xl-7 col-md-7 col-7">
-                                                        <span class="card-title jobTitle job-title"><strong><%= jobTitle%></strong></span><br/>
-                                                        <span class="card-text category <%= categoryPath%>"><%= jobCategoryName%></span><br/>
-                                                        <i class="far fa-calendar-alt"></i>&nbsp; <span class="card-text date"><%= jobWorkDate%></span>&nbsp; 
-                                                        <i class="fas fa-map-marker-alt"></i>&nbsp; <span class=" card-text location"><%= startLocation%></span><br/><br/>
-                                                        <i class="fas fa-user-circle fa-lg"></i>&nbsp;<span class="card-text user"><strong>&nbsp;<%= jobPosterName%></strong></span>
-                                                        <div class="post-date">
-                                                            <i class="far fa-clock"></i>&nbsp;<span class="card-text jobPostDate"><%= jobPostDate%></span><br/>
-                                                        </div>
-                                                        
                                                     </div>
-                                                    <div class="col-xl-2 col-md-2 col-2">
-                                                        <div class="like-button" >
-                                                            
-                                                                <i id="likeIcon<%=jobID%>" class="fas fa-heart like" onclick="javascript: likeAJob(<%=jobID%>)"></i>&nbsp;<span id="like-count" class="numOfLikes"><%=numOfLikes%></span>
-                                                        </div>
-                                                        <div class="job-price">
-                                                            <span class="card-text rate jobRate"><strong>S$<%= jobRate%></strong></span><br/>
-                                                            <%
-                                                                if(jobRateType.equals("Fixed")){
-                                                            %>
-                                                            <span class="card-text type">(Fixed Rate)</span>
-                                                            <%
-                                                                }else{
-                                                            %>
-                                                            <span class="card-text type">(Hourly Rate)</span>
-                                                            <%
-                                                              }
-                                                            %>
-                                                        </div>
-                                                        
-                                                    </div>
+                                                    <br/>
                                                 </div>
                                             </div>
+                                          </div>
                                         </div>
-                                             
+                                        <%--<div class="card-footer text-muted mt-1">
+                                            <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
+                                            <span class="float-right">
+                                                <button id="likeItemBtn<%= itemID%>" class="myAccountBtn"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span></button>&nbsp;&nbsp;
+                                                <button id="pendingItemOfferBtn<%= itemID%>" class="myAccountBtn"><i class="fa fa-users"></i>&nbsp;<span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span></button>
+                                            </span>
+                                        </div>--%>
                                     </div>
                                 </div>
                                 <%      }   %>
@@ -368,19 +358,17 @@
                             <div class="jplist-pagination" data-control-animate-to-top="true" 
                                  data-control-type="pagination" data-control-name="paging" data-control-action="paging">
                             </div>
-                            
                         </div>
-                        
                     </div>
                 </div>
             </div>
             <div id="unifyFooter"></div>
+            <div id="itemLikeList-iframe"></div>
+            
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-            <div id="itemcard-iframe"></div>
         </div>
-
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
@@ -391,7 +379,8 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/errands/ViewJobListingSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/userprofile/ViewMyJobOfferSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
