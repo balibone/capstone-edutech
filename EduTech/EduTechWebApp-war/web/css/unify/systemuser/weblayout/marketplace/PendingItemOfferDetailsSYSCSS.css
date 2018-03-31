@@ -3,9 +3,7 @@
 #successAcceptOfferResponse, #successNegotiateOfferResponse { color: #228B22; font-weight: bold; display: none; }
 #failedAcceptOfferResponse, #failedNegotiateOfferResponse { color: #FF0000; font-weight: bold; display: none; }
 
-.profileRating { padding: 0; margin: 0; list-style: none; font-size: 12px; }
-.profileRating li { display: inline-block; padding-right: 5px; }
+.profileRating, .offerAction { padding: 0; margin: 0; list-style: none; font-size: 12px; }
+.profileRating li, .offerAction li { display: inline-block; padding-right: 5px; }
 .ratingImage { padding: 0 2px; width: auto; height: 14px; }
 .ratingValue { margin: 0 0 0 5px; vertical-align: middle; color: #8F939C; font-weight: bold; }
-.offerAction { padding: 0; margin: 0; list-style: none; font-size: 12px; }
-.offerAction li { display: inline-block; padding-right: 5px; }

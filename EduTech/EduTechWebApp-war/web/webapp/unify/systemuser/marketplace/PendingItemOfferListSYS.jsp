@@ -19,8 +19,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/weblayout/marketplace/PendingItemOfferDetailsSYSCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/marketplace/PendingItemOfferListSYSCSS.css" rel="stylesheet" type="text/css" />
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -267,58 +266,51 @@
                             <div class="formDiv">
                                 <div class="form-row" style="padding: 5px 0 30px 0;">
                                     <div class="jplist-search sorting-bar">
-                                        <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                             data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
-                                             data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
-                                            <ul>
-                                                <li><span data-path=".itemOfferDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
-                                                <li><span data-path=".itemOfferPrice" data-order="asc" data-type="number">Offer Price Asc</span></li>
-                                                <li><span data-path=".itemOfferPrice" data-order="desc" data-type="number">Offer Price Desc</span></li>
-                                            </ul>
-                                        </div>
-                                        <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
-                                             data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
-                                            <ul>
-                                                <li><span data-number="2" data-default="true">2 per page</span></li>
-                                                <li><span data-number="4">4 per page</span></li>
-                                                <li><span data-number="8">8 per page</span></li>
-                                            </ul>
-                                        </div>
-                                        <div class="jplist-checkbox-dropdown" data-control-type="checkbox-dropdown" 
-                                             data-control-name="category-checkbox-dropdown" data-control-action="filter" 
-                                             data-no-selected-text="Filter by:" data-one-item-text="{num} selected" 
-                                             data-many-items-text="{num} selected">
-                                            <ul>
-                                                <li>
-                                                    <input data-path=".Pending" id="Pending" type="checkbox" />
-                                                    <label for="Pending">Pending</label>
-                                                </li>
-                                                <li>
-                                                    <input data-path=".Processing" id="Processing" type="checkbox" />
-                                                    <label for="Processing">Processing</label>
-                                                </li>
-                                                <li>
-                                                    <input data-path=".Accepted" id="Accepted" type="checkbox" />
-                                                    <label for="Accepted">Accepted</label>
-                                                </li>
-                                                <li>
-                                                    <input data-path=".Rejected" id="Rejected" type="checkbox" />
-                                                    <label for="Rejected">Rejected</label>
-                                                </li>
-                                                <li>
-                                                    <input data-path=".Cancelled" id="Cancelled" type="checkbox" />
-                                                    <label for="Cancelled">Cancelled</label>
-                                                </li>
-                                                <li>
-                                                    <input data-path=".Completed" id="Completed" type="checkbox" />
-                                                    <label for="Completed">Completed</label>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="jplist-panel">
-                                            <button type="button" class="jplist-reset-btn" data-control-type="reset" 
-                                                    data-control-name="reset" data-control-action="reset"><i class="fa fa-retweet">&nbsp;&nbsp;Reset</i>
-                                            </button>
+                                        <button class="btn btn-outline-theme btn-block dropdown-toggle d-md-none mt-2" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                                            Search Filter
+                                        </button>
+                                        <div class="collapse d-md-block pt-3 pt-md-0" id="collapseFilter">
+                                            <div class="mt-2" remove-class-on-xs="mt-2" add-class-on-xs="w-100">
+                                                <span>Item Name:</span>
+                                                <input type="text" data-path=".itemName" class="searchInputText w-25" placeholder="Search Item ..." 
+                                                       remove-class-on-xs="w-25" add-class-on-xs="w-100" aria-label="Search Item ..." 
+                                                       data-control-type="textbox" data-control-action="filter" />
+                                            </div>
+                                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+                                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
+                                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
+                                                <ul>
+                                                    <li><span data-path=".pendingItemOfferCount" data-order="desc" data-type="number" data-default="true">Pending Offer Desc</span></li>
+                                                    <li><span data-path=".pendingItemOfferCount" data-order="asc" data-type="number">Pending Offer Asc</span></li>
+                                                    <li><span data-path=".totalItemOfferCount" data-order="desc" data-type="number">Total Offer Desc</span></li>
+                                                    <li><span data-path=".totalItemOfferCount" data-order="asc" data-type="number">Total Offer Asc</span></li>
+                                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Item Price Asc</span></li>
+                                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Item Price Desc</span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
+                                                 data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
+                                                <ul>
+                                                    <li><span data-number="2" data-default="true">2 per page</span></li>
+                                                    <li><span data-number="4">4 per page</span></li>
+                                                    <li><span data-number="8">8 per page</span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="jplist-checkbox-dropdown" data-control-type="checkbox-dropdown" 
+                                                 data-control-name="category-checkbox-dropdown" data-control-action="filter" 
+                                                 data-no-selected-text="Item Condition" data-one-item-text="{num} selected" 
+                                                 data-many-items-text="{num} selected">
+                                                <ul>
+                                                    <li>
+                                                        <input data-path=".New" id="Pending" type="checkbox" />
+                                                        <label for="New">New</label>
+                                                    </li>
+                                                    <li>
+                                                        <input data-path=".Used" id="Processing" type="checkbox" />
+                                                        <label for="Used">Used</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="list searchresult-row">
@@ -340,8 +332,8 @@
                                                 <div class="card-body media">
                                                     <img class="img-circle pull-left mr-3 d-flex align-self-start" src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width:70px;height:70px;" />
                                                     <div class="media-body">
-                                                        <span class="<%= itemName%>"><strong class="text-primary"><%= itemName%></strong></span>
-                                                        <ul class="profileRating">
+                                                        <span class="itemName"><strong class="text-primary"><%= itemName%></strong></span>
+                                                        <ul class="offerAction">
                                                             <%  if(!pendingItemOfferCount.equals("0")){    %>
                                                             <li><span class="card-text">Pending Offers:&nbsp;<span class="pendingItemOfferCount" style="color:#FF0000;"><strong><%= pendingItemOfferCount%></strong></span></span></li>
                                                             <%  } else {    %>
@@ -453,9 +445,7 @@
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/bootbox.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/PendingItemOfferDetailsSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
