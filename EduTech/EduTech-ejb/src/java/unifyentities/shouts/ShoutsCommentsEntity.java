@@ -15,6 +15,10 @@ import javax.persistence.TemporalType;
 
 import unifyentities.shouts.ShoutsEntity;
 import commoninfrastructureentities.UserEntity;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 
 @Entity(name = "ShoutsComments")
 public class ShoutsCommentsEntity implements Serializable {
@@ -30,6 +34,8 @@ public class ShoutsCommentsEntity implements Serializable {
     private ShoutsEntity shoutsEntity;
     @ManyToOne
     private UserEntity userEntity;
+    
+    
     
     @PrePersist
     public void creationDate() { this.commentDate = new Date(); }
