@@ -26,6 +26,8 @@ public interface ErrandsSysUserMgrBeanRemote {
     public String editJobOfferPrice(long jobID, String username, String jobOfferPrice, String jobOfferDescription);
     public String deleteJobOffer(long jobOfferIDToDelete);
     public List<Vector> viewOfferListOfAJob(String username, long urljobID);
+    public String acceptJobOffer(long jobOfferID, String username);
+    public String rejectJobOffer(long jobOfferID, String username);
     public List<Vector> viewUserJobList(String username);
     public List<Vector> viewMyJobOffer(String username);
     public String reportJobListing(long jobID, String username, String reportReason);

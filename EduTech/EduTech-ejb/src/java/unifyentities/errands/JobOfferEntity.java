@@ -22,7 +22,8 @@ public class JobOfferEntity implements Serializable {
     private double jobOfferPrice;
     private String jobOfferDescription;
     /* JOB OFFER STATUS: PENDING, ACCEPTED, REJECTED */
-    private String jobOfferStatus;
+    private String jobOfferStatusForSender;
+    private String jobOfferStatusForPoster;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date jobOfferDate;
@@ -45,7 +46,8 @@ public class JobOfferEntity implements Serializable {
     public boolean createJobOffer(double jobOfferPrice, String jobOfferDescription) {
         this.jobOfferPrice = jobOfferPrice;
         this.jobOfferDescription = jobOfferDescription;
-        this.jobOfferStatus = "Pending";
+        this.jobOfferStatusForSender = "Processing";
+        this.jobOfferStatusForPoster = "Pending";
         return true;
     }
     
@@ -53,7 +55,8 @@ public class JobOfferEntity implements Serializable {
     public Long getJobOfferID() { return jobOfferID; }
     public double getJobOfferPrice() { return jobOfferPrice; }
     public String getJobOfferDescription() { return jobOfferDescription; }
-    public String getJobOfferStatus() { return jobOfferStatus; }
+    public String getJobOfferStatusForSender() { return jobOfferStatusForSender; }
+    public String getJobOfferStatusForPoster() { return jobOfferStatusForPoster; }
     public Date getJobOfferDate() { return jobOfferDate; }
     
     public JobEntity getJobEntity() { return jobEntity; }
@@ -63,7 +66,8 @@ public class JobOfferEntity implements Serializable {
     public void setJobOfferID(Long jobOfferID) { this.jobOfferID = jobOfferID; }
     public void setJobOfferPrice(double jobOfferPrice) { this.jobOfferPrice = jobOfferPrice; }
     public void setJobOfferDescription(String jobOfferDescription) { this.jobOfferDescription = jobOfferDescription; }
-    public void setJobOfferStatus(String jobOfferStatus) { this.jobOfferStatus = jobOfferStatus; }
+    public void setJobOfferStatusForSender(String jobOfferStatusForSender) { this.jobOfferStatusForSender = jobOfferStatusForSender; }
+    public void setJobOfferStatusForPoster(String jobOfferStatusForPoster) { this.jobOfferStatusForPoster = jobOfferStatusForPoster; }
     public void setJobOfferDate(Date jobOfferDate) { this.jobOfferDate = jobOfferDate; }
     
     public void setJobEntity(JobEntity jobEntity) { this.jobEntity = jobEntity; }

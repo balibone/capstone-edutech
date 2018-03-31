@@ -267,13 +267,13 @@
                                             <div class="card-body mb-2">
                                               <div class='row'>
                                                 <div class="img-wrapper col-xl-2 col-md-2 col-2 mb-2">
-                                                    <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>">
+                                                    <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%=loggedInUsername%>">
                                                         <img class="card-img-top" style="width: 120px; height: 120px;" src="uploads/unify/images/marketplace/item/<%= jobImage%>" />
                                                     </a>
                                                     
                                                 </div>
                                                 <div class="col-xl-4 col-md-4 col-4 jobInfo">
-                                                    <span class="jobTitle"><strong><a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>"><%= jobTitle%></a></strong></span><br/>
+                                                    <span class="jobTitle"><strong><a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%=loggedInUsername%>"><%= jobTitle%></a></strong></span><br/>
                                                     <span class="card-text itemCategoryName"><%= jobCategoryName%></span><br/>
                                                     <span class="card-text">S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
                                                     <span class="card-text">Posted by&nbsp;&nbsp;<i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;<%= jobPosterID%></span>

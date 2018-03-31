@@ -264,11 +264,11 @@
                           
                             <div class="list">
                             <table class="table table-striped" id="offer-table">
-                                <col width="130">
-                                <col width="75">
+                                <col width="140">
+                                <col width="70">
                                 <col width="105">
                                 <col width="55">
-                                <col width="90">
+                                <col width="85">
                                 <thead>
                                   <tr>
                                     <th scope="col">The Offer is Made by</th>
@@ -291,7 +291,7 @@
                                           String offerDescription = (String)offerDetails.get(5);
                                           String offerStatus = (String)offerDetails.get(6);
                                           String offerTime = (String)offerDetails.get(7);
-                                      
+                                          long jobOfferID = (Long)offerDetails.get(9);
                                   %>
                                   
                                   <tr class="list-item">
@@ -311,9 +311,18 @@
                                     <td><%= offerDescription%></td>
                                     <td><%= offerStatus%></td>
                                     <td>
-                                        <button>Accept</button>
-                                        <button>Negotiate</button>
-                                        <button>Decline</button>
+                                        <%
+                                            if(offerStatus.equals("Accepted") || offerStatus.equals("Rejected")){
+                                            
+                                        %>
+                                        <span>No Action Required.</span>
+                                        <%
+                                            }else{
+                                        %>
+                                        <a role="button" class="btn btn-success" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>">Accept</a>
+                                        <a role="button" class="btn btn-primary"><span style="color: white;">Negotiate</span></a>
+                                        <a role="button" class="btn btn-danger" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>">Reject</a>
+                                        <%}%>
                                     </td>
                                  
                                   </tr>

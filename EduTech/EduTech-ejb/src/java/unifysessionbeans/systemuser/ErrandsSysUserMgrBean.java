@@ -236,7 +236,6 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobDetailsVec.add(jEntity.getChecking());
             if(lookupLike(jobID, username) == null) { jobDetailsVec.add(false);}
             else { jobDetailsVec.add(true); }
-            //System.out.println("checking " +  jEntity.getChecking());
             //System.out.println("work time " + sdf.format(jEntity.getJobWorkDate()));
             System.out.println("like status: " + jobDetailsVec.get(25));
             return jobDetailsVec;
@@ -574,7 +573,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             
                 joEntity.setJobOfferPrice(Double.parseDouble(jobOfferPrice));
                 joEntity.setJobOfferDescription(jobOfferDescription);
-                
+                joEntity.setJobOfferStatusForPoster("Pending");
+                joEntity.setJobOfferStatusForSender("Processing");
                 
                 /* MESSAGE SENDER IS THE JOB TAKER WHO SENT THE OFFER, MESSAGE RECEIVER IS THE JOB POSTER */
                 mEntity = new MessageEntity();
@@ -586,10 +586,10 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 jobPosterEntity.getMessageSet().add(mEntity);
                 
                 em.persist(joEntity);
-                //em.persist(mEntity);
+                em.persist(mEntity);
                 em.merge(jEntity);
-                //em.merge(jobTakerEntity);
-                //em.merge(jobPosterEntity);
+                em.merge(jobTakerEntity);
+                em.merge(jobPosterEntity);
                 return "Your job offer has been updated successfully!";
         }
     }
@@ -662,7 +662,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 //jobOfferDetailsVec.add(getNegativeItemReviewCount(itemOfferE.getUserEntity().getUsername()));
                 jobOfferDetailsVec.add(String.format ("%,.2f", jobOfferE.getJobOfferPrice()));
                 jobOfferDetailsVec.add(jobOfferE.getJobOfferDescription());
-                jobOfferDetailsVec.add(jobOfferE.getJobOfferStatus());
+                jobOfferDetailsVec.add(jobOfferE.getJobOfferStatusForPoster());
+                
 
                 long diff = currentDate.getTime() - jobOfferE.getJobOfferDate().getTime();
                 long diffSeconds = diff / 1000 % 60;
@@ -701,12 +702,47 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 }
                 jobOfferDetailsVec.add(dateString);
                 jobOfferDetailsVec.add(df.format(jobOfferE.getJobOfferDate()));
+                jobOfferDetailsVec.add(jobOfferE.getJobOfferID());
                 jobOfferList.add(jobOfferDetailsVec);
                 dateString = "";
             }
         }
         System.out.println("offerList size: " + jobOfferList.size());
         return jobOfferList;
+    }
+    
+    @Override
+    public String acceptJobOffer(long jobOfferID, String username){
+        
+        Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobOfferID = :offerID");
+        q.setParameter("offerID", jobOfferID);
+        
+        if(q.getSingleResult()!=null){
+            JobOfferEntity offer = (JobOfferEntity)q.getSingleResult();
+            offer.setJobOfferStatusForPoster("Accepted");
+            offer.setJobOfferStatusForSender("Accepted");
+            
+            return "The offer status is updated sucessfully!";
+        }else{
+            return "There is something wrong with the offer. Please try again.";
+        }  
+    }
+    
+    @Override
+    public String rejectJobOffer(long jobOfferID, String username){
+        
+        Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobOfferID = :offerID");
+        q.setParameter("offerID", jobOfferID);
+        
+        if(q.getSingleResult()!=null){
+            JobOfferEntity offer = (JobOfferEntity)q.getSingleResult();
+            offer.setJobOfferStatusForPoster("Rejected");
+            offer.setJobOfferStatusForSender("Rejected");
+            
+            return "The offer status is updated sucessfully!";
+        }else{
+            return "There is something wrong with the offer. Please try again.";
+        }  
     }
     
     @Override
@@ -731,7 +767,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 offerInfo.add(joE.getJobOfferID());
                 offerInfo.add(joE.getJobOfferPrice());
                 offerInfo.add(joE.getJobOfferDescription());
-                offerInfo.add(joE.getJobOfferStatus());
+                offerInfo.add(joE.getJobOfferStatusForSender());
                 offerInfo.add(df.format(joE.getJobOfferDate()));
                 
                 myJobOfferList.add(offerInfo);
@@ -917,6 +953,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             q.setParameter("username", username);
             if(q.getSingleResult()==null){
                 lle = null;
+                System.out.println("like: null");
             }else{
                 lle = (LikeListingEntity) q.getSingleResult();
             }

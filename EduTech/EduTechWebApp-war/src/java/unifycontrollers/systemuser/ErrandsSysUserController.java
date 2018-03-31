@@ -141,16 +141,36 @@ public class ErrandsSysUserController extends HttpServlet {
                     response.getWriter().write(responseMessage);
                     break;
                 case "goToViewJobOfferList":
-                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList());
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(request.getParameter("username")));
                     pageAction = "ViewJobOfferListSYS";
                     break;
                 case "goToViewJobOfferDetails":
                     String userName = request.getParameter("hiddenUserName");
                     long hiddenJobID = Long.parseLong(request.getParameter("jobID"));
                     System.out.println("parameter: " + userName + hiddenJobID);
-                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList());
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(userName));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(userName, hiddenJobID));
                     pageAction = "ViewJobOfferDetailsSYS";
+                    break;
+                case "acceptJobOffer":
+                    long offerID = Long.parseLong(request.getParameter("offerID"));
+                    String userID = request.getParameter("username");
+                    long relevantJob = Long.parseLong(request.getParameter("jobId"));
+                    String returnMessage = esmr.acceptJobOffer(offerID, userID);
+                    
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(userID));
+                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(userID, relevantJob));
+                    pageAction = "ViewJobOfferDetailsSYS"; 
+                    break;
+                case "rejectJobOffer":
+                    long offer = Long.parseLong(request.getParameter("offerID"));
+                    String logInUser = request.getParameter("username");
+                    long relatedJob = Long.parseLong(request.getParameter("jobId"));
+                    String returnMsg = esmr.rejectJobOffer(offer, logInUser);
+                    
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(logInUser));
+                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(logInUser, relatedJob));
+                    pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 default:
                     break;
