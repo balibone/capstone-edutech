@@ -15,16 +15,16 @@ import javax.ejb.Remote;
 @Remote
 public interface SystemAdminMgrBeanRemote {
 
-    public boolean createNewStudent(String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName);
+    public boolean createNewStudent(int localPort, String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName);
     public void deleteUser(String username);
     public boolean editUser(String username, String salutation, String firstName, String lastName, String password, String userType, String fileName, String email, String contactNum);
     public ArrayList<ArrayList> getAllStudents();
     public ArrayList getUserInfo(String id);    
-    public boolean createNewInstructor(String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName);
+    public boolean createNewInstructor(int localPort, String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName);
     public ArrayList<ArrayList> getAllInstructors();
     
     public ArrayList<ArrayList> getAllAdmins();
-    public boolean createNewAdmin(String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName,String adminType);
+    public boolean createNewAdmin(int localPort, String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName,String adminType);
 
     public Long getUserCount(String type);
 }

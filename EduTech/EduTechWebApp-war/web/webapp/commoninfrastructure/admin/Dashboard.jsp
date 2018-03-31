@@ -17,6 +17,11 @@
         <!--Font Awesome 5-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
+        <style>
+            .row.top_tiles .tile-stats:hover{
+                background-color: #e3e4e5;
+            }
+        </style>
     </head>
     
     <body class="nav-md">
@@ -33,41 +38,53 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="row top_tiles ">
-                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("studentCount")%></div>
-                                        <h3>Students</h3>
+                                <a href="SystemAdmin?pageTransit=StudentList">
+                                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="tile-stats">
+                                            <div class="count"><%=request.getAttribute("studentCount")%></div>
+                                            <h3>Students</h3>
+                                        </div>
                                     </div>
+                                </a>
+                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <a href="SystemAdmin?pageTransit=InstructorList">
+                                        <div class="tile-stats">
+                                            <div class="count"><%=request.getAttribute("instructorCount")%></div>
+                                            <h3>Instructors</h3>
+                                        </div>
+                                    </a>
                                 </div>
                                 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("instructorCount")%></div>
-                                        <h3>Instructors</h3>
-                                    </div>
+                                    <a href="SystemAdmin?pageTransit=AllAdminList">
+                                        <div class="tile-stats">
+                                            <div class="count"><%=request.getAttribute("edutechCount")%></div>
+                                            <h3>EduTech Admins</h3>
+                                        </div>
+                                    </a>
                                 </div>
                                 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("edutechCount")%></div>
-                                        <h3>EduTech Admins</h3>
-                                    </div>
+                                    <a href="SystemAdmin?pageTransit=AllAdminList">
+                                        <div class="tile-stats">
+                                            <div class="count"><%=request.getAttribute("unifyCount")%></div>
+                                            <h3>Unify Admins</h3>
+                                        </div>
+                                    </a>
                                 </div>
                                 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("unifyCount")%></div>
-                                        <h3>Unify Admins</h3>
-                                    </div>
+                                    <a href="SystemAdmin?pageTransit=AllAdminList">
+                                        <div class="tile-stats">
+                                            <div class="count"><%=request.getAttribute("dualCount")%></div>
+                                            <h3>Dual Admins</h3>
+                                        </div>
+                                    </a>
                                 </div>
                                 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("dualCount")%></div>
-                                        <h3>Dual Admins</h3>
-                                    </div>
-                                </div>
-                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="tile-stats">
-                                        <div class="count"><%=request.getAttribute("superCount")%></div>
-                                        <h3>Super Admins</h3>
-                                    </div>
+                                    <a href="SystemAdmin?pageTransit=AllAdminList">
+                                        <div class="tile-stats">
+                                            <div class="count"><%=request.getAttribute("superCount")%></div>
+                                            <h3>Super Admins</h3>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -24,12 +24,12 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     CommonInfraMgrBeanRemote cmb;
     
     @Override
-    public boolean createNewStudent(String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName) { 
+    public boolean createNewStudent(int localPort, String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName) { 
         try{
             
-            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName, "","student",fileName,"","");
+            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName, "","student",fileName,email,"");
             em.persist(newStudent);
-            cmb.sendCreateEmail(username);
+            cmb.sendCreateEmail(username, localPort);
             return true;
         }catch(Exception e){
             System.out.println("ERROR IN CREATE STUDENT");
@@ -114,10 +114,11 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean createNewInstructor(String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName) { 
+    public boolean createNewInstructor(int localPort, String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName) { 
         try{
-            UserEntity newInstructor= new UserEntity(username,salutation,firstName,lastName,cmb.encodePassword(username, password),"student",fileName,"","");
+            UserEntity newInstructor= new UserEntity(username,salutation,firstName,lastName,cmb.encodePassword(username, password),"student",fileName,email,"");
             em.persist(newInstructor);//may throw null pointer if em is not created with proper syntax.
+            cmb.sendCreateEmail(username, localPort);
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -182,10 +183,11 @@ public class SystemAdminMgrBean implements SystemAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean createNewAdmin(String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName, String adminType) { 
+    public boolean createNewAdmin(int localPort, String salutation, String firstName, String lastName, String email, String contactNum, String username, String password, String fileName, String adminType) { 
         try{
-            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,cmb.encodePassword(username, password),"student",fileName,"","");
+            UserEntity newStudent= new UserEntity(username,salutation,firstName,lastName,cmb.encodePassword(username, password),"student",fileName,email,"");
             em.persist(newStudent);//may throw null pointer if em is not created with proper syntax.
+            cmb.sendCreateEmail(username, localPort);
             return true;
         }catch(Exception e){
             e.printStackTrace();

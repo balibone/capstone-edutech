@@ -170,12 +170,39 @@ public class GroupMgrBean {
     }
 
     public GroupEntity joinGroup(String id, String username) {
+        //get all assignments
+        Query q1 = em.createQuery("SELECT a FROM Assignment a");
+        //get this group
         GroupEntity g = em.find(GroupEntity.class, Long.valueOf(id));
-        UserEntity u = em.find(UserEntity.class, username);
+        //get group members
         Collection<UserEntity> gMembers = g.getMembers();
-        //IF GROUP STILL HAS SPACE AND USER ISNT ALREADY INSIDE GROUP, ALLOW JOINING.
+        //get this user.
+        UserEntity u = em.find(UserEntity.class, username);
+        //boolean to flag if user already inside another group.
+        boolean isGrouped = false;
+        
+        for(Object o : q1.getResultList()){
+            AssignmentEntity ass = (AssignmentEntity)o;
+            Collection<GroupEntity> assGroups = ass.getGroups();
+            //if this assignment contains this group, 
+            if(assGroups.contains(g)){
+                //search through all its groups
+                for(GroupEntity gru : assGroups){
+                    //if group has this user
+                    if(gru.getMembers().contains(u))
+                        //user is already inside group.
+                        isGrouped = true;
+                }
+            }
+        }
+        
+        //IF:
+        //1) GROUP STILL HAS SPACE 
+        //2) USER ISNT ALREADY INSIDE GROUP
+        //3) USER IS NOT ALREADY IN A GROUP FOR THIS ASSIGNMENT
+        //, ALLOW JOINING.
         //Collection.add() will still run even though u is inside, and cause PK conflict, so need to check if u is inside first.
-        if(gMembers.size() < g.getGroupSize() && !gMembers.contains(u)){
+        if(gMembers.size() < g.getGroupSize() && !gMembers.contains(u) && !isGrouped){
             gMembers.add(u);
         }
         return g;
@@ -188,6 +215,17 @@ public class GroupMgrBean {
         //Collection.remove() will not run if u is not inside collection.
         g.getMembers().remove(u);
         return g;
+    }
+
+    public List<AssignmentEntity> getModuleAssignments(String moduleCode) {
+        ModuleEntity mod = em.find(ModuleEntity.class, moduleCode);
+        List<AssignmentEntity> modAsses = new ArrayList<>();
+        if(mod!=null){
+            Query q = em.createQuery("SELECT ass FROM Assignment ass WHERE ass.module= :modCode");
+            q.setParameter("modCode", mod);
+            modAsses = q.getResultList();
+        }
+        return modAsses;
     }
     
 }

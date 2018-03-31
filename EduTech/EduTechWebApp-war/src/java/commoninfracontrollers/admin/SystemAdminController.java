@@ -259,8 +259,13 @@ public class SystemAdminController extends HttpServlet {
                 default:
                     break;
             }
-            dispatcher = servletContext.getNamedDispatcher(pageAction);
-            dispatcher.forward(request, response);       
+            if(pageAction != null && !pageAction.equals("")){
+                dispatcher = servletContext.getNamedDispatcher(pageAction);
+                if(dispatcher!=null)
+                    dispatcher.forward(request, response);
+            }else{
+                System.out.println("WARNING: Your pageAction is null!");
+            }
         }
         catch(Exception ex) {
             log("Exception in CommonInfraController: processRequest()");
@@ -323,14 +328,14 @@ public class SystemAdminController extends HttpServlet {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String contactNum = request.getParameter("contactNum");
-        
+        int localPort = request.getLocalPort();
         if(userType.equals("admin")) {
             String adminType = request.getParameter("adminType");
-            return sam.createNewAdmin(salutation,firstName,lastName, email, contactNum,username, password, fileName,adminType);
+            return sam.createNewAdmin(localPort,salutation,firstName,lastName, email, contactNum,username, password, fileName,adminType);
         } else if(userType.equals("student")){ 
-            return sam.createNewStudent(salutation,firstName,lastName,email, contactNum, username, password, fileName);
+            return sam.createNewStudent(localPort,salutation,firstName,lastName,email, contactNum, username, password, fileName);
         } else {
-            return sam.createNewInstructor(salutation, firstName, lastName, email, contactNum, username, password, fileName);
+            return sam.createNewInstructor(localPort,salutation, firstName, lastName, email, contactNum, username, password, fileName);
         }
     }
     private String getFileName(final Part part) {

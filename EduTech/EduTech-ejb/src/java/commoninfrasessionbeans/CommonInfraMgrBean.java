@@ -3,6 +3,8 @@ package commoninfrasessionbeans;
 import commoninfrasessionbeans.CommonInfraMgrBeanRemote;
 import commoninfrastructureentities.UserEntity;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketAddress;
+import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -23,6 +25,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.ServletRequest;
 
 @Stateless
 public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
@@ -109,20 +112,22 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     }
     
     @Override
-    public boolean sendResetEmail(String username) {
+    public boolean sendResetEmail(String username, int localPort) {
         Query q1 = em.createQuery("SELECT s FROM SystemUser s WHERE s.username = :uName");
         q1.setParameter("uName", username);
         UserEntity u = (UserEntity) q1.getSingleResult();
         if(u != null){
             String tempPassword = generateAlphaNum(8);
             try {
-                generateAndSendEmail(u.getUsername(), u.getEmail(),tempPassword);
+                generateAndSendEmail(u.getUsername(), u.getEmail(),tempPassword, localPort);
                 u.setUserPassword(encodePassword(username,tempPassword));
             } catch (MessagingException ex) {
                 System.out.println("**************Email sending failed!");
                 ex.printStackTrace();
                 return false;
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (UnknownHostException ex) {
                 Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
             }
             return true;
@@ -132,20 +137,22 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     }
     
     @Override 
-    public boolean sendCreateEmail(String username){
+    public boolean sendCreateEmail(String username, int localPort){
         Query q1 = em.createQuery("SELECT s FROM SystemUser s WHERE s.username = :uName");
         q1.setParameter("uName", username);
         UserEntity u = (UserEntity) q1.getSingleResult();
         if(u != null){
             String tempPassword = generateAlphaNum(8);
             try {
-                sendCreateEmail(u.getUsername(), u.getEmail(),tempPassword);
+                sendCreateEmail(u.getUsername(), u.getEmail(),tempPassword, localPort);
                 u.setUserPassword(encodePassword(username,tempPassword));
             } catch (MessagingException ex) {
                 System.out.println("**************Email sending failed!");
                 ex.printStackTrace();
                 return false;
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnknownHostException ex) {
                 Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
             }
             return true;
@@ -168,7 +175,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return new String(generated);
     }
     
-    public void generateAndSendEmail(String username, String email, String tempPassword) throws AddressException, MessagingException {
+    public void generateAndSendEmail(String username, String email, String tempPassword, int localPort) throws AddressException, MessagingException, UnknownHostException {
  
         // Step1
         System.out.println("\n 1st ===> setup Mail Server Properties..");
@@ -186,9 +193,11 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         mailMessage = new MimeMessage(mailSession);
         mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
         mailMessage.setSubject("Greetings from EduBox");
+        String hostAndPort = java.net.InetAddress.getLocalHost().getHostAddress()+":"+localPort;
+        System.out.println("HOST AND PORT IS "+hostAndPort);
         String emailBody = "Hey "+ username + ",<br><br>"
                 + "Here is your temporary password: <strong>"+ tempPassword +"</strong><br>"
-                + "Please click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password."
+                + "Please click on this <a href='http://"+hostAndPort+"/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password."
                 + "<br><br>Cheers,<br>EduBox Team";
         mailMessage.setContent(emailBody, "text/html");
         System.out.println("Mail Session has been created successfully..");
@@ -204,7 +213,7 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         transport.close();
     }
     
-    public void sendCreateEmail(String username, String email, String tempPassword) throws AddressException, MessagingException {
+    public void sendCreateEmail(String username, String email, String tempPassword, int localPort) throws AddressException, MessagingException, UnknownHostException {
  
         // Step1
         System.out.println("\n 1st ===> setup Mail Server Properties..");
@@ -222,12 +231,14 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         mailMessage = new MimeMessage(mailSession);
         mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
         mailMessage.setSubject("Greetings from EduBox");
+        String hostAndPort = java.net.InetAddress.getLocalHost().getHostAddress()+":"+localPort;
+        System.out.println("HOST AND PORT IS "+hostAndPort);
         String emailBody = "Hey "+ username + ",<br><br>"
-                + "We just created an account for you on EduBox!<br>"
-                + "Here is your temporary password to get started: <strong>"+ tempPassword +"</strong><br>"
-                + "We highlighy recommend you to <strong>change your password</strong> first."
-                + "You can click on this <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password.<br>"
-                + "Or click <a href='http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=goToLogout'>here</a> to login. "
+                + "We just created an account for you on EduBox!<br><br>"
+                + "Here is your temporary password to get started: <strong>"+ tempPassword +"</strong><br><br>"
+                + "However, we <strong>highlighy recommend you to change your password first.</strong><br>"
+                + "You can click on this <a href='http://"+hostAndPort+"/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password, "
+                + "or click <a href='http://"+hostAndPort+"/EduTechWebApp-war/CommonInfra?pageTransit=goToLogout'>here</a> to login. "
                 + "<br><br>Cheers,<br>EduBox Team";
         mailMessage.setContent(emailBody, "text/html");
         System.out.println("Mail Session has been created successfully..");

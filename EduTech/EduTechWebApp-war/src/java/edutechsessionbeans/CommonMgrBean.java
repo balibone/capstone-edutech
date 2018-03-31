@@ -179,12 +179,12 @@ public class CommonMgrBean {
                     convert.setAssignedTo(t.getAssignedTo());
                     convert.setCreatedAt(LocalDateTime.parse(t.getCreatedAt()));
                     convert.setCreatedBy(t.getCreatedBy());
-                    convert.setDescription("please dont show this field if type=task");
+//                    convert.setDescription("please dont show this field if type=task");
                     convert.setStartDate(LocalDateTime.parse(t.getDeadline()));
                     convert.setEndDate(LocalDateTime.parse(t.getDeadline()));
                     convert.setGroupId(t.getGroupId());
                     convert.setItemType("task");
-                    convert.setLocation("please dont show this field if type=task");
+//                    convert.setLocation("please dont show this field if type=task");
                     convert.setModuleCode(t.getModuleCode());
                     convert.setTitle(t.getTitle());
                     //add converted schedule item into list.
@@ -216,13 +216,14 @@ public class CommonMgrBean {
         return q1.getResultList();
     }
 
-    public void createPost(PostEntity entity) {
+    public PostEntity createPost(PostEntity entity) {
         entity.setCreatedAt(getCurrentISODate());
         // persist
         em.persist(entity);
+        return entity;
     }
 
-    public void removePost(String id) {
+    public void deletePost(String id) {
         PostEntity entity = em.find(PostEntity.class, Long.valueOf(id));
         //if post is a reply, remove Post from parent Post first
         if(entity.getReplyTo() != null) {
@@ -234,21 +235,35 @@ public class CommonMgrBean {
         em.remove(entity);
     }
 
-    public void togglePinPost(String id) {
+    public PostEntity togglePinPost(String id) {
         PostEntity post = em.find(PostEntity.class, Long.valueOf(id));
         post.setIsPinned(!post.getIsPinned());
+        return post;
     }
 
-    public void replyPost(String id, PostEntity entity) {
+    public PostEntity replyPost(String id, PostEntity entity) {
         entity.setCreatedAt(getCurrentISODate());
         entity.setReplyTo(Long.valueOf(id));
         // set pageId to null so it wont show as main post on the feed page
         entity.setPageId(null);
         // find the parent post to include this post reply in
         PostEntity post = em.find(PostEntity.class, Long.valueOf(id));
-        Collection<PostEntity> replies = post.getReplies();
-        replies.add(entity);
-        post.setReplies(replies);
+        post.getReplies().add(entity);
+        return post;
+    }
+    
+    public List<PostEntity> getAllPosts() {
+        return em.createQuery("SELECT p FROM Post p ORDER BY p.createdAt DESC").getResultList();
+    }
+
+    public PostEntity getOnePost(String postId) {
+        return em.find(PostEntity.class, Long.valueOf(postId));
+    }
+
+    public PostEntity editPost(PostEntity editedPost) {
+        em.merge(editedPost);
+        editedPost.setModifiedAt(getCurrentISODate());
+        return editedPost;
     }
     
     public List<TaskEntity> findUserTasks(String username){
@@ -274,7 +289,7 @@ public class CommonMgrBean {
         return groupTasks;
     }
 
-    public void createTask(TaskEntity entity) {
+    public TaskEntity createTask(TaskEntity entity) {
         //set CreatedAt
         entity.setCreatedAt(getCurrentISODate());
         // set assignedTo
@@ -291,32 +306,36 @@ public class CommonMgrBean {
         }            
         // persist
         em.persist(entity);    
+        return entity;
     }
 
-    public void removeTask(String id) {
+    public void deleteTask(String id) {
         em.remove(em.find(TaskEntity.class, Long.valueOf(id)));
     }
 
-    public void editTask(String id, TaskEntity entity) {
+    public TaskEntity editTask(String id, TaskEntity entity) {
         TaskEntity thisEntity = em.find(TaskEntity.class, Long.valueOf(id));
         thisEntity = entity;
         //set modifiedAt
         thisEntity.setModifiedAt(getCurrentISODate());
         em.merge(thisEntity);    
+        return thisEntity;
     }
 
-    public void updateTaskProgress(String id, int progressCode) {
+    public TaskEntity updateTaskProgress(String id, int progressCode) {
         TaskEntity task = em.find(TaskEntity.class, Long.valueOf(id)); 
         task.setProgressCode(progressCode);
+        return task;
     }
 
-    public void verifyTask(String id, String username) {
+    public TaskEntity verifyTask(String id, String username) {
         TaskEntity task = em.find(TaskEntity.class, Long.valueOf(id)); 
         task.setProgressCode(3);
         // set verifiedBy & verifiedAt
         UserEntity verifier = em.find(UserEntity.class, username);
         task.setVerifiedBy(verifier);
         task.setVerifiedAt(getCurrentISODate());
+        return task;
     }
 
     public RecurringEventEntity createRecurringEvent(RecurringEventEntity entity) {
@@ -676,5 +695,7 @@ public class CommonMgrBean {
     public List<AttachmentEntity> getAllLessonAttachments(Long id) {
         return (List<AttachmentEntity>) em.find(LessonEntity.class, id).getResources();
     }
+
+    
 
 }
