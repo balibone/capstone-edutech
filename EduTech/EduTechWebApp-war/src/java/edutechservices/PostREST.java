@@ -42,6 +42,7 @@ public class PostREST {
     }
     
     @GET  
+    @Path("onePost/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public PostEntity getOnePost(@PathParam("id") String postId) {
         return etr.getOnePost(postId);
