@@ -47,32 +47,37 @@ public class TaskREST {
     
     @POST 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void createTask(TaskEntity entity) {
-        etr.createTask(entity);
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public TaskEntity createTask(TaskEntity entity) {
+        return etr.createTask(entity);
     }
     
     @PUT 
     @Path("{id}") 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void editTask(@PathParam("id") String id, TaskEntity entity) {
-        etr.editTask(id, entity);
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public TaskEntity editTask(@PathParam("id") String id, TaskEntity entity) {
+        return etr.editTask(id, entity);
     }
          
     @PUT 
     @Path("{id}/{progressCode}") 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void updateTaskProgress(@PathParam("id") String id, @PathParam("progressCode") int progressCode) {
-        etr.updateTaskProgress(id, progressCode);
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public TaskEntity updateTaskProgress(@PathParam("id") String id, @PathParam("progressCode") int progressCode) {
+        return etr.updateTaskProgress(id, progressCode);
     }
     
     @DELETE
     @Path("{id}")
-    public List<TaskEntity> removeTask(@PathParam("id") String id) {
-        etr.removeTask(id);
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<TaskEntity> deleteTask(@PathParam("id") String id) {
+        etr.deleteTask(id);
         return etr.getAllTasks();
     }
     
     @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<TaskEntity> getAllTasks(){
         return etr.getAllTasks();   
     }
@@ -80,8 +85,9 @@ public class TaskREST {
     @PUT
     @Path("verify/{id}/{username}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void verifyTask(@PathParam("id") String id, @PathParam("username") String username) {
-        etr.verifyTask(id, username);
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public TaskEntity verifyTask(@PathParam("id") String id, @PathParam("username") String username) {
+        return etr.verifyTask(id, username);
     }
     
 }
