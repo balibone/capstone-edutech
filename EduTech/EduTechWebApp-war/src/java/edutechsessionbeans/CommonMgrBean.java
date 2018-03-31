@@ -179,12 +179,12 @@ public class CommonMgrBean {
                     convert.setAssignedTo(t.getAssignedTo());
                     convert.setCreatedAt(LocalDateTime.parse(t.getCreatedAt()));
                     convert.setCreatedBy(t.getCreatedBy());
-                    convert.setDescription("please dont show this field if type=task");
+//                    convert.setDescription("please dont show this field if type=task");
                     convert.setStartDate(LocalDateTime.parse(t.getDeadline()));
                     convert.setEndDate(LocalDateTime.parse(t.getDeadline()));
                     convert.setGroupId(t.getGroupId());
                     convert.setItemType("task");
-                    convert.setLocation("please dont show this field if type=task");
+//                    convert.setLocation("please dont show this field if type=task");
                     convert.setModuleCode(t.getModuleCode());
                     convert.setTitle(t.getTitle());
                     //add converted schedule item into list.

@@ -112,7 +112,7 @@ public class ModuleMgrBean {
             group.setDescription("Created for "+ass.getModule().getTitle()+" Assignment :"+ass.getTitle());
             group.setGroupSize(gSize);
             group.setModuleCode(assignedMod.getModuleCode());
-            group.setTitle(ass.getModule().getTitle()+" Assignment "+ass.getTitle()+" Group "+i);
+            group.setTitle(ass.getModule().getModuleCode()+" "+ass.getTitle()+" G"+i);
             //assign group to assignment.
             assGroups.add(group);
             //persist new group
