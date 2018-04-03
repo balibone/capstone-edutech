@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Item Offer List</title>
+        <title>Unify - My Marketplace Offers</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
@@ -185,7 +185,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User Account</li>
+                            <li class="breadcrumb-item active" aria-current="page">My Marketplace Offer List</li>
                         </ol>
                     </nav>
                 </div>
@@ -239,7 +239,7 @@
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>My Item Offers</span></div>
+                        <div class="title"><span>My Marketplace Offers</span></div>
                         <%
                             String successMessage = (String) request.getAttribute("successMessage");
                             if (successMessage != null) {
@@ -258,7 +258,38 @@
                             <%= errorMessage%>
                         </div>
                         <%  }%>
-                        <div class="table-responsive">
+                        
+                        <%
+                            Vector userMarketplaceRatingInfoVec = (Vector) request.getAttribute("userMarketplaceRatingInfoVec");
+                            String marketplaceUserImage, marketplaceUserFirstName, marketplaceUserLastName, marketplaceUserID, marketplaceUserPositive, marketplaceUserNeutral, marketplaceUserNegative;
+                            marketplaceUserImage = marketplaceUserFirstName = marketplaceUserLastName = marketplaceUserID = marketplaceUserPositive = marketplaceUserNeutral = marketplaceUserNegative = "";
+
+                            if (userMarketplaceRatingInfoVec != null) {
+                                marketplaceUserImage = (String) userMarketplaceRatingInfoVec.get(0);
+                                marketplaceUserFirstName = (String) userMarketplaceRatingInfoVec.get(1);
+                                marketplaceUserLastName = (String) userMarketplaceRatingInfoVec.get(2);
+                                marketplaceUserID = (String) userMarketplaceRatingInfoVec.get(3);
+                                marketplaceUserPositive = (String.valueOf(userMarketplaceRatingInfoVec.get(4)));
+                                marketplaceUserNeutral = (String.valueOf(userMarketplaceRatingInfoVec.get(5)));
+                                marketplaceUserNegative = (String.valueOf(userMarketplaceRatingInfoVec.get(6)));
+                            }
+                        %>
+                        <div class="formDiv">
+                            <div class="form-row media">
+                                <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= marketplaceUserImage%>" style="width:50px;height:50px;"/>
+                                <div class="media-body ml-3">
+                                    <h5 class="user-name mb-0"><strong><%= marketplaceUserFirstName%>&nbsp;<%= marketplaceUserLastName%></strong></h5>
+                                    <p class="card-text mb-2">@<%= marketplaceUserID%></p>
+                                    <ul class="profileRating">
+                                        <li><img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%= marketplaceUserPositive%></span></li>
+                                        <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%= marketplaceUserNeutral%></span></li>
+                                        <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%= marketplaceUserNegative%></span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive mt-4">
                             <table id="userItemOfferTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
@@ -276,32 +307,38 @@
                                         if (!userBuyerOfferListSYS.isEmpty()) {
                                             for (int i = 0; i <= userBuyerOfferListSYS.size() - 1; i++) {
                                                 Vector v = userBuyerOfferListSYS.get(i);
-                                                String itemImage = String.valueOf(v.get(0));
-                                                String itemName = String.valueOf(v.get(1));
-                                                String itemPrice = String.valueOf(v.get(2));
-                                                String itemOfferID = String.valueOf(v.get(3));
-                                                String itemOfferPrice = String.valueOf(v.get(4));
-                                                String itemOfferStatus = String.valueOf(v.get(5));
-                                                String sellerComments = String.valueOf(v.get(6));
-                                                String itemOfferDate = String.valueOf(v.get(7));
+                                                String itemID = String.valueOf(v.get(0));
+                                                String itemImage = String.valueOf(v.get(1));
+                                                String itemName = String.valueOf(v.get(2));
+                                                String itemPrice = String.valueOf(v.get(3));
+                                                String itemOfferID = String.valueOf(v.get(4));
+                                                String itemOfferPrice = String.valueOf(v.get(5));
+                                                String itemOfferStatus = String.valueOf(v.get(6));
+                                                String sellerComments = String.valueOf(v.get(7));
+                                                String itemOfferDate = String.valueOf(v.get(8));
+                                                String feedbackGivenStatus = String.valueOf(v.get(9));
                                     %>
                                     <tr id="itemOfferRow<%= itemOfferID%>">
                                         <td><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width: 50px; height: 50px;" /></td>
-                                        <td><%= itemName%></td>
+                                        <td class="itemName"><%= itemName%><span style="display:none;">;<%= itemID%></span></td>
                                         <td class="offerPriceTD">$<%= itemOfferPrice%><span style="display:none">;</span><br/>($<%= itemPrice%>)</td>
                                         <td>
                                             <%  if (itemOfferStatus.equals("Pending")) {%>
-                                            <span class="badge badge-primary custom-badge"><%= itemOfferStatus%></span>
+                                            <span class="badge badge-info custom-badge"><%= itemOfferStatus%></span>
                                             <%  } else if (itemOfferStatus.equals("Processing")) {%>
                                             <span class="badge badge-warning custom-badge"><%= itemOfferStatus%></span>
                                             <%  } else if (itemOfferStatus.equals("Accepted")) {%>
-                                            <span class="badge badge-info custom-badge"><%= itemOfferStatus%></span>
+                                            <span class="badge badge-theme custom-badge"><%= itemOfferStatus%></span>
                                             <%  } else if (itemOfferStatus.equals("Rejected")) {%>
                                             <span class="badge badge-danger custom-badge"><%= itemOfferStatus%></span>
                                             <%  } else if (itemOfferStatus.equals("Cancelled")) {%>
                                             <span class="badge badge-danger custom-badge"><%= itemOfferStatus%></span>
                                             <%  } else if (itemOfferStatus.equals("Completed")) {%>
                                             <span class="badge badge-success custom-badge"><%= itemOfferStatus%></span>
+                                            <%  } else if (itemOfferStatus.equals("Failed")) {%>
+                                            <span class="badge badge-danger custom-badge"><%= itemOfferStatus%></span>
+                                            <%  } else if (itemOfferStatus.equals("Closed")) {%>
+                                            <span class="badge badge-primary custom-badge"><%= itemOfferStatus%></span>
                                             <%  }%>
                                         </td>
                                         <td>
@@ -313,7 +350,16 @@
                                                 <%  if (itemOfferStatus.equals("Pending") || itemOfferStatus.equals("Processing")) {%>
                                                 <li class="list-inline-item"><button id="editItemOfferPanel<%= itemOfferID%>" type="button" class="userItemOfferListBtn qtipEditButton"><i class="fa fa-edit fa-lg"></i></button></li>
                                                 <li class="list-inline-item"><button id="cancelItemOffer<%= itemOfferID%>" type="button" class="userItemOfferListBtn"><i class="fa fa-trash fa-lg"></i></button></li>
-                                                <%  } else {    %>
+                                                <%  } 
+                                                    else if(itemOfferStatus.equals("Failed") || itemOfferStatus.equals("Completed")) {    
+                                                        if(feedbackGivenStatus.equals("false")) {
+                                                %>
+                                                <li class="list-inline-item"><button id="provideTransFeedback<%= itemOfferID%>" type="button" class="userItemOfferListBtn"><i class="fa fa-comment-o fa-lg"></i></button></li>
+                                                <%      } else if(feedbackGivenStatus.equals("true")) {    %>
+                                                <li>&nbsp;</li>
+                                                <%      } 
+                                                    } else {    
+                                                %>
                                                 <li>&nbsp;</li>
                                                 <%  }  %>
                                             </ul>
@@ -393,6 +439,33 @@
                     </section>
                 </div>
             </div>
+            
+            <div id="feedback-modal">
+                <button data-iziModal-close class="icon-close"><i class="fa fa-times"></i></button>
+                <div class="sections">
+                    <section>
+                        <p class="text-center"><strong>Select A Rating!</strong></p>
+                        <div class="row icon-main mt-3">
+                            <div id="positive" class="col-md-3 offset-md-1 ratingReview icon-box positive text-center rounded-circle">
+                                <i class="fa fa-smile-o mt-4 icon-positive" aria-hidden="true"></i>
+                                <h6 class="mt-3 font-weight-bold">Positive</h6>
+                            </div>
+                            <div id="neutral" class="col-md-3 ml-4 ratingReview icon-box neutral text-center rounded-circle">
+                                <i class="fa fa-meh-o mt-4 icon-neutral" aria-hidden="true"></i>
+                                <h6 class="mt-3 font-weight-bold">Neutral</h6>
+                            </div>
+                            <div id="negative" class="col-md-3 ml-4 ratingReview icon-box upload text-center rounded-circle">
+                                <i class="fa fa-frown-o mt-4 icon-negative" aria-hidden="true"></i>
+                                <h6 class="mt-3 font-weight-bold">Negative</h6>
+                            </div>
+                            <button type="button" id="provideFeedbackBtn" class="btn btn-theme mt-4 mx-auto userItemOfferListBtn">Send Feedback</button>
+                        </div>
+                        <input type="hidden" id="hiddenItemOfferID" />
+                        <input type="hidden" id="hiddenItemID" />
+                        <input type="hidden" id="hiddenRatingReview" />
+                    </section>
+                </div>
+            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -403,6 +476,7 @@
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/bootbox.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/UserItemOfferListSYSJS.js" type="text/javascript"></script>

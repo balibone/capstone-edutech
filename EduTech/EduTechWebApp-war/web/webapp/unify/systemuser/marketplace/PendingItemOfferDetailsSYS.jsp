@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - Pending Item Offer Details</title>
+        <title>Unify - Marketplace Offers From Users</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
@@ -261,7 +261,7 @@
                     </div>
 
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Marketplace Offer List</span></div>
+                        <div class="title"><span>Marketplace Offers From Users</span></div>
                         <form class="form-horizontal" action="MarketplaceSysUser" method="POST">
                             <%
                                 ArrayList<Vector> itemOfferUserListSYS = (ArrayList) request.getAttribute("itemOfferUserListSYS");
@@ -291,7 +291,7 @@
                             </div>
                             <div class="formDiv">
                                 <div class="form-row" style="padding: 20px 0 30px 0;">
-                                    <h5 class="user-name" style="font-size: 15px;"><strong>List of item offers</strong></h5>
+                                    <h5 class="user-name" style="font-size: 15px;"><strong>List of Item Offers</strong></h5>
                                     <div class="jplist-search sorting-bar">
                                         <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                              data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
@@ -339,6 +339,14 @@
                                                     <input data-path=".Completed" id="Completed" type="checkbox" />
                                                     <label for="Completed">Completed</label>
                                                 </li>
+                                                <li>
+                                                    <input data-path=".Failed" id="Failed" type="checkbox" />
+                                                    <label for="Failed">Failed</label>
+                                                </li>
+                                                <li>
+                                                    <input data-path=".Closed" id="Closed" type="checkbox" />
+                                                    <label for="Closed">Closed</label>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div class="jplist-panel">
@@ -364,6 +372,7 @@
                                                 String itemOfferStatus = String.valueOf(v.get(10));
                                                 String itemOfferPostedDuration = String.valueOf(v.get(11));
                                                 String itemOfferDate = String.valueOf(v.get(12));
+                                                String feedbackGivenStatus = String.valueOf(v.get(13));
                                         %>
                                         <div class="col-sm-6 pl-1 pr-1 list-item">
                                             <div class="card">
@@ -386,17 +395,21 @@
                                                         <p class="card-text mb-0 pt-3" style="font-size:12px;">
                                                             Offer Status:&nbsp;
                                                             <%  if(itemOfferStatus.equals("Pending")) {  %>
-                                                            <span class="badge badge-primary custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
+                                                            <span class="badge badge-info custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                             <%  } else if(itemOfferStatus.equals("Processing")) { %>
                                                             <span class="badge badge-warning custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                             <%  } else if(itemOfferStatus.equals("Accepted")) {   %>
-                                                            <span class="badge badge-info custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
+                                                            <span class="badge badge-theme custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                             <%  } else if(itemOfferStatus.equals("Rejected")) { %>
                                                             <span class="badge badge-danger custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                             <%  } else if(itemOfferStatus.equals("Cancelled")) { %>
                                                             <span class="badge badge-danger custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                             <%  } else if(itemOfferStatus.equals("Completed")) { %>
                                                             <span class="badge badge-success custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
+                                                            <%  } else if(itemOfferStatus.equals("Failed")) { %>
+                                                            <span class="badge badge-danger custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
+                                                            <%  } else if(itemOfferStatus.equals("Closed")) { %>
+                                                            <span class="badge badge-primary custom-badge arrowed-left <%= itemOfferStatus%>"><%= itemOfferStatus%></span>
                                                             <%  }   %>
                                                         </p>
                                                         <p class="card-text text-success mb-0 itemOfferPrice" style="font-size:16px;">
@@ -409,12 +422,22 @@
                                                                 <li><button type="button" id="acceptOfferPanel<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn qtipAcceptOfferButton">Accept</button></li>
                                                                 <li><button type="button" id="negotiateOfferPanel<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn qtipNegotiateOfferButton">Negotiate</button></li>
                                                                 <li><button type="button" id="rejectOfferBtn<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Reject</button></li>
-                                                                <%  } else if(itemOfferStatus.equals("Accepted")) {   %>
-                                                                <li><button type="button" id="markAsSold<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Mark As Sold</button></li>
-                                                                <li><button type="button" id="markAsOpen<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Reopen Listing</button></li>
-                                                                <%  } else {   %>
+                                                                <%  } 
+                                                                    else if(itemOfferStatus.equals("Accepted")) {   %>
+                                                                <li><button type="button" id="markAsSoldBtn<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Mark As Sold</button></li>
+                                                                <li><button type="button" id="markAsReopenBtn<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Reopen Listing</button></li>
+                                                                <%  } 
+                                                                    else if(itemOfferStatus.equals("Completed") || itemOfferStatus.equals("Failed")) {   
+                                                                        if(feedbackGivenStatus.equals("false")) { 
+                                                                %>
+                                                                <li><button type="button" id="provideFeedbackPanel<%= itemOfferID%>" class="btn btn-theme btn-sm itemOfferBtn">Provide Feedback</button></li>
+                                                                <%      } else if(feedbackGivenStatus.equals("true")) {    %>
                                                                 <li>&nbsp;</li>
-                                                                <%  }   %>
+                                                                <%      }
+                                                                    } else {
+                                                                %>
+                                                                <li>&nbsp;</li>
+                                                                <%  }  %>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -466,7 +489,7 @@
                 <button data-iziModal-close class="icon-close"><i class="fa fa-times"></i></button>
                 <div class="sections">
                     <section>
-                        <p class="text-center"><strong>Select one of the following to view.</strong></p>
+                        <p class="text-center"><strong>Select An Option</strong></p>
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUnifyUserAccountSYS';">
@@ -509,6 +532,32 @@
                                 </div>
                             </div>
                         </div>
+                    </section>
+                </div>
+            </div>
+            
+            <div id="feedback-modal">
+                <button data-iziModal-close class="icon-close"><i class="fa fa-times"></i></button>
+                <div class="sections">
+                    <section>
+                        <p class="text-center"><strong>Select A Rating!</strong></p>
+                        <div class="row icon-main mt-3">
+                            <div id="positive" class="col-md-3 offset-md-1 ratingReview icon-box positive text-center rounded-circle">
+                                <i class="fa fa-smile-o mt-4 icon-positive" aria-hidden="true"></i>
+                                <h6 class="mt-3 font-weight-bold">Positive</h6>
+                            </div>
+                            <div id="neutral" class="col-md-3 ml-4 ratingReview icon-box neutral text-center rounded-circle">
+                                <i class="fa fa-meh-o mt-4 icon-neutral" aria-hidden="true"></i>
+                                <h6 class="mt-3 font-weight-bold">Neutral</h6>
+                            </div>
+                            <div id="negative" class="col-md-3 ml-4 ratingReview icon-box upload text-center rounded-circle">
+                                <i class="fa fa-frown-o mt-4 icon-negative" aria-hidden="true"></i>
+                                <h6 class="mt-3 font-weight-bold">Negative</h6>
+                            </div>
+                            <button type="button" id="provideFeedbackBtn" class="btn btn-theme mt-4 mx-auto itemOfferBtn">Send Feedback</button>
+                        </div>
+                        <input type="hidden" id="hiddenItemOfferID" />
+                        <input type="hidden" id="hiddenRatingReview" />
                     </section>
                 </div>
             </div>

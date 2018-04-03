@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Account</title>
+        <title>Unify - My Marketplace Listings</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
@@ -281,7 +281,7 @@
                         </div>
                         <%  }   %>
 
-                        <div class="title"><span>Your Item Listing</span></div>
+                        <div class="title"><span>My Marketplace Listings</span></div>
                         <div class="jplist-search sorting-bar">
                             <button class="btn btn-outline-theme btn-block dropdown-toggle d-md-none mt-2" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                                 Search Filter

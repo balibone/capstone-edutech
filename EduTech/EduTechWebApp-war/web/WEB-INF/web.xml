@@ -419,13 +419,13 @@
     <servlet><servlet-name>ProximityItemListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ProximityItemListingSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewItemListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemListingSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewItemDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemDetailsSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ViewItemTransDetailsInModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemTransDetailsInModalSYS.jsp</jsp-file></servlet>   
     
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
     <servlet><servlet-name>UserAccountSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserAccountSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserChatListContentSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserChatListContentSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserChatListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserChatListSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserItemOfferListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemOfferListSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserItemTransactionDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransactionDetailsSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserItemTransactionSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemTransactionSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserItemWishlistSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemWishlistSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserNotificationListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserNotificationListSYS.jsp</jsp-file></servlet>

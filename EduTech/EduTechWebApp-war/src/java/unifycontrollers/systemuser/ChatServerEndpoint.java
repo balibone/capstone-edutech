@@ -21,7 +21,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value="/WebSocketGateway")
+@ServerEndpoint(value="/WebSocketGateway", configurator=ChatServerConfigurator.class)
 public class ChatServerEndpoint {
     private static final Set<Session> CHATUSERS = Collections.synchronizedSet(new HashSet<Session>());
     

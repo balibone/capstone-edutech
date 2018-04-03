@@ -11,6 +11,8 @@
 package unifyentities.marketplace;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -18,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,6 +46,8 @@ public class ItemOfferEntity implements Serializable {
     private ItemEntity itemEntity;
     @ManyToOne
     private UserEntity userEntity;
+    @OneToMany(mappedBy = "itemOfferEntity")
+    private Collection<ItemReviewEntity> itemReviewSet = new ArrayList<ItemReviewEntity>();
     
     @PrePersist
     public void creationDate() { this.itemOfferDate = new Date(); }
@@ -68,6 +73,7 @@ public class ItemOfferEntity implements Serializable {
     
     public ItemEntity getItemEntity() { return itemEntity; }
     public UserEntity getUserEntity() { return userEntity; }
+    public Collection<ItemReviewEntity> getItemReviewSet() { return itemReviewSet; }
     
     /* SETTER METHODS */
     public void setItemOfferID(Long itemOfferID) { this.itemOfferID = itemOfferID; }
@@ -80,4 +86,5 @@ public class ItemOfferEntity implements Serializable {
     
     public void setItemEntity(ItemEntity itemEntity) { this.itemEntity = itemEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setItemReviewSet(Collection<ItemReviewEntity> itemReviewSet) { this.itemReviewSet = itemReviewSet; }
 }

@@ -20,15 +20,14 @@ $(document).ready(function () {
         ]
     });
     
-    $('#itemTransTable tbody').on('click', 'tr', function(event) {
-        var rowData = $(this).children("td").map(function() {
+    $('#itemTransTable tbody').on('click', 'tr', function() {
+        var rowData = $(this).children('td').map(function() {
             return $(this).text();
         }).get();
         itemName = $.trim(rowData[4]);
         itemID = itemName.split(';')[1];
         itemTransID = itemName.split(';')[2];
-        $('iframe').attr('src', 'ProfileSysUser?pageTransit=goToViewItemDetailsInModalSYS&itemID=' + itemID + '&itemTransID=' + itemTransID);
-        $('#itemDetails-iframe').iziModal('open', event);
+        window.location.href = 'ProfileSysUser?pageTransit=goToMarketplaceTransDetailsSYS&itemID=' + itemID + '&itemTransID=' + itemTransID;
     });
     
     $("#itemDetails-iframe").iziModal({

@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Marketplace - Edit Item Listing</title>
+        <title>Unify Marketplace - Edit My Item Listing</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
@@ -208,7 +208,7 @@
                             <%  }   %>
 
                             <div class="x_title">
-                                <h5>Edit Item Listing</h5>
+                                <h5>Edit My Item Listing</h5>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
@@ -356,7 +356,6 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="sellNewItem-iframe"></div>
-            <div id="unifyFooter"></div>
         </div>
         
         <!-- #1. jQuery v2.2.4 -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->

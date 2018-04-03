@@ -29,6 +29,7 @@ import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.marketplace.ItemEntity;
 import unifyentities.marketplace.ItemOfferEntity;
+import unifyentities.marketplace.ItemReviewEntity;
 import unifyentities.marketplace.ItemTransactionEntity;
 
 @Stateless
@@ -39,6 +40,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     private ChatEntity chEntity;
     private ItemEntity iEntity;
     private ItemOfferEntity ioEntity;
+    private ItemReviewEntity irEntity;
     private ItemTransactionEntity itEntity;
     private MessageEntity mEntity;
     private UserEntity uEntity;
@@ -685,17 +687,18 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                     } else {
                         tempTotalCount++;
                     }
-                    tempMarketplaceOfferList.set(i, tempItemID + ";" + tempPendingCount + ";" + tempTotalCount);
+                    tempMarketplaceOfferList.set(i, tempItemID + ";" + tempPendingCount + ";" + tempTotalCount + ";" + itemOfferE.getItemEntity().getItemName() + ";" + itemOfferE.getItemEntity().getItemImage() + ";" + String.format ("%,.2f", itemOfferE.getItemEntity().getItemPrice()) + ";" + itemOfferE.getItemEntity().getItemCondition());
                     insertTempOffer = false;
                 }
             }
             if(insertTempOffer == true) {
                 if((itemOfferE.getSellerItemOfferStatus()).equals("Pending")) {
-                    tempMarketplaceOfferList.add(itemOfferE.getItemEntity().getItemID() + ";1;0;" + itemOfferE.getItemEntity().getItemName() + ";" + itemOfferE.getItemEntity().getItemImage() + ";" + itemOfferE.getItemEntity().getItemPrice() + ";" + itemOfferE.getItemEntity().getItemCondition());
+                    tempMarketplaceOfferList.add(itemOfferE.getItemEntity().getItemID() + ";1;0;" + itemOfferE.getItemEntity().getItemName() + ";" + itemOfferE.getItemEntity().getItemImage() + ";" + String.format ("%,.2f", itemOfferE.getItemEntity().getItemPrice()) + ";" + itemOfferE.getItemEntity().getItemCondition());
                 } else {
-                    tempMarketplaceOfferList.add(itemOfferE.getItemEntity().getItemID() + ";0;1;" + itemOfferE.getItemEntity().getItemName() + ";" + itemOfferE.getItemEntity().getItemImage() + ";" + itemOfferE.getItemEntity().getItemPrice() + ";" + itemOfferE.getItemEntity().getItemCondition());
+                    tempMarketplaceOfferList.add(itemOfferE.getItemEntity().getItemID() + ";0;1;" + itemOfferE.getItemEntity().getItemName() + ";" + itemOfferE.getItemEntity().getItemImage() + ";" + String.format ("%,.2f", itemOfferE.getItemEntity().getItemPrice()) + ";" + itemOfferE.getItemEntity().getItemCondition());
                 }
             }
+            insertTempOffer = true;
         }
         for(int i = 0; i < tempMarketplaceOfferList.size(); i++) {
             Vector marketplaceOfferVec = new Vector();
@@ -786,6 +789,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             }
             itemOfferUserVec.add(dateString);
             itemOfferUserVec.add(df.format(itemOfferE.getItemOfferDate()));
+            itemOfferUserVec.add(checkFeedbackGivenStatus(username, itemOfferE.getItemEntity().getItemID()));
             itemOfferUserList.add(itemOfferUserVec);
             dateString = "";
         }
@@ -817,7 +821,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             em.merge(iEntity);
             em.merge(ioEntity);
             em.merge(ioEntity.getUserEntity());
-            return "Item offer has been accepted!";
+            return "This item offer has been accepted!";
         }
     }
     
@@ -865,7 +869,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             em.persist(mEntity);
             em.merge(ioEntity);
             em.merge(ioEntity.getUserEntity());
-            return "Item offer has been rejected!";
+            return "This item offer has been rejected!";
         }
     }
     
@@ -887,15 +891,125 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             mEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
             (ioEntity.getUserEntity()).getMessageSet().add(mEntity);
             
+            itEntity = new ItemTransactionEntity();
+            itEntity.createItemTransaction(ioEntity.getItemOfferPrice(), ioEntity.getUserEntity().getUsername());
+            iEntity.getItemTransactionSet().add(itEntity);
+            itEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
+            itEntity.setItemEntity(iEntity);
+            
+            em.persist(mEntity);
+            em.persist(itEntity);
+            
+            em.merge(ioEntity);
+            em.merge(iEntity);
+            em.merge(ioEntity.getUserEntity());
+            
+            return "This item offer has been marked as 'Completed'! Leave a feedback about the buyer here!";
+        }
+    }
+    
+    @Override
+    public String reopenAnItemOffer(long itemOfferID, String itemStatus) {
+        if (lookupItemOffer(itemOfferID) == null) { return "Some errors occured while processing your item offer. Please try again."; }
+        else {
+            ioEntity = lookupItemOffer(itemOfferID);
+            ioEntity.setSellerItemOfferStatus("Failed");
+            ioEntity.setBuyerItemOfferStatus("Failed");
+            iEntity = ioEntity.getItemEntity(); 
+            iEntity.setItemStatus(itemStatus);
+            
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(ioEntity.getItemEntity().getUserEntity().getUsername(), ioEntity.getUserEntity().getUsername(), 
+                    "Your item offer (" + ioEntity.getItemEntity().getItemName() + ") has been terminated by the seller " + ioEntity.getItemEntity().getUserEntity().getUsername() + ".", 
+                    ioEntity.getItemEntity().getItemID(), "Marketplace (My Item Offer)");
+            /* THE SELLER WHO SETS THE ITEM OFFER AS "FAILED" IS THE ONE WHO POST THE MESSAGE */
+            mEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
+            (ioEntity.getUserEntity()).getMessageSet().add(mEntity);
+            
             em.persist(mEntity);
             em.merge(ioEntity);
             em.merge(iEntity);
             em.merge(ioEntity.getUserEntity());
-            return "Item offer has been marked as completed! Leave a feedback about the buyer here!";
+            return "This item offer has been marked as 'Failed'! Leave a feedback about the buyer here!";
+        }
+    }
+    
+    @Override
+    public String provideTransFeedback(String username, long itemOfferID, String transactionRating) {
+        String itemReceiverID = "";
+        if (lookupItemOffer(itemOfferID) == null) { return "Some errors occured while processing your rating feedback. Please try again."; }
+        else {
+            ioEntity = lookupItemOffer(itemOfferID);
+            iEntity = ioEntity.getItemEntity();
+            uEntity = lookupUnifyUser(username);
+            
+            if(!(ioEntity.getUserEntity().getUsername()).equals(username)) {
+                itemReceiverID = ioEntity.getUserEntity().getUsername();
+            } else if(!(ioEntity.getItemEntity().getUserEntity().getUsername()).equals(username)) {
+                itemReceiverID = ioEntity.getItemEntity().getUserEntity().getUsername();
+            }
+            
+            irEntity = new ItemReviewEntity();
+            if(irEntity.createItemReview(transactionRating, "", itemReceiverID)) {
+                if(getReviewCountForEveryItemOffer(username, itemReceiverID, itemOfferID) == 0) {
+                    ioEntity.setBuyerItemOfferStatus("Completed");
+                    ioEntity.setSellerItemOfferStatus("Completed");
+                } else if(getReviewCountForEveryItemOffer(username, itemReceiverID, itemOfferID) == 1) {
+                    ioEntity.setBuyerItemOfferStatus("Closed");
+                    ioEntity.setSellerItemOfferStatus("Closed");
+                }
+                irEntity.setItemEntity(iEntity);
+                iEntity.getItemReviewSet().add(irEntity);
+                irEntity.setUserEntity(uEntity);
+                uEntity.getItemReviewSet().add(irEntity);
+                irEntity.setItemOfferEntity(ioEntity);
+                ioEntity.getItemReviewSet().add(irEntity);
+                
+                em.persist(irEntity);
+                em.merge(ioEntity);
+                em.merge(iEntity);
+                em.merge(uEntity);
+                
+                mEntity = new MessageEntity();
+                mEntity.createContentMessage(uEntity.getUsername(), itemReceiverID, 
+                        uEntity.getUsername() + " has left a rating for you! You may want to leave a rating for " + uEntity.getUsername() + " too!", 
+                        ioEntity.getItemOfferID(), "Marketplace (My Marketplace Review)");
+                /* EITHER THE ITEM SELLER OR ITEM BUYER CAN BE THE ONE WHO POSTS THE MESSAGE */
+                mEntity.setUserEntity(uEntity);
+                (lookupUnifyUser(itemReceiverID)).getMessageSet().add(mEntity);
+                
+                em.persist(mEntity);
+                em.merge(lookupUnifyUser(itemReceiverID));
+                
+                if((iEntity.getUserEntity().getUsername()).equals(username)) {
+                    return "Your rating feedback about the buyer has been sent successfully!";
+                } else {
+                    return "Your rating feedback about the seller has been sent successfully!";
+                }
+            } else {
+                return "Error occured while sending your rating feedback. Please try again.";
+            }
         }
     }
     
     /* USERS PERSONAL ITEM OFFER */
+    @Override
+    public Vector viewUserMarketplaceRatingInfo(String username) {
+        uEntity = lookupUnifyUser(username);
+        Vector userMarketplaceRatingInfoVec = new Vector();
+        
+        if (uEntity != null) {
+            userMarketplaceRatingInfoVec.add(uEntity.getImgFileName());
+            userMarketplaceRatingInfoVec.add(uEntity.getUserFirstName());
+            userMarketplaceRatingInfoVec.add(uEntity.getUserLastName());
+            userMarketplaceRatingInfoVec.add(uEntity.getUsername());
+            userMarketplaceRatingInfoVec.add(getPositiveItemReviewCount(uEntity.getUsername()));
+            userMarketplaceRatingInfoVec.add(getNeutralItemReviewCount(uEntity.getUsername()));
+            userMarketplaceRatingInfoVec.add(getNegativeItemReviewCount(uEntity.getUsername()));
+        }
+        return userMarketplaceRatingInfoVec;
+    }
+    
     @Override
     public List<Vector> viewPersonalBuyerOfferList(String username) {
         Query q = em.createQuery("SELECT io FROM ItemOffer io WHERE io.userEntity.username = :username ORDER BY io.itemOfferDate DESC");
@@ -907,6 +1021,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             Vector userBuyerOfferVec = new Vector();
 
             /* ITEM SELLER IS THE PERSON WHO CREATED THE ITEM TRANSACTION */
+            userBuyerOfferVec.add(userBuyerOfferE.getItemEntity().getItemID());
             userBuyerOfferVec.add(userBuyerOfferE.getItemEntity().getItemImage());
             userBuyerOfferVec.add(userBuyerOfferE.getItemEntity().getItemName());
             userBuyerOfferVec.add(String.format ("%,.2f", userBuyerOfferE.getItemEntity().getItemPrice()));
@@ -915,6 +1030,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             userBuyerOfferVec.add(userBuyerOfferE.getBuyerItemOfferStatus());
             userBuyerOfferVec.add(userBuyerOfferE.getSellerComments());
             userBuyerOfferVec.add(df.format(userBuyerOfferE.getItemOfferDate()));
+            userBuyerOfferVec.add(checkFeedbackGivenStatus(username, userBuyerOfferE.getItemEntity().getItemID()));
             userBuyerOfferList.add(userBuyerOfferVec);
         }
         return userBuyerOfferList;
@@ -944,13 +1060,15 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     }
     
     @Override
-    public String editPersonalItemOffer(long itemOfferID, double revisedOfferPrice) {
+    public String editPersonalItemOffer(long itemOfferID, String revisedOfferPrice) {
         if (lookupItemOffer(itemOfferID) == null) { return "Some errors occured while processing your item offer. Please try again."; }
+        else if(!isNumeric(revisedOfferPrice)) { return "Please enter a valid item offer price."; }
+        else if(Double.parseDouble(revisedOfferPrice) < 0.0 || Double.parseDouble(revisedOfferPrice) > 9999.0) { return "Item offer price must be between 0 to 9999. Please try again."; }
         else {
             ioEntity = lookupItemOffer(itemOfferID);
             ioEntity.setSellerItemOfferStatus("Pending");
             ioEntity.setBuyerItemOfferStatus("Processing");
-            ioEntity.setItemOfferPrice(revisedOfferPrice);
+            ioEntity.setItemOfferPrice(Double.parseDouble(revisedOfferPrice));
             
             mEntity = new MessageEntity();
             mEntity.createContentMessage(ioEntity.getUserEntity().getUsername(), ioEntity.getItemEntity().getUserEntity().getUsername(), 
@@ -1044,7 +1162,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     /*  ====================    USER ITEM TRANSACTIONS    ==================== */
     @Override
     public List<Vector> viewItemTransaction(String username) {
-        Query q = em.createQuery("SELECT t FROM ItemTransaction t WHERE t.userEntity.username = :username");
+        Query q = em.createQuery("SELECT t FROM ItemTransaction t WHERE t.userEntity.username = :username OR t.itemBuyerID = :username");
         q.setParameter("username", username);
         List<Vector> itemTransList = new ArrayList<Vector>();
         
@@ -1243,6 +1361,10 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return lle;
     }
     
+    public static boolean isNumeric(String strValue) {
+        return strValue.matches("-?\\d+(\\.\\d+)?");  // match a number with optional '-' and decimal
+    }
+    
     /*  ====================    MISCELLANEOUS METHODS (ITEM LIKE)    ==================== */
     public Long getItemLikeCount(long itemID) {
         Long itemLikeCount = new Long(0);
@@ -1251,7 +1373,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         try {
             itemLikeCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
-            System.out.println("Exception in MarketplaceSysUserMgrBean.getItemLikeCount().getSingleResult()");
+            System.out.println("Exception in UserProfileSysUserMgrBean.getItemLikeCount().getSingleResult()");
             ex.printStackTrace();
         }
         return itemLikeCount;
@@ -1265,7 +1387,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         try {
             positiveItemReviewCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
-            System.out.println("Exception in MarketplaceSysUserMgrBean.getPositiveItemReviewCount().getSingleResult()");
+            System.out.println("Exception in UserProfileSysUserMgrBean.getPositiveItemReviewCount().getSingleResult()");
             ex.printStackTrace();
         }
         return positiveItemReviewCount;
@@ -1278,7 +1400,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         try {
             neutralItemReviewCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
-            System.out.println("Exception in MarketplaceSysUserMgrBean.getNeutralItemReviewCount().getSingleResult()");
+            System.out.println("Exception in UserProfileSysUserMgrBean.getNeutralItemReviewCount().getSingleResult()");
             ex.printStackTrace();
         }
         return neutralItemReviewCount;
@@ -1291,7 +1413,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         try {
             positiveItemReviewCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
-            System.out.println("Exception in MarketplaceSysUserMgrBean.getNegativeItemReviewCount().getSingleResult()");
+            System.out.println("Exception in UserProfileSysUserMgrBean.getNegativeItemReviewCount().getSingleResult()");
             ex.printStackTrace();
         }
         return positiveItemReviewCount;
@@ -1305,9 +1427,45 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         try {
             pendingItemOfferCount = (Long) q.getSingleResult();
         } catch (Exception ex) {
-            System.out.println("Exception in MarketplaceSysUserMgrBean.getPendingItemOfferCount().getSingleResult()");
+            System.out.println("Exception in UserProfileSysUserMgrBean.getPendingItemOfferCount().getSingleResult()");
             ex.printStackTrace();
         }
         return pendingItemOfferCount;
+    }
+    
+    /*  ====================    MISCELLANEOUS METHODS (ITEM REVIEW)    ==================== */
+    public Long getReviewCountForEveryItemOffer(String transUserIDOne, String transUserIDTwo, long itemOfferID) {
+        Long reviewCountForEveryItemOffer = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(ir.itemReviewID) FROM ItemReview ir WHERE ir.itemOfferEntity.itemOfferID = :itemOfferID AND (ir.userEntity.username = :transUserIDOne AND ir.itemReceiverID = :transUserIDTwo) OR (ir.userEntity.username = :transUserIDTwo AND ir.itemReceiverID = :transUserIDOne)");
+        q.setParameter("itemOfferID", itemOfferID);
+        q.setParameter("transUserIDOne", transUserIDOne);
+        q.setParameter("transUserIDTwo", transUserIDTwo);
+        try {
+            reviewCountForEveryItemOffer = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in UserProfileSysUserMgrBean.getReviewCountForEveryItemOffer().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return reviewCountForEveryItemOffer;
+    }
+    
+    public boolean checkFeedbackGivenStatus(String feedbackProviderID, long itemID) {
+        boolean checkStatus = false;
+        Long checkFeedbackCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(ir.itemReviewID) FROM ItemReview ir WHERE ir.itemEntity.itemID = :itemID AND ir.userEntity.username = :feedbackProviderID");
+        q.setParameter("itemID", itemID);
+        q.setParameter("feedbackProviderID", feedbackProviderID);
+        try {
+            checkFeedbackCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in UserProfileSysUserMgrBean.checkProvideFeedbackStatus().getSingleResult()");
+            ex.printStackTrace();
+        }
+        if(checkFeedbackCount == 1) {
+            checkStatus = true;
+        } else if(checkFeedbackCount == 0) {
+            checkStatus = false;
+        }
+        return checkStatus;
     }
 }

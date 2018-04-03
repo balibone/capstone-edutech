@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - Marketplace Offer List</title>
+        <title>Unify - My Marketplace Transaction Details</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
@@ -19,16 +19,8 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/weblayout/marketplace/PendingItemOfferListSYSCSS.css" rel="stylesheet" type="text/css" />
-
-        <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.checkbox-dropdown.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/userprofile/UserItemTransactionDetailsSYSCSS.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -187,7 +179,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Pending Item Offer</li>
+                            <li class="breadcrumb-item active" aria-current="page">My Marketplace Transaction Details</li>
                         </ol>
                     </nav>
                 </div>
@@ -260,118 +252,174 @@
                     </div>
 
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Marketplace Offer List</span></div>
-                        
+                        <div class="title"><span>My Marketplace Transaction Details</span></div>
+                        <%
+                            Vector itemTransDetailsSYSVec = (Vector) request.getAttribute("itemTransDetailsSYSVec");
+                            String itemID, itemName, itemCategoryName, itemPrice, itemCondition, itemDescription, itemImage, itemStatus, itemNumOfLikes, itemLikeStatus;
+                            itemID = itemName = itemCategoryName = itemPrice = itemCondition = itemDescription = itemImage = itemStatus = itemNumOfLikes = itemLikeStatus = "";
+
+                            String itemPostingDate, tradeLocation, tradeLat, tradeLong, tradeInformation, itemSellerID, itemSellerImage, itemSellerJoinDate;
+                            itemPostingDate = tradeLocation = tradeLat = tradeLong = tradeInformation = itemSellerID = itemSellerImage = itemSellerJoinDate = "";
+
+                            String itemTransactionDate, itemBuyerID, itemBuyerImage, itemBuyerJoinDate, itemTransactionPrice;
+                            itemTransactionDate = itemBuyerID = itemBuyerImage = itemBuyerJoinDate = itemTransactionPrice = "";
+
+                            String itemSellerPositive, itemSellerNeutral, itemSellerNegative, itemBuyerPositive, itemBuyerNeutral, itemBuyerNegative;
+                            itemSellerPositive = itemSellerNeutral = itemSellerNegative = itemBuyerPositive = itemBuyerNeutral = itemBuyerNegative = "";
+
+                            if (itemTransDetailsSYSVec != null) {
+                                /* ITEM INFORMATION */
+                                itemID = (String.valueOf(itemTransDetailsSYSVec.get(0)));
+                                itemName = (String) itemTransDetailsSYSVec.get(1);
+                                itemCategoryName = (String) itemTransDetailsSYSVec.get(2);
+                                itemPrice = (String.valueOf(itemTransDetailsSYSVec.get(3)));
+                                itemCondition = (String) itemTransDetailsSYSVec.get(4);
+                                itemDescription = (String) itemTransDetailsSYSVec.get(5);
+                                itemImage = (String) itemTransDetailsSYSVec.get(6);
+                                itemStatus = (String) itemTransDetailsSYSVec.get(7);
+                                itemNumOfLikes = (String.valueOf(itemTransDetailsSYSVec.get(8)));
+                                itemLikeStatus = (String.valueOf(itemTransDetailsSYSVec.get(9)));
+                                itemPostingDate = (String.valueOf(itemTransDetailsSYSVec.get(10)));
+                                /* TRADE INFORMATION */
+                                tradeLocation = (String) itemTransDetailsSYSVec.get(11);
+                                tradeLat = (String) itemTransDetailsSYSVec.get(12);
+                                tradeLong = (String) itemTransDetailsSYSVec.get(13);
+                                tradeInformation = (String) itemTransDetailsSYSVec.get(14);
+                                /* ITEM SELLER INFORMATION */
+                                itemSellerID = (String.valueOf(itemTransDetailsSYSVec.get(15)));
+                                itemSellerImage = (String) itemTransDetailsSYSVec.get(16);
+                                itemSellerJoinDate = (String.valueOf(itemTransDetailsSYSVec.get(17)));
+                                itemSellerPositive = (String.valueOf(itemTransDetailsSYSVec.get(18)));
+                                itemSellerNeutral = (String.valueOf(itemTransDetailsSYSVec.get(19)));
+                                itemSellerNegative = (String.valueOf(itemTransDetailsSYSVec.get(20)));
+                                /* ITEM TRANSACTION + ITEM BUYER INFORMATION */
+                                itemTransactionDate = (String.valueOf(itemTransDetailsSYSVec.get(21)));
+                                itemBuyerID = (String.valueOf(itemTransDetailsSYSVec.get(22)));
+                                itemBuyerImage = (String) itemTransDetailsSYSVec.get(23);
+                                itemBuyerJoinDate = (String.valueOf(itemTransDetailsSYSVec.get(24)));
+                                itemBuyerPositive = (String.valueOf(itemTransDetailsSYSVec.get(25)));
+                                itemBuyerNeutral = (String.valueOf(itemTransDetailsSYSVec.get(26)));
+                                itemBuyerNegative = (String.valueOf(itemTransDetailsSYSVec.get(27)));
+                                itemTransactionPrice = (String.valueOf(itemTransDetailsSYSVec.get(28)));
+                            }
+                        %>
                         <form class="form-horizontal" action="MarketplaceSysUser" method="POST">
                             <div class="formDiv">
-                                <div class="form-row" style="padding: 5px 0 30px 0;">
-                                    <div class="jplist-search sorting-bar">
-                                        <button class="btn btn-outline-theme btn-block dropdown-toggle d-md-none mt-2" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                                            Search Filter
-                                        </button>
-                                        <div class="collapse d-md-block pt-3 pt-md-0" id="collapseFilter">
-                                            <div class="mt-2" remove-class-on-xs="mt-2" add-class-on-xs="w-100">
-                                                <span>Item Name:</span>
-                                                <input type="text" data-path=".itemName" class="searchInputText w-25" placeholder="Search Item ..." 
-                                                       remove-class-on-xs="w-25" add-class-on-xs="w-100" aria-label="Search Item ..." 
-                                                       data-control-type="textbox" data-control-action="filter" />
-                                            </div>
-                                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
-                                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
-                                                <ul>
-                                                    <li><span data-path=".pendingItemOfferCount" data-order="desc" data-type="number" data-default="true">Pending Offer Desc</span></li>
-                                                    <li><span data-path=".pendingItemOfferCount" data-order="asc" data-type="number">Pending Offer Asc</span></li>
-                                                    <li><span data-path=".totalItemOfferCount" data-order="desc" data-type="number">Total Offer Desc</span></li>
-                                                    <li><span data-path=".totalItemOfferCount" data-order="asc" data-type="number">Total Offer Asc</span></li>
-                                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Item Price Asc</span></li>
-                                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Item Price Desc</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
-                                                 data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
-                                                <ul>
-                                                    <li><span data-number="2" data-default="true">2 per page</span></li>
-                                                    <li><span data-number="4">4 per page</span></li>
-                                                    <li><span data-number="8">8 per page</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="jplist-checkbox-dropdown" data-control-type="checkbox-dropdown" 
-                                                 data-control-name="category-checkbox-dropdown" data-control-action="filter" 
-                                                 data-no-selected-text="Item Condition" data-one-item-text="{num} selected" 
-                                                 data-many-items-text="{num} selected">
-                                                <ul>
-                                                    <li>
-                                                        <input data-path=".New" id="Pending" type="checkbox" />
-                                                        <label for="New">New</label>
-                                                    </li>
-                                                    <li>
-                                                        <input data-path=".Used" id="Processing" type="checkbox" />
-                                                        <label for="Used">Used</label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                                <div class="form-row media">
+                                    <img class="img-thumbnail" src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width:50px;height:50px;"/>
+                                    <div class="media-body ml-3">
+                                        <input type="hidden" id="hiddenItemID" value="<%= itemID%>" />
+                                        <h5 class="user-name"><strong><%= itemName%></strong></h5>
+                                        <p class="card-text mb-0">$<%= itemPrice%></p>
+                                        <p class="card-text mb-3">Item Condition:&nbsp;&nbsp;
+                                            <%  if (itemCondition.equals("New")) { %>
+                                            <span class="badge badge-success custom-badge"><%= itemCondition%></span>
+                                            <%  } else if (itemCondition.equals("Used")) { %>
+                                            <span class="badge badge-danger custom-badge"><%= itemCondition%></span>
+                                            <%  }   %>
+                                        </p>
                                     </div>
-                                    <div class="list searchresult-row">
-                                        <%
-                                            ArrayList<Vector> userMarketplaceOfferListSYS = (ArrayList) request.getAttribute("userMarketplaceOfferListSYS");
-                                            if (!userMarketplaceOfferListSYS.isEmpty()) {
-                                                for (int i = 0; i <= userMarketplaceOfferListSYS.size()-1; i++) {
-                                                    Vector v = userMarketplaceOfferListSYS.get(i);
-                                                    String itemID = String.valueOf(v.get(0));
-                                                    String pendingItemOfferCount = String.valueOf(v.get(1));
-                                                    String totalItemOfferCount = String.valueOf(v.get(2));
-                                                    String itemName = String.valueOf(v.get(3));
-                                                    String itemImage = String.valueOf(v.get(4));
-                                                    String itemPrice = String.valueOf(v.get(5));
-                                                    String itemCondition = String.valueOf(v.get(6));
-                                        %>
-                                        <div class="col-sm-6 pl-1 pr-1 list-item">
-                                            <div class="card">
-                                                <div class="card-body media">
-                                                    <img class="img-circle pull-left mr-3 d-flex align-self-start" src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width:70px;height:70px;" />
-                                                    <div class="media-body">
-                                                        <span class="itemName"><strong class="text-primary"><%= itemName%></strong></span>
-                                                        <ul class="offerAction">
-                                                            <%  if(!pendingItemOfferCount.equals("0")){    %>
-                                                            <li><span class="card-text">Pending Offers:&nbsp;<span class="pendingItemOfferCount" style="color:#FF0000;"><strong><%= pendingItemOfferCount%></strong></span></span></li>
-                                                            <%  } else {    %>
-                                                            <li><span class="card-text">Pending Offers:&nbsp;<span class="pendingItemOfferCount"><strong><%= pendingItemOfferCount%></strong></span></span></li>
-                                                            <%  }   %>
-                                                            <li><span class="card-text">Total Offers:&nbsp;<span class="totalItemOfferCount"><strong><%= totalItemOfferCount%></strong></span></span></li>
-                                                        </ul>
-                                                        <p class="card-text mb-0 pt-3" style="font-size:12px;">
-                                                            Item Condition:&nbsp;
-                                                            <%  if(itemCondition.equals("New")) {  %>
-                                                            <span class="badge badge-success custom-badge arrowed-left <%= itemCondition%>"><%= itemCondition%></span>
-                                                            <%  } else if(itemCondition.equals("Used")) { %>
-                                                            <span class="badge badge-primary custom-badge arrowed-left <%= itemCondition%>"><%= itemCondition%></span>
-                                                            <%  }   %>
-                                                        </p>
-                                                        <p class="card-text text-success mb-0 itemPrice" style="font-size:16px;">
-                                                            <strong>$<%= itemPrice%></strong>
-                                                        </p>
-                                                        <ul class="offerAction mt-2">
-                                                            <li><button type="button" class="btn btn-theme btn-sm" onclick="location.href='MarketplaceSysUser?pageTransit=goToMsgViewItemDetailsSYS&itemHidID=<%= itemID%>'">View Item Details</button></li>
-                                                            <li><button type="button" class="btn btn-theme btn-sm" onclick="location.href='ProfileSysUser?pageTransit=goToPendingItemOfferDetailsSYS&urlitemID=<%= itemID%>'">See Offers</button></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                            </div>
+                            <div class="formDiv">
+                                <div class="form-row" style="padding: 20px 0 30px 0;">
+                                    <ul class="nav nav-tabs w-100" role="tablist">
+                                        <li class="nav-item"><a class="nav-link text-default active" id="tradeInfo-tab" data-toggle="tab" href="#tradeInfoPane" role="tab" aria-controls="tradeInfoPane" aria-selected="true">Trade Information</a></li>
+                                        <li class="nav-item"><a class="nav-link text-default" id="transactionInfo-tab" data-toggle="tab" href="#transactionInfoPane" role="tab" aria-controls="transactionInfoPane" aria-selected="false">Transaction Information</a></li>
+                                    </ul>
+                                    <div class="tab-content w-100">
+                                        <div class="tab-pane border border-top-0 p-3 show active" id="tradeInfoPane" role="tabpanel" aria-labelledby="tradeInfo-tab">
+                                            <table class="table table-bordered mb-0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Seller Information</td>
+                                                        <td>
+                                                            <div class="media mb-2">
+                                                                <div class="mr-2">
+                                                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" style="width:50px;height:50px;"  />
+                                                                </div>
+                                                                <div class="media-body col-md-12">
+                                                                    <h5 class="sellerInfo"><%= itemSellerID%></h5>
+                                                                    Joined on <%= itemSellerJoinDate%><br/>
+                                                                    <hr/>
+                                                                    <div class="rating">
+                                                                        <ul class="profileRating">
+                                                                            <li><img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%= itemSellerPositive%></span></li>
+                                                                            <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%= itemSellerNeutral%></span></li>
+                                                                            <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%= itemSellerNegative%></span></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Item Category</td>
+                                                        <td><%= itemCategoryName%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Item Description</td>
+                                                        <td><%= itemDescription%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Item Posted Date</td>
+                                                        <td><%= itemPostingDate%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Trade Location</td>
+                                                        <td>
+                                                            <input type="hidden" id="tradeLocation" value="<%= tradeLocation%>" />
+                                                            <input type="hidden" id="tradeLat" value="<%= tradeLat%>" />
+                                                            <input type="hidden" id="tradeLong" value="<%= tradeLong%>" />
+                                                            <%= tradeLocation%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Trade Location Map</td>
+                                                        <td><div id="mapdiv" style="width: auto; height: 300px;"></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Trade Information</td>
+                                                        <td><%= tradeInformation%></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
-                                        <%      }   %>
-                                        <%  }%>
-                                    </div>
-                                    <div class="box jplist-no-results text-shadow align-center">
-                                        <p><strong>No results found. Please refine your search.</strong></p>
-                                    </div>
-                                    <div class="jplist-search">
-                                        <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
-                                             data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
-                                        </div>
-                                        <div class="jplist-pagination" data-control-animate-to-top="true" 
-                                             data-control-type="pagination" data-control-name="paging" data-control-action="paging">
+                                        <div class="tab-pane border border-top-0 p-3" id="transactionInfoPane" role="tabpanel" aria-labelledby="transactionInfo-tab">
+                                            <table class="table table-bordered mb-0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Buyer Information</td>
+                                                        <td>
+                                                            <div class="media mb-2">
+                                                                <div class="mr-2">
+                                                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= itemBuyerImage%>" style="width:50px;height:50px;" />
+                                                                </div>
+                                                                <div class="media-body col-md-12">
+                                                                    <h5 class="sellerInfo"><%= itemBuyerID%></h5>
+                                                                    Joined on <%= itemBuyerJoinDate%><br/>
+                                                                    <hr/>
+                                                                    <div class="rating">
+                                                                        <ul class="profileRating">
+                                                                            <li><img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%= itemBuyerPositive%></span></li>
+                                                                            <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%= itemBuyerNeutral%></span></li>
+                                                                            <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%= itemBuyerNegative%></span></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Item Transaction Date</td>
+                                                        <td><%= itemTransactionDate%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Item Transaction Price</td>
+                                                        <td>$<%= itemTransactionPrice%></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -446,17 +494,7 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/marketplace/PendingItemOfferListSYSJS.js" type="text/javascript"></script>
-
-        <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-toggle-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.history-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.jquery-ui-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.pagination-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.sort-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.textbox-filter.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.checkbox-dropdown.min.js"></script>
+        <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/userprofile/UserItemTransactionDetailsSYSJS.js" type="text/javascript"></script>
     </body>
 </html>

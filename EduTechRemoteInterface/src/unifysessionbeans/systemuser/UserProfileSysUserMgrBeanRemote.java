@@ -32,10 +32,14 @@ public interface UserProfileSysUserMgrBeanRemote {
     public String negotiateAnItemOffer(long itemOfferID, String sellerComments);
     public String rejectAnItemOffer(long itemOfferID);
     public String completeAnItemOffer(long itemOfferID, String itemStatus);
+    public String reopenAnItemOffer(long itemOfferID, String itemStatus);
+    public String provideTransFeedback(String username, long itemOfferID, String transactionRating);
+    
     /* OFFERS MADE BY THE USER (BUYER) HIMSELF */ 
+    public Vector viewUserMarketplaceRatingInfo(String username);
     public List<Vector> viewPersonalBuyerOfferList(String username);
     public String cancelPersonalItemOffer(long itemOfferID);
-    public String editPersonalItemOffer(long itemOfferID, double revisedOfferPrice);
+    public String editPersonalItemOffer(long itemOfferID, String revisedOfferPrice);
     
     /*  ====================    MISCELLANEOUS METHODS (USER PROFILE)    ==================== */
     public List<Vector> viewUserItemList(String username, String itemSellerID);

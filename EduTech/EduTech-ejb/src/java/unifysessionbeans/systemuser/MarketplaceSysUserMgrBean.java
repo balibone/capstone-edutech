@@ -410,8 +410,8 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             iEntity = lookupItem(itemID);
             itemBuyerOfferEntity = lookupUnifyUser(username);
             itemSellerEntity = lookupUnifyUser(lookupItem(itemID).getUserEntity().getUsername());
-            ioEntity = new ItemOfferEntity();
             
+            ioEntity = new ItemOfferEntity();
             if(ioEntity.createItemOffer(Double.parseDouble(itemOfferPrice), itemOfferDescription)) {
                 ioEntity.setItemEntity(iEntity);
                 ioEntity.setUserEntity(itemBuyerOfferEntity);

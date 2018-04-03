@@ -198,20 +198,20 @@
                     </div>
                 </div>
             </div>
-            <a href="#top" class="back-top text-center" ="$('body,html').animate({scrollTop: 0}, 500); return false">
+            <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="sellNewItem-iframe"></div>
+            
+            <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
+            <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/webjs/marketplace/ProximityItemListingSYSJS.js" type="text/javascript"></script>
         </div>
-        
-        <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
-        <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/marketplace/ProximityItemListingSYSJS.js" type="text/javascript"></script>
     </body>
 </html>
