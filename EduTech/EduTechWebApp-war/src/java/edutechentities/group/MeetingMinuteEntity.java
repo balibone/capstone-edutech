@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,7 +31,7 @@ public class MeetingMinuteEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+    @XmlTransient
     @ManyToOne
     private ScheduleItemEntity meeting;
     private LocalDateTime startTime;

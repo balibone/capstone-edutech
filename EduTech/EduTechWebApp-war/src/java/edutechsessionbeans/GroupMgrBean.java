@@ -77,8 +77,13 @@ public class GroupMgrBean {
         }
     }
 
-    public MeetingMinuteEntity createMeetingMinutes(MeetingMinuteEntity mm) {
-        em.persist(mm);
+    public MeetingMinuteEntity createMeetingMinute(MeetingMinuteEntity mm) {
+        ScheduleItemEntity meeting = em.find(ScheduleItemEntity.class, mm.getMeeting().getId());
+        if(meeting!=null){
+            //assign meeting to schedule item
+            mm.setMeeting(meeting);
+            em.persist(mm);
+        }
         return mm;
     }
 
@@ -98,8 +103,15 @@ public class GroupMgrBean {
         return em.find(MMAgendaEntity.class, id);
     }
 
-    public MMAgendaEntity createMMAgenda(MMAgendaEntity agenda) {
-        em.persist(agenda);
+    public MMAgendaEntity createMMAgenda(MMAgendaEntity agenda, String mmId) {
+        MeetingMinuteEntity mm = em.find(MeetingMinuteEntity.class,Long.valueOf(mmId));
+        if(mm!=null){
+            //assign agendas to mm;
+            mm.getAgendas().add(agenda);
+            em.persist(agenda);
+        }else{
+            agenda.setTitle("WARNING: MEETING MINUTE ID IS INCORRECT! AGENDA NOT CREATED.");
+        }
         return agenda;
     }
 

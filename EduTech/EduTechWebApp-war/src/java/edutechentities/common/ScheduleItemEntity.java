@@ -54,7 +54,7 @@ public class ScheduleItemEntity implements Serializable {
     private LocalDateTime createdAt;
     @XmlElement
     @XmlInverseReference(mappedBy = "meeting")
-    private List<MeetingMinuteEntity> meetingMinutes;
+    private MeetingMinuteEntity meetingMinute;
     
     public ScheduleItemEntity() {
         this.title = "";
@@ -68,7 +68,7 @@ public class ScheduleItemEntity implements Serializable {
         this.groupId = 0;
         this.createdBy = null;
         this.createdAt = LocalDateTime.now();
-        this.meetingMinutes = new ArrayList<>();
+        this.meetingMinute = null;
     }
     
     public Long getId() {
@@ -192,12 +192,12 @@ public class ScheduleItemEntity implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public List<MeetingMinuteEntity> getMeetingMinutes() {
-        return meetingMinutes;
+    public MeetingMinuteEntity getMeetingMinute() {
+        return meetingMinute;
     }
 
-    public void setMeetingMinutes(List<MeetingMinuteEntity> meetingMinutes) {
-        this.meetingMinutes = meetingMinutes;
+    public void setMeetingMinute(MeetingMinuteEntity meetingMinute) {
+        this.meetingMinute = meetingMinute;
     }
     
 }

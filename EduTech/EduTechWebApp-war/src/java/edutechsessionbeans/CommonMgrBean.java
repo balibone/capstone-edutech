@@ -96,9 +96,9 @@ public class CommonMgrBean {
     public ScheduleItemEntity createScheduleItem(ScheduleItemEntity entity) {
         entity.setCreatedAt(LocalDateTime.parse(getCurrentISODate()));
         // get proper User - initially json createdBy only contains a username key
-        UserEntity user = (UserEntity) entity.getCreatedBy();
+        UserEntity user = em.find(UserEntity.class,entity.getCreatedBy().getUsername());
         //Set assignedTo
-        Collection<UserEntity> assignedTo = new ArrayList(); 
+        Collection<UserEntity> assignedTo = entity.getAssignedTo(); 
         switch(entity.getItemType()) {
             case "personal":
                 assignedTo.add(user); 
@@ -111,7 +111,6 @@ public class CommonMgrBean {
                 assignedTo.add(user); 
                 break;
         }
-        entity.setAssignedTo(assignedTo);
         //persist
         em.persist(entity);
         return entity;
@@ -625,7 +624,7 @@ public class CommonMgrBean {
                     lessons.remove(lesson);
                 }
             }
-            lesson.setMeetingMinutes(null);
+            lesson.setMeetingMinute(null);
             lesson.setCreatedBy(null);
             lesson.setAssignedTo(null);
             lesson.setResources(null);
