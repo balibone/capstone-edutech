@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edutechentities.group;
+package edutechentities;
 
-import commoninfraentities.UserEntity;
-import edutechentities.common.AttachmentEntity;
-import edutechentities.common.ScheduleItemEntity;
+import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +20,6 @@ import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
@@ -34,8 +31,7 @@ public class MeetingMinuteEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @XmlElement
-    @XmlInverseReference(mappedBy = "meetingMinute")
+    @OneToOne(mappedBy = "meetingMinute")
     private ScheduleItemEntity meeting;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

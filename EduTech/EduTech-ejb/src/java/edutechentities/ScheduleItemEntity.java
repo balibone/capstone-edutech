@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  *
@@ -27,8 +28,7 @@ import javax.persistence.Temporal;
  */
 @Entity(name = "ScheduleItem")
 public class ScheduleItemEntity implements Serializable {
-
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+@Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     @Lob
@@ -44,7 +44,9 @@ public class ScheduleItemEntity implements Serializable {
     @ManyToOne
     private UserEntity createdBy;
     private LocalDateTime createdAt;
-
+    @OneToOne
+    private MeetingMinuteEntity meetingMinute;
+    
     public ScheduleItemEntity() {
         this.title = "";
         this.description = "";
@@ -57,6 +59,7 @@ public class ScheduleItemEntity implements Serializable {
         this.groupId = 0;
         this.createdBy = null;
         this.createdAt = LocalDateTime.now();
+        this.meetingMinute = null;
     }
     
     public Long getId() {
@@ -178,6 +181,14 @@ public class ScheduleItemEntity implements Serializable {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public MeetingMinuteEntity getMeetingMinute() {
+        return meetingMinute;
+    }
+
+    public void setMeetingMinute(MeetingMinuteEntity meetingMinute) {
+        this.meetingMinute = meetingMinute;
     }
     
 }

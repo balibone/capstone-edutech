@@ -36,28 +36,28 @@ public class GroupREST {
     GroupMgrBean etr;
     
     @GET 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<GroupEntity> getAllGroups() {
         return etr.getAllGroups();
     }
     
     @GET 
     @Path("module/{moduleCode}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<GroupEntity> getAllGroupsForModule(@PathParam("moduleCode") String moduleCode) {
         return etr.getAllGroupsForModule(moduleCode);
     }
     
     @POST 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public GroupEntity createGroup(GroupEntity group) {
         return etr.createGroup(group);
     }
     
     @DELETE 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<GroupEntity> deleteGroup(@PathParam("id") String id) {
         etr.deleteGroup(id);
         return etr.getAllGroups();
@@ -65,8 +65,8 @@ public class GroupREST {
     
     @PUT 
     @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<GroupEntity> editGroup(@PathParam("id") String id, GroupEntity entity) {
         etr.editGroup(id, entity);
         return etr.getAllGroups();
@@ -74,37 +74,37 @@ public class GroupREST {
     
     @PUT 
     @Path("join/{id}/{username}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public GroupEntity joinGroup(@PathParam("id") String id, @PathParam("username") String username) {
         return etr.joinGroup(id, username);
     }
     
     @PUT 
     @Path("leave/{id}/{username}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public GroupEntity leaveGroup(@PathParam("id") String id, @PathParam("username") String username) {
         return etr.leaveGroup(id, username);
     }
     
     @GET 
     @Path("user/{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<GroupEntity> getUserGroups(@PathParam("id") String id) {
         return etr.findUserGroups(id);
     }
     
     @GET 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public GroupEntity getOneGroup(@PathParam("id") String id) {
         return etr.findGroup(id);
     }
     
     @GET 
     @Path("members/{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<UserEntity> getGroupMembers(@PathParam("id") String id) {
         return etr.findGroupMembers(id);
     }

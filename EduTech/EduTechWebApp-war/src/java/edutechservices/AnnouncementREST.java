@@ -34,51 +34,51 @@ public class AnnouncementREST {
     CommonMgrBean cmb;
     
     @GET 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<AnnouncementEntity> getAllAnnouncements() {
         return cmb.getAllAnnouncements();
     }
     
     @GET 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public AnnouncementEntity getOneAnnouncement(@PathParam("id") String id){
         return cmb.getOneAnnouncement(Long.valueOf(id));
     }
     
     @GET 
     @Path("user/{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<AnnouncementEntity> getUserAnnouncements(@PathParam("id") String userId) {
         return cmb.getUserAnnouncements(userId);
     }
     
     @POST 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
         return cmb.createAnnouncement(ann);
     }
     
     @DELETE 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public void deleteAnnouncement(@PathParam("id") String id) {
         cmb.deleteAnnouncement(id);
     }
     
     @PUT 
     @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public AnnouncementEntity editAnnouncement(@PathParam("id") String id, AnnouncementEntity replacement){
         return cmb.editAnnouncement(id, replacement);
     }
     
     @PUT 
     @Path("seen/{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public AnnouncementEntity addUserToSeenBy(@PathParam("id") String id, UserEntity user){
         return cmb.addUserToSeenBy(id,user);
     }

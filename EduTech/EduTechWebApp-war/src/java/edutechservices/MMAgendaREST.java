@@ -36,29 +36,29 @@ public class MMAgendaREST {
     GroupMgrBean etr;
     
     @GET 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<MMAgendaEntity> getAllMMAgendas(@PathParam("id") String id) {
         return etr.getAllMMAgendas();
     }
     
     @GET 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public MMAgendaEntity getOneMMAgenda(@PathParam("id") String id){
         return etr.getOneMMAgenda(Long.valueOf(id));
     }
     
     @POST 
     @Path("{mmId}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public MMAgendaEntity createMMAgenda(MMAgendaEntity agenda, @PathParam("mmId") String mmId) {
         return etr.createMMAgenda(agenda,mmId);
     }
     
     @DELETE 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<MMAgendaEntity> deleteMMAgenda(@PathParam("id") String id) {
         etr.deleteMMAgenda(Long.valueOf(id));
         return etr.getAllMMAgendas();
@@ -66,8 +66,8 @@ public class MMAgendaREST {
     
     @PUT 
     @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public MMAgendaEntity editMMAgenda(@PathParam("id") String id, MMAgendaEntity replacement){
         return etr.editMMAgenda(Long.valueOf(id), replacement);
     }

@@ -38,29 +38,29 @@ public class IdeaREST {
     CommonMgrBean cmb;
     
     @GET 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<IdeaEntity> getAllIdeas() {
         return cmb.getAllIdeas();
     }
     
     @GET 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public IdeaEntity getOneIdea(@PathParam("id") String id){
         return cmb.getOneIdea(Long.valueOf(id));
     }
     
     
     @POST 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public IdeaEntity createIdea(IdeaEntity idea) {
         return cmb.createIdea(idea);
     }
     
     @DELETE 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<IdeaEntity> deleteIdea(@PathParam("id") String id) {
         cmb.deleteIdea(id);
         return cmb.getAllIdeas();
@@ -68,7 +68,7 @@ public class IdeaREST {
     
     @PUT 
     @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
     public IdeaEntity editIdea(@PathParam("id") String id, IdeaEntity replacement) {
         return cmb.editIdea(id, replacement);
     }

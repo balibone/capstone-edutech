@@ -33,23 +33,23 @@ public class RecurringEventREST{
     CommonMgrBean crmb;
     
     @POST 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public RecurringEventEntity createRecurringEvent(RecurringEventEntity entity) {
         return crmb.createRecurringEvent(entity);
     }
 
     @PUT 
     @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public RecurringEventEntity editRecurringEvent(@PathParam("id") Long id, RecurringEventEntity entity) {
         return crmb.editRecurringEvent(id,entity);
     }
 
     @DELETE 
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<RecurringEventEntity> removeRecurringEvent(@PathParam("id") Long id) {
         crmb.removeRecurringEvent(id);
         return crmb.getAllRecurringEvents();
@@ -57,13 +57,13 @@ public class RecurringEventREST{
 
     @GET 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public RecurringEventEntity getOneRecurringEvent(@PathParam("id") Long id) {
         return crmb.getOneRecurringEvent(id);
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<RecurringEventEntity> getAllRecurringEvents() {
         return crmb.getAllRecurringEvents();
     }
