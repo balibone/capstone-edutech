@@ -73,19 +73,37 @@ public class GroupMgrBean {
     public void deleteMeetingMinute(Long id) {
         MeetingMinuteEntity mm = em.find(MeetingMinuteEntity.class, id);
         if(mm!=null){
+            mm.setAgendas(null);
+            mm.setAttachments(null);
+            mm.setAttendees(null);
+            mm.getMeeting().setMeetingMinute(null);
+            mm.setMeeting(null);
             em.remove(mm);
         }
     }
 
-    public MeetingMinuteEntity createMeetingMinutes(MeetingMinuteEntity mm) {
-        em.persist(mm);
+    public MeetingMinuteEntity createMeetingMinute(MeetingMinuteEntity mm) {
+        ScheduleItemEntity meeting = em.find(ScheduleItemEntity.class, mm.getMeeting().getId());
+        if(meeting!=null){
+            //assign meeting to meeting minute
+            mm.setMeeting(meeting);
+            //assign meeting minute to meeting
+            meeting.setMeetingMinute(mm);
+            em.persist(mm);
+        }
         return mm;
     }
-
+    //NEED TO SUPPLY entity ID in JSON.
     public MeetingMinuteEntity editMeetingMinute(Long id, MeetingMinuteEntity replacement) {
+        ScheduleItemEntity meeting = em.find(ScheduleItemEntity.class, replacement.getMeeting().getId());
         MeetingMinuteEntity mm = em.find(MeetingMinuteEntity.class, id);
-        mm = replacement;
-        em.merge(mm);
+        if(meeting!=null && mm!=null){
+            //assign meeting to meeting minute
+            replacement.setMeeting(meeting);
+            //assign meeting minute to meeting
+            meeting.setMeetingMinute(replacement);
+            em.merge(replacement);
+        }
         return mm;
     }
 
@@ -98,22 +116,39 @@ public class GroupMgrBean {
         return em.find(MMAgendaEntity.class, id);
     }
 
-    public MMAgendaEntity createMMAgenda(MMAgendaEntity agenda) {
-        em.persist(agenda);
+    public MMAgendaEntity createMMAgenda(MMAgendaEntity agenda, String mmId) {
+        MeetingMinuteEntity mm = em.find(MeetingMinuteEntity.class,Long.valueOf(mmId));
+        if(mm!=null){
+            //assign agendas to mm;
+            mm.getAgendas().add(agenda);
+            em.persist(agenda);
+        }else{
+            agenda.setTitle("WARNING: MEETING MINUTE ID IS INCORRECT! AGENDA NOT CREATED.");
+        }
         return agenda;
     }
 
     public void deleteMMAgenda(Long id) {
         MMAgendaEntity mma= em.find(MMAgendaEntity.class, id);
+        Query q1 = em.createQuery("SELECT m FROM MeetingMinute m");
         if(mma!=null){
+            //detach agenda from all meeting minutes.
+            for(Object o : q1.getResultList()){
+                MeetingMinuteEntity mm = (MeetingMinuteEntity) o;
+                Collection<MMAgendaEntity> agendas = mm.getAgendas();
+                //if this meeting minute contains this agenda,
+                if(agendas.contains(mma)){
+                    //detach agenda.
+                    agendas.remove(mma);
+                }
+            }
             em.remove(mma);
         }
     }
 
     public MMAgendaEntity editMMAgenda(Long id, MMAgendaEntity replacement) {
         MMAgendaEntity mma = em.find(MMAgendaEntity.class, id);
-        mma = replacement;
-        em.merge(mma);
+        em.merge(replacement);
         return mma;
     }
 

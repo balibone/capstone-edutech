@@ -49,10 +49,11 @@ public class MMAgendaREST {
     }
     
     @POST 
+    @Path("{mmId}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public MMAgendaEntity createMMAgenda(MMAgendaEntity agenda) {
-        return etr.createMMAgenda(agenda);
+    public MMAgendaEntity createMMAgenda(MMAgendaEntity agenda, @PathParam("mmId") String mmId) {
+        return etr.createMMAgenda(agenda,mmId);
     }
     
     @DELETE 

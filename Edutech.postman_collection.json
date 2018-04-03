@@ -1,0 +1,2217 @@
+{
+	"info": {
+		"_postman_id": "ab0c790d-ffdd-2718-f59f-92efe4379675",
+		"name": "Edutech",
+		"description": "EduTech endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "UserREST",
+			"description": "SystemUser endpoints",
+			"item": [
+				{
+					"name": "getOneUser",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\":\"student\",\n  \"password\":\"student\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/user/instructor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"user",
+								"instructor"
+							]
+						},
+						"description": "get user details of {username}"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/user/aslkjd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"user",
+								"aslkjd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contactNum\": \"\",\n    \"email\": \"41capstone03@gmail.com\",\n    \"imgFileName\": \"1.jpg\",\n    \"userActiveStatus\": true,\n    \"userCreationDate\": \"2018-03-29T23:52:26.486+08:00\",\n    \"userFirstName\": \"tetst\",\n    \"userLastName\": \"test\",\n    \"userPassword\": \"hidden\",\n    \"userSalutation\": \"Mr.\",\n    \"userType\": \"student\",\n    \"username\": \"test1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editUser",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contactNum\": \"\",\n    \"email\": \"41capstone03@gmail.com\",\n    \"imgFileName\": \"1.jpg\",\n    \"userActiveStatus\": true,\n    \"userCreationDate\": \"2018-03-29T23:52:26.486+08:00\",\n    \"userFirstName\": \"tetst\",\n    \"userLastName\": \"test\",\n    \"userPassword\": \"hidden\",\n    \"userSalutation\": \"Mr.\",\n    \"userType\": \"student\",\n    \"username\": \"test1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/user/test1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"user",
+								"test1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TaskREST",
+			"description": "",
+			"item": [
+				{
+					"name": "findUserTasks: task/user/{username}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/task/user/hafidz",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"task",
+								"user",
+								"hafidz"
+							]
+						},
+						"description": "get all tasks assigned to {username}"
+					},
+					"response": []
+				},
+				{
+					"name": "findGroupTasks: task/group/{groupId}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/task/group/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"task",
+								"group",
+								"2"
+							]
+						},
+						"description": "get all tasks with {groupId}"
+					},
+					"response": []
+				},
+				{
+					"name": "createTask: task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"createdBy\": {\n        \"username\": \"nanda\"\n    },\n    \"type\": \"group\",\n    \"groupId\": 2,\n    \"moduleId\": 0,\n    \"progressCode\": 0,\n    \"title\": \"new task\",\n    \"verifiedAt\": \"2018-02-27T17:56Z\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/task",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"task"
+							]
+						},
+						"description": "create Task"
+					},
+					"response": []
+				},
+				{
+					"name": "editTask: task/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "   {\n        \"assignedTo\": [\n            {\n                \"username\": \"nanda\"\n            }\n        ],\n        \"createdBy\": {\n            \"username\": \"hafidz\"\n        },\n        \"groupId\": 2,\n        \"id\": 802,\n        \"moduleId\": 0,\n        \"progressCode\": 0,\n        \"title\": \"very new task 31\"\n    }"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/task/802",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"task",
+								"802"
+							]
+						},
+						"description": "edit Task with {id}"
+					},
+					"response": []
+				},
+				{
+					"name": "removeTask: task/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/task/802",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"task",
+								"802"
+							]
+						},
+						"description": "removes Task with {id}"
+					},
+					"response": []
+				},
+				{
+					"name": "updateTaskProgress: task/{id}/{progressCode}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/task/1051/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"task",
+								"1051",
+								"1"
+							]
+						},
+						"description": "set {progressCode} to Task with {id} "
+					},
+					"response": []
+				},
+				{
+					"name": "verifyTask: task/verify/{id}/{username}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/task/verify/1051/nanda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"task",
+								"verify",
+								"1051",
+								"nanda"
+							]
+						},
+						"description": "set progressCode to 3 and verifiedBy to {username} and verifiedAt to current date where Task = {id}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PostREST",
+			"description": "Post endpoints",
+			"item": [
+				{
+					"name": "findPagePosts: post/{pageId}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/post/104",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"post",
+								"104"
+							]
+						},
+						"description": "get all Post with {pageId}"
+					},
+					"response": []
+				},
+				{
+					"name": "createPost: post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"createdBy\": {\n            \"username\": \"nanda\"\n        },\n        \"isPinned\": false,\n        \"likedBy\": [],\n        \"message\": \"hihi\",\n        \"pageId\": \"104\",\n        \"replies\": []\n    }"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"post"
+							]
+						},
+						"description": "create Post"
+					},
+					"response": []
+				},
+				{
+					"name": "replyPost: post/{id}",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"createdBy\": {\n            \"username\": \"hafidz\"\n        },\n        \"isPinned\": false,\n        \"likedBy\": [],\n        \"message\": \" replyyy mengz\",\n        \"pageId\": \"104\",\n        \"replies\": []\n    }"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/post/1251",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"post",
+								"1251"
+							]
+						},
+						"description": "post a reply to Post with {id}"
+					},
+					"response": []
+				},
+				{
+					"name": "removePost: post/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/post/1252",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"post",
+								"1252"
+							]
+						},
+						"description": "delete Post with {id}"
+					},
+					"response": []
+				},
+				{
+					"name": "togglePinPost: post/pin/1251",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/post/pin/1251",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"post",
+								"pin",
+								"1251"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "group",
+			"description": "Group endpoints",
+			"item": []
+		},
+		{
+			"name": "ScheduleItemREST",
+			"description": "",
+			"item": [
+				{
+					"name": "findUserScheduleItems: scheduleitem/user/{username}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem/user/student",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"scheduleitem",
+								"user",
+								"student"
+							]
+						},
+						"description": "get all ScheduleItem that are assignedTo {username}"
+					},
+					"response": []
+				},
+				{
+					"name": "findGroupMeetings: scheduleitem/group/{groupId}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem/group/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"scheduleitem",
+								"group",
+								"2"
+							]
+						},
+						"description": "get all ScheduleItem where type=Meetings AND  groupId={groupId}"
+					},
+					"response": []
+				},
+				{
+					"name": "createScheduleItem: scheduleitem",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"createdBy\": {\n        \"username\": \"superadmin\"\n    },\n    \"description\": \"IMPORTANT MEETING\",\n    \"groupId\": 2,\n    \"title\": \"impt pls\",\n    \"type\": \"personal\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"scheduleitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeScheduleItem: scheduleitem/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem/1302",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"scheduleitem",
+								"1302"
+							]
+						},
+						"description": "delete ScheduleItem with {id}"
+					},
+					"response": []
+				},
+				{
+					"name": "editScheduleItem: scheduleitem/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {    \"assignedTo\": [\n            {\n                \"username\": \"hafidz\"\n            }\n        ],\n        \"createdAt\": \"2018-02-28T06:22Z\",\n        \"createdBy\": {\n            \"username\": \"hafidz\"\n        },\n        \"description\": \"IMPORTANT MEETING\",\n        \"groupId\": 2,\n        \"id\": 1303,\n        \"title\": \"impt sangat pls\",\n        \"type\": \"personal\"\n    }"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem/1302",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"scheduleitem",
+								"1302"
+							]
+						},
+						"description": "Edit ScheduleItem with {id}"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllScheduleItems",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"scheduleitem",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ModuleREST",
+			"description": "",
+			"item": [
+				{
+					"name": "findAllModules: modules",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/module",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"module"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAllSemesters: semesters",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/module/IS4202",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"module",
+								"IS4202"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createModule: modules",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/module",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"module"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editModule: modules/{id} ",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/module/IS4202",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"module",
+								"IS4202"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeModule: modules",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/module/IS4202",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"module",
+								"IS4202"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserModules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/module/user/student",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"module",
+								"user",
+								"student"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SemesterREST",
+			"description": "",
+			"item": [
+				{
+					"name": "findAllSemesters: semesters",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/recurringevent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"recurringevent"
+							]
+						},
+						"description": "Hello hello"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RecurringEventREST",
+			"description": "",
+			"item": []
+		},
+		{
+			"name": "LessonREST",
+			"description": "LessonREST",
+			"item": [
+				{
+					"name": "getAllLessons",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"lesson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOneLesson",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"lesson",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createLesson",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteLesson",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson/59",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"lesson",
+								"59"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editLesson",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"meetingMinutes\": [],\n    \"id\": 54,\n    \"title\": \"LESSON\",\n    \"description\": \"2222\",\n    \"startDate\": \"enter here\",\n    \"endDate\": \"enter here\",\n    \"location\": \"2\",\n    \"assignedTo\": [],\n    \"itemType\": \"timetable\",\n    \"moduleCode\": \"mod1\",\n    \"groupId\": 0,\n    \"createdAt\": \"enter here\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson/54",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"lesson",
+								"54"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadLessonAttachment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "testAttachment",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"value": "",
+									"description": "",
+									"type": "file"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson/uploadAttachment/53",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"lesson",
+								"uploadAttachment",
+								"53"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "downloadAllLessonAttachments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/zip"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson/downloadAllAttachments/53",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"lesson",
+								"downloadAllAttachments",
+								"53"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllLessonAttachments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson/allAttachments/53",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"lesson",
+								"allAttachments",
+								"53"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "downloadOneLessonAttachment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/octet-stream"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson/downloadAttachment/53/1051",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"lesson",
+								"downloadAttachment",
+								"53",
+								"1051"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteOneLessonAttachment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson/deleteAttachment/53/1051",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"lesson",
+								"deleteAttachment",
+								"53",
+								"1051"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AttachmentREST",
+			"description": "",
+			"item": [
+				{
+					"name": "getAllAttachments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/attachment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"attachment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOneAttachment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/attachment/901",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"attachment",
+								"901"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GroupREST",
+			"description": "",
+			"item": [
+				{
+					"name": "findUserGroups: group/{username}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group/derian",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group",
+								"derian"
+							]
+						},
+						"description": "get all groups where {username} is a member"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllGroups",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllGroupsForModule",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group/module/IS4103",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group",
+								"module",
+								"IS4103"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOneGroup",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group/545",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group",
+								"545"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getGroupMembers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group/members/545",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group",
+								"members",
+								"545"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createGroup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"createdBy\": \"student\",\n    \"description\": \"newGroup\",\n    \"groupSize\": 5,\n    \"title\": \"newGroup\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "joinGroup",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group/join/1655/student",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group",
+								"join",
+								"1655",
+								"student"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "leaveGroup",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group/leave/1655/student",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group",
+								"leave",
+								"1655",
+								"student"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editGroup",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"createdAt\": \"2018-01-31 10:00:00.0\",\n    \"createdBy\": \"instructor\",\n    \"description\": \"UPDATED DESCRIPTION\",\n    \"groupSize\": 0,\n    \"id\": 545,\n    \"imagefilename\": \"group1.jpg\",\n    \"members\": [\n        {\n            \"contactNum\": \"97628068\",\n            \"email\": \"41capstone03@gmail.com\",\n            \"imgFileName\": \"5.jpg\",\n            \"userActiveStatus\": true,\n            \"userCreationDate\": \"2018-03-21T22:18:43.095+08:00\",\n            \"userFirstName\": \"James\",\n            \"userLastName\": \"Lee\",\n            \"userPassword\": \"3489b909418aec96e54689274211bf1a\",\n            \"userSalutation\": \"Mr.\",\n            \"userType\": \"student\",\n            \"username\": \"student\"\n        }\n    ],\n    \"modifiedAt\": \"2018-01-31 10:00:00.0\",\n    \"modifiedBy\": \"2018-01-31 10:00:00.0\",\n    \"moduleCode\": \"DEF456\",\n    \"title\": \"UPDATED TITLE\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group/545",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group",
+								"545"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteGroup",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group/523",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group",
+								"523"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AssignmentREST",
+			"description": "",
+			"item": [
+				{
+					"name": "getAllAssignments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"assignment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOneAssignment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/1552",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"assignment",
+								"1552"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createIndividualAssignment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"openDate\": \"2018-03-28T10:32:03.503\",\n    \"closeDate\": \"2018-04-04T10:32:03.503\",\n    \"createdBy\" : {\n      \"username\":\"superadmin\"\n    },\n    \"module\":{\n      \"moduleCode\":\"IS4103\"\n    },\n    \"title\": \"individualAss\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/individual",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"assignment",
+								"individual"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createGroupAssignment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"openDate\": \"2018-03-28T10:32:03.503\",\n    \"closeDate\": \"2018-04-04T10:32:03.503\",\n    \"createdBy\": {\n      \"username\": \"instructor\"\n  },\n    \"module\": {\n        \"moduleCode\": \"IS4103\"\n    },\n    \"title\": \"groupAss\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/group/5/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"assignment",
+								"group",
+								"5",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editAssignment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"openDate\": \"2018-03-28T10:32:03.503\",\n    \"closeDate\": \"2018-12-12T10:32:03.503\",\n    \"createdBy\": {\n      \"username\": \"instructor\"\n  },\n    \"module\": {\n        \"moduleCode\": \"IS4103\"\n    },\n    \"title\": \"editedGroupAss\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/1657",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"assignment",
+								"1657"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAssignment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/1609",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"assignment",
+								"1609"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getModuleAssignments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/module/IS4103",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"assignment",
+								"module",
+								"IS4103"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MeetingMinuteREST",
+			"description": "",
+			"item": [
+				{
+					"name": "getAllMeetingMinutes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/meetingminute",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"meetingminute"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOneMeetingMinute",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/meetingminute/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"meetingminute",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createMeetingMinute",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"meeting\":{\n\t\t\"id\":1\n\t},\n\t\"starTime\":\"2018-05-05T00:00:00\",\n\t\"endTime\":\"2018-05-05T10:00:00\",\n\t\"attendees\":[\n\t\t{\n\t        \"contactNum\": \"97628068\",\n\t        \"email\": \"41capstone03@gmail.com\",\n\t        \"imgFileName\": \"defaultPhoto.jpg\",\n\t        \"userActiveStatus\": true,\n\t        \"userCreationDate\": \"2018-04-01T01:56:52.969+08:00\",\n\t        \"userFirstName\": \"Derian\",\n\t        \"userLastName\": \"Tungka\",\n\t        \"userPassword\": \"hidden\",\n\t        \"userSalutation\": \"Mr.\",\n\t        \"userType\": \"superadmin\",\n\t        \"username\": \"superadmin\"\n    \t}\n\t],\n\t\"createdAt\":\"2018-05-01T00:00:00\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/meetingminute",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"meetingminute"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMeetingMinute",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/meetingminute/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"meetingminute",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editMeetingMinute",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":2,\n\t\"meeting\":{\n\t\t\"id\":1\n\t},\n\t\"startTime\":\"2018-12-12T00:00:00\",\n\t\"endTime\":\"2018-12-12T10:00:00\",\n\t\"attendees\":[\n\t\t{\n\t        \"contactNum\": \"97628068\",\n\t        \"email\": \"41capstone03@gmail.com\",\n\t        \"imgFileName\": \"defaultPhoto.jpg\",\n\t        \"userActiveStatus\": true,\n\t        \"userCreationDate\": \"2018-04-01T01:56:52.969+08:00\",\n\t        \"userFirstName\": \"Derian\",\n\t        \"userLastName\": \"Tungka\",\n\t        \"userPassword\": \"hidden\",\n\t        \"userSalutation\": \"Mr.\",\n\t        \"userType\": \"superadmin\",\n\t        \"username\": \"superadmin\"\n    \t}\n\t],\n\t\"createdAt\":\"2018-05-01T00:00:00\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/meetingminute/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"meetingminute",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MMAgendaREST",
+			"description": "",
+			"item": [
+				{
+					"name": "getAllMMAgendas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/agenda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"agenda"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOneMMAgenda",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/agenda/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"agenda",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createMMAgenda",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\":\"testAgenda\",\n\t\"discussion\":\"today we decided we didn't want to have breakfast, lunch or dinner. today we decided not to sleep. Tomorrow we will eat breakfast, lunch and dinner. We decided tomorrow we will sleep. \",\n\t\"conclusion\":\"we shall sleep and eat for all days to minimise coupling.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/agenda/51",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"agenda",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editMMAgenda",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":101,\n\t\"title\":\"testAgenda\",\n\t\"discussion\":\"today we decided we didn't want to have breakfast, lunch or dinner. today we decided not to sleep. Tomorrow we will eat breakfast, lunch and dinner. We decided tomorrow we will sleep. \",\n\t\"conclusion\":\"we SHALL NOT EAT OR SLEEP ON 0 days to minimise coupling.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/agenda/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"agenda",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMMAgenda",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/agenda/151",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"agenda",
+								"151"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

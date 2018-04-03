@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,6 +32,7 @@ public class PostEntity implements Serializable {
     private Long id;
     
     private String pageId;
+    @Lob
     private String message;
     @OneToMany(cascade=CascadeType.PERSIST)
     private Collection<PostEntity> replies;

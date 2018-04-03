@@ -51,8 +51,8 @@ public class MeetingMinutesREST {
     @POST 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public MeetingMinuteEntity createMeetingMinutes(MeetingMinuteEntity mm) {
-        return etr.createMeetingMinutes(mm);
+    public MeetingMinuteEntity createMeetingMinute(MeetingMinuteEntity mm) {
+        return etr.createMeetingMinute(mm);
     }
     
     @DELETE 
