@@ -84,7 +84,16 @@ public class GroupMgrBean {
 
     public MeetingMinuteEntity createMeetingMinute(MeetingMinuteEntity mm) {
         ScheduleItemEntity meeting = em.find(ScheduleItemEntity.class, mm.getMeeting().getId());
+        ArrayList<UserEntity> attendees = (ArrayList<UserEntity>) mm.getAttendees();
+        ArrayList<UserEntity> toSet = new ArrayList<>();
+        
         if(meeting!=null){
+            //extract usernames and populate with real user data.
+            for(UserEntity u : attendees){
+                UserEntity targetUser = em.find(UserEntity.class,u.getUsername());
+                toSet.add(targetUser);
+            }
+            mm.setAttendees(toSet);
             //assign meeting to meeting minute
             mm.setMeeting(meeting);
             //assign meeting minute to meeting
@@ -97,7 +106,15 @@ public class GroupMgrBean {
     public MeetingMinuteEntity editMeetingMinute(Long id, MeetingMinuteEntity replacement) {
         ScheduleItemEntity meeting = em.find(ScheduleItemEntity.class, replacement.getMeeting().getId());
         MeetingMinuteEntity mm = em.find(MeetingMinuteEntity.class, id);
+        ArrayList<UserEntity> attendees = (ArrayList<UserEntity>) replacement.getAttendees();
+        ArrayList<UserEntity> toSet = new ArrayList<>();
         if(meeting!=null && mm!=null){
+            //extract usernames and populate with real user data.
+            for(UserEntity u : attendees){
+                UserEntity targetUser = em.find(UserEntity.class,u.getUsername());
+                toSet.add(targetUser);
+            }
+            replacement.setAttendees(toSet);
             //assign meeting to meeting minute
             replacement.setMeeting(meeting);
             //assign meeting minute to meeting
