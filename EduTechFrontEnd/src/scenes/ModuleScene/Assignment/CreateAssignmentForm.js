@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
-import { Button } from 'react-bootstrap';
-import TextField from 'material-ui/TextField';
+import { Button, ControlLabel, FormControl } from 'react-bootstrap';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -11,6 +10,8 @@ import { DateTimePicker } from 'react-widgets';
 
 import 'react-widgets/dist/css/react-widgets.css';
 import './styles.css';
+
+import AssignmentStore from '../../../stores/ModuleStore/AssignmentStore';
 
 moment.locale('en');
 momentLocalizer();
@@ -32,8 +33,10 @@ class CreateAssignmentForm extends Component {
 	constructor(){
 		super()
 		this.state = {
+			title: "",
+			description: "",
 			type: "individual",
-			groupNumber: 2,
+			groupSize: 2,
 			deadline: new Date()
 		}
 	}
@@ -44,11 +47,30 @@ class CreateAssignmentForm extends Component {
 
 	handleGroupNumChange(event, index, value){
 		console.log(value)
-		this.setState({groupNumber: value})
+		this.setState({groupSize: value})
 	}
 
 	handleClose(){
 		this.props.flipShowAssignmentFormState();
+	}
+
+	createAssignment(event){
+		event.preventDefault();
+		var {title, description, type, deadline, groupSize} = this.state;
+		const currentDate = new Date();
+		const username = localStorage.getItem('username');
+		const moduleCode = this.props.moduleCode;
+		var memberSize = 0;
+		console.log("selectedModule in assignment", this.props.selectedModule)
+		if(this.props.selectedModule){
+			
+			memberSize = this.props.selectedModule.members.length;
+		}
+
+		//temporary step
+		var tempMemberSize = memberSize + 11;
+		// console.log("temp size: ", tempMemberSize);
+		AssignmentStore.createAssignment(currentDate, deadline, username, moduleCode, title, tempMemberSize, groupSize, type);
 	}
 
 	render(){
@@ -58,16 +80,22 @@ class CreateAssignmentForm extends Component {
 				<div className="text-right" >
 				    	<i className="fas fa-times fa-1x standardRightGap btnHover" onClick={this.handleClose.bind(this)}></i>
 				</div>
-				<TextField
-				  	floatingLabelText="Assignment Name"
-  				  	floatingLabelFixed={true}
-			      	hintText="Assignment Name"
-			    /><br />
-			    <TextField
-			      	floatingLabelText="Description"
-  				  	floatingLabelFixed={true}
-			      	hintText="Description"
-			    /><br />
+				<ControlLabel>Assignment Title</ControlLabel>
+		          <FormControl
+		            type="text"
+		            value={this.state.title}
+		            placeholder="Enter text"
+		            onChange={(e) => this.setState({title: e.target.value})}
+		          />
+
+		         <ControlLabel>Description</ControlLabel>
+		          <FormControl
+		            type="text"
+		            value={this.state.description}
+		            placeholder="Enter text"
+		            onChange={(e) => this.setState({description: e.target.value})}
+		          />
+
 			    <label htmlFor="deadline" >Set Deadline</label>
 			    <div id="deadling" className="smallTopGap">
 			    	<DateTimePicker
@@ -97,7 +125,7 @@ class CreateAssignmentForm extends Component {
 				    	(	
 				    		<div>
 				    		<label htmlFor="groupDropDown" style={{marginBottom: '10px'}}>Select Maximum Group Size</label>
-				    		<DropDownMenu id="groupDropDown" value={this.state.groupNumber} onChange={this.handleGroupNumChange.bind(this)}>
+				    		<DropDownMenu id="groupDropDown" value={this.state.groupSize} onChange={this.handleGroupNumChange.bind(this)}>
 					          <MenuItem value={2} primaryText="2 People" />
 					          <MenuItem value={3} primaryText="3 People" />
 					          <MenuItem value={4} primaryText="4 People" />
@@ -108,7 +136,7 @@ class CreateAssignmentForm extends Component {
 				    	):(<span></span>)
 				    }	
 			    </div>
-			    <Button className="standardTopGap" bsStyle="primary">Create Assignment</Button>
+			    <Button className="standardTopGap" bsStyle="primary" onClick={this.createAssignment.bind(this)}>Create Assignment</Button>
 			</div>
 		)
 	}

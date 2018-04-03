@@ -2,8 +2,7 @@ import {observable, computed} from 'mobx';
 
 export class Minute {
   // id = Math.random();
-  @observable id;
-  @observable scheduleItem;
+  @observable meeting;
   @observable startTime;
   @observable endTime;
   @observable attendees;
@@ -11,10 +10,11 @@ export class Minute {
   @observable createdAt;
   @observable attachments;
 
-  constructor(id, scheduleItem, startTime, endTime, attendees, agendas, createdAt, attachments) {
-      this.id = id;
-      this.scheduleItem = scheduleItem;
+  constructor(meeting, startTime, endTime, attendees, agendas, createdAt, attachments) {
+      this.meeting = meeting;
       this.startTime = startTime;
+      this.endTime = endTime;
+      this.attendees = attendees;
       this.agendas = agendas;
       this.createdAt = createdAt;
       this.attachments = attachments;

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Paper } from 'material-ui';
 import { Tabs, Tab } from 'react-bootstrap';
 import {observer} from 'mobx-react';
+import {toJS} from 'mobx';
 
 import Feed from '../../components/Feed';
 import Lesson from './Lesson';
@@ -12,22 +13,38 @@ import GroupingInstructor from './GroupingInstructor';
 import GroupingStudent from './GroupingStudent';
 
 import LessonStore from '../../stores/LessonStore/LessonStore';
+import ModuleStore from '../../stores/ModuleStore/ModuleStore';
+import GroupStore from '../../stores/GroupStore/GroupStore';  
+import AssignmentStore from '../../stores/ModuleStore/AssignmentStore';
 
 @observer
 class ModuleScene extends Component {
 
+  constructor(props){
+    super(props)
+    // let { moduleCode } = this.props.match.params;
+  }
+
   componentDidMount(){
     let { moduleCode } = this.props.match.params;
     LessonStore.getLessonsForModule(moduleCode);
-
+    ModuleStore.getOneModule(moduleCode);
+    GroupStore.populateModuleGroup(moduleCode);
+    AssignmentStore.populateModuleAssignments(moduleCode);
   }
+
   componentWillReceiveProps(newProps) {
     let { moduleCode } = newProps.match.params;
     LessonStore.getLessonsForModule(moduleCode);
+    ModuleStore.getOneModule(moduleCode);
+    // GroupStore.populateModuleGroup(moduleCode);
   }
 
   render(){
     const { match } = this.props;
+    
+    // const selectedModule = toJS(ModuleStore.selectedModule);
+    // console.log("selected module", selectedModule)
     return(
       <Paper className="standardTopGap standardBottomGap paperDefault">
         <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
@@ -38,7 +55,7 @@ class ModuleScene extends Component {
             <Lesson />
           </Tab>
           <Tab eventKey={3} title="Assignment">
-            <Assignment />
+            <Assignment moduleCode={match.params.moduleCode} />
           </Tab>
           <Tab eventKey={4} title="Grouping Instructor">
             <GroupingInstructor />

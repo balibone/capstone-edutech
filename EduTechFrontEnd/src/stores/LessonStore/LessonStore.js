@@ -119,26 +119,6 @@ class LessonStore {
       )
     }  
 
-
-
-	// getNumberOfWeeks(){
- //        axios.get('/semester')
- //        .then((res) => {
- //          const startD = moment(res.data[0].startDate);
- //          const endD = moment(res.data[0].endDate);
-
- //          console.log("d1 d2", startD)
- //          // var result = this.getNumberOfWeeks(startD, endD);
- //          var result = endD.diff(startD, 'week') + 1;
-
- //          console.log("RESULT No of Weeks: ", result);
- //        })
- //        .catch((err) => {
- //          console.log(err)
- //        })
- //    }
-
-
 }
 
 

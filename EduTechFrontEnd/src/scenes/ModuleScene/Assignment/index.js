@@ -20,6 +20,11 @@ class Assignment extends Component {
 		this.setState({showAssignmentForm: !this.state.showAssignmentForm})
 	}
 
+	getSelectedModule(moduleCode){
+		const moduleList = JSON.parse(localStorage.getItem('moduleList'));
+		return moduleList.find((module) => module.moduleCode === moduleCode)
+	}
+
 	renderCreateButton(){
 
 	    return (
@@ -35,12 +40,12 @@ class Assignment extends Component {
 
 
 	render(){
-
+		var selectedModule = this.getSelectedModule(this.props.moduleCode)
 		return(
 			<div className="standardTopGap">
 				{
 					this.state.showAssignmentForm ? 
-					<CreateAssignmentForm flipShowAssignmentFormState={this.flipShowAssignmentFormState.bind(this)}/> 
+					<CreateAssignmentForm moduleCode={this.props.moduleCode} selectedModule={selectedModule} flipShowAssignmentFormState={this.flipShowAssignmentFormState.bind(this)}/> 
 					: this.renderCreateButton() 
 				}			
 			</div>

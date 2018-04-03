@@ -1,23 +1,33 @@
 import React, {Component} from 'react';
-import {Label, Row} from 'react-bootstrap';
 import GroupingListStudent from './GroupingListStudent';
+import {toJS} from 'mobx';
+import {observer} from 'mobx-react';
 
+import GroupStore from '../../../stores/GroupStore/GroupStore';
+import AssignmentStore from '../../../stores/ModuleStore/AssignmentStore';
+
+import SingleAssignmentGroup from './SingleAssignmentGroup';
+
+@observer
 class GroupingStudent extends Component{
+
+	renderAssignmentList(){
+		const assignmentList = toJS(AssignmentStore.assignmentList);
+    	if(assignmentList.length > 0){
+    		return assignmentList.map((assignment) => 
+    			(<SingleAssignmentGroup key={assignment.id} assignment={assignment} />)
+    		)
+    	}else{
+    		return (<span>No Assignments</span>)
+    	}
+	}
+
 
 	render(){
 
 		return(
 			<div className="standardTopGap">
-				<h3>
-			    	Assignment 1A 
-			    	<h5><Label bsStyle="default">Max Group Size: 4</Label></h5>
-				</h3>
-				<Row>
-					<GroupingListStudent />
-					<GroupingListStudent />
-					<GroupingListStudent />
-					<GroupingListStudent />
-				</Row>
+				{this.renderAssignmentList()}
 			</div>
 		)
 	}

@@ -7,6 +7,8 @@ class GroupStore {
 	@observable groupList = [];
 	@observable selectedGroup = null;
 	@observable groupId;
+	@observable newGroups = [];
+	@observable moduleGrouping = [];
 
 	constructor() {
 		if (JSON.parse(localStorage.getItem('groupList')) && JSON.parse(localStorage.getItem('groupList')).length > 0) {
@@ -29,6 +31,21 @@ class GroupStore {
 		})
 	}
 
+	@action
+	populateModuleGroup(moduleCode){
+		console.log("in populate module group")
+		axios.get(`/group/module/${moduleCode}`)
+		.then((res) => {
+			console.log("populateModuleGroup", res.data);
+			this.moduleGrouping = res.data;
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+		console.log("populateModuleGroup2", this.moduleGrouping);
+
+	}
+
 	async editGroupDetails(group: Group) {
 		await axios.put(`/group/${group.id}`, group);
 		this.populateGroup();
@@ -47,6 +64,11 @@ class GroupStore {
 		return this.selectedGroup;
 	}
 
+	@action
+	getCreatedGroups(newGroups){
+		console.log("new created groups", newGroups)
+		this.newGroups = newGroups;
+	}
 
 }
 

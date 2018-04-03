@@ -17,7 +17,7 @@ class MainCalendar extends Component {
 		let scheduleItemsObjArr = ScheduleItemStore.scheduleItems;
 		var scheduleItemTempArr= toJS(scheduleItemsObjArr);
 		var scheduleItemArr = [];
-		console.log("SCHEDULE ITEMS: ", scheduleItemTempArr)
+		// console.log("SCHEDULE ITEMS: ", scheduleItemTempArr)
 		if(scheduleItemTempArr && scheduleItemTempArr.length>0){
 			for(var i=0 ; i<scheduleItemTempArr.length ; i++){
 				var color = "";
