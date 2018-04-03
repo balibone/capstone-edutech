@@ -91,11 +91,11 @@ public class ScheduleItemREST {
         return etr.findGroupScheduleItems(groupId);
     }
     
-    @GET 
-    @Path("suggest/{id}/{date}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<String> getFreeSlots(@PathParam("id") int id, @PathParam("date") String date) {
-        return etr.suggestFreeSlots(id,date);
+    @GET
+    @Path("module/{moduleId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ScheduleItemEntity> getModuleKeyDates(@PathParam("moduleId") String moduleId){
+        return etr.getModuleKeyDates(moduleId);
     }
     
 }

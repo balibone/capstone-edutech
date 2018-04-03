@@ -695,6 +695,32 @@ public class CommonMgrBean {
         return (List<AttachmentEntity>) em.find(LessonEntity.class, id).getResources();
     }
 
-    
+    public List<ScheduleItemEntity> getModuleKeyDates(String moduleCode) {
+        ArrayList<ScheduleItemEntity> keyDates = new ArrayList<>();
+        ModuleEntity mod = em.find(ModuleEntity.class, moduleCode);
+        //get assignments
+        if(mod!=null){
+            Query q1 = em.createQuery("SELECT ass FROM Assignment ass WHERE ass.module= :mod");
+            q1.setParameter("mod", mod);
+            for(Object o : q1.getResultList()){
+                //CONVERT EACH ASSIGNMENT TO SCHEDULE ITEM.
+                AssignmentEntity ass = (AssignmentEntity) o;
+                ScheduleItemEntity conversion = new ScheduleItemEntity();
+                conversion.setItemType("task");
+                conversion.setTitle(ass.getTitle());
+                conversion.setStartDate(ass.getOpenDate());
+                conversion.setEndDate(ass.getCloseDate());
+                keyDates.add(conversion);
+            }
+            //get assessments
+            Query q2 = em.createQuery("SELECT s FROM ScheduleItem s WHERE s.itemType='assessment'");
+            for(Object o : q2.getResultList()){
+                //CONVERT EACH ASSIGNMENT TO SCHEDULE ITEM.
+                ScheduleItemEntity sched = (ScheduleItemEntity) o;
+                keyDates.add(sched);
+            }
+        }
+        return keyDates;
+    }
 
 }
