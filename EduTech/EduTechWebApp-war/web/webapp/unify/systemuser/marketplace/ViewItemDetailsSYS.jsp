@@ -448,7 +448,6 @@
             </a>
             <div id="sellNewItem-iframe"></div>
             <div id="itemLikeList-iframe"></div>
-            <div id="unifyFooter"></div>
             
             <div style="display:none;" id="offerTooltip">
                 Offer Price&nbsp;<span style="color:#FF0000;">*</span><br/>

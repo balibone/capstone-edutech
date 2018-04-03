@@ -278,7 +278,7 @@
                     </div>
 
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Item Listing</span></div>
+                        <div class="title"><span>Marketplace Listing</span></div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
@@ -405,7 +405,6 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="sellNewItem-iframe"></div>
-            <div id="unifyFooter"></div>
             
             <div style="display:none;" id="reportItemListingTip">
                 Report Category&nbsp;<span style="color:#FF0000;">*</span><br/>

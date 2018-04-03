@@ -71,7 +71,7 @@
             <div class="split left">
                 <h1>Unify</h1>
                 <p>Your campus community.</p>
-                <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount&userID=<%= loggedInUsername %>" class="enterButton">Enter</a>
+                <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS&userID=<%= loggedInUsername %>" class="enterButton">Enter</a>
             </div>
             <div class="split right">
                 <h1>EduTech</h1>

@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
@@ -179,6 +178,3 @@ function displayDuration(){
          document.getElementsByName('jobRate')[0].placeholder = "Job Rate(S$)";
     }
 }
-
-
-

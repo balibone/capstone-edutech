@@ -12,16 +12,15 @@ package unifycontrollers.systemuser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
@@ -49,6 +48,16 @@ public class UserProfileSysUserController extends HttpServlet {
             String loggedInUsername = getCookieUsername(request);
             
             switch (pageAction) {
+                case "goToUserProfileSYS":
+                    String itemSellerID = request.getParameter("itemSellerID");
+                    request.setAttribute("userItemListSYS", usmr.viewUserItemList(loggedInUsername, itemSellerID));
+                    request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
+                    
+                    request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
+                    request.setAttribute("userJobListing", esmr.viewUserJobList(itemSellerID));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "UserProfileSYS";
+                    break;
                 case "goToUnifyUserAccountSYS":
                     request.setAttribute("userItemAccountListSYS", (ArrayList) usmr.viewUserItemAccountList(loggedInUsername));
                     request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
@@ -218,6 +227,7 @@ public class UserProfileSysUserController extends HttpServlet {
                         request.setAttribute("itemOfferUserListSYS", usmr.viewAnItemOfferUserList(loggedInUsername, itemIDFeedback));
                         pageAction = "PendingItemOfferDetailsSYS";
                     } else if(responseMessage.contains("about the seller")) {
+                        request.setAttribute("userMarketplaceRatingInfoVec", usmr.viewUserMarketplaceRatingInfo(loggedInUsername));
                         request.setAttribute("userBuyerOfferListSYS", (ArrayList) usmr.viewPersonalBuyerOfferList(loggedInUsername));
                         pageAction = "UserItemOfferListSYS";
                     }
@@ -287,9 +297,33 @@ public class UserProfileSysUserController extends HttpServlet {
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
+                case "goToMyJobListing":
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userJobListing", (ArrayList) esmr.viewUserJobList(loggedInUsername));
+                    pageAction = "UserJobListingSYS";
+                    break;
+                case "goToViewMyJobOfferSYS":
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
+                    pageAction = "ViewMyJobOfferSYS";
+                    break;
+                case "editMyJobOfferSYS":
+                    String responseMessage = editJobOffer(request, loggedInUsername);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
+                    
+                    //pageAction = "ViewMyJobOfferSYS";
+                    break;
+                case "goToDeleteMyJobOfferSYS":
+                    long offerID = Long.parseLong(request.getParameter("offerID"));
+                    String returnResponse = esmr.deleteJobOffer(offerID);
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
+                    pageAction = "ViewMyJobOfferSYS";
+                    break;
                 case "goToCompanyReview":
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(username));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(loggedInUsername));
                     pageAction = "UserCompanyReview";
                     break;
                 case "goToDeleteReview":
@@ -299,13 +333,13 @@ public class UserProfileSysUserController extends HttpServlet {
                     } else {
                         System.out.println("Selected Review cannot be deleted. Please try again later.");
                     }
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(username));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(loggedInUsername));
                     pageAction = "UserCompanyReview";
                     break;
                 case "goToCompanyRequest":
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("companyRequestListSYS", (ArrayList) vsmr.viewUserCompanyRequest(username));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("companyRequestListSYS", (ArrayList) vsmr.viewUserCompanyRequest(loggedInUsername));
                     pageAction = "UserCompanyRequest";
                     break;
                 case "goToResume":

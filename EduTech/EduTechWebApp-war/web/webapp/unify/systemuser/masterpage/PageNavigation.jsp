@@ -8,8 +8,8 @@
             <div class="container">
                 <div class="pos-r d-flex w-100">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Unify Home</a></li>
-                        <li class="nav-item dropdown active">
+                        <li class="nav-item"><a class="nav-link" href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="marketplaceNAV" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Marketplace</a>
                             <div class="dropdown-menu t-90 smooth" aria-labelledby="marketplaceNAV">
                                 <a class="dropdown-item" href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a>

@@ -50,7 +50,7 @@ public class UserEntity implements Serializable {
     private String userType;
     //active by default
     private Boolean userActiveStatus = true;
-    private String imgFileName = "defaultPhoto.jpg";
+    private String imgFileName = "unknown-user.png";
     private String email;
     private String contactNum;
     

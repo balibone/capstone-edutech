@@ -418,7 +418,6 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="sellNewItem-iframe"></div>
-            <div id="unifyFooter"></div>
         </div>
 
         <!-- #1. jQuery v2.2.4 -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -429,8 +428,6 @@
         <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
-        
-
         <script src="js/unify/systemuser/basejs/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/errands/NewJobListingSYSJS.js" type="text/javascript"></script>
