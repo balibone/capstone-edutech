@@ -39,34 +39,12 @@
                         <h3>New Admin</h3>
                     </div>
                     <hr>
-                    <%                        String msg = (String) request.getAttribute("msg");
-                        if (msg != null) {
-                            Boolean success = (Boolean) request.getAttribute("success");
-                            if (success) {
-                    %>
-                    <div class="alert alert-info" role="alert"><%=msg%></div>                    
-                    <%
-                    } else {
-                    %>
-                    <div class="alert alert-danger" role="alert"><%=msg%></div>                    
-                    <%
-                            }
-                        }
-                    %>
                     <div class="row">
                         <!--Submit form to SystemAdmin Servlet-->
                         <form action="SystemAdmin" method="POST" class="form-horizontal" enctype="multipart/form-data">
                             <div class="col-md-8">
-                                <!--
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Name</label>
-                                    <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="name" />
-                                    </div>
-                                </div>
-                                -->
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label required">Salutation</label>
+                                    <label class="col-md-3 control-label required">Salutation</label>
                                     <div class="col-md-5">
                                         <select required autofocus class="form-control" name="salutation">
                                             <option value="Mr.">Mr.</option>
@@ -78,31 +56,37 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">First Name</label>
+                                    <label class="col-md-3 control-label required">First Name</label>
                                     <div class="col-md-5">
                                         <input type="text" required class="form-control" name="firstName" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Last Name</label>
+                                    <label class="col-md-3 control-label required">Last Name</label>
                                     <div class="col-md-5">
                                         <input type="text" required class="form-control" name="lastName" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Username</label>
+                                    <label class="col-md-3 control-label required">Username</label>
                                     <div class="col-md-5">
                                         <input type="text" required class="form-control" name="username" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Password</label>
+                                    <label class="col-md-3 control-label required">Email: </label>
                                     <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="password" />
+                                        <input type="email" required class="form-control" name="email" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Admin Type</label>
+                                    <label class="col-md-3 control-label required">Contact Number (+65): </label>
+                                    <div class="col-md-5">
+                                        <input type="text" required class="form-control" name="contactNum" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label required">Admin Type</label>
                                     <div class="col-md-5">
                                         <select required autofocus class="form-control" name="adminType">
                                             <option selected value="dualadmin">Dual Admin (Edutech + Unify)</option>
@@ -122,12 +106,12 @@
                                 <input id="file-upload" required name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event)"/>
                             </div>
                             <div class="col-md-8">
-                                <div class="col-md-2">                                    
+                                <div class="col-md-3">                                    
                                 </div>
                                 <div class="col-md-5"> 
                                     <!-- Pass this to servlet to handle user creation -->
                                     <input type="hidden" name="pageTransit" value="createAdmin"/>
-                                    <button type="submit" class="btn btn-primary" value="submit">Create Admin</button><a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Admin List</button></a>
+                                    <button type="submit" class="btn btn-primary" value="submit">Create Admin</button><a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back</button></a>
                                 </div>                               
                             </div>
                         </form>

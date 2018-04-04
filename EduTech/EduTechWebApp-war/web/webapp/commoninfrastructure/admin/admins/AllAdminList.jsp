@@ -53,11 +53,18 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <!--
-                                    <p class="text-muted font-13 m-b-30">
-                                        The following EduPack Users are admins.
-                                    </p>
-                                    -->
+                                    <%                        
+                                        String msg = (String) request.getAttribute("msg");
+                                        if (msg != null) {
+                                            Boolean success = (Boolean) request.getAttribute("success");
+                                            if (success) {
+                                    %>
+                                    <div class="alert alert-info" role="alert"><%=msg%></div>                    
+                                    <%} else {
+                                    %>
+                                    <div class="alert alert-danger" role="alert"><%=msg%></div>                    
+                                    <%}}
+                                    %>
                                     <table id="datatable" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -66,14 +73,18 @@
                                                 <th>Username</th>
                                                 <th>Date Created</th>
                                                 <th>Admin Type</th>
+                                                <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>                                                                                       
                                         <tbody>
-                                            <%                                                ArrayList adminList = (ArrayList) request.getAttribute("adminList");
+                                            <%                                                
+                                                ArrayList adminList = (ArrayList) request.getAttribute("adminList");
                                                 for (Object o : adminList) {
                                                     ArrayList adminData = (ArrayList) o;
+                                                    String username = (String) adminData.get(2);
                                                     String adminType = (String) adminData.get(4);
+                                                    
                                                     if (adminType.trim().equalsIgnoreCase("unifyadmin")) {
                                                         adminType = "Unify Admin";
                                                     } else if (adminType.trim().equalsIgnoreCase("edutechadmin")) {
@@ -83,24 +94,38 @@
                                                     } else if (adminType.trim().equalsIgnoreCase("superadmin")) {
                                                         adminType = "Super Admin (Full Access Rights)";
                                                     }
+                                                    String status = (String) adminData.get(5);
+                                                    String toToggle = "";
+                                                    if(status.equalsIgnoreCase("inactive")){
+                                                        toToggle = "active";
+                                                    }else{
+                                                        toToggle = "inactive";
+                                                    }
                                             %>
 
                                             <tr>
                                                 <td><img src="uploads/commoninfrastructure/admin/images/<%= adminData.get(0)%>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=adminData.get(1)%></td>
-                                                <td><%=adminData.get(2)%></td>
+                                                <td><%=username%></td>
                                                 <td><%=adminData.get(3)%></td>
                                                 <td><%=adminType%></td>
                                                 <td>
                                                     <ul class="list-inline">
                                                         <li>
-                                                            <a href="SystemAdmin?pageTransit=ViewAdmin&id=<%=adminData.get(2)%>"><i class="fas fa-eye fa-lg"></i></a>
+                                                            <%=status%>
                                                         </li>
                                                         <li>
-                                                            <a href="SystemAdmin?pageTransit=EditAdmin&id=<%=adminData.get(2)%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
+                                                            <a onclick="return confirm('Make this user <%=toToggle%> ?')" href="SystemAdmin?pageTransit=toggleAdmin&id=<%=username%>&prevStatus=<%=status%>"><i class="fas fa-sync fa-lg"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul class="list-inline">
+                                                        <li>
+                                                            <a href="SystemAdmin?pageTransit=ViewAdmin&id=<%=username%>"><i class="fas fa-eye fa-lg"></i></a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="return confirm('Delete Admin?')" href="SystemAdmin?pageTransit=deleteAdmin&id=<%=adminData.get(2)%>"><i class="fas fa-trash fa-lg"></i></a> 
+                                                            <a href="SystemAdmin?pageTransit=EditAdmin&id=<%=username%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
                                                         </li>
                                                     </ul>
                                                 </td>

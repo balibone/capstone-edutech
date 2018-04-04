@@ -27,6 +27,11 @@
         <!--Font Awesome 5 JS-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
+        <style>
+            .form-control[readonly]{
+                background-color: #f5f5f5;
+            }
+        </style>
     </head>
     <body class="nav-md">
         <div class="container body">
@@ -70,10 +75,9 @@
                                         email = (String)userInfo.get(3);
                                         contactNum = (String)userInfo.get(4);
                                         username = (String)userInfo.get(5);
-                                        password = (String)userInfo.get(6);
-                                        creationDate = (String)userInfo.get(7);
-                                        type = (String)userInfo.get(8);
-                                        imageFile = (String)userInfo.get(9);
+                                        creationDate = (String)userInfo.get(6);
+                                        type = (String)userInfo.get(7);
+                                        imageFile = (String)userInfo.get(8);
                                         //parse type for proper display front end.
                                         if(type.trim().equalsIgnoreCase("student")){
                                             displayType="Student";

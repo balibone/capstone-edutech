@@ -39,20 +39,6 @@
                     <h3>New Student</h3>
                     </div>
                     <hr>
-                    <%
-                    String msg = (String)request.getAttribute("msg");
-                    if(msg!=null){
-                        Boolean success = (Boolean)request.getAttribute("success");
-                        if(success){
-                    %>
-                    <div class="alert alert-info" role="alert"><%=msg%></div>                    
-                    <%
-                        }else{
-                    %>
-                    <div class="alert alert-danger" role="alert"><%=msg%></div>                    
-                    <%
-}}
-                    %>
                     <div class="row">
                         <!--Submit form to SystemAdmin Servlet-->
                         <form action="SystemAdmin" method="POST" class="form-horizontal" enctype="multipart/form-data">

@@ -27,6 +27,11 @@
         <!--Font Awesome 5 JS-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
+        <style>
+            .form-control[readonly]{
+                background-color: #f5f5f5;
+            }
+        </style>
     </head>
     <body class="nav-md">
         <div class="container body">
@@ -57,47 +62,39 @@
                         <!--Submit form to SystemAdmin Servlet-->
                         <form action="SystemAdmin" method="POST" class="form-horizontal" enctype="multipart/form-data">
                             <div class="col-md-8">
-                                <!--
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label required">Name</label>
-                                    <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="name" />
-                                    </div>
-                                </div>
-                                -->
                                 <%
                                     //Extracting field values from ArrayList passed from servlet to jsp.
-                                    ArrayList userInfo = (ArrayList) request.getAttribute("userInfo");
-                                    String salutation, firstName, lastName, username, password, creationDate, type, imageFile, displayType;
-                                    salutation = firstName = lastName = username = password = creationDate = type = imageFile = displayType = "";
+                                    ArrayList userInfo = (ArrayList)request.getAttribute("userInfo");
+                                    String salutation,firstName,lastName,username,email,contactNum,creationDate,type,imageFile,displayType;
+                                    salutation = firstName = lastName = username = email = contactNum = creationDate = type = imageFile = displayType="";
                                     //ArrayList exists and is not empty. 
-                                    if (userInfo != null && !userInfo.isEmpty()) {
-                                        salutation = (String) userInfo.get(0);
-                                        firstName = (String) userInfo.get(1);
-                                        lastName = (String) userInfo.get(2);
-                                        username = (String) userInfo.get(3);
-                                        password = (String) userInfo.get(4);
-                                        creationDate = (String) userInfo.get(5);
-                                        type = (String) userInfo.get(6);
-                                        //parse type for proper display front end.
-                                        if (type.trim().equalsIgnoreCase("student")) {
-                                            displayType = "Student";
-                                        } else if (type.trim().equalsIgnoreCase("instructor")) {
-                                            displayType = "Instructor";
-                                        } else if (type.trim().equalsIgnoreCase("unifyadmin")) {
-                                            displayType = "Unify Admin";
-                                        } else if (type.trim().equalsIgnoreCase("edutechadmin")) {
-                                            displayType = "EduTech Admin";
-                                        } else if (type.trim().equalsIgnoreCase("dualadmin")) {
-                                            displayType = "Dual Admin (EduTech + Unify)";
-                                        } else if (type.trim().equalsIgnoreCase("superadmin")) {
-                                            displayType = "Super Admin";
+                                    if(userInfo!=null && !userInfo.isEmpty()){
+                                        salutation = (String)userInfo.get(0);
+                                        firstName = (String)userInfo.get(1);
+                                        lastName = (String)userInfo.get(2);
+                                        email = (String)userInfo.get(3);
+                                        contactNum = (String)userInfo.get(4);
+                                        username = (String)userInfo.get(5);
+                                        creationDate = (String)userInfo.get(6);
+                                        type = (String)userInfo.get(7);
+                                        imageFile = (String)userInfo.get(8);
+                                        if(type.trim().equalsIgnoreCase("student")){
+                                            displayType="Student";
+                                        }else if(type.trim().equalsIgnoreCase("instructor")){
+                                            displayType="Instructor";
+                                        }else if(type.trim().equalsIgnoreCase("unifyadmin")){
+                                            displayType="Unify Admin";
+                                        }else if(type.trim().equalsIgnoreCase("edutechadmin")){
+                                            displayType="EduTech Admin";
+                                        }else if(type.trim().equalsIgnoreCase("dualadmin")){
+                                            displayType="Dual Admin (EduTech + Unify)";
+                                        }else if(type.trim().equalsIgnoreCase("superadmin")){
+                                            displayType="Super Admin";
                                         }
-                                        imageFile = (String) userInfo.get(7);
                                     }
                                 %>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Salutation: </label>
+                                    <label class="col-md-3 control-label required">Salutation: </label>
                                     <div class="col-md-5">
                                         <select required autofocus class="form-control" name="salutation">
                                             <option selected value="Mr.">Mr.</option>
@@ -109,37 +106,43 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">First Name:</label>
+                                    <label class="col-md-3 control-label required">First Name:</label>
                                     <div class="col-md-5">
                                         <input type="text" value="<%=firstName%>" class="form-control" name="firstName"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Last Name:</label>
+                                    <label class="col-md-3 control-label required">Last Name:</label>
                                     <div class="col-md-5">
                                         <input type="text" value="<%=lastName%>" class="form-control" name="lastName"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Username:</label>
+                                    <label class="col-md-3 control-label required">Username:</label>
                                     <div class="col-md-5">
                                         <input type="text" readonly value="<%=username%>" class="form-control" name="username"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Password:</label>
+                                    <label class="col-md-3 control-label required">Email: </label>
                                     <div class="col-md-5">
-                                        <input type="text" value="<%=password%>" class="form-control" name="password"/>
+                                        <input type="email" value="<%=email%>" required class="form-control" name="email" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Created On:</label>
+                                    <label class="col-md-3 control-label required">Contact Number (+65): </label>
+                                    <div class="col-md-5">
+                                        <input type="text" value="<%=contactNum%>" required class="form-control" name="contactNum" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label required">Created On:</label>
                                     <div class="col-md-5">
                                         <input type="text" readonly value="<%=creationDate%>" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">User Type:</label>
+                                    <label class="col-md-3 control-label required">User Type:</label>
                                     <div class="col-md-5">
                                         <select required class="form-control" name="type">
                                             <option value="unifyadmin">Unify Admin</option>
@@ -161,10 +164,10 @@
                                 <input id="file-upload" name="profileImage" type="file" accept="image/*" onchange="javascript: previewImage(event); window.imageReplacement()"/>
                             </div>
                             <div class="col-md-8">
-                                <div class="col-md-2"></div>
+                                <div class="col-md-3"></div>
                                 <div class="col-md-6">
                                     <!-- Pass this to servlet to handle user creation -->
-                                    <a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back To Admin List</button></a>
+                                    <a href="SystemAdmin?pageTransit=AllAdminList"><button type="button" class="btn btn-default">Go Back</button></a>
                                     <input type="hidden" name="originalImage" value="<%=imageFile%>"/>
                                     <input type="hidden" name="originalType" value="<%=type%>"/>
                                     <input type="hidden" name="pageTransit" value="editAdmin"/>
