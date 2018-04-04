@@ -197,7 +197,9 @@
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-fw fa-google-plus"></i></button></li>
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-linkedin"></i></button></li>
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-warning"><i class="fa fa-fw fa-envelope"></i></button></li>
+                            <%  if (!posterName.equals(request.getAttribute("loggedInUsername"))) {%>
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#reportJobModal"><i class="fa fa-flag" aria-hidden="true"></i> &nbsp; Report</button></li>
+                            <% } %>
                         </ul>
                         
                         <!-- Modal -->
@@ -213,7 +215,7 @@
                               <div class="modal-body" >
                                 <span><strong>Why are you reporting this job listing?</strong></span><br/>
                                 <br/>
-                                <select class="select-dropdown" name="reportReason" id="reportReason" onchange="javascript: otherReason()">
+                                <select class="form-control" name="reportReason" id="reportReason" onchange="javascript: otherReason()">
                                     <option value="wrongCategory">The job is wrongly categorized.</option>
                                     <option value="inappropirateListing">Inappropriate content. </option>
                                     <option value="fakeEvent">Fake event/job.</option>

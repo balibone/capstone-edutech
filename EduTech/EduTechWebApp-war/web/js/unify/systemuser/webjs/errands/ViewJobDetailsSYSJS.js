@@ -172,7 +172,7 @@ function otherReason(){
     var select = document.getElementById("reportReason");
     var selectedValue = select.options[select.selectedIndex].value;
     
-    var innerContent = '<input type=\"text\" name=\"otherReason\" size=\"65\" placeholder=\" Please specify the reason.*\" />';
+    var innerContent = '<input type=\"text\" class=\"form-control\" name=\"otherReason\" size=\"65\" placeholder=\" Please specify the reason.*\" />';
     
     if(selectedValue == "others"){
         document.getElementById('otherReason').innerHTML = innerContent;
