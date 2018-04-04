@@ -83,23 +83,23 @@ class LessonStore {
     })
   }
 
-  @action
-  getFilesForLesson(lessonId){
-    var attachmentArr = [];
-    var index = _.findIndex(this.lessonList, (item) => {return item.id === lessonId});
-    axios.get(`/lesson/allAttachments/${lessonId}`)
-    .then((res) => {
-      this.lessonList[index].files = res.data;
-      console.log("lesson", this.lessonList[index])
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }
+  // @action
+  // getFilesForLesson(lessonId){
+  //   var attachmentArr = [];
+  //   var index = _.findIndex(this.lessonList, (item) => {return item.id === lessonId});
+  //   axios.get(`/lesson/allAttachments/${lessonId}`)
+  //   .then((res) => {
+  //     this.lessonList[index].files = res.data;
+  //     console.log("lesson", this.lessonList[index])
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
+  // }
 
 
   @action
-  fetchFilesForLeson(lessonId) {
+  fetchFilesForLesson(lessonId) {
       var attachmentArr = [];
       var index = _.findIndex(this.lessonList, (item) => {return item.id === lessonId});
       

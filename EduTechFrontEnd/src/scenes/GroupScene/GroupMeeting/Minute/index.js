@@ -55,12 +55,11 @@ class Minute extends Component {
 
 	addMinute(){
 		const {startTime, endTime} = this.state;
+		const meetingId = this.props.meeting.id;
 		const membersTemp = ["NanDa", "Hafidz", "Derian"]
 		console.log("members multi select check", this.state.membersMultiSelect)
-		MinuteStore.addMeetingMinute(702, startTime, endTime, membersTemp);
+		MinuteStore.addMeetingMinute(meetingId, startTime, endTime, membersTemp);
 	}
-
-
 
 	render(){
 	

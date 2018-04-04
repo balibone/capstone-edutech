@@ -46,11 +46,11 @@ export default class GroupTask extends Component {
 
   addGroupTask() {
     if (this.state.taskTitle) {
-      console.log("PRESSED")
+      // console.log("PRESSED")
 
       groupTaskStore.addGroupTask(
         this.state.taskTitle,
-        this.state.taskDate,
+        moment(this.state.taskDate).format('YYYY-MM-DDTHH:mm:ss'),
         this.state.taskAssignee,
         this.props.groupId,
       );

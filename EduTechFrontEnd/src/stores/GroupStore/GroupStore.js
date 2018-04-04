@@ -31,20 +31,19 @@ class GroupStore {
 		})
 	}
 
-	@action
-	populateModuleGroup(moduleCode){
-		console.log("in populate module group")
-		axios.get(`/group/module/${moduleCode}`)
-		.then((res) => {
-			console.log("populateModuleGroup", res.data);
-			this.moduleGrouping = res.data;
-		})
-		.catch((err) => {
-			console.log(err)
-		})
-		console.log("populateModuleGroup2", this.moduleGrouping);
-
-	}
+	// @action
+	// populateModuleGroup(moduleCode){
+	// 	console.log("in populate module group")
+	// 	axios.get(`/group/module/${moduleCode}`)
+	// 	.then((res) => {
+	// 		console.log("populateModuleGroup", res.data);
+	// 		this.moduleGrouping = res.data;
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(err)
+	// 	})
+	// 	console.log("populateModuleGroup2", this.moduleGrouping);
+	// }
 
 	async editGroupDetails(group: Group) {
 		await axios.put(`/group/${group.id}`, group);

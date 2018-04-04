@@ -29,7 +29,7 @@ class ModuleScene extends Component {
     let { moduleCode } = this.props.match.params;
     LessonStore.getLessonsForModule(moduleCode);
     ModuleStore.getOneModule(moduleCode);
-    GroupStore.populateModuleGroup(moduleCode);
+    // GroupStore.populateModuleGroup(moduleCode);
     AssignmentStore.populateModuleAssignments(moduleCode);
   }
 
