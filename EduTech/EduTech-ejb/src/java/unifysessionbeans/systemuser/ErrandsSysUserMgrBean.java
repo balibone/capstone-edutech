@@ -108,7 +108,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobVec.add(sdf.format(jobE.getJobWorkDate()));
             jobVec.add(jobE.getJobStartLocation());
             jobVec.add(jobE.getJobRateType());
-            jobVec.add(jobE.getJobRate());
+            jobVec.add(rateFormat.format(jobE.getJobRate()));
             jobVec.add(jobE.getJobNumOfLikes());
             jobList.add(jobVec);
             dateString = "";
@@ -176,7 +176,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobDetailsVec.add(jEntity.getJobTitle());
             jobDetailsVec.add(jEntity.getCategoryEntity().getCategoryName());
             jobDetailsVec.add(jEntity.getJobRateType());
-            jobDetailsVec.add(jEntity.getJobRate());
+            jobDetailsVec.add(rateFormat.format(jEntity.getJobRate()));
             jobDetailsVec.add(jEntity.getJobDescription());
             jobDetailsVec.add(jEntity.getJobStartLocation());
             jobDetailsVec.add(jEntity.getJobStartLat());
@@ -302,7 +302,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 }
                 assocCategoryJobVec.add(dateString);
                 assocCategoryJobVec.add(jobE.getJobRateType());
-                assocCategoryJobVec.add(jobE.getJobRate());
+                assocCategoryJobVec.add(rateFormat.format(jobE.getJobRate()));
                 assocCategoryJobList.add(assocCategoryJobVec);
                 dateString = "";
             }
@@ -816,7 +816,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 offerInfo.add(joE.getJobEntity().getJobImage());
                 offerInfo.add(joE.getJobEntity().getJobTitle());
                 offerInfo.add(joE.getJobEntity().getCategoryEntity().getCategoryName());
-                offerInfo.add(joE.getJobEntity().getJobRate());
+                offerInfo.add(rateFormat.format(joE.getJobEntity().getJobRate()));
                 offerInfo.add(joE.getJobEntity().getJobRateType());
                 offerInfo.add(joE.getJobEntity().getUserEntity().getUsername());
                 offerInfo.add(joE.getJobOfferID());
