@@ -257,7 +257,11 @@
                             %>
                             <tr>   
                                 <td><i class="fa fa-heart" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Likes: </strong></span></td>
+                                <%  if (posterName.equals(request.getAttribute("loggedInUsername"))) {%>
                                 <td><a href="#"><ul class="list-inline mb-0"><li id="likeList" class="list-inline-item likeCount"><%=numOfLikes%> </li></ul></a></td>
+                                <% }else{ %>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item likeCount"><%=numOfLikes%> </li></ul></td>
+                                <% }%>
                             </tr>
                             <tr>   
                                 <td><i class="fa fa-sticky-note" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Est. Duration: </strong></span></td>
@@ -281,6 +285,7 @@
                             <%  if (posterName.equals(request.getAttribute("loggedInUsername"))) {%>
                             <button id="edit-button" type="button" class="btn btn-outline-theme" onclick="location.href = 'ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>&loginUser=<%= loggedInUsername%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
                             <button type="button" class="btn btn-outline-theme" onclick="javascript:deleteAlert(<%= jobID%>)">Delete Job Listing</button>
+                            
                             <%  } else {    %>
                             <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme" data-toggle="modal" data-target="#offerModal"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
@@ -322,14 +327,16 @@
                                 </div>
                               </div>
                             </div>
+                            
                             <%  }%>
-                            <%  if(likeStatus.equals("true")) {   %>
-                            <button type="button" id="likeJobBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Like this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
+                            <%if(likeStatus.equals("true")) {   %>
+                            <button type="button" id="likeJobBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
                             <%  } else if(likeStatus.equals("false")) {    %>
-                            <button type="button" id="likeJobBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
+                            <button type="button" id="likeJobBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
                             <%  }   %>
+                          
                         </div>
-                       
+                        <span id="test1"></span>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 20px;">

@@ -70,6 +70,32 @@ $(document).ready(function () {
         document.getElementById("offerPriceType").innerHTML = "(S$/hour)";
     }
     
+    /*$('#likeJobBtn').click(function(){
+        
+        $.ajax({
+            type: "POST",
+            url: "ErrandsSysUser",
+            data: { 
+                jobIDHid: $('#jobIDHidden').val(),
+                usernameHid: $('#usernameHidden').val(),
+                pageTransit: 'likeJobListingDetails'
+            },
+            success: function(returnString) {
+                $('.likeCount').text("");
+                $('.likeCount').text(returnString);
+                if($('#likeJobBtn').hasClass('likeStatus')) {
+                    $('#likeJobBtn').removeClass('likeStatus');
+                    $('#likeJobBtn').addClass('noLikeStatus');
+                } else if($('#likeJobBtn').hasClass('noLikeStatus')) {
+                    $('#likeJobBtn').removeClass('noLikeStatus');
+                    $('#likeJobBtn').addClass('likeStatus');
+                }
+                if(returnString > 1) { $('.likeWording').text("Likes"); }
+                else { $('.likeWording').text("Like"); }
+            }
+        });
+    });*/
+    
     $('#sendOfferBtn').click(function(){
         $.ajax({
             type: "POST",
@@ -90,7 +116,28 @@ $(document).ready(function () {
         });
     });
     
-    $('#likeJobBtn').click(function(){
+    
+    $('#reportJobBtn').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "ErrandsSysUser",
+            data: { 
+                jobID: $('#jobIDHidden').val(),
+                username: $('#usernameHidden').val(),
+                reportReason: $('#reportReason').val(),
+                pageTransit: 'reportJobListing'
+            },
+            success: function(returnString) {
+               alert(returnString);
+            }
+        });
+    });
+    
+    
+    
+}); 
+
+$(document).on('click', '#likeJobBtn', function() {
         $.ajax({
             type: "POST",
             url: "ErrandsSysUser",
@@ -115,22 +162,6 @@ $(document).ready(function () {
         });
     });
     
-    $('#reportJobBtn').click(function(){
-        $.ajax({
-            type: "POST",
-            url: "ErrandsSysUser",
-            data: { 
-                jobID: $('#jobIDHidden').val(),
-                username: $('#usernameHidden').val(),
-                reportReason: $('#reportReason').val(),
-                pageTransit: 'reportJobListing'
-            },
-            success: function(returnString) {
-               alert(returnString);
-            }
-        });
-    });
-});
 
 function deleteAlert(jobID) {
     var deleteReply = confirm("Are you sure to delete this job?");
