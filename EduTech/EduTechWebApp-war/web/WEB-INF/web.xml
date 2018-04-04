@@ -472,6 +472,10 @@
         <servlet-name>JobListingInUserProfileSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/JobListingInUserProfileSYS.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>UserResume</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserResume.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
     <servlet>
         <servlet-name>ViewCompanyListingSYS</servlet-name>
@@ -496,6 +500,10 @@
     <servlet>
         <servlet-name>NewResumeSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/voices/NewResumeSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewResumeDetailsSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/voices/ViewResumeDetailsSYS.jsp</jsp-file>
     </servlet>
 
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - SHOUTS (JSP) -->

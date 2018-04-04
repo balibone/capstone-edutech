@@ -332,7 +332,7 @@
                                                         <% if(!companyNumOfReview.equals("0")) { %>
                                                         <br/>
                                                         <form action="VoicesSysUser" method="POST">
-                                                                <input type="hidden" name="pageTransit" value="goToNewResumeSYS"/>
+                                                            <input type="hidden" name="pageTransit" value="goToNewResumeSYS"/>
                                                             <button class="btn btn-outline btn-primary btn-sm btn-block" type="submot"><i class="fa fa-list-alt">&nbsp;&nbsp;</i>View All Reviews</button>
                                                         </form>
                                                         <% } %>

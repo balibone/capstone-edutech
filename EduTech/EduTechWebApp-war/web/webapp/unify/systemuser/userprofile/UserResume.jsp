@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Company Request List</title>
+        <title>Unify - My Resume List</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -127,7 +127,7 @@
                                 <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </a>
-                                <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
+                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
@@ -198,47 +198,52 @@
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Company Request List</span></div>
+                        <div class="title"><span>Resume List</span>
+                            <div class="btn-group btn-group-sm mr-3" style="float: right;">
+                                <span class="btn btn-outline-theme" id="newCompanyRequest" role="button">
+                                    <input type="hidden" id="username" value="<%= loggedInUsername%>" />
+                                    <a href="VoicesSysUser?pageTransit=goToNewResumeSYS" style="text-decoration: none">
+                                        <i class="fa fa-building d-none d-lg-inline-block" style="color: #4D7496"></i>
+                                        <span style="color:#4D7496">&nbsp;Create New Resume</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
                         <div class="table-responsive">
-                            <table id="companyRequestTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="font-size: 13px;">
+                            <table id="resumeTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="font-size: 13px;">
                                 <thead>
                                     <tr>
                                         <th>Date</th>
-                                        <th>Company</th>
-                                        <th>Industry</th>
-                                        <th>Status</th>
+                                        <th>Resume</th>
+                                        <th>Created By</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <%
-                                        ArrayList<Vector> companyRequestListSYS = (ArrayList) request.getAttribute("companyRequestListSYS");
-                                        if (!companyRequestListSYS.isEmpty()) {
-                                            for (int i = 0; i <= companyRequestListSYS.size()-1; i++) {
-                                                Vector v = companyRequestListSYS.get(i);
-                                                String requestID = String.valueOf(v.get(0));
-                                                String requestDate = String.valueOf(v.get(1));
-                                                String requestPoster = String.valueOf(v.get(2));
-                                                String requestCompany = String.valueOf(v.get(3));
-                                                String requestIndustry = String.valueOf(v.get(4));
-                                                String requestComment = String.valueOf(v.get(5));
-                                                String requestStatus = String.valueOf(v.get(6));
+                                        ArrayList<Vector> resumeListSYS = (ArrayList) request.getAttribute("resumeListSYS");
+                                        if (!resumeListSYS.isEmpty()) {
+                                            for (int i = 0; i <= resumeListSYS.size()-1; i++) {
+                                                Vector v = resumeListSYS.get(i);
+                                                String resumeID = String.valueOf(v.get(0));
+                                                String resumeDate = String.valueOf(v.get(1));
+                                                String resumeName = String.valueOf(v.get(2)) + "_Resume";
+                                                String resumeCreator = String.valueOf(v.get(3));
                                     %>
                                     <tr>
-                                        <td><%= requestDate %><span style="display: none">;<%= requestID%></span></td>
-                                        <td><%= requestCompany %></td>
-                                        <td><%= requestIndustry %></td>
-                                        <td><%= requestStatus %></td>
-                                        <% if(requestStatus.equals("Pending")) {%>
-                                        <td>
-                                            <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-danger">
-                                                <a href="ProfileSysUser?pageTransit=goToCancelRequest&hiddenRequestID=<%= requestID%>" style="color: #fff; text-decoration:none;"
-                                                   onclick="return confirm('Are you sure to cancel the request?')">Cancel</a>
+                                        <td><%= resumeDate %><span style="display: none">;<%= resumeID%></span></td>
+                                        <td><%= resumeName %></td>
+                                        <td><%= resumeCreator %></td>
+                                        <td><button type="submit" style="margin-left: 3px" class="btn btn-sm btn-primary">
+                                                <a href="ProfileSysUser?pageTransit=goToViewResumeDetails&hiddenResumeID=<%= resumeID%>" style="color: #fff; text-decoration:none;">View</a>
                                             </button>
-                                        </td>
-                                        <% } else { %>
-                                        <td></td>
-                                        <% }%>
+                                            <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-warning">
+                                                <a href="ProfileSysUser?pageTransit=goToDeleteReview&hiddenReviewID=<%= resumeID%>" style="color: #fff; text-decoration:none;">Edit</a>
+                                            </button>
+                                            <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-danger">
+                                                <a href="ProfileSysUser?pageTransit=goToDeleteReview&hiddenReviewID=<%= resumeID%>" style="color: #fff; text-decoration:none;"
+                                                   onclick="return confirm('Are you sure to delete the resume?')">Delete</a>
+                                            </button></td>
                                     </tr>
                                     <%      }   %>
                                     <%  }%>
@@ -268,6 +273,6 @@
         <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/userprofile/UserCompanyRequestJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/userprofile/UserResumeJS.js" type="text/javascript"></script>
     </body>
 </html>

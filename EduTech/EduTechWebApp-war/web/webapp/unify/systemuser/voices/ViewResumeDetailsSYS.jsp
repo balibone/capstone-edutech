@@ -1,3 +1,10 @@
+<%-- 
+    Document   : ViewResumeDeatilsSYS
+    Created on : 31 Mar, 2018, 12:35:10 PM
+    Author     : Zhu Xinyi
+--%>
+
+<%@page import="java.util.List"%>
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -8,7 +15,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Company Request List</title>
+        <title>Unify - My Resume List</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -19,7 +26,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/userprofile/UserItemTransactionCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/voices/ViewResumeDetailsSYSCSS.css" rel="stylesheet" type="text/css" />
         
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css">
@@ -127,7 +134,7 @@
                                 <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </a>
-                                <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
+                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
@@ -197,55 +204,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Company Request List</span></div>
-                        <div class="table-responsive">
-                            <table id="companyRequestTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="font-size: 13px;">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Company</th>
-                                        <th>Industry</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <%
-                                        ArrayList<Vector> companyRequestListSYS = (ArrayList) request.getAttribute("companyRequestListSYS");
-                                        if (!companyRequestListSYS.isEmpty()) {
-                                            for (int i = 0; i <= companyRequestListSYS.size()-1; i++) {
-                                                Vector v = companyRequestListSYS.get(i);
-                                                String requestID = String.valueOf(v.get(0));
-                                                String requestDate = String.valueOf(v.get(1));
-                                                String requestPoster = String.valueOf(v.get(2));
-                                                String requestCompany = String.valueOf(v.get(3));
-                                                String requestIndustry = String.valueOf(v.get(4));
-                                                String requestComment = String.valueOf(v.get(5));
-                                                String requestStatus = String.valueOf(v.get(6));
-                                    %>
-                                    <tr>
-                                        <td><%= requestDate %><span style="display: none">;<%= requestID%></span></td>
-                                        <td><%= requestCompany %></td>
-                                        <td><%= requestIndustry %></td>
-                                        <td><%= requestStatus %></td>
-                                        <% if(requestStatus.equals("Pending")) {%>
-                                        <td>
-                                            <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-danger">
-                                                <a href="ProfileSysUser?pageTransit=goToCancelRequest&hiddenRequestID=<%= requestID%>" style="color: #fff; text-decoration:none;"
-                                                   onclick="return confirm('Are you sure to cancel the request?')">Cancel</a>
-                                            </button>
-                                        </td>
-                                        <% } else { %>
-                                        <td></td>
-                                        <% }%>
-                                    </tr>
-                                    <%      }   %>
-                                    <%  }%>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div id="unifyFooter"></div>
@@ -268,6 +226,6 @@
         <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/userprofile/UserCompanyRequestJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/userprofile/UserResumeJS.js" type="text/javascript"></script>
     </body>
 </html>

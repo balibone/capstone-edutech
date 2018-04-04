@@ -20,6 +20,32 @@
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/voices/NewResumeSYSCSS.css" rel="stylesheet" type="text/css">
+        <style>
+            .eduExpr {
+                background-color: #D9DEE4;
+                padding: 10px;
+            }
+            .proExpr {
+                background-color: #D9DEE4;
+                padding: 10px;
+            }
+            .award {
+                background-color: #D9DEE4;
+                padding: 10px;
+            }
+            .workExpr {
+                background-color: #D9DEE4;
+                padding: 10px;
+            }
+            .skill {
+                background-color: #D9DEE4;
+                padding: 10px;
+            }
+            .reference {
+                background-color: #D9DEE4;
+                padding: 10px;
+            }
+        </style>
     </head>
     <body class="nav-md">
         <!-- MOBILE SIDE NAVIGATION -->
@@ -140,7 +166,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Marketplace (New Item Listing)</li>
+                            <li class="breadcrumb-item active" aria-current="page">Resume List (New Resume)</li>
                         </ol>
                     </nav>
                 </div>
@@ -148,187 +174,279 @@
             
             <div class="container" style="margin-bottom: 30px;">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
-                            <%                                
-                                String successMessage = (String) request.getAttribute("successMessage");
-                                if (successMessage != null) {
-                            %>
-                            <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
-                                <button type="button" class="close" id="closeSuccess">&times;</button>
-                                <%= successMessage %>
-                            </div>
-                            <%  } %>
+                    <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                        <div class="card user-card">
                             <%
-                                String errorMessage = (String) request.getAttribute("errorMessage");
-                                if (errorMessage != null) {
+                                Vector userAccountVec = (Vector) request.getAttribute("userAccountVec");
+                                String username, userFirstName, userLastName, userImage, userCreationDate;
+                                username = userFirstName = userLastName = userImage = userCreationDate = "";
+
+                                if (userAccountVec != null) {
+                                    username = (String) userAccountVec.get(0);
+                                    userFirstName = (String) userAccountVec.get(1);
+                                    userLastName = (String) userAccountVec.get(2);
+                                    userImage = (String) userAccountVec.get(3);
+                                    userCreationDate = (String.valueOf(userAccountVec.get(4)));
+                                }
                             %>
-                            <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
-                                <button type="button" class="close" id="closeError">&times;</button>
-                                <%= errorMessage %>
-                            </div>
-                            <%  } %>
-                            
-                            <div class="x_title">
-                                <h5>New Resume</h5>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content">
-                                <p>Fill in the form to create your resume. </p>
-                                <div id="wizard" class="form_wizard wizard_horizontal">
-                                    <ul class="wizard_steps nav nav-tabs" role="tablist" style="padding-bottom: 20px;">
-                                        <li>
-                                            <a href="#step-1">
-                                                <span class="step_no">1</span>
-                                                <span class="step_descr">Step 1<br /><small>Enter Basic Information</small></span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#step-2">
-                                                <span class="step_no">2</span>
-                                                <span class="step_descr">Step 2<br /><small>Enter Work Experiences</small></span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#step-3">
-                                                <span class="step_no">3</span>
-                                                <span class="step_descr">Step 3<br /><small>Enter Edu Experiences</small></span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#step-4">
-                                                <span class="step_no">4</span>
-                                                <span class="step_descr">Step 4<br /><small>Enter Project Experiences</small></span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <form class="form-horizontal form-label-left" action="VoicesSysUser" method="POST" name="resumeForm" enctype="multipart/form-data">
-                                        <div id="step-1">
-                                            <div class="form-row" style="justify-content: center;">
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <div class="image-upload">
-                                                            <img id="output-image" />
-                                                        </div>
-                                                        <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 151px;">
-                                                            <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
-                                                        </label>
-                                                        <input id="file-upload" name="userImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" required="required" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 ml-2">
-                                                    <div class="form-group">
-                                                        <label for="userFullName">Full Name&nbsp;<span class="asterik">*</span></label>
-                                                        <input type="text" class="form-control" name="userFullName" placeholder="Enter your full name" required="required" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="contactNum">Contact Number&nbsp;<span class="asterik">*</span></label><br/>
-                                                        <input type="text" class="form-control" name="contactNum" placeholder="Enter your contact number" required="required" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="emailAddr">Email Address&nbsp;<span class="asterik">*</span></label><br/>
-                                                        <input type="text" class="form-control" name="emailAddr" placeholder="Enter your email address" required="required" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="postalAddr">Postal Address&nbsp;<span class="asterik">*</span></label><br/>
-                                                        <input type="text" class="form-control" name="postalAddr" placeholder="Enter your postal address" required="required" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="step-2">
-                                            <div class="form-row" style="justify-content: center;">
-                                                <table id="workExprTable" >
-                                                    <tr>
-                                                        <th style="text-align:center">Work Title</th>
-                                                        <th style="text-align:center">Work Company</th>
-                                                        <th style="text-align:center">Work Period</th>
-                                                        <th style="text-align:center">Work Description</th>
-                                                        <th></th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input type="text" class="form-control" name="workTitle[]" style="margin-right: 10px"/></td>
-                                                        <td><input type="text" class="form-control" name="workCompany[]" /></td>
-                                                        <td><input type="text" class="form-control" name="workPeriod[]" /></td>
-                                                        <td><textarea class="form-control" name="workDescription[]" rows="1"></textarea></td>
-                                                        <td>&nbsp;&nbsp;<i class="fa fa-plus-circle fa-2x" onclick="addWorkExprRow()"></i></td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div id="step-3">
-                                            <div class="form-row" style="justify-content: center;">
-                                                <table id="eduExprTable" >
-                                                    <tr>
-                                                        <th style="text-align:center">School Name</th>
-                                                        <th style="text-align:center">Degree</th>
-                                                        <th style="text-align:center">Major</th>
-                                                        <th style="text-align:center">Education Period</th>
-                                                        <th></th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input type="text" class="form-control" name="schoolName[]" style="margin-right: 10px"/></td>
-                                                        <td><input type="text" class="form-control" name="schoolDegree[]" /></td>
-                                                        <td><input type="text" class="form-control" name="schoolMajor[]" /></td>
-                                                        <td><input type="text" class="form-control" name="schoolPeriod[]" /></td>
-                                                        <td>&nbsp;&nbsp;<i class="fa fa-plus-circle fa-2x" onclick="addEduExprRow()"></i></td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div id="step-4">
-                                            <div class="form-row">
-                                                <div class="col-md-6" id="projectExprTable">
-                                                    <div class="form-group row">
-                                                        <div class="form-group col-2"></div>
-                                                        <div class="form-group col-8">
-                                                            <label for="projectTitle">Project Title&nbsp;</label>
-                                                            <input type="text" class="form-control" name="projectTitle[]" />
-                                                            <label for="projectDes">Project Description&nbsp;</label>
-                                                            <textarea type="text" class="form-control" name="projectDes[]" rows="3"></textarea>
-                                                        </div>
-                                                        <div class="col-2" style="justify-content: left;">
-                                                            <label></label><br/><br/>
-                                                            <i class="fa fa-plus-circle fa-2x" onclick="addProjectExprRow()"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-2"></div>
-                                                        <table id="skillSetTable">
-                                                            <tr>
-                                                                <th style="text-align:center">Skill</th>
-                                                                <th style="text-align:center">Skill Level</th>
-                                                                <th></th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><input type="text" class="form-control" name="skillName[]" /></td>
-                                                                <td><select class="form-control" name="skillLevel[]">
-                                                                        <option value="" default>-- Select Skill Level --</option>
-                                                                        <option value="Beginner">Beginner</option>
-                                                                        <option value="Intermediate">Intermediate</option>
-                                                                        <option value="Advanced">Advanced</option>
-                                                                    </select></td>
-                                                                <td>&nbsp;&nbsp;<i class="fa fa-plus-circle fa-2x" onclick="addSkillSetRow()"></i></td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-row" style="justify-content: center;">
-                                                 <input type="hidden" name="pageTransit" value="createResumeSYS" />
-                                                 <input type="hidden" name="username" value="<%= loggedInUsername%>" />
-                                                 <input type="hidden" name="workExprList" id="workExprList" value="" />
-                                                 <input type="hidden" name="eduExprList" id="eduExprList" value="" />
-                                                 <input type="hidden" name="proExprList" id="proExprList" value="" />
-                                                 <input type="hidden" name="skillList" id="skillList" value="" />
-                                                 <button class="btn btn-theme btn-search" type="submit" onclick="createWorkExprList()"></button>
-                                            </div>
-                                        </div>
-                                    </form>
+                            <div class="card-body p-2 mb-3 mb-md-0 mb-xl-3">
+                                <div class="media">
+                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= userImage%>" style="width:50px;height:50px;"/>
+                                    <div class="media-body ml-2">
+                                        <h5 class="user-name"><strong><%= userFirstName%>&nbsp;<%= userLastName%></strong></h5>
+                                        <p>@<%= username%></p>
+                                        <small class="card-text text-muted mt-2">Joined <%= userCreationDate%></small>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="list-group list-group-flush">
+                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
+                                </a>
+                                <a href="account-address.html" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToCompanyReview" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-building"></i>&nbsp;Company Review List
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToCompanyRequest" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-question-circle"></i>&nbsp;Company Request List
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToResume" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-file"></i>&nbsp;Resume List
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resumeForm col-lg-9 col-md-8">
+                        <div class="x_title">
+                            <h5>New Resume</h5>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <p>Fill in the form to create your resume. </p>
+                            <form class="form-horizontal form-label-left" action="VoicesSysUser" method="POST" name="resumeForm" enctype="multipart/form-data">
+                                <table border="0" cellspacing="2" cellpadding="3" width="100%">
+                                    <tbody>
+                                        <tr bgcolor="#4D7496">
+                                            <td colspan="4" valign="top">
+                                                <b><center style="color: #fff">Resume Created By <%= loggedInUsername%></center></b>
+                                            </td>
+                                        </tr>
+                                        <tr bgcolor="#D9DEE4">
+                                            <td colspan="4" valign="top">&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table border="0" cellspacing="2" cellpadding="3" width="100%">
+                                    <tbody>
+                                        <tr bgcolor="#4D7496">
+                                            <td colspan="4" valign="top">
+                                                <b style="color: #fff">Personal Information</b>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row" style="background-color: #D9DEE4; display: table-row; border-spacing: 10px">
+                                    <div class="ml-1" style="display: table-cell">
+                                        <div class="form-group" style="margin-left: 80px; margin-top: 30px; margin-right: 50px;">
+                                            <div class="image-upload">
+                                                <img id="output-image" />
+                                            </div>
+                                            <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 151px;">
+                                                <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
+                                            </label>
+                                            <input id="file-upload" name="userImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" required="required" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1" style="padding-top: 30px; display: table-cell; vertical-align:middle;">
+                                        <div class="form-group">
+                                            <label for="userFullName">Full Name&nbsp;<span class="asterik">*</span></label>
+                                            <input type="text" class="form-control" name="userFullName" placeholder="Enter your full name" required="required" style="width: 50%"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="contactNum">Contact Number&nbsp;<span class="asterik">*</span></label><br/>
+                                            <input type="text" class="form-control" name="contactNum" placeholder="Enter your contact number" required="required" style="width: 50%"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="emailAddr">Email Address&nbsp;<span class="asterik">*</span></label><br/>
+                                            <input type="text" class="form-control" name="emailAddr" placeholder="Enter your email address" required="required" style="width: 50%"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="postalAddr">Postal Address&nbsp;<span class="asterik">*</span></label><br/>
+                                            <input type="text" class="form-control" name="postalAddr" placeholder="Enter your postal address (with postal code)" required="required" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <table border="0" cellspacing="2" cellpadding="3" width="100%">
+                                    <tbody>
+                                        <tr bgcolor="#4D7496">
+                                            <td colspan="4" valign="top">
+                                                <b style="color: #fff">Summary</b>
+                                            </td>
+                                        </tr>
+                                        <tr bgcolor="#D9DEE4">
+                                            <td colspan="4" valign="top" style="padding: 10px">
+                                                <textarea type="text" class="form-control" name="personalProfile" rows="3"></textarea>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table border="0" cellspacing="2" cellpadding="3" width="100%">
+                                    <tbody id="eduExprTable">
+                                        <tr bgcolor="#4D7496">
+                                            <td colspan="5" valign="top">
+                                                <b style="color: #fff">Education Experience</b>
+                                           </td>
+                                        </tr>
+                                        <tr class="eduExpr">
+                                            <td valign="middle"><b><center>School Name: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="schoolName[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle"><b><center>Period: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="schoolPeriod[]" style="margin-right: 10px; width: 50%"/></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="eduExpr">
+                                            <td valign="middle"><b><center>Degree: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="schoolDegree[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle"><b><center>Major: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="schoolMajor[]" style="margin-right: 10px; width: 90%"/></td>
+                                            <td style="float: left"><i class="fa fa-plus-circle fa-2x" onclick="addEduExprRow()"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table border="0" cellspacing="2" cellpadding="3" width="100%">
+                                    <tbody id="proExprTable">
+                                        <tr bgcolor="#4D7496">
+                                            <td colspan="4" valign="top">
+                                                <b style="color: #fff">Project Experience</b>
+                                            </td>
+                                        </tr>
+                                        <tr class="proExpr">
+                                            <td valign="middle"><b><center>Project Title: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="projectTitle[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle"></td>
+                                        </tr>
+                                        <tr class="proExpr">
+                                            <td valign="middle"><b><center>Description: </center></b></td>
+                                            <td valign="middle"><textarea type="text" class="form-control" name="projectDes[]" rows="2"></textarea></td>
+                                            <td style="float: right; margin-right: 10px"><i class="fa fa-plus-circle fa-2x" onclick="addProExprRow()"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table border="0" cellspacing="2" cellpadding="3" width="100%">
+                                    <tbody id="awardTable">
+                                        <tr bgcolor="#4D7496">
+                                            <td colspan="4" valign="top">
+                                                <b style="color: #fff">Achievements & Awards</b>
+                                            </td>
+                                        </tr>
+                                        <tr class="award">
+                                            <td valign="middle"><b><center>Achievement: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px;"/></td>
+                                            <td style="float: right; margin-right: 10px"><i class="fa fa-plus-circle fa-2x" onclick="addAwardRow()"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table border="0" cellspacing="2" cellpadding="3" width="100%">
+                                    <tbody id="skillTable">
+                                        <tr bgcolor="#4D7496">
+                                            <td colspan="5" valign="top">
+                                                <b style="color: #fff">Skill Set</b>
+                                            </td>
+                                        </tr>
+                                        <tr class="skill">
+                                            <th style="text-align:center">Professional</th>
+                                            <th>(e.g. Java, etc)</th>
+                                            <th style="text-align:center">Personal</th>
+                                            <th>(e.g. Leadership, etc)</th>
+                                            <th></th>
+                                        </tr>
+                                        <tr class="skill">
+                                            <td><input type="text" class="form-control" name="proSkillName[]" /></td>
+                                            <td><select class="form-control" name="proSkillLevel[]">
+                                                <option value="" default>-- Select Skill Level --</option>
+                                                <option value="Beginner">Beginner</option>
+                                                <option value="Intermediate">Intermediate</option>
+                                                <option value="Advanced">Advanced</option>
+                                                </select></td>
+                                            <td><input type="text" class="form-control" name="perSkillName[]" /></td>
+                                            <td><select class="form-control" name="perSkillLevel[]">
+                                                <option value="" default>-- Select Skill Level --</option>
+                                                <option value="Beginner">Beginner</option>
+                                                <option value="Intermediate">Intermediate</option>
+                                                <option value="Advanced">Advanced</option>
+                                                </select></td>
+                                            <td style="float: right; margin-right: 10px;"><i class="fa fa-plus-circle fa-2x" onclick="addSkillSetRow()"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table border="0" cellspacing="2" cellpadding="3" width="100%">
+                                    <tbody id="workExprTable">
+                                        <tr bgcolor="#4D7496">
+                                            <td colspan="4" valign="top">
+                                                <b style="color: #fff">Working Experience</b>
+                                            </td>
+                                        </tr>
+                                        <tr class="workExpr">
+                                            <td valign="middle"><b><center>Company: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 100%"/></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="workExpr">
+                                            <td valign="middle"><b><center>Position: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle"><b><center>Period: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 50%"/></td>
+                                        </tr>
+                                        <tr class="workExpr">
+                                            <td valign="middle"><b><center>Description: </center></b></td>
+                                            <td valign="middle"><textarea type="text" class="form-control" name="projectDes[]" rows="2" style="width: 180%"></textarea></td>
+                                            <td></td>
+                                            <td style="float: right; margin-right: 10px; margin-top: 10px"><i class="fa fa-plus-circle fa-2x" onclick="addWorkExprRow()"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table border="0" cellspacing="2" cellpadding="3" width="100%">
+                                    <tbody id="referenceTable">
+                                        <tr bgcolor="#4D7496">
+                                            <td colspan="4" valign="top">
+                                                <b style="color: #fff">References</b>
+                                            </td>
+                                        </tr>
+                                        <tr class="reference">
+                                            <td valign="middle"><b><center>Referee Name: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 100%"/></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="reference">
+                                            <td valign="middle"><b><center>Position: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle"><b><center>Company: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 80%"/></td>
+                                        </tr>
+                                        <tr class="reference">
+                                            <td valign="middle"><b><center>Reference: </center></b></td>
+                                            <td valign="middle"><textarea type="text" class="form-control" name="projectDes[]" rows="2" style="width: 220%"></textarea></td>
+                                            <td></td>
+                                            <td style="float: right; margin-right: 10px; margin-top: 10px"><i class="fa fa-plus-circle fa-2x" onclick="addReferenceRow()"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br/>
+                                <div class="form-row" style="justify-content: center;">
+                                    <input type="hidden" name="pageTransit" value="createResumeSYS" />
+                                    <input type="hidden" name="username" value="<%= loggedInUsername%>" />
+                                    <input type="hidden" name="workExprList" id="workExprList" value="" />
+                                    <input type="hidden" name="eduExprList" id="eduExprList" value="" />
+                                    <input type="hidden" name="proExprList" id="proExprList" value="" />
+                                    <input type="hidden" name="skillList" id="skillList" value="" />
+                                    <button class="btn btn-theme btn-search" type="submit" onclick="createWorkExprList()">Submit</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>                

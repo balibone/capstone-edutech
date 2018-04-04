@@ -10,8 +10,6 @@ public interface VoicesSysUserMgrBeanRemote {
     public List<Vector> viewCompanyList();
     public Vector viewCompanyDetails(long companyID);
     public List<Vector> viewAssociatedReviewList(long companyID, String username);
-    public List<Vector> viewUserCompanyReview(String username);
-    public List<Vector> viewUserCompanyRequest(String username);
     public List<Vector> viewCompanyInSameIndustry(long companyID);
     
     public String createCompanyReview(String companyIndustry, String companyName, String reviewTitle, String reviewPros, 
@@ -25,5 +23,13 @@ public interface VoicesSysUserMgrBeanRemote {
     public String populateCompanyIndustryString();
     public boolean deleteReview(long reviewID);
     public boolean cancelRequest(long requestID);
-    public String likeUnlikeReview(long reviewIDHid, String usernameHid);  
+    public String likeUnlikeReview(long reviewIDHid, String usernameHid); 
+    
+    public List<Vector> viewUserCompanyReview(String username);
+    public List<Vector> viewUserCompanyRequest(String username);
+    public List<Vector> viewUserResume(String username);
+    public Vector viewResumeBasicDetails(long resumeID);
+    public List<Vector> viewEduExprList(long resumeID);
+    public List<Vector> viewWorkExprList(long resumeID);
+    public List<Vector> viewProjectExprList(long resumeID);
 }

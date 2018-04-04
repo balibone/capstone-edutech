@@ -19,37 +19,122 @@ function previewImage(event) {
 }
 
 function addWorkExprRow() {
-    document.getElementById("workExprTable").insertRow(-1).innerHTML = '<tr><td><input type="text" class="form-control" name="workTitle[]" /></td>\n\
-                                                                            <td><input type="text" class="form-control" name="workCompany[]" /></td>\n\
-                                                                            <td><input type="text" class="form-control" name="workPeriod[]" /></td>\n\
-                                                                            <td><textarea class="form-control" name="workDescription[]" rows="1"></textarea></td></tr>';
+    var row_1 = document.getElementById("workExprTable").insertRow(-1);
+    row_1.className = 'workExpr';
+    row_1.innerHTML = '<tr class="workExpr">\n\
+                            <td valign="middle"><b><center>Company: </center></b></td>\n\
+                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 100%"/></td>\n\
+                            <td></td>\n\
+                            <td></td></tr>';
+    
+    var row_2 = document.getElementById("workExprTable").insertRow(-1);
+    row_2.className = 'workExpr';
+    row_2.innerHTML = '<tr class="workExpr">\n\
+                            <td valign="middle"><b><center>Position: </center></b></td>\n\
+                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 80%"/></td>\n\
+                            <td valign="middle"><b><center>Period: </center></b></td>\n\
+                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 50%"/></td></tr>';
+    
+    var row_3 = document.getElementById("workExprTable").insertRow(-1);
+    row_3.className = 'workExpr';
+    row_3.innerHTML = '<tr class="workExpr">\n\
+                            <td valign="middle"><b><center>Description: </center></b></td>\n\
+                            <td valign="middle"><textarea type="text" class="form-control" name="projectDes[]" rows="2" style="width: 180%"></textarea></td>\n\
+                            <td></td>\n\
+                            <td></td></tr>';
 }
 
 function addEduExprRow() {
-    document.getElementById("eduExprTable").insertRow(-1).innerHTML = '<tr><td><input type="text" class="form-control" name="schoolName[]" /></td>\n\
-                                                                            <td><input type="text" class="form-control" name="schoolDegree[]" /></td>\n\
-                                                                            <td><input type="text" class="form-control" name="schoolMajor[]" /></td>\n\
-                                                                            <td><input type="text" class="form-control" name="schoolPeriod[]" /></td></tr>';
+    var row_1 = document.getElementById("eduExprTable").insertRow(-1);
+    row_1.className = 'eduExpr';
+    row_1.innerHTML = '<tr class="eduExpr">\n\
+                        <td valign="middle"><b><center>School Name: </center></b></td>\n\
+                        <td valign="middle"><input type="text" class="form-control" name="schoolName[]" style="margin-right: 10px; width: 80%"/></td>\n\
+                        <td valign="middle"><b><center>Period: </center></b></td>\n\
+                        <td valign="middle"><input type="text" class="form-control" name="schoolPeriod[]" style="margin-right: 10px; width: 50%"/></td>\n\
+                        <td></td></tr>';
+    
+    var row_2 = document.getElementById("eduExprTable").insertRow(-1);
+    row_2.className = 'eduExpr';
+    row_2.innerHTML = '<tr bgcolor="#D9DEE4" style="padding: 10px">\n\
+                        <td valign="middle"><b><center>Degree: </center></b></td>\n\
+                        <td valign="middle"><input type="text" class="form-control" name="schoolDegree[]" style="margin-right: 10px; width: 80%"/></td>\n\
+                        <td valign="middle"><b><center>Major: </center></b></td>\n\
+                        <td valign="middle"><input type="text" class="form-control" name="schoolMajor[]" style="margin-right: 10px; width: 90%"/></td>\n\
+                        <td></td></tr>';
 }
 
-function addProjectExprRow() {
-    var block_to_insert = document.createElement( 'div' );
-    block_to_insert.innerHTML = '<div class="form-group col-2"></div>\n\
-                                 <div class="form-group col-8"><label for="projectTitle">Project Title&nbsp;</label><input type="text" class="form-control" name="projectTitle[]" />\n\
-                                                               <label for="projectDes">Project Description&nbsp;</label><textarea type="text" class="form-control" name="projectDes[]" rows="3"></textarea></div>';
-    block_to_insert.className = 'form-group row';
+function addProExprRow() {
+    var row_1 = document.getElementById("proExprTable").insertRow(-1);
+    row_1.className = 'proExpr';
+    row_1.innerHTML = '<tr class="proExpr">\n\
+                            <td valign="middle"><b><center>Project Title: </center></b></td>\n\
+                            <td valign="middle"><input type="text" class="form-control" name="projectTitle[]" style="margin-right: 10px; width: 80%"/></td>\n\
+                            <td></td></tr>';
     
-    var container_block = document.getElementById("projectExprTable");
-    container_block.appendChild(block_to_insert);
+    var row_2 = document.getElementById("proExprTable").insertRow(-1);
+    row_2.className = 'proExpr';
+    row_2.innerHTML = '<tr class="proExpr">\n\
+                            <td valign="middle"><b><center>Description: </center></b></td>\n\
+                            <td valign="middle"><textarea type="text" class="form-control" name="projectDes[]" rows="2"></textarea></td>\n\
+                            <td></td></tr>';
 }
 
 function addSkillSetRow() {
-    document.getElementById("skillSetTable").insertRow(-1).innerHTML = '<tr><td><input type="text" class="form-control" name="skillName[]" /></td>\n\
-                                                                            <td><select class="form-control" name="skillLevel[]">\n\
-                                                                                    <option value="" default>-- Select Skill Level --</option>\n\
-                                                                                    <option value="Beginner">Beginner</option>\n\
-                                                                                    <option value="Intermediate">Intermediate</option>\n\
-                                                                                    <option value="Advanced">Advanced</option></select></td>';
+    var row_1 = document.getElementById("skillTable").insertRow(-1);
+    row_1.className = 'skill';
+    row_1.innerHTML = '<tr class="skill">\n\
+                            <td><input type="text" class="form-control" name="proSkillName[]" /></td>\n\
+                            <td><select class="form-control" name="proSkillLevel[]">\n\
+                                <option value="" default>-- Select Skill Level --</option>\n\
+                                <option value="Beginner">Beginner</option>\n\
+                                <option value="Intermediate">Intermediate</option>\n\
+                                <option value="Advanced">Advanced</option>\n\
+                                </select></td>\n\
+                            <td><input type="text" class="form-control" name="perSkillName[]" /></td>\n\
+                            <td><select class="form-control" name="perSkillLevel[]">\n\
+                                <option value="" default>-- Select Skill Level --</option>\n\
+                                <option value="Beginner">Beginner</option>\n\
+                                <option value="Intermediate">Intermediate</option>\n\
+                                <option value="Advanced">Advanced</option>\n\
+                                </select></td>\n\
+                            <td></td></tr>';
+}
+
+function addAwardRow() {
+    var row_1 = document.getElementById("awardTable").insertRow(-1);
+    row_1.className = 'award';
+    row_1.innerHTML = '<tr class="award">\n\
+                            <td valign="middle"><b><center>Achievement: </center></b></td>\n\
+                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px;"/></td>\n\
+                            <td></td></tr>';
+    
+}
+
+function addReferenceRow() {
+    var row_1 = document.getElementById("referenceTable").insertRow(-1);
+    row_1.className = 'reference';
+    row_1.innerHTML = '<tr class="reference">\n\
+                            <td valign="middle"><b><center>Referee Name: </center></b></td>\n\
+                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 100%"/></td>\n\
+                            <td></td>\n\
+                            <td></td></tr>';
+    
+    var row_2 = document.getElementById("referenceTable").insertRow(-1);
+    row_2.className = 'reference';
+    row_2.innerHTML = '<tr class="reference">\n\
+                            <td valign="middle"><b><center>Position: </center></b></td>\n\
+                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 80%"/></td>\n\
+                            <td valign="middle"><b><center>Company: </center></b></td>\n\
+                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 80%"/></td></tr>';
+    
+    var row_3 = document.getElementById("referenceTable").insertRow(-1);
+    row_3.className = 'reference';
+    row_3.innerHTML = '<tr class="reference">\n\
+                            <td valign="middle"><b><center>Reference: </center></b></td>\n\
+                            <td valign="middle"><textarea type="text" class="form-control" name="projectDes[]" rows="2" style="width: 220%"></textarea></td>\n\
+                            <td></td>\n\
+                            <td></td></tr>';
 }
 
 function createWorkExprList() {
