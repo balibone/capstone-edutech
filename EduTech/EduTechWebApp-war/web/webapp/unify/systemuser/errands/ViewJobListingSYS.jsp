@@ -199,8 +199,8 @@
                                     <div class="filter-sidebar">
                                         <div class="title"><span>Category</span></div>
                                         <div class="jplist-group" data-control-type="checkbox-group-filter" data-control-action="filter" data-control-name="category">
-                                            <input data-path="default" type="checkbox" name="jplist" checked="checked" />&nbsp;
-                                            <label class="mr-4">All</label><br/>
+                                            <!--<input data-path="default" type="checkbox" name="jplist" checked="checked" />&nbsp;
+                                            <label class="mr-4">All</label><br/>-->
                                         
                                             <%
                                                 ArrayList<String> categoryList = (ArrayList) request.getAttribute("categoryList");
