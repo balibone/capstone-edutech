@@ -290,8 +290,9 @@
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort"
                                  data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                 <ul>
-                                    <li><span data-path=".shoutDuration" data-order="desc" data-type="datetime" data-default="true">Newest First</span></li>
-                                    <li><span data-path=".shoutDuration" data-order="asc" data-type="datetime">Oldest First</span></li>
+                                    <li><span data-path=".shoutDate" data-order="desc" data-type="datetime" data-default="true">Newest Post First</span></li>
+                                    <li><span data-path=".shoutDate" data-order="asc" data-type="datetime">Oldest Post First</span></li>
+                                    <li><span data-path=".shoutLike" data-order="desc" data-type="number">Most Liked Post</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -451,6 +452,9 @@
                                             <div class="shout-post-date">
                                                 <i class="fa fa-clock-o">&nbsp;</i><span class="float-none shoutDuration" style="color: #64676d; font-size: 12px">Posted <%= shoutDuration%>
                                                     <%--    on <%= shoutDate%> --%>
+                                                </span>
+                                                
+                                                <span class="float-none shoutDate" hidden="true" style="color: #64676d; font-size: 12px"><%= shoutDate%>
                                                 </span>
 
                                                 <span class = "float-right"><a onClick ="reportShout('<%= shoutID%>,<%= shoutContent%>')" class="reportThis">

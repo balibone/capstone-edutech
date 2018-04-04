@@ -260,7 +260,7 @@ $(document).ready(function () {
     });
 
     $('#bookmark-alert').iziModal({
-        title: 'Post Bookmarked!',
+        title: 'Shout Bookmarked!',
         iconClass: 'fa fa-bookmark',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
@@ -276,7 +276,7 @@ $(document).ready(function () {
     });
 
     $('#unbookmark-alert').iziModal({
-        title: 'Post Unbookmarked!',
+        title: 'Shout Unbookmarked!',
         iconClass: 'fa fa-bookmark',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
@@ -292,7 +292,7 @@ $(document).ready(function () {
     });
 
     $('#like-alert').iziModal({
-        title: 'Post Liked!',
+        title: 'Shout Liked!',
         iconClass: 'fa fa-bookmark',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
@@ -310,7 +310,7 @@ $(document).ready(function () {
 
 
     $('#unlike-alert').iziModal({
-        title: 'Post Unliked!',
+        title: 'Shout Unliked!',
         iconClass: 'fa fa-bookmark',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',

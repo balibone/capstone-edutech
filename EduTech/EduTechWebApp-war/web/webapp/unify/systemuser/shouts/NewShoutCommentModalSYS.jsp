@@ -78,7 +78,7 @@
 
                                             <div class="form-group">
                                                 <label for="shoutCommentContent">Write your comment below</label>
-                                                <textarea class="form-control" name="shoutCommentContent" rows="5" placeholder="Describe why you are writing this report here" required="required"></textarea>
+                                                <textarea class="form-control" name="shoutCommentContent" rows="5" placeholder="Type your comment here" required="required"></textarea>
                                             </div>
 
                                         </div>
