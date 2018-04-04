@@ -33,59 +33,59 @@ public class TaskREST {
     
     @GET 
     @Path("user/{username}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<TaskEntity> getUserTasks(@PathParam("username") String username) {
         return etr.findUserTasks(username);
     }
     
     @GET 
     @Path("group/{groupId}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<TaskEntity> getGroupTasks(@PathParam("groupId") int groupId) {
         return etr.findGroupTasks(groupId);
     }
     
     @POST 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public TaskEntity createTask(TaskEntity entity) {
         return etr.createTask(entity);
     }
     
     @PUT 
     @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public TaskEntity editTask(@PathParam("id") String id, TaskEntity entity) {
         return etr.editTask(id, entity);
     }
          
     @PUT 
     @Path("{id}/{progressCode}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public TaskEntity updateTaskProgress(@PathParam("id") String id, @PathParam("progressCode") int progressCode) {
         return etr.updateTaskProgress(id, progressCode);
     }
     
     @DELETE
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<TaskEntity> deleteTask(@PathParam("id") String id) {
         etr.deleteTask(id);
         return etr.getAllTasks();
     }
     
     @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<TaskEntity> getAllTasks(){
         return etr.getAllTasks();   
     }
     
     @PUT
     @Path("verify/{id}/{username}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public TaskEntity verifyTask(@PathParam("id") String id, @PathParam("username") String username) {
         return etr.verifyTask(id, username);
     }

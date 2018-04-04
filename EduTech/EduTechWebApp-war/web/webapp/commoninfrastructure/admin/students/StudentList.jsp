@@ -35,6 +35,7 @@
                 <%@include file="../SideMenu.jspf"%>
                 <%@include file="../TopMenu.jspf"%>               
                 <div class="right_col" role="main">
+
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_panel">
@@ -53,11 +54,19 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <!--
-                                    <p class="text-muted font-13 m-b-30">
-                                        The following EduPack Users are students.
-                                    </p>
-                                    -->
+                                    <%
+                                        String msg = (String)request.getAttribute("msg");
+                                        if(msg!=null){
+                                            Boolean success = (Boolean)request.getAttribute("success");
+                                            if(success){
+                                    %>
+                                    <div class="alert alert-info" role="alert"><%=msg%></div>                    
+                                    <%}else{
+                                    %>
+                                    <div class="alert alert-danger" role="alert"><%=msg%></div>                    
+                                    <%
+}}
+                                    %>
                                     <table id="datatable" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -65,6 +74,7 @@
                                                 <th>Name</th>
                                                 <th>Username</th>
                                                 <th>Date Created</th>
+                                                <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>                                                                                       
@@ -73,22 +83,37 @@
                                                 ArrayList studentList = (ArrayList)request.getAttribute("studentList");
                                                 for(Object o : studentList){
                                                     ArrayList studentData = (ArrayList) o;
+                                                    String username = (String) studentData.get(2);
+                                                    String status = (String) studentData.get(4);
+                                                    String toToggle = "";
+                                                    if(status.equalsIgnoreCase("inactive")){
+                                                        toToggle = "active";
+                                                    }else{
+                                                        toToggle = "inactive";
+                                                    }
                                             %>
                                             <tr>
                                                 <td><img src="uploads/commoninfrastructure/admin/images/<%= studentData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=studentData.get(1)%></td>
-                                                <td><%=studentData.get(2)%></td>
+                                                <td><%=username%></td>
                                                 <td><%=studentData.get(3)%></td>
                                                 <td>
                                                     <ul class="list-inline">
                                                         <li>
-                                                            <a href="SystemAdmin?pageTransit=ViewStudent&id=<%=studentData.get(2)%>"><i class="fas fa-eye fa-lg"></i></a>
+                                                            <%=status%>
                                                         </li>
                                                         <li>
-                                                            <a href="SystemAdmin?pageTransit=EditStudent&id=<%=studentData.get(2)%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
+                                                            <a onclick="return confirm('Make this user <%=toToggle%> ?')" href="SystemAdmin?pageTransit=toggleStudent&id=<%=username%>"><i class="fas fa-sync fa-lg"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul class="list-inline">
+                                                        <li>
+                                                            <a href="SystemAdmin?pageTransit=ViewStudent&id=<%=username%>"><i class="fas fa-eye fa-lg"></i></a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="return confirm('Delete Student?')" href="SystemAdmin?pageTransit=deleteStudent&id=<%=studentData.get(2)%>"><i class="fas fa-trash fa-lg"></i></a> 
+                                                            <a href="SystemAdmin?pageTransit=EditStudent&id=<%=username%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
                                                         </li>
                                                     </ul>
                                                 </td>

@@ -86,15 +86,15 @@ public class SystemAdminController extends HttpServlet {
                         if (success){
                             msg = "User account created successfully.";
                         } else{
-                            msg = "Failed to create user account. Please try again.";
+                            msg = "Failed to create user account. Please make sure email & contact number are valid and try again.";
                         }
                     }catch(Exception e){
                         msg = "User account with this username already exists. Please pick a different username.";
                     }                    
                     request.setAttribute("success", success);//success boolean
                     request.setAttribute("msg", msg);//plug in confirmation
-                    
-                    pageAction = "NewStudent";
+                    request.setAttribute("studentList", sam.getAllStudents());
+                    pageAction = "StudentList";
                     break;
                 case "editStudent"://create new student
                     id = request.getParameter("id");
@@ -111,8 +111,8 @@ public class SystemAdminController extends HttpServlet {
                     request.setAttribute("userInfo", userInfo);
                     pageAction="EditStudent";//response is same page. 
                     break;              
-                case "deleteStudent":
-                    sam.deleteUser(request.getParameter("id"));
+                case "toggleStudent":
+                    sam.toggleUserStatus(request.getParameter("id"));
                     request.setAttribute("studentList", sam.getAllStudents());
                     pageAction="StudentList";
                     break;
@@ -138,18 +138,19 @@ public class SystemAdminController extends HttpServlet {
                     break;
                 case "createInstructor":
                     try{
-                        success = processNewUser(request,response, "student");//pass request to helper method for parsing & store success boolean
+                        success = processNewUser(request,response, "instructor");//pass request to helper method for parsing & store success boolean
                         if (success){
                             msg = "Instructor account created successfully.";
                         } else{
-                            msg = "Failed to create instructor account. Please try again.";
+                            msg = "Failed to create instructor account. Please make sure email & contact number are valid and try again.";
                         }
                     }catch(Exception e){
                         msg = "Instructor account with this username already exists. Please pick a different username.";
                     }                    
                     request.setAttribute("success", success);//success boolean
                     request.setAttribute("msg", msg);//plug in confirmation         
-                    pageAction = "NewInstructor";
+                    request.setAttribute("instructorList", sam.getAllInstructors());
+                    pageAction="InstructorList";
                     break;
                 case "editInstructor":
                     id = request.getParameter("id");
@@ -167,8 +168,8 @@ public class SystemAdminController extends HttpServlet {
                     request.setAttribute("userInfo", userInfo);
                     pageAction = "EditInstructor";
                     break;
-                case "deleteInstructor":
-                    sam.deleteUser(request.getParameter("id"));
+                case "toggleInstructor":
+                    sam.toggleUserStatus(request.getParameter("id"));
                     request.setAttribute("instructorList", sam.getAllInstructors());
                     pageAction = "InstructorList";
                     break; 
@@ -198,15 +199,15 @@ public class SystemAdminController extends HttpServlet {
                         if (success){
                             msg = "Administrator account created successfully.";
                         } else{
-                            msg = "Failed to create administrator account. Please try again.";
+                            msg = "Failed to create administrator account. Please make sure email & contact number are valid and try again.";
                         }
                     }catch(Exception e){
                         msg = "Administrator account with this username already exists. Please pick a different username.";
                     }                    
                     request.setAttribute("success", success);//success boolean
                     request.setAttribute("msg", msg);//plug in confirmation
-                    
-                    pageAction = "NewAdmin";
+                    request.setAttribute("adminList", sam.getAllAdmins());
+                    pageAction = "AllAdminList";
                     break;
                 case "editAdmin":
                     id = request.getParameter("id");
@@ -223,16 +224,17 @@ public class SystemAdminController extends HttpServlet {
                     request.setAttribute("userInfo", userInfo);
                     pageAction = "EditAdmin";
                     break;
-                case "deleteAdmin":
+                case "toggleAdmin":
                     id = request.getParameter("id");
-                    //if curr user is getting deleted, send him to logout.
+                    String prevStatus = request.getParameter("prevStatus");
+                    //if curr user is getting toggled to inactive, send him to logout.
                     Cookie[] reqCookies = request.getCookies();
                     if(reqCookies != null){
                         for(Cookie c : reqCookies){
                             //if username cookie is valid, extract cookie value.
                             if("username".equals(c.getName()) && !c.getValue().equals("")){
                                 loggedInUsername = c.getValue();
-                                if(id.equals(loggedInUsername)){
+                                if(id.equals(loggedInUsername) && prevStatus.equalsIgnoreCase("active")){
                                     //Delete all of client's cookies
                                     //Delete username cookie
                                     Cookie username = new Cookie("username","");//overwrite existing cookie
@@ -252,7 +254,7 @@ public class SystemAdminController extends HttpServlet {
                         }
                     }
                     
-                    sam.deleteUser(id);
+                    sam.toggleUserStatus(id);
                     response.sendRedirect("SystemAdmin?pageTransit=AllAdminList");
                     break;
                 default:
@@ -324,17 +326,16 @@ public class SystemAdminController extends HttpServlet {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
         String email = request.getParameter("email");
         String contactNum = request.getParameter("contactNum");
         int localPort = request.getLocalPort();
         if(userType.equals("admin")) {
             String adminType = request.getParameter("adminType");
-            return sam.createNewAdmin(localPort,salutation,firstName,lastName, email, contactNum,username, password, fileName,adminType);
+            return sam.createNewAdmin(localPort,salutation,firstName,lastName, email, contactNum,username, fileName,adminType);
         } else if(userType.equals("student")){ 
-            return sam.createNewStudent(localPort,salutation,firstName,lastName,email, contactNum, username, password, fileName);
+            return sam.createNewStudent(localPort,salutation,firstName,lastName,email, contactNum, username, fileName);
         } else {
-            return sam.createNewInstructor(localPort,salutation, firstName, lastName, email, contactNum, username, password, fileName);
+            return sam.createNewInstructor(localPort,salutation, firstName, lastName, email, contactNum, username, fileName);
         }
     }
     private String getFileName(final Part part) {
@@ -409,9 +410,8 @@ public class SystemAdminController extends HttpServlet {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");       
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
         String email = request.getParameter("email");
         String contactNum = request.getParameter("contactNum");
-        return sam.editUser(username, salutation, firstName, lastName, password, userType, fileName, email, contactNum);   
+        return sam.editUser(username, salutation, firstName, lastName, userType, fileName, email, contactNum);   
     }
 }

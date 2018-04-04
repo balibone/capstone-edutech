@@ -38,14 +38,14 @@ public class AttachmentREST {
     CommonMgrBean cmb;
     
     @GET 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<AttachmentEntity> getAllAttachments() {
         return cmb.getAllAttachments();
     }
     
     @GET 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public AttachmentEntity getOneAttachment(@PathParam("id") String id){
         return cmb.getOneAttachment(Long.valueOf(id));
     }

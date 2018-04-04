@@ -37,23 +37,23 @@ public class UserREST {
     
 
     @POST 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public UserEntity createUser(UserEntity entity) {
         return etr.createUser(entity);
     }
 
     @PUT 
     @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public UserEntity editUser(@PathParam("id") String id, UserEntity entity) {
         return etr.editUser(id, entity);
     }
 
     @DELETE 
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<UserEntity> deleteUser(@PathParam("id") String id) {
         etr.deleteUser(id);
         return etr.getAllUsers();
@@ -61,13 +61,13 @@ public class UserREST {
 
     @GET 
     @Path("{username}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public UserEntity getOneUser(@PathParam("username") String username) {
         return etr.getOneUser(username);
     }
 
     @GET 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<UserEntity> getAllUsers() {
         return etr.getAllUsers();
     }

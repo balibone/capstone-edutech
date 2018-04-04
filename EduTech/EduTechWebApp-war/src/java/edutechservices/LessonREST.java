@@ -66,35 +66,35 @@ public class LessonREST {
     private HttpServletResponse response;
     
     @GET 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<ScheduleItemEntity> getAllLessons() {
         return cmb.getAllLessons();
     }
     
     @GET 
     @Path("allAttachments/{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<AttachmentEntity> getAllLessonAttachments(@PathParam("id") String id) {
         return cmb.getAllLessonAttachments(Long.valueOf(id));
     }
     
     @GET 
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public ScheduleItemEntity getOneLesson(@PathParam("id") String id){
         return cmb.getOneLesson(Long.valueOf(id));
     }
     
     @POST
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public ScheduleItemEntity createLesson(LessonEntity lesson) {
         return cmb.createLesson(lesson);
     }
     
     @DELETE 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<ScheduleItemEntity> deleteLesson(@PathParam("id") String id) {
         cmb.deleteLesson(id);
         return cmb.getAllLessons();
@@ -102,16 +102,16 @@ public class LessonREST {
     
     @PUT 
     @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public ScheduleItemEntity editLesson(@PathParam("id") String id, ScheduleItemEntity replacement) {
         return cmb.editLesson(id, replacement);
     }
     
     @POST
     @Path("uploadAttachment/{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.MULTIPART_FORM_DATA})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.MULTIPART_FORM_DATA})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<AttachmentEntity> uploadLessonAttachment(@PathParam("id") String id) throws IOException, ServletException, FileUploadException, Exception {
         String title ="";
         String fileName="";
@@ -175,7 +175,7 @@ public class LessonREST {
     
     @DELETE
     @Path("deleteAttachment/{lessonId}/{attachmentId}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<AttachmentEntity> deleteOneLessonAttachment(@PathParam("lessonId") String lessonId, @PathParam("attachmentId") String attachmentId ) throws IOException, ServletException, FileUploadException, Exception {
         String fileName="";
         
@@ -223,7 +223,7 @@ public class LessonREST {
     
     @GET
     @Path("downloadAllAttachments/{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
     @Produces("application/zip")
     public Response downloadAllLessonAttachments(@PathParam("id") String lessonId) throws IOException {
         //Declare the directory which the zip will be created at.

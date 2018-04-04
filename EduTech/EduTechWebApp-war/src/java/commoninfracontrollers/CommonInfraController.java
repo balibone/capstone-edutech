@@ -47,7 +47,7 @@ public class CommonInfraController extends HttpServlet {
                         
                         //Insert user type data into "usertype" cookie using systemadminbean's get userinfo method
                         ArrayList userInfo = sam.getUserInfo(enteredUsername);
-                        String userType = (String) userInfo.get(8);
+                        String userType = (String) userInfo.get(7);
                         Cookie userTypeCookie = new Cookie("userType", userType);
                         // non-persistent cookie that will be deleted when browser closes.
                         userTypeCookie.setMaxAge(-1);

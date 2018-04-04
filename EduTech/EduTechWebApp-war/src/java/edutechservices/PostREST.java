@@ -36,43 +36,43 @@ public class PostREST {
     CommonMgrBean etr;
     
     @GET  
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<PostEntity> getAllPosts() {
         return etr.getAllPosts();
     }
     
     @GET  
     @Path("onePost/{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public PostEntity getOnePost(@PathParam("id") String postId) {
         return etr.getOnePost(postId);
     }
     
     @GET 
     @Path("{pageId}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<PostEntity> getPagePosts(@PathParam("pageId") String pageId) {
         return etr.findPagePosts(pageId);
     }
     
     @POST 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public PostEntity createPost(PostEntity entity) {
         return etr.createPost(entity);
     }
     
     @POST
     @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public PostEntity replyPost(@PathParam("id") String id, PostEntity entity) {
         return etr.replyPost(id, entity);
     }
     
     @DELETE
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<PostEntity> deletePost(@PathParam("id") String id) {
         etr.deletePost(id);
         return etr.getAllPosts();
@@ -80,16 +80,16 @@ public class PostREST {
     
     @PUT
     @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public PostEntity editPost(PostEntity post){
         return etr.editPost(post);
     }
     
     @PUT
     @Path("pin/{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public PostEntity pinPost(@PathParam("id") String id) {
         return etr.togglePinPost(id);
     }

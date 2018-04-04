@@ -18,6 +18,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlElement;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
@@ -28,6 +30,8 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @XmlElement
+    @XmlInverseReference(mappedBy = "lessons")
     @ManyToOne
     private RecurringEventEntity recurringEvent;
     @OneToMany(cascade=CascadeType.ALL)

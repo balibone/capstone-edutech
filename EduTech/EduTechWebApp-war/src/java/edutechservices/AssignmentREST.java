@@ -35,22 +35,22 @@ public class AssignmentREST {
     ModuleMgrBean mmb;
     
     @GET 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<AssignmentEntity> getAllAssignments() {
         return mmb.getAllAssignments();
     }
     
     @GET 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public AssignmentEntity getOneAssignment(@PathParam("id") String id){
         return mmb.getOneAssignment(Long.valueOf(id));
     }
     
     @POST 
     @Path("individual")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public AssignmentEntity createIndividualAssignment(AssignmentEntity ass) {
 //        return ass;
         return mmb.createIndividualAssignment(ass);
@@ -58,8 +58,8 @@ public class AssignmentREST {
     
     @POST 
     @Path("group/{numOfGroups}/{groupSize}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public AssignmentEntity createGroupAssignment(AssignmentEntity ass, @PathParam("numOfGroups") String numOfGroups,
             @PathParam("groupSize") String groupSize) {
         return mmb.createGroupAssignment(ass, numOfGroups, groupSize);
@@ -67,7 +67,7 @@ public class AssignmentREST {
     
     @DELETE 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<AssignmentEntity> deleteAssignment(@PathParam("id") String id) {
         mmb.deleteAssignment(Long.valueOf(id));
         return mmb.getAllAssignments();
@@ -75,15 +75,15 @@ public class AssignmentREST {
     
     @PUT 
     @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public AssignmentEntity editAssignment(@PathParam("id") String id, AssignmentEntity replacement){
         return mmb.editAssignment(Long.valueOf(id), replacement);
     }
 
     @GET
     @Path("module/{moduleCode}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<AssignmentEntity> getModuleAssignments(@PathParam("moduleCode") String moduleCode){
         return etr.getModuleAssignments(moduleCode);
     }

@@ -116,18 +116,20 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         if(u != null){
             String tempPassword = generateAlphaNum(8);
             try {
-                generateAndSendEmail(u.getUsername(), u.getEmail(),tempPassword, localPort);
-                u.setUserPassword(encodePassword(username,tempPassword));
+                boolean success = generateAndSendEmail(u.getUsername(), u.getEmail(),tempPassword, localPort);
+                if(success){
+                    u.setUserPassword(encodePassword(username,tempPassword));
+                    return true;
+                }else{
+                    return false;
+                }
             } catch (MessagingException ex) {
                 System.out.println("**************Email sending failed!");
-                ex.printStackTrace();
                 return false;
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException | UnknownHostException ex) {
                 Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
-            }catch (UnknownHostException ex) {
-                Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
             }
-            return true;
         }else{
             return false;
         }
@@ -141,18 +143,20 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         if(u != null){
             String tempPassword = generateAlphaNum(8);
             try {
-                sendCreateEmail(u.getUsername(), u.getEmail(),tempPassword, localPort);
-                u.setUserPassword(encodePassword(username,tempPassword));
+                boolean success = sendCreationEmail(u.getUsername(), u.getEmail(),tempPassword, localPort);
+                if(success){
+                    u.setUserPassword(encodePassword(username,tempPassword));
+                    return true;
+                }else{
+                    return false;
+                }
             } catch (MessagingException ex) {
                 System.out.println("**************Email sending failed!");
-                ex.printStackTrace();
                 return false;
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException | UnknownHostException ex) {
                 Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
             }
-            return true;
         }else{
             return false;
         }
@@ -172,83 +176,94 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         return new String(generated);
     }
     
-    public void generateAndSendEmail(String username, String email, String tempPassword, int localPort) throws AddressException, MessagingException, UnknownHostException {
- 
-        // Step1
-        System.out.println("\n 1st ===> setup Mail Server Properties..");
-        mailServerProperties = System.getProperties();
-        //mail server settings
-        mailServerProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        mailServerProperties.put("mail.smtp.port", "587");
-        mailServerProperties.put("mail.smtp.auth", "true");
-        mailServerProperties.put("mail.smtp.starttls.enable", "true");
-        System.out.println("Mail Server Properties have been setup successfully..");
+    public boolean generateAndSendEmail(String username, String email, String tempPassword, int localPort) throws AddressException, MessagingException, UnknownHostException {
+        try{
+            // Step1
+            System.out.println("\n 1st ===> setup Mail Server Properties..");
+            mailServerProperties = System.getProperties();
+            //mail server settings
+            mailServerProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            mailServerProperties.put("mail.smtp.port", "587");
+            mailServerProperties.put("mail.smtp.auth", "true");
+            mailServerProperties.put("mail.smtp.starttls.enable", "true");
+            System.out.println("Mail Server Properties have been setup successfully..");
+            
+            // Step2
+            System.out.println("\n\n 2nd ===> get Mail Session..");
+            mailSession = Session.getDefaultInstance(mailServerProperties, null);
+            mailMessage = new MimeMessage(mailSession);
+            mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            mailMessage.setSubject("Greetings from EduBox");
+            String hostAndPort = java.net.InetAddress.getLocalHost().getHostAddress()+":"+localPort;
+            System.out.println("HOST AND PORT IS "+hostAndPort);
+            String emailBody = "Hey "+ username + ",<br><br>"
+                    + "Here is your temporary password: <strong>"+ tempPassword +"</strong><br>"
+                    + "Please click on this <a href='http://"+hostAndPort+"/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password."
+                    + "<br><br>Cheers,<br>EduBox Team";
+            mailMessage.setContent(emailBody, "text/html");
+            System.out.println("Mail Session has been created successfully..");
+            
+            // Step3
+            System.out.println("\n\n 3rd ===> Get Session and Send mail");
+            Transport transport = mailSession.getTransport("smtp");
+            
+            // Enter your correct gmail UserID and Password
+            // if you have 2FA enabled then provide App Specific Password
+            transport.connect("smtp.gmail.com", "41capstone03@gmail.com", "8mccapstone");
+            transport.sendMessage(mailMessage, mailMessage.getAllRecipients());
+            transport.close();
+            return true;
+        }catch(Exception e){
+            System.out.println("Error sending password reset email to user!");
+            return false;
+        }
         
-        // Step2
-        System.out.println("\n\n 2nd ===> get Mail Session..");
-        mailSession = Session.getDefaultInstance(mailServerProperties, null);
-        mailMessage = new MimeMessage(mailSession);
-        mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-        mailMessage.setSubject("Greetings from EduBox");
-        String hostAndPort = java.net.InetAddress.getLocalHost().getHostAddress()+":"+localPort;
-        System.out.println("HOST AND PORT IS "+hostAndPort);
-        String emailBody = "Hey "+ username + ",<br><br>"
-                + "Here is your temporary password: <strong>"+ tempPassword +"</strong><br>"
-                + "Please click on this <a href='http://"+hostAndPort+"/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password."
-                + "<br><br>Cheers,<br>EduBox Team";
-        mailMessage.setContent(emailBody, "text/html");
-        System.out.println("Mail Session has been created successfully..");
-        
-        // Step3
-        System.out.println("\n\n 3rd ===> Get Session and Send mail");
-        Transport transport = mailSession.getTransport("smtp");
-        
-        // Enter your correct gmail UserID and Password
-        // if you have 2FA enabled then provide App Specific Password
-        transport.connect("smtp.gmail.com", "41capstone03@gmail.com", "8mccapstone");
-        transport.sendMessage(mailMessage, mailMessage.getAllRecipients());
-        transport.close();
     }
     
-    public void sendCreateEmail(String username, String email, String tempPassword, int localPort) throws AddressException, MessagingException, UnknownHostException {
- 
-        // Step1
-        System.out.println("\n 1st ===> setup Mail Server Properties..");
-        mailServerProperties = System.getProperties();
-        //mail server settings
-        mailServerProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        mailServerProperties.put("mail.smtp.port", "587");
-        mailServerProperties.put("mail.smtp.auth", "true");
-        mailServerProperties.put("mail.smtp.starttls.enable", "true");
-        System.out.println("Mail Server Properties have been setup successfully..");
-        
-        // Step2
-        System.out.println("\n\n 2nd ===> get Mail Session..");
-        mailSession = Session.getDefaultInstance(mailServerProperties, null);
-        mailMessage = new MimeMessage(mailSession);
-        mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-        mailMessage.setSubject("Greetings from EduBox");
-        String hostAndPort = java.net.InetAddress.getLocalHost().getHostAddress()+":"+localPort;
-        System.out.println("HOST AND PORT IS "+hostAndPort);
-        String emailBody = "Hey "+ username + ",<br><br>"
-                + "We just created an account for you on EduBox!<br><br>"
-                + "Here is your temporary password to get started: <strong>"+ tempPassword +"</strong><br><br>"
-                + "However, we <strong>highlighy recommend you to change your password first.</strong><br>"
-                + "You can click on this <a href='http://"+hostAndPort+"/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to reset your password, "
-                + "or click <a href='http://"+hostAndPort+"/EduTechWebApp-war/CommonInfra?pageTransit=goToLogout'>here</a> to login. "
-                + "<br><br>Cheers,<br>EduBox Team";
-        mailMessage.setContent(emailBody, "text/html");
-        System.out.println("Mail Session has been created successfully..");
-        
-        // Step3
-        System.out.println("\n\n 3rd ===> Get Session and Send mail");
-        Transport transport = mailSession.getTransport("smtp");
-        
-        // Enter your correct gmail UserID and Password
-        // if you have 2FA enabled then provide App Specific Password
-        transport.connect("smtp.gmail.com", "41capstone03@gmail.com", "8mccapstone");
-        transport.sendMessage(mailMessage, mailMessage.getAllRecipients());
-        transport.close();
+    public boolean sendCreationEmail(String username, String email, String tempPassword, int localPort) throws AddressException, MessagingException, UnknownHostException {
+        try{
+            // Step1
+            System.out.println("\n 1st ===> setup Mail Server Properties..");
+            mailServerProperties = System.getProperties();
+            //mail server settings
+            mailServerProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            mailServerProperties.put("mail.smtp.port", "587");
+            mailServerProperties.put("mail.smtp.auth", "true");
+            mailServerProperties.put("mail.smtp.starttls.enable", "true");
+            System.out.println("Mail Server Properties have been setup successfully..");
+            
+            // Step2
+            System.out.println("\n\n 2nd ===> get Mail Session..");
+            mailSession = Session.getDefaultInstance(mailServerProperties, null);
+            mailMessage = new MimeMessage(mailSession);
+            mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            mailMessage.setSubject("Greetings from EduBox");
+            String hostAndPort = java.net.InetAddress.getLocalHost().getHostAddress()+":"+localPort;
+            System.out.println("HOST AND PORT IS "+hostAndPort);
+            String emailBody = "Hey "+ username + ",<br><br>"
+                    + "We just created an account for you on EduBox!<br><br>"
+                    + "Here is your temporary password to get started: <strong>"+ tempPassword +"</strong><br><br>"
+                    + "However, we <strong>highlighy recommend you to change your password first.</strong><br><br>"
+                    + "You can click on this <a href='http://"+hostAndPort+"/EduTechWebApp-war/CommonInfra?pageTransit=PasswordReset'>link</a> to change your password, "
+                    + "or click <a href='http://"+hostAndPort+"/EduTechWebApp-war/CommonInfra?pageTransit=goToLogout'>here</a> to login. "
+                    + "<br><br>Cheers,<br>EduBox Team";
+            mailMessage.setContent(emailBody, "text/html");
+            System.out.println("Mail Session has been created successfully..");
+            
+            // Step3
+            System.out.println("\n\n 3rd ===> Get Session and Send mail");
+            Transport transport = mailSession.getTransport("smtp");
+            
+            // Enter your correct gmail UserID and Password
+            // if you have 2FA enabled then provide App Specific Password
+            transport.connect("smtp.gmail.com", "41capstone03@gmail.com", "8mccapstone");
+            transport.sendMessage(mailMessage, mailMessage.getAllRecipients());
+            transport.close();
+            return true;
+        }catch(Exception e){
+            System.out.println("Error sending user creation email!");
+            return false;
+        }
     }
 
     @Override

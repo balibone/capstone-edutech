@@ -27,6 +27,11 @@
         <!--Font Awesome 5 JS-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
+        <style>
+            .form-control[readonly]{
+                background-color: #f5f5f5;
+            }
+        </style>
     </head>
     <body class="nav-md">
         <div class="container body">
@@ -43,19 +48,11 @@
                         <!--Submit form to SystemAdmin Servlet-->
                         <form action="SystemAdmin" method="POST" class="form-horizontal" enctype="multipart/form-data">
                             <div class="col-md-8">
-                                <!--
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label required">Name</label>
-                                    <div class="col-md-5">
-                                        <input type="text" required class="form-control" name="name" />
-                                    </div>
-                                </div>
-                                -->
                                 <%
                                     //Extracting field values from ArrayList passed from servlet to jsp.
                                     ArrayList userInfo = (ArrayList)request.getAttribute("userInfo");
-                                    String salutation,firstName,lastName,email, contactNum, username,password,creationDate,type,imageFile;
-                                    salutation = firstName = lastName = email = contactNum = username = password = creationDate = type = imageFile = "";
+                                    String salutation,firstName,lastName,email, contactNum, username,creationDate,type,imageFile;
+                                    salutation = firstName = lastName = email = contactNum = username = creationDate = type = imageFile = "";
                                     //ArrayList exists and is not empty. 
                                     if(userInfo!=null && !userInfo.isEmpty()){
                                         salutation = (String)userInfo.get(0);
@@ -64,59 +61,52 @@
                                         email = (String)userInfo.get(3);
                                         contactNum = (String)userInfo.get(4);
                                         username = (String)userInfo.get(5);
-                                        password = (String)userInfo.get(6);
-                                        creationDate = (String)userInfo.get(7);
-                                        type = (String)userInfo.get(8);
-                                        imageFile = (String)userInfo.get(9);
+                                        creationDate = (String)userInfo.get(6);
+                                        type = (String)userInfo.get(7);
+                                        imageFile = (String)userInfo.get(8);
                                     }
                                 %>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Salutation: </label>
+                                    <label class="col-md-3 control-label required">Salutation: </label>
                                     <div class="col-md-5">
                                         <input type="text" readonly value="<%=salutation%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">First Name:</label>
+                                    <label class="col-md-3 control-label required">First Name:</label>
                                     <div class="col-md-5">
                                         <input type="text" readonly value="<%=firstName%>" class="form-control" name="email"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Last Name:</label>
+                                    <label class="col-md-3 control-label required">Last Name:</label>
                                     <div class="col-md-5">
                                         <input type="text" readonly value="<%=lastName%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">E-mail:</label>
+                                    <label class="col-md-3 control-label required">E-mail:</label>
                                     <div class="col-md-5">
                                         <input type="email" readonly value="<%=email%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Contact Number:</label>
+                                    <label class="col-md-3 control-label required">Contact Number:</label>
                                     <div class="col-md-5">
                                         <input readonly value="<%="+65"+contactNum%>" type="tel" class="form-control" id="contactNum" placeholder="Contact Number" required name="contactNum">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Username:</label>
+                                    <label class="col-md-3 control-label required">Username:</label>
                                     <div class="col-md-5">
                                         <input type="text" readonly value="<%=username%>" class="form-control" />
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label required">Created On:</label>
+                                    <label class="col-md-3 control-label required">Created On:</label>
                                     <div class="col-md-5">
                                         <input type="text" readonly value="<%=creationDate%>" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label required">User Type:</label>
-                                    <div class="col-md-5">
-                                        <input type="text" readonly value="<%=type%>" class="form-control" />
                                     </div>
                                 </div>                               
                             </div>
@@ -124,7 +114,7 @@
                                 <img class="img-responsive" src="uploads/commoninfrastructure/admin/images/<%= imageFile%>"/>                                                             
                             </div>
                             <div class="col-md-8">
-                                <div class="col-md-2"></div>
+                                <div class="col-md-3"></div>
                                 <div class="col-md-5">
                                     <a href="SystemAdmin?pageTransit=StudentList"><button type="button" class="btn btn-default">Go Back</button></a>       
                                 </div>

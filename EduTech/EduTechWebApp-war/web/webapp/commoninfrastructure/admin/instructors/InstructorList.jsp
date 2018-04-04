@@ -53,11 +53,18 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <!--
-                                    <p class="text-muted font-13 m-b-30">
-                                        The following EduPack Users are instructors.
-                                    </p>
-                                    -->
+                                    <%                        
+                                        String msg = (String) request.getAttribute("msg");
+                                        if (msg != null) {
+                                            Boolean success = (Boolean) request.getAttribute("success");
+                                            if (success) {
+                                    %>
+                                    <div class="alert alert-info" role="alert"><%=msg%></div>                    
+                                    <%} else {
+                                    %>
+                                    <div class="alert alert-danger" role="alert"><%=msg%></div>                    
+                                    <%}}
+                                    %>
                                     <table id="datatable" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -65,6 +72,7 @@
                                                 <th>Name</th>
                                                 <th>Username</th>
                                                 <th>Date Created</th>
+                                                <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>                                                                                       
@@ -73,23 +81,38 @@
                                                 ArrayList instructorList = (ArrayList)request.getAttribute("instructorList");
                                                 for(Object o : instructorList){
                                                     ArrayList instructorData = (ArrayList) o;
+                                                    String username = (String) instructorData.get(2);
+                                                    String status = (String) instructorData.get(4);
+                                                    String toToggle = "";
+                                                    if(status.equalsIgnoreCase("inactive")){
+                                                        toToggle = "active";
+                                                    }else{
+                                                        toToggle = "inactive";
+                                                    }
                                             %>
                                             
                                             <tr>
                                                 <td><img src="uploads/commoninfrastructure/admin/images/<%= instructorData.get(0) %>" style="max-width: 50px; max-height: 50px;" /></td>
                                                 <td><%=instructorData.get(1)%></td>
-                                                <td><%=instructorData.get(2)%></td>
+                                                <td><%=username%></td>
                                                 <td><%=instructorData.get(3)%></td>
                                                 <td>
                                                     <ul class="list-inline">
                                                         <li>
-                                                            <a href="SystemAdmin?pageTransit=ViewInstructor&id=<%=instructorData.get(2)%>"><i class="fas fa-eye fa-lg"></i></a>
+                                                            <%=status%>
                                                         </li>
                                                         <li>
-                                                            <a href="SystemAdmin?pageTransit=EditInstructor&id=<%=instructorData.get(2)%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
+                                                            <a onclick="return confirm('Make this user <%=toToggle%> ?')" href="SystemAdmin?pageTransit=toggleInstructor&id=<%=username%>"><i class="fas fa-sync fa-lg"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul class="list-inline">
+                                                        <li>
+                                                            <a href="SystemAdmin?pageTransit=ViewInstructor&id=<%=username%>"><i class="fas fa-eye fa-lg"></i></a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="return confirm('Delete Instructor?')" href="SystemAdmin?pageTransit=deleteInstructor&id=<%=instructorData.get(2)%>"><i class="fas fa-trash fa-lg"></i></a> 
+                                                            <a href="SystemAdmin?pageTransit=EditInstructor&id=<%=username%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
                                                         </li>
                                                     </ul>
                                                 </td>

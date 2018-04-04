@@ -34,36 +34,36 @@ public class ModuleREST {
     ModuleMgrBean mrb;
     
     @GET 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<ModuleEntity> getAllModules() {
         return mrb.getAllModules();
     }
 
     @GET 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public ModuleEntity getOneModule(@PathParam("id") String id) {
         return mrb.getOneModule(id);
     }
     
     @POST 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public void createModule(ModuleEntity entity) {
         mrb.createModule(entity);
     }
 
     @PUT 
     @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public void editModule(@PathParam("id") String id, ModuleEntity entity) {
         mrb.editModule(id,entity);
     }
 
     @DELETE 
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<ModuleEntity> deleteModule(@PathParam("id") String id) {
         mrb.deleteModule(id);
         return mrb.getAllModules();
@@ -71,7 +71,7 @@ public class ModuleREST {
 
     @GET 
     @Path("lessons/{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<ScheduleItemEntity> getAllModuleLessons(@PathParam("id") String id) {
         return mrb.getAllModuleLessons(id);
     }

@@ -535,11 +535,6 @@
 			]
 		},
 		{
-			"name": "group",
-			"description": "Group endpoints",
-			"item": []
-		},
-		{
 			"name": "ScheduleItemREST",
 			"description": "",
 			"item": [
@@ -724,6 +719,30 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "getModuleKeyDates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem/module/IS4103",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"scheduleitem",
+								"module",
+								"IS4103"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -904,10 +923,48 @@
 			"description": "",
 			"item": [
 				{
-					"name": "findAllSemesters: semesters",
+					"name": "getAllSemesters",
 					"request": {
 						"method": "GET",
 						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/semester",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"semester"
+							]
+						},
+						"description": "Hello hello"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RecurringEventREST",
+			"description": "",
+			"item": [
+				{
+					"name": "getAllRecurringEvents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
 							{
 								"key": "Accept",
 								"value": "application/json"
@@ -926,17 +983,11 @@
 								"api",
 								"recurringevent"
 							]
-						},
-						"description": "Hello hello"
+						}
 					},
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "RecurringEventREST",
-			"description": "",
-			"item": []
 		},
 		{
 			"name": "LessonREST",
@@ -980,7 +1031,7 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson/2",
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson/58",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -990,7 +1041,7 @@
 								"EduTechWebApp-war",
 								"api",
 								"lesson",
-								"2"
+								"58"
 							]
 						}
 					},
@@ -1091,7 +1142,6 @@
 								},
 								{
 									"key": "file",
-									"value": "",
 									"description": "",
 									"type": "file"
 								}
@@ -1749,7 +1799,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "\n{\n    \"openDate\": \"2018-03-28T10:32:03.503\",\n    \"closeDate\": \"2018-04-04T10:32:03.503\",\n    \"createdBy\": {\n      \"username\": \"instructor\"\n  },\n    \"module\": {\n        \"moduleCode\": \"IS4103\"\n    },\n    \"title\": \"groupAss\"\n}\n"
+							"raw": "\n{\n    \"openDate\": \"2018-03-28T10:32:03.503\",\n    \"closeDate\": \"2018-04-04T10:32:03.503\",\n    \"createdBy\": {\n\t    \"username\": \"instructor\"\n\t},\n    \"module\": {\n        \"moduleCode\": \"IS4103\"\n    },\n    \"title\": \"groupAss\"\n}\n"
 						},
 						"url": {
 							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/group/5/5",
@@ -1955,7 +2005,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"meeting\":{\n\t\t\"id\":1\n\t},\n\t\"starTime\":\"2018-05-05T00:00:00\",\n\t\"endTime\":\"2018-05-05T10:00:00\",\n\t\"attendees\":[\n\t\t{\n\t        \"contactNum\": \"97628068\",\n\t        \"email\": \"41capstone03@gmail.com\",\n\t        \"imgFileName\": \"defaultPhoto.jpg\",\n\t        \"userActiveStatus\": true,\n\t        \"userCreationDate\": \"2018-04-01T01:56:52.969+08:00\",\n\t        \"userFirstName\": \"Derian\",\n\t        \"userLastName\": \"Tungka\",\n\t        \"userPassword\": \"hidden\",\n\t        \"userSalutation\": \"Mr.\",\n\t        \"userType\": \"superadmin\",\n\t        \"username\": \"superadmin\"\n    \t}\n\t],\n\t\"createdAt\":\"2018-05-01T00:00:00\"\n}"
+							"raw": "{\n  \"meeting\":{\n    \"id\":1\n  },\n  \"startTime\":\"2018-05-05T11:11:11\",\n  \"endTime\":\"2018-05-05T12:12:12\",\n  \"attendees\":[\n    {\n          \"username\": \"superadmin\"\n      }\n  ],\n  \"createdAt\":\"2018-05-01T00:00:00\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/EduTechWebApp-war/api/meetingminute",
@@ -2021,7 +2071,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\":2,\n\t\"meeting\":{\n\t\t\"id\":1\n\t},\n\t\"startTime\":\"2018-12-12T00:00:00\",\n\t\"endTime\":\"2018-12-12T10:00:00\",\n\t\"attendees\":[\n\t\t{\n\t        \"contactNum\": \"97628068\",\n\t        \"email\": \"41capstone03@gmail.com\",\n\t        \"imgFileName\": \"defaultPhoto.jpg\",\n\t        \"userActiveStatus\": true,\n\t        \"userCreationDate\": \"2018-04-01T01:56:52.969+08:00\",\n\t        \"userFirstName\": \"Derian\",\n\t        \"userLastName\": \"Tungka\",\n\t        \"userPassword\": \"hidden\",\n\t        \"userSalutation\": \"Mr.\",\n\t        \"userType\": \"superadmin\",\n\t        \"username\": \"superadmin\"\n    \t}\n\t],\n\t\"createdAt\":\"2018-05-01T00:00:00\"\n}"
+							"raw": "{\n  \"id\":2,\n  \"meeting\":{\n    \"id\":1\n  },\n  \"startTime\":\"2018-12-12T00:00:00\",\n  \"endTime\":\"2018-12-12T10:00:00\",\n  \"attendees\":[\n    {\n          \"username\": \"superadmin\"\n      }\n  ],\n  \"createdAt\":\"2018-05-01T00:00:00\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/EduTechWebApp-war/api/meetingminute/2",
@@ -2125,7 +2175,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\":\"testAgenda\",\n\t\"discussion\":\"today we decided we didn't want to have breakfast, lunch or dinner. today we decided not to sleep. Tomorrow we will eat breakfast, lunch and dinner. We decided tomorrow we will sleep. \",\n\t\"conclusion\":\"we shall sleep and eat for all days to minimise coupling.\"\n}"
+							"raw": "{\n  \"title\":\"testAgenda\",\n  \"discussion\":\"today we decided we didn't want to have breakfast, lunch or dinner. today we decided not to sleep. Tomorrow we will eat breakfast, lunch and dinner. We decided tomorrow we will sleep. \",\n  \"conclusion\":\"we shall sleep and eat for all days to minimise coupling.\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/EduTechWebApp-war/api/agenda/51",
@@ -2160,7 +2210,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\":101,\n\t\"title\":\"testAgenda\",\n\t\"discussion\":\"today we decided we didn't want to have breakfast, lunch or dinner. today we decided not to sleep. Tomorrow we will eat breakfast, lunch and dinner. We decided tomorrow we will sleep. \",\n\t\"conclusion\":\"we SHALL NOT EAT OR SLEEP ON 0 days to minimise coupling.\"\n}"
+							"raw": "{\n  \"id\":101,\n  \"title\":\"testAgenda\",\n  \"discussion\":\"today we decided we didn't want to have breakfast, lunch or dinner. today we decided not to sleep. Tomorrow we will eat breakfast, lunch and dinner. We decided tomorrow we will sleep. \",\n  \"conclusion\":\"we SHALL NOT EAT OR SLEEP ON 0 days to minimise coupling.\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/EduTechWebApp-war/api/agenda/101",

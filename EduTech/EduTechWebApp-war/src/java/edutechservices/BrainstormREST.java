@@ -38,36 +38,36 @@ public class BrainstormREST {
     CommonMgrBean cmb;
     
     @GET 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<BrainstormEntity> getAllBrainstorms() {
         return cmb.getAllBrainstorms();
     }
     
     @GET 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public BrainstormEntity getOneBrainstorm(@PathParam("id") String id){
         return cmb.getOneBrainstorm(Long.valueOf(id));
     }
     
     @POST 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public BrainstormEntity createBrainstorm(BrainstormEntity brainstorm) {
         return cmb.createBrainstorm(brainstorm);
     }
     
     @PUT 
     @Path("{id}") 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public BrainstormEntity editBrainstorm(@PathParam("id") String id, BrainstormEntity replacement) {
         return cmb.editBrainstorm(id, replacement);
     }
     
     @DELETE 
     @Path("{id}") 
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public void deleteBrainstorm(@PathParam("id") String id) {
         cmb.deleteBrainstorm(id);
     }
