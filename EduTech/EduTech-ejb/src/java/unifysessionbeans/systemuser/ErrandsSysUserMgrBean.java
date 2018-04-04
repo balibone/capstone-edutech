@@ -51,7 +51,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     DecimalFormat rateFormat = new DecimalFormat("0.00");
     
     @Override
-    public List<Vector> viewJobList() {
+    public List<Vector> viewJobList(String username) {
         Date currentDate = new Date();
         String dateString = "";
 
@@ -109,7 +109,9 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobVec.add(jobE.getJobStartLocation());
             jobVec.add(jobE.getJobRateType());
             jobVec.add(rateFormat.format(jobE.getJobRate()));
-            jobVec.add(jobE.getJobNumOfLikes());
+            jobVec.add(getJobLikeCount(jobE.getJobID()));
+            if(lookupLike(jobE.getJobID(), username) == null) { jobVec.add(false);}
+            else { jobVec.add(true); }
             jobList.add(jobVec);
             dateString = "";
         }

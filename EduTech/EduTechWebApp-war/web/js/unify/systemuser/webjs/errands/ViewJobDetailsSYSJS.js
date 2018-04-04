@@ -163,9 +163,9 @@ $(document).on('click', '#likeJobBtn', function() {
     });
     
 
-function deleteAlert(jobID) {
+function deleteAlert(jobID, username) {
     var deleteReply = confirm("Are you sure to delete this job?");
-    if (deleteReply) { window.open('ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=' + jobID, '_parent'); }
+    if (deleteReply) { window.open('ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=' + jobID + 'username=' + username, '_parent'); }
 };
 
 function otherReason(){

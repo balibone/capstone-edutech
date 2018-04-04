@@ -144,6 +144,7 @@
                 </div>
             </div>
         </div>
+        
 
         <div id="container">
             <div id="unifyPageNAV"></div>
@@ -158,6 +159,8 @@
                     </nav>
                 </div>
             </div>
+            
+            <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
 
             <div id="contentArea" class="container jplist" style="margin-bottom: 30px;">
                 <%                    
@@ -297,6 +300,7 @@
                                             String jobRateType = String.valueOf(v.get(8));
                                             String jobRate = String.valueOf(v.get(9));
                                             String numOfLikes = String.valueOf(v.get(10));
+                                            String likeStatus = String.valueOf(v.get(11));
                                             
                                             String categoryPath = jobCategoryName;
                                                 if(categoryPath.contains(" ")){
@@ -316,7 +320,7 @@
                                                         </div>
                                                     </div>
                                                             
-                                                    <div class="col-xl-7 col-md-7 col-7">
+                                                    <div class="col-xl-7 col-md-7 col-7" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%= loggedInUsername%>';">
                                                         <span class="card-title jobTitle job-title"><strong><%= jobTitle%></strong></span><br/>
                                                         <span class="card-text category <%= categoryPath%>"><%= jobCategoryName%></span><br/>
                                                         <i class="far fa-calendar-alt"></i>&nbsp; <span class="card-text date"><%= jobWorkDate%></span>&nbsp; 
@@ -329,8 +333,11 @@
                                                     </div>
                                                     <div class="col-xl-2 col-md-2 col-2">
                                                         <div class="like-button" >
-                                                            
-                                                                <i id="likeIcon<%=jobID%>" class="fas fa-heart like" onclick="javascript: likeAJob(<%=jobID%>)"></i>&nbsp;<span id="like-count" class="numOfLikes"><%=numOfLikes%></span>
+                                                            <%if(likeStatus.equals("true")){%>
+                                                            <i id="likeIcon<%=jobID%>" class="fas fa-heart like likeIcon"></i>&nbsp;<span id="likeCount<%=jobID%>" class="numOfLikes"><%=numOfLikes%></span>
+                                                            <%}else if(likeStatus.equals("false")){%>
+                                                            <i id="likeIcon<%=jobID%>" class="fas fa-heart noLike likeIcon"></i>&nbsp;<span id="likeCount<%=jobID%>" class="numOfLikes"><%=numOfLikes%></span>
+                                                            <% }%>
                                                         </div>
                                                         <div class="job-price">
                                                             <span class="card-text rate jobRate"><strong>S$<%= jobRate%></strong></span><br/>

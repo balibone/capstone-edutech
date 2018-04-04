@@ -55,7 +55,7 @@ public class ErrandsSysUserController extends HttpServlet {
             switch (pageAction) {
                 case "goToViewJobListingSYS":
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
-                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList());
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList(request.getParameter("username")));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "goToViewJobDetailsSYS":
@@ -104,7 +104,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
-                    request.setAttribute("jobListSYS", (ArrayList) esmr.viewJobList());
+                    request.setAttribute("jobListSYS", (ArrayList) esmr.viewJobList(request.getParameter("username")));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "likeJobListingDetails":

@@ -286,7 +286,7 @@
                         <div id="job-button" class="btn-group" role="group">
                             <%  if (posterName.equals(request.getAttribute("loggedInUsername"))) {%>
                             <button id="edit-button" type="button" class="btn btn-outline-theme" onclick="location.href = 'ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>&loginUser=<%= loggedInUsername%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
-                            <button type="button" class="btn btn-outline-theme" onclick="javascript:deleteAlert(<%= jobID%>)">Delete Job Listing</button>
+                            <button type="button" class="btn btn-outline-theme" onclick="javascript:deleteAlert(<%= jobID%>, <%=loggedInUsername%>)">Delete Job Listing</button>
                             
                             <%  } else {    %>
                             <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
