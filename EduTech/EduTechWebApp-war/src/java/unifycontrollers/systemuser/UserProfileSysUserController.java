@@ -102,11 +102,17 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "ViewItemTransDetailsInModalSYS";
                     break;
                 case "goToUserProfile":
-                    String itemSellerID = request.getParameter("itemSellerID");
+                    String itemSellerID = request.getParameter("posterID");
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
                     request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));
                     request.setAttribute("userJobListing", esmr.viewUserJobList(itemSellerID));
                     pageAction = "UserProfile";
+                    break;
+                case "goToJobListingInUserProfile":
+                    String user = request.getParameter("posterName");
+                    request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(user));
+                    request.setAttribute("userJobListing", esmr.viewUserJobList(user));
+                    pageAction = "JobListingInUserProfileSYS";
                     break;
                 case "goToPendingItemOfferList":
                     long urlitemID = Long.parseLong(request.getParameter("urlitemID"));

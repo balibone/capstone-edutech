@@ -392,7 +392,7 @@
                                         </a>
                                     </div>
                                     <div class="media-body col-md-12">
-                                        <div style="cursor: pointer;" onclick="window.location='ProfileSysUser?pageTransit=goToUserProfile&posterID=<%= posterName%>';">
+                                        <div style="cursor: pointer;" onclick="window.location='ProfileSysUser?pageTransit=goToJobListingInUserProfile&posterName=<%= posterName%>'">
                                             <h5 class="user-name"><strong><%= posterName%></strong></h5>
                                             
                                         </div>

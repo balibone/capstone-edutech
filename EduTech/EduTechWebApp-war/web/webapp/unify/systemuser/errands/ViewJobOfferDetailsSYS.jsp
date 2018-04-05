@@ -162,7 +162,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb"  style="margin-left: 100px;">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Job Offers</li>
+                            <li class="breadcrumb-item active" aria-current="page">Job Offers (Details)</li>
                         </ol>
                     </nav>
                 </div>

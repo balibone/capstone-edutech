@@ -149,7 +149,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                            <li class="breadcrumb-item active" aria-current="page">User Profile (Errands Listing)</li>
                         </ol>
                     </nav>
                 </div>
@@ -186,26 +186,24 @@
                                 <a href="ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= username%>" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Listing
                                 </a>
-                                <a href="ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= username%>" class="list-group-item list-group-item-action">
+                                <a href="ProfileSysUser?pageTransit=goToJobListingInUserProfile&posterName=<%= username%>" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Listing
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span><%= username%>'s Item Listing</span></div>
-                        <div class="jplist-search sorting-bar">
+                        <div class="title"><span>Job Listing</span></div>
+                        <!--<div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
-                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
+                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
                                 <ul>
-                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
-                                    <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
-                                    <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
-                                    <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
-                                    <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
+                                    <li><span data-path=".jobPostDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
+                                    
+                                    <li><span data-path=".jobTitle" data-order="asc" data-type="text">Title Asc</span></li>
+                                    <li><span data-path=".jobTitle" data-order="desc" data-type="text">Title Desc</span></li>
+                                    <li><span data-path=".jobRate" data-order="asc" data-type="number">Job Rate Asc</span></li>
+                                    <li><span data-path=".jobRate" data-order="desc" data-type="number">Job Rate Desc</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -217,76 +215,66 @@
                                     <li><span data-number="16">16 per page</span></li>
                                 </ul>
                             </div>
-                        </div>
+                        </div>-->
 
-                        <!-- ITEM LISTING -->
-                        <div class="row equal-height" add-class-on-xs="no-gutters">
+                        <!-- JOB LISTING -->
+                        <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
                             <div class="list searchresult-row">
                                 <%
-                                    ArrayList<Vector> userItemListSYS = (ArrayList) request.getAttribute("userItemListSYS");
-                                    if (!userItemListSYS.isEmpty()) {
-                                        for (int i = 0; i <= userItemListSYS.size() - 1; i++) {
-                                            Vector v = userItemListSYS.get(i);
-                                            String itemID = String.valueOf(v.get(0));
-                                            String itemImage = String.valueOf(v.get(1));
-                                            String itemName = String.valueOf(v.get(2));
-                                            String itemCategoryName = String.valueOf(v.get(3));
-                                            String itemSellerID = String.valueOf(v.get(4));
-                                            String itemSellerImage = String.valueOf(v.get(5));
-                                            String itemPostedDuration = String.valueOf(v.get(6));
-                                            String itemPostingDate = String.valueOf(v.get(7));
-                                            String itemPrice = String.valueOf(v.get(8));
-                                            String itemNumOfLikes = String.valueOf(v.get(9));
-                                            String itemCondition = String.valueOf(v.get(10));
+                                   ArrayList<Vector> jobListing = (ArrayList) request.getAttribute("userJobListing");
+                                if(jobListing.size()>0){
+                                    for(int i=0; i<jobListing.size(); i++){
+                                        Vector jobInfo = jobListing.get(i);
+                                        
+                                        long jobID = (Long)jobInfo.get(0);
+                                        String jobImg = (String)jobInfo.get(1);
+                                        String jobTitle = (String)jobInfo.get(2);
+                                        String categoryName = (String)jobInfo.get(3);
+                                        String userID = (String)jobInfo.get(4);
+                                        String postTime = (String)jobInfo.get(6);
+                                        String jobRate = (String)jobInfo.get(8);
+                                        String rateType = (String)jobInfo.get(9);
+                                        String jobRateType;
+                                        if(rateType.equals("HR")){
+                                            jobRateType = "hour";
+                                        }else{
+                                            jobRateType = "Fixed Rate";
+                                        }
                                 %>
-                                <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
+                                <div class="col-xl-6 col-md-6 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
-                                        <div class="card-header" style="font-size: 13px;">
-                                            <div id="settingsBtn<%= itemID%>" class="text-right close" style="padding-top:7px;"><img src="images/unifyimages/sidebar-divider-dots.png" /></div>
-                                            <div class="pull-left" style="padding-right: 10px;">
-                                                <div class="profilePicBorder">
-                                                    <img class="profilePic" src="uploads/unify/images/marketplace/item/<%= itemSellerImage%>" />
-                                                </div>
-                                            </div>
-                                            <div class="profileContent">
-                                                <h3 class="profileHeader"><%= itemSellerID%></h3>
-                                                <time class="profileTime"><i class="fa fa-clock-o" style="margin-right: 5px;"></i><%= itemPostedDuration%></time>
-                                            </div>
-                                        </div>
                                         <div class="card-content">
-                                            <div class="card-body mb-2">
-                                                <div class="img-wrapper mb-2">
-                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>&hiddenUsername=<%= loggedInUsername%>">
-                                                        <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
-                                                    </a>
-                                                    <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
-                                                        <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            <button id="likeBtn<%= itemID%>" class="btn btn-link btn-sm"><i class="fa fa-heart"></i></button>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-xl-4 col-md-4 col-4">
+                                                        <div class="img-wrapper" style="margin-bottom: 15px">
+                                                            <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= categoryName%>&loggedinUser=<%= loggedInUsername%>">
+                                                                <img class="card-img-top" style="width: 100px; height: 90px;" src="uploads/unify/images/errands/job/<%= jobImg%>" />
+                                                            </a>
                                                         </div>
                                                     </div>
+                                                            
+                                                    <div class="col-xl-8 col-md-8 col-8" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= categoryName%>&loggedinUser=<%= loggedInUsername%>';">
+                                                        <span class="jobTitle job-title" style="font-size:18px;"><strong><%= jobTitle%></strong></span><br/>
+                                                        <span class="card-text category"><%= categoryName%></span><br/>
+                                                        <span class="card-text jobRate">$<%= jobRate%>/<%= jobRateType%></span><br/>
+                                                        <div class="post-date">
+                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<span class="card-text jobPostDate"><%= postTime%></span><br/>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
                                                 </div>
-                                                <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
-                                                <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
-                                                <span class="card-text <%= itemCategoryName.replaceAll(" ", "")%>" style="display:none;"><%= itemCategoryName%></span>
-                                                <span class="card-text <%= itemCondition%>" style="font-size: 11px;">Condition:&nbsp;<strong><%= itemCondition%></strong></span>
                                             </div>
                                         </div>
-                                        <div class="card-footer text-muted mt-1">
-                                            <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
-                                            <%  if (itemNumOfLikes.equals("0") || itemNumOfLikes.equals("1")) {%>
-                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span>&nbsp;Like</span>
-                                            <%  } else {%>
-                                            <span class="float-right"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span>&nbsp;Likes</span>
-                                            <%  }   %>
-                                        </div>
+                                             
                                     </div>
                                 </div>
                                 <%      }   %>
                                 <%  }%>
                             </div>
                         </div>
-                            
-                        <div class="box jplist-no-results text-shadow align-center">
+                        <!--<div class="box jplist-no-results text-shadow align-center">
                             <p><strong>No results found. Please refine your search.</strong></p>
                         </div>
                         <div class="jplist-search">
@@ -296,10 +284,11 @@
                             <div class="jplist-pagination" data-control-animate-to-top="true" 
                                  data-control-type="pagination" data-control-name="paging" data-control-action="paging">
                             </div>
-                        </div>
+                            
+                        </div>-->
                         
-                        
-                    </div>
+                    </div>                
+                    
                 </div>
             </div>
             <div id="unifyFooter"></div>
@@ -318,7 +307,7 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/userprofile/UserAccountJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/userprofile/JobListingInUserProfileSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
