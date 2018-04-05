@@ -52,6 +52,7 @@ public class VoicesSysUserController extends HttpServlet {
                 case "goToViewCompanyListingSYS":
                     request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
                     request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
+                    request.setAttribute("industryStrSYS", vsmr.populateCompanyIndustryString());
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToNewReviewSYS":
@@ -175,9 +176,14 @@ public class VoicesSysUserController extends HttpServlet {
     
     private String createCompanyRequest(HttpServletRequest request) {
         String companyIndustry = request.getParameter("companyIndustry");
+        String otherIndustry = request.getParameter("otherIndustry");
         String requestCompany = request.getParameter("requestCompany");
         String requestComment = request.getParameter("requestComment");
         String requestPoster = request.getParameter("username");
+        
+        if(companyIndustry.equals("otherIndustry")) {
+            companyIndustry = otherIndustry;
+        }
         
         responseMessage = vsmr.createCompanyRequest(requestCompany, companyIndustry, requestComment, requestPoster);
         return responseMessage;
