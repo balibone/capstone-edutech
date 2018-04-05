@@ -97,18 +97,23 @@ public class CommonMgrBean {
         entity.setCreatedAt(LocalDateTime.parse(getCurrentISODate()));
         // get proper User - initially json createdBy only contains a username key
         UserEntity user = em.find(UserEntity.class,entity.getCreatedBy().getUsername());
+        entity.setCreatedBy(user);
         //Set assignedTo
-        Collection<UserEntity> assignedTo = entity.getAssignedTo(); 
         switch(entity.getItemType()) {
-            case "personal":
-                assignedTo.add(user); 
-                break;
             case "meeting":
                 GroupEntity group = em.find(GroupEntity.class, Long.valueOf(entity.getGroupId()));
-                assignedTo = group.getMembers();
+                if(group!=null){
+                    entity.setAssignedTo(group.getMembers());
+                }
                 break;
-            default:
-                assignedTo.add(user); 
+            case "assessment":
+                ModuleEntity mod = em.find(ModuleEntity.class, entity.getModuleCode());
+                if(mod!=null){
+                    entity.setAssignedTo(mod.getMembers());
+                }
+                break;
+            default://for personal, (task, timetable)<--not using this endpoint.
+                entity.getAssignedTo().add(user); 
                 break;
         }
         //persist
@@ -654,13 +659,15 @@ public class CommonMgrBean {
         return attList;
     }
 
-    public void uploadLessonAttachment(String id, AttachmentEntity att) {
+    public void uploadLessonAttachment(String id, AttachmentEntity att, String username) {
         LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
+        UserEntity u = em.find(UserEntity.class, username);
         //get all attachments with the same file name. If this lesson already has attachment with this file name,
         //edit the table record instead of adding a new one. 
         Query q1 = em.createQuery("SELECT a FROM Attachment a WHERE a.fileName= :attFileName");
         q1.setParameter("attFileName", att.getFileName());
-        if(lesson!=null){
+        if(lesson!=null && u!=null){
+            att.setCreatedBy(u);
             Collection<AttachmentEntity> resources = lesson.getResources();
             List sameNameAttachments = q1.getResultList();
             //if there are no attachments with the same name, proceed normally.

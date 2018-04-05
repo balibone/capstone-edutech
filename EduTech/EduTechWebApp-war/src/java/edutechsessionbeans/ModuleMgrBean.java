@@ -213,20 +213,30 @@ public class ModuleMgrBean {
         String modCode = assignedMod.getModuleCode();
         //assign task to all of this module's students
         for(UserEntity u : assignedMod.getMembers()){
-            if(u.getUserType().equalsIgnoreCase("student")){
-                TaskEntity assignmentTask = new TaskEntity();
-                assignmentTask.getAssignedTo().add(u);
-                assignmentTask.setCreatedAt(ass.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                assignmentTask.setCreatedBy(creator);
-                assignmentTask.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                assignmentTask.setModuleCode(modCode);
-                assignmentTask.setTitle(ass.getModule().getModuleCode()+" "+ass.getTitle());
-                assignmentTask.setType("module");
-//                //persist this new task.
-                em.persist(assignmentTask);
-                tasks.add(assignmentTask);
-            }
+            TaskEntity assignmentTask = new TaskEntity();
+            assignmentTask.getAssignedTo().add(u);
+            assignmentTask.setCreatedAt(ass.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            assignmentTask.setCreatedBy(creator);
+            assignmentTask.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            assignmentTask.setModuleCode(modCode);
+            assignmentTask.setTitle(ass.getModule().getModuleCode()+" "+ass.getTitle());
+            assignmentTask.setType("module");
+            //persist this new task.
+            em.persist(assignmentTask);
+            tasks.add(assignmentTask);
         }
+    }
+
+    public AssignmentEntity submitAssignment(String assignmentId, AttachmentEntity att, String username) {
+        AssignmentEntity ass = em.find(AssignmentEntity.class, Long.valueOf(assignmentId));
+        UserEntity u = em.find(UserEntity.class, username);
+        if(ass!=null && u!=null){
+            att.setCreatedBy(u);
+            //add attachment to assignment submissions.
+            em.persist(att);
+            ass.getSubmissions().add(att);
+        }
+        return ass;
     }
    
 }
