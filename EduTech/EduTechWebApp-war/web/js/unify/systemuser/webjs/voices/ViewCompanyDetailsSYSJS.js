@@ -13,9 +13,9 @@ for(var i=0;i<con.length;i++) {
     }
 }
 
-function newReviewReport(companyID, reviewPoster, reviewID) {
+function newReviewReport(companyID, reviewPoster, reviewID, reporter) {
     $('iframe').attr('src', 'VoicesSysUser?pageTransit=goToNewReviewReportSYS&hiddenCompanyID='+ companyID
-                                +'&hiddenReviewPoster='+reviewPoster+'&hiddenReviewID='+reviewID);
+                                +'&hiddenReviewPoster='+reviewPoster+'&hiddenReviewID='+reviewID+'&hiddenReviewReporter='+reporter);
     $('#newReviewReport-iframe').iziModal('open', event);
     
 }

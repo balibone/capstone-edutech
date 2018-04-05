@@ -23,7 +23,9 @@ public interface VoicesSysUserMgrBeanRemote {
     public String populateCompanyIndustryString();
     public boolean deleteReview(long reviewID);
     public boolean cancelRequest(long requestID);
-    public String likeUnlikeReview(long reviewIDHid, String usernameHid); 
+    public String likeUnlikeReview(long reviewIDHid, String usernameHid);
+    
+    public Vector lookupReviewReport(String username, long reviewID);
     
     public List<Vector> viewUserCompanyReview(String username);
     public List<Vector> viewUserCompanyRequest(String username);

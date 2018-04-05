@@ -475,7 +475,6 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     
     public CompanyEntity lookupCompany(String companyName, String companyIndustry) {
         CompanyEntity ce = new CompanyEntity();
-        System.out.println(companyIndustry);
         try {
             Query q = em.createQuery("SELECT c from Company c WHERE c.companyName=:companyName And c.categoryEntity.categoryName=:companyIndustry");
             q.setParameter("companyName", companyName);
@@ -546,6 +545,29 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             lle = null;
         }
         return lle;
+    }
+    
+    @Override
+    public Vector lookupReviewReport(String username, long reviewID) {
+        Vector report = new Vector();
+        try {
+            Query q = em.createQuery("SELECT crr FROM CompanyReviewReport crr WHERE crr.reviewID=:reviewID AND crr.userEntity.username=:username");
+            q.setParameter("reviewID", String.valueOf(reviewID));
+            q.setParameter("username", username);
+            if(q.getSingleResult() != null) {
+                CompanyReviewReportEntity cre = (CompanyReviewReportEntity) q.getSingleResult();
+                report.add(cre.getReviewReportDate());
+                report.add(cre.getReviewReportStatus());
+            }
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Like cannot be found. " + enfe.getMessage());
+            report = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Like does not exist. " + nre.getMessage());
+            report = null;
+        }
+        
+        return report;
     }
     
     @Override

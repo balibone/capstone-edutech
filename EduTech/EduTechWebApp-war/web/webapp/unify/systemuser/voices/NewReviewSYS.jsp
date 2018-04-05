@@ -200,8 +200,8 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="employmentStatus">Employment Status&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="employmentStatus" data-width="75%">
-                                                    <option value="---Select---">Select</option>
+                                                <select class="select-dropdown" name="employmentStatus" data-width="75%" required="required">
+                                                    <option value="">Select</option>
                                                     <option value="Full Time">Full Time</option>
                                                     <option value="Part Time">Part Time</option>
                                                     <option value="Contract">Contract</option>
@@ -225,8 +225,8 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="salaryRange">Salary Range&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="salaryRange" data-width="75%">
-                                                    <option value="---Select---">Select</option>
+                                                <select class="select-dropdown" name="salaryRange" data-width="75%" required="required">
+                                                    <option value="">Select</option>
                                                     <option value="Under 1000">Under 1000</option>
                                                     <option value="1000-2000">1000-2000</option>
                                                     <option value="2000-3000">2000-3000</option>

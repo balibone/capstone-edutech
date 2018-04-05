@@ -102,9 +102,12 @@ public class VoicesSysUserController extends HttpServlet {
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToNewReviewReportSYS":
+                    String reviewReporter = request.getParameter("hiddenReviewReporter");
+                    long hiddenReviewID = Long.parseLong(request.getParameter("hiddenReviewID"));
                     request.setAttribute("hiddenCompanyID", request.getParameter("hiddenCompanyID"));
                     request.setAttribute("hiddenReviewID", request.getParameter("hiddenReviewID"));
                     request.setAttribute("hiddenReviewPoster", request.getParameter("hiddenReviewPoster"));
+                    request.setAttribute("hiddenRequest", vsmr.lookupReviewReport(reviewReporter, hiddenReviewID));
                     pageAction = "NewReviewReportSYS";
                     break;
                 case "createReviewReportSYS":
@@ -162,6 +165,8 @@ public class VoicesSysUserController extends HttpServlet {
         String employmentStatus = request.getParameter("employmentStatus");
         String salaryRange = request.getParameter("salaryRange");
         String reviewPoster = request.getParameter("username");
+        
+        System.out.println(companyName + "     " + employmentStatus + "    " + salaryRange);
         
         responseMessage = vsmr.createCompanyReview(companyIndustry, companyName, reviewTitle, 
                 reviewPros, reviewCons, reviewRating, employmentStatus, salaryRange, reviewPoster);

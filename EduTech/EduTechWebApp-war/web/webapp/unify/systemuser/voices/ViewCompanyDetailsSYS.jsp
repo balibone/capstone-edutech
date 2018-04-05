@@ -470,7 +470,7 @@
                                                                 <input type="hidden" id="reviewPoster" value="<%= reviewPoster%>" />
                                                                 <input type="hidden" id="reviewID" value="<%= reviewID%>" />
                                                                 <input type="hidden" id="username" value="<%= loggedInUsername%>" />
-                                                                <button onclick="newReviewReport('<%= companyID%>', '<%= reviewPoster%>', '<%= reviewID%>')" class="btn btn-outline-secondary btn-sm btn-block">Report</button>
+                                                                <button onclick="newReviewReport('<%= companyID%>', '<%= reviewPoster%>', '<%= reviewID%>', '<%= loggedInUsername%>')" class="btn btn-outline-secondary btn-sm btn-block">Report</button>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-3">
                                                                 <div class="btn-group" role="group">

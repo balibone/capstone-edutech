@@ -324,7 +324,8 @@
                                                             <form action="VoicesSysUser" method="POST">
                                                                 <input type="hidden" name="pageTransit" value="goToNewReviewSYS"/>
                                                                 <input type="hidden" name="hiddenCompanyImage" value="<%= companyImage %>"/>
-                                                                <input type="hidden" name="hiddenUsername" value="<%= companyName %>"/>
+                                                                <input type="hidden" name="hiddenUsername" value="<%= loggedInUsername %>"/>
+                                                                <input type="hidden" name="hiddenCompanyName" value="<%= companyName %>"/>
                                                                 <input type="hidden" name="hiddenCompanyIndustry" value="<%= companyIndustry %>"/>
                                                                 <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit"><i class="fa fa-plus">&nbsp;&nbsp;</i>Add A Review</button>
                                                             </form>
