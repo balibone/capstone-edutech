@@ -84,11 +84,11 @@ class GroupingListStudent extends Component {
 		const group = this.props.group;
 		const members = group.members;
 		const username = localStorage.getItem('username');
-		var memberSize = ""
+		var memberSize = group.members.length;
 		// console.log("Group in GroupingListStudent: ", group)
-		if(group){
-			memberSize = group.members.length;
-		}
+		// if(group){
+		// 	memberSize = group.members.length;
+		// }
 		return(
 			<Col xs={12} md={6}>
 				<ListGroup>

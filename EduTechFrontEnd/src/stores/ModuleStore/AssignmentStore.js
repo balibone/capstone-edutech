@@ -3,6 +3,7 @@ import Assignment from './Assignment.js';
 import axios from 'axios';
 import moment from 'moment';
 import _ from 'lodash';
+import swal from 'sweetalert';
 
 import GroupStore from '../GroupStore/GroupStore';
 
@@ -24,6 +25,8 @@ class AssignmentStore {
 			.then((res) => {
 				console.log(res.data);
 				GroupStore.getCreatedGroups(res.data);
+				swal("Success!", "Group assignment created successfully.", "success")
+				this.populateModuleAssignments(moduleCode);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -39,6 +42,8 @@ class AssignmentStore {
 			.then((res) => {
 				console.log(res.data);
 				GroupStore.getCreatedGroups(res.data.groups);
+				swal("Success!", "Group assignment created successfully.", "success");
+				this.populateModuleAssignments(moduleCode);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -48,7 +53,7 @@ class AssignmentStore {
 
 	@action
 	populateModuleAssignments(moduleCode){
-		axios.get(`/assignment`)
+		axios.get(`/assignment/module/${moduleCode}`)
 		.then((res) => {
 			console.log("assignmentList store", res.data);
 			this.assignmentList = res.data

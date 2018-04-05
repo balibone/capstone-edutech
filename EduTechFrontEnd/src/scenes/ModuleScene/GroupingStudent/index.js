@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import GroupingListStudent from './GroupingListStudent';
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 
-import GroupStore from '../../../stores/GroupStore/GroupStore';
+import SingleAssignmentGroup from './SingleAssignmentGroup';
+
 import AssignmentStore from '../../../stores/ModuleStore/AssignmentStore';
 
-import SingleAssignmentGroup from './SingleAssignmentGroup';
 
 @observer
 class GroupingStudent extends Component{
@@ -15,7 +14,12 @@ class GroupingStudent extends Component{
 		const assignmentList = toJS(AssignmentStore.assignmentList);
     	if(assignmentList.length > 0){
     		return assignmentList.map((assignment) => 
-    			(<SingleAssignmentGroup key={assignment.id} assignment={assignment} />)
+
+    			(
+    				(assignment.groups.length>0) ? 
+    				<SingleAssignmentGroup key={assignment.id} assignment={assignment} />
+    				:(<span></span>)
+    			)
     		)
     	}else{
     		return (<span>No Assignments</span>)

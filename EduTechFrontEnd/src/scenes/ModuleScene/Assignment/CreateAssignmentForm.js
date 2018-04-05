@@ -34,7 +34,6 @@ class CreateAssignmentForm extends Component {
 		super()
 		this.state = {
 			title: "",
-			description: "",
 			type: "individual",
 			groupSize: 2,
 			deadline: new Date()
@@ -56,7 +55,7 @@ class CreateAssignmentForm extends Component {
 
 	createAssignment(event){
 		event.preventDefault();
-		var {title, description, type, deadline, groupSize} = this.state;
+		var {title, type, deadline, groupSize} = this.state;
 		const currentDate = new Date();
 		const username = localStorage.getItem('username');
 		const moduleCode = this.props.moduleCode;
@@ -86,14 +85,6 @@ class CreateAssignmentForm extends Component {
 		            value={this.state.title}
 		            placeholder="Enter text"
 		            onChange={(e) => this.setState({title: e.target.value})}
-		          />
-
-		         <ControlLabel>Description</ControlLabel>
-		          <FormControl
-		            type="text"
-		            value={this.state.description}
-		            placeholder="Enter text"
-		            onChange={(e) => this.setState({description: e.target.value})}
 		          />
 
 			    <label htmlFor="deadline" >Set Deadline</label>

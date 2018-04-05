@@ -1,26 +1,41 @@
 import React, {Component} from 'react';
-import {Grid, Row} from 'react-bootstrap';
-import GroupingListInstructor from './GroupingListInstructor';
+import {toJS} from 'mobx';
+import {observer} from 'mobx-react';
 
+import SingleAssignmentGroup from './SingleAssignmentGroup';
+
+import AssignmentStore from '../../../stores/ModuleStore/AssignmentStore';
+
+@observer
 class GroupingInstructor extends Component {
+
+	renderAssignmentList(){
+		const assignmentList = toJS(AssignmentStore.assignmentList);
+    	if(assignmentList.length > 0){
+    		return assignmentList.map((assignment) => 
+
+    			(
+    				(assignment.groups.length>0) ? 
+    				<SingleAssignmentGroup key={assignment.id} assignment={assignment} />
+    				:(<span></span>)
+    			)
+    		)
+    	}else{
+    		return (
+    			<div>
+    				<h2>No grouping created.</h2>
+					<h4 style={{fontWeight: '150'}}>Please create group assignment to create groups.</h4>
+					<br />	
+    			</div>
+    			)
+    	} 
+	}
 
 	render(){
 
 		return(
 			<div className="standardTopGap">
-				<h2>No grouping created.</h2>
-				<h4 style={{fontWeight: '150'}}>Please create group assignment to create groups.</h4>
-				<br />
-				<h2>Assignment 1A</h2>
-				<h4 style={{fontWeight: '150'}}>Number of Groups: 8</h4>
-				
-					<Row>
-						<GroupingListInstructor />
-						<GroupingListInstructor />
-						<GroupingListInstructor />
-						<GroupingListInstructor />						
-					</Row>
-				
+				{this.renderAssignmentList()}
 			</div>
 		)
 	}

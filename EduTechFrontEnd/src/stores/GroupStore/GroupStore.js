@@ -56,12 +56,12 @@ class GroupStore {
 		return whatThis;
 	}
 
-	@action
-	getSelectedGroup(id){
-		let groupList = toJS(this.groupList);
-		this.selectedGroup = groupList.find((group) => group.id === parseInt(id))
-		return this.selectedGroup;
-	}
+	// @action
+	// getSelectedGroup(id){
+	// 	let groupList = toJS(this.groupList);
+	// 	this.selectedGroup = groupList.find((group) => group.id === parseInt(id))
+	// 	return this.selectedGroup;
+	// }
 
 	@action
 	getCreatedGroups(newGroups){

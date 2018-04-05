@@ -24,6 +24,7 @@ constructor(props){
 
 componentDidMount(){
   const lessonId = this.props.lesson.id;
+  
   axios.get(`/lesson/allAttachments/${lessonId}`)
     .then((res) => {
       this.state.files = res.data;

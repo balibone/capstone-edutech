@@ -5,22 +5,41 @@ import {ListGroup, ListGroupItem, Col} from 'react-bootstrap';
 
 class GroupingListInstructor extends Component {
 
+	renderStudentList(group){
+		const { groupSize, members } = group;
+		var studentListItem = [];
+
+		for(var i=0 ; i<groupSize ; i++){
+			if(members[i]){
+				studentListItem.push(members[i].username)
+			} else {
+				studentListItem.push('vacant')
+			}
+		}
+
+		return studentListItem.map((student) => {
+			const style = student === 'vacant' ? 'warning': 'info'
+			return <ListGroupItem bsStyle={style}>{student}</ListGroupItem>
+		})
+	}
+
 	render(){
+		const group = this.props.group;
+		const members = group.members;
+		const username = localStorage.getItem('username');
+		const memberSize = group.members.length;
+		const subtitle = "Group Size: " + memberSize.toString()
 
 		return(
 			<Col xs={12} md={6}>
 				<Card className="standardTopGap">
-				    <CardTitle title="Group 1" subtitle="Group Size: 4" />
+				    <CardTitle title={group.title} subtitle={subtitle} />
 				    <CardText>
 				      	<ListGroup>
-						  <ListGroupItem>Nan Da</ListGroupItem>
-						  <ListGroupItem>Hafidz</ListGroupItem>
-						  <ListGroupItem>Derian</ListGroupItem>
-						  <ListGroupItem>Winston</ListGroupItem>
+						  {this.renderStudentList(group)}
 						</ListGroup>
 				    </CardText>
 				    <CardActions>
-				      <FlatButton label="Broadcast Announcement" />
 				      <FlatButton label="Delete Group" />
 				    </CardActions>
 				  </Card>

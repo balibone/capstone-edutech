@@ -37,6 +37,7 @@ class ModuleScene extends Component {
     let { moduleCode } = newProps.match.params;
     LessonStore.getLessonsForModule(moduleCode);
     ModuleStore.getOneModule(moduleCode);
+    AssignmentStore.populateModuleAssignments(moduleCode);
     // GroupStore.populateModuleGroup(moduleCode);
   }
 
