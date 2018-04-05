@@ -27,6 +27,7 @@
         <!--Font Awesome 5 JS-->
         <script defer src="fonts/fa5/fontawesome-all.js"></script>
         <script defer src="fonts/fa5/fa-v4-shims.js"></script>
+        
     </head>
 
     <body class="nav-md">
@@ -111,11 +112,11 @@
                                                 <td><%=adminType%></td>
                                                 <td>
                                                     <ul class="list-inline">
-                                                        <li>
+                                                        <li class="activeStatus">
                                                             <%=status%>
                                                         </li>
                                                         <li>
-                                                            <a onclick="return confirm('Make this user <%=toToggle%> ?')" href="SystemAdmin?pageTransit=toggleAdmin&id=<%=username%>&prevStatus=<%=status%>"><i class="fas fa-sync fa-lg"></i></a>
+                                                            <a onclick="return confirm('Make this user <%=toToggle%> ?')" href="SystemAdmin?pageTransit=toggleAdmin&id=<%=username%>&prevStatus=<%=status%>"><button class="btn btn-default"><i class="fas fa-sync fa-lg"></i>  Toggle</button></a>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -169,5 +170,19 @@
 
         <!--System Admin Base JS-->
         <script src="js/commoninfrastructure/admin/basejs/CommonAdminBaseJS.js" type="text/javascript"></script>
+        <!--Custom JS-->
+        <script>
+            $(function(){
+                $(".activeStatus").each(function(i){
+                    var status = $(this).text();
+                    console.log(status);
+                    if($.trim(status) === "Active"){
+                        $(this).css("color","#110cde");
+                    }else{
+                        $(this).css("color","#de0c0c");
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
