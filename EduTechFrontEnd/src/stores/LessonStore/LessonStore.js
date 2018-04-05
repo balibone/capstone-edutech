@@ -70,22 +70,36 @@ class LessonStore {
   }
 
   @action
-  getFilesForLesson(lessonId){
-    var attachmentArr = [];
-    var index = _.findIndex(this.lessonList, (item) => {return item.id === lessonId});
-    axios.get(`/lesson/allAttachments/${lessonId}`)
+  removeOneFile(lessonId, attachmentId, fileName){
+    axios.delete(`/lesson/deleteAttachment/${lessonId}/${attachmentId}`)
     .then((res) => {
-      this.lessonList[index].files = res.data;
-      console.log("lesson", this.lessonList[index])
+      console.log("delete file success!", res.data);
+      swal(`${fileName} has been deleted!`, {icon: "success"});
+
+      // swal("Sucess !", "File removed.", "success");
     })
     .catch((err) => {
       console.log(err);
     })
   }
 
+  // @action
+  // getFilesForLesson(lessonId){
+  //   var attachmentArr = [];
+  //   var index = _.findIndex(this.lessonList, (item) => {return item.id === lessonId});
+  //   axios.get(`/lesson/allAttachments/${lessonId}`)
+  //   .then((res) => {
+  //     this.lessonList[index].files = res.data;
+  //     console.log("lesson", this.lessonList[index])
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
+  // }
+
 
   @action
-  fetchFilesForLeson(lessonId) {
+  fetchFilesForLesson(lessonId) {
       var attachmentArr = [];
       var index = _.findIndex(this.lessonList, (item) => {return item.id === lessonId});
       
@@ -104,26 +118,6 @@ class LessonStore {
             }) 
       )
     }  
-
-
-
-	// getNumberOfWeeks(){
- //        axios.get('/semester')
- //        .then((res) => {
- //          const startD = moment(res.data[0].startDate);
- //          const endD = moment(res.data[0].endDate);
-
- //          console.log("d1 d2", startD)
- //          // var result = this.getNumberOfWeeks(startD, endD);
- //          var result = endD.diff(startD, 'week') + 1;
-
- //          console.log("RESULT No of Weeks: ", result);
- //        })
- //        .catch((err) => {
- //          console.log(err)
- //        })
- //    }
-
 
 }
 

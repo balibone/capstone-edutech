@@ -24,7 +24,7 @@ class GroupScene extends Component {
     let { groupId } = this.props.match.params;
 
     MeetingStore.populateMeetings(groupId);
-    GroupStore.getSelectedGroup(groupId);
+    // GroupStore.getSelectedGroup(groupId);
     MergeGroupStore.getMembersInGroup(groupId);
     ScheduleItemStore.populateMergedScheduleItemsForGroup(groupId);
     ScheduleItemStore.populateScheduleItems(localStorage.getItem('username'));
@@ -38,7 +38,7 @@ class GroupScene extends Component {
 
     ScheduleItemStore.populateScheduleItems(localStorage.getItem('username'));
     MeetingStore.populateMeetings(groupId);
-    GroupStore.getSelectedGroup(groupId);
+    // GroupStore.getSelectedGroup(groupId);
     MergeGroupStore.getMembersInGroup(groupId);
     ScheduleItemStore.populateMergedScheduleItemsForGroup(groupId);
     // const membersArray = toJS(GroupStore.selectedGroup.members);

@@ -13,7 +13,8 @@ import './styles.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import SingleCalendarCard from './SingleCalendarCard';
-import AddCalendarItemForm from './AddCalendarItemForm';
+// import AddCalendarItemForm from './AddCalendarItemForm';
+// import AddCalendarItemForm from './AddCalendarItemForm';
 import EditCalendarItemForm from './EditCalendarItemForm';
 import AddCalendarItemModal from './AddCalendarItemModal';
 
@@ -52,7 +53,6 @@ class PersonalCalendar extends Component {
 	}
 
 	handleCloseAll(){
-		console.log("HANDLING CLOSE ALL")
 		this.setState({openCalendarCard: false, openEditForm: false, openCalendarForm: false});
 	}
 

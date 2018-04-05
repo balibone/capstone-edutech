@@ -37,10 +37,6 @@ class GroupMeeting extends Component{
       }
   }
 
-  componentDidMount(){
-    MeetingStore.populateMeetings(this.props.groupId);
-  }
-
   checkSelectedDateValid(startTime , endTime){
     let membersScheduleItems = toJS(ScheduleItemStore.userGroupScheduleItems);
     for(var i=0 ; i<membersScheduleItems.length ; i++){

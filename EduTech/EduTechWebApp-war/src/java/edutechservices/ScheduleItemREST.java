@@ -37,7 +37,7 @@ public class ScheduleItemREST {
     @Consumes({ MediaType.APPLICATION_JSON})
     @Produces({ MediaType.APPLICATION_JSON})
     public ScheduleItemEntity createScheduleItem(ScheduleItemEntity entity) {
-        System.out.println(entity.getStartDate());
+//        System.out.println(entity.getStartDate());
         return etr.createScheduleItem(entity);
     }
 
