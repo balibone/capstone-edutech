@@ -132,10 +132,7 @@ $(document).ready(function () {
             }
         });
     });
-    
-    
-    
-}); 
+ });     
 
 $(document).on('click', '#likeJobBtn', function() {
         $.ajax({
@@ -159,14 +156,14 @@ $(document).on('click', '#likeJobBtn', function() {
                 if(returnString > 1) { $('.likeWording').text("Likes"); }
                 else { $('.likeWording').text("Like"); }
             }
-        });
-    });
-    
+        });    
+ });   
 
-function deleteAlert(jobID, username) {
+
+/*function deleteAlert(jobID, username) {
     var deleteReply = confirm("Are you sure to delete this job?");
     if (deleteReply) { window.open('ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=' + jobID + 'username=' + username, '_parent'); }
-};
+};*/
 
 function otherReason(){
     var select = document.getElementById("reportReason");
