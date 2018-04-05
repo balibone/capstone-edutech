@@ -37,13 +37,19 @@
     margin-left: 38px;
 }
 
-.fa-heart{
-    color: #e2e3e5
+.noLike{
+    color: #e2e3e5;
+}
+
+.like{
+    color: #e20;
 }
 
 .fa-heart:hover{
     color: #e20;
 }
+
+
 
 .job-price{
     margin-top: 30px;
@@ -96,3 +102,4 @@ td.info{
     color: #93979e;
     line-height: 1.5;
 }
+

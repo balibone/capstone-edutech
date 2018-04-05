@@ -141,7 +141,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Marketplace (Edit Item Listing)</li>
+                            <li class="breadcrumb-item active" aria-current="page">Errands (Edit Job Listing)</li>
                         </ol>
                     </nav>
                 </div>
@@ -261,7 +261,7 @@
                                             <div class="form-group row">
                                                  <label for="workDate" class="col-sm-3 col-form-label"><strong>Work Date & Time&nbsp;<span class="asterik">*</span></strong></label>
                                                  <div class="col-sm-4">
-                                                    <input type="date" class="form-control" name="workDate" value="<%=datePart%>" />
+                                                    <input type="date" class="form-control" id="workDate" name="workDate" value="<%=datePart%>" />
                                                  </div>
                                                  <div class="col-sm-4">
                                                     <input type="time" class="form-control" name="workTime" value="<%=timePart%>"/>
@@ -272,7 +272,7 @@
                                             <div class="form-group row">
                                                 <label for="workDate" class="col-sm-5 col-form-label"><strong>What is your budget for the job? </strong>&nbsp;<span class="asterik">*</span></label>
                                                 <div class="col-sm-3">
-                                                    <select class="select-dropdown" name="jobRateType" id="jobRateType" data-width="100%" onchange="javascript: displayDuration()">
+                                                    <select class="form-control" name="jobRateType" id="jobRateType" data-width="100%" onchange="javascript: displayDuration()">
                                                         <% if(jobRateType.equals("Fixed")){ %>
                                                             <option value="Fixed">Fixed Price</option>
                                                             <option value="HR">Hourly Rate</option>
@@ -283,12 +283,13 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-sm-3">    
-                                                    <input type="number" class="form-control" name="jobRate" placeholder="<%=jobRate%>"/>
+                                                    <input type="number" class="form-control" id="jobRate" name="jobRate" min="0" placeholder="<%=jobRate%>"/>
                                                 </div>
                                                 <input type="hidden" name="hiddenJobRate" value="<%=jobRate%>">
                                             </div>    
                                             <div class="form-group row">
                                                 <label for="jobDuration" class="col-sm-3 col-form-label"><strong>How big is the task?&nbsp;<span class="asterik">*</span></strong></label><br/>
+                                                
                                                 <div class="col-sm-3 mt-2">
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" name="jobDuration" id="smallSize" value="1">
@@ -307,12 +308,13 @@
                                                         <label class="form-check-label" id="test" for="inlineRadio1">Large: >4hrs</label>
                                                     </div>
                                                 </div>
+                                                
                                                 <input type="hidden" name="hiddenJobDuration" id="hiddenJobDuration" value="<%= jobDuration%>" />
                                             </div>
                                             <div class="form-group row">
                                                 <label for="numOfHelpers" class="col-sm-6 col-form-label"><strong>How many helpers do you need for the job? </strong>&nbsp;<span class="asterik">*</span></label>
                                                 <div class="col-sm-3">
-                                                    <input type="number" class="form-control" name="numOfHelpers"  placeholder="<%=numOfHelpers%>" />
+                                                    <input type="number" class="form-control" id="numOfHelpers" name="numOfHelpers" min="0" placeholder="<%=numOfHelpers%>" />
                                                 </div>
                                                 <input type="hidden" name="hiddenNumOfHelpers" value="<%=numOfHelpers%>" />
                                             </div>

@@ -70,27 +70,8 @@ $(document).ready(function () {
         document.getElementById("offerPriceType").innerHTML = "(S$/hour)";
     }
     
-    $('#sendOfferBtn').click(function(){
-        $.ajax({
-            type: "POST",
-            url: "ErrandsSysUser",
-            data: { 
-                jobIDHidden: $('#jobIDHidden').val(),
-                usernameHidden: $('#usernameHidden').val(),
-                jobOfferPrice: $('#jobOfferPrice').val(),
-                jobOfferDescription: $('#jobOfferDescription').val(),
-                pageTransit: 'sendJobOfferPrice'
-            },
-            success: function(returnString) {
-                $('#successOfferResponse').hide();
-                $('#failedOfferResponse').hide();
-                if(returnString.endsWith("!")) { $('#successOfferResponse').text(returnString).show(); }
-                else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }
-            }
-        });
-    });
-    
-    $('#likeJobBtn').click(function(){
+    /*$('#likeJobBtn').click(function(){
+        
         $.ajax({
             type: "POST",
             url: "ErrandsSysUser",
@@ -113,7 +94,29 @@ $(document).ready(function () {
                 else { $('.likeWording').text("Like"); }
             }
         });
+    });*/
+    
+    $('#sendOfferBtn').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "ErrandsSysUser",
+            data: { 
+                jobIDHidden: $('#jobIDHidden').val(),
+                usernameHidden: $('#usernameHidden').val(),
+                jobOfferPrice: $('#jobOfferPrice').val(),
+                jobOfferDescription: $('#jobOfferDescription').val(),
+                pageTransit: 'sendJobOfferPrice'
+            },
+            success: function(returnString) {
+                alert(returnString);
+                /*$('#successOfferResponse').hide();
+                $('#failedOfferResponse').hide();
+                if(returnString.endsWith("!")) { $('#successOfferResponse').text(returnString).show(); }
+                else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }*/
+            }
+        });
     });
+    
     
     $('#reportJobBtn').click(function(){
         $.ajax({
@@ -130,18 +133,44 @@ $(document).ready(function () {
             }
         });
     });
-});
+ });     
 
-function deleteAlert(jobID) {
+$(document).on('click', '#likeJobBtn', function() {
+        $.ajax({
+            type: "POST",
+            url: "ErrandsSysUser",
+            data: { 
+                jobIDHid: $('#jobIDHidden').val(),
+                usernameHid: $('#usernameHidden').val(),
+                pageTransit: 'likeJobListingDetails'
+            },
+            success: function(returnString) {
+                $('.likeCount').text("");
+                $('.likeCount').text(returnString);
+                if($('#likeJobBtn').hasClass('likeStatus')) {
+                    $('#likeJobBtn').removeClass('likeStatus');
+                    $('#likeJobBtn').addClass('noLikeStatus');
+                } else if($('#likeJobBtn').hasClass('noLikeStatus')) {
+                    $('#likeJobBtn').removeClass('noLikeStatus');
+                    $('#likeJobBtn').addClass('likeStatus');
+                }
+                if(returnString > 1) { $('.likeWording').text("Likes"); }
+                else { $('.likeWording').text("Like"); }
+            }
+        });    
+ });   
+
+
+/*function deleteAlert(jobID, username) {
     var deleteReply = confirm("Are you sure to delete this job?");
-    if (deleteReply) { window.open('ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=' + jobID, '_parent'); }
-};
+    if (deleteReply) { window.open('ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=' + jobID + 'username=' + username, '_parent'); }
+};*/
 
 function otherReason(){
     var select = document.getElementById("reportReason");
     var selectedValue = select.options[select.selectedIndex].value;
     
-    var innerContent = '<input type=\"text\" name=\"otherReason\" size=\"65\" placeholder=\" Please specify the reason.*\" />';
+    var innerContent = '<input type=\"text\" class=\"form-control\" name=\"otherReason\" size=\"65\" placeholder=\" Please specify the reason.*\" />';
     
     if(selectedValue == "others"){
         document.getElementById('otherReason').innerHTML = innerContent;
