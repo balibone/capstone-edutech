@@ -360,7 +360,8 @@ public class ErrandsSysUserController extends HttpServlet {
         if(jobRate.equals("")) { jobRate = request.getParameter("hiddenJobRate"); }
         
         double jobDuration = Double.parseDouble(request.getParameter("hiddenJobDuration"));
-        if(!((request.getParameter("jobDuration")).equals(""))) { jobDuration = Double.parseDouble(request.getParameter("jobDuration")); }
+        //if(!((request.getParameter("jobDuration")).equals(""))) { jobDuration = Double.parseDouble(request.getParameter("jobDuration")); }
+        System.out.println(jobDuration);
         
         int numOfHelpers = Integer.parseInt(request.getParameter("hiddenNumOfHelpers"));
         if(!((request.getParameter("numOfHelpers")).equals(""))){ numOfHelpers = Integer.parseInt(request.getParameter("numOfHelpers")); }

@@ -406,6 +406,9 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jEntity.setJobEndLong(endLong);
             jEntity.setCategoryEntity(cEntity);
             jEntity.setUserEntity(uEntity);
+            jEntity.setJobDuration(jobDuration);
+            jEntity.setNumOfHelpers(numOfHelpers);
+            jEntity.setChecking(checking);
             em.merge(jEntity);
             return "Job listing has been updated successfully!";
         }
