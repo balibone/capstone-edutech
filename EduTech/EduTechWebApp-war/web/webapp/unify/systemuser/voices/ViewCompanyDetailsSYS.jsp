@@ -200,6 +200,8 @@
                                             <label><strong>Industry:&nbsp;</strong></label>
                                             <span class="companyIndustry"><%= companyIndustry%></span><br/>
                                         </div>
+                                        <div>
+                                            <div><span class="float-left"><span class="ml-1 card-text rating companyRating" id="average_rating" style="margin-top: 5px"><%= companyRating%></span></span></div>
                                             <div class="star-rating">
                                                 <% double rating = Double.parseDouble(companyRating);
                                                    double percent = 0.0;
@@ -226,6 +228,7 @@
                                                     <span><i class="fa fa-star">&nbsp;</i></span>
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="new-review" style="margin-top: 50px">
@@ -462,6 +465,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-7 col-md-7 col-7"></div>
                                                             <div class="col-lg-2 col-md-2 col-2">
+                                                                <input type="hidden" id="tabType" value="<%= (String) request.getAttribute("tabType")%>" />
                                                                 <input type="hidden" id="companyID" value="<%= companyID%>" />
                                                                 <input type="hidden" id="reviewPoster" value="<%= reviewPoster%>" />
                                                                 <input type="hidden" id="reviewID" value="<%= reviewID%>" />

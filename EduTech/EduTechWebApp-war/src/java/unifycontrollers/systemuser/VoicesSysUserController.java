@@ -79,6 +79,16 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(companyID));
                     pageAction="ViewCompanyDetailsSYS";
                     break;
+                case "goToViewReviewListSYS":
+                    long companyID_ = Long.parseLong(request.getParameter("hiddenCompanyID"));
+                    String username_ = request.getParameter("hiddenUsername");
+                    String type = request.getParameter("type");
+                    request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(companyID_));
+                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID_, username_));
+                    request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(companyID_));
+                    request.setAttribute("tabType", type);
+                    pageAction="ViewCompanyDetailsSYS";
+                    break;
                 case "goToNewCompanyRequestSYS":
                     request.setAttribute("industryStrSYS", vsmr.populateCompanyIndustryString());
                     pageAction="NewCompanyRequestSYS";
