@@ -822,10 +822,11 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 offerInfo.add(joE.getJobEntity().getJobTitle());
                 offerInfo.add(joE.getJobEntity().getCategoryEntity().getCategoryName());
                 offerInfo.add(rateFormat.format(joE.getJobEntity().getJobRate()));
+                //System.out.println(offerInfo.get(4));
                 offerInfo.add(joE.getJobEntity().getJobRateType());
                 offerInfo.add(joE.getJobEntity().getUserEntity().getUsername());
                 offerInfo.add(joE.getJobOfferID());
-                offerInfo.add(joE.getJobOfferPrice());
+                offerInfo.add(rateFormat.format(joE.getJobOfferPrice()));
                 offerInfo.add(joE.getJobOfferDescription());
                 offerInfo.add(joE.getJobOfferStatusForSender());
                 offerInfo.add(df.format(joE.getJobOfferDate()));

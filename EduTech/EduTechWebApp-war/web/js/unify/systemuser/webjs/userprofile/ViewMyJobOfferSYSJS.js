@@ -31,7 +31,10 @@ $(document).ready(function () {
         iframeHeight: 450
     });
     
-    $('#editOffer').click(function(){
+    /*$('#editOffer').click(function(){
+        
+        $('.modal').modal('toggle');
+
         $.ajax({
             type: "POST",
             url: "ProfileSysUser",
@@ -51,7 +54,10 @@ $(document).ready(function () {
                 else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }
             }
         });
-    });
+    });*/
+    
+    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
+    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 });
 
 

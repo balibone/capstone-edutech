@@ -108,10 +108,11 @@ $(document).ready(function () {
                 pageTransit: 'sendJobOfferPrice'
             },
             success: function(returnString) {
-                $('#successOfferResponse').hide();
+                alert(returnString);
+                /*$('#successOfferResponse').hide();
                 $('#failedOfferResponse').hide();
                 if(returnString.endsWith("!")) { $('#successOfferResponse').text(returnString).show(); }
-                else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }
+                else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }*/
             }
         });
     });

@@ -71,6 +71,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "UserJobListingSYS";
                     break;
                 case "goToViewMyJobOfferSYS":
+                    request.setAttribute("message", " ");
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(username));
                     pageAction = "ViewMyJobOfferSYS";
@@ -78,12 +79,14 @@ public class UserProfileSysUserController extends HttpServlet {
                 case "editMyJobOfferSYS":
                     String responseMessage = editJobOffer(request, username);
                     
-                    System.out.println("controller: 0");
+                    System.out.println(responseMessage);
                     
-                    response.setContentType("text/plain");
-                    response.getWriter().write(responseMessage);
-                    
-                    //pageAction = "ViewMyJobOfferSYS";
+                    //response.setContentType("text/plain");
+                    //response.getWriter().write(responseMessage);
+                    request.setAttribute("message", responseMessage);
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(username));
+                    pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "goToDeleteMyJobOfferSYS":
                     long offerID = Long.parseLong(request.getParameter("offerID"));
