@@ -82,6 +82,19 @@ $(document).ready(function () {
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
+    
+    var dtToday = new Date();
+    var month = dtToday.getMonth()+1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+
+    var minDate = year + '-' + month + '-' + day;    
+    $('#workDate').attr('min', minDate);
 });
 
 var center = L.bounds([1.56073, 104.11475], [1.16, 103.502]).getCenter();
@@ -96,6 +109,27 @@ var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png
 });
 map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
 basemap.addTo(map);
+
+var jobRateInput = document.getElementById('jobRate');
+var helperInput = document.getElementById('numOfHelpers');
+
+// Listen for input event on numInput.
+jobRateInput.onkeydown = function(e) {
+    if(!((e.keyCode > 95 && e.keyCode < 106)
+      || (e.keyCode > 47 && e.keyCode < 58) 
+      || e.keyCode == 8)) {
+        return false;
+    }
+}
+
+helperInput.onkeydown = function(e) {
+    if(!((e.keyCode > 95 && e.keyCode < 106)
+      || (e.keyCode > 47 && e.keyCode < 58) 
+      || e.keyCode == 8)) {
+        return false;
+    }
+}
+
 
 
 /* FOR PROFILE PICTURE UPLOAD TO SYSTEM */
