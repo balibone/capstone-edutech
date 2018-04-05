@@ -226,15 +226,37 @@ public class ModuleMgrBean {
             tasks.add(assignmentTask);
         }
     }
-
+    //assumption: no 2 users will upload files with the same name for this assignment. i.e. proper naming convention is enforced, e.g. (IS1001_A0013211X_Assignment1.docx)
     public AssignmentEntity submitAssignment(String assignmentId, AttachmentEntity att, String username) {
         AssignmentEntity ass = em.find(AssignmentEntity.class, Long.valueOf(assignmentId));
         UserEntity u = em.find(UserEntity.class, username);
+        //get all attachments with the same file name. If this lesson already has attachment with this file name,
+        //edit the table record instead of adding a new one. 
+        Query q1 = em.createQuery("SELECT a FROM Attachment a WHERE a.fileName= :attFileName");
+        q1.setParameter("attFileName", att.getFileName());
         if(ass!=null && u!=null){
             att.setCreatedBy(u);
             //add attachment to assignment submissions.
-            em.persist(att);
-            ass.getSubmissions().add(att);
+            Collection<AttachmentEntity> submissions = ass.getSubmissions();
+            List sameNameAttachments = q1.getResultList();
+            //if there are no attachments with the same name, proceed normally.
+            if(sameNameAttachments.isEmpty()){
+                submissions.add(att);
+                em.persist(att);
+                System.out.println("new attachment persisted");
+            }else{
+                for(Object o : sameNameAttachments){
+                    AttachmentEntity sameName = (AttachmentEntity)o;
+                    //assignment already contains resource with this name. update row.
+                    if(submissions.contains(sameName)){
+                        sameName.setTitle(att.getTitle());
+                        sameName.setCreatedBy(u);
+                        sameName.setCreatedAt(LocalDateTime.now());
+                        System.out.println("existing attachment's title renamed");
+                        break;
+                    }
+                }
+            }
         }
         return ass;
     }

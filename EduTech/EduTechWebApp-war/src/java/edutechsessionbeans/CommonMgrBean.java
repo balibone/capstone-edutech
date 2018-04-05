@@ -659,6 +659,7 @@ public class CommonMgrBean {
         return attList;
     }
 
+//assumption: each attachment in this lesson will have different file name. i.e. proper naming convention is enforced, e.g. (IS1001_Lecture1.pptx)
     public void uploadLessonAttachment(String id, AttachmentEntity att, String username) {
         LessonEntity lesson = em.find(LessonEntity.class, Long.valueOf(id));
         UserEntity u = em.find(UserEntity.class, username);
@@ -681,6 +682,8 @@ public class CommonMgrBean {
                     //lesson already contains resource with this name. update row.
                     if(resources.contains(sameName)){
                         sameName.setTitle(att.getTitle());
+                        sameName.setCreatedBy(u);
+                        sameName.setCreatedAt(LocalDateTime.now());
                         System.out.println("existing attachment's title renamed");
                         break;
                     }
