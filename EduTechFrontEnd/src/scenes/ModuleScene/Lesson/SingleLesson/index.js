@@ -24,10 +24,11 @@ constructor(props){
 
 componentDidMount(){
   const lessonId = this.props.lesson.id;
+  
   axios.get(`/lesson/allAttachments/${lessonId}`)
     .then((res) => {
       this.state.files = res.data;
-      console.log("lessonId and file", lessonId, this.state.files);
+      // console.log("lessonId and file", lessonId, this.state.files);
     })
     .catch((err) => {
       console.log(err);

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+  import React, {Component} from 'react';
 import { Paper } from 'material-ui';
 import {observer} from 'mobx-react';
 import { Col, Row, Badge } from 'react-bootstrap';
@@ -37,7 +37,7 @@ class KeyInfoPanel extends Component{
       length = getRecentKeyDates.length;
 
     if(getRecentKeyDates){
-
+      // console.log("recent key dates", getRecentKeyDates)
       return getRecentKeyDates.slice(0,length).map((item)=>{
           let { id, title, startDate, endDate, itemType } = item.itemDetails;
           switch(itemType){
@@ -47,13 +47,15 @@ class KeyInfoPanel extends Component{
               break;
             case "timetable": color = '#9932CC'
               break;
+            case "task": color = '#00BFFF'
+              break;
             case "assessment": color = '#00BFFF'
               break;
           }
           return (
             <Col md={4} key={id}>
-                <Paper className="keyInfoCard paperDefault">
-                  <h4 className="truncate"> {title} &nbsp;<Badge style={{background: color}}>{itemType}</Badge></h4>
+                <Paper className="keyInfoCard paperDefault" style={{backgroundColor: color}}>
+                  <h4 className="truncate"> {title} &nbsp;</h4>
                   <p className="thinFont truncate"> 
                     {moment(startDate).format('MMM DD YYYY')}
                   </p>

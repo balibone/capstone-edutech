@@ -17,7 +17,7 @@ class MainCalendar extends Component {
 		let scheduleItemsObjArr = ScheduleItemStore.scheduleItems;
 		var scheduleItemTempArr= toJS(scheduleItemsObjArr);
 		var scheduleItemArr = [];
-		console.log("SCHEDULE ITEMS: ", scheduleItemTempArr)
+		// console.log("SCHEDULE ITEMS: ", scheduleItemTempArr)
 		if(scheduleItemTempArr && scheduleItemTempArr.length>0){
 			for(var i=0 ; i<scheduleItemTempArr.length ; i++){
 				var color = "";
@@ -51,7 +51,6 @@ class MainCalendar extends Component {
 
 	render(){
 		let eventsArray = this.getEventArray();
-		{console.log("DAY OF THE WEEK TEST", moment("2018-04-02").isoWeekday())}
 
 		return(
 			<Paper className="standardTopGap standardBottomGap paperDefault">

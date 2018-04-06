@@ -37,7 +37,7 @@ state = {
 
     let content = (
       <div>
-        <h4><span className="capitalize">{this.state.moduleCode}</span></h4>
+        <h4 className="capitalize standardTopGap">{this.state.moduleCode}</h4>
         <p>{this.state.moduleTitle}</p>
       </div>
     )

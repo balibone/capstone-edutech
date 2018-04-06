@@ -5,31 +5,35 @@ import SingleAssignmentTable from './SingleAssignmentTable';
 
 class Submission extends Component {
 
+	renderAssignment(assignmentList){
+		let isGroup = false;
+		return assignmentList.map((assignment) => 
+			(
+			<Panel eventKey={assignment.id}>
+		    	<Panel.Heading>
+		      		<Panel.Title toggle>
+		      			{assignment.title} &nbsp;
+		      			({
+		      				(assignment.groups.length>0) ? "Group" : "Individual"
+		      			})
+		      		</Panel.Title>
+		    	</Panel.Heading>
+		    	<Panel.Body collapsible>
+		    		No submission.
+		    	</Panel.Body>
+	 		</Panel>
+			)
+		)
+	}
+
 	render(){
+		const assignmentList = this.props.assignmentList;
 
 		return(
 			<div className="standardTopGap">
 			<h4>Students Submissions</h4>
 				<PanelGroup accordion id="accordion-example">
-
-			 		<Panel eventKey={1}>
-				    	<Panel.Heading>
-				      		<Panel.Title toggle>Assignment 1</Panel.Title>
-				    	</Panel.Heading>
-				    	<Panel.Body collapsible>
-				    		<SingleAssignment />
-				    	</Panel.Body>
-			 		</Panel>
-
-			 		<Panel eventKey={2}>
-				    	<Panel.Heading>
-				      		<Panel.Title toggle>Assignment 2</Panel.Title>
-				    	</Panel.Heading>
-				    	<Panel.Body collapsible>
-				    		<SingleAssignmentTable />
-				    	</Panel.Body>
-			 		</Panel>
-
+					{this.renderAssignment(assignmentList)}
 				</PanelGroup>
 			</div>
 		)

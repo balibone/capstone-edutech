@@ -113,8 +113,7 @@ public class SystemAdminController extends HttpServlet {
                     break;              
                 case "toggleStudent":
                     sam.toggleUserStatus(request.getParameter("id"));
-                    request.setAttribute("studentList", sam.getAllStudents());
-                    pageAction="StudentList";
+                    response.sendRedirect("SystemAdmin?pageTransit=StudentList");
                     break;
                 case "InstructorList":
                     ArrayList<ArrayList> instructorList = sam.getAllInstructors();
@@ -170,8 +169,7 @@ public class SystemAdminController extends HttpServlet {
                     break;
                 case "toggleInstructor":
                     sam.toggleUserStatus(request.getParameter("id"));
-                    request.setAttribute("instructorList", sam.getAllInstructors());
-                    pageAction = "InstructorList";
+                    response.sendRedirect("SystemAdmin?pageTransit=InstructorList");
                     break; 
                 case "AllAdminList":
                     ArrayList<ArrayList> adminList = sam.getAllAdmins();

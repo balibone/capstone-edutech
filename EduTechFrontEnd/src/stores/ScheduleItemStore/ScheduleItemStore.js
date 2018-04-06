@@ -23,6 +23,7 @@ class ScheduleItemStore {
       })
       .catch((error)=>{
         console.log(error);
+        swal("Network Error!", "Unable to get calendar items.", "error")
         // this.scheduleItems = null;
       });
      }
@@ -41,12 +42,15 @@ class ScheduleItemStore {
 
      @action
     addScheduleItem(title, description, startDate, endDate, location, createdBy, assignedTo, itemType, moduleCode, groupId) {
+        
         if(!title || !description || !startDate || !endDate || !location || !itemType){
           swal("Warning!", "Please make sure all fields are entered.", "warning");
         } else if(startDate > endDate) {
           swal("Time Error!", "Please make sure start time is earlier than end time.", "warning");
         } else{
           const dType = "ScheduleItem";
+          startDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+          endDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
           const newScheduleItem = new ScheduleItem(title, description, startDate, endDate, location, createdBy, assignedTo, itemType, moduleCode, groupId, dType);
           const dataSet = toJS(newScheduleItem);
           dataSet.createdBy ={username: dataSet.createdBy};
@@ -175,6 +179,20 @@ class ScheduleItemStore {
       .catch((err) =>{
         console.log(err);
       })
+    }
+
+    @computed
+    get getNumberOfWeeks(){
+        axios.get('/semester')
+        .then((res) => {
+          const startD = moment(res.data[0].startDate);
+          const endD = moment(res.data[0].endDate);
+          var result = endD.diff(startD, 'week') + 1;
+          return result;
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
 
     getIndex(value, arr, prop) {

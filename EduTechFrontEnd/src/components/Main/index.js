@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Grid, Col } from 'react-bootstrap';
+import { Row, Grid, Col } from 'react-bootstrap';
+import { observer } from 'mobx-react';
 
 import ProfilePanel from './ProfilePanel';
 import GroupProfilePanel from './GroupProfilePanel';
@@ -9,7 +10,7 @@ import MembersPanel from './MembersPanel';
 import KeyInfoPanel from './KeyInfoPanel';
 import CalendarPanel from './CalendarPanel';
 import TaskPanel from '../TaskPanel';
-import { observer } from 'mobx-react';
+import EventChart from './EventChart';
 
 import PersonalScene from '../../scenes/PersonalScene';
 import ModuleScene from '../../scenes/ModuleScene';
@@ -54,6 +55,7 @@ class Main extends Component {
 
     return(
       <Grid>
+        <Row>
         <Col md={3}>
           <Switch>
             <Route exact path="/" render={() => <ProfilePanel img={imgFileName} primaryInfo={userFirstName + " " + userLastName} secondaryInfo={`@${username}`} />} />
@@ -79,7 +81,10 @@ class Main extends Component {
           </Switch>
         </Col>
         <Col md={9} >
-          <KeyInfoPanel ScheduleItemStore={ScheduleItemStore}/>
+          <EventChart />
+          <div className="standardTopGap">
+            <KeyInfoPanel ScheduleItemStore={ScheduleItemStore} />
+          </div>
           <Switch>
             <Route exact path="/" component={PersonalScene} />
             <Route path="/module/:moduleCode" component={ModuleScene} />
@@ -94,7 +99,7 @@ class Main extends Component {
           <TaskPanel />
         </Col>
       */}
-        
+        </Row>
       </Grid>
     )
   }

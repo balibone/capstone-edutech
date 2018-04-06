@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import { Link } from 'react-router-dom';
+import Badge from 'material-ui/Badge';
 import { Navbar as BootstrapNavbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { Wave } from 'better-react-spinkit'
 
@@ -27,7 +28,7 @@ class Navbar extends Component {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const groupList = JSON.parse(localStorage.getItem('groupList'));
     const moduleList = JSON.parse(localStorage.getItem('moduleList'));
-    console.log("MODLE IN NAV", moduleList)
+    // console.log("MODLE IN NAV", moduleList)
     if(!groupList || !currentUser) {
       return (
         <div className="fakeBody">
@@ -44,8 +45,7 @@ class Navbar extends Component {
     // if(!groupList || !currentUser) {
     //   return <span>loading - please refresh if it takes too long</span>
     // }
-    console.log("module list in nav", moduleList)
-    console.log("group list in nav", groupList)
+
     const moduleMenuItems = moduleList.map(module => <MenuItem eventKey={module.moduleCode}><Link to={`/module/${module.moduleCode}`}>{module.title}</Link></MenuItem>)
     const groupMenuItems = groupList.map(group => <MenuItem eventKey={group.id}><Link to={`/group/${group.id}`}>{group.title}</Link></MenuItem>)
 
@@ -65,9 +65,16 @@ class Navbar extends Component {
           </NavDropdown>
         </Nav>
         <Nav pullRight>
+        <Badge
+              badgeContent={4}
+              primary={true}
+            >
           <NavItem eventKey={3} href="#">
-            <i className="far fa-bell" />
+            
+              <i className="far fa-bell" />
+            
           </NavItem>
+          </Badge>
           <NavDropdown
             eventKey={4}
             title={<img src={`http://localhost:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/${currentUser.imgFileName}`} alt="profile" className="img-circle" height="20" />}

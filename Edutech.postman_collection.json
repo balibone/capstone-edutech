@@ -614,7 +614,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"createdBy\": {\n        \"username\": \"superadmin\"\n    },\n    \"description\": \"IMPORTANT MEETING\",\n    \"groupId\": 2,\n    \"title\": \"impt pls\",\n    \"type\": \"personal\"\n}"
+							"raw": "{\n\t\"createdBy\": {\n        \"username\": \"instructor\"\n    },\n    \"moduleCode\": \"IS4103\",\n    \"title\": \"Assignment 1\",\n    \"startDate\":\"2018-04-10T00:00:00\",\n    \"endDate\":\"2018-04-10T01:00:00\",\n    \"location\":\"LT19\",\n    \"itemType\": \"assessment\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem",
@@ -668,7 +668,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "    {    \"assignedTo\": [\n            {\n                \"username\": \"hafidz\"\n            }\n        ],\n        \"createdAt\": \"2018-02-28T06:22Z\",\n        \"createdBy\": {\n            \"username\": \"hafidz\"\n        },\n        \"description\": \"IMPORTANT MEETING\",\n        \"groupId\": 2,\n        \"id\": 1303,\n        \"title\": \"impt sangat pls\",\n        \"type\": \"personal\"\n    }"
+							"raw": "    {    \"assignedTo\": [\n            {\n                \"username\": \"hafidz\"\n            }\n        ],\n        \"createdAt\": \"2018-02-28T06:22Z\",\n        \"createdBy\": {\n            \"username\": \"hafidz\"\n        },\n        \"description\": \"IMPORTANT MEETING\",\n        \"groupId\": 2,\n        \"id\": 1303,\n        \"title\": \"impt sangat pls\",\n        \"itemType\": \"personal\"\n    }"
 						},
 						"url": {
 							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem/1302",
@@ -778,7 +778,7 @@
 					"response": []
 				},
 				{
-					"name": "findAllSemesters: semesters",
+					"name": "getOneModule",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -1144,6 +1144,12 @@
 									"key": "file",
 									"description": "",
 									"type": "file"
+								},
+								{
+									"key": "createdBy",
+									"value": "student",
+									"description": "",
+									"type": "text"
 								}
 							]
 						},
@@ -1836,10 +1842,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"openDate\": \"2018-03-28T10:32:03.503\",\n    \"closeDate\": \"2018-12-12T10:32:03.503\",\n    \"createdBy\": {\n      \"username\": \"instructor\"\n  },\n    \"module\": {\n        \"moduleCode\": \"IS4103\"\n    },\n    \"title\": \"editedGroupAss\"\n}\n"
+							"raw": "{\n    \"openDate\": \"2018-03-28T10:32:03.503\",\n    \"closeDate\": \"2018-12-12T10:32:03.503\",\n    \"createdBy\": {\n    \t\"username\": \"instructor\"\n\t},\n    \"module\": {\n    \t\"moduleCode\": \"IS4103\"\t\n    },\n    \"title\": \"editedGroupAss\"\n}\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/1657",
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/153",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1849,7 +1855,7 @@
 								"EduTechWebApp-war",
 								"api",
 								"assignment",
-								"1657"
+								"153"
 							]
 						}
 					},
@@ -1915,6 +1921,51 @@
 								"assignment",
 								"module",
 								"IS4103"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "submitAssignment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "assignmentSubmission",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"description": "",
+									"type": "file"
+								},
+								{
+									"key": "createdBy",
+									"value": "student",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/submit/153",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"assignment",
+								"submit",
+								"153"
 							]
 						}
 					},

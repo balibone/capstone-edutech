@@ -213,20 +213,56 @@ public class ModuleMgrBean {
         String modCode = assignedMod.getModuleCode();
         //assign task to all of this module's students
         for(UserEntity u : assignedMod.getMembers()){
-            if(u.getUserType().equalsIgnoreCase("student")){
-                TaskEntity assignmentTask = new TaskEntity();
-                assignmentTask.getAssignedTo().add(u);
-                assignmentTask.setCreatedAt(ass.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                assignmentTask.setCreatedBy(creator);
-                assignmentTask.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                assignmentTask.setModuleCode(modCode);
-                assignmentTask.setTitle(ass.getModule().getModuleCode()+" "+ass.getTitle());
-                assignmentTask.setType("module");
-//                //persist this new task.
-                em.persist(assignmentTask);
-                tasks.add(assignmentTask);
+            TaskEntity assignmentTask = new TaskEntity();
+            assignmentTask.getAssignedTo().add(u);
+            assignmentTask.setCreatedAt(ass.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            assignmentTask.setCreatedBy(creator);
+            assignmentTask.setDeadline(ass.getCloseDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            assignmentTask.setModuleCode(modCode);
+            assignmentTask.setTitle(ass.getModule().getModuleCode()+" "+ass.getTitle());
+            assignmentTask.setType("module");
+            //persist this new task.
+            em.persist(assignmentTask);
+            tasks.add(assignmentTask);
+        }
+    }
+    //assumption: no 2 users will upload files with the same name for this assignment. i.e. proper naming convention is enforced, e.g. (IS1001_A0013211X_Assignment1.docx)
+    public AssignmentEntity submitAssignment(String assignmentId, AttachmentEntity att, String username) {
+        AssignmentEntity ass = em.find(AssignmentEntity.class, Long.valueOf(assignmentId));
+        UserEntity u = em.find(UserEntity.class, username);
+        //get all attachments with the same file name. If this lesson already has attachment with this file name,
+        //edit the table record instead of adding a new one. 
+        Query q1 = em.createQuery("SELECT a FROM Attachment a WHERE a.fileName= :attFileName");
+        q1.setParameter("attFileName", att.getFileName());
+        if(ass!=null && u!=null){
+            att.setCreatedBy(u);
+            //add attachment to assignment submissions.
+            Collection<AttachmentEntity> submissions = ass.getSubmissions();
+            List sameNameAttachments = q1.getResultList();
+            //if there are no attachments with the same name, proceed normally.
+            if(sameNameAttachments.isEmpty()){
+                submissions.add(att);
+                em.persist(att);
+                System.out.println("new attachment persisted");
+            }else{//check if in assignment, there is attachment with same file name. 
+                for(Object o : sameNameAttachments){
+                    AttachmentEntity sameName = (AttachmentEntity)o;
+                    //assignment already contains submission with this file name. update row.
+                    if(submissions.contains(sameName)){
+                        sameName.setTitle(att.getTitle());
+                        sameName.setCreatedBy(u);
+                        sameName.setCreatedAt(LocalDateTime.now());
+                        System.out.println("existing attachment's title renamed");
+                        break;
+                    }else{//else, allow submission of same file name as this is for different assignment.
+                        submissions.add(att);
+                        em.persist(att);
+                        System.out.println("new attachment persisted");
+                    }
+                }
             }
         }
+        return ass;
     }
    
 }

@@ -24,7 +24,7 @@ class Lesson extends Component {
 				<PanelGroup accordion id="accordion-example">
 				  {
 				  	lessonList.map((lesson) => {
-				  		// LessonStore.fetchFilesForLeson(lesson.id);
+				  		LessonStore.fetchFilesForLesson(lesson.id);
 				  		return <SingleLesson key={lesson.id} lesson={lesson} uploadedFile={uploadedFile}/>
 				  	})
 				  }

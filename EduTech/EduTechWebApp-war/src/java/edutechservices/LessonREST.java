@@ -115,7 +115,7 @@ public class LessonREST {
     public List<AttachmentEntity> uploadLessonAttachment(@PathParam("id") String id) throws IOException, ServletException, FileUploadException, Exception {
         String title ="";
         String fileName="";
-        
+        String username="";
         String appPath = context.getRealPath("");
         System.out.println("app path is "+ appPath);
         String truncatedAppPath = appPath.replace("dist"
@@ -144,6 +144,9 @@ public class LessonREST {
                     if(item.getFieldName().trim().equalsIgnoreCase("title")){
                         title=item.getString();
                         System.out.println("title is "+title);
+                    }else if(item.getFieldName().trim().equalsIgnoreCase("createdBy")){
+                        username=item.getString();
+                        System.out.println("uploader is "+username);
                     }
                 }else if(!item.isFormField()){
                     fileName = item.getName();
@@ -168,7 +171,7 @@ public class LessonREST {
             AttachmentEntity att = new AttachmentEntity();
             att.setTitle(title);
             att.setFileName(fileName);
-            cmb.uploadLessonAttachment(id, att);
+            cmb.uploadLessonAttachment(id, att, username);
         }
         return cmb.getAllLessonAttachments(Long.valueOf(id));
     }
