@@ -19,3 +19,8 @@ and open the template in the editor.
 
 .likeStatus { background-color: #4D7496; color: #FFFFFF; }
 .noLikeStatus { background-color: #FFFFFF; color: #4D7496; }
+
+.scrollbar { margin-left: 0px; border: #333; float: left; max-height: 400px; width: 265px; background: #fff; overflow-y: scroll; margin-bottom: 25px; }
+#company-in-industry::-webkit-scrollbar { width: 0.5em; height: 0.5em; }
+#company-in-industry::-webkit-scrollbar-thumb { border-radius: 10px; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3); background-color: #555; }
+#company-in-industry::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); border-radius: 10px; background-color: #F5F5F5; }

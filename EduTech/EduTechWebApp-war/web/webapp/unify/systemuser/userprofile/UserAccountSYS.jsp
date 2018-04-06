@@ -206,6 +206,9 @@
                                 <a href="ProfileSysUser?pageTransit=goToCompanyRequest" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-question-circle"></i>&nbsp;Company Request List
                                 </a>
+                                <a href="ProfileSysUser?pageTransit=goToResume" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-file"></i>&nbsp;Resume List
+                                </a>
                             </div>
                         </div>
                     </div>

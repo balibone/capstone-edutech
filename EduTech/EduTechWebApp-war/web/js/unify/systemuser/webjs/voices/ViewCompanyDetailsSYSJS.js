@@ -1,6 +1,21 @@
-function newReviewReport(companyID, reviewPoster, reviewID) {
+var tabType = document.getElementById('tabType').value;
+var tab = $('.nav-tabs li a'); 
+var con = $('.tab-content .tab-pane');
+
+for(var i=0;i<con.length;i++) {
+    var mm = con[i];
+    var selectCon = $(mm).attr('id');
+    if(tabType === selectCon) {
+        tab.removeClass('active');
+        con.siblings().removeClass('show active');
+        $(tab[i]).addClass('active');
+        $(con[i]).addClass('show active');
+    }
+}
+
+function newReviewReport(companyID, reviewPoster, reviewID, reporter) {
     $('iframe').attr('src', 'VoicesSysUser?pageTransit=goToNewReviewReportSYS&hiddenCompanyID='+ companyID
-                                +'&hiddenReviewPoster='+reviewPoster+'&hiddenReviewID='+reviewID);
+                                +'&hiddenReviewPoster='+reviewPoster+'&hiddenReviewID='+reviewID+'&hiddenReviewReporter='+reporter);
     $('#newReviewReport-iframe').iziModal('open', event);
     
 }

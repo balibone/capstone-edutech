@@ -179,17 +179,29 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
+                                <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList&username=<%=loggedInUsername%>" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
+                                </a>
                                 <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
                                 </a>
                                 <a href="account-address.html" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
                                 </a>
-                                <a href="account-address.html" class="list-group-item list-group-item-action">
+                                <a href="ProfileSysUser?pageTransit=goToCompanyReview" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-building"></i>&nbsp;Company Review List
                                 </a>
-                                <a href="account-address.html" class="list-group-item list-group-item-action">
+                                <a href="ProfileSysUser?pageTransit=goToCompanyRequest" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-question-circle"></i>&nbsp;Company Request List
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToResume" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-file"></i>&nbsp;Resume List
                                 </a>
                             </div>
                         </div>
@@ -229,7 +241,7 @@
                                         <td><%= reviewThumbsUp %></td>
                                         <td><%= reviewStatus %></td>
                                         <td>
-                                            <button type="submit" style="margin-left: 3px" class="btn btn-xs btn-danger">
+                                            <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-danger">
                                                 <a href="ProfileSysUser?pageTransit=goToDeleteReview&hiddenReviewID=<%= reviewID%>" style="color: #fff; text-decoration:none;"
                                                    onclick="return confirm('Are you sure to delete the review?')">Delete</a>
                                             </button>

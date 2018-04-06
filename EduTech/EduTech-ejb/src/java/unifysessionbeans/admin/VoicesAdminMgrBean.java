@@ -32,6 +32,7 @@ import unifyentities.voices.CompanyRequestEntity;
 import commoninfrastructureentities.UserEntity;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import unifyentities.common.MessageEntity;
 
 @Stateless
 public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
@@ -343,6 +344,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
                         compEntity.setCategoryEntity(cEntity);
                         cEntity.getCompanySet().add(compEntity);
                         em.persist(compEntity);
+                        
                         return "Company has been created successfully!";
                     } else {
                         return "There were some issues encountered while creating new company. Please try again.";
@@ -607,12 +609,23 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
 
     /* HAVEN'T DO YET */
     @Override
-    public boolean solveRequest(String requestCompany, String requestPoster) {
+    public boolean solveRequest(String requestCompany, String requestPoster, String username) {
         boolean requestStatus = false;
+        UserEntity userEntity = lookupSystemUser(username);
         companyRequestEntity = lookupRequest(requestCompany, requestPoster);
         if (companyRequestEntity != null) {
             companyRequestEntity.setRequestStatus("Solved");
+            
+            MessageEntity mEntity = new MessageEntity();
+            mEntity.createSystemMessage(userEntity.getUsername(),companyRequestEntity.getUserEntity().getUsername(), 
+                    "Your request has been solved successfully!", "Voices");
+            
+            mEntity.setUserEntity(userEntity);
+            companyRequestEntity.getUserEntity().getMessageSet().add(mEntity);
+            
+            em.persist(mEntity);
             em.merge(companyRequestEntity);
+            em.merge(userEntity);
             requestStatus = true;
         }
         return requestStatus;

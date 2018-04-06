@@ -421,9 +421,7 @@ public class VoicesAdminController extends HttpServlet {
             fileName = "";
         }
         String categoryName = request.getParameter("categoryName");
-        System.out.println(categoryName);
         String categoryDescription = request.getParameter("categoryDescription");
-        System.out.println(fileName);
         
         return vamr.createCompanyCategory(categoryName, "Voices", categoryDescription, fileName);
     }
@@ -596,8 +594,6 @@ public class VoicesAdminController extends HttpServlet {
         String companyIndustry = request.getParameter("urlCompanyIndustry");
         String companyName = request.getParameter("companyName");
         String requestCompanyName = request.getParameter("oldCompanyName");
-        System.out.println(companyName);
-        //System.out.println(requestCompanyName);
         String companySize = request.getParameter("companySize");
         String companyWebsite = request.getParameter("companyWebsite");
         String companyHQ = request.getParameter("companyHQ");
@@ -605,6 +601,7 @@ public class VoicesAdminController extends HttpServlet {
         String companyAddress = request.getParameter("companyAddress");
         String requestPoster = request.getParameter("requestPoster");
         requestPoster = requestPoster.substring(0,requestPoster.length()-1);
+        String username = request.getParameter("username");
         
         if(companyName.equals("")) {
             companyName = requestCompanyName;
@@ -616,7 +613,7 @@ public class VoicesAdminController extends HttpServlet {
         }
         
         if (responseMessage.endsWith("!")) { 
-            if(vamr.solveRequest(requestCompanyName, requestPoster)) {
+            if(vamr.solveRequest(requestCompanyName, requestPoster, username)) {
                 return "The request has been solved successfully!";
             } else {
                 return "There were some issues encountered while solving the request.";

@@ -1,6 +1,12 @@
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
+    
+    var dbCompanyIndustry = $('#dbCompanyIndustry').val();
+    var splitResult = dbCompanyIndustry.split(';');
+    splitResult.forEach(function (industryEntry) {
+        $('#companyIndustry').append($('<option>', {value: industryEntry, text: industryEntry}));
+    });
 
     jQuery.fn.jplist.settings = {
         priceSlider: function ($slider) {
@@ -39,6 +45,37 @@ $(document).ready(function () {
         iframeHeight: 325
     });
     
+    $('#companyRequest').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "VoicesSysUser",
+            data: { 
+                companyIndustry: $('#companyIndustry').val(),
+                otherIndustry: $('#newIndustry').val(),
+                requestCompany: $('#requestCompany').val(),
+                requestComment: $('#requestComment').val(),
+                username: $('#username').val(),
+                pageTransit: 'createRequestSYS'
+            },
+            success: function(returnString) {
+                alert("Your request has been sent successfully!");
+            }
+        });
+    });
+    
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 });
+
+function otherIndustry(){
+    var select = document.getElementById("companyIndustry");
+    var selectedValue = select.options[select.selectedIndex].value;
+    
+    var innerContent = '<input type="text" class="form-control" required="required" name="otherIndustry" id="newIndustry" /><br/>';
+    
+    if(selectedValue === "otherIndustry"){
+        document.getElementById('otherIndustry').innerHTML = innerContent;
+    }else{
+        document.getElementById('otherIndustry').innerHTML = "";
+    }
+};

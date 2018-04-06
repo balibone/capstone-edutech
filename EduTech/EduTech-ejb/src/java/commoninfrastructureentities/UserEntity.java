@@ -36,6 +36,7 @@ import unifyentities.shouts.ShoutsLikesEntity;
 import unifyentities.shouts.ShoutsCommentsEntity;
 import unifyentities.shouts.ShoutsBookmarksEntity;
 import unifyentities.shouts.ShoutsReportEntity;
+import unifyentities.voices.ResumeEntity;
 
 @Entity(name = "SystemUser")
 public class UserEntity implements Serializable {
@@ -79,6 +80,8 @@ public class UserEntity implements Serializable {
     private Collection<CompanyReviewEntity> companyReviewSet = new ArrayList<CompanyReviewEntity>();
     @OneToMany(mappedBy = "userEntity")
     private Collection<CompanyRequestEntity> companyRequestSet = new ArrayList<CompanyRequestEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<ResumeEntity> resumeSet = new ArrayList<ResumeEntity>();
     @OneToMany(mappedBy = "userEntity")
     private Collection<ItemReviewEntity> itemReviewSet = new ArrayList<ItemReviewEntity>();
     @OneToMany(mappedBy = "userEntity")
@@ -163,6 +166,7 @@ public class UserEntity implements Serializable {
     public Collection<MessageEntity> getMessageSet() { return messageSet; }
     public Collection<CompanyReviewEntity> getCompanyReviewSet() { return companyReviewSet; }
     public Collection<CompanyRequestEntity> getCompanyRequestSet() { return companyRequestSet; }
+    public Collection<ResumeEntity> getResumeSet() { return resumeSet; }
     public Collection<ItemReviewEntity> getItemReviewSet() { return itemReviewSet; }
     public Collection<JobReviewEntity> getJobReviewSet() { return jobReviewSet; }
     public Collection<ItemTransactionEntity> getItemTransactionSet() { return itemTransactionSet; }
@@ -195,6 +199,7 @@ public class UserEntity implements Serializable {
     public void setMessageSet(Collection<MessageEntity> messageSet) { this.messageSet = messageSet; }
     public void setCompanyReviewSet(Collection<CompanyReviewEntity> companyReviewSet) { this.companyReviewSet = companyReviewSet; }
     public void setCompanyRequestSet(Collection<CompanyRequestEntity> companyRequestSet) { this.companyRequestSet = companyRequestSet; }
+    public void setResumeSet(Collection<ResumeEntity> resumeSet) { this.resumeSet = resumeSet; }
     public void setItemReviewSet(Collection<ItemReviewEntity> itemReviewSet) { this.itemReviewSet = itemReviewSet; }
     public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
     public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }

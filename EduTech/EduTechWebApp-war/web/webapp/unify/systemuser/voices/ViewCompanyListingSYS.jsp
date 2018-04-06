@@ -231,12 +231,53 @@
                     <div class="col-lg-9 col-md-8">
                         <div class="title"><span>Company Listing</span>
                             <div class="btn-group btn-group-sm mr-3" style="float: right;">
-                                <span class="btn btn-outline-theme" id="newCompanyRequest" role="button">
+                                <button class="btn btn-outline-theme" data-toggle="modal" data-target="#newCompanyRequest" type="button">
                                     <input type="hidden" id="username" value="<%= loggedInUsername%>" />
                                     <i class="fa fa-building d-none d-lg-inline-block"></i>&nbsp;Request New Company
-                                </span>
+                                </button>
                             </div>
                         </div>
+                        
+                        <!-- MODAL -->
+                        <div class="modal fade" id="newCompanyRequest">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">New Company Request</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Request Company Name (required)" required="required" name="requestCompany" id="requestCompany" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="hidden" id="dbCompanyIndustry" value="<%= request.getAttribute("industryStrSYS")%>" />
+                                                <select class="form-control" id="companyIndustry" name="companyIndustry" onchange="javascript: otherIndustry()" required>
+                                                    <option value="" disabled selected>-- Select Company Industry --</option>
+                                                    <option value="otherIndustry" >Other Industry</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3" id="otherIndustry" ></div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <textarea rows="2" cols="30" class="form-control" placeholder="Request Comment" name="requestComment" id="requestComment"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="companyRequest">Report</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
@@ -324,6 +365,7 @@
                                                             <form action="VoicesSysUser" method="POST">
                                                                 <input type="hidden" name="pageTransit" value="goToNewReviewSYS"/>
                                                                 <input type="hidden" name="hiddenCompanyImage" value="<%= companyImage %>"/>
+                                                                <input type="hidden" name="hiddenUsername" value="<%= loggedInUsername %>"/>
                                                                 <input type="hidden" name="hiddenCompanyName" value="<%= companyName %>"/>
                                                                 <input type="hidden" name="hiddenCompanyIndustry" value="<%= companyIndustry %>"/>
                                                                 <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit"><i class="fa fa-plus">&nbsp;&nbsp;</i>Add A Review</button>
@@ -331,7 +373,13 @@
                                                         </div>
                                                         <% if(!companyNumOfReview.equals("0")) { %>
                                                         <br/>
-                                                        <button class="btn btn-outline btn-primary btn-sm btn-block"><i class="fa fa-list-alt">&nbsp;&nbsp;</i>View All Reviews</button>
+                                                        <form action="VoicesSysUser" method="POST">
+                                                            <input type="hidden" name="pageTransit" value="goToViewReviewListSYS"/>
+                                                            <input type="hidden" name="hiddenCompanyID" value="<%= companyID %>"/>
+                                                            <input type="hidden" id="username" value="<%= loggedInUsername %>"/>
+                                                            <input type="hidden" name="type" value="reviewListPane"/>
+                                                            <button class="btn btn-outline btn-primary btn-sm btn-block" type="submot"><i class="fa fa-list-alt">&nbsp;&nbsp;</i>View All Reviews</button>
+                                                        </form>
                                                         <% } %>
                                                     </div> 
                                                     
@@ -394,8 +442,6 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-            <div id="itemcard-iframe"></div>
-            <div id="newCompanyRequest-iframe"></div>
         </div>
 
 

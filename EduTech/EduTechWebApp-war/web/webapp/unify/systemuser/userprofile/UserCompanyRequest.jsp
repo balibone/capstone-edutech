@@ -179,6 +179,15 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
+                                <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList&username=<%=loggedInUsername%>" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
+                                </a>
                                 <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
                                 </a>
@@ -190,6 +199,9 @@
                                 </a>
                                 <a href="ProfileSysUser?pageTransit=goToCompanyRequest" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-question-circle"></i>&nbsp;Company Request List
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToResume" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-file"></i>&nbsp;Resume List
                                 </a>
                             </div>
                         </div>
@@ -204,7 +216,6 @@
                                         <th>Company</th>
                                         <th>Industry</th>
                                         <th>Status</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -226,16 +237,6 @@
                                         <td><%= requestCompany %></td>
                                         <td><%= requestIndustry %></td>
                                         <td><%= requestStatus %></td>
-                                        <% if(requestStatus.equals("Pending")) {%>
-                                        <td>
-                                            <button type="submit" style="margin-left: 3px" class="btn btn-xs btn-danger">
-                                                <a href="ProfileSysUser?pageTransit=goToCancelRequest&hiddenRequestID=<%= requestID%>" style="color: #fff; text-decoration:none;"
-                                                   onclick="return confirm('Are you sure to cancel the request?')">Cancel</a>
-                                            </button>
-                                        </td>
-                                        <% } else { %>
-                                        <td></td>
-                                        <% }%>
                                     </tr>
                                     <%      }   %>
                                     <%  }%>
