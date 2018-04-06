@@ -11,6 +11,7 @@ import Submission from './Submission';
 import Assignment from './Assignment';
 import GroupingInstructor from './GroupingInstructor';
 import GroupingStudent from './GroupingStudent';
+import StudentSubmission from './StudentSubmission';
 
 import LessonStore from '../../stores/LessonStore/LessonStore';
 import ModuleStore from '../../stores/ModuleStore/ModuleStore';
@@ -63,6 +64,9 @@ class ModuleScene extends Component {
           </Tab>
           <Tab eventKey={5} title="Grouping Student">
             <GroupingStudent />
+          </Tab>
+          <Tab eventKey={6} title="My Submission">
+            <StudentSubmission />
           </Tab>
         </Tabs>
       </Paper>

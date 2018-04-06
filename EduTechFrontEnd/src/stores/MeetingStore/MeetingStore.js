@@ -39,6 +39,9 @@ class MeetingStore {
         } else{
           const dType = "ScheduleItem";
           const createdBy = localStorage.getItem("username");
+          startDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+          endDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
+          console.log("meeting startDate: ", startDate)
           const newMeeting = new Meeting(title, description, startDate, endDate, location, createdBy, itemType, groupId, [], dType);
           const dataSet = toJS(newMeeting);
           dataSet.createdBy ={username: dataSet.createdBy};

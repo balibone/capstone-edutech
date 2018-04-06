@@ -26,10 +26,11 @@ class LessonStore {
 	}
 
   @action
-  uploadAttachment(title, file, lessonId){
+  uploadAttachment(title, file, lessonId, username){
     const formData = new FormData();
     formData.append('title', title)
     formData.append('file', file)
+    formData.append('createdBy', username)
 
     axios.post(`/lesson/uploadAttachment/${lessonId}`,formData)
     .then((res) => {
@@ -110,7 +111,7 @@ class LessonStore {
                 // this.state = "done"
 
                 this.lessonList[index].files = res.data;
-                console.log("lesson", this.lessonList[index])
+                // console.log("lesson", this.lessonList[index])
             }),
             // inline created action
             action("fetchError", error => {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Modal,Button } from 'react-bootstrap';
+import { Modal,Button, Well, Row, Col} from 'react-bootstrap';
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import BigCalendar from 'react-big-calendar';
@@ -119,6 +119,21 @@ class PersonalCalendar extends Component {
 				    	formats = {formats}
 		
 				    />  
+				    <Row>
+					    <Col md={2}>
+					    	
+					    </Col>
+					    <Col md={8}>
+					    	<Well>
+						    	<Row>
+						    		<Col md={3}><div className="legend-personal"></div>personal</Col>
+						    		<Col md={3}><div className="legend-meeting"></div>meeting</Col>
+						    		<Col md={3}><div className="legend-timetable"></div>timetable</Col>
+						    		<Col md={3}><div className="legend-assessment"></div>assessment</Col>
+						    	</Row>
+					    	</Well>
+					    </Col>
+				    </Row>
 				  		  	
 				  	 {/*this.state.openCalendarForm ? <AddCalendarItemForm scheduleItemStore={ScheduleItemStore} selectedDate={this.state.selectedDate} handleCloseAll={this.handleCloseAll.bind(this)}/> : <span></span>*/}
 				  	<Modal show={this.state.openCalendarForm} onHide={this.handleClose.bind(this)}>

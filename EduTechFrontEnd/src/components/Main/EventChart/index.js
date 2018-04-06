@@ -44,22 +44,27 @@ class EventChart extends Component {
 	    // Ajax calls here
 	    this.setState({
 	      chartData:{
-	        labels: ['Week 1', 'week 2', 'Week 3','Week 4', 'week 5', 'Week 6','Week 7', 'week 8', 'Week 9'],
+	        labels: [],
 	        datasets:[
 	          {
-	              label: "Personal",
-	              backgroundColor: "blue",
-	              data: [3,7,4,6,7,4,3,5,6,3,2]
+	              	label: "Personal",
+	              	backgroundColor: "blue",
+	              	data: []
 	          },
 	          {
-	              label: "Meeting",
-	              backgroundColor: "red",
-	              data: [4,3,5,6,4,3,2,5,6,4,5]
+	              	label: "Meeting",
+	              	backgroundColor: "red",
+	              	data: []
 	          },
 	          {
-	              label: "Task Deadline",
-	              backgroundColor: "green",
-	              data: [7,2,6,1,3,5,8,7,5,4,3]
+	              	label: "Task Deadline",
+	              	backgroundColor: "green",
+	              	data: []
+	          },
+	          {
+	          		label: "Assessment",
+	              	backgroundColor: "orange",
+	              	data: []	
 	          }
 	        ]
 	      }

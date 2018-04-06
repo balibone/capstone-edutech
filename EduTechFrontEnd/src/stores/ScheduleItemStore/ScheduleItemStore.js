@@ -58,7 +58,7 @@ class ScheduleItemStore {
           axios.post('/scheduleitem', dataSet)
             .then((res) => {
               this.scheduleItems.push(newScheduleItem);
-              swal(res.data,"Schedule Event Added!" , "success");
+              swal("Success!","Schedule Event Added!" , "success");
               this.populateScheduleItems(localStorage.getItem('username'));
               this.addFormSuccess = true;
             })

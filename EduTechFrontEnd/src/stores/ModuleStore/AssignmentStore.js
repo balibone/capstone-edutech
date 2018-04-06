@@ -99,6 +99,23 @@ class AssignmentStore {
 		})
 	}
 
+	@action
+	submitAssignment(assignmentId, file, username, title){
+		const formData = new FormData();
+		formData.append('title', title);
+		formData.append('file', file);
+		formData.append('createdBy', username);
+
+		axios.post(`/assignment/submit/${assignmentId}`)
+		.then((res) => {
+			console.log(res.data)
+			swal("Success !", `${file.name} is successfully uploaded.`, "success")
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+	}
+
 }
 
 export default new AssignmentStore;

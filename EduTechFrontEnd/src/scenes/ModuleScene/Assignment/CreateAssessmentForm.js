@@ -38,23 +38,22 @@ class AddCalendarItemModal extends Component {
 		this.setState({endTime: endTime});
 	}
 
-	addCalendarItem(event){
+	addAssessment(event){
 		event.preventDefault();
-		var name = this.refs.name.value.trim();
-		var description = this.refs.description.value.trim();
-		var location = this.refs.location.value.trim();
+		const name = this.refs.name.value.trim();
+		const description = this.refs.description.value.trim();
+		const location = this.refs.location.value.trim();
+		const moduleCode = this.props.moduleCode;
 		// var selectedDate = moment(this.props.selectedDate).format("MMM DD YYYY");
-		var createdBy = localStorage.getItem('username');	// to replace with username from self userEntity
-		var type = "assessment";
+		const createdBy = localStorage.getItem('username');	// to replace with username from self userEntity
+		const type = "assessment";
 
 		if(!this.state.startTime || !this.state.endTime){
 			swal("Warning!", "Input time field is empty.", "warning");
 		}else {
-			// let startTime = selectedDate + " " + this.state.startTime;
-			// let endTime = selectedDate + " " + this.state.endTime;
 			const startTime = moment(this.state.startTime).format('YYYY-MM-DDTHH:mm:ss');
 			const endTime = moment(this.state.endTime).format('YYYY-MM-DDTHH:mm:ss');
-			ScheduleItemStore.addScheduleItem(name, description, startTime, endTime, location, createdBy, [], type, "","");
+			ScheduleItemStore.addScheduleItem(name, description, startTime, endTime, location, createdBy, [], type, moduleCode,"");
 			
 		}
 	}
@@ -112,7 +111,7 @@ class AddCalendarItemModal extends Component {
 				</Modal.Body>
 				<Modal.Footer>
 					<Button onClick={this.props.handleClose.bind(this)}>Close</Button>
-					<Button type="submit" bsStyle="primary" onClick={this.addCalendarItem.bind(this)}>Add Calendar Item</Button>
+					<Button type="submit" bsStyle="primary" onClick={this.addAssessment.bind(this)}>Add Calendar Item</Button>
 				</Modal.Footer>
 	        </div>
 		)

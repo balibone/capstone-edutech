@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import {Table, thead, tbody, Button, Panel, PanelGroup} from 'react-bootstrap';
-import SingleAssignment from './SingleAssignment';
-import SingleAssignmentTable from './SingleAssignmentTable';
-import GroupSubmission from '../StudentSubmission/GroupSubmission';
-import IndividualSubmission from '../StudentSubmission/IndividualSubmission';
+import {toJS} from 'mobx';
+import {observer} from 'mobx-react';
+import {Button, Panel, PanelGroup} from 'react-bootstrap';
 
-class Submission extends Component {
+import GroupSubmission from './GroupSubmission';
+import IndividualSubmission from './IndividualSubmission';
+
+import AssignmentStore from '../../../stores/ModuleStore/AssignmentStore';
+
+@observer
+class StudentSubmission extends Component {
 
 	renderAssignment(assignmentList){
 		return assignmentList.map((assignment) => 
@@ -21,8 +25,8 @@ class Submission extends Component {
 		    	</Panel.Heading>
 		    	<Panel.Body collapsible>
 		    		{
-		    			(assignment.groups.lengtsh>0) ?
-		    			<GroupSubmission assignment={assignment}/> : <IndividualSubmission assignment={assignment} />
+		    			(assignment.groups.length>0) ?
+		    			<GroupSubmission assignment={assignment}/> : <IndividualSubmission assignment={assignment}/>
 		    		}
 		    	</Panel.Body>
 	 		</Panel>
@@ -31,17 +35,20 @@ class Submission extends Component {
 	}
 
 	render(){
-		const assignmentList = this.props.assignmentList;
+		// const assignmentList = this.props.assignmentList;
+		const assignmentList = toJS(AssignmentStore.assignmentList);
 
 		return(
 			<div className="standardTopGap">
-			<h4>Students Submissions</h4>
+			<h4>My Submissions</h4>
 				<PanelGroup accordion id="accordion-example">
 					{this.renderAssignment(assignmentList)}
 				</PanelGroup>
 			</div>
 		)
 	}
+
+
 }
 
-export default Submission;
+export default StudentSubmission;

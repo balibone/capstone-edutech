@@ -25,15 +25,14 @@ class MinuteStore {
 
 		console.log("dataset meetingminute", toJS(meetingminute))
 		
-
-		axios.post('/meetingminute', meetingminute)
-		.then((res) => {
-			console.log("meetingminute success",res.data)
-			this.minuteList = res.data;
-		})
-		.catch((err) => {
-			console.log(err);
-		})
+		// axios.post('/meetingminute', meetingminute)
+		// .then((res) => {
+		// 	console.log("meetingminute success",res.data)
+		// 	this.minuteList = res.data;
+		// })
+		// .catch((err) => {
+		// 	console.log(err);
+		// })
 	}
 
 	addAgenda(meetingMinuteId){

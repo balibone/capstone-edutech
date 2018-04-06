@@ -19,21 +19,20 @@ class BarChart extends Component {
 		const personalItems = scheduleItems.filter((item) => item.itemType === 'personal')
 		const meetingItems = scheduleItems.filter((item) => item.itemType === 'meeting')
 		const taskItems = scheduleItems.filter((item) => item.itemType === 'task')
+		const assessmentItems = scheduleItems.filter((item) => item.itemType === 'assessment')
 		let personalItemsArr = [];
 		let meetingItemsArr = [];
 		let taskItemsArr = [];
+		let assessmentItemsArr = [];
 		let count = 0;
 		let d1 = semesterStartDate.format('YYYY-MM-DD');
 		let d2 = semesterStartDate.add(7, 'days').format('YYYY-MM-DD');
-		// console.log("categorized items")
-		// console.log(personalItems)
-		// console.log(meetingItems)
-		// console.log(taskItems)
+
 		for(var i=0 ; i<numberOfWeeks ; i++){
 			// console.log("d1: ", d1)
 			// console.log("d2: ", d2)
-
 			count = 0;
+			
 			personalItems.forEach((item) => {
 				if(item.startDate>d1 && item.startDate<d2){
 					// console.log("personal exist in between")
@@ -59,6 +58,15 @@ class BarChart extends Component {
 				}
 			})
 			taskItemsArr.push(count);
+			count = 0;
+
+			assessmentItems.forEach((item) => {
+				if(item.startDate>d1 && item.startDate<d2){
+					// console.log("task exist in between")
+					count++;
+				}
+			})
+			assessmentItemsArr.push(count);
 
 			d1 = d2;
 			d1 = moment(d1).format('YYYY-MM-DD');
@@ -74,6 +82,7 @@ class BarChart extends Component {
 		data.datasets[0].data = personalItemsArr;
 		data.datasets[1].data = meetingItemsArr;
 		data.datasets[2].data = taskItemsArr;
+		data.datasets[3].data = assessmentItemsArr;
 		console.log("updated data: ", data)
 		return data;
 	}

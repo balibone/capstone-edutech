@@ -69,7 +69,7 @@ class Assignment extends Component {
 		          <Modal.Header closeButton>
 		            <Modal.Title>Add Assessment Item </Modal.Title>
 		          </Modal.Header>
-		          <CreateAssessmentForm handleClose={this.flipShowAssessmentFormState.bind(this)} />
+		          <CreateAssessmentForm moduleCode={this.props.moduleCode} handleClose={this.flipShowAssessmentFormState.bind(this)} />
 		        </Modal>
 
 			</div>

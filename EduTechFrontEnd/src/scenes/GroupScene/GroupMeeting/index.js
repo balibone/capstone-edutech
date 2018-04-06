@@ -66,6 +66,9 @@ class GroupMeeting extends Component{
     var groupId = this.props.groupId;
     var type = "meeting";
 
+    console.log("starttime meeting:", startTime)
+    console.log("endTime meeting:", endTime)
+
     if(this.state.checked){
       MeetingStore.addMeeting(title, description, startTime, endTime, location, groupId, type);
       if(MeetingStore.addFormSuccess)
@@ -73,6 +76,8 @@ class GroupMeeting extends Component{
     } else{
       var valid = this.checkSelectedDateValid(startTime, endTime);
       if(valid){
+        console.log("starttime meeting:", startTime)
+    console.log("endTime meeting:", endTime)
         MeetingStore.addMeeting(title, description, startTime, endTime, location, groupId, type);
         if(MeetingStore.addFormSuccess)
           this.setState({showMeetingForm: false})
@@ -170,6 +175,7 @@ class GroupMeeting extends Component{
       meetings = meetings.filter(item => item.groupId === GroupStore.selectedGroup.id)
     }
 
+    console.log("MEETING  - - - - -", meetings)
     return (
       <div>
         <Button bsStyle="primary" onClick ={this.meetingFormShow.bind(this)}>
