@@ -184,6 +184,7 @@
         <servlet-name>ContentAdmin</servlet-name>
         <servlet-class>unifycontrollers.admin.ContentAdminController</servlet-class>
     </servlet>
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
     <servlet>
         <servlet-name>NewJobCategory</servlet-name>
@@ -421,6 +422,7 @@
     <servlet><servlet-name>ViewItemDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/marketplace/ViewItemDetailsSYS.jsp</jsp-file></servlet>
     
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - USERPROFILE (JSP) -->
+    <servlet><servlet-name>UnifyBot</servlet-name><jsp-file>/webapp/unify/systemuser/common/ConvoBot.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserAccountSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserAccountSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserChatListContentSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserChatListContentSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserChatListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserChatListSYS.jsp</jsp-file></servlet>
@@ -430,15 +432,9 @@
     <servlet><servlet-name>UserItemWishlistSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserItemWishlistSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserNotificationListSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserNotificationListSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserProfileSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserProfileSYS.jsp</jsp-file></servlet>
-
-    <servlet>
-        <servlet-name>UserCompanyReview</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyReview.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>UserCompanyRequest</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyRequest.jsp</jsp-file>
-    </servlet>
+    
+    <servlet><servlet-name>UserCompanyReview</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyReview.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserCompanyRequest</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyRequest.jsp</jsp-file></servlet>
     <servlet>
         <servlet-name>UserJobListingSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserJobListingSYS.jsp</jsp-file>

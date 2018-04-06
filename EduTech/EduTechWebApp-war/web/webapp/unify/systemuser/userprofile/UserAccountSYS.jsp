@@ -1,3 +1,11 @@
+<%-- 
+  - Author(s):          TAN CHIN WEE WINSTON
+  - Date:               6th April 2018
+  - Version:            1.0
+  - Credits to:         NIL
+  - Description:        View User Marketplace Listings (Marketplace)
+  --%>
+  
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -70,7 +78,8 @@
                                             <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <%                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                            <% 
+                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
                                                     for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
                                                         Vector v = userMessageListTopThreeSYS.get(i);
@@ -98,7 +107,7 @@
                                             <%  } else {    %>
                                             <p style="text-align:center;">There are no notifications.</p>
                                             <div class="dropdown-divider"></div>
-                                            <%  }%>
+                                            <%  }   %>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
@@ -114,7 +123,7 @@
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
                                     <option value="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
-                                    <option value="ProfileSysUser?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
                                 </select>
                             </ul>
                         </div>
@@ -279,7 +288,7 @@
                             <button type="button" class="close" id="closeError">&times;</button>
                             <%= errorMessage%>
                         </div>
-                        <%  }   %>
+                        <%  }%>
 
                         <div class="title"><span>My Marketplace Listings</span></div>
                         <div class="jplist-search sorting-bar">
@@ -303,11 +312,11 @@
                                 <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                      data-control-type="filter-drop-down" data-control-name="category-filter" 
                                      data-control-action="filter">
-                                        <ul>
-                                            <li><span data-path="default">All Item Conditions</span></li>
-                                            <li><span data-path=".New">New</span></li>
-                                            <li><span data-path=".Used">Used</span></li>
-                                        </ul>
+                                    <ul>
+                                        <li><span data-path="default">All Item Conditions</span></li>
+                                        <li><span data-path=".New">New</span></li>
+                                        <li><span data-path=".Used">Used</span></li>
+                                    </ul>
                                 </div>
                                 <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
                                      data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
@@ -392,9 +401,9 @@
                                                         <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
                                                             <%  if (itemLikeStatus.equals("true")) {%>
                                                             <button type="button" id="likeItemBtn<%= itemID%>" class="btn btn-link btn-sm myAccountBtn likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this item"><i class="fa fa-heart"></i></button>
-                                                                <%  } else if (itemLikeStatus.equals("false")) {%>
+                                                            <%  } else if (itemLikeStatus.equals("false")) {%>
                                                             <button type="button" id="likeItemBtn<%= itemID%>" class="btn btn-link btn-sm myAccountBtn noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
-                                                                <%  }   %>
+                                                            <%  }   %>
                                                         </div>
                                                     </div>
                                                     <%  if (itemStatus.equals("Reserved")) { %>
@@ -442,6 +451,26 @@
                     </div>
                 </div>
             </div>
+
+            <div class="chat-main">
+                <div class="col-md-12 chat-header">
+                    <div class="row header-one text-white p-1">
+                        <div class="col-md-6 name pl-2">
+                            <i class="fa fa-comment"></i>
+                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
+                        </div>
+                        <div class="col-md-6 options text-right pr-0">
+                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-content">
+                    <div class="col-md-12 chats">
+                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
+                    </div>
+                </div>
+            </div>
+            
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
@@ -474,7 +503,7 @@
                         <p class="text-center"><strong>Select one of the following to view.</strong></p>
                         <div class="row">
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUnifyUserAccountSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUnifyUserAccountSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-shopping-cart display-2"></i></h1>
                                         <h6>My Listings</h6>
@@ -482,7 +511,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToMarketplaceTransSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMarketplaceTransSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
                                         <h6>My Transactions</h6>
@@ -490,7 +519,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUserItemWishlistSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUserItemWishlistSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-heart display-2"></i></h1>
                                         <h6>My Wishlist</h6>
@@ -498,7 +527,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-edit display-2"></i></h1>
                                         <h6>My Offers</h6>
@@ -506,7 +535,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToPendingItemOfferListSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToPendingItemOfferListSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-bullhorn display-2"></i></h1>
                                         <h6>Marketplace Offers</h6>

@@ -48,6 +48,9 @@ public class UserProfileSysUserController extends HttpServlet {
             String loggedInUsername = getCookieUsername(request);
             
             switch (pageAction) {
+                case "goToUnifyBot":
+                    pageAction = "UnifyBot";
+                    break;
                 case "goToUserProfileSYS":
                     String itemSellerID = request.getParameter("itemSellerID");
                     request.setAttribute("userItemListSYS", usmr.viewUserItemList(loggedInUsername, itemSellerID));
@@ -299,11 +302,13 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToMyJobListing":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("userJobListing", (ArrayList) esmr.viewUserJobList(loggedInUsername));
                     pageAction = "UserJobListingSYS";
                     break;
                 case "goToViewMyJobOfferSYS":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
                     pageAction = "ViewMyJobOfferSYS";
                     break;
@@ -311,18 +316,18 @@ public class UserProfileSysUserController extends HttpServlet {
                     String responseMessage = editJobOffer(request, loggedInUsername);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
-                    
-                    //pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "goToDeleteMyJobOfferSYS":
                     long offerID = Long.parseLong(request.getParameter("offerID"));
                     String returnResponse = esmr.deleteJobOffer(offerID);
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
                     pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "goToCompanyReview":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(loggedInUsername));
                     pageAction = "UserCompanyReview";
                     break;
@@ -334,11 +339,13 @@ public class UserProfileSysUserController extends HttpServlet {
                         System.out.println("Selected Review cannot be deleted. Please try again later.");
                     }
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(loggedInUsername));
                     pageAction = "UserCompanyReview";
                     break;
                 case "goToCompanyRequest":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("companyRequestListSYS", (ArrayList) vsmr.viewUserCompanyRequest(loggedInUsername));
                     pageAction = "UserCompanyRequest";
                     break;
@@ -355,31 +362,9 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("proExprList", vsmr.viewProjectExprList(resumeID));
                     pageAction = "ViewResumeDetailsSYS";
                     break;
-                case "goToLogout":
-                    Cookie cookieUsername = new Cookie("username", "");
-                    cookieUsername.setPath("/");
-                    cookieUsername.setMaxAge(0); 
-                    response.addCookie(cookieUsername);
-                    
-                    Cookie cookieUserType = new Cookie("userType", "");
-                    cookieUserType.setPath("/");
-                    cookieUserType.setMaxAge(0);
-                    response.addCookie(cookieUserType);
-                    
-                    String sessionInvalid = request.getParameter("sessionInvalid");
-                    String sessionExpire = request.getParameter("sessionExpire");
-                    if(sessionInvalid != null && sessionInvalid.equals("true")){
-                        request.setAttribute("sysMessage", "<strong>Invalid session. Please login again.</strong>");
-                    }
-                    if(sessionExpire != null && sessionExpire.equals("true")){
-                        request.setAttribute("sysMessage", "<strong>You session has expired. Please login again.</strong>");
-                    }
-                    pageAction = "IntegratedSPLogin";
-                    break;
                 default:
                     break;
             }
-            System.out.println("dispatch: " + pageAction);
             dispatcher = servletContext.getNamedDispatcher(pageAction);
             dispatcher.forward(request, response);
         }

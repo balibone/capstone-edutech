@@ -98,7 +98,7 @@ $(document).ready(function () {
         map.addLayer(json_group);
     }).on('locationerror', function (e) {
         console.log(e);
-        alert("Location access has been denied.");
+        alert("Location cannot be found.");
     });
     basemap.addTo(map);
 });

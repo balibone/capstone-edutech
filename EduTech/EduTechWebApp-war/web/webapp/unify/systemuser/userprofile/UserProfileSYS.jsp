@@ -1,3 +1,11 @@
+<%-- 
+  - Author(s):          TAN CHIN WEE WINSTON
+  - Date:               6th April 2018
+  - Version:            1.0
+  - Credits to:         NIL
+  - Description:        Unify User Profile Page (Marketplace)
+  --%>
+
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -115,7 +123,7 @@
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
                                     <option value="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
-                                    <option value="ProfileSysUser?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
                                 </select>
                             </ul>
                         </div>
@@ -391,6 +399,26 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="chat-main">
+                <div class="col-md-12 chat-header">
+                    <div class="row header-one text-white p-1">
+                        <div class="col-md-6 name pl-2">
+                            <i class="fa fa-comment"></i>
+                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
+                        </div>
+                        <div class="col-md-6 options text-right pr-0">
+                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-content">
+                    <div class="col-md-12 chats">
+                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
+                    </div>
+                </div>
+            </div>
+            
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>

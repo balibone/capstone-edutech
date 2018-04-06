@@ -27,6 +27,36 @@ body::before{display:none;content:'unset'}
 }
 #modal-custom .iziModal-content .icon-close:hover, #modal-custom .iziModal-content .icon-close:focus { color: #000000; }
 
+/* CHATBOT CSS */
+.chat-content { display: none; }
+.chat-main { position: fixed; width: 304px; bottom: 0; right: 120px; z-index: 9999; }
+.header-one { background: #4D7496; }
+.name h6 { display: inline-block; font-size: 14px; }
+.options i,.options .arrow-up { height: 25px; width: 25px; }
+.options i { color: #B2B2B2; font-size: 16px; cursor: pointer; }
+.options .hover:hover, .options .arrow-up:hover { background: #737373; }
+.options .arrow-up { display: inline-block; line-height: 0; }
+.options .hover:hover, .options .arrow-up:hover .fa-arrow-up { color: #fff; }
+.options .fa-arrow-up { transform: rotate(40deg); }
+.header-two { border-top: 2px solid #35AC19; background: #ECEFF1; color: #5E6060; padding: 8px 0px 4px 8px; box-shadow: 0px 6px 13px -7px #c1c1c1; z-index: 1000; position: absolute; }
+.options-left i, .options-right i { font-size: 20px; cursor: pointer; }
+.options-left i:hover, .options-right i:hover { color: #000; }
+.chats { height: 285px; overflow-x: scroll; overflow-x: hidden; background: #fff; position: relative; border-left: 1px solid #D6D8D9; border-right: 1px solid #D6D8D9; }
+.chats ul li { display: inline-block; list-style: none; clear: both; font-size: 13px; }
+.send-msg { position: relative; }
+.send-msg:after { content: ""; width: 0; height: 0; top: 0px; right: -8px; position: absolute; border-top: 8px solid #CFD8DC; border-left: 8px solid transparent; border-right: 8px solid transparent; }
+.send-msg p { background: #CFD8DC; }
+.sender-img { display: inline; }
+.sender-img img { width: 32px; height: 32px; border-radius: 100%; }
+.receive-msg .receive-msg-desc { display: inline-block; position: relative; }
+.receive-msg-desc:before { content: ""; width: 0; height: 0; top: 0px; left: -8px; position: absolute; border-top: 8px solid #fff; border-left: 8px solid transparent; border-right: 8px solid transparent; }
+.receive-msg-time,.send-msg-time { color: #7D7E87; font-size: 10px; }
+.receive-msg-time i { font-size: 4px; }
+.msg-box { margin-top: 35px; }
+.msg-box i { color: #404040; }
+.msg-box input { font-size: 14px; }
+.msg-box input:focus { outline: none; }
+
 /* FORM CSS (ADD-ON) */
 .x_panel { width: 100%; padding: 10px 17px; display: inline-block; background: #fff; border: 1px solid #E6E9ED; -webkit-column-break-inside: avoid; opacity: 1; transition: all .2s ease; }
 .x_title { border-bottom: 2px solid #E6E9ED; padding: 1px 5px 6px; }
@@ -47,9 +77,7 @@ body::before{display:none;content:'unset'}
 .wizard_horizontal ul.wizard_steps li:last-child a:before{right:50%;width:50%;left:auto}
 
 .form_wizard .stepContainer { display: block; position: relative; margin: 0; padding: 0; border: 0 solid #CCC; overflow-x: hidden; }
-.sw-theme-dots .sw-container {
-    min-height: 400px;
-}
+.sw-theme-dots .sw-container { min-height: 400px; }
 
 @media (min-width: 768px) {
     .test {
@@ -61,22 +89,11 @@ body::before{display:none;content:'unset'}
 /* FOR JPLIST */
 .searchresult-row { width: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; }
 
-@media (max-width: 575.98px) {
-    body::before{content:'xs'}
-    .sw-theme-dots .sw-container { min-height: 600px; }
-}
-@media (min-width: 576px) and (max-width: 767.98px) {
-    body::before{content:'sm'}
-}
-@media (min-width: 768px) and (max-width: 991.98px) {
-    body::before{content:'md'}
-}
-@media (min-width: 992px) and (max-width: 1199.98px) {
-    body::before{content:'lg'}
-}
-@media (min-width: 1200px) {
-    body::before{content:'xl'}
-}
+@media (max-width: 575.98px) { body::before{content:'xs'} .sw-theme-dots .sw-container { min-height: 600px; } }
+@media (min-width: 576px) and (max-width: 767.98px) { body::before{content:'sm'} }
+@media (min-width: 768px) and (max-width: 991.98px) { body::before{content:'md'} }
+@media (min-width: 992px) and (max-width: 1199.98px) { body::before{content:'lg'} }
+@media (min-width: 1200px) { body::before{content:'xl'} }
 @font-face{font-family:'Lato';font-style:normal;font-weight:300;src:local("Lato Light"),local("Lato-Light"),url("../fonts/lato/lato-v14-latin_latin-ext-300.woff2") format("woff2"),url("../fonts/lato/lato-v14-latin_latin-ext-300.woff") format("woff")}
 @font-face{font-family:'Lato';font-style:italic;font-weight:300;src:local("Lato Light Italic"),local("Lato-LightItalic"),url("../fonts/lato/lato-v14-latin_latin-ext-300italic.woff2") format("woff2"),url("../fonts/lato/lato-v14-latin_latin-ext-300italic.woff") format("woff")}
 @font-face{font-family:'Lato';font-style:normal;font-weight:400;src:local("Lato Regular"),local("Lato-Regular"),url("../fonts/lato/lato-v14-latin_latin-ext-regular.woff2") format("woff2"),url("../fonts/lato/lato-v14-latin_latin-ext-regular.woff") format("woff")}
