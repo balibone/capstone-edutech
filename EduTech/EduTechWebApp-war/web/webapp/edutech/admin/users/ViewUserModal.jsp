@@ -2,8 +2,8 @@
 <%
                                     //Extracting field values from ArrayList passed from servlet to jsp.
                                     ArrayList userInfo = (ArrayList)request.getAttribute("userInfo");
-                                    String salutation,firstName,lastName,email,contactNum, username,  password,creationDate,type,imageFile;
-                                    salutation = firstName = lastName = email = contactNum = username = password = creationDate = type = imageFile = "";
+                                    String salutation,firstName,lastName,email,contactNum,username, creationDate,type,imageFile;
+                                    salutation = firstName = lastName = email = contactNum = username = creationDate = type = imageFile = "";
                                     //ArrayList exists and is not empty. 
                                     if(userInfo!=null && !userInfo.isEmpty()){
                                         salutation = (String)userInfo.get(0);
@@ -12,8 +12,9 @@
                                         email = (String)userInfo.get(3);
                                         contactNum = (String)userInfo.get(4);
                                         username = (String)userInfo.get(5);
-                                        type = (String)userInfo.get(8);
-                                        imageFile = (String)userInfo.get(9);
+                                        creationDate = String.valueOf(userInfo.get(6));
+                                        type = (String)userInfo.get(7);
+                                        imageFile = (String)userInfo.get(8);
                                     }
                                 %>
 <%@include file="/webapp/edutech/admin/EduTechAdminSessionCheck.jspf"
@@ -52,44 +53,50 @@
                         <div class="col-xs-9">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label required">Salutation: </label>
-                                    <div class="col-xs-6">
+                                    <label class="col-xs-4 control-label required">Salutation: </label>
+                                    <div class="col-xs-8">
                                         <input type="text" readonly value="<%=salutation%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label required">First Name:</label>
-                                    <div class="col-xs-6">
+                                    <label class="col-xs-4 control-label required">First Name:</label>
+                                    <div class="col-xs-8">
                                         <input type="text" readonly value="<%=firstName%>" class="form-control" name="email"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label required">Last Name:</label>
-                                    <div class="col-xs-6">
+                                    <label class="col-xs-4 control-label required">Last Name:</label>
+                                    <div class="col-xs-8">
                                         <input type="text" readonly value="<%=lastName%>" class="form-control" />
                                     </div>
                                 </div>
+                                    <div class="form-group">
+                                    <label class="col-xs-4 control-label required">Last Name:</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" readonly value="<%=username%>" class="form-control" />
+                                    </div>
+                                </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label required">Username:</label>
-                                    <div class="col-xs-6">
+                                    <label class="col-xs-4 control-label required">E-mail:</label>
+                                    <div class="col-xs-8">
                                         <input type="text" readonly value="<%=email%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label required">Password:</label>
-                                    <div class="col-xs-6">
-                                        <input type="text" readonly value="<%=password%>" class="form-control" />
+                                    <label class="col-xs-4 control-label required">Contact Number:</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" readonly value="+65 <%=contactNum%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label required">Created On:</label>
-                                    <div class="col-xs-6">
+                                    <label class="col-xs-4 control-label required">Created On:</label>
+                                    <div class="col-xs-8">
                                         <input type="text" readonly value="<%=creationDate%>" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label required">User Type:</label>
-                                    <div class="col-xs-6">
+                                    <label class="col-xs-4 control-label required">User Type:</label>
+                                    <div class="col-xs-8">
                                         <input type="text" readonly value="<%=type%>" class="form-control" />
                                     </div>
                                 </div> 
