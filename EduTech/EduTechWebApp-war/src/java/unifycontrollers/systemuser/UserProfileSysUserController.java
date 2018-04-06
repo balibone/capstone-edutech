@@ -46,6 +46,7 @@ public class UserProfileSysUserController extends HttpServlet {
             
             String pageAction = request.getParameter("pageTransit");
             String loggedInUsername = getCookieUsername(request);
+            System.out.println(pageAction);
             
             switch (pageAction) {
                 case "goToUnifyBot":
@@ -318,6 +319,16 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("workExprList", vsmr.viewWorkExprList(resumeID));
                     request.setAttribute("proExprList", vsmr.viewProjectExprList(resumeID));
                     pageAction = "ViewResumeDetailsSYS";
+                    break;
+                case "markNotificationSYS":
+                    long msgContentID = Long.parseLong(request.getParameter("msgContentID"));
+                    String msgSenderID = (String) request.getParameter("msgSenderID");
+                    System.out.print(msgContentID);
+                    System.out.print(msgSenderID);
+                    
+                    responseMessage = usmr.markNotification(msgContentID, msgSenderID);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
                     break;
                 default:
                     break;

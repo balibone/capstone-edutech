@@ -225,7 +225,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <div class="image-upload">
-                                                    <img id="output-image" src="uploads/unify/images/voices/company/<%= companyImage%>" />
+                                                    <img class="img-thumbnail" src="uploads/unify/images/voices/company/<%= companyImage%>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -320,7 +320,6 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-            <div id="sellNewItem-iframe"></div>
             <div id="unifyFooter"></div>
         </div>
 

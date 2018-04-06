@@ -96,6 +96,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(companyID_));
                     request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID_, username_));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(companyID_));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("tabType", type);
                     pageAction="ViewCompanyDetailsSYS";
                     break;

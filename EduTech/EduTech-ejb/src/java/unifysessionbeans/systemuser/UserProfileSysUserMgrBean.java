@@ -193,6 +193,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                 }
             }
             messageVec.add(dateString);
+            messageVec.add(messageE.getMessageStatus());
             messageList.add(messageVec);
         }
         return messageList;
@@ -256,6 +257,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                 }
             }
             messageVec.add(dateString);
+            messageVec.add(messageE.getMessageStatus());
             messageList.add(messageVec);
         }
         return messageList;
@@ -1467,5 +1469,36 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             checkStatus = false;
         }
         return checkStatus;
+    }
+    
+    @Override
+    public String markNotification(long msgContentID, String msgSenderID) {
+        MessageEntity me = lookupMessage(msgContentID, msgSenderID);
+        if(me == null) { return "Unsuccessful"; }
+        else {
+            me.setMessageStatus("Read");
+            em.merge(me);
+        }
+        return "Successful";
+    }
+    
+    public MessageEntity lookupMessage(long msgContentID, String msgSenderID) {
+        MessageEntity me = new MessageEntity();
+        try {
+            Query q = em.createQuery("SELECT m FROM Message m WHERE m.contentID=:msgContentID AND m.messageSenderID=:msgSenderID");
+            q.setParameter("msgContentID",msgContentID);
+            q.setParameter("msgSenderID", msgSenderID);
+            
+            me = (MessageEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Company Review cannot be found. " + enfe.getMessage());
+            em.remove(me);
+            me = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Company Review does not exist. " + nre.getMessage());
+            em.remove(me);
+            me = null;
+        }
+        return me;
     }
 }
