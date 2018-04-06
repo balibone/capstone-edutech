@@ -34,6 +34,11 @@ import unifyentities.common.MessageEntity;
 import unifyentities.voices.CompanyEntity;
 import unifyentities.voices.CompanyRequestEntity;
 import unifyentities.voices.CompanyReviewEntity;
+import unifyentities.voices.EduExprEntity;
+import unifyentities.voices.ProjectExprEntity;
+import unifyentities.voices.ResumeEntity;
+import unifyentities.voices.SkillEntity;
+import unifyentities.voices.WorkExprEntity;
 
 @Stateless
 public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
@@ -184,50 +189,6 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     }
     
     @Override
-    public List<Vector> viewUserCompanyReview(String username) {
-        Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.userEntity.username = :username ORDER BY cr.reviewDate DESC");
-        q.setParameter("username", username);
-        List<Vector> reviewList = new ArrayList<Vector>();
-        
-        for (Object o : q.getResultList()) {
-            CompanyReviewEntity cre = (CompanyReviewEntity) o;
-            Vector reviewVec = new Vector();
-
-            reviewVec.add(cre.getReviewID());
-            reviewVec.add(df.format(cre.getReviewDate()));
-            reviewVec.add(cre.getUserEntity().getUsername());
-            reviewVec.add(cre.getCompanyEntity().getCompanyName());
-            reviewVec.add(cre.getReviewTitle());
-            reviewVec.add(getReviewLikeCount(cre.getReviewID()));
-            reviewVec.add(cre.getReviewStatus());
-            reviewList.add(reviewVec);
-        }
-        return reviewList;
-    }
-    
-    @Override
-    public List<Vector> viewUserCompanyRequest(String username) {
-        Query q = em.createQuery("SELECT cr FROM CompanyRequest cr WHERE cr.userEntity.username = :username ORDER BY cr.requestDate DESC");
-        q.setParameter("username", username);
-        List<Vector> requestList = new ArrayList<Vector>();
-        
-        for (Object o : q.getResultList()) {
-            CompanyRequestEntity cre = (CompanyRequestEntity) o;
-            Vector requestVec = new Vector();
-
-            requestVec.add(cre.getRequestID());
-            requestVec.add(df.format(cre.getRequestDate()));
-            requestVec.add(cre.getUserEntity().getUsername());
-            requestVec.add(cre.getRequestCompany());
-            requestVec.add(cre.getRequestIndustry());
-            requestVec.add(cre.getRequestComment());
-            requestVec.add(cre.getRequestStatus());
-            requestList.add(requestVec);
-        }
-        return requestList;
-    }
-    
-    @Override
     public List<Vector> viewCompanyInSameIndustry(long companyID) {
         companyEntity = lookupCompany(companyID);
         String companyIndustry = companyEntity.getCategoryEntity().getCategoryName();
@@ -312,6 +273,49 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     }
     
     @Override
+    public String createResume(String userFullName, String contactNum, String emailAddr, String postalAddr, 
+                               String[] workExprList, String[] eduExprList, String[] proExprList, String[] skillList, String fileName, String username) {
+        UserEntity userEntity = lookupUnifyUser(username);
+        ResumeEntity resumeEntity = new ResumeEntity();
+        Collection<WorkExprEntity> workExprSet = new ArrayList();
+        Collection<EduExprEntity> eduExprSet = new ArrayList();
+        Collection<ProjectExprEntity> proExprSet = new ArrayList();
+        Collection<SkillEntity> skillSet = new ArrayList();
+        
+        for(int i=0;i<workExprList.length;i=i+4) {
+            WorkExprEntity workExpr = new WorkExprEntity();
+            workExpr.create(workExprList[i], workExprList[i+1], workExprList[i+2], workExprList[i+3], resumeEntity);
+            workExprSet.add(workExpr);
+        }
+        
+        for(int i=0;i<eduExprList.length;i=i+4) {
+            EduExprEntity eduExpr = new EduExprEntity();
+            eduExpr.create(eduExprList[i], eduExprList[i+1], eduExprList[i+2], eduExprList[i+3], resumeEntity);
+            eduExprSet.add(eduExpr);
+        }
+        
+        for(int i=0;i<proExprList.length;i=i+2) {
+            ProjectExprEntity proExpr = new ProjectExprEntity();
+            proExpr.create(proExprList[i], proExprList[i+1], resumeEntity);
+            proExprSet.add(proExpr);
+        }
+        
+        for(int i=0;i<skillList.length;i=i+2) {
+            SkillEntity skill = new SkillEntity();
+            skill.create(skillList[i], skillList[i+1], resumeEntity);
+            skillSet.add(skill);
+        }
+        
+        if(resumeEntity.createResume(userFullName, contactNum, emailAddr, postalAddr, workExprSet, eduExprSet, proExprSet, skillSet, fileName, userEntity)) {
+            userEntity.getResumeSet().add(resumeEntity);
+            em.persist(resumeEntity);
+            return "Resume has been created successfully!";
+        } else {
+            return "There were some issues encountered while creating your resume. Please try again.";
+        }
+    }
+    
+    @Override
     public List<String> populateCompanyIndustry() {
         List<String> companyIndustryList = new ArrayList<String>();
             Query q = em.createQuery("SELECT c from Category c WHERE c.categoryType = 'Voices' AND c.categoryActiveStatus = '1' ORDER BY c.categoryName ASC");
@@ -392,8 +396,17 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
                     reviewEntity.getLikeListingSet().add(llEntity);
                     userEntity.getLikeListingSet().add(llEntity);
                     
-                    /* MESSAGE SENDER IS THE ITEM LIKER, MESSAGE RECEIVER IS THE ITEM SELLER */
+                    /* MESSAGE SENDER IS THE ANONYMOUS, MESSAGE RECEIVER IS THE REVIEW POSTER */
+                    MessageEntity mEntity = new MessageEntity();
+                    mEntity.createContentMessage(userEntity.getUsername(), reviewEntity.getUserEntity().getUsername(), 
+                            "You receive one like on your review of " + reviewEntity.getCompanyEntity().getCompanyName() + ". Check it out!", 
+                            reviewEntity.getReviewID(), "Voices");
+                    
+                    mEntity.setUserEntity(userEntity);
+                    (reviewEntity.getUserEntity()).getMessageSet().add(mEntity);
+                    
                     em.persist(llEntity);
+                    em.persist(mEntity);
                     em.merge(reviewEntity);
                     em.merge(userEntity);
                 }
@@ -462,7 +475,6 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     
     public CompanyEntity lookupCompany(String companyName, String companyIndustry) {
         CompanyEntity ce = new CompanyEntity();
-        System.out.println(companyIndustry);
         try {
             Query q = em.createQuery("SELECT c from Company c WHERE c.companyName=:companyName And c.categoryEntity.categoryName=:companyIndustry");
             q.setParameter("companyName", companyName);
@@ -498,6 +510,24 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
         return cre;
     }
     
+    public ResumeEntity lookupResume(long resumeID) {
+        ResumeEntity re = new ResumeEntity();
+        try {
+            Query q = em.createQuery("SELECT r FROM Resume r WHERE r.resumeID = :resumeID");
+            q.setParameter("resumeID", resumeID);
+            re = (ResumeEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Resume cannot be found. " + enfe.getMessage());
+            em.remove(re);
+            re = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Resume does not exist. " + nre.getMessage());
+            em.remove(re);
+            re = null;
+        }
+        return re;
+    }
+    
     public LikeListingEntity lookupLike(long reviewID, String username) {
         LikeListingEntity lle = new LikeListingEntity();
         try {
@@ -515,5 +545,164 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             lle = null;
         }
         return lle;
+    }
+    
+    @Override
+    public Vector lookupReviewReport(String username, long reviewID) {
+        Vector report = new Vector();
+        try {
+            Query q = em.createQuery("SELECT crr FROM CompanyReviewReport crr WHERE crr.reviewID=:reviewID AND crr.userEntity.username=:username");
+            q.setParameter("reviewID", String.valueOf(reviewID));
+            q.setParameter("username", username);
+            if(q.getSingleResult() != null) {
+                CompanyReviewReportEntity cre = (CompanyReviewReportEntity) q.getSingleResult();
+                report.add(cre.getReviewReportDate());
+                report.add(cre.getReviewReportStatus());
+            }
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Like cannot be found. " + enfe.getMessage());
+            report = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Like does not exist. " + nre.getMessage());
+            report = null;
+        }
+        
+        return report;
+    }
+    
+    @Override
+    public List<Vector> viewUserCompanyReview(String username) {
+        Query q = em.createQuery("SELECT cr FROM CompanyReview cr WHERE cr.userEntity.username = :username ORDER BY cr.reviewDate DESC");
+        q.setParameter("username", username);
+        List<Vector> reviewList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            CompanyReviewEntity cre = (CompanyReviewEntity) o;
+            Vector reviewVec = new Vector();
+
+            reviewVec.add(cre.getReviewID());
+            reviewVec.add(df.format(cre.getReviewDate()));
+            reviewVec.add(cre.getUserEntity().getUsername());
+            reviewVec.add(cre.getCompanyEntity().getCompanyName());
+            reviewVec.add(cre.getReviewTitle());
+            reviewVec.add(getReviewLikeCount(cre.getReviewID()));
+            reviewVec.add(cre.getReviewStatus());
+            reviewList.add(reviewVec);
+        }
+        return reviewList;
+    }
+    
+    @Override
+    public List<Vector> viewUserCompanyRequest(String username) {
+        Query q = em.createQuery("SELECT cr FROM CompanyRequest cr WHERE cr.userEntity.username = :username ORDER BY cr.requestDate DESC");
+        q.setParameter("username", username);
+        List<Vector> requestList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            CompanyRequestEntity cre = (CompanyRequestEntity) o;
+            Vector requestVec = new Vector();
+
+            requestVec.add(cre.getRequestID());
+            requestVec.add(df.format(cre.getRequestDate()));
+            requestVec.add(cre.getUserEntity().getUsername());
+            requestVec.add(cre.getRequestCompany());
+            requestVec.add(cre.getRequestIndustry());
+            requestVec.add(cre.getRequestComment());
+            requestVec.add(cre.getRequestStatus());
+            requestList.add(requestVec);
+        }
+        return requestList;
+    }
+    
+    @Override
+    public List<Vector> viewUserResume(String username) {
+        Query q = em.createQuery("SELECT r FROM Resume r WHERE r.userEntity.username = :username ORDER BY r.creationDate DESC");
+        q.setParameter("username", username);
+        List<Vector> resumeList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            ResumeEntity re = (ResumeEntity) o;
+            Vector resumeVec = new Vector();
+
+            resumeVec.add(re.getResumeID());
+            resumeVec.add(df.format(re.getCreationDate()));
+            resumeVec.add(re.getUserFullName());
+            resumeVec.add(re.getUserEntity().getUsername());
+            resumeList.add(resumeVec);
+        }
+        return resumeList;
+    }
+    
+    @Override
+    public Vector viewResumeBasicDetails(long resumeID) {
+        ResumeEntity re = lookupResume(resumeID);
+        Vector basicVec = new Vector();
+        
+        if(re!=null) {
+            basicVec.add(re.getUserImage());
+            basicVec.add(re.getUserFullName());
+            basicVec.add(re.getContactNum());
+            basicVec.add(re.getEmailAddr());
+            basicVec.add(re.getPostalAddr());
+        }
+        return basicVec;
+    }
+    
+    @Override
+    public List<Vector> viewEduExprList(long resumeID) {
+        ResumeEntity re = lookupResume(resumeID);
+        List<Vector> eduExprList = new ArrayList<Vector>();
+        
+        Collection<EduExprEntity> eduExprSet = re.getEduSet();
+        if(eduExprSet!=null) {
+            for(EduExprEntity ee: eduExprSet) {
+                Vector eduVec = new Vector();
+                
+                eduVec.add(ee.getSchoolName());
+                eduVec.add(ee.getSchoolPeriod());
+                eduVec.add(ee.getSchoolDegree());
+                eduVec.add(ee.getSchoolMajor());
+                eduExprList.add(eduVec);
+            }
+        }
+        return eduExprList;
+    }
+    
+    @Override
+    public List<Vector> viewWorkExprList(long resumeID) {
+        ResumeEntity re = lookupResume(resumeID);
+        List<Vector> workExprList = new ArrayList<Vector>();
+        
+        Collection<WorkExprEntity> workExprSet = re.getWorkExprSet();
+        if(workExprSet!=null) {
+            for(WorkExprEntity we: workExprSet) {
+                Vector workVec = new Vector();
+                
+                workVec.add(we.getWorkCompany());
+                workVec.add(we.getWorkTitle());
+                workVec.add(we.getWorkPeriod());
+                workVec.add(we.getWorkDescription());
+                workExprList.add(workVec);
+            }
+        }
+        return workExprList;
+    }
+    
+    @Override
+    public List<Vector> viewProjectExprList(long resumeID) {
+        ResumeEntity re = lookupResume(resumeID);
+        List<Vector> proExprList = new ArrayList<Vector>();
+        
+        Collection<ProjectExprEntity> proExprSet = re.getProjectExprSet();
+        if(proExprSet!=null) {
+            for(ProjectExprEntity pe: proExprSet) {
+                Vector proVec = new Vector();
+                
+                proVec.add(pe.getProjectTitle());
+                proVec.add(pe.getProjectDescription());
+                proExprList.add(proVec);
+            }
+        }
+        return proExprList;
     }
 }

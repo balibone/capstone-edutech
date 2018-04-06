@@ -139,7 +139,7 @@
                                 <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </a>
-                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
+                                <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
@@ -200,6 +200,8 @@
                                             <label><strong>Industry:&nbsp;</strong></label>
                                             <span class="companyIndustry"><%= companyIndustry%></span><br/>
                                         </div>
+                                        <div>
+                                            <div><span class="float-left"><span class="ml-1 card-text rating companyRating" id="average_rating" style="margin-top: 5px"><%= companyRating%></span></span></div>
                                             <div class="star-rating">
                                                 <% double rating = Double.parseDouble(companyRating);
                                                    double percent = 0.0;
@@ -226,9 +228,10 @@
                                                     <span><i class="fa fa-star">&nbsp;</i></span>
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="new-review">
+                                        <div class="new-review" style="margin-top: 50px">
                                             <form action="VoicesSysUser" method="POST">
                                                 <input type="hidden" name="pageTransit" value="goToNewReviewSYS"/>
                                                 <input type="hidden" name="hiddenCompanyImage" value="<%= companyImage %>"/>
@@ -237,7 +240,6 @@
                                                 <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit"><i class="fa fa-plus">&nbsp;&nbsp;</i>Add A Review</button>
                                             </form>
                                         </div>
-                                        <button class="btn btn-outline btn-primary btn-sm btn-block"><i class="fa fa-list-alt">&nbsp;&nbsp;</i>Send Resume</button>
                                     </div>
                                 </div>
                             </div>
@@ -249,11 +251,9 @@
                 <div class="row">
                     <div class="col-lg-1 col-md-3"></div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="collapse d-md-block pt-3 pt-md-0" id="collapseFilter">
-                            <div class="filter-sidebar">
-                                <div class="title"><span style="font-size: 15px"><strong>You may also like...</strong></span></div>
-                            </div>
-                        </div>
+                        <div class="card-title"><span style="font-size: 15px"><strong>You may also like...</strong></span></div>
+                        <div class="scrollbar" id="company-in-industry" style="max-height: 400px">  
+                        
                         <%  ArrayList<Vector> associatedCompanyListSYS = (ArrayList) request.getAttribute("companyListInIndustrySYS");
                                 if (!associatedCompanyListSYS.isEmpty()) {
                                     for (int i = 0; i <= associatedCompanyListSYS.size() - 1; i++) {
@@ -262,11 +262,16 @@
                                         String associatedCompanyImage = String.valueOf(v.get(1));
                                         String associatedCompanyName = String.valueOf(v.get(2));
                                         String associatedCompanyRating = String.valueOf(v.get(3));
+                                        
+                                        if(associatedCompanyName.length() >= 12) {
+                                            associatedCompanyName = associatedCompanyName.substring(0,11);
+                                            associatedCompanyName += "...";
+                                        }
                         %>    
                         <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
-                            <div class="card card-product">
+                            <div class="card">
                                 <div class="card-content">
-                                    <div class="card-body">
+                                    <div class="card-body" style="margin-left:0">
                                         <div class="row">
                                             <div class="col-xl-4 col-md-4 col-4">
                                                 <div class="img-wrapper">
@@ -297,6 +302,7 @@
                        <%      }
                            }
                        %>
+                       </div>
                     </div>
                     <div class="col-lg-7 col-md-6">
                         <%  String successMessage = (String) request.getAttribute("successMessage");
@@ -459,11 +465,12 @@
                                                         <div class="row">
                                                             <div class="col-lg-7 col-md-7 col-7"></div>
                                                             <div class="col-lg-2 col-md-2 col-2">
+                                                                <input type="hidden" id="tabType" value="<%= (String) request.getAttribute("tabType")%>" />
                                                                 <input type="hidden" id="companyID" value="<%= companyID%>" />
                                                                 <input type="hidden" id="reviewPoster" value="<%= reviewPoster%>" />
                                                                 <input type="hidden" id="reviewID" value="<%= reviewID%>" />
                                                                 <input type="hidden" id="username" value="<%= loggedInUsername%>" />
-                                                                <button onclick="newReviewReport('<%= companyID%>', '<%= reviewPoster%>', '<%= reviewID%>')" class="btn btn-outline-secondary btn-sm btn-block">Report</button>
+                                                                <button onclick="newReviewReport('<%= companyID%>', '<%= reviewPoster%>', '<%= reviewID%>', '<%= loggedInUsername%>')" class="btn btn-outline-secondary btn-sm btn-block">Report</button>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-3">
                                                                 <div class="btn-group" role="group">

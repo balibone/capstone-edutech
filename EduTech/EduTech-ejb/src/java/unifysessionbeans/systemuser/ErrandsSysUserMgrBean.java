@@ -51,7 +51,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     DecimalFormat rateFormat = new DecimalFormat("0.00");
     
     @Override
-    public List<Vector> viewJobList() {
+    public List<Vector> viewJobList(String username) {
         Date currentDate = new Date();
         String dateString = "";
 
@@ -108,8 +108,10 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobVec.add(sdf.format(jobE.getJobWorkDate()));
             jobVec.add(jobE.getJobStartLocation());
             jobVec.add(jobE.getJobRateType());
-            jobVec.add(jobE.getJobRate());
-            jobVec.add(jobE.getJobNumOfLikes());
+            jobVec.add(rateFormat.format(jobE.getJobRate()));
+            jobVec.add(getJobLikeCount(jobE.getJobID()));
+            if(lookupLike(jobE.getJobID(), username) == null) { jobVec.add(false);}
+            else { jobVec.add(true); }
             jobList.add(jobVec);
             dateString = "";
         }
@@ -176,7 +178,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobDetailsVec.add(jEntity.getJobTitle());
             jobDetailsVec.add(jEntity.getCategoryEntity().getCategoryName());
             jobDetailsVec.add(jEntity.getJobRateType());
-            jobDetailsVec.add(jEntity.getJobRate());
+            jobDetailsVec.add(rateFormat.format(jEntity.getJobRate()));
             jobDetailsVec.add(jEntity.getJobDescription());
             jobDetailsVec.add(jEntity.getJobStartLocation());
             jobDetailsVec.add(jEntity.getJobStartLat());
@@ -302,7 +304,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 }
                 assocCategoryJobVec.add(dateString);
                 assocCategoryJobVec.add(jobE.getJobRateType());
-                assocCategoryJobVec.add(jobE.getJobRate());
+                assocCategoryJobVec.add(rateFormat.format(jobE.getJobRate()));
                 assocCategoryJobList.add(assocCategoryJobVec);
                 dateString = "";
             }
@@ -404,6 +406,9 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jEntity.setJobEndLong(endLong);
             jEntity.setCategoryEntity(cEntity);
             jEntity.setUserEntity(uEntity);
+            jEntity.setJobDuration(jobDuration);
+            jEntity.setNumOfHelpers(numOfHelpers);
+            jEntity.setChecking(checking);
             em.merge(jEntity);
             return "Job listing has been updated successfully!";
         }
@@ -816,11 +821,12 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 offerInfo.add(joE.getJobEntity().getJobImage());
                 offerInfo.add(joE.getJobEntity().getJobTitle());
                 offerInfo.add(joE.getJobEntity().getCategoryEntity().getCategoryName());
-                offerInfo.add(joE.getJobEntity().getJobRate());
+                offerInfo.add(rateFormat.format(joE.getJobEntity().getJobRate()));
+                //System.out.println(offerInfo.get(4));
                 offerInfo.add(joE.getJobEntity().getJobRateType());
                 offerInfo.add(joE.getJobEntity().getUserEntity().getUsername());
                 offerInfo.add(joE.getJobOfferID());
-                offerInfo.add(joE.getJobOfferPrice());
+                offerInfo.add(rateFormat.format(joE.getJobOfferPrice()));
                 offerInfo.add(joE.getJobOfferDescription());
                 offerInfo.add(joE.getJobOfferStatusForSender());
                 offerInfo.add(df.format(joE.getJobOfferDate()));

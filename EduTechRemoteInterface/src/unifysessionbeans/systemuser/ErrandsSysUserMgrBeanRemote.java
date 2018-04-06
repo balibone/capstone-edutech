@@ -8,7 +8,7 @@ import javax.ejb.Remote;
 
 @Remote
 public interface ErrandsSysUserMgrBeanRemote {
-    public List<Vector> viewJobList();
+    public List<Vector> viewJobList(String username);
     public Vector viewJobDetails(long jobID, String username);
     public List<Vector> viewAssocCategoryJobList(String hiddenCategoryName, long hiddenJobID);
     public String createJobListing(String jobTitle, String jobRateType, double jobRate, double jobDuration, String jobDescription, 

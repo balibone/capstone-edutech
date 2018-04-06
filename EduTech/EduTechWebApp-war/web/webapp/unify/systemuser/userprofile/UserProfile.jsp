@@ -131,7 +131,7 @@
                                 <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </a>
-                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
+                                <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
@@ -297,51 +297,8 @@
                                  data-control-type="pagination" data-control-name="paging" data-control-action="paging">
                             </div>
                         </div>
-                        <!-- JOB LISTING -->
-                        <br/><br/>
-                        <div class="title"><span><%= username%>'s Job Listing</span></div>
-                        <div class="row">
-                            <%
-                                ArrayList<Vector> jobListing = (ArrayList) request.getAttribute("userJobListing");
-                                if(jobListing != null){
-                                    for(int i=0; i<jobListing.size(); i++){
-                                        Vector jobInfo = jobListing.get(i);
-                                        
-                                        long jobID = (Long)jobInfo.get(0);
-                                        String jobImg = (String)jobInfo.get(1);
-                                        String jobTitle = (String)jobInfo.get(2);
-                                        String categoryName = (String)jobInfo.get(3);
-                                        String userID = (String)jobInfo.get(4);
-                                        String postTime = (String)jobInfo.get(6);
-                                        String jobRate = (String)jobInfo.get(8);
-                                        String rateType = (String)jobInfo.get(9);
-                                        String jobRateType;
-                                        if(rateType.equals("HR")){
-                                            jobRateType = "hour";
-                                        }else{
-                                            jobRateType = "Fixed Rate";
-                                        }
-                            %>
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-4"><img src="uploads/unify/images/errands/job/<%= jobImg%>" style="height: 100px; width: 100px;"></div>
-                                            <div class="col-md-8">
-                                                <h5><%= jobTitle%></h5>
-                                                <span><%= categoryName%></span><br/>
-                                                <span>S$<%= jobRate%>/<%= jobRateType%></span><br/>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <%
-                                    }
-                                }
-                            %>
-                        </div>
+                        
+                        
                     </div>
                 </div>
             </div>

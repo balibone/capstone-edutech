@@ -132,7 +132,7 @@
                                 <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </a>
-                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
+                                <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
@@ -241,7 +241,31 @@
                                         <th>My Offer</th>
                                     </tr>
                                 </table>
+                                    <div>
+                                    
+                                    <%
+                                        String message = (String)request.getAttribute("message");
+                                        
+                                            if(message.endsWith("!")){
+                                    %>
+                                    <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                                    <button type="button" class="close" id="closeSuccess">&times;</button>
+                                    <%= message%>
+                                    </div>
+                                    <%
+                                            }else{
+                                    %>
+                                    <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                                    <button type="button" class="close" id="closeError">&times;</button>
+                                    <%= message%>
+                                    </div>
+                                    <%
+                                            }
+                                        
+                                    %>
+                                    </div>
                                 </div>
+                                
                                 <%
                                     ArrayList<Vector> myJobOfferListSYS = (ArrayList) request.getAttribute("myJobOfferList");
                                     if (!myJobOfferListSYS.isEmpty()) {
@@ -251,7 +275,7 @@
                                             String jobImage = String.valueOf(v.get(1));
                                             String jobTitle = String.valueOf(v.get(2));
                                             String jobCategoryName = String.valueOf(v.get(3));
-                                            double jobRate = (Double)v.get(4);
+                                            String jobRate = (String)v.get(4);
                                             String jobRateType = String.valueOf(v.get(5));
                                             String jobPosterID = String.valueOf(v.get(6));
                                             long offerID = (Long)v.get(7);
@@ -263,12 +287,13 @@
                                 
                                 <div class="col-xl-12 col-md-312 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
+                                        
                                         <div class="card-content">
                                             <div class="card-body mb-2">
                                               <div class='row'>
                                                 <div class="img-wrapper col-xl-2 col-md-2 col-2 mb-2">
                                                     <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%=loggedInUsername%>">
-                                                        <img class="card-img-top" style="width: 120px; height: 120px;" src="uploads/unify/images/marketplace/item/<%= jobImage%>" />
+                                                        <img class="card-img-top" style="width: 120px; height: 120px;" src="uploads/unify/images/errands/job/<%= jobImage%>" />
                                                     </a>
                                                     
                                                 </div>
@@ -282,7 +307,12 @@
                                                 <div class="col-xl-6 col-md-6 col-6 offerInfo">
                                                     <span><strong><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;&nbsp;Status:</strong> <%=offerStatus%></span><br/>
                                                     <span><strong><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp;My Offer Price: </strong>S$<%= offerPrice%></span><br/>
-                                                    <span><strong><i class="fa fa-comments" aria-hidden="true"></i>&nbsp;&nbsp;Comments: </strong><%=offerDescription%></span><br/>
+                                                    <span><strong><i class="fa fa-comments" aria-hidden="true"></i>&nbsp;&nbsp;Comments: 
+                                                        <%if(offerDescription.equals("")){%>
+                                                            </strong>No Comments</span><br/>
+                                                        <%}else{%>
+                                                            </strong><%=offerDescription%></span><br/>
+                                                        <%}%>
                                                     <span class="offerDate"><i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp;sent on <%=offerDate%></span><br/>
                                                     <div class="action-button">
                                                         <button id="editOfferBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">Edit</button>
@@ -298,16 +328,15 @@
                                                               <span aria-hidden="true">&times;</span>
                                                             </button>
                                                           </div>
-                                                            <div id="responseMessage">
-                                                            <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
-                                                            </div>
-                                                         <form id="offerDetails">
+                                                            
+                                                         <form id="offerDetails" method="post" action="ProfileSysUser?pageTransit=editMyJobOfferSYS">
                                                            <div class="modal-body">
                                                               <div class="form-group row">
                                                                 <label for="offerPrice" class="col-form-label col-3"><strong>Offer Price * : </strong></label>
                                                                 <div class="col-3">
                                                                     <input type="number" class="form-control" id="jobOfferPrice" name="jobOfferPrice" placeholder="<%= offerPrice%>">
                                                                     <input type="hidden" name="hiddenOfferPrice" id="hiddenOfferPrice" value="<%= offerPrice%>">
+                                                                    <input type="hidden" name="jobIDHidden" value="<%=jobID%>">
                                                                 </div>
                                                                 <div class="col-4 mt-2 float-left">
                                                                     <span id="offerPriceType"></span>
@@ -321,7 +350,7 @@
                                                            </div>
                                                            <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary" id="editOffer">Edit Offer</button>
+                                                            <button type="submit" class="btn btn-primary" id="editOffer">Edit Offer</button>
                                                             <br/>
 
                                                            </div>

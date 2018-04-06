@@ -149,6 +149,7 @@
                                 String requestPoster = request.getParameter("requestPoster");%>
                                 <input type="hidden" name="pageTransit" value="createCompanyfromRequest"/>
                                 <input type="hidden" name="requestPoster" value=<%= requestPoster%>/>
+                                <input type="hidden" name="username" value=<%= loggedInUsername%> />
                                 <% } %>
                                 <button type="submit" class="btn btn-primary">Create Company</button>
                             </div>

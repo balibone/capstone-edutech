@@ -257,7 +257,7 @@
                                                         <div class="form-group row">
                                                             <label for="workDate" class="col-sm-3 col-form-label"><strong>Work Date & Time</strong>&nbsp;<span class="asterik">*</span></label>
                                                             <div class="col-sm-5">
-                                                                <input type="date" class="form-control" name="workDate" required="required" />
+                                                                <input type="date" class="form-control" id="workDate" name="workDate" required="required" />
                                                             </div>
                                                             <div class="col-sm-4">
                                                               <input type="time" class="form-control" name="workTime" />
@@ -273,14 +273,14 @@
                                                             <label for="workDate" class="col-sm-5 col-form-label"><strong>What is your budget for the job? </strong>&nbsp;<span class="asterik">*</span></label>
                                                             
                                                             <div class="col-sm-3">
-                                                                <select class="select-dropdown" name="jobRateType" id="jobRateType" data-width="100%" onchange="javascript: displayDuration()">
+                                                                <select class="form-control" name="jobRateType" id="jobRateType" data-width="100%" onchange="javascript: displayDuration()">
                                                                     <option value="Fixed">Fixed Price</option>
                                                                     <option value="HR">Hourly Rate</option>
                                                                 </select>
                                                             </div>
                                                            
                                                             <div class="col-sm-3">
-                                                                <input type="number" class="form-control" name="jobRate" placeholder="Job Rate(S$)"/>
+                                                                <input type="number" min="0" class="form-control" id="jobRate" name="jobRate" placeholder="Job Rate(S$)"/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -308,7 +308,7 @@
                                                         <div class="form-group row">
                                                             <label for="numOfHelpers" class="col-sm-6 col-form-label"><strong>How many helpers do you need for the job? </strong>&nbsp;<span class="asterik">*</span></label>
                                                             <div class="col-sm-3">
-                                                                <input type="number" class="form-control" name="numOfHelpers"  placeholder="number of helpers" required="required"/>
+                                                                <input type="number" class="form-control" min="1" name="numOfHelpers" id="numOfHelpers"  placeholder="number of helpers" required="required"/>
                                                             </div>
                                                         </div>
                                                     </div>

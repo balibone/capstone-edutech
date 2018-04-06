@@ -1,3 +1,5 @@
+<%@page import="java.util.Vector"%>
+<%@page import="java.util.ArrayList"%>
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,6 +22,17 @@
         <script src="js/unify/systemuser/webjs/voices/NewCompanyRequestSYSJS.js" type="text/javascript"></script>  
     </head>
     <body style="background-color: #FFFFFF;">
+        <% Vector report = (Vector) request.getAttribute("hiddenRequest");
+           if (report != null) { 
+            String reportDate = String.valueOf(report.get(0));
+            String reportStatus = String.valueOf(report.get(1));%>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div><span><center>Your report sent on <%= reportDate%> is being processed. Please wait.</center></span></div>
+        <% } else {
+        %>
         <form action="VoicesSysUser" method="POST" enctype="multipart/form-data" target="_parent">
             <table border="0">
                 <tr>
@@ -27,7 +40,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-book"></i></span>
-                                <textarea rows="5" cols="30" class="form-control" placeholder="Report Reason" name="reportDescription"></textarea>
+                                <textarea rows="5" cols="30" class="form-control" placeholder="Report Reason" name="reportDescription" required="required"></textarea>
                             </div>
                         </div>
                     </td>
@@ -48,5 +61,6 @@
                 </tr>
             </table>
         </form>
+        <% } %>
     </body>
 </html>

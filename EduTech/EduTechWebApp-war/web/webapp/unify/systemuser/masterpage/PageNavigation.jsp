@@ -18,7 +18,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="errandsNAV" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Errands</a>
                             <div class="dropdown-menu t-90 smooth" aria-labelledby="errandsNAV">
-                                <a class="dropdown-item" href="ErrandsSysUser?pageTransit=goToViewJobListingSYS">Errands Listing</a>
+                                <a class="dropdown-item" href="ErrandsSysUser?pageTransit=goToViewJobListingSYS&username=<%= loggedInUsername%>">Errands Listing</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

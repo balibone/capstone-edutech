@@ -47,6 +47,18 @@ $(document).ready(function () {
         document.getElementById("checking").checked = true;
     }
     
+    $("#smallSize").click(function(){
+        document.getElementById("hiddenJobDuration").value = 1;  
+    });
+    
+    $("#mediumSize").click(function(){
+        document.getElementById("hiddenJobDuration").value = 2;
+    });
+    
+    $("#largeSize").click(function(){
+        document.getElementById("hiddenJobDuration").value = 3;
+    });
+    
     var $checkbox = $('input:checkbox[name=checking]');
     if($('#hiddenChecking').val() == 'true') { $checkbox.filter('[value=true]').prop('checked', true); }
     
@@ -83,7 +95,7 @@ $(document).ready(function () {
                             displayResult += jsonResults[i].BUILDING + '<br><label style="font-size:x-small">' + jsonResults[i].ADDRESS + '</label>';
                             displayInput = jsonResults[i].BUILDING;
                         }
-                        listOfResults += '<button type="button" class="list-group-item" onclick=\"selectedStartLocation(\'' + jsonResults[i].LATITUDE + '\',\'' + jsonResults[i].LONGTITUDE + '\',\'' + jsonResults[i].ADDRESS + '\',\'' + displayInput + '\');clearResults()\">' + displayResult + '</button>';
+                        listOfResults += '<button type="button" class="list-group-item" onclick="selectedStartLocation(\'' + jsonResults[i].LATITUDE + '\',\'' + jsonResults[i].LONGTITUDE + '\',\'' + jsonResults[i].ADDRESS + '\',\'' + displayInput + '\');clearResults();">' + displayResult + '</button>';
                     }
                 }
                 listOfResults += '</div>';
@@ -115,7 +127,7 @@ $(document).ready(function () {
                             displayResult += jsonResults[i].BUILDING + '<br><label style="font-size:x-small">' + jsonResults[i].ADDRESS + '</label>';
                             displayInput = jsonResults[i].BUILDING;
                         }
-                        listOfResults += '<button type="button" class="list-group-item" onclick=\"selectedEndLocation(\'' + jsonResults[i].LATITUDE + '\',\'' + jsonResults[i].LONGTITUDE + '\',\'' + jsonResults[i].ADDRESS + '\',\'' + displayInput + '\');clearResults()\">' + displayResult + '</button>';
+                        listOfResults += '<button type=\"button\" class=\"list-group-item\" onclick=\"selectedEndLocation(\'' + jsonResults[i].LATITUDE + '\',\'' + jsonResults[i].LONGTITUDE + '\',\'' + jsonResults[i].ADDRESS + '\',\'' + displayInput + '\');clearResults();\">' + displayResult + '</button>';
                     }
                 }
                 listOfResults += '</div>';
@@ -134,7 +146,38 @@ $(document).ready(function () {
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
+    
+    var dtToday = new Date();
+    var month = dtToday.getMonth()+1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+
+    var minDate = year + '-' + month + '-' + day;    
+    $('#workDate').attr('min', minDate);
 });
+
+var jobRateInput = document.getElementById('jobRate');
+var helperInput = document.getElementById('numOfHelpers');
+
+// Listen for input event on numInput.
+jobRateInput.onkeydown = function(e) {
+    if(!((e.keyCode > 95 && e.keyCode < 106)
+      || (e.keyCode > 47 && e.keyCode < 58) || e.keyCode == 8 || e.keyCode == 190)) {
+        return false;
+    }
+};
+
+helperInput.onkeydown = function(e) {
+    if(!((e.keyCode > 95 && e.keyCode < 106)
+      || (e.keyCode > 47 && e.keyCode < 58) || e.keyCode == 8 )) {
+        return false;
+    }
+};
 
 /* FOR PROFILE PICTURE UPLOAD TO SYSTEM */
 function previewImage(event) {
@@ -145,36 +188,57 @@ function previewImage(event) {
         document.getElementById('imageUploadStatus').value = "Uploaded";
     };
     reader.readAsDataURL(event.target.files[0]);
-}
+};
 
 /* FOR ONEMAP - CLOSE THE SEARCH RESULT PANEL AFTER SELECTING A RESULT */
 function clearResults() {
-    document.getElementById("searchResults").innerHTML = "";
-}
+    document.getElementById("searchResults_start").innerHTML = "";
+    document.getElementById("searchResults_end").innerHTML = "";
+};
 
 /* FOR ONEMAP - UPDATE LATITUDE AND LONGITUDE FOR SELECTED LOCATION */
 function selectedStartLocation(lat, lng, postalAddress, location) {
     document.getElementById("startLocation").value = location;
-    document.getElementById("hiddenStartLat").value = lat;
-    document.getElementById("hiddenStartLong").value = lng;
+    document.getElementById("dbStartLat").value = lat;
+    document.getElementById("dbStartLong").value = lng;
     
+    if(search_marker) { map.removeLayer(search_marker); }
     if(search_marker_start) { map.removeLayer(search_marker_start); }
-    search_marker_start = L.marker([lat, lng], { draggable: false });
-    icon_popup = L.popup().setLatLng([lat, lng]).setContent(postalAddress).openOn(map);
-}
+    search_marker_start = L.marker([lat, lng], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("Start Location: " + location);
+    
+};
 
 function selectedEndLocation(lat, lng, postalAddress, location) {
     document.getElementById("endLocation").value = location;
-    document.getElementById("hiddenEndLat").value = lat;
-    document.getElementById("hiddenEndLong").value = lng;
+    document.getElementById("dbEndLat").value = lat;
+    document.getElementById("dbEndLong").value = lng;
     
+    if(search_marker_1) { map.removeLayer(search_marker_1); }
     if(search_marker_end) { map.removeLayer(search_marker_end); }
-    search_marker_end = L.marker([lat, lng], { draggable: false });
-    icon_popup = L.popup().setLatLng([lat, lng]).setContent(postalAddress).openOn(map);
-}
+    search_marker_end = L.marker([lat, lng], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("End Location: " + location);
+};
 
 function deleteAlert(jobID) {
     var deleteReply = confirm("Are you sure to delete this job?");
     if (deleteReply) { window.open('ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=' + jobID, '_parent'); }
-}
+};
+
+function choose1(){
+    document.getElementById("smallSize").checked = true;
+    document.getElementById("mediumSize").checked = false;
+    document.getElementById("largeSize").checked = false;
+};
+
+function choose2(){
+    alert();
+    document.getElementById("smallSize").checked = false;
+    document.getElementById("mediumSize").checked = true;
+    document.getElementById("largeSize").checked = false;
+};
+
+function choose3(){
+    document.getElementById("smallSize").checked = false;
+    document.getElementById("mediumSize").checked = false;
+    document.getElementById("largeSize").checked = true;
+};
 

@@ -314,18 +314,43 @@
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - TAGS (JSP) -->
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - TAGS (JSP) -->
-    <servlet><servlet-name>EditTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/EditTag.jsp</jsp-file></servlet>
-    <servlet><servlet-name>DeleteTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/DeleteTag.jsp</jsp-file></servlet>
-    <servlet><servlet-name>NewTag</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/NewTag.jsp</jsp-file></servlet>
-    <servlet><servlet-name>TagListing</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/TagListing.jsp</jsp-file></servlet>
-
+    <servlet>
+        <servlet-name>EditTag</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/EditTag.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteTag</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/DeleteTag.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewTag</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/NewTag.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>TagListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/TagListing.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - REPORTS (JSP) -->
-    <servlet><servlet-name>ReportedMarketplaceDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetailsFromAllList.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ReportedErrandReviewDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandReviewDetailsFromAllList.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ReportedErrandDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetailsFromAllList.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ReportedReviewDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetailsFromAllList.jsp</jsp-file></servlet>
-    <servlet><servlet-name>AllReportedListing</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing.jsp</jsp-file></servlet>
-    
+    <servlet>
+        <servlet-name>ReportedMarketplaceDetailsFromAllList</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetailsFromAllList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportedErrandReviewDetailsFromAllList</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandReviewDetailsFromAllList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportedErrandDetailsFromAllList</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetailsFromAllList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportedReviewDetailsFromAllList</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetailsFromAllList.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>AllReportedListing</servlet-name>
+        <jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - CONTENTADMIN - EVENT REQUESTS (JSP) -->
     <servlet>
         <servlet-name>EventRequest</servlet-name>
@@ -336,12 +361,26 @@
         <jsp-file>/webapp/unify/admin/contentadmin/EventRequestDetails.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
-    <servlet><servlet-name>ProfileSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.UserProfileSysUserController</servlet-class></servlet>
-    <servlet><servlet-name>ErrandsSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.ErrandsSysUserController</servlet-class></servlet>
-    <servlet><servlet-name>MarketplaceSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.MarketplaceSysUserController</servlet-class></servlet>
-    <servlet><servlet-name>VoicesSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.VoicesSysUserController</servlet-class></servlet>
-    <servlet><servlet-name>ShoutsSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.ShoutsSysUserController</servlet-class></servlet>
-
+    <servlet>
+        <servlet-name>ProfileSysUser</servlet-name>
+        <servlet-class>unifycontrollers.systemuser.UserProfileSysUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ErrandsSysUser</servlet-name>
+        <servlet-class>unifycontrollers.systemuser.ErrandsSysUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MarketplaceSysUser</servlet-name>
+        <servlet-class>unifycontrollers.systemuser.MarketplaceSysUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VoicesSysUser</servlet-name>
+        <servlet-class>unifycontrollers.systemuser.VoicesSysUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShoutsSysUser</servlet-name>
+        <servlet-class>unifycontrollers.systemuser.ShoutsSysUserController</servlet-class>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
     <servlet>
         <servlet-name>ViewJobListingSYS</servlet-name>
@@ -429,6 +468,14 @@
         <servlet-name>ViewMyJobOfferSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/ViewMyJobOfferSYS.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>JobListingInUserProfileSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/JobListingInUserProfileSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>UserResume</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserResume.jsp</jsp-file>
+    </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
     <servlet>
         <servlet-name>ViewCompanyListingSYS</servlet-name>
@@ -450,21 +497,59 @@
         <servlet-name>NewReviewReportSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/voices/NewReviewReportSYS.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>NewResumeSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/voices/NewResumeSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewResumeDetailsSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/voices/ViewResumeDetailsSYS.jsp</jsp-file>
+    </servlet>
 
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - SHOUTS (JSP) -->
-    <servlet><servlet-name>ViewShoutsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutsListingSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>NewShoutSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/NewShoutSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ViewShoutCommentSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutCommentSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ViewShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutCommentModalSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ViewShoutBookmarkModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutBookmarkModalSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ReportShoutSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ReportShoutSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ReportShoutModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ReportShoutModalSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>ReportShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ReportShoutCommentModalSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>NewShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/NewShoutCommentModalSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>EditShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/EditShoutCommentModalSYS.jsp</jsp-file></servlet>
-
+    <servlet>
+        <servlet-name>ViewShoutsListingSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/shouts/ViewShoutsListingSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewShoutSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/shouts/NewShoutSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewShoutCommentSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/shouts/ViewShoutCommentSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewShoutCommentModalSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/shouts/ViewShoutCommentModalSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewShoutBookmarkModalSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/shouts/ViewShoutBookmarkModalSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportShoutSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/shouts/ReportShoutSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportShoutModalSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/shouts/ReportShoutModalSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportShoutCommentModalSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/shouts/ReportShoutCommentModalSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>NewShoutCommentModalSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/shouts/NewShoutCommentModalSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>EditShoutCommentModalSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/shouts/EditShoutCommentModalSYS.jsp</jsp-file>
+    </servlet>
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->
+    
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>
@@ -500,12 +585,26 @@
         <url-pattern>/ContentAdmin</url-pattern>
     </servlet-mapping>
     <!-- URL MAPPING - UNIFY - SYSTEMUSER (SERVLET) -->
-    <servlet-mapping><servlet-name>ProfileSysUser</servlet-name><url-pattern>/ProfileSysUser</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>ErrandsSysUser</servlet-name><url-pattern>/ErrandsSysUser</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>MarketplaceSysUser</servlet-name><url-pattern>/MarketplaceSysUser</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>VoicesSysUser</servlet-name><url-pattern>/VoicesSysUser</url-pattern></servlet-mapping>
-    <servlet-mapping><servlet-name>ShoutsSysUser</servlet-name><url-pattern>/ShoutsSysUser</url-pattern></servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>ProfileSysUser</servlet-name>
+        <url-pattern>/ProfileSysUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ErrandsSysUser</servlet-name>
+        <url-pattern>/ErrandsSysUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MarketplaceSysUser</servlet-name>
+        <url-pattern>/MarketplaceSysUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoicesSysUser</servlet-name>
+        <url-pattern>/VoicesSysUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShoutsSysUser</servlet-name>
+        <url-pattern>/ShoutsSysUser</url-pattern>
+    </servlet-mapping>
     <!-- MISCELLANEOUS -->
     <session-config>
         <session-timeout>400</session-timeout>

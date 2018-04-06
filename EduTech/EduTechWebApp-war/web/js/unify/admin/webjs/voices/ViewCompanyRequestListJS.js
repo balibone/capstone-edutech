@@ -12,9 +12,7 @@ function addCompany(companyID) {
             break;
         }
     }
-    //alert(companyID);
     
-    //alert(requestIndustry);
     $('iframe').attr('src', 'VoicesAdmin?pageTransit=goToAddCompany&requestPoster=' + poster + '&requestCompany=' + requestCompany + '&requestIndustry=' + requestIndustry);
     $('#newCompany-iframe').iziModal('open', event);
     

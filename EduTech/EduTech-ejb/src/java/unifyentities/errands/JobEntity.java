@@ -161,7 +161,7 @@ public class JobEntity implements Serializable {
     public void setJobInformation(String jobInformation) { this.jobInformation = jobInformation; }
     public void setJobWorkDate(Date jobWorkDate) { this.jobWorkDate = jobWorkDate; }
     public void setJobRate(Double jobRate) { this.jobRate = jobRate; }
-    public void setJobDuration() { this.jobDuration = jobDuration; }
+    public void setJobDuration(Double jobDuration) { this.jobDuration = jobDuration; }
     public void setJobRateType(String jobRateType) { this.jobRateType = jobRateType; }
     public void setJobImage(String jobImage) { this.jobImage = jobImage; }
     public void setJobStatus(String jobStatus) { this.jobStatus = jobStatus; }
