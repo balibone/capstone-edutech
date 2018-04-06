@@ -34,7 +34,7 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
         
-        <link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css" />
+        <!--<link href="css/unify/admin/baselayout/UnifyAdminBaseCSS.css" rel="stylesheet" type="text/css" />-->
         <link href="css/unify/admin/baselayout/UnifyAdminPlugins.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/plugin/datatables.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/plugin/datatables_bootstrap.css" rel="stylesheet" type="text/css" />
@@ -160,7 +160,7 @@
             <div class="breadcrumb-container">
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
-                        <ol class="breadcrumb"  style="margin-left: 100px;">
+                        <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Job Offers (Details)</li>
                         </ol>
@@ -264,11 +264,11 @@
                           
                             <div class="list">
                             <table class="table table-striped" id="offer-table" style="font-size: 13px;">
-                                <col width="130">
+                                <col width="120">
                                 <col width="70">
                                 <col width="105">
                                 <col width="55">
-                                <col width="80">
+                                <col width="90">
                                 <thead>
                                   <tr>
                                     <th scope="col">The Offer is Made by</th>
@@ -299,7 +299,7 @@
                                       <td>
                                           <div class="row">
                                             <div class="col-2">
-                                                <img src="uploads/commoninfrastructure/admin/images/<%= userImg%>" style="width:40px; height:40px;"/>
+                                                <img src="uploads/commoninfrastructure/admin/images/<%= userImg%>" style="width:35px; height:35px;"/>
                                             </div>
                                             <div class="col-10">
                                                 <span class="senderName"><strong><%= username%></strong></span><br/>
@@ -319,9 +319,9 @@
                                         <%
                                             }else{
                                         %>
-                                        <a role="button" class="btn btn-success" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>">Accept</a>
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#negotiateMessage<%=i%>"><span style="color: white;">Negotiate</span></button>
-                                        <a role="button" class="btn btn-danger" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>">Reject</a>
+                                        <a role="button" class="btn btn-success" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Accept</span></a>
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#negotiateMessage<%=i%>"><span style="color: white; font-size: 12px;">Negotiate</span></button>
+                                        <a role="button" class="btn btn-danger" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Reject</span></a>
                                         <%}%>
                                     </td>
                                  
