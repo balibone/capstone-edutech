@@ -6,8 +6,11 @@ import javax.ejb.Remote;
 
 @Remote
 public interface MarketplaceSysUserMgrBeanRemote {
-    public List<Vector> viewItemList();
+    public List<Vector> viewItemList(String username);
+    public String viewProximityItemListing(String username);
     public List<Vector> viewAssocCategoryItemList(String hiddenCategoryName, long hiddenItemID);
+    public String lookupCategoryName(long itemID);
+    
     public Vector viewItemDetails(long itemID);
     public Vector viewItemDetails(long itemID, String username);
     public String createItemListing(String itemName, double itemPrice, String itemCondition, 
@@ -18,21 +21,12 @@ public interface MarketplaceSysUserMgrBeanRemote {
             String tradeLocation, String tradeLat, String tradeLong, String tradeInformation);
     public String deleteItemListing(long itemIDToDelete);
     
-    public String sendItemOfferPrice(long itemIDHidden, String usernameHidden, String itemOfferPrice, 
-            String itemOfferDescription);
-    public String likeUnlikeItem(long itemIDHid, String usernameHid);
+    public String sendItemOfferPrice(long itemID, String username, String itemOfferPrice, String itemOfferDescription);
+    public String reportItemListing(long itemID, String username, String itemReportCategory, String itemReportDescription);
+    public String likeUnlikeItem(long itemID, String username);
     public List<Vector> viewItemLikeList(long itemID);
     public List<Vector> viewItemCategoryList();
     
-    /* USER ACCOUNT */
-    public List<Vector> viewItemTransaction(String username);
-    public Vector viewTransactionItemDetails(long itemID, long itemTransID, String username);
-    public List<Vector> viewItemOfferList(String username);
-    public List<Vector> viewItemOfferUserList(String username, long urlitemID);
-    
-    /* USER PROFILE */
-    public List<Vector> viewUserItemList(String itemSellerID);
-    
-    /* MISCELLANEOUS METHODS */
+    /*  ====================    MISCELLANEOUS METHODS    ==================== */
     public String populateItemCategory();
 }

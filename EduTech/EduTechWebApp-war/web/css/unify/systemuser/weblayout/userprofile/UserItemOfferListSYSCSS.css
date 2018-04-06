@@ -1,0 +1,45 @@
+.formDiv { border-bottom: 1px solid #DEE2E6; padding: 0 0 10px 5px; }
+.revisedOfferFields { margin-top: 5px; width: 100%; }
+a.buttons-collection { margin-left: 1em; }
+
+.table { font-size: 13px; }
+.table > tbody > tr > td { vertical-align: middle; }
+
+.profileRating { padding: 0; margin: 0; list-style: none; font-size: 12px; }
+.profileRating li { display: inline-block; padding-right: 5px; }
+.ratingImage { padding: 0 2px; width: auto; height: 14px; }
+.ratingValue { margin: 0 0 0 5px; vertical-align: middle; color: #8F939C; font-weight: bold; }
+
+#successItemOfferResponse { color: #228B22; font-weight: bold; display: none; }
+#failedItemOfferResponse { color: #FF0000; font-weight: bold; display: none; }
+
+/* FEEDBACK MODAL CSS */
+#feedback-modal .iziModal-content section { padding: 20px; }
+#feedback-modal .iziModal-content .icon-close:hover, #feedback-modal .iziModal-content .icon-close:focus { color: #000000; }
+#feedback-modal .iziModal-content .icon-close {
+    background: #FFFFFF;
+    margin-bottom: 10px;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    color: #A9A9A9;
+    cursor: pointer;
+}
+
+.icon-main { color: #555; }
+.icon-main i {font-size: 60px; }
+.icon-box { height: 150px; max-width: 150px; cursor: pointer; border: 1px solid #4D7496; transition: 0.3s 0s linear; }
+.change-color-positive { border: 4px solid #32CD32 !important; color: #32CD32 !important; }
+.change-color-neutral { border: 4px solid #FF8C00 !important; color: #FF8C00 !important; }
+.change-color-negative { border: 4px solid #FF0000 !important; color: #FF0000 !important; }
+.positive-color { border: 4px solid #32CD32; color: #32CD32; }
+.neutral-color { border: 4px solid #FF8C00; color: #FF8C00; }
+.negative-color { border: 4px solid #FF0000; color: #FF0000; }
+.fa-smile-o, .fa-meh-o, .fa-frown-o { transition: 0.3s 0s linear; }
+.animate-positive, .animate-neutral, .animate-negative { -moz-transform: scale(1.2) rotate(-45deg); -webkit-transform: scale(1.2) rotate(-45deg); -o-transform: scale(1.2) rotate(-45deg); -ms-transform: scale(1.2) rotate(-45deg); transform: scale(1.2) rotate(-45deg); }

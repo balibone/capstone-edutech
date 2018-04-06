@@ -9,9 +9,9 @@
 ***************************************************************************************/
 package unifyentities.common;
 
-import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +21,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import unifyentities.marketplace.ItemEntity;
+import commoninfrastructureentities.UserEntity;
+
 @Entity(name = "ItemReport")
 public class ItemReportEntity implements Serializable {
     @Id
@@ -28,6 +31,7 @@ public class ItemReportEntity implements Serializable {
     private Long itemReportID;
     //status is set to 'Unresolved' or 'Resolved'
     private String itemReportStatus;
+    private String itemReportCategory;
     private String itemReportDescription;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,24 +47,38 @@ public class ItemReportEntity implements Serializable {
     
     @ManyToOne
     private UserEntity userEntity;
+    @ManyToOne
+    private ItemEntity itemEntity;
     
     @PrePersist
     public void creationDate() { this.itemReportDate = new Date(); }
     
+    /* MISCELLANEOUS METHODS */
+    public boolean createItemReport(String itemReportCategory, String itemReportDescription, String itemSellerID) {
+        this.itemReportStatus = "Unresolved";
+        this.itemReportCategory = itemReportCategory;
+        this.itemReportDescription = itemReportDescription;
+        this.itemPosterID = itemSellerID;
+        return true;
+    }
+    
     /* GETTER METHODS */
     public Long getItemReportID() { return itemReportID; }
     public String getItemReportStatus() { return itemReportStatus; }
+    public String getItemReportCategory() { return itemReportCategory; }
     public String getItemReportDescription() { return itemReportDescription; }
     public Date getItemReportDate() { return itemReportDate; }
     public Date getItemReviewedDate() { return itemReviewedDate; }
     public Long getItemID() { return itemID; }
     public String getItemPosterID() { return itemPosterID; }
-    public UserEntity getUserEntity() { return userEntity; }
     public String getItemReporterID() { return itemReporterID; }
+    public UserEntity getUserEntity() { return userEntity; }
+    public ItemEntity getItemEntity() { return itemEntity; }
     
     /* SETTER METHODS */
     public void setItemReportID(Long itemReportID) { this.itemReportID = itemReportID; }
     public void setItemReportStatus(String itemReportStatus) { this.itemReportStatus = itemReportStatus; }
+    public void setItemReportCategory(String itemReportCategory) { this.itemReportCategory = itemReportCategory; }
     public void setItemReportDescription(String itemReportDescription) { this.itemReportDescription = itemReportDescription; }
     public void setItemReportDate(Date itemReportDate) { this.itemReportDate = itemReportDate; }
     public void setItemReviewedDate() { this.itemReviewedDate = new Date(); }
@@ -68,4 +86,5 @@ public class ItemReportEntity implements Serializable {
     public void setItemPosterID(String itemPosterID) { this.itemPosterID = itemPosterID; }
     public void setItemReporterID(String itemReporterID) { this.itemReporterID = itemReporterID; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setItemEntity(ItemEntity itemEntity) { this.itemEntity = itemEntity; }
 }

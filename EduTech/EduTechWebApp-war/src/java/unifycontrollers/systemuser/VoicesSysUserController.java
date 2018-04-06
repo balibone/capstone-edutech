@@ -22,12 +22,14 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import unifysessionbeans.systemuser.VoicesSysUserMgrBeanRemote;
+import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 10,
@@ -38,6 +40,8 @@ import unifysessionbeans.systemuser.VoicesSysUserMgrBeanRemote;
 public class VoicesSysUserController extends HttpServlet {
     @EJB
     private VoicesSysUserMgrBeanRemote vsmr;
+    @EJB
+    private UserProfileSysUserMgrBeanRemote usmr;
     String responseMessage = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,13 +50,14 @@ public class VoicesSysUserController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-            System.out.println(pageAction);
+            String loggedInUsername = getCookieUsername(request);
             
             switch (pageAction) {
                 case "goToViewCompanyListingSYS":
                     request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
                     request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
                     request.setAttribute("industryStrSYS", vsmr.populateCompanyIndustryString());
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToNewReviewSYS":
@@ -62,6 +67,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("reviewedCompanyImage", companyImage);
                     request.setAttribute("reviewedCompanyName", companyName);
                     request.setAttribute("reviewedCompanyIndustry", companyIndustry);
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "NewReviewSYS";
                     break;
                 case "createCompanyReviewSYS":
@@ -70,15 +76,18 @@ public class VoicesSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
                     request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToViewCompanyDetailsSYS":
                     long companyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
                     String username = request.getParameter("hiddenUsername");
+                    
                     request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(companyID));
                     request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID, username));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(companyID));
-                    pageAction="ViewCompanyDetailsSYS";
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewCompanyDetailsSYS";
                     break;
                 case "goToViewReviewListSYS":
                     long companyID_ = Long.parseLong(request.getParameter("hiddenCompanyID"));
@@ -92,14 +101,16 @@ public class VoicesSysUserController extends HttpServlet {
                     break;
                 case "goToNewCompanyRequestSYS":
                     request.setAttribute("industryStrSYS", vsmr.populateCompanyIndustryString());
-                    pageAction="NewCompanyRequestSYS";
+                    pageAction = "NewCompanyRequestSYS";
                     break;
                 case "createRequestSYS":
                     responseMessage = createCompanyRequest(request);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
+                    
                     request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
                     request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToNewReviewReportSYS":
@@ -121,7 +132,8 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(returnCompanyID));
                     request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(returnCompanyID, returnUsername));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(returnCompanyID));
-                    pageAction="ViewCompanyDetailsSYS";
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewCompanyDetailsSYS";
                     break;
                 case "likeReviewListingSYS":
                     long reviewIDHid = Long.parseLong(request.getParameter("reviewIDHid"));
@@ -141,6 +153,7 @@ public class VoicesSysUserController extends HttpServlet {
                     pageAction = "NewResumeSYS";
                     break;
                 case "goToReviewDetails":
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ReviewDetails";
                     break;
                 default:
@@ -287,4 +300,18 @@ public class VoicesSysUserController extends HttpServlet {
 
     @Override
     public String getServletInfo() { return "Voices (Shout) System User Servlet"; }
+    
+    /* MISCELLANEOUS METHODS */
+    private String getCookieUsername(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String loggedInUsername = null;
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                if(c.getName().equals("username") && !c.getValue().equals("")){
+                    loggedInUsername = c.getValue();
+                }
+            }
+        }
+        return loggedInUsername;
+    }
 }

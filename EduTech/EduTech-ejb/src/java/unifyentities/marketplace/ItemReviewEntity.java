@@ -39,10 +39,20 @@ public class ItemReviewEntity implements Serializable {
     @ManyToOne
     private ItemEntity itemEntity;
     @ManyToOne
+    private ItemOfferEntity itemOfferEntity;
+    @ManyToOne
     private UserEntity userEntity;
     
     @PrePersist
     public void creationDate() { this.itemReviewDate = new Date(); }
+    
+    /* MISCELLANEOUS METHODS */
+    public boolean createItemReview(String itemReviewRating, String itemReviewContent, String itemReceiverID) {
+        this.itemReviewRating = itemReviewRating;
+        this.itemReviewContent = itemReviewContent;
+        this.itemReceiverID = itemReceiverID;
+        return true;
+    }
     
     /* GETTER METHODS */
     public Long getItemReviewID() { return itemReviewID; }
@@ -51,6 +61,7 @@ public class ItemReviewEntity implements Serializable {
     public Date getItemReviewDate() { return itemReviewDate; }
     public String getItemReceiverID() { return itemReceiverID; }
     public ItemEntity getItemEntity() { return itemEntity; }
+    public ItemOfferEntity getItemOfferEntity() { return itemOfferEntity; } 
     public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
@@ -60,5 +71,6 @@ public class ItemReviewEntity implements Serializable {
     public void setItemReviewDate(Date itemReviewDate) { this.itemReviewDate = itemReviewDate; }
     public void setItemReceiverID(String itemReceiverID) { this.itemReceiverID = itemReceiverID; }
     public void setItemEntity(ItemEntity itemEntity) { this.itemEntity = itemEntity; }
+    public void setItemOfferEntity(ItemOfferEntity itemOfferEntity) { this.itemOfferEntity = itemOfferEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

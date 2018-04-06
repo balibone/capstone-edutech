@@ -2,7 +2,6 @@ var center = L.bounds([1.56073, 104.11475], [1.16, 103.502]).getCenter();
 var map = L.map('mapdiv').setView([center.x, center.y], 12);
 var search_marker, icon_popup;
 
-
 var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png', {
     detectRetina: true,
     maxZoom: 18,
@@ -28,7 +27,7 @@ $(document).ready(function () {
     var dbTradeLong = document.getElementById("dbTradeLong").value;
     var dbItemCategoryID = document.getElementById("dbItemCategoryID").value;
     
-    $('.form-row .product-slider-item').find("#" + dbItemCategoryID).addClass("active");
+    $('.form-row .assocItemCategory').find("#" + dbItemCategoryID).addClass("active");
     
     var $radios = $('input:radio[name=itemCondition]');
     if($('#dbItemCondition').val() == 'New') { $radios.filter('[value=New]').prop('checked', true); }
@@ -111,6 +110,22 @@ function selectedLocation(lat, lng, postalAddress, location) {
 }
 
 function deleteAlert(itemID) {
-    var deleteReply = confirm("Are you sure to delete this item?");
-    if (deleteReply) { window.open('MarketplaceSysUser?pageTransit=deleteItemListingSYS&hiddenItemID=' + itemID, '_parent'); }
+    bootbox.dialog({
+        title: '<h5>Confirmation Required</h5>',
+        message: "<p>Are you sure that you want this item to be deleted?</p>",
+        closeButton: false,
+        buttons: {
+            "Confirm Delete": {
+                label: "Confirm Delete",
+                className: 'btn-danger',
+                callback: function () {
+                    window.open('MarketplaceSysUser?pageTransit=deleteItemListingSYS&hiddenItemID=' + itemID, '_parent');
+                }
+            },
+            cancel: {
+                label: "Close",
+                className: 'btn-theme'
+            }
+        }
+    });
 }

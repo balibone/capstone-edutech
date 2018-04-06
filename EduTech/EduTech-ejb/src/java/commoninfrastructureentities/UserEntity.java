@@ -25,6 +25,7 @@ import unifyentities.errands.JobReviewEntity;
 import unifyentities.marketplace.ItemTransactionEntity;
 import unifyentities.errands.JobTransactionEntity;
 
+import unifyentities.common.ChatEntity;
 import unifyentities.common.CompanyReviewReportEntity;
 import unifyentities.common.ItemReportEntity;
 import unifyentities.common.JobReportEntity;
@@ -49,7 +50,7 @@ public class UserEntity implements Serializable {
     private String userType;
     //active by default
     private Boolean userActiveStatus = true;
-    private String imgFileName = "defaultPhoto.jpg";
+    private String imgFileName = "unknown-user.png";
     private String email;
     private String contactNum;
     
@@ -62,6 +63,8 @@ public class UserEntity implements Serializable {
     private Set<ItemEntity> itemSet = new HashSet<ItemEntity>();
     @OneToMany(mappedBy = "userEntity")
     private Collection<JobEntity> jobSet = new ArrayList<JobEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<ChatEntity> chatSet = new ArrayList<ChatEntity>();
     @OneToMany(mappedBy = "userEntity")
     private Collection<ItemOfferEntity> itemOfferSet = new ArrayList<ItemOfferEntity>();
     @OneToMany(mappedBy = "userEntity")
@@ -157,6 +160,7 @@ public class UserEntity implements Serializable {
     /* GETTER METHODS (UNIFY) */
     public Set<ItemEntity> getItemSet() { return itemSet; }
     public Collection<JobEntity> getJobSet() { return jobSet; }
+    public Collection<ChatEntity> getChatSet() { return chatSet; }
     public Collection<ItemOfferEntity> getItemOfferSet() { return itemOfferSet; }
     public Collection<JobOfferEntity> getJobOfferSet() { return jobOfferSet; }
     public Collection<LikeListingEntity> getLikeListingSet() { return likeListingSet; }
@@ -190,6 +194,7 @@ public class UserEntity implements Serializable {
     /* SETTER METHODS (UNIFY) */
     public void setItemSet(Set<ItemEntity> itemSet) { this.itemSet = itemSet; }
     public void setJobSet(Collection<JobEntity> jobSet) { this.jobSet = jobSet; }
+    public void setChatSet(Collection<ChatEntity> chatSet) { this.chatSet = chatSet; }
     public void setItemOfferSet(Collection<ItemOfferEntity> itemOfferSet) { this.itemOfferSet = itemOfferSet; }
     public void setJobOfferSet(Collection<JobOfferEntity> jobOfferSet) { this.jobOfferSet = jobOfferSet; }
     public void setLikeListingSet(Collection<LikeListingEntity> likeListingSet) { this.likeListingSet = likeListingSet; }
