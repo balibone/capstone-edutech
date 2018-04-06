@@ -617,8 +617,7 @@ public class VoicesAdminMgrBean implements VoicesAdminMgrBeanRemote {
             companyRequestEntity.setRequestStatus("Solved");
             
             MessageEntity mEntity = new MessageEntity();
-            mEntity.createSystemMessage(userEntity.getUsername(),companyRequestEntity.getUserEntity().getUsername(), 
-                    "Your request has been solved successfully!", "Voices");
+            // mEntity.createSystemMessage(userEntity.getUsername(),companyRequestEntity.getUserEntity().getUsername(), "Your request has been solved successfully!", "Voices");
             
             mEntity.setUserEntity(userEntity);
             companyRequestEntity.getUserEntity().getMessageSet().add(mEntity);

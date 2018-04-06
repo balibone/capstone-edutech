@@ -75,36 +75,6 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserItemTransactionSYS";
                     break;
-                case "goToMyJobListing":
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("userJobListing", (ArrayList) esmr.viewUserJobList(username));
-                    pageAction = "UserJobListingSYS";
-                    break;
-                case "goToViewMyJobOfferSYS":
-                    request.setAttribute("message", " ");
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(username));
-                    pageAction = "ViewMyJobOfferSYS";
-                    break;
-                case "editMyJobOfferSYS":
-                    String responseMessage = editJobOffer(request, username);
-                    
-                    System.out.println(responseMessage);
-                    
-                    //response.setContentType("text/plain");
-                    //response.getWriter().write(responseMessage);
-                    request.setAttribute("message", responseMessage);
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(username));
-                    pageAction = "ViewMyJobOfferSYS";
-                    break;
-                case "goToDeleteMyJobOfferSYS":
-                    long offerID = Long.parseLong(request.getParameter("offerID"));
-                    String returnResponse = esmr.deleteJobOffer(offerID);
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(username));
-                    pageAction = "ViewMyJobOfferSYS";
-                    break;
                 case "goToMarketplaceTransDetailsSYS":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
                     long itemTransID = Long.parseLong(request.getParameter("itemTransID"));
@@ -113,17 +83,6 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserItemTransactionDetailsSYS";
-                    break;
-                case "goToUserProfileSYS":
-                    String itemSellerID = request.getParameter("itemSellerID");
-                    request.setAttribute("userItemListSYS", usmr.viewUserItemList(loggedInUsername, itemSellerID));
-                    request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
-                    
-                    request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
-                    request.setAttribute("userItemListSYS", msmr.viewUserItemList(itemSellerID));
-                    request.setAttribute("userJobListing", esmr.viewUserJobList(itemSellerID));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
-                    pageAction = "UserProfileSYS";
                     break;
                 case "goToJobListingInUserProfile":
                     String user = request.getParameter("posterName");
@@ -302,26 +261,24 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToMyJobListing":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("userJobListing", (ArrayList) esmr.viewUserJobList(loggedInUsername));
                     pageAction = "UserJobListingSYS";
                     break;
                 case "goToViewMyJobOfferSYS":
+                    request.setAttribute("message", " ");
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
                     pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "editMyJobOfferSYS":
                     String responseMessage = editJobOffer(request, loggedInUsername);
-                    response.setContentType("text/plain");
-                    response.getWriter().write(responseMessage);
+                    request.setAttribute("message", responseMessage);
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
+                    pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "goToDeleteMyJobOfferSYS":
-                    long offerID = Long.parseLong(request.getParameter("offerID"));
-                    String returnResponse = esmr.deleteJobOffer(offerID);
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
                     pageAction = "ViewMyJobOfferSYS";
                     break;
@@ -350,8 +307,8 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "UserCompanyRequest";
                     break;
                 case "goToResume":
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("resumeListSYS", (ArrayList) vsmr.viewUserResume(username));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("resumeListSYS", (ArrayList) vsmr.viewUserResume(loggedInUsername));
                     pageAction = "UserResume";
                     break;
                 case "goToViewResumeDetails":
