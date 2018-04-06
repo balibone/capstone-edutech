@@ -81,6 +81,7 @@ $(document).ready(function () {
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
+    alert("TESTING");
 });
 
 /* FOR PROFILE PICTURE UPLOAD TO SYSTEM */
