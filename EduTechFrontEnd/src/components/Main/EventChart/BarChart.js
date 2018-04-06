@@ -94,6 +94,7 @@ class BarChart extends Component {
 			weekLabels.push('Week ' + i);
 		}
 		data.labels = weekLabels;
+		console.log("BAR CHART", data)
 		return (
 			<Bar
 		          data={data}
