@@ -31,7 +31,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
     @PersistenceContext
     private EntityManager em;
 
-    private CategoryEntity categoryEntity;
+    //private CategoryEntity categoryEntity;
     private ShoutsEntity shoutsEntity;
     private ShoutsCommentsEntity shoutsCommentsEntity;
     private ShoutsReportEntity shoutsReportEntity;
@@ -104,6 +104,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             shoutVec.add(getShoutsLikesCount(shoutE.getShoutID()));
             shoutVec.add(getShoutsCommentsCount(shoutE.getShoutID()));
 
+            //shoutVec.add(checkBookmarkShout(shoutE.getUserEntity().getUsername(),shoutE.getShoutID()));
             System.out.println(shoutVec.size());
             shoutList.add(shoutVec);
         }
@@ -249,13 +250,10 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             shoutVec.add(getShoutsCommentsCount(shoutE.getShoutID()));
 
             //check for user bookmarked of this post
-            if (lookupBookmark(shoutE.getShoutID(), username) == null) {
-                shoutVec.add(false);
-            } else {
-                shoutVec.add(true);
-            }
+            shoutVec.add(checkBookmarkShout(username, shoutE.getShoutID()));
+            shoutVec.add(checkLikeShout(username, shoutE.getShoutID()));
 
-            System.out.println(shoutVec.size());
+            //System.out.println(shoutVec.size());
             shoutList.add(shoutVec);
         }
         System.out.println("ViewShoutList retrieved");
@@ -361,6 +359,28 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
     }
 
     @Override
+    public String deleteShout(String shoutID) {
+
+        if (lookupShout(shoutID) == null) {
+            return "There are some issues with this shout. Please try again.";
+        } else {
+            shoutsEntity = lookupShout(shoutID);
+            
+            UserEntity userE = shoutsEntity.getUserEntity();
+            
+            //shoutE.getShoutsCommentsSet().remove(shoutsEntity);
+            
+            //em.merge(shoutE);
+            em.merge(userE);
+
+            em.remove(shoutsEntity);
+            em.flush();
+            em.clear();
+            return "Shout has been deleted successfully!";
+        }
+    }
+
+    @Override
     public String createShoutReport(String shoutReportContent, String shoutPoster, String shoutID) {
 
         shoutsReportEntity = new ShoutsReportEntity();
@@ -435,8 +455,6 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
         //shoutsCommentsEntity = new ShoutsCommentsEntity();
         //System.out.println(shoutPoster);
         //userEntity = lookupUnifyUser(shoutPoster);
-        
-
         if (lookupShoutComment(commentID) == null) {
             //shoutsCommentsEntity.setUserEntity(userEntity);
             //shoutsCommentsEntity.setShoutsEntity(shoutsEntity);
@@ -463,17 +481,15 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             return "There are some issues with this comment. Please try again.";
         } else {
             shoutsCommentsEntity = lookupShoutComment(shoutCommentID);
-            //System.out.println("FOUND SHOUT COMMENT");
+
             UserEntity userE = shoutsCommentsEntity.getUserEntity();
-            System.out.println("FOUND SHOUT COMMENT USERNAME");
             ShoutsEntity shoutE = shoutsCommentsEntity.getShoutsEntity();
-            System.out.println("FOUND SHOUT");
+
             shoutE.getShoutsCommentsSet().remove(shoutsCommentsEntity);
             userE.getShoutsCommentsSet().remove(shoutsCommentsEntity);
-            System.out.println("DELINKED SHOUT COMMENT");
+
             em.merge(shoutE);
             em.merge(userE);
-            System.out.println("DELINKED SHOUT COMMENT2");
 
             em.remove(shoutsCommentsEntity);
             em.flush();
@@ -506,7 +522,68 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
         }
 
     }
-    
+
+    @Override
+    public String unbookmarkShout(String user, String shoutID) {
+
+        shoutsBookmarksEntity = new ShoutsBookmarksEntity();
+
+        userEntity = lookupUnifyUser(user);
+
+        shoutsEntity = lookupShout(shoutID);
+
+        Long shoutIDLong = Long.parseLong(shoutID);
+
+        if (lookupBookmarkUser(shoutIDLong, user) != null) {
+            //remove bookmark
+            shoutsBookmarksEntity = lookupBookmarkUser(shoutIDLong, user);
+
+            UserEntity userE = shoutsBookmarksEntity.getUserEntity();
+
+            ShoutsEntity shoutE = shoutsBookmarksEntity.getShoutsEntity();
+
+            shoutE.getShoutsBookmarksSet().remove(shoutsBookmarksEntity);
+            userE.getShoutsBookmarksSet().remove(shoutsBookmarksEntity);
+
+            em.merge(shoutE);
+            em.merge(userE);
+
+            em.remove(shoutsBookmarksEntity);
+            em.flush();
+            em.clear();
+            return "Bookmark has been removed successfully!";
+        } else {
+            return "Error removing bookmark. Please try again later.";
+        }
+
+    }
+
+    //@Override
+    public Boolean checkBookmarkShout(String user, Long shoutID) {
+
+        shoutsBookmarksEntity = new ShoutsBookmarksEntity();
+
+        userEntity = lookupUnifyUser(user);
+
+        String shoutIDString = String.valueOf(shoutID);
+
+        shoutsEntity = lookupShout(shoutIDString);
+
+        //Long shoutIDLong = Long.parseLong(shoutID);
+        if (lookupBookmarkUser(shoutID, user) != null) {
+            return true;
+        } else {
+            //shoutsBookmarksEntity.addBookmark(userEntity, shoutsEntity);
+            //shoutsBookmarksEntity.setUserEntity(userEntity);
+            //shoutsBookmarksEntity.setShoutsEntity(shoutsEntity);
+
+            //em.persist(shoutsBookmarksEntity);
+            //System.out.println("Shout bookmark created (ShoutsSysUserMgrBean.bookmarkShout)");
+            return false;
+        }
+
+    }
+
     @Override
     public String likeShout(String user, String shoutID) {
 
@@ -528,6 +605,63 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             em.persist(shoutsLikesEntity);
             System.out.println("Shout like created (ShoutsSysUserMgrBean.likeShout)");
             return "Shout has been liked successfully!";
+        }
+
+    }
+
+    @Override
+    public String unlikeShout(String user, String shoutID) {
+
+        shoutsLikesEntity = new ShoutsLikesEntity();
+
+        userEntity = lookupUnifyUser(user);
+
+        shoutsEntity = lookupShout(shoutID);
+
+        Long shoutIDLong = Long.parseLong(shoutID);
+
+        if (lookupLikeUser(shoutIDLong, user) != null) {
+            //unlike
+            shoutsLikesEntity = lookupLikeUser(shoutIDLong, user);
+
+            UserEntity userE = shoutsLikesEntity.getUserEntity();
+
+            ShoutsEntity shoutE = shoutsLikesEntity.getShoutsEntity();
+
+            shoutE.getShoutsLikesSet().remove(shoutsLikesEntity);
+            userE.getShoutsLikesSet().remove(shoutsLikesEntity);
+
+            em.merge(shoutE);
+            em.merge(userE);
+
+            em.remove(shoutsLikesEntity);
+            em.flush();
+            em.clear();
+            return "Shout has been unliked successfully!";
+        } else {
+
+            return "Error unliking shout. Please try again later.";
+        }
+
+    }
+
+    //@Override
+    public Boolean checkLikeShout(String user, Long shoutID) {
+
+        shoutsLikesEntity = new ShoutsLikesEntity();
+
+        userEntity = lookupUnifyUser(user);
+
+        String shoutIDString = String.valueOf(shoutID);
+
+        shoutsEntity = lookupShout(shoutIDString);
+
+        //Long shoutIDLong = Long.parseLong(shoutID);
+        if (lookupLikeUser(shoutID, user) != null) {
+            return true;
+        } else {
+
+            return false;
         }
 
     }
@@ -566,7 +700,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             Query q = em.createQuery("SELECT u FROM SystemUser u WHERE u.username = :username");
             q.setParameter("username", username);
             ue = (UserEntity) q.getSingleResult();
-            System.out.println("FOUND USER");
+            //System.out.println("FOUND USER");
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: User cannot be found. " + enfe.getMessage());
             em.remove(ue);
@@ -586,7 +720,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             Query q = em.createQuery("SELECT u FROM Shouts u WHERE u.shoutID = :shoutID");
             q.setParameter("shoutID", shoutIDLong);
             se = (ShoutsEntity) q.getSingleResult();
-            System.out.println("FOUND SHOUT");
+            //System.out.println("FOUND SHOUT");
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: Shout cannot be found. " + enfe.getMessage());
             em.remove(se);
@@ -638,14 +772,14 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
         return sbe;
     }
 
-    public ShoutsBookmarksEntity lookupBookmarkUser(Long shoutID, String username) {
+    public ShoutsBookmarksEntity lookupBookmarkUser(long shoutID, String username) {
         ShoutsBookmarksEntity sbe = new ShoutsBookmarksEntity();
         try {
             Query q = em.createQuery("SELECT l FROM ShoutsBookmarks l WHERE l.shoutsEntity.shoutID = :shoutID AND l.userEntity.username = :username");
             q.setParameter("shoutID", shoutID);
             q.setParameter("username", username);
             //em.remove(sbe);
-            System.out.println("ShoutsSysUserMgrBean.lookupBookmarkUser");
+            //System.out.println("ShoutsSysUserMgrBean.lookupBookmarkUser");
             sbe = (ShoutsBookmarksEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: Bookmark cannot be found. " + enfe.getMessage());
@@ -658,7 +792,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
         }
         return sbe;
     }
-    
+
     public ShoutsLikesEntity lookupLikeUser(Long shoutID, String username) {
         ShoutsLikesEntity sbe = new ShoutsLikesEntity();
         try {
@@ -666,7 +800,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             q.setParameter("shoutID", shoutID);
             q.setParameter("username", username);
             //em.remove(sbe);
-            System.out.println("ShoutsSysUserMgrBean.lookupLikeUser");
+            //System.out.println("ShoutsSysUserMgrBean.lookupLikeUser");
             sbe = (ShoutsLikesEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {
             System.out.println("ERROR: Like cannot be found. " + enfe.getMessage());

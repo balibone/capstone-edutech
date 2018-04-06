@@ -21,7 +21,7 @@ public class ShoutsLikesEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long likeID;
-    private String likeType;
+    //private String likeType;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date likeDate;
@@ -43,7 +43,7 @@ public class ShoutsLikesEntity implements Serializable {
     
     /* GETTER METHODS */
     public Long getLikeID() { return likeID; }
-    public String getLikeType() { return likeType; }
+    //public String getLikeType() { return likeType; }
     public Date getLikeDate() { return likeDate; }
     
     public ShoutsEntity getShoutsEntity() { return shoutsEntity; }
@@ -51,7 +51,7 @@ public class ShoutsLikesEntity implements Serializable {
     
     /* SETTER METHODS */
     public void setLikeID(Long likeID) { this.likeID = likeID; }
-    public void setLikeType(String likeType) { this.likeType = likeType; }
+    //public void setLikeType(String likeType) { this.likeType = likeType; }
     public void setLikeDate(Date likeDate) { this.likeDate = likeDate; }
     
     public void setShoutsEntity(ShoutsEntity shoutsEntity) { this.shoutsEntity = shoutsEntity; }

@@ -33,6 +33,7 @@ import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.marketplace.ItemOfferEntity;
 import unifyentities.errands.JobOfferEntity;
+import unifyentities.shouts.ShoutsEntity;
 import unifyentities.shouts.ShoutsLikesEntity;
 import unifyentities.shouts.ShoutsCommentsEntity;
 import unifyentities.shouts.ShoutsBookmarksEntity;
@@ -93,6 +94,8 @@ public class UserEntity implements Serializable {
     private Collection<ItemTransactionEntity> itemTransactionSet = new ArrayList<ItemTransactionEntity>();
     @OneToMany(mappedBy = "userEntity")
     private Collection<JobTransactionEntity> jobTransactionSet = new ArrayList<JobTransactionEntity>();
+    //@OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    //private Collection<ShoutsEntity> shoutsSet = new ArrayList<ShoutsEntity>();   
     @OneToMany(mappedBy = "userEntity")
     private Collection<ShoutsLikesEntity> shoutsLikesSet = new ArrayList<ShoutsLikesEntity>();    
     @OneToMany(mappedBy = "userEntity")
@@ -175,6 +178,7 @@ public class UserEntity implements Serializable {
     public Collection<JobReviewEntity> getJobReviewSet() { return jobReviewSet; }
     public Collection<ItemTransactionEntity> getItemTransactionSet() { return itemTransactionSet; }
     public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
+    //public Collection<ShoutsEntity> getShoutsSet() { return shoutsSet; }
     public Collection<ShoutsLikesEntity> getShoutsLikesSet() { return shoutsLikesSet; }
     public Collection<ShoutsCommentsEntity> getShoutsCommentsSet() { return shoutsCommentsSet; }
     public Collection<ShoutsBookmarksEntity> getShoutsBookmarksSet() { return shoutsBookmarksSet; }
@@ -209,6 +213,7 @@ public class UserEntity implements Serializable {
     public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
     public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
     public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
+    //public void setShoutsSet(Collection<ShoutsEntity> shoutsSet) { this.shoutsSet = shoutsSet; }
     public void setShoutsLikesSet(Collection<ShoutsLikesEntity> shoutsLikesSet) { this.shoutsLikesSet = shoutsLikesSet; }
     public void setShoutsCommentsSet(Collection<ShoutsCommentsEntity> shoutsCommentsSet) { this.shoutsCommentsSet = shoutsCommentsSet; }
     public void setShoutsBookmarksSet(Collection<ShoutsBookmarksEntity> shoutsBookmarksSet) { this.shoutsBookmarksSet = shoutsBookmarksSet; }

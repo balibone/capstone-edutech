@@ -1,10 +1,26 @@
 
+.deleteThis .fa-trash,
+.deleteThis:hover .fa-trash-o {
+    display: none;
+}
+.deleteThis:hover .fa-trash {
+    display: inline;
+}
 
 .bookmarkThis .fa-bookmark,
 .bookmarkThis:hover .fa-bookmark-o {
     display: none;
 }
 .bookmarkThis:hover .fa-bookmark {
+    display: inline;
+}
+
+
+.bookmarkedThis .fa-bookmark-o,
+.bookmarkedThis:hover .fa-bookmark {
+    display: none;
+}
+.bookmarkedThis:hover .fa-bookmark-o {
     display: inline;
 }
 
@@ -22,6 +38,14 @@
     display: none;
 }
 .likeThis:hover .fa-thumbs-up {
+    display: inline;
+}
+
+.likedThis .fa-thumbs-o-up,
+.likedThis:hover .fa-thumbs-up {
+    display: none;
+}
+.likedThis:hover .fa-thumbs-o-up {
     display: inline;
 }
 

@@ -482,6 +482,19 @@
     </servlet>
 
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - SHOUTS (JSP) -->
+    <servlet><servlet-name>ViewShoutsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutsListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewShoutSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/NewShoutSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewShoutModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/NewShoutModalSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewShoutCommentSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutCommentSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutCommentModalSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewShoutBookmarkModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutBookmarkModalSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportShoutSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ReportShoutSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportShoutModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ReportShoutModalSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ReportShoutCommentModalSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/NewShoutCommentModalSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>EditShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/EditShoutCommentModalSYS.jsp</jsp-file></servlet>
+
+    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
     <servlet>
         <servlet-name>ViewShoutsListingSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/shouts/ViewShoutsListingSYS.jsp</jsp-file>

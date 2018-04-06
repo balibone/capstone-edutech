@@ -4,6 +4,8 @@
 <html>
     <head></head>
     <body>
+        <%            String username = (String) request.getAttribute("loggedInUsername");
+        %>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-0 d-none d-lg-flex navbar-theme">
             <div class="container">
                 <div class="pos-r d-flex w-100">
@@ -31,7 +33,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="shoutsNAV" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shouts</a>
                             <div class="dropdown-menu t-90 smooth" aria-labelledby="shoutsNAV">
-                                <a class="dropdown-item" href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS">Shouts Listing</a>
+                                <a class="dropdown-item" href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS&loggedInUsername=<%=username%>">Shouts Listing</a>
                             </div>
                         </li>
                     </ul>
