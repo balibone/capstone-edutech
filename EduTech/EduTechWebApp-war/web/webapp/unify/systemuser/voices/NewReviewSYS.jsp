@@ -239,7 +239,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="employmentStatus">Employment Status&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="employmentStatus" data-width="75%" required>
+                                                <select class="form-control" name="employmentStatus" data-width="75%" required>
                                                     <option value="">Select</option>
                                                     <option value="Full Time">Full Time</option>
                                                     <option value="Part Time">Part Time</option>
@@ -260,11 +260,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="companyRating">Overall Rating&nbsp;<span class="asterik">*</span></label>
-                                                <input type="number" step="0.01" min="0" max="5" class="form-control" name="companyRating" aria-label="companyRating" required="required" />
+                                                <input type="number" step="0.1" min="0" max="5" class="form-control" name="companyRating" aria-label="companyRating" required="required" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="salaryRange">Salary Range&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="salaryRange" data-width="75%" required>
+                                                <select class="form-control" name="salaryRange" data-width="75%" required>
                                                     <option value="">Select</option>
                                                     <option value="Under 1000">Under 1000</option>
                                                     <option value="1000-2000">1000-2000</option>

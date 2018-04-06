@@ -524,6 +524,9 @@
                                         <%  }%> 
                                     </div>
                                 </div>
+                                <div class="box jplist-no-results text-shadow align-center">
+                                    <p><strong>No results found. Please refine your search.</strong></p>
+                                </div>
                             </div>
                         </div>
                     <div class="col-lg-1 col-md-3"></div>
