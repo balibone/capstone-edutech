@@ -244,16 +244,20 @@ public class ModuleMgrBean {
                 submissions.add(att);
                 em.persist(att);
                 System.out.println("new attachment persisted");
-            }else{
+            }else{//check if in assignment, there is attachment with same file name. 
                 for(Object o : sameNameAttachments){
                     AttachmentEntity sameName = (AttachmentEntity)o;
-                    //assignment already contains resource with this name. update row.
+                    //assignment already contains submission with this file name. update row.
                     if(submissions.contains(sameName)){
                         sameName.setTitle(att.getTitle());
                         sameName.setCreatedBy(u);
                         sameName.setCreatedAt(LocalDateTime.now());
                         System.out.println("existing attachment's title renamed");
                         break;
+                    }else{//else, allow submission of same file name as this is for different assignment.
+                        submissions.add(att);
+                        em.persist(att);
+                        System.out.println("new attachment persisted");
                     }
                 }
             }

@@ -177,18 +177,16 @@ public class CommonMgrBean {
             for(Object o : q1.getResultList()){
                 TaskEntity t = (TaskEntity) o;
                 //if task has been assigned to this user and task has deadline,
-                if(t.getAssignedTo().contains(user) && t.getDeadline()!=null){
+                if(t.getAssignedTo().contains(user) && t.getDeadline()!=null && t.getProgressCode()<2){
                     //convert task to schedule item and add it to userScheduleItems.
                     ScheduleItemEntity convert = new ScheduleItemEntity();
                     convert.setAssignedTo(t.getAssignedTo());
                     convert.setCreatedAt(LocalDateTime.parse(t.getCreatedAt()));
                     convert.setCreatedBy(t.getCreatedBy());
-//                    convert.setDescription("please dont show this field if type=task");
                     convert.setStartDate(LocalDateTime.parse(t.getDeadline()));
                     convert.setEndDate(LocalDateTime.parse(t.getDeadline()));
                     convert.setGroupId(t.getGroupId());
                     convert.setItemType("task");
-//                    convert.setLocation("please dont show this field if type=task");
                     convert.setModuleCode(t.getModuleCode());
                     convert.setTitle(t.getTitle());
                     //add converted schedule item into list.
@@ -671,7 +669,7 @@ public class CommonMgrBean {
             att.setCreatedBy(u);
             Collection<AttachmentEntity> resources = lesson.getResources();
             List sameNameAttachments = q1.getResultList();
-            //if there are no attachments with the same name, proceed normally.
+            //if there are no attachments with the same name for this lesson, proceed normally.
             if(sameNameAttachments.isEmpty()){
                 resources.add(att);
                 em.persist(att);
@@ -686,6 +684,10 @@ public class CommonMgrBean {
                         sameName.setCreatedAt(LocalDateTime.now());
                         System.out.println("existing attachment's title renamed");
                         break;
+                    }else{//else, allow upload of resource with same file name as this is for different lesson.
+                        resources.add(att);
+                        em.persist(att);
+                        System.out.println("new attachment persisted");
                     }
                 }
             }
