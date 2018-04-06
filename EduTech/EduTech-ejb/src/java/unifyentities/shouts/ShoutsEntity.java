@@ -49,6 +49,10 @@ public class ShoutsEntity implements Serializable {
      @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shoutsEntity")
     private Collection<ShoutsCommentsEntity> shoutsCommentsSet = new ArrayList<ShoutsCommentsEntity>();
      
+    //link to bookmarks entity?
+     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shoutsEntity")
+    private Collection<ShoutsBookmarksEntity> shoutsBookmarksSet = new ArrayList<ShoutsBookmarksEntity>(); 
+     
         
     @PrePersist
     public void creationDate() { this.shoutDate = new Date(); }
@@ -72,7 +76,9 @@ public class ShoutsEntity implements Serializable {
     
     public UserEntity getUserEntity() { return shoutUser; }
     
+    public Collection<ShoutsLikesEntity> getShoutsLikesSet() { return shoutsLikesSet; }
     public Collection<ShoutsCommentsEntity> getShoutsCommentsSet() { return shoutsCommentsSet; }
+    public Collection<ShoutsBookmarksEntity> getShoutsBookmarksSet() { return shoutsBookmarksSet; }
     
     /* SETTER METHODS */
     public void setShoutID(Long shoutID) { this.shoutID = shoutID; }

@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import java.util.ArrayList;
 import javax.ejb.EJB;
@@ -23,12 +25,14 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
+import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 10,
@@ -38,6 +42,8 @@ import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
 public class MarketplaceSysUserController extends HttpServlet {
     @EJB
     private MarketplaceSysUserMgrBeanRemote msmr;
+    @EJB
+    private UserProfileSysUserMgrBeanRemote usmr;
     String responseMessage = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,6 +52,7 @@ public class MarketplaceSysUserController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
+            String loggedInUsername = getCookieUsername(request);
             
             switch (pageAction) {
                 case "goToNewItemListingSYS":
@@ -53,27 +60,32 @@ public class MarketplaceSysUserController extends HttpServlet {
                     pageAction = "NewItemListingSYS";
                     break;
                 case "createItemListingSYS":
-                    responseMessage = createItemListing(request);
+                    responseMessage = createItemListing(loggedInUsername, request);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
-                    pageAction = "NewItemListingSYS";
+                    request.setAttribute("userItemAccountListSYS", (ArrayList) usmr.viewUserItemAccountList(loggedInUsername));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "UserAccountSYS";
                     break;
                 case "goToEditItemListingSYS":
                     long urlItemID = Long.parseLong(request.getParameter("urlItemID"));
+                    
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(urlItemID));
                     request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "EditItemListingSYS";
                     break;
                 case "editItemListingSYS":
-                    responseMessage = editItemListing(request);
+                    responseMessage = editItemListing(loggedInUsername, request);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     long itemIDToUpdate = Long.parseLong(request.getParameter("hiddenItemID"));
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(itemIDToUpdate));
                     request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "EditItemListingSYS";
                     break;
                 case "deleteItemListingSYS":
@@ -82,44 +94,71 @@ public class MarketplaceSysUserController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
-                    request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList());
-                    pageAction = "ViewItemListingSYS";
+                    request.setAttribute("userItemAccountListSYS", (ArrayList) usmr.viewUserItemAccountList(loggedInUsername));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "UserAccountSYS";
                     break;
                 case "goToViewItemListingSYS":
-                    request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList());
+                    request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList(loggedInUsername));
                     request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewItemListingSYS";
                     break;
                 case "goToViewItemDetailsSYS":
                     String hiddenCategoryName = request.getParameter("hiddenCategoryName");
                     long hiddenItemID = Long.parseLong(request.getParameter("hiddenItemID"));
-                    String hiddenUsername = request.getParameter("hiddenUsername");
+                    
                     request.setAttribute("assocCategoryItemListSYS", (ArrayList) msmr.viewAssocCategoryItemList(hiddenCategoryName, hiddenItemID));
-                    request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(hiddenItemID, hiddenUsername));
+                    request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(hiddenItemID, loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewItemDetailsSYS";
+                    break;
+                case "goToMsgViewItemDetailsSYS":
+                    long itemHidID = Long.parseLong(request.getParameter("itemHidID"));
+                    String categoryName = msmr.lookupCategoryName(itemHidID);
+                    
+                    request.setAttribute("assocCategoryItemListSYS", (ArrayList) msmr.viewAssocCategoryItemList(categoryName, itemHidID));
+                    request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(itemHidID, loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewItemDetailsSYS";
                     break;
                 case "goToItemLikeList":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
                     request.setAttribute("itemLikeListSYS", msmr.viewItemLikeList(itemID));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ItemLikeListSYS";
                     break;
                 case "sendItemOfferPrice":
                     long itemIDHidden = Long.parseLong(request.getParameter("itemIDHidden"));
-                    String usernameHidden = request.getParameter("usernameHidden");
                     String itemOfferPrice = request.getParameter("itemOfferPrice");
                     String itemOfferDescription = request.getParameter("itemOfferDescription");
                     
-                    responseMessage = msmr.sendItemOfferPrice(itemIDHidden, usernameHidden, itemOfferPrice, itemOfferDescription);
+                    responseMessage = msmr.sendItemOfferPrice(itemIDHidden, loggedInUsername, itemOfferPrice, itemOfferDescription);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
+                    break;
+                case "reportItemListing":
+                    long itemHiddenID = Long.parseLong(request.getParameter("itemHiddenID"));
+                    String itemReportCategory = request.getParameter("itemReportCategory");
+                    String itemReportDescription = request.getParameter("itemReportDescription");
+                    
+                    responseMessage = msmr.reportItemListing(itemHiddenID, loggedInUsername, itemReportCategory, itemReportDescription);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
                 case "likeItemListingDetails":
                     long itemIDHid = Long.parseLong(request.getParameter("itemIDHid"));
-                    String usernameHid = request.getParameter("usernameHid");
                     
-                    responseMessage = msmr.likeUnlikeItem(itemIDHid, usernameHid);
+                    responseMessage = msmr.likeUnlikeItem(itemIDHid, loggedInUsername);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
+                    break;
+                case "goToProximityItemListingSYS":
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    responseMessage = msmr.viewProximityItemListing(loggedInUsername);
+                    request.setAttribute("jsonResponse", responseMessage);
+                    pageAction = "ProximityItemListingSYS";
                     break;
                 default:
                     break;
@@ -147,7 +186,7 @@ public class MarketplaceSysUserController extends HttpServlet {
     public String getServletInfo() { return "Marketplace (Item) System User Servlet"; }
     
     /* KEY METHODS */
-    private String createItemListing(HttpServletRequest request) {
+    private String createItemListing(String username, HttpServletRequest request) {
         String itemImagefileName = "";
         try {
             Part filePart = request.getPart("itemImage");
@@ -159,7 +198,8 @@ public class MarketplaceSysUserController extends HttpServlet {
             String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
                     + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "marketplace"
                     + File.separator + "item" + File.separator;
-
+            Files.createDirectories(Paths.get(imageDir));
+            
             InputStream inputStream = null;
             OutputStream outputStream = null;
             try {
@@ -193,7 +233,6 @@ public class MarketplaceSysUserController extends HttpServlet {
         String itemCondition = request.getParameter("itemCondition");
         String itemDescription = request.getParameter("itemDescription");
         long categoryID = Long.parseLong(request.getParameter("hiddenCategoryID"));
-        String username = request.getParameter("username");
         String tradeLocation = request.getParameter("tradeLocation");
         String tradeLat = request.getParameter("hiddenTradeLat");
         String tradeLong = request.getParameter("hiddenTradeLong");
@@ -203,7 +242,7 @@ public class MarketplaceSysUserController extends HttpServlet {
                 categoryID, username, tradeLocation, tradeLat, tradeLong, tradeInformation);
     }
     
-    private String editItemListing(HttpServletRequest request) {
+    private String editItemListing(String username, HttpServletRequest request) {
         String itemImageFileName = "";
         String imageUploadStatus = request.getParameter("imageUploadStatus");
         
@@ -218,7 +257,8 @@ public class MarketplaceSysUserController extends HttpServlet {
                 String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator 
                         + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "marketplace" 
                         + File.separator + "item" + File.separator;
-
+                Files.createDirectories(Paths.get(imageDir));
+                
                 InputStream inputStream = null;
                 OutputStream outputStream = null;
                 try {
@@ -258,7 +298,6 @@ public class MarketplaceSysUserController extends HttpServlet {
         String itemDescription = request.getParameter("itemDescription");
         if(itemDescription.equals("")) { itemDescription = request.getParameter("hiddenItemDescription"); }
         long itemCategoryID = Long.parseLong(request.getParameter("hiddenItemCategoryID"));
-        String username = request.getParameter("username");
         String tradeLocation = request.getParameter("tradeLocation");
         if(tradeLocation.equals("")) { tradeLocation = request.getParameter("hiddenTradeLocation"); }
         String tradeLat = request.getParameter("hiddenTradeLat");
@@ -280,5 +319,18 @@ public class MarketplaceSysUserController extends HttpServlet {
             }
         }
         return null;
+    }
+    
+    private String getCookieUsername(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String loggedInUsername = null;
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                if(c.getName().equals("username") && !c.getValue().equals("")){
+                    loggedInUsername = c.getValue();
+                }
+            }
+        }
+        return loggedInUsername;
     }
 }

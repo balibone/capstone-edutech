@@ -35,7 +35,8 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
-                            <%                                String successMessage = (String) request.getAttribute("successMessage");
+                            <%                                
+                                String successMessage = (String) request.getAttribute("successMessage");
                                 if (successMessage != null) {
                             %>
                             <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
@@ -67,7 +68,7 @@
                             <div class="x_content">
                                 <p>Share what is on your mind about this shout:</p>
                                 <p><i><%=newShoutCommentShoutContent%></i></p>
-                                <p><i>(<span class="asterik">*</span>) Your comment is kept anonymous and confidential</i></p>
+                                <p><i>(<span class="asterik">*</span>) Your comment is kept anonymous</i></p>
 
                                 <form class="form-horizontal form-label-left" action="ShoutsSysUser" method="POST" enctype="form-data">
 
@@ -77,7 +78,7 @@
 
                                             <div class="form-group">
                                                 <label for="shoutCommentContent">Write your comment below</label>
-                                                <textarea class="form-control" name="shoutCommentContent" rows="5" placeholder="Describe why you are writing this report here" required="required"></textarea>
+                                                <textarea class="form-control" name="shoutCommentContent" rows="5" placeholder="Type your comment here" required="required"></textarea>
                                             </div>
 
                                         </div>

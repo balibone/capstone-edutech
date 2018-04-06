@@ -4,15 +4,18 @@
 <html>
     <head></head>
     <body>
+        <%            String username = (String) request.getAttribute("loggedInUsername");
+        %>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-0 d-none d-lg-flex navbar-theme">
             <div class="container">
                 <div class="pos-r d-flex w-100">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Unify Home</a></li>
-                        <li class="nav-item dropdown active">
+                        <li class="nav-item"><a class="nav-link" href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="marketplaceNAV" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Marketplace</a>
                             <div class="dropdown-menu t-90 smooth" aria-labelledby="marketplaceNAV">
                                 <a class="dropdown-item" href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a>
+                                <a class="dropdown-item" href="MarketplaceSysUser?pageTransit=goToProximityItemListingSYS">Item Listing Around Me</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -30,7 +33,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="shoutsNAV" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shouts</a>
                             <div class="dropdown-menu t-90 smooth" aria-labelledby="shoutsNAV">
-                                <a class="dropdown-item" href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS">Shouts Listing</a>
+                                <a class="dropdown-item" href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS&loggedInUsername=<%=username%>">Shouts Listing</a>
                             </div>
                         </li>
                     </ul>

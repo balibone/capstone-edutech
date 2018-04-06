@@ -1,0 +1,30 @@
+#itemListingContent { font-size: 11.5px; }
+.profileBorder { text-align: center; position: relative; }
+.profilePic { border-radius: 50%; width: 32px; height: 32px; padding-right: 5px; }
+
+.profileContent { display: block; vertical-align: top; }
+.profileHeader { color: #333333; font-size: inherit; font-weight: 600; margin-bottom: 1px; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.profileTime { color: #B3B3B3; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+
+#slider {
+    width:500px;
+    top:100px;
+    position:absolute
+}
+#header {
+    width:260px;
+    height:520px;
+    position:absolute;
+    right:0;
+    border:1px solid #d8d8d8;
+    margin-left:40px;
+    padding:20px 40px;
+    border-radius:3px;
+    box-shadow:0 0 8px gray
+}
+#sidebar {
+    position:absolute;
+    top:180px;
+    left:113px;
+    box-shadow:0 0 8px gray
+}

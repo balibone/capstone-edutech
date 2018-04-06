@@ -15,23 +15,29 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.Date;
+
 import java.text.SimpleDateFormat;
-import java.text.DateFormat;
 import java.text.ParseException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.Part;
 
 import unifysessionbeans.systemuser.ErrandsSysUserMgrBeanRemote;
+import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 10,
@@ -42,20 +48,24 @@ import unifysessionbeans.systemuser.ErrandsSysUserMgrBeanRemote;
 public class ErrandsSysUserController extends HttpServlet {
     @EJB
     private ErrandsSysUserMgrBeanRemote esmr;
+    @EJB
+    private UserProfileSysUserMgrBeanRemote usmr;
+    String responseMessage = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
-            String responseMessage = "";
+            
             String pageAction = request.getParameter("pageTransit");
-            System.out.println(pageAction);
+            String loggedInUsername = getCookieUsername(request);
             
             switch (pageAction) {
                 case "goToViewJobListingSYS":
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList(request.getParameter("username")));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "goToViewJobDetailsSYS":
@@ -64,10 +74,12 @@ public class ErrandsSysUserController extends HttpServlet {
                     String loggedinUsername = request.getParameter("loggedinUser");
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobID, loggedinUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(categoryName, jobID));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobDetailsSYS";
                     break;
                 case "goToNewJobListingSYS":
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "NewJobListingSYS";
                     break;
                 case "createJobListingSYS":
@@ -77,6 +89,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     request.setAttribute("jobCategoryListSYS", (ArrayList) esmr.viewJobCategoryList());
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "NewJobListingSYS";
                     break;
                 case "goToEditJobListing":
@@ -84,6 +97,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     String loginUser = request.getParameter("loginUser");
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jID, loginUser));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "EditJobListingSYS";
                     break;
                 case "editJobListingSYS":
@@ -95,6 +109,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     String user = request.getParameter("username");
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(job, user));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "EditJobListingSYS";
                     break;
                 case "deleteJobListingSYS":
@@ -105,6 +120,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
                     request.setAttribute("jobListSYS", (ArrayList) esmr.viewJobList(request.getParameter("username")));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "likeJobListingDetails":
@@ -117,7 +133,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "goToJobLikeList":
                     long jobKey = Long.parseLong(request.getParameter("jobID"));
-                    System.out.println(jobKey);
                     request.setAttribute("jobLikeListSYS", esmr.viewJobLikeList(jobKey));
                     pageAction = "jobLikeListSYS";
                     break;
@@ -142,54 +157,48 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "goToViewJobOfferList":
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(request.getParameter("username")));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferListSYS";
                     break;
                 case "goToViewJobOfferDetails":
                     String userName = request.getParameter("hiddenUserName");
                     long hiddenJobID = Long.parseLong(request.getParameter("jobID"));
-                    System.out.println("parameter: " + userName + hiddenJobID);
+                    
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(userName));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(userName, hiddenJobID));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS";
                     break;
                 case "acceptJobOffer":
-                    long offerID = Long.parseLong(request.getParameter("offerID"));
                     String userID = request.getParameter("username");
                     long relevantJob = Long.parseLong(request.getParameter("jobId"));
-                    String returnMessage = esmr.acceptJobOffer(offerID, userID);
                     
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(userID));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(userID, relevantJob));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 case "rejectJobOffer":
-                    long offer = Long.parseLong(request.getParameter("offerID"));
                     String logInUser = request.getParameter("username");
                     long relatedJob = Long.parseLong(request.getParameter("jobId"));
-                    String returnMsg = esmr.rejectJobOffer(offer, logInUser);
                     
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(logInUser));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(logInUser, relatedJob));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 case "negotiateJobOffer":
-                    long offerid = Long.parseLong(request.getParameter("offerID"));
                     String loggedInUser = request.getParameter("username");
                     long jobRelated = Long.parseLong(request.getParameter("jobID"));
-                    String message = request.getParameter("message");
-                    System.out.println(offerid);
-                    System.out.println(loggedInUser);
-                    System.out.println(message);
-                    String returnStr = esmr.negotiateJobOffer(offerid, loggedInUser, message);
                     
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUser));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUser, jobRelated));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 default:
                     break;
             }
-            System.out.println("dispatch: " + pageAction);
             dispatcher = servletContext.getNamedDispatcher(pageAction);
             dispatcher.forward(request, response);       
         }
@@ -226,7 +235,8 @@ public class ErrandsSysUserController extends HttpServlet {
             String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
                     + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "errands"
                     + File.separator + "job" + File.separator;
-
+            Files.createDirectories(Paths.get(imageDir));
+            
             InputStream inputStream = null;
             OutputStream outputStream = null;
             try {
@@ -276,20 +286,12 @@ public class ErrandsSysUserController extends HttpServlet {
         }else{
             checking = true;
         }
-        //String otherInformation = request.getParameter("jobInformation");
         Date jobWorkDate = new Date();
-        
-        System.out.println("workDate: " + request.getParameter("workDate"));
-        System.out.println("time: " + request.getParameter("workTime"));
-        
         try{
             jobWorkDate = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(request.getParameter("workDate") + " " + request.getParameter("workTime"));
         }catch(ParseException e){
             e.printStackTrace();
         }
-        
-        
-        System.out.println("job title" + jobTitle);
         return esmr.createJobListing(jobTitle, jobRateType, jobRate, jobDuration, jobDescription, jobWorkDate, jobImagefileName, 
                 categoryID, username, startLocation, startLat, startLong, endLocation, endLat, endLong, "N.A.", numOfHelpers, checking);
     }
@@ -309,7 +311,8 @@ public class ErrandsSysUserController extends HttpServlet {
                 String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator 
                         + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "errands" 
                         + File.separator + "job" + File.separator;
-
+                Files.createDirectories(Paths.get(imageDir));
+                
                 InputStream inputStream = null;
                 OutputStream outputStream = null;
                 try {
@@ -347,15 +350,12 @@ public class ErrandsSysUserController extends HttpServlet {
         long jobCategoryID = Long.parseLong(request.getParameter("category"));
         
         Date jobWorkDate = new Date();
-        System.out.println("workDate: " + request.getParameter("workDate"));
-        System.out.println("time: " + request.getParameter("workTime"));
         try{
             jobWorkDate = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(request.getParameter("workDate") + " " + request.getParameter("workTime"));
         }catch(ParseException e){
             e.printStackTrace();
         }
         String jobRateType = request.getParameter("jobRateType");
-        //if(jobRateType.equals("")) { jobRateType = request.getParameter("hiddenJobRateType"); }
         String jobRate = request.getParameter("jobRate");
         if(jobRate.equals("")) { jobRate = request.getParameter("hiddenJobRate"); }
         
@@ -380,8 +380,6 @@ public class ErrandsSysUserController extends HttpServlet {
         if(endLocation.equals("")) { endLocation = request.getParameter("hiddenEndLocation"); }
         String endLat = request.getParameter("hiddenEndLat");
         String endLong = request.getParameter("hiddenEndLong");
-        //String tradeInformation = request.getParameter("tradeInformation");
-        //if(tradeInformation.equals("")) { tradeInformation = request.getParameter("hiddenTradeInformation"); }
         
         boolean checking = false;
         if(request.getParameter("checking")==null){
@@ -392,7 +390,6 @@ public class ErrandsSysUserController extends HttpServlet {
         
         return esmr.editJobListing(jobID, jobTitle, jobRateType, Double.parseDouble(jobRate), jobDuration, jobDescription, 
                 jobWorkDate, itemImageFileName, startLocation, startLat, startLong, endLocation, endLat, endLong, jobCategoryID, username, numOfHelpers, checking);
-        
     }
     
     /* MISCELLANEOUS METHODS */
@@ -405,5 +402,18 @@ public class ErrandsSysUserController extends HttpServlet {
             }
         }
         return null;
+    }
+    
+    private String getCookieUsername(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String loggedInUsername = null;
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                if(c.getName().equals("username") && !c.getValue().equals("")){
+                    loggedInUsername = c.getValue();
+                }
+            }
+        }
+        return loggedInUsername;
     }
 }

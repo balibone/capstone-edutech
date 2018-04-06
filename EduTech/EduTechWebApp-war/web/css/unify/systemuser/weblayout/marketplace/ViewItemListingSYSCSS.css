@@ -1,3 +1,9 @@
+.itemReportFields { margin-top: 5px; width: 100%; }
+.likeStatus { background-color: #EB014B; }
+.noLikeStatus { background-color: rgba(0,0,0,0.55); }
+#successReportResponse { color: #228B22; font-weight: bold; display: none; }
+#failedReportResponse { color: #FF0000; font-weight: bold; display: none; }
+
 .profileBorder { text-align: center; position: relative; }
 .profilePic { border-radius: 50%; width: 32px; height: 32px; }
 

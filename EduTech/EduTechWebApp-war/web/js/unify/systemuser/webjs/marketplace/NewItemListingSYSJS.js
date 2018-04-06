@@ -1,7 +1,4 @@
 $(document).ready(function () {
-    $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
-    $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
-    
     $('#tradeLocation').keyup(function () {
         var baseHtml = 'https://developers.onemap.sg/commonapi/search?searchVal=';
         var location = $('#tradeLocation').val();
@@ -34,16 +31,24 @@ $(document).ready(function () {
         });
     });
     
-    $('.form-row .card').click(function() {
-        $('.form-row .card').removeClass('active');
-        $(this).addClass('active');
-        
+    $('.choice').click(function() {
         var categoryID = $(this).attr('id');
         document.getElementById("hiddenCategoryID").value = categoryID;
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
+    
+    $('.owl-carousel').owlCarousel({
+        loop: false,
+        margin: 10,
+        nav: true,
+        responsive: {
+            0: {items: 1},
+            600: {items: 3},
+            1000: {items: 5}
+        }
+    });
 });
 
 var center = L.bounds([1.56073, 104.11475], [1.16, 103.502]).getCenter();
@@ -59,15 +64,6 @@ var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png
 map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
 basemap.addTo(map);
 
-/* FOR PROFILE PICTURE UPLOAD TO SYSTEM */
-function previewImage(event) {
-    var reader = new FileReader();
-    reader.onload = function () {
-        var output = document.getElementById('output-image');
-        output.src = reader.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
-}
 /* FOR ONEMAP - CLOSE THE SEARCH RESULT PANEL AFTER SELECTING A RESULT */
 function clearResults() {
     document.getElementById("searchResults").innerHTML = "";

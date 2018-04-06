@@ -43,15 +43,6 @@ public class MessageEntity implements Serializable {
     public void creationDate() { this.messageDate = new Date(); }
     
     /* MISCELLANEOUS METHODS */
-    public void createSystemMessage(String messageSenderID, String messageReceiverID, 
-            String messageContent, String messageType) {
-        this.messageSenderID = messageSenderID;
-        this.messageReceiverID = messageReceiverID;
-        this.messageContent = messageContent;
-        this.contentID = 0L;
-        this.messageType = messageType;
-    }
-    
     public void createContentMessage(String messageSenderID, String messageReceiverID, 
             String messageContent, long contentID, String messageType) {
         this.messageSenderID = messageSenderID;

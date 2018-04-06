@@ -69,7 +69,7 @@
         <nav class="offcanvas">
             <div class="offcanvas-content">
                 <div id="list-menu" class="list-menu list-group" data-children=".submenu">
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
                         <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a></div>
@@ -82,7 +82,7 @@
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
                         <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
         </nav>
@@ -100,20 +100,57 @@
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-heart-o"></i>&nbsp;&nbsp;Likes
-                                    </a>
-                                </li>
-                                <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
-                                    </a>
+                                    <div class="dropdown-container">
+                                        <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
+                                            <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
+                                            <% 
+                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                                if (!userMessageListTopThreeSYS.isEmpty()) {
+                                                    for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
+                                                        Vector v = userMessageListTopThreeSYS.get(i);
+                                                        String messageContent = String.valueOf(v.get(0));
+                                                        String contentID = String.valueOf(v.get(1));
+                                                        String messageType = String.valueOf(v.get(2));
+                                                        String messageSenderImage = String.valueOf(v.get(4));
+                                                        String messageSentDuration = String.valueOf(v.get(5));
+                                            %>
+                                            <div id="<%= messageType%><%= contentID%>" class="media messageDIV">
+                                                <%  if (messageType.equals("System")) {%>
+                                                <img class="img-thumbnail d-flex" src="images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  } else {%>
+                                                <img class="img-thumbnail d-flex" src="uploads/commoninfrastructure/admin/images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  }%>
+                                                <div class="message-content pl-3">
+                                                    <div><%= messageContent%></div>
+                                                    <small class="font-weight-normal message-content">
+                                                        <i class="fa fa-clock-o"></i>&nbsp;<%= messageSentDuration%>&nbsp;(<%= messageType%>)
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                            <%      }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
+                                            <%  }   %>
+                                            <div class="text-center">
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
+                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;See All Notifications
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                        </div>
+                                    </div>
                                 </li>
                                 <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
-                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
-                                    <option value="ProfileSysUser?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
+                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
                                 </select>
                             </ul>
                         </div>
@@ -186,7 +223,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Shouts Listing</li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS&loggedInUsername=<%=loggedInUsername%>">Shouts Listing</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -242,7 +279,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <a OnClick="newShout()"><button type="button" class="btn btn-outline-info center"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Create A New Shout</button></a>   
                     </div>
 
                     <div class="col-lg-9 col-md-8">
@@ -253,8 +290,9 @@
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort"
                                  data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                 <ul>
-                                    <li><span data-path=".shoutDuration" data-order="desc" data-type="datetime" data-default="true">Newest First</span></li>
-                                    <li><span data-path=".shoutDuration" data-order="asc" data-type="datetime">Oldest First</span></li>
+                                    <li><span data-path=".shoutDate" data-order="desc" data-type="datetime" data-default="true">Newest Post First</span></li>
+                                    <li><span data-path=".shoutDate" data-order="asc" data-type="datetime">Oldest Post First</span></li>
+                                    <li><span data-path=".shoutLike" data-order="desc" data-type="number">Most Liked Post</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -271,6 +309,11 @@
                                         data-control-name="reset" data-control-action="reset"><i class="fa fa-retweet">&nbsp;&nbsp;Reset</i>
                                 </button>
                             </div>
+                            <%-- removed
+                            <div class="jplist-panel">
+                                <a OnClick="newShout()"><button type="button" class="btn btn-outline-info center"><i class="fa fa-plus"></i>&nbsp;&nbsp;New Shout</button></a>
+                            </div>
+                            --%>
                         </div>
 
                         <!-- SHOUTS LISTING -->
@@ -292,6 +335,8 @@
                                             String shoutDuration = String.valueOf(v.get(8));
                                             String shoutLikes = String.valueOf(v.get(9));
                                             String shoutComments = String.valueOf(v.get(10));
+                                            String shoutBookmarkStatus = String.valueOf(v.get(11));
+                                            String shoutLikeStatus = String.valueOf(v.get(12));
                                 %>
                                 <div class="col-xl-6 col-md-6 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -312,13 +357,23 @@
                                                         <br>
                                                         <%-- like & comment --%>
                                                         <div class="shout-likes-info">
-                                                            <span class="card-text shoutUsername" style="font-size: 12px"><%= shoutLikes%> likes &nbsp;
-                                                            </span><a onClick ="like('<%= shoutID%>,<%= loggedInUsername%>')" class="likeThis">
+                                                            <span class="card-text shoutLike" style="font-size: 12px"><%= shoutLikes%> likes &nbsp;
+                                                            </span>
+                                                            <%
+                                                                if (shoutLikeStatus.equals("false")) {
+                                                            %>
+                                                            <a onClick ="likeAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="likeThis">
                                                                 <i class="fa fa-thumbs-up icon"></i>
                                                                 <i class="fa fa-thumbs-o-up icon"></i>
-
                                                             </a>
-
+                                                            <%
+                                                            } else if (shoutLikeStatus.equals("true")) {
+                                                            %>
+                                                            <a onClick ="unlikeAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="likedThis">
+                                                                <i class="fa fa-thumbs-up icon"></i>
+                                                                <i class="fa fa-thumbs-o-up icon"></i>
+                                                            </a>
+                                                            <%  }%>   
                                                             &nbsp;&nbsp;
                                                             <i class="viewComment">
                                                                 <a onClick ="viewComment('<%= shoutID%>,<%= shoutContent%>')" textDecoration = "underline"><span class="float-none" style="color: #64676d; font-size: 12px"><%= shoutComments%> comments &nbsp;</span>
@@ -330,11 +385,50 @@
                                                     </div>
                                                     <div class="col-xl-4 col-md-4 col-4 float-right">
                                                         <div class="bookmark-Shout">
+                                                            <%
+
+                                                                if (shoutBookmarkStatus.equals("false")) {
+                                                            %>
                                                             <span class = "float-right"><a onClick ="bookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkThis">
                                                                     <i class="fa fa-bookmark icon"></i>
                                                                     <i class="fa fa-bookmark-o icon"></i>
                                                                     <span class="bookmark" style="color: #64676d; font-size: 12px">Bookmark This</span>
                                                                 </a></span>
+                                                                <%
+
+                                                                } else if (shoutBookmarkStatus.equals("true")) {
+                                                                %>     
+                                                            <span class = "float-right"><a onClick ="unbookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkedThis">
+                                                                    <i class="fa fa-bookmark icon"></i>
+                                                                    <i class="fa fa-bookmark-o icon"></i>
+                                                                    <span class="bookmark" style="color: #64676d; font-size: 12px">Bookmarked</span>
+                                                                </a></span>
+                                                                <%  }%>
+                                                        </div>
+
+                                                        <%-- updated with delete-Shout2
+                                                        <div class="delete-Shout">
+                                                            <%
+
+                                                                if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
+                                                            %>
+                                                            <span class = "float-right"><a href = "ShoutsSysUser?pageTransit=goToDeleteShoutSYS&hiddenUsername=<%=loggedInUsername%>&hiddenShoutID=<%=shoutID%>" onclick="return confirm('Confirm delete?')" class="deleteThis">
+                                                                    <i class="fa fa-trash icon"></i>
+                                                                    <i class="fa fa-trash-o icon"></i>
+                                                                    <span class="float-none shoutDelete" style="color: #64676d; font-size: 12px">&nbsp;Delete Shout</a></span>
+                                                                    <%  }%>
+                                                        </div>
+                                                        --%>
+
+                                                        <div class="delete-Shout2">
+                                                            <%
+                                                                if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
+                                                            %>
+                                                            <span class = "float-right"><a onClick = "deleteAlert(<%=shoutID%>)" onclick="return confirm('Confirm delete?')" class="deleteThis">
+                                                                    <i class="fa fa-trash icon"></i>
+                                                                    <i class="fa fa-trash-o icon"></i>
+                                                                    <span class="float-none shoutDelete" style="color: #64676d; font-size: 12px">&nbsp;Delete Shout</a></span>
+                                                                    <%  }%>
                                                         </div>
                                                         <%-- bookmark alert in iframe 
                                                             <div class="bookmark-Shout">
@@ -359,8 +453,11 @@
                                                 <i class="fa fa-clock-o">&nbsp;</i><span class="float-none shoutDuration" style="color: #64676d; font-size: 12px">Posted <%= shoutDuration%>
                                                     <%--    on <%= shoutDate%> --%>
                                                 </span>
+                                                
+                                                <span class="float-none shoutDate" hidden="true" style="color: #64676d; font-size: 12px"><%= shoutDate%>
+                                                </span>
 
-                                                <span class = "float-right"><a onClick ="reportShout(<%= shoutID%>)" class="reportThis">
+                                                <span class = "float-right"><a onClick ="reportShout('<%= shoutID%>,<%= shoutContent%>')" class="reportThis">
                                                         <i class="fa fa-flag icon"></i>
                                                         <i class="fa fa-flag-o icon"></i>
                                                         <span class="report" style="color: #64676d; font-size: 12px">Report Post</span>
@@ -396,7 +493,26 @@
                     </div>
                 </div>
             </div>
-            <!-- <div id="unifyFooter"></div> -->
+            
+            <div class="chat-main">
+                <div class="col-md-12 chat-header">
+                    <div class="row header-one text-white p-1">
+                        <div class="col-md-6 name pl-2">
+                            <i class="fa fa-comment"></i>
+                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
+                        </div>
+                        <div class="col-md-6 options text-right pr-0">
+                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-content">
+                    <div class="col-md-12 chats">
+                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
+                    </div>
+                </div>
+            </div>
+            
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
@@ -404,10 +520,14 @@
         </div>
 
         <div id="reportShout-iframe"></div>                    
-        <div id="viewComment-iframe"></div>                    
+        <div id="viewComment-iframe"></div>
+        <div id="newShout-iframe"></div>
+        <div id="deleteShout-alert"></div> 
         <div id="bookmark-alert"></div> 
-        <div id="bookmark-iframe"></div> 
-        <div id="like-alert"></div> 
+        <div id="unbookmark-alert"></div> 
+        <div id="like-alert"></div>
+        <div id="unlike-alert"></div> 
+
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>

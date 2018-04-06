@@ -25,6 +25,7 @@ import unifyentities.errands.JobReviewEntity;
 import unifyentities.marketplace.ItemTransactionEntity;
 import unifyentities.errands.JobTransactionEntity;
 
+import unifyentities.common.ChatEntity;
 import unifyentities.common.CompanyReviewReportEntity;
 import unifyentities.common.ItemReportEntity;
 import unifyentities.common.JobReportEntity;
@@ -32,6 +33,7 @@ import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.marketplace.ItemOfferEntity;
 import unifyentities.errands.JobOfferEntity;
+import unifyentities.shouts.ShoutsEntity;
 import unifyentities.shouts.ShoutsLikesEntity;
 import unifyentities.shouts.ShoutsCommentsEntity;
 import unifyentities.shouts.ShoutsBookmarksEntity;
@@ -49,7 +51,7 @@ public class UserEntity implements Serializable {
     private String userType;
     //active by default
     private Boolean userActiveStatus = true;
-    private String imgFileName = "defaultPhoto.jpg";
+    private String imgFileName = "unknown-user.png";
     private String email;
     private String contactNum;
     
@@ -62,6 +64,8 @@ public class UserEntity implements Serializable {
     private Set<ItemEntity> itemSet = new HashSet<ItemEntity>();
     @OneToMany(mappedBy = "userEntity")
     private Collection<JobEntity> jobSet = new ArrayList<JobEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<ChatEntity> chatSet = new ArrayList<ChatEntity>();
     @OneToMany(mappedBy = "userEntity")
     private Collection<ItemOfferEntity> itemOfferSet = new ArrayList<ItemOfferEntity>();
     @OneToMany(mappedBy = "userEntity")
@@ -90,6 +94,8 @@ public class UserEntity implements Serializable {
     private Collection<ItemTransactionEntity> itemTransactionSet = new ArrayList<ItemTransactionEntity>();
     @OneToMany(mappedBy = "userEntity")
     private Collection<JobTransactionEntity> jobTransactionSet = new ArrayList<JobTransactionEntity>();
+    //@OneToMany(mappedBy = "userEntity", cascade=CascadeType.ALL)
+    //private Collection<ShoutsEntity> shoutsSet = new ArrayList<ShoutsEntity>();   
     @OneToMany(mappedBy = "userEntity")
     private Collection<ShoutsLikesEntity> shoutsLikesSet = new ArrayList<ShoutsLikesEntity>();    
     @OneToMany(mappedBy = "userEntity")
@@ -157,6 +163,7 @@ public class UserEntity implements Serializable {
     /* GETTER METHODS (UNIFY) */
     public Set<ItemEntity> getItemSet() { return itemSet; }
     public Collection<JobEntity> getJobSet() { return jobSet; }
+    public Collection<ChatEntity> getChatSet() { return chatSet; }
     public Collection<ItemOfferEntity> getItemOfferSet() { return itemOfferSet; }
     public Collection<JobOfferEntity> getJobOfferSet() { return jobOfferSet; }
     public Collection<LikeListingEntity> getLikeListingSet() { return likeListingSet; }
@@ -171,6 +178,7 @@ public class UserEntity implements Serializable {
     public Collection<JobReviewEntity> getJobReviewSet() { return jobReviewSet; }
     public Collection<ItemTransactionEntity> getItemTransactionSet() { return itemTransactionSet; }
     public Collection<JobTransactionEntity> getJobTransactionSet() { return jobTransactionSet; }
+    //public Collection<ShoutsEntity> getShoutsSet() { return shoutsSet; }
     public Collection<ShoutsLikesEntity> getShoutsLikesSet() { return shoutsLikesSet; }
     public Collection<ShoutsCommentsEntity> getShoutsCommentsSet() { return shoutsCommentsSet; }
     public Collection<ShoutsBookmarksEntity> getShoutsBookmarksSet() { return shoutsBookmarksSet; }
@@ -190,6 +198,7 @@ public class UserEntity implements Serializable {
     /* SETTER METHODS (UNIFY) */
     public void setItemSet(Set<ItemEntity> itemSet) { this.itemSet = itemSet; }
     public void setJobSet(Collection<JobEntity> jobSet) { this.jobSet = jobSet; }
+    public void setChatSet(Collection<ChatEntity> chatSet) { this.chatSet = chatSet; }
     public void setItemOfferSet(Collection<ItemOfferEntity> itemOfferSet) { this.itemOfferSet = itemOfferSet; }
     public void setJobOfferSet(Collection<JobOfferEntity> jobOfferSet) { this.jobOfferSet = jobOfferSet; }
     public void setLikeListingSet(Collection<LikeListingEntity> likeListingSet) { this.likeListingSet = likeListingSet; }
@@ -204,6 +213,7 @@ public class UserEntity implements Serializable {
     public void setJobReviewSet(Collection<JobReviewEntity> jobReviewSet) { this.jobReviewSet = jobReviewSet; }
     public void setItemTransactionSet(Collection<ItemTransactionEntity> itemTransactionSet) { this.itemTransactionSet = itemTransactionSet; }
     public void setJobTransactionSet(Collection<JobTransactionEntity> jobTransactionSet) { this.jobTransactionSet = jobTransactionSet; }
+    //public void setShoutsSet(Collection<ShoutsEntity> shoutsSet) { this.shoutsSet = shoutsSet; }
     public void setShoutsLikesSet(Collection<ShoutsLikesEntity> shoutsLikesSet) { this.shoutsLikesSet = shoutsLikesSet; }
     public void setShoutsCommentsSet(Collection<ShoutsCommentsEntity> shoutsCommentsSet) { this.shoutsCommentsSet = shoutsCommentsSet; }
     public void setShoutsBookmarksSet(Collection<ShoutsBookmarksEntity> shoutsBookmarksSet) { this.shoutsBookmarksSet = shoutsBookmarksSet; }

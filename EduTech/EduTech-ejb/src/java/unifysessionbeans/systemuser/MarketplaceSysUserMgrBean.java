@@ -24,9 +24,13 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import unifyentities.common.CategoryEntity;
 import unifyentities.marketplace.ItemEntity;
 import unifyentities.marketplace.ItemOfferEntity;
+import unifyentities.common.ItemReportEntity;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import commoninfrastructureentities.UserEntity;
@@ -39,8 +43,8 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
 
     private CategoryEntity cEntity;
     private ItemEntity iEntity;
+    private ItemReportEntity irEntity;
     private ItemOfferEntity ioEntity;
-    private ItemTransactionEntity itEntity;
     private LikeListingEntity llEntity;
     private MessageEntity mEntity;
     private UserEntity uEntity;
@@ -49,7 +53,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     @Override
-    public List<Vector> viewItemList() {
+    public List<Vector> viewItemList(String username) {
         Date currentDate = new Date();
         String dateString = "";
 
@@ -107,13 +111,88 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemVec.add(df.format(itemE.getItemPostingDate()));
             itemVec.add(String.format ("%,.2f", itemE.getItemPrice()));
             itemVec.add(getItemLikeCount(itemE.getItemID()));
+            if(lookupLike(itemE.getItemID(), username) == null) { itemVec.add(false);}
+            else { itemVec.add(true); }
             itemVec.add(itemE.getItemCondition());
             itemList.add(itemVec);
             dateString = "";
         }
         return itemList;
     }
+    
+    @Override
+    public String viewProximityItemListing(String username) {
+        Date currentDate = new Date();
+        String dateString = "";
 
+        JSONObject jsonNode;
+        JSONArray jsonNodeArr = new JSONArray();
+        
+        Query q = em.createQuery("SELECT i FROM Item i WHERE i.itemStatus = 'Available' AND "
+                + "i.categoryEntity.categoryActiveStatus = '1'");
+
+        for (Object o : q.getResultList()) {
+            ItemEntity itemE = (ItemEntity) o;
+            jsonNode = new JSONObject();
+            
+            jsonNode.put("itemID", itemE.getItemID());
+            jsonNode.put("itemImage", itemE.getItemImage());
+            jsonNode.put("itemName", itemE.getItemName());
+            jsonNode.put("itemCategory", itemE.getCategoryEntity().getCategoryName());
+            jsonNode.put("itemSellerID", itemE.getUserEntity().getUsername());
+            jsonNode.put("itemSellerImage", itemE.getUserEntity().getImgFileName());
+            
+            long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            jsonNode.put("itemPostedDuration", dateString);
+            jsonNode.put("itemPostingDate", df.format(itemE.getItemPostingDate()));
+            jsonNode.put("itemPrice", String.format ("%,.2f", itemE.getItemPrice()));
+            jsonNode.put("itemLikeCount", getItemLikeCount(itemE.getItemID()));
+            if(lookupLike(itemE.getItemID(), username) == null) { jsonNode.put("userItemLikeStatus", false); }
+            else { jsonNode.put("userItemLikeStatus", true); }
+            jsonNode.put("itemCondition", itemE.getItemCondition());
+            jsonNode.put("itemTradeLat", itemE.getTradeLat());
+            jsonNode.put("itemTradeLong", itemE.getTradeLong());
+            
+            jsonNodeArr.add(jsonNode);
+        }
+        return jsonNodeArr.toJSONString();
+    }
+
+    /* FOR EDIT ITEM LISTING */ 
     @Override
     public Vector viewItemDetails(long itemID) {
         iEntity = lookupItem(itemID);
@@ -241,6 +320,13 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return assocCategoryItemList;
     }
     
+    /* SOLELY FOR USED BY MarketplaceSysUserController "goToMsgViewItemDetailsSYS" */
+    @Override
+    public String lookupCategoryName(long itemID) {
+        iEntity = lookupItem(itemID);
+        return iEntity.getCategoryEntity().getCategoryName();
+    }
+    
     @Override
     public String createItemListing(String itemName, double itemPrice, String itemCondition, 
             String itemDescription, String itemImagefileName, long categoryID, String username, 
@@ -313,20 +399,19 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     }
     
     @Override
-    public String sendItemOfferPrice(long itemIDHidden, String usernameHidden, String itemOfferPrice, 
-            String itemOfferDescription) {
-        if (lookupItem(itemIDHidden) == null) { return "There are some issues with the item listing. Please try again."; }
-        else if(lookupUnifyUser(usernameHidden) == null) { return "There are some issues with your user profile. Please try again."; }
-        else if(lookupItemOffer(itemIDHidden, usernameHidden) != null) { return "You have sent an offer previously. Please go to your profile to check or update your offer."; }
+    public String sendItemOfferPrice(long itemID, String username, String itemOfferPrice, String itemOfferDescription) {
+        if (lookupItem(itemID) == null) { return "There are some issues with the item listing. Please try again."; }
+        else if(lookupUnifyUser(username) == null) { return "There are some issues with your user profile. Please try again."; }
+        else if(lookupItemOfferCurrStatus(itemID, username) != null) { return "You have sent an offer previously. Please go to your profile to check or update your offer."; }
         else if(itemOfferPrice.equals("")) { return "Item offer price cannot be empty."; }
         else if(!isNumeric(itemOfferPrice)) { return "Please enter a valid item offer price."; }
         else if(Double.parseDouble(itemOfferPrice) < 0.0 || Double.parseDouble(itemOfferPrice) > 9999.0) { return "Item offer price must be between 0 to 9999. Please try again."; }
         else {
-            iEntity = lookupItem(itemIDHidden);
-            itemBuyerOfferEntity = lookupUnifyUser(usernameHidden);
-            itemSellerEntity = lookupUnifyUser(lookupItem(itemIDHidden).getUserEntity().getUsername());
-            ioEntity = new ItemOfferEntity();
+            iEntity = lookupItem(itemID);
+            itemBuyerOfferEntity = lookupUnifyUser(username);
+            itemSellerEntity = lookupUnifyUser(lookupItem(itemID).getUserEntity().getUsername());
             
+            ioEntity = new ItemOfferEntity();
             if(ioEntity.createItemOffer(Double.parseDouble(itemOfferPrice), itemOfferDescription)) {
                 ioEntity.setItemEntity(iEntity);
                 ioEntity.setUserEntity(itemBuyerOfferEntity);
@@ -338,7 +423,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                 mEntity = new MessageEntity();
                 mEntity.createContentMessage(itemBuyerOfferEntity.getUsername(), iEntity.getUserEntity().getUsername(), 
                         itemBuyerOfferEntity.getUsername() + " sent an offer for your " + iEntity.getItemName() + ". Check it out!", 
-                        iEntity.getItemID(), "Marketplace");
+                        iEntity.getItemID(), "Marketplace (Item Offer)");
                 /* ITEM BUYER WHO SENT THE OFFER IS THE USERENTITY_USERNAME */
                 mEntity.setUserEntity(itemBuyerOfferEntity);
                 itemSellerEntity.getMessageSet().add(mEntity);
@@ -356,13 +441,40 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
     }
     
     @Override
-    public String likeUnlikeItem(long itemIDHid, String usernameHid) {
-        if (lookupItem(itemIDHid) == null) { return "0"; }
-        else if(lookupUnifyUser(usernameHid) == null) { return "0"; }
+    public String reportItemListing(long itemID, String username, String itemReportCategory, String itemReportDescription) {
+        if (lookupItem(itemID) == null) { return "There are some issues with the item listing. Please try again."; }
+        else if(lookupUnifyUser(username) == null) { return "There are some issues with your user profile. Please try again."; }
+        else if(lookupPendingItemReport(itemID, username) != null) { return "You have sent a report about this item previously. The administrators are looking into this."; }
+        else if(itemReportCategory.equals("") || itemReportDescription.equals("")) { return "Report Category and Report Description cannot be empty."; }
         else {
-            iEntity = lookupItem(itemIDHid);
-            uEntity = lookupUnifyUser(usernameHid);
-            if (lookupLike(itemIDHid, usernameHid) == null) {
+            iEntity = lookupItem(itemID);
+            uEntity = lookupUnifyUser(username);
+            irEntity = new ItemReportEntity();
+            
+            if(irEntity.createItemReport(itemReportCategory, itemReportDescription, iEntity.getUserEntity().getUsername())) {
+                irEntity.setItemEntity(iEntity);
+                irEntity.setUserEntity(uEntity);
+                iEntity.getItemReportSet().add(irEntity);
+                uEntity.getItemReportSet().add(irEntity);
+                
+                em.persist(irEntity);
+                em.merge(iEntity);
+                em.merge(uEntity);
+                return "Your item report has been sent. We will review your item report. Thank you!";
+            } else {
+                return "Error occured while sending your item report. Please try again.";
+            }
+        }
+    }
+    
+    @Override
+    public String likeUnlikeItem(long itemID, String username) {
+        if (lookupItem(itemID) == null) { return "0"; }
+        else if(lookupUnifyUser(username) == null) { return "0"; }
+        else {
+            iEntity = lookupItem(itemID);
+            uEntity = lookupUnifyUser(username);
+            if (lookupLike(itemID, username) == null) {
                 llEntity = new LikeListingEntity();
                 if(llEntity.addNewLike("Marketplace")) {
                     llEntity.setItemEntity(iEntity);
@@ -374,7 +486,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                     mEntity = new MessageEntity();
                     mEntity.createContentMessage(uEntity.getUsername(), iEntity.getUserEntity().getUsername(), 
                         uEntity.getUsername() + " likes your " + iEntity.getItemName() + ". Check it out!", 
-                        iEntity.getItemID(), "Marketplace");
+                        iEntity.getItemID(), "Marketplace (Item Like)");
                     /* ITEM LIKER IS THE USERENTITY_USERNAME */
                     mEntity.setUserEntity(uEntity);
                     (iEntity.getUserEntity()).getMessageSet().add(mEntity);
@@ -383,23 +495,25 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
                     em.persist(mEntity);
                     em.merge(iEntity);
                     em.merge(uEntity);
+                    em.merge(iEntity.getUserEntity());
                 }
             } else {
-                llEntity = lookupLike(itemIDHid, usernameHid);
+                llEntity = lookupLike(itemID, username);
                 iEntity.getLikeListingSet().remove(llEntity);
                 uEntity.getLikeListingSet().remove(llEntity);
                 
-                mEntity = lookupContentMessage(itemIDHid, usernameHid);
+                mEntity = lookupContentMessage(itemID, username);
                 (iEntity.getUserEntity()).getMessageSet().remove(mEntity);
                 
                 em.remove(llEntity);
                 em.remove(mEntity);
                 em.merge(uEntity);
+                em.merge(iEntity.getUserEntity());
                 em.flush();
                 em.clear();
             }
         }
-        return String.valueOf(getItemLikeCount(itemIDHid));
+        return String.valueOf(getItemLikeCount(itemID));
     }
     
     @Override
@@ -413,6 +527,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             Vector likeListingVec = new Vector();
 
             likeListingVec.add(likeListingE.getUserEntity().getUsername());
+            likeListingVec.add(likeListingE.getUserEntity().getImgFileName());
             likeListingVec.add(likeListingE.getUserEntity().getUserFirstName());
             likeListingVec.add(likeListingE.getUserEntity().getUserLastName());
             likeListingVec.add(getPositiveItemReviewCount(likeListingE.getUserEntity().getUsername()));
@@ -439,296 +554,6 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemCategoryList.add(itemCategoryVec);
         }
         return itemCategoryList;
-    }
-    
-    /* USER ACCOUNT */
-    @Override
-    public List<Vector> viewItemTransaction(String username) {
-        Query q = em.createQuery("SELECT t FROM ItemTransaction t WHERE t.userEntity.username = :username");
-        q.setParameter("username", username);
-        List<Vector> itemTransList = new ArrayList<Vector>();
-        
-        for (Object o : q.getResultList()) {
-            ItemTransactionEntity itemTransE = (ItemTransactionEntity) o;
-            Vector itemTransVec = new Vector();
-
-            /* ITEM SELLER IS THE PERSON WHO CREATED THE ITEM TRANSACTION */
-            itemTransVec.add(itemTransE.getItemEntity().getItemID());
-            itemTransVec.add(itemTransE.getItemTransactionID());
-            itemTransVec.add(df.format(itemTransE.getItemTransactionDate()));
-            itemTransVec.add(itemTransE.getUserEntity().getUsername());
-            itemTransVec.add(itemTransE.getItemBuyerID());
-            itemTransVec.add(itemTransE.getItemEntity().getItemImage());
-            itemTransVec.add(itemTransE.getItemEntity().getItemName());
-            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemEntity().getItemPrice()));
-            itemTransVec.add(String.format ("%,.2f", itemTransE.getItemTransactionPrice()));
-            itemTransList.add(itemTransVec);
-        }
-        return itemTransList;
-    }
-    
-    @Override
-    public Vector viewTransactionItemDetails(long itemID, long itemTransID, String username) {
-        iEntity = lookupItem(itemID);
-        itEntity = lookupItemTransaction(itemTransID);
-        Vector transactionItemDetailsVec = new Vector();
-        
-        if (iEntity != null) {
-            /* ITEM INFORMATION */
-            transactionItemDetailsVec.add(iEntity.getItemID());
-            transactionItemDetailsVec.add(iEntity.getItemName());
-            transactionItemDetailsVec.add(iEntity.getCategoryEntity().getCategoryName());
-            transactionItemDetailsVec.add(String.format ("%,.2f", iEntity.getItemPrice()));
-            transactionItemDetailsVec.add(iEntity.getItemCondition());
-            transactionItemDetailsVec.add(iEntity.getItemDescription());
-            transactionItemDetailsVec.add(iEntity.getItemImage());
-            transactionItemDetailsVec.add(iEntity.getItemStatus());
-            transactionItemDetailsVec.add(getItemLikeCount(itemID));
-            if(lookupLike(itemID, username) == null) { transactionItemDetailsVec.add(false);}
-            else { transactionItemDetailsVec.add(true); }
-            transactionItemDetailsVec.add(df.format(iEntity.getItemPostingDate()));
-            /* TRADE INFORMATION */
-            transactionItemDetailsVec.add(iEntity.getTradeLocation());
-            transactionItemDetailsVec.add(iEntity.getTradeLat());
-            transactionItemDetailsVec.add(iEntity.getTradeLong());
-            transactionItemDetailsVec.add(iEntity.getTradeInformation());
-            /* ITEM SELLER INFORMATION */
-            transactionItemDetailsVec.add(iEntity.getUserEntity().getUsername());
-            transactionItemDetailsVec.add(iEntity.getUserEntity().getImgFileName());
-            transactionItemDetailsVec.add(df.format(iEntity.getUserEntity().getUserCreationDate()));
-            transactionItemDetailsVec.add(getPositiveItemReviewCount(iEntity.getUserEntity().getUsername()));
-            transactionItemDetailsVec.add(getNeutralItemReviewCount(iEntity.getUserEntity().getUsername()));
-            transactionItemDetailsVec.add(getNegativeItemReviewCount(iEntity.getUserEntity().getUsername()));
-            /* ITEM TRANSACTION + ITEM BUYER INFORMATION */
-            transactionItemDetailsVec.add(df.format(itEntity.getItemTransactionDate()));
-            transactionItemDetailsVec.add(itEntity.getItemBuyerID());
-            transactionItemDetailsVec.add(lookupUnifyUser(itEntity.getItemBuyerID()).getImgFileName());
-            transactionItemDetailsVec.add(df.format(lookupUnifyUser(itEntity.getItemBuyerID()).getUserCreationDate()));
-            transactionItemDetailsVec.add(getPositiveItemReviewCount(lookupUnifyUser(itEntity.getItemBuyerID()).getUsername()));
-            transactionItemDetailsVec.add(getNeutralItemReviewCount(lookupUnifyUser(itEntity.getItemBuyerID()).getUsername()));
-            transactionItemDetailsVec.add(getNegativeItemReviewCount(lookupUnifyUser(itEntity.getItemBuyerID()).getUsername()));
-            transactionItemDetailsVec.add(String.format ("%,.2f", itEntity.getItemTransactionPrice()));
-        }
-        return transactionItemDetailsVec;
-    }
-    
-    @Override
-    public List<Vector> viewItemOfferList(String username) {
-        Date currentDate = new Date();
-        String dateString = "";
-        
-        Query q = em.createQuery("SELECT i FROM Item i WHERE i.userEntity.username = :username AND "
-                + "i.categoryEntity.categoryActiveStatus = '1' AND (i.itemStatus = 'Available' OR "
-                + "i.itemStatus = 'Reserved' OR i.itemStatus = 'Sold')");
-        q.setParameter("username", username);
-        List<Vector> itemOfferList = new ArrayList<Vector>();
-
-        for (Object o : q.getResultList()) {
-            ItemEntity itemE = (ItemEntity) o;
-            Vector itemOfferVec = new Vector();
-            
-            itemOfferVec.add(itemE.getItemID());
-            itemOfferVec.add(itemE.getItemImage());
-            itemOfferVec.add(itemE.getItemName());
-            itemOfferVec.add(itemE.getCategoryEntity().getCategoryName());
-            itemOfferVec.add(itemE.getUserEntity().getUsername());
-            itemOfferVec.add(itemE.getUserEntity().getImgFileName());
-
-            long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000) % 24;
-            long diffDays = diff / (24 * 60 * 60 * 1000);
-
-            if (diffDays != 0) {
-                dateString = diffDays + " day";
-                if (diffDays == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffHours != 0) {
-                dateString = diffHours + " hour";
-                if (diffHours == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffMinutes != 0) {
-                dateString = diffMinutes + " minute";
-                if (diffMinutes == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffSeconds != 0) {
-                dateString = diffSeconds + " second";
-                if (diffSeconds == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            }
-            itemOfferVec.add(dateString);
-            itemOfferVec.add(df.format(itemE.getItemPostingDate()));
-            itemOfferVec.add(String.format ("%,.2f", itemE.getItemPrice()));
-            itemOfferVec.add(getItemLikeCount(itemE.getItemID()));
-            itemOfferVec.add(getPendingItemOfferCount(itemE.getItemID()));
-            itemOfferVec.add(itemE.getItemCondition());
-            itemOfferVec.add(itemE.getItemStatus());
-            itemOfferList.add(itemOfferVec);
-            dateString = "";
-        }
-        return itemOfferList;
-    }
-    
-    @Override
-    public List<Vector> viewItemOfferUserList(String username, long urlitemID) {
-        boolean itemInfoEntry = false;
-        Date currentDate = new Date();
-        String dateString = "";
-        List<Vector> itemOfferUserList = new ArrayList<Vector>();
-
-        Query q = em.createQuery("SELECT o FROM ItemOffer o WHERE o.itemEntity.userEntity.username = :username "
-                + "AND o.itemEntity.itemID = :itemID");
-        q.setParameter("username", username);
-        q.setParameter("itemID", urlitemID);
-        
-        for (Object o : q.getResultList()) {
-            ItemOfferEntity itemOfferE = (ItemOfferEntity) o;
-            Vector itemOfferUserVec = new Vector();
-            
-            if(itemInfoEntry == false) {
-                Vector itemUserVec = new Vector();
-                itemUserVec.add(itemOfferE.getItemEntity().getItemID());
-                itemUserVec.add(itemOfferE.getItemEntity().getItemName());
-                itemUserVec.add(itemOfferE.getItemEntity().getItemImage());
-                itemUserVec.add(String.format ("%,.2f", itemOfferE.getItemEntity().getItemPrice()));
-                itemUserVec.add(itemOfferE.getItemEntity().getItemCondition());
-                itemOfferUserList.add(itemUserVec);
-                itemInfoEntry = true;
-            }
-            itemOfferUserVec.add(itemOfferE.getUserEntity().getUsername());
-            itemOfferUserVec.add(itemOfferE.getUserEntity().getUserFirstName());
-            itemOfferUserVec.add(itemOfferE.getUserEntity().getUserLastName());
-            itemOfferUserVec.add(itemOfferE.getUserEntity().getImgFileName());
-            itemOfferUserVec.add(getPositiveItemReviewCount(itemOfferE.getUserEntity().getUsername()));
-            itemOfferUserVec.add(getNeutralItemReviewCount(itemOfferE.getUserEntity().getUsername()));
-            itemOfferUserVec.add(getNegativeItemReviewCount(itemOfferE.getUserEntity().getUsername()));
-            itemOfferUserVec.add(String.format ("%,.2f", itemOfferE.getItemOfferPrice()));
-            itemOfferUserVec.add(itemOfferE.getItemOfferDescription());
-            itemOfferUserVec.add(itemOfferE.getItemOfferStatus());
-            
-            long diff = currentDate.getTime() - itemOfferE.getItemOfferDate().getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000) % 24;
-            long diffDays = diff / (24 * 60 * 60 * 1000);
-
-            if (diffDays != 0) {
-                dateString = diffDays + " day";
-                if (diffDays == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffHours != 0) {
-                dateString = diffHours + " hour";
-                if (diffHours == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffMinutes != 0) {
-                dateString = diffMinutes + " minute";
-                if (diffMinutes == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffSeconds != 0) {
-                dateString = diffSeconds + " second";
-                if (diffSeconds == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            }
-            itemOfferUserVec.add(dateString);
-            itemOfferUserVec.add(df.format(itemOfferE.getItemOfferDate()));
-            itemOfferUserList.add(itemOfferUserVec);
-            dateString = "";
-        }
-        return itemOfferUserList;
-    }
-    
-    /*  ====================    USER PROFILE    ==================== */
-    @Override
-    public List<Vector> viewUserItemList(String itemSellerID) {
-        Date currentDate = new Date();
-        String dateString = "";
-        
-        Query q = em.createQuery("SELECT i FROM Item i WHERE i.userEntity.username = :username AND "
-                + "i.categoryEntity.categoryActiveStatus = '1' AND (i.itemStatus = 'Available' OR "
-                + "i.itemStatus = 'Reserved' OR i.itemStatus = 'Sold')");
-        q.setParameter("username", itemSellerID);
-        List<Vector> userItemList = new ArrayList<Vector>();
-
-        for (Object o : q.getResultList()) {
-            ItemEntity userItemE = (ItemEntity) o;
-            Vector userItemVec = new Vector();
-
-            userItemVec.add(userItemE.getItemID());
-            userItemVec.add(userItemE.getItemImage());
-            userItemVec.add(userItemE.getItemName());
-            userItemVec.add(userItemE.getCategoryEntity().getCategoryName());
-            userItemVec.add(userItemE.getUserEntity().getUsername());
-            userItemVec.add(userItemE.getUserEntity().getImgFileName());
-
-            long diff = currentDate.getTime() - userItemE.getItemPostingDate().getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000) % 24;
-            long diffDays = diff / (24 * 60 * 60 * 1000);
-
-            if (diffDays != 0) {
-                dateString = diffDays + " day";
-                if (diffDays == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffHours != 0) {
-                dateString = diffHours + " hour";
-                if (diffHours == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffMinutes != 0) {
-                dateString = diffMinutes + " minute";
-                if (diffMinutes == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            } else if (diffSeconds != 0) {
-                dateString = diffSeconds + " second";
-                if (diffSeconds == 1) {
-                    dateString += " ago";
-                } else {
-                    dateString += "s ago";
-                }
-            }
-            userItemVec.add(dateString);
-            userItemVec.add(df.format(userItemE.getItemPostingDate()));
-            userItemVec.add(String.format ("%,.2f", userItemE.getItemPrice()));
-            userItemVec.add(getItemLikeCount(userItemE.getItemID()));
-            userItemVec.add(userItemE.getItemCondition());
-            userItemList.add(userItemVec);
-            dateString = "";
-        }
-        return userItemList;
     }
     
     /* MISCELLANEOUS METHODS */
@@ -808,10 +633,12 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return ite;
     }
     
-    public ItemOfferEntity lookupItemOffer(long itemID, String username) {
+    public ItemOfferEntity lookupItemOfferCurrStatus(long itemID, String username) {
         ItemOfferEntity ioe = new ItemOfferEntity();
         try {
-            Query q = em.createQuery("SELECT io FROM ItemOffer io WHERE io.itemEntity.itemID = :itemID AND io.userEntity.username = :username");
+            Query q = em.createQuery("SELECT io FROM ItemOffer io WHERE io.itemEntity.itemID = :itemID AND "
+                    + "io.userEntity.username = :username AND (io.buyerItemOfferStatus = 'Pending' OR "
+                    + "io.buyerItemOfferStatus = 'Processing' OR io.buyerItemOfferStatus = 'Accepted')");
             q.setParameter("itemID", itemID);
             q.setParameter("username", username);
             ioe = (ItemOfferEntity) q.getSingleResult();
@@ -825,6 +652,26 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             ioe = null;
         }
         return ioe;
+    }
+    
+    public ItemReportEntity lookupPendingItemReport(long itemID, String username) {
+        ItemReportEntity ire = new ItemReportEntity();
+        try {
+            Query q = em.createQuery("SELECT ir FROM ItemReport ir WHERE ir.itemEntity.itemID = :itemID "
+                    + "AND ir.userEntity.username = :username AND ir.itemReportStatus='Unresolved'");
+            q.setParameter("itemID", itemID);
+            q.setParameter("username", username);
+            ire = (ItemReportEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Item report cannot be found. " + enfe.getMessage());
+            em.remove(ire);
+            ire = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Item report does not exist. " + nre.getMessage());
+            em.remove(ire);
+            ire = null;
+        }
+        return ire;
     }
     
     public LikeListingEntity lookupLike(long itemID, String username) {
@@ -882,33 +729,6 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemCategoryStr = itemCategoryStr.substring(0, itemCategoryStr.length()-1);
         }
         return itemCategoryStr;
-    }
-    
-    /* MISCELLANEOUS METHODS (ITEM OFFER) */
-    public Long getPendingItemOfferCount(long itemID) {
-        Long pendingItemOfferCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(o.itemOfferID) FROM ItemOffer o WHERE o.itemEntity.itemID = :itemID AND o.itemOfferStatus = 'Pending'");
-        q.setParameter("itemID", itemID);
-        try {
-            pendingItemOfferCount = (Long) q.getSingleResult();
-        } catch (Exception ex) {
-            System.out.println("Exception in MarketplaceSysUserMgrBean.getPendingItemOfferCount().getSingleResult()");
-            ex.printStackTrace();
-        }
-        return pendingItemOfferCount;
-    }
-    
-    public Long getRejectedItemOfferCount(long itemID) {
-        Long rejectedItemOfferCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(o.itemOfferID) FROM ItemOffer o WHERE o.itemEntity.itemID = :itemID AND o.itemOfferStatus = 'Pending'");
-        q.setParameter("itemID", itemID);
-        try {
-            rejectedItemOfferCount = (Long) q.getSingleResult();
-        } catch (Exception ex) {
-            System.out.println("Exception in MarketplaceSysUserMgrBean.getRejectedItemOfferCount().getSingleResult()");
-            ex.printStackTrace();
-        }
-        return rejectedItemOfferCount;
     }
     
     /* MISCELLANEOUS METHODS (ITEM LIKE) */

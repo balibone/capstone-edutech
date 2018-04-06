@@ -28,7 +28,9 @@ public class ShoutsSysUserController extends HttpServlet {
 
             switch (pageAction) {
                 case "goToViewShoutsListingSYS":
-                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList());
+                    String usernameShoutListing = request.getParameter("loggedInUsername");
+                    //System.out.println(usernameShoutListing);
+                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(usernameShoutListing));
                     pageAction = "ViewShoutsListingSYS";
                     break;
                 case "goToSetBookmarkSYS":
@@ -38,6 +40,20 @@ public class ShoutsSysUserController extends HttpServlet {
                     String bookmarkShoutID = request.getParameter("hiddenShoutID");
 
                     responseMessage = setBookmark(bookmarkShoutUser, bookmarkShoutID);
+                    if (responseMessage.endsWith("!")) {
+                        request.setAttribute("successMessage", responseMessage);
+                    } else {
+                        request.setAttribute("errorMessage", responseMessage);
+                    }
+                    pageAction = "ViewShoutBookmarkModalSYS";
+                    break;
+                case "goToRemoveBookmarkSYS":
+                    System.out.println("At (ShoutsSysUserController.goToRemoveBookmarkSYS");
+
+                    String unbookmarkShoutUser = request.getParameter("loggedInUsername");
+                    String unbookmarkShoutID = request.getParameter("hiddenShoutID");
+
+                    responseMessage = removeBookmark(unbookmarkShoutUser, unbookmarkShoutID);
                     if (responseMessage.endsWith("!")) {
                         request.setAttribute("successMessage", responseMessage);
                     } else {
@@ -59,8 +75,25 @@ public class ShoutsSysUserController extends HttpServlet {
                     }
                     pageAction = "ViewShoutBookmarkModalSYS";
                     break;
+                case "goToRemoveLikeSYS":
+                    System.out.println("At (ShoutsSysUserController.goToRemoveLikeSYS");
+
+                    String unlikeShoutUser = request.getParameter("loggedInUsername");
+                    String unlikeShoutID = request.getParameter("hiddenShoutID");
+
+                    responseMessage = removeLike(unlikeShoutUser, unlikeShoutID);
+                    if (responseMessage.endsWith("!")) {
+                        request.setAttribute("successMessage", responseMessage);
+                    } else {
+                        request.setAttribute("errorMessage", responseMessage);
+                    }
+                    pageAction = "ViewShoutBookmarkModalSYS";
+                    break;
                 case "goToNewShoutSYS":
                     pageAction = "NewShoutSYS";
+                    break;
+                case "goToNewShoutModalSYS":
+                    pageAction = "NewShoutModalSYS";
                     break;
                 case "goToCreateShout":
                     System.out.println("At (ShoutsSysUserController.createShoutSYS");
@@ -70,7 +103,22 @@ public class ShoutsSysUserController extends HttpServlet {
                     } else {
                         request.setAttribute("errorMessage", responseMessage);
                     }
-                    pageAction = "NewShoutSYS";
+                    //String usernameAfterCreateShout = request.getParameter("loggedInUsername");
+                    //request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(usernameAfterCreateShout));
+                    //pageAction = "ViewShoutsListingSYS";
+                    pageAction = "NewShoutModalSYS";
+                    break;
+                case "goToDeleteShoutSYS":
+                    System.out.println("At (ShoutsSysUserController.goToDeleteShoutSYS");
+                    responseMessage = deleteShout(request);
+                    if (responseMessage.endsWith("!")) {
+                        request.setAttribute("successMessage", responseMessage);
+                    } else {
+                        request.setAttribute("errorMessage", responseMessage);
+                    }
+                    String usernameAfterShoutDelete = request.getParameter("loggedInUsername");
+                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(usernameAfterShoutDelete));
+                    pageAction = "ViewShoutsListingSYS";
                     break;
                 case "goToReportShoutSubmit":
                     System.out.println("At (ShoutsSysUserController.goToReportShoutSubmit");
@@ -113,7 +161,9 @@ public class ShoutsSysUserController extends HttpServlet {
                     break;
                 case "goToReportShoutModalSYS":
                     String reportShoutIDModal = request.getParameter("hiddenShoutID");
+                    String reportShoutContent = request.getParameter("hiddentShoutContent");
                     request.setAttribute("reportShoutID", reportShoutIDModal);
+                    request.setAttribute("reportShoutContent", reportShoutContent);
                     pageAction = "ReportShoutModalSYS";
                     break;
                 case "goToViewShoutCommentSYS":
@@ -230,6 +280,19 @@ public class ShoutsSysUserController extends HttpServlet {
 
         return responseMessage;
     }
+    
+    private String deleteShout(HttpServletRequest request) {
+
+        String shoutID = request.getParameter("hiddenShoutID");
+        //String shoutUser = request.getParameter("hiddenUsername");
+
+
+        System.out.println("Shout deleted (ShoutsSysUserController.deleteShout)");
+
+        responseMessage = ssmr.deleteShout(shoutID);
+
+        return responseMessage;
+    }
 
     private String createShoutReport(HttpServletRequest request) {
         String shoutReportContent = request.getParameter("shoutReportContent");
@@ -322,8 +385,8 @@ public class ShoutsSysUserController extends HttpServlet {
 
     private String setBookmark(String user, String shoutID) {
 
-        System.out.println(user);
-        System.out.println(shoutID);
+        //System.out.println(user);
+        //System.out.println(shoutID);
 
         System.out.println("Shout bookmarked (ShoutsSysUserController.setBookmark)");
 
@@ -332,18 +395,42 @@ public class ShoutsSysUserController extends HttpServlet {
         return responseMessage;
     }
     
+    private String removeBookmark(String user, String shoutID) {
+
+        //System.out.println(user);
+        //System.out.println(shoutID);
+
+        System.out.println("Shout bookmark removed (ShoutsSysUserController.removeBookmark)");
+
+        responseMessage = ssmr.unbookmarkShout(user, shoutID);
+
+        return responseMessage;
+    }
+    
     private String setLike(String user, String shoutID) {
 
-        System.out.println(user);
-        System.out.println(shoutID);
+        //System.out.println(user);
+        //System.out.println(shoutID);
 
-        System.out.println("Shout bookmarked (ShoutsSysUserController.setLike)");
+        System.out.println("Shout liked (ShoutsSysUserController.setLike)");
 
         responseMessage = ssmr.likeShout(user, shoutID);
 
         return responseMessage;
     }
 
+    private String removeLike(String user, String shoutID) {
+
+        //System.out.println(user);
+        //System.out.println(shoutID);
+
+        System.out.println("Shout unliked (ShoutsSysUserController.removeLike)");
+
+        responseMessage = ssmr.unlikeShout(user, shoutID);
+
+        return responseMessage;
+    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
