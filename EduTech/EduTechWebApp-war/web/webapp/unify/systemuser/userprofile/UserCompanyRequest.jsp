@@ -216,7 +216,6 @@
                                         <th>Company</th>
                                         <th>Industry</th>
                                         <th>Status</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -238,16 +237,6 @@
                                         <td><%= requestCompany %></td>
                                         <td><%= requestIndustry %></td>
                                         <td><%= requestStatus %></td>
-                                        <% if(requestStatus.equals("Pending")) {%>
-                                        <td>
-                                            <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-danger">
-                                                <a href="ProfileSysUser?pageTransit=goToCancelRequest&hiddenRequestID=<%= requestID%>" style="color: #fff; text-decoration:none;"
-                                                   onclick="return confirm('Are you sure to cancel the request?')">Cancel</a>
-                                            </button>
-                                        </td>
-                                        <% } else { %>
-                                        <td></td>
-                                        <% }%>
                                     </tr>
                                     <%      }   %>
                                     <%  }%>
