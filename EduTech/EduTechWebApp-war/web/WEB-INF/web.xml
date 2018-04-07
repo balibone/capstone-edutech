@@ -495,8 +495,7 @@
     <servlet><servlet-name>EditShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/EditShoutCommentModalSYS.jsp</jsp-file></servlet>
 
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
-    
-    <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
+
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->
     
     <servlet-mapping>
