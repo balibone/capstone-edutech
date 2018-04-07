@@ -1,6 +1,21 @@
+var award_count = 1;
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
+    
+    $('#awardBtn').click(function() {
+        award_count++;
+        var row_1 = '<tr class="award" id="award-'+award_count+'">\n\
+                            <td valign="middle"><b><center>Achievement: </center></b></td>\n\
+                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px;"/></td>\n\
+                            <td></td></tr>';
+        $('#awardTable').append(row_1);
+    });
+    
+    $('#awardRemoveBtn').click(function() {
+        $("#award-"+award_count).remove();
+        award_count--;
+    });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });

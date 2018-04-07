@@ -32,7 +32,11 @@ public class ResumeEntity implements Serializable {
     private String contactNum;
     private String emailAddr;
     private String postalAddr;
+    private String awardStr;
+    private String summary;
     private UserEntity userEntity;
+    
+    
 
     @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "resumeEntity")
     private Collection<WorkExprEntity> workExprSet = new ArrayList<WorkExprEntity>();
@@ -71,6 +75,8 @@ public class ResumeEntity implements Serializable {
     public String getContactNum() { return contactNum; }
     public String getEmailAddr() { return emailAddr; }
     public String getPostalAddr() { return postalAddr; }
+    public String getSummary() { return summary; }
+    public String getAwardStr() { return awardStr; }
     public Collection<WorkExprEntity> getWorkExprSet() { return workExprSet; }
     public Collection<EduExprEntity> getEduSet() { return eduExprSet; }
     public Collection<ProjectExprEntity> getProjectExprSet() { return projectExprSet; }

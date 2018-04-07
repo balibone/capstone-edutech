@@ -463,14 +463,14 @@
                         <div class="box jplist-no-results text-shadow align-center">
                             <p><strong>No results found. Please refine your search.</strong></p>
                         </div>
-                        <div class="jplist-search">
+                        <div class="jplist-search box">
                             <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
                                  data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
                             </div>
                             <div class="jplist-label" data-type="Page {current} of {pages}" 
                                  data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
                             </div>
-                            <div class="jplist-pagination" data-control-animate-to-top="true" 
+                            <div class="jplist-pagination" 
                                  data-control-type="pagination" data-control-name="paging" data-control-action="paging">
                             </div>
                         </div>
