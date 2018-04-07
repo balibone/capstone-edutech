@@ -98,6 +98,20 @@
 
 
                     <div class="col-lg-9 col-md-8">
+                        <br>
+                        <div class="card card-product">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-md-12 col-12">
+                                            <div class="shout-main-content">
+                                                <span class="card-content shoutContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><center><i>Comments for shout:<br><%= commentShoutContentModal%></i></center></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <br>
                         <left><a href="ShoutsSysUser?pageTransit=goToNewShoutCommentSYS&hiddenShoutID=<%=commentShoutIDModal%>&hiddenShoutContent=<%=commentShoutContentModal%>"><button type="button" class="btn btn-outline-info center"  ><i class="fa fa-plus"></i>&nbsp;&nbsp;New Comment</button></a><br></left>
@@ -143,7 +157,7 @@
                                             String commentUsername = String.valueOf(v.get(3));
                                             String commentDuration = String.valueOf(v.get(4));
                                 %>
-                                
+
                                 <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
                                         <div class="card-content">
@@ -151,10 +165,11 @@
                                                 <div class="row">
 
                                                     <div class="col-xl-12 col-md-12 col-12">
+                                                        <%-- removed
                                                         <div class="shout-ID">
                                                             <span class="card-header commentCategory" style="color: #007bff; font-size: 10px; line-height: 2.5;">Categories, Type</span>
                                                         </div>
-                                                        <%-- removed
+                                                        
                                                         <div class="shout-ID">
                                                             <span class="card-title commentID" style="color: #2b3233; font-size: 25px; line-height: 2.5;"><strong>#<%= commentID%></strong></span>
                                                         </div>
