@@ -57,9 +57,12 @@
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
+                                    <a href="ProfileSysUser?pageTransit=goToViewChatListSYS&assocItemID=" class="nav-link"><i class="fa fa-comment"></i>&nbsp;&nbsp;My Chats</a>
+                                </li>
+                                <li class="nav-item d-none d-md-block">
                                     <div class="dropdown-container">
                                         <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
-                                            <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
+                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
                                             <% 

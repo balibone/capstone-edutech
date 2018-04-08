@@ -95,18 +95,20 @@
                     <div class="col">
                         <div class="d-flex justify-content-between">
                             <nav class="nav">
-                                <a class="nav-item nav-link d-none d-sm-block" href="#">Unify @ EduBox</a>
-                                <a class="nav-item nav-link d-none d-sm-block" href="#"><i class="fa fa-phone"></i> +123-456-789</a>
+                                <a class="nav-item nav-link d-sm-block" href="#">Unify @ EduBox</a>
                             </nav>
                             <ul class="nav">
-
                                 <li class="nav-item d-none d-md-block">
-                                    <div class="dropdown-container"> 
-                                        <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;"> 
-                                            <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages 
-                                        </a> 
-                                        <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart"> 
-                                            <%                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                    <a href="ProfileSysUser?pageTransit=goToViewChatListSYS&assocItemID=" class="nav-link"><i class="fa fa-comment"></i>&nbsp;&nbsp;My Chats</a>
+                                </li>
+                                <li class="nav-item d-none d-md-block">
+                                    <div class="dropdown-container">
+                                        <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
+                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
+                                            <% 
+                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
                                                     for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
                                                         Vector v = userMessageListTopThreeSYS.get(i);
@@ -115,42 +117,42 @@
                                                         String messageType = String.valueOf(v.get(2));
                                                         String messageSenderImage = String.valueOf(v.get(4));
                                                         String messageSentDuration = String.valueOf(v.get(5));
-                                            %> 
-                                            <div id="<%= messageType%><%= contentID%>" class="media messageDIV"> 
-                                                <%  if (messageType.equals("System")) {%> 
-                                                <img class="img-thumbnail d-flex" src="images/<%= messageSenderImage%>" style="width:35px;height:35px;" /> 
-                                                <%  } else {%> 
-                                                <img class="img-thumbnail d-flex" src="uploads/commoninfrastructure/admin/images/<%= messageSenderImage%>" style="width:35px;height:35px;" /> 
-                                                <%  }%> 
-                                                <div class="message-content pl-3"> 
-                                                    <div><%= messageContent%></div> 
-                                                    <small class="font-weight-normal message-content"> 
-                                                        <i class="fa fa-clock-o"></i>&nbsp;<%= messageSentDuration%>&nbsp;(<%= messageType%>) 
-                                                    </small> 
-                                                </div> 
-                                            </div> 
-                                            <div class="dropdown-divider"></div> 
-                                            <%      }   %> 
-                                            <%  } else {    %> 
-                                            <p style="text-align:center;">There are no notifications.</p> 
-                                            <div class="dropdown-divider"></div> 
-                                            <%  }%> 
-                                            <div class="text-center"> 
-                                                <div class="btn-group btn-group-sm" role="group"> 
-                                                    <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme"> 
-                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;See All Notifications 
-                                                    </a> 
-                                                </div> 
-                                            </div> 
-                                            <div class="dropdown-divider"></div> 
-                                        </div> 
-                                    </div> 
+                                            %>
+                                            <div id="<%= messageType%><%= contentID%>" class="media messageDIV">
+                                                <%  if (messageType.equals("System")) {%>
+                                                <img class="img-thumbnail d-flex" src="images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  } else {%>
+                                                <img class="img-thumbnail d-flex" src="uploads/commoninfrastructure/admin/images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  }%>
+                                                <div class="message-content pl-3">
+                                                    <div><%= messageContent%></div>
+                                                    <small class="font-weight-normal message-content">
+                                                        <i class="fa fa-clock-o"></i>&nbsp;<%= messageSentDuration%>&nbsp;(<%= messageType%>)
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                            <%      }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
+                                            <%  }   %>
+                                            <div class="text-center">
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
+                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;See All Notifications
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                        </div>
+                                    </div>
                                 </li>
                                 <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
-                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
-                                    <option value="ProfileSysUser?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
+                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
                                 </select>
                             </ul>
                         </div>
