@@ -224,7 +224,7 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
-                                <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList" class="list-group-item list-group-item-action">
+                                <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList&username=<%=loggedInUsername%>" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
                                 </a>
                                 <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
@@ -285,7 +285,7 @@
                                     
                                     <%
                                         String message = (String)request.getAttribute("message");
-                                        
+                                           if(!message.equals("")){
                                             if(message.endsWith("!")){
                                     %>
                                     <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
@@ -301,7 +301,7 @@
                                     </div>
                                     <%
                                             }
-                                        
+                                        }
                                     %>
                                     </div>
                                 </div>
@@ -355,11 +355,14 @@
                                                         <%}%>
                                                     <span class="offerDate"><i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp;sent on <%=offerDate%></span><br/>
                                                     <div class="action-button">
-                                                        <button id="editOfferBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">Edit</button>
-                                                        <a role="button" href="ProfileSysUser?pageTransit=goToDeleteMyJobOfferSYS&offerID=<%= offerID%>" class="btn btn-danger" onClick="return confirm('Are you sure to withdraw your offer?')">Withdraw</a>
-                                                    
-                            
-                                                    <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <%if(offerStatus.equals("Accepted") || offerStatus.equals("Completed")){%>
+                                                        <a role="button" href="ProfileSysUser?pageTransit=goToDeleteMyJobOfferSYS&offerID=<%= offerID%>" class="btn btn-danger" onClick="return confirm('Are you sure to withdraw your offer?')"><span style="font-size: 14px;">Withdraw</span></a>
+                                                        <% }else{ %>
+                                                        <button id="editOfferBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal"><span style="font-size: 14px;">Edit</span></button>
+                                                        <a role="button" href="ProfileSysUser?pageTransit=goToDeleteMyJobOfferSYS&offerID=<%= offerID%>" class="btn btn-danger" onClick="return confirm('Are you sure to withdraw your offer?')"><span style="font-size: 14px;">Withdraw</span></a>
+                                                        <% } %>
+                                                        
+                                                     <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                       <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                           <div class="modal-header">

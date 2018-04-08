@@ -278,9 +278,9 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "UserJobListingSYS";
                     break;
                 case "goToViewMyJobOfferSYS":
-                    request.setAttribute("message", " ");
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
-                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
+                    request.setAttribute("message", "");
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
+                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(username));
                     pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "editMyJobOfferSYS":

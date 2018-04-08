@@ -163,7 +163,8 @@ public class ErrandsSysUserController extends HttpServlet {
                 case "goToViewJobOfferDetails":
                     String userName = request.getParameter("hiddenUserName");
                     long hiddenJobID = Long.parseLong(request.getParameter("jobID"));
-                    
+                    System.out.println("parameter: " + userName + hiddenJobID);
+                    request.setAttribute("message", "");
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(userName));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(userName, hiddenJobID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
@@ -173,6 +174,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     String userID = request.getParameter("username");
                     long relevantJob = Long.parseLong(request.getParameter("jobId"));
                     
+                    request.setAttribute("message", returnMessage);
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(userID));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(userID, relevantJob));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
@@ -182,6 +184,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     String logInUser = request.getParameter("username");
                     long relatedJob = Long.parseLong(request.getParameter("jobId"));
                     
+                    request.setAttribute("message", returnMsg);
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(logInUser));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(logInUser, relatedJob));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
@@ -191,6 +194,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     String loggedInUser = request.getParameter("username");
                     long jobRelated = Long.parseLong(request.getParameter("jobID"));
                     
+                    request.setAttribute("message", returnStr);
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUser));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUser, jobRelated));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));

@@ -274,34 +274,55 @@
                 <div class="col-lg-7 col-md-7 ml-1">
                     <div class="title"><span>Job Info</span></div>
                     <%
-                        ArrayList<Vector> offerList = (ArrayList) request.getAttribute("jobOfferList");
-                        if (offerList.size() != 0) {
-                            Vector jobInfo = (Vector) offerList.get(0);
-
-                            long jobID = (Long) jobInfo.get(0);
-                            String jobTitle = (String) jobInfo.get(1);
-                            String jobImg = (String) jobInfo.get(2);
-                            String jobRate = (String) jobInfo.get(3);
-                            String jobRateType = (String) jobInfo.get(4);
-                            String category = (String) jobInfo.get(5);
-                            int numOfHelpers = (Integer) jobInfo.get(6);
-                            int num = 0;
+                        ArrayList<Vector> offerList = (ArrayList)request.getAttribute("jobOfferList");
+                        if(offerList.size()!=0){
+                            Vector jobInfo = (Vector)offerList.get(0);
+                            
+                            long jobID = (Long)jobInfo.get(0);
+                            String jobTitle = (String)jobInfo.get(1);
+                            String jobImg = (String)jobInfo.get(2);
+                            String jobRate = (String)jobInfo.get(3);
+                            String jobRateType = (String)jobInfo.get(4);
+                            String category = (String)jobInfo.get(5);
+                            int numOfHelpers = (Integer)jobInfo.get(6);
+                            String jobStatus = (String)jobInfo.get(7);
                     %>
                     <div class="row">
                         <div class="col-xl-4 col-lg-5 col-md-6">
                             <img src="uploads/unify/images/errands/job/<%= jobImg%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer; height: 180px;">
                         </div>
                         <div class="col-xl-8 col-lg-7 col-md-6" >
-                            <span style="font-size: 18px; line-height: 28px;"><strong><%= jobTitle%></strong></span><br/>
+                            <span style="font-size: 20px; line-height: 24px;"><strong><%= jobTitle%></strong></span><br/>
+                            <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <%= jobStatus%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp; Category: <%= category%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; Helpers required: <%= numOfHelpers%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp; Job Rate: S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
                             <a role="button" href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= category%>" class="btn btn-primary" >View Job Details</a>
                         </div>
                    
+                      
                       <div id="offerList">    
                         <div class="col-12 mt-5">
-                          
+                            <%
+                                String message = (String)request.getAttribute("message");
+                                if(!message.equals("")){
+                                    if(message.endsWith("!")){
+                              %>
+                                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                                <button type="button" class="close" id="closeSuccess">&times;</button>
+                                <%= message%>
+                                </div>
+                                <%
+                                }else{
+                                %>
+                                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                                <button type="button" class="close" id="closeError">&times;</button>
+                                <%= message%>
+                                </div>
+                                <%
+                                    }
+                                        }
+                                %>
                             <div class="list">
                             <table class="table table-striped" id="offer-table" style="font-size: 13px;">
                                 <col width="120">
@@ -322,7 +343,7 @@
                                   <%
                                       for(int i=1; i<offerList.size(); i++){
                                           Vector offerDetails = (Vector)offerList.get(i);
-                                          num +=1;
+                                          
                                           String username = (String)offerDetails.get(0);
                                           String firstName = (String)offerDetails.get(1);
                                           String lastName = (String)offerDetails.get(2);
@@ -344,17 +365,23 @@
                                         </div>
 
                                         <%
-                                                }
-                                            }
+                                            if(offerStatus.equals("Processing") || offerStatus.equals("Closed") || offerStatus.equals("Cancelled")){
+                                            
                                         %>
                                         <span>No Action Required.</span>
                                         <%
-                                            }else{
+                                            }else if(offerStatus.equals("Pending") || offerStatus.equals("Negotiating")){
                                         %>
                                         <a role="button" class="btn btn-success" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Accept</span></a>
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#negotiateMessage<%=i%>"><span style="color: white; font-size: 12px;">Negotiate</span></button>
                                         <a role="button" class="btn btn-danger" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Reject</span></a>
-                                        <%}%>
+                                        <% }else if(offerStatus.equals("Accepted")){ %>
+                                        <a role="button" class="btn btn-danger" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Reject</span></a>
+                                        <% }else if(offerStatus.equals("Rejected")){ %>
+                                        <a role="button" class="btn btn-success" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Accept</span></a>
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#negotiateMessage<%=i%>"><span style="color: white; font-size: 12px;">Negotiate</span></button>
+                                        
+                                        <% } %>
                                     </td>
                                  
                                   </tr>

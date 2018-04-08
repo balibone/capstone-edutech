@@ -220,6 +220,7 @@
                     String numOfHelpers = (String.valueOf(jobDetailsSYSVec.get(23)));
                     String checking = (String.valueOf(jobDetailsSYSVec.get(24)));
                     String likeStatus = (String.valueOf(jobDetailsSYSVec.get(25)));
+                    String acceptedOffer = (String.valueOf(jobDetailsSYSVec.get(26)));
                 %>
                 <input type="hidden" id="priceType" value="<%=jobRateType%>"/>
                 <div class="row">
@@ -328,7 +329,9 @@
                             <button id="edit-button" type="button" class="btn btn-outline-theme" onclick="location.href = 'ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>&loginUser=<%= loggedInUsername%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
                             <a role="button" class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=<%= jobID%>&username=<%=loggedInUsername%>" onclick="return confirm('Are you sure to delete the job?')">Delete Job Listing</a>
                             
-                            <%  } else {    %>
+                            <%  } else { 
+                                  if(acceptedOffer.equals("false")){
+                            %>
                             <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme" data-toggle="modal" data-target="#offerModal"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
                             
@@ -370,7 +373,12 @@
                               </div>
                             </div>
                             
-                            <%  }%>
+                            <%  }else{ %>
+                                 <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
+                                 <button type="button" class="btn btn-outline-theme"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;Complete Job</button>   
+                            <%    }
+                              }%>
+                            
                             <%if(likeStatus.equals("true")) {   %>
                             <button type="button" id="likeJobBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
                             <%  } else if(likeStatus.equals("false")) {    %>

@@ -442,7 +442,7 @@
             </a>
             <div id="sellNewItem-iframe"></div>
         </div>
-
+        </div>
         <!-- #1. jQuery v2.2.4 -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v2.2.4.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
@@ -453,6 +453,12 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/validator-v1.1.0.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
+
+        <!--<script src="js/unify/systemuser/webjs/marketplace/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/marketplace/custom.min.js"></script>-->
+        
         <script src="js/unify/systemuser/webjs/errands/NewJobListingSYSJS.js" type="text/javascript"></script>
     </body>
 </html>
