@@ -32,6 +32,7 @@ public class JobTransactionEntity implements Serializable {
     private String jobCategory;
     private Double jobTransactionRate;
     private String jobTransactionRateType;
+    private String signatureImg;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date jobTransactionDate;
@@ -66,6 +67,7 @@ public class JobTransactionEntity implements Serializable {
     public String getJobCategory() { return jobCategory; }
     public Double getJobTransactionRate() { return jobTransactionRate; }
     public String getJobTransactionRateType() { return jobTransactionRateType; }
+    public String getSignatureImg() { return signatureImg; }
     public Date getJobTransactionDate() { return jobTransactionDate; }
     public String getJobTakerID() { return jobTakerID; }
     public JobEntity getJobEntity() { return jobEntity; }
@@ -76,6 +78,7 @@ public class JobTransactionEntity implements Serializable {
     public void setJobCategory(String jobCategory) { this.jobCategory = jobCategory; }
     public void setJobTransactionRate(Double jobTransactionRate) { this.jobTransactionRate = jobTransactionRate; }
     public void setJobTransactionRateType(String jobTransactionRateType) { this.jobTransactionRateType = jobTransactionRateType; }
+    public void setSignatureImg(String signatureImg) { this.signatureImg = signatureImg; }
     public void setJobTransactionDate(Date jobTransactionDate) { this.jobTransactionDate = jobTransactionDate; }
     public void setJobTakerID(String jobTakerID) { this.jobTakerID = jobTakerID; }
     public void setJobEntity(JobEntity jobEntity) { this.jobEntity = jobEntity; }
