@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
+import unifyentities.errands.JobTransactionEntity;
 
 @Stateless
 public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
@@ -842,6 +843,21 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             return "There is something wrong with the offer. Please try again.";
         }
         
+    }
+    
+    @Override
+    public String completeAJob(String username, long jobID){
+        
+        uEntity = lookupUnifyUser(username);
+        jEntity = lookupJob(jobID);
+        JobOfferEntity offerEntity = lookupJobOffer(jobID, username);
+        if(offerEntity != null){
+            JobTransactionEntity jtEntity = new JobTransactionEntity();
+            jtEntity.createJobTransaction(jEntity.getCategoryEntity().getCategoryName(), offerEntity.getJobOfferPrice(), jEntity.getJobRateType(), username);
+            jtEntity.setJobEntity(jEntity);
+            jtEntity.setUserEntity(uEntity);
+        }
+        return "The transaction is completed successfully!";
     }
     
     @Override

@@ -47,6 +47,20 @@ public class JobTransactionEntity implements Serializable {
     @PrePersist
     public void creationDate() { this.jobTransactionDate = new Date(); }
 
+    public JobTransactionEntity(){
+        setJobTransactionID(System.nanoTime());
+    }
+    
+    public boolean createJobTransaction(String jobCategory, double transRate, String transRateType, String takerID){
+        
+        this.jobCategory = jobCategory;
+        this.jobTransactionRate = transRate;
+        this.jobTransactionRateType = transRateType;
+        this.jobTakerID = takerID;
+        
+        return true;
+    }
+    
     /* GETTER METHODS */
     public Long getJobTransactionID() { return jobTransactionID; }
     public String getJobCategory() { return jobCategory; }

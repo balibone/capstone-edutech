@@ -375,8 +375,12 @@
                             
                             <%  }else{ %>
                                  <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
+                                 <% if(checking.equals("false")){ %>
                                  <button type="button" class="btn btn-outline-theme"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;Complete Job</button>   
+                                 <% }else{ %>
+                                 <button type="button" id="completeWChecking" class="btn btn-outline-theme"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;Complete Job</button>
                             <%    }
+                                }
                               }%>
                             
                             <%if(likeStatus.equals("true")) {   %>
@@ -562,6 +566,7 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="jobLikeList-iframe"></div>
+            <div id="signaturePad-iframe"></div>
             
                 
                 <input type="hidden" id="jobIDHidden" value="<%= jobID%>" />

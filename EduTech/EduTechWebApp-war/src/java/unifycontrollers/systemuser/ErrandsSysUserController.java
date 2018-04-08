@@ -200,6 +200,12 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
+                case "goToSignaturePad":
+                    long jobIDToComplete = Long.parseLong(request.getParameter("jobID"));
+                    String takerID = request.getParameter("username");
+                    String msg = esmr.completeAJob(takerID, jobIDToComplete);
+                    pageAction = "SignaturePadSYS";
+                    break;
                 default:
                     break;
             }

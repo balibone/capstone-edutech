@@ -63,6 +63,24 @@ $(document).ready(function () {
         iframeHeight: 450
     });
     
+    $('#completeWChecking').click(function(){
+        $('iframe').attr('src', 'ErrandsSysUser?pageTransit=goToSignaturePad&jobID=' + $('#jobIDHidden').val() + '&username=' + $('#usernameHidden').val());
+        $('#signaturePad-iframe').iziModal('open', event);
+    });
+    
+    $("#signaturePad-iframe").iziModal({
+        title: 'Signature Pad',
+        subtitle: 'Please sign in the below area',
+        iconClass: 'fa fa-heart-o',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#4D7496',
+        width: 550,
+        overlayClose: true,
+        iframe: true,
+        iframeHeight: 450
+    });
+    
     var priceType = document.getElementById("priceType").value;
     if(priceType==='Fixed'){
         document.getElementById("offerPriceType").innerHTML = "(S$/Fixed Rate)";
