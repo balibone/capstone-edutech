@@ -139,17 +139,21 @@ public class EduTechAdminController extends HttpServlet {
                         if(eam.createModule(moduleCode,name,modularCredit,description,semID)){
                             request.setAttribute("msg", "Module successfully created.");
                             request.setAttribute("success", true);
+                            request.setAttribute("moduleList", eam.getAllModules());
+                            pageAction = "ModuleList";
                         }else{
                             request.setAttribute("msg", "Error creating Module.");
                             request.setAttribute("success", false);
+                            request.setAttribute("semesterList", eam.getAllSemesters());
+                            pageAction = "NewModule";
                         }
                     }catch(Exception e){
                         request.setAttribute("msg", "Error creating Module. Module Code already exists. Please pick a different module code..");
                         request.setAttribute("success", false);
                         System.out.println(e.getMessage());
+                        request.setAttribute("semesterList", eam.getAllSemesters());
+                        pageAction = "NewModule";
                     }
-                    request.setAttribute("semesterList", eam.getAllSemesters());
-                    pageAction = "NewModule";
                     break;
                 case "EditModule":
                     id=request.getParameter("id");
@@ -225,14 +229,15 @@ public class EduTechAdminController extends HttpServlet {
                     if(eam.createSemester(request.getParameter("title"),request.getParameter("startDate"),request.getParameter("endDate"))){
                         request.setAttribute("msg", "Semester successfully created.");
                         request.setAttribute("success", true);
+                        request.setAttribute("semesterList", eam.getAllSemesters());
+                        pageAction = "SemesterList";
                     }else{
                         request.setAttribute("msg", "Error creating Semester. Please make sure this semester does not overlap with "
                                 + "existing semesters.");
                         request.setAttribute("success", false);
+                        pageAction = "NewSemester";
                     }
-                    pageAction = "NewSemester";
                     break;
-                
                 case "EditSemester":
                     id = request.getParameter("id");
                     semesterInfo = eam.getSemesterInfo(id);
