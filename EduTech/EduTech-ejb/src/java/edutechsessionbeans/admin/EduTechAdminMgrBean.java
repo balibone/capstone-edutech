@@ -249,6 +249,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     @Override
     public void deleteModule(String id) {
         ModuleEntity mod = em.find(ModuleEntity.class,id);
+        //detach module from all semesters.
         Query q1 = em.createQuery("SELECT s FROM Semester s");
         if(mod!=null){
             for(Object o : q1.getResultList()){
@@ -262,8 +263,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
                 }
             }
             mod.setModuleEvents(null);
+            mod.setRecurringEvents(null);
             mod.setMembers(null);
-            em.flush();
             em.remove(mod);
         }
     }
@@ -578,7 +579,15 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         //detach module from event
         event.setModule(null);
         //detach lessons from module
-        mod.setModuleEvents(null);
+        Collection<ScheduleItemEntity> lessons = mod.getModuleEvents();
+        Query q1 = em.createQuery("SELECT l FROM Lesson l WHERE l.recurringEvent = :toBeDeleted");
+        q1.setParameter("toBeDeleted", event);
+        for(Object o : q1.getResultList()){
+            LessonEntity l = (LessonEntity) o;
+            if(lessons.contains(l)){
+                lessons.remove(l);
+            }
+        }
         //remove event and cascade delete of lessons
         em.remove(event);
     }
