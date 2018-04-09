@@ -268,7 +268,7 @@
                             <div class="btn-group btn-group-sm mr-3" style="float: right;">
                                 <span class="btn btn-outline-theme" id="newCompanyRequest" role="button">
                                     <input type="hidden" id="username" value="<%= loggedInUsername%>" />
-                                    <a href="VoicesSysUser?pageTransit=goToNewResumeSYS" style="text-decoration: none">
+                                    <a href="ProfileSysUser?pageTransit=goToNewResumeSYS" style="text-decoration: none">
                                         <i class="fa fa-building d-none d-lg-inline-block" style="color: #4D7496"></i>
                                         <span style="color:#4D7496">&nbsp;Create New Resume</span>
                                     </a>
@@ -307,7 +307,7 @@
                                                 <a href="ProfileSysUser?pageTransit=goToDeleteReview&hiddenReviewID=<%= resumeID%>" style="color: #fff; text-decoration:none;">Edit</a>
                                             </button>
                                             <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-danger">
-                                                <a href="ProfileSysUser?pageTransit=goToDeleteReview&hiddenReviewID=<%= resumeID%>" style="color: #fff; text-decoration:none;"
+                                                <a href="ProfileSysUser?pageTransit=goToDeleteResume&hiddenResumeID=<%= resumeID%>" style="color: #fff; text-decoration:none;"
                                                    onclick="return confirm('Are you sure to delete the resume?')">Delete</a>
                                             </button></td>
                                     </tr>

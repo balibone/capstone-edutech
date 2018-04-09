@@ -140,15 +140,6 @@ public class VoicesSysUserController extends HttpServlet {
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
-                case "goToNewResumeSYS":
-                    pageAction = "NewResumeSYS";
-                    break;
-                case "createResumeSYS":
-                    responseMessage = createResume(request);
-                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
-                    else { request.setAttribute("errorMessage", responseMessage); }
-                    pageAction = "NewResumeSYS";
-                    break;
                 case "goToReviewDetails":
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ReviewDetails";
@@ -206,71 +197,6 @@ public class VoicesSysUserController extends HttpServlet {
         String reviewID = request.getParameter("hiddenReviewID");
         
         responseMessage = vsmr.createReviewReport(reviewID, reviewPoster, reportDescription, loggedInUsername);
-        return responseMessage;
-    }
-    
-    private String createResume(HttpServletRequest request) {
-        String fileName = "";
-        try {
-            Part filePart = request.getPart("userImage");
-            fileName = (String) getFileName(filePart);
-            if(fileName.contains("\\")) {
-                fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
-            }
-                    
-            String appPath = request.getServletContext().getRealPath("");
-            String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
-                    + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
-            String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
-                    + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "voices"
-                    + File.separator + "resume" + File.separator;
-            
-            InputStream inputStream = null;
-            OutputStream outputStream = null;
-            
-            try {
-                File outputFilePath = new File(imageDir + fileName);
-                inputStream = filePart.getInputStream();
-                outputStream = new FileOutputStream(outputFilePath);
-
-                int read = 0;
-                final byte[] bytes = new byte[1024];
-                while ((read = inputStream.read(bytes)) != -1) {
-                    outputStream.write(bytes, 0, read);
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                fileName = "";
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            fileName = "";
-        }
-        
-        String userFullName = request.getParameter("userFullName");
-        String contactNum = request.getParameter("contactNum");
-        String emailAddr = request.getParameter("emailAddr");
-        String postalAddr = request.getParameter("postalAddr");
-        
-        String workExpr = request.getParameter("workExprList");
-        String[] workExprList = workExpr.split(",");
-        String eduExpr = request.getParameter("eduExprList");
-        String[] eduExprList = eduExpr.split(",");
-        String proExpr = request.getParameter("proExprList");
-        String[] proExprList = proExpr.split(",");
-        String skill = request.getParameter("skillList");
-        String[] skillList = skill.split(",");
-        
-        String loggedInUsername = getCookieUsername(request);
-        
-        responseMessage = vsmr.createResume(userFullName, contactNum, emailAddr, postalAddr, workExprList, eduExprList, proExprList, skillList, fileName, loggedInUsername);
         return responseMessage;
     }
     

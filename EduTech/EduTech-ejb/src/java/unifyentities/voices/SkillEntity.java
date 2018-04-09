@@ -18,12 +18,14 @@ public class SkillEntity implements Serializable {
     private Long skillID;
     private String skillName;
     private String skillLevel;
+    private String skillType;
     private ResumeEntity resumeEntity;
     
-    public boolean create(String skillName, String skillLevel, ResumeEntity resumeEntity) {
+    public boolean create(String skillName, String skillLevel, String skillType,ResumeEntity resumeEntity) {
         this.setSkillID(System.nanoTime());
         this.skillName = skillName;
         this.skillLevel = skillLevel;
+        this.skillType = skillType;
         this.resumeEntity = resumeEntity;
         return true;
     }
@@ -31,11 +33,13 @@ public class SkillEntity implements Serializable {
     public Long getSkillID() { return skillID; }
     public String getSkillName() { return skillName; }
     public String getSkillLevel() { return skillLevel; }
+    public String getSkillType() { return skillType; }
     public ResumeEntity getResumeEntity() { return resumeEntity; }
     
     public void setSkillID(Long skillID) { this.skillID = skillID; }
     public void setSkillName(String skillName) { this.skillName = skillName; }
     public void setSkillLevel(String skillLevel) { this.skillLevel = skillLevel; }
+    public void setSkillType(String skillType) { this.skillType = skillType; }
     public void setResumeEntity(ResumeEntity resumeEntity) { this.resumeEntity = resumeEntity;}
     
 }

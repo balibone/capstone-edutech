@@ -285,13 +285,22 @@
                     </div>
 
                     <div class="resumeForm col-lg-9 col-md-8">
+                        <%                                
+                            String successMessage = (String) request.getAttribute("successMessage");
+                            if (successMessage != null) {
+                        %>
+                        <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeSuccess">&times;</button>
+                            <%= successMessage %>
+                        </div>
+                        <%  } %>
                         <div class="x_title">
                             <h5>New Resume</h5>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
                             <p>Fill in the form to create your resume. </p>
-                            <form class="form-horizontal form-label-left" action="VoicesSysUser" method="POST" name="resumeForm" enctype="multipart/form-data">
+                            <form class="form-horizontal form-label-left" action="ProfileSysUser" method="POST" name="resumeForm" enctype="multipart/form-data">
                                 <table border="0" cellspacing="2" cellpadding="3" width="100%">
                                     <tbody>
                                         <tr bgcolor="#4D7496">
@@ -353,7 +362,7 @@
                                         </tr>
                                         <tr bgcolor="#D9DEE4">
                                             <td colspan="4" valign="top" style="padding: 10px">
-                                                <textarea type="text" class="form-control" name="personalProfile" rows="3"></textarea>
+                                                <textarea type="text" class="form-control" name="summary" rows="3"></textarea>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -376,8 +385,9 @@
                                             <td valign="middle"><b><center>Degree: </center></b></td>
                                             <td valign="middle"><input type="text" class="form-control" name="schoolDegree[]" style="margin-right: 10px; width: 80%"/></td>
                                             <td valign="middle"><b><center>Major: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="schoolMajor[]" style="margin-right: 10px; width: 90%"/></td>
-                                            <td style="float: left"><i class="fa fa-plus-circle fa-2x" onclick="addEduExprRow()"></i></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="schoolMajor[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="eduExprRemoveBtn"></i></td>
+                                            <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="eduExprBtn"></i></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -396,7 +406,8 @@
                                         <tr class="proExpr">
                                             <td valign="middle"><b><center>Description: </center></b></td>
                                             <td valign="middle"><textarea type="text" class="form-control" name="projectDes[]" rows="2"></textarea></td>
-                                            <td style="float: right; margin-right: 10px"><i class="fa fa-plus-circle fa-2x" onclick="addProExprRow()"></i></td>
+                                            <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="proExprRemoveBtn"></i></td>
+                                            <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="proExprBtn"></i></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -410,8 +421,8 @@
                                         <tr class="award">
                                             <td valign="middle"><b><center>Achievement: </center></b></td>
                                             <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px;"/></td>
-                                            <td style="float: right; margin-right: 10px"><i class="fa fa-minus-circle fa-2x" id="awardRemoveBtn"></i></td>
-                                            <td style="float: right; margin-right: 10px"><i class="fa fa-plus-circle fa-2x" id="awardBtn"></i></td>
+                                            <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="awardRemoveBtn"></i></td>
+                                            <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="awardBtn"></i></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -431,20 +442,21 @@
                                         </tr>
                                         <tr class="skill">
                                             <td><input type="text" class="form-control" name="proSkillName[]" /></td>
-                                            <td><select class="form-control" name="proSkillLevel[]">
-                                                <option value="" default>-- Select Skill Level --</option>
+                                            <td><select class="form-control" name="proSkillLevel[]" style="width: 100%">
+                                                <option value="" default>-- Skill Level --</option>
                                                 <option value="Beginner">Beginner</option>
                                                 <option value="Intermediate">Intermediate</option>
                                                 <option value="Advanced">Advanced</option>
                                                 </select></td>
-                                            <td><input type="text" class="form-control" name="perSkillName[]" /></td>
-                                            <td><select class="form-control" name="perSkillLevel[]">
-                                                <option value="" default>-- Select Skill Level --</option>
+                                            <td><input type="text" class="form-control" name="perSkillName[]"/></td>
+                                            <td><select class="form-control" name="perSkillLevel[]" style="width: 100%">
+                                                <option value="" default>-- Skill Level --</option>
                                                 <option value="Beginner">Beginner</option>
                                                 <option value="Intermediate">Intermediate</option>
                                                 <option value="Advanced">Advanced</option>
                                                 </select></td>
-                                            <td style="float: right; margin-right: 10px;"><i class="fa fa-plus-circle fa-2x" onclick="addSkillSetRow()"></i></td>
+                                            <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="skillRemoveBtn"></i></td>    
+                                            <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="skillBtn"></i></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -456,22 +468,23 @@
                                             </td>
                                         </tr>
                                         <tr class="workExpr">
-                                            <td valign="middle"><b><center>Company: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 100%"/></td>
+                                            <td valign="middle"><b><center>Title: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="workTitle[]" style="margin-right: 10px; width: 100%" /></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
                                         <tr class="workExpr">
-                                            <td valign="middle"><b><center>Position: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle"><b><center>Company: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="workCompany[]" style="margin-right: 10px; width: 80%"/></td>
                                             <td valign="middle"><b><center>Period: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 50%"/></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="workPeriod[]" style="margin-right: 10px; width: 50%"/></td>
                                         </tr>
                                         <tr class="workExpr">
                                             <td valign="middle"><b><center>Description: </center></b></td>
-                                            <td valign="middle"><textarea type="text" class="form-control" name="projectDes[]" rows="2" style="width: 180%"></textarea></td>
+                                            <td valign="middle"><textarea type="text" class="form-control" name="workDes[]" rows="2" style="width: 180%"></textarea></td>
                                             <td></td>
-                                            <td style="float: right; margin-right: 10px; margin-top: 10px"><i class="fa fa-plus-circle fa-2x" onclick="addWorkExprRow()"></i></td>
+                                            <td style="float: right; margin-top: 10px"><i class="fa fa-minus-circle fa-2x" id="workExprRemoveBtn"></i></td>
+                                            <td style="float: right; margin-top: 10px"><i class="fa fa-plus-circle fa-2x" id="workExprBtn"></i></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -484,32 +497,34 @@
                                         </tr>
                                         <tr class="reference">
                                             <td valign="middle"><b><center>Referee Name: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 100%"/></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="refName[]" style="margin-right: 10px; width: 100%"/></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
                                         <tr class="reference">
-                                            <td valign="middle"><b><center>Position: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 80%"/></td>
                                             <td valign="middle"><b><center>Company: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="refCompany[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle"><b><center>Position: </center></b></td>
+                                            <td valign="middle"><input type="text" class="form-control" name="refPosition[]" style="margin-right: 10px; width: 50%"/></td>
                                         </tr>
                                         <tr class="reference">
                                             <td valign="middle"><b><center>Reference: </center></b></td>
-                                            <td valign="middle"><textarea type="text" class="form-control" name="projectDes[]" rows="2" style="width: 220%"></textarea></td>
+                                            <td valign="middle"><textarea type="text" class="form-control" name="refDes[]" rows="2" style="width: 190%"></textarea></td>
                                             <td></td>
-                                            <td style="float: right; margin-right: 10px; margin-top: 10px"><i class="fa fa-plus-circle fa-2x" onclick="addReferenceRow()"></i></td>
+                                            <td style="float: right; margin-top: 10px"><i class="fa fa-minus-circle fa-2x" id="referenceRemoveBtn"></i></td>
+                                            <td style="float: right; margin-top: 10px"><i class="fa fa-plus-circle fa-2x" id="referenceBtn"></i></td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <br/>
                                 <div class="form-row" style="justify-content: center;">
-                                    <input type="hidden" name="pageTransit" value="createResumeSYS" />
-                                    <input type="hidden" name="username" value="<%= loggedInUsername%>" />
-                                    <input type="hidden" name="workExprList" id="workExprList" value="" />
+                                    <input type="hidden" name="pageTransit" id="pageTransit" value="createResumeSYS" />
                                     <input type="hidden" name="eduExprList" id="eduExprList" value="" />
                                     <input type="hidden" name="proExprList" id="proExprList" value="" />
+                                    <input type="hidden" name="awardStr" id="awardStr" value="" />
                                     <input type="hidden" name="skillList" id="skillList" value="" />
+                                    <input type="hidden" name="workExprList" id="workExprList" value="" />
+                                    <input type="hidden" name="referenceList" id="referenceList" value="" />
                                     <button class="btn btn-theme btn-search" type="submit" onclick="createWorkExprList()">Save</button>
                                 </div>
                             </form>

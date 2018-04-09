@@ -35,8 +35,6 @@ public class ResumeEntity implements Serializable {
     private String awardStr;
     private String summary;
     private UserEntity userEntity;
-    
-    
 
     @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "resumeEntity")
     private Collection<WorkExprEntity> workExprSet = new ArrayList<WorkExprEntity>();
@@ -46,13 +44,15 @@ public class ResumeEntity implements Serializable {
     private Collection<ProjectExprEntity> projectExprSet = new ArrayList<ProjectExprEntity>();
     @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "resumeEntity")
     private Collection<SkillEntity> skillSet = new ArrayList<SkillEntity>();
+    @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "resumeEntity")
+    private Collection<ReferenceEntity> referenceSet = new ArrayList<ReferenceEntity>();
 
     @PrePersist
     public void creationDate() { this.creationDate = new Date(); }
     public ResumeEntity() { this.setResumeID(System.nanoTime()); }
     
-    public boolean createResume(String userFullName, String contactNum, String emailAddr, String postalAddr, Collection<WorkExprEntity> workExprSet, 
-                                Collection<EduExprEntity> eduExprSet, Collection<ProjectExprEntity> proExprSet, Collection<SkillEntity> skillSet, String fileName, UserEntity userEntity) {
+    public boolean createResume(String userFullName, String contactNum, String emailAddr, String postalAddr, String summary, String awardStr, Collection<EduExprEntity> eduExprSet, 
+                                Collection<ProjectExprEntity> proExprSet, Collection<SkillEntity> skillSet, Collection<WorkExprEntity> workExprSet, Collection<ReferenceEntity> referenceSet, String fileName, UserEntity userEntity) {
         this.setResumeID(System.nanoTime());
         this.creationDate = new Date();
         this.userFullName = userFullName;
@@ -60,10 +60,13 @@ public class ResumeEntity implements Serializable {
         this.contactNum = contactNum;
         this.emailAddr = emailAddr;
         this.postalAddr = postalAddr;
+        this.summary = summary;
+        this.awardStr = awardStr;
         this.workExprSet = workExprSet;
         this.eduExprSet = eduExprSet;
         this.projectExprSet = proExprSet;
         this.skillSet = skillSet;
+        this.referenceSet = referenceSet;
         this.userEntity = userEntity;
         return true;
     }
@@ -81,6 +84,7 @@ public class ResumeEntity implements Serializable {
     public Collection<EduExprEntity> getEduSet() { return eduExprSet; }
     public Collection<ProjectExprEntity> getProjectExprSet() { return projectExprSet; }
     public Collection<SkillEntity> getSkillSet() { return skillSet; }
+    public Collection<ReferenceEntity> getReferenceSet() { return referenceSet; }
     public UserEntity getUserEntity() { return userEntity; }
 
     public void setResumeID(Long resumeID) { this.resumeID = resumeID; }
@@ -94,6 +98,7 @@ public class ResumeEntity implements Serializable {
     public void setEduSet(Collection<EduExprEntity> eduSet) { this.eduExprSet = eduSet; }
     public void setProjectExprSet(Collection<ProjectExprEntity> projectExprSet) { this.projectExprSet = projectExprSet; }
     public void setSkillSet(Collection<SkillEntity> skillSet) { this.skillSet = skillSet; }
+    public void setReferenceSet(Collection<ReferenceEntity> referenceSet) { this.referenceSet = referenceSet; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 
 }
