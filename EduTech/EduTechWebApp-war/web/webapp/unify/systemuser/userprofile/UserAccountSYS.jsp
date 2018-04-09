@@ -262,7 +262,10 @@
                                 <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
                                 </a>
-                                <a href="account-address.html" class="list-group-item list-group-item-action">
+                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToErrandsTrans" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
                                 </a>
                                 <a href="ProfileSysUser?pageTransit=goToCompanyReview" class="list-group-item list-group-item-action">

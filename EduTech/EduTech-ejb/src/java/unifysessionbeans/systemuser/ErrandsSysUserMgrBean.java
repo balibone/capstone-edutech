@@ -907,6 +907,33 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     
     /* USER PROFILE */
     @Override
+    public List<Vector> viewJobTransaction(String username) {
+        Query q = em.createQuery("SELECT t FROM JobTransaction t WHERE t.userEntity.username = :username");
+        q.setParameter("username", username);
+        List<Vector> jobTransList = new ArrayList<Vector>();
+        
+        for (Object o : q.getResultList()) {
+            JobTransactionEntity jobTransE = (JobTransactionEntity) o;
+            Vector jobTransVec = new Vector();
+
+            /* ITEM SELLER IS THE PERSON WHO CREATED THE ITEM TRANSACTION */
+            jobTransVec.add(jobTransE.getJobEntity().getJobID());
+            jobTransVec.add(jobTransE.getJobTransactionID());
+            jobTransVec.add(df.format(jobTransE.getJobTransactionDate()));
+            jobTransVec.add(jobTransE.getUserEntity().getUsername());
+            jobTransVec.add(jobTransE.getJobEntity().getUserEntity().getUsername());
+            jobTransVec.add(jobTransE.getJobEntity().getJobImage());
+            jobTransVec.add(jobTransE.getJobEntity().getJobTitle());
+            jobTransVec.add(String.format ("%,.2f", jobTransE.getJobEntity().getJobRate()));
+            jobTransVec.add(jobTransE.getJobEntity().getJobRateType());
+            jobTransVec.add(String.format ("%,.2f", jobTransE.getJobTransactionRate()));
+            jobTransVec.add(jobTransE.getSignatureImg());
+            jobTransList.add(jobTransVec);
+        }
+        return jobTransList;
+    }
+     
+    @Override
     public List<Vector> viewUserJobList(String username) {
         Date currentDate = new Date();
         String dateString = "";

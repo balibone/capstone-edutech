@@ -195,7 +195,8 @@
                                 <thead>
                                     <tr>
                                         <th>Transaction Date</th>
-                                        <th>Seller ID</th>
+                                        <th>Signature</th>
+                                        <th>Poster ID</th>
                                         <th>Taker ID</th>
                                         <th>Job Image</th>
                                         <th>Job Title</th>
@@ -219,12 +220,14 @@
                                                 String jobListingRate = String.valueOf(v.get(7));
                                                 String jobListingRateType = String.valueOf(v.get(8));
                                                 String jobTransactionRate = String.valueOf(v.get(9));
+                                                String transSig = String.valueOf(v.get(10));
                                     %>
                                     <tr>
                                         <td><%= jobTransactionDate %><span style="display: none">;<%= jobID%>;<%= jobTransID%></span></td>
+                                        <td><img src="uploads/unify/images/errands/job/<%= jobImage%>" style="width: 50px; height: 50px;" /></td>
                                         <td><%= jobPosterID %></td>
                                         <td><%= jobTakerID %></td>
-                                        <td><img src="uploads/unify/images/errands/job/<%= jobImage%>" style="width: 50px; height: 50px;" /></td>
+                                        <td><img src="uploads/unify/images/errands/transSignature/<%= transSig%>" style="width: 50px; height: 50px;" /></td>
                                         <td><%= jobTitle %></td>
                                         <td>$<%= jobListingRate %>/<%= jobListingRateType%></td>
                                         <td>$<%= jobTransactionRate %>/<%= jobListingRateType%></td>

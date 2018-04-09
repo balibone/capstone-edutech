@@ -411,7 +411,7 @@
         <servlet-name>ViewJobOfferDetailsSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/errands/ViewJobOfferDetailsSYS.jsp</jsp-file>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>SignaturePadSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/errands/SignaturePadSYS.jsp</jsp-file>
     </servlet>
@@ -441,6 +441,10 @@
     <servlet><servlet-name>UserCompanyRequest</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyRequest.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserResume</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserResume.jsp</jsp-file></servlet>
     
+    <servlet>
+        <servlet-name>UserJobTransaction</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/UserJobTransaction.jsp</jsp-file>
+    </servlet>
     <servlet>
         <servlet-name>UserJobListingSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserJobListingSYS.jsp</jsp-file>
@@ -479,7 +483,7 @@
     <!-- URL MAPPING - COMMON INFRASTRUCTURE (SERVLET) -->
 
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->
-   
+    
     <servlet-mapping>
         <servlet-name>CommonInfra</servlet-name>
         <url-pattern>/CommonInfra</url-pattern>
