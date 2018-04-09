@@ -247,15 +247,27 @@ public class EduTechAdminController extends HttpServlet {
                     }
                     pageAction = "EditSemester";
                     break;
+                case "checkSemester":
+                    id = request.getParameter("id");
+                    semesterInfo = eam.getSemesterInfo(id);
+                    int listSize = (int) semesterInfo.get(5);
+                    if(listSize > 0){
+                        response.setHeader("hasModules", "true");
+                    }else{
+                        response.setHeader("hasModules", "false");
+                    }
+                    break;
                 case "deleteSemester":
                     id = request.getParameter("id");
                     eam.deleteSemester(id);
                     request.setAttribute("semesterList", eam.getAllSemesters());
-                    pageAction = "SemesterList";
                     break;
             }
-            dispatcher = context.getNamedDispatcher(pageAction);
-            dispatcher.forward(request, response);
+            if(pageAction != null && !pageAction.equals("")){
+                dispatcher = context.getNamedDispatcher(pageAction);
+                if(dispatcher!=null)
+                    dispatcher.forward(request, response);
+            }
         }catch(Exception e){
             System.out.println("********************Exception in EduTechAdminController!");
             e.printStackTrace();
