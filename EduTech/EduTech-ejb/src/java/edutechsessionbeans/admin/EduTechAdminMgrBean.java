@@ -288,7 +288,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         }
         //4
         modInfo.add(String.valueOf(mod.getDescription()));
-        //5 //get list of users for this module
+        //get list of users for this module
         Collection users = mod.getMembers();
         //store information of all users in this module
         ArrayList userInfoList = new ArrayList();
@@ -324,9 +324,9 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             userInfoList.add(userInfo);
             
         }
-        //6
+        //5
         modInfo.add(userInfoList);
-        //7
+        //6
         modInfo.add(userInfoList.size());
         
         Collection recurringEvents = mod.getRecurringEvents();
@@ -343,7 +343,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             
             eventInfoList.add(eventInfo);
         }
-        //8
+        //7
         modInfo.add(eventInfoList);
         return modInfo;
     }

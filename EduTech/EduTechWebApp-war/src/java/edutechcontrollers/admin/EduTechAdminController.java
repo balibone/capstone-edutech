@@ -194,11 +194,19 @@ public class EduTechAdminController extends HttpServlet {
                     //refresh page
                     response.sendRedirect("EduTechAdmin?pageTransit=EditModule&id="+id);
                     break;
+                case "checkModule":
+                    id = request.getParameter("id");
+                    moduleInfo = eam.getModuleInfo(id);
+                    int userListSize = (int) moduleInfo.get(6);
+                    if(userListSize > 0){
+                        response.setHeader("hasUsers", "true");
+                    }else{
+                        response.setHeader("hasUsers", "false");
+                    }
+                    break;
                 case "deleteModule":
                     id = request.getParameter("id");
                     eam.deleteModule(id);
-                    request.setAttribute("moduleList", eam.getAllModules());
-                    pageAction = "ModuleList";
                     break;
                 case "SemesterList":
                     request.setAttribute("semesterList", eam.getAllSemesters());
@@ -260,7 +268,6 @@ public class EduTechAdminController extends HttpServlet {
                 case "deleteSemester":
                     id = request.getParameter("id");
                     eam.deleteSemester(id);
-                    request.setAttribute("semesterList", eam.getAllSemesters());
                     break;
             }
             if(pageAction != null && !pageAction.equals("")){

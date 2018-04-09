@@ -81,7 +81,7 @@
                                                             <a href="EduTechAdmin?pageTransit=EditModule&id=<%=moduleData.get(0)%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
                                                         </li>
                                                         <li>
-                                                            <a onclick="return confirm('Delete Module?')" href="EduTechAdmin?pageTransit=deleteModule&id=<%=moduleData.get(0)%>"><i class="fas fa-trash fa-lg"></i></a> 
+                                                            <a id="delete"><i class="fas fa-trash fa-lg"></i></a> 
                                                         </li>
                                                     </ul>
                                                 </td>
