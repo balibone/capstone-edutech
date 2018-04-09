@@ -349,12 +349,14 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     }
     
     @Override
-    public boolean editModule(String id, String name, String credits, String description) {
+    public boolean editModule(String id, String name, String credits, String description, String semID) {
         try{
+            SemesterEntity sem = em.find(SemesterEntity.class, Long.valueOf(semID));
             ModuleEntity mod = em.find(ModuleEntity.class, id);
             mod.setTitle(name);
             mod.setModularCredit(Long.valueOf(credits));
             mod.setDescription(description);
+            mod.setSemester(sem);
             return true;
         }catch(Exception e){
             e.printStackTrace();

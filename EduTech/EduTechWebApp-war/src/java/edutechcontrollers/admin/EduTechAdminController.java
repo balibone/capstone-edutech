@@ -163,7 +163,7 @@ public class EduTechAdminController extends HttpServlet {
                     id = request.getParameter("id");
                     if(eam.editModule(id,request.getParameter("name"),
                             request.getParameter("modularCredit")
-                            ,request.getParameter("description"))){
+                            ,request.getParameter("description"),request.getParameter("semID"))){
                         request.setAttribute("moduleInfo", eam.getModuleInfo(id));
                         request.setAttribute("msg", "Module successfully edited.");
                         request.setAttribute("success", true);
