@@ -11,11 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import unifysessionbeans.systemuser.ShoutsSysUserMgrBeanRemote;
+import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 
 public class ShoutsSysUserController extends HttpServlet {
 
     @EJB
     private ShoutsSysUserMgrBeanRemote ssmr;
+    @EJB
+    private UserProfileSysUserMgrBeanRemote usmr;
+    
     String responseMessage = "";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,6 +35,7 @@ public class ShoutsSysUserController extends HttpServlet {
                     String usernameShoutListing = request.getParameter("loggedInUsername");
                     //System.out.println(usernameShoutListing);
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(usernameShoutListing));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(usernameShoutListing));
                     pageAction = "ViewShoutsListingSYS";
                     break;
                 case "goToSetBookmarkSYS":

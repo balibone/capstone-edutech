@@ -35,12 +35,12 @@ function reportShout(shoutIDContent) {
 
 function deleteAlert(shoutID) {
 
-    confirm('Confirm delete?');
-    
-    $.get('ShoutsSysUser?pageTransit=goToDeleteShoutSYS&hiddenShoutID=' + shoutID + '');
+    if (confirm('Sure you want to delete your shout?')) {
 
+        $.get('ShoutsSysUser?pageTransit=goToDeleteShoutSYS&hiddenShoutID=' + shoutID + '');
 
-    $('#deleteShout-alert').iziModal('open', event);
+        $('#deleteShout-alert').iziModal('open', event);
+    }
 }
 
 function bookmarkAlert(shoutIDusername) {
@@ -154,6 +154,7 @@ function newShout() {
 }
 
 
+
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
@@ -242,7 +243,7 @@ $(document).ready(function () {
         iframe: true,
         iframeHeight: 100
     });
-    
+
     $('#deleteShout-alert').iziModal({
         title: 'Shout Deleted!',
         iconClass: 'fa fa-trash',

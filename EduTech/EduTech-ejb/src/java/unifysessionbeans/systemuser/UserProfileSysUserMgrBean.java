@@ -314,7 +314,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             
             if((chatE.getUserEntity().getUsername()).equals(username)) {
                 if(!nameHolderArrList.contains(chatE.getChatReceiverID())) {
-                    userChatVec.add(chatE.getChatID()+1);
+                    userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
                     userChatVec.add(chatE.getItemEntity().getItemName());
@@ -324,7 +324,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                 }
             } else if((chatE.getChatReceiverID()).equals(username)) {
                 if(!nameHolderArrList.contains(chatE.getUserEntity().getUsername())) {
-                    userChatVec.add(chatE.getChatID()+1);
+                    userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
                     userChatVec.add(chatE.getItemEntity().getItemName());
@@ -391,7 +391,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             
             if((chatE.getUserEntity().getUsername()).equals(username)) {
                 if(!nameHolderArrList.contains(chatE.getChatReceiverID())) {
-                    userChatVec.add(chatE.getChatID()+1);
+                    userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
                     userChatVec.add(chatE.getItemEntity().getItemName());
@@ -401,7 +401,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                 }
             } else if((chatE.getChatReceiverID()).equals(username)) {
                 if(!nameHolderArrList.contains(chatE.getUserEntity().getUsername())) {
-                    userChatVec.add(chatE.getChatID()+1);
+                    userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
                     userChatVec.add(chatE.getItemEntity().getItemName());

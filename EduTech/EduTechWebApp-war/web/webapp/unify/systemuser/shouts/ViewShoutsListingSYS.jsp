@@ -69,7 +69,7 @@
         <nav class="offcanvas">
             <div class="offcanvas-content">
                 <div id="list-menu" class="list-menu list-group" data-children=".submenu">
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
                         <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a></div>
@@ -82,7 +82,7 @@
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
                         <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
         </nav>
@@ -95,14 +95,16 @@
                     <div class="col">
                         <div class="d-flex justify-content-between">
                             <nav class="nav">
-                                <a class="nav-item nav-link d-none d-sm-block" href="#">Unify @ EduBox</a>
-                                <a class="nav-item nav-link d-none d-sm-block" href="#"><i class="fa fa-phone"></i> +123-456-789</a>
+                                <a class="nav-item nav-link d-sm-block" href="#">Unify @ EduBox</a>
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
+                                    <a href="ProfileSysUser?pageTransit=goToViewChatListSYS&assocItemID=" class="nav-link"><i class="fa fa-comment"></i>&nbsp;&nbsp;My Chats</a>
+                                </li>
+                                <li class="nav-item d-none d-md-block">
                                     <div class="dropdown-container">
                                         <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
-                                            <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
+                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
                                             <% 
@@ -202,12 +204,15 @@
                     <div class="col-4 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block mt-3">
                         <div class="d-flex align-items-center float-right abg-secondary">
                             <div class="btn-group btn-group-sm mr-3" role="group">
+                                <%-- deleted
                                 <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </a>
                                 <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
+                                --%>
+                                <a OnClick="newShout()"><button type="button" class="btn btn-outline-theme center"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Create A New Shout</button></a>   
                             </div>
                         </div>
                     </div>
@@ -279,7 +284,9 @@
                                 </div>
                             </div>
                         </div>
+                        <%-- deleted
                         <a OnClick="newShout()"><button type="button" class="btn btn-outline-info center"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Create A New Shout</button></a>   
+                        --%>
                     </div>
 
                     <div class="col-lg-9 col-md-8">
@@ -345,12 +352,15 @@
                                                 <div class="row">
 
                                                     <div class="col-xl-8 col-md-8 col-8">
+                                                        <%-- removed
                                                         <div class="shout-ID">
                                                             <span class="card-header shoutCategory" style="color: #007bff; font-size: 10px; line-height: 2.5;">Categories, Type</span>
                                                         </div>
+                                                        
                                                         <div class="shout-ID">
                                                             <span class="card-title shoutID" style="color: #2b3233; font-size: 25px; line-height: 2.5;"><strong>#<%= shoutID%></strong></span>
                                                         </div>
+                                                        --%>
                                                         <div class="shout-content">
                                                             <span class="card-content shoutContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><%= shoutContent%></span>
                                                         </div>
@@ -424,7 +434,7 @@
                                                             <%
                                                                 if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
                                                             %>
-                                                            <span class = "float-right"><a onClick = "deleteAlert(<%=shoutID%>)" onclick="return confirm('Confirm delete?')" class="deleteThis">
+                                                            <span class = "float-right"><a onClick = "deleteAlert(<%=shoutID%>)" class="deleteThis">
                                                                     <i class="fa fa-trash icon"></i>
                                                                     <i class="fa fa-trash-o icon"></i>
                                                                     <span class="float-none shoutDelete" style="color: #64676d; font-size: 12px">&nbsp;Delete Shout</a></span>
@@ -453,7 +463,7 @@
                                                 <i class="fa fa-clock-o">&nbsp;</i><span class="float-none shoutDuration" style="color: #64676d; font-size: 12px">Posted <%= shoutDuration%>
                                                     <%--    on <%= shoutDate%> --%>
                                                 </span>
-                                                
+
                                                 <span class="float-none shoutDate" hidden="true" style="color: #64676d; font-size: 12px"><%= shoutDate%>
                                                 </span>
 
@@ -493,26 +503,27 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="chat-main">
-                <div class="col-md-12 chat-header">
-                    <div class="row header-one text-white p-1">
-                        <div class="col-md-6 name pl-2">
-                            <i class="fa fa-comment"></i>
-                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
-                        </div>
-                        <div class="col-md-6 options text-right pr-0">
-                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="chat-content">
-                    <div class="col-md-12 chats">
-                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
-                    </div>
-                </div>
-            </div>
-            
+
+            <div class="chat-main"> 
+                <div class="col-md-12 chat-header"> 
+                    <div class="row header-one text-white p-1"> 
+                        <div class="col-md-6 name pl-2"> 
+                            <i class="fa fa-comment"></i> 
+                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6> 
+                        </div> 
+                        <div class="col-md-6 options text-right pr-0"> 
+                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i> 
+                        </div> 
+                    </div> 
+                </div> 
+                <div class="chat-content"> 
+                    <div class="col-md-12 chats"> 
+                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe> 
+                    </div> 
+                </div> 
+            </div> 
+
+            <!-- <div id="unifyFooter"></div> -->
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
