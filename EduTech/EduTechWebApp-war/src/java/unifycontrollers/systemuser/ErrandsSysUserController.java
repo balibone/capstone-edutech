@@ -35,6 +35,12 @@ import java.util.Date;
 
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Part;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
 
 import unifysessionbeans.systemuser.ErrandsSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
@@ -203,8 +209,16 @@ public class ErrandsSysUserController extends HttpServlet {
                 case "goToSignaturePad":
                     long jobIDToComplete = Long.parseLong(request.getParameter("jobID"));
                     String takerID = request.getParameter("username");
-                    String msg = esmr.completeAJob(takerID, jobIDToComplete);
+                    
+                    request.setAttribute("jobID", jobIDToComplete);
+                    request.setAttribute("username", takerID);
                     pageAction = "SignaturePadSYS";
+                    break;
+                case "completeJobTransaction":
+                    long jobToComplete = Long.parseLong(request.getParameter("jobID"));
+                    if(getSignatureImg(request)){ System.out.println("save"); }
+                    String taker = request.getParameter("username");
+                    String msg = esmr.completeAJob(taker, jobToComplete);
                     break;
                 default:
                     break;
@@ -400,6 +414,29 @@ public class ErrandsSysUserController extends HttpServlet {
         
         return esmr.editJobListing(jobID, jobTitle, jobRateType, Double.parseDouble(jobRate), jobDuration, jobDescription, 
                 jobWorkDate, itemImageFileName, startLocation, startLat, startLong, endLocation, endLat, endLong, jobCategoryID, username, numOfHelpers, checking);
+    }
+    
+    private boolean getSignatureImg(HttpServletRequest request) throws IOException{
+        
+        String appPath = request.getServletContext().getRealPath("");
+        String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
+                    + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+        String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
+                    + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "errands"
+                    + File.separator + "transSignature" + File.separator;
+        
+        String imgData = request.getParameter("signatureImg");
+            
+        String base64Image = imgData.split(",")[1];
+        System.out.println(base64Image);
+        //byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+        
+        byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64Image);
+        FileOutputStream fileToSave = new FileOutputStream(imageDir + request.getParameter("jobID") + ".png");
+        fileToSave.write(imageBytes);
+        fileToSave.close();
+        
+        return true;
     }
     
     /* MISCELLANEOUS METHODS */

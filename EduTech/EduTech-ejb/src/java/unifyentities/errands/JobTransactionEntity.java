@@ -49,6 +49,7 @@ public class JobTransactionEntity implements Serializable {
     public void creationDate() { this.jobTransactionDate = new Date(); }
 
     public JobTransactionEntity(){
+        jobTransactionID = System.nanoTime();
         setJobTransactionID(System.nanoTime());
     }
     

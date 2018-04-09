@@ -75,12 +75,15 @@ var canvas, ctx, flag = false,
         }
     }
     
-    function save() {
+    /*function save() {
         document.getElementById("canvasimg").style.border = "2px solid";
+        var jobID = document.getElementById("hiddenJobID").value;
+        var username = document.getElementById("hiddenUsername").value;
         var dataURL = canvas.toDataURL();
         document.getElementById("canvasimg").src = dataURL;
         document.getElementById("canvasimg").style.display = "inline";
-    }
+        location.href = "ErrandsSysUser?pageTransit=completeJobTransaction&jobID=" + jobID + "&username=" + username + "&signatureImg=" + dataURL;
+    }*/
     
     function findxy(res, e) {
         if (res == 'down') {
@@ -112,3 +115,22 @@ var canvas, ctx, flag = false,
             }
         }
     }
+    
+$(document).on('click', '#saveBtn', function() {
+        alert();
+        var dataURL = canvas.toDataURL();
+        
+        $.ajax({
+            type: "POST",
+            url: "ErrandsSysUser",
+            data: { 
+                jobID: $('#hiddenJobID').val(),
+                username: $('#hiddenUsername').val(),
+                signatureImg: dataURL,
+                pageTransit: 'completeJobTransaction'
+            },
+            success: {
+            }
+        });  
+        
+ });

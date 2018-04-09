@@ -816,6 +816,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         }  
     }
     
+    @Override
     public String negotiateJobOffer(long jobOfferID, String username, String negotiateMessage){
         
         Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobOfferID = :offerID");
@@ -848,16 +849,27 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     @Override
     public String completeAJob(String username, long jobID){
         
+        JobTransactionEntity jtEntity;
+        
         uEntity = lookupUnifyUser(username);
         jEntity = lookupJob(jobID);
         JobOfferEntity offerEntity = lookupJobOffer(jobID, username);
         if(offerEntity != null){
-            JobTransactionEntity jtEntity = new JobTransactionEntity();
+            jtEntity = new JobTransactionEntity();
             jtEntity.createJobTransaction(jEntity.getCategoryEntity().getCategoryName(), offerEntity.getJobOfferPrice(), jEntity.getJobRateType(), username);
             jtEntity.setJobEntity(jEntity);
             jtEntity.setUserEntity(uEntity);
+            if(jEntity.getChecking()){
+                jtEntity.setSignatureImg("" + jobID + ".png");
+            }
+            em.persist(jtEntity);
+            em.merge(uEntity);
+            em.merge(jEntity);
+            //System.out.println("The transaction is completed successfully!");
+            return "The transaction is completed successfully!";
         }
-        return "The transaction is completed successfully!";
+        //System.out.println("The transaction cannot be completed.");
+        return "The transaction cannot be completed.";
     }
     
     @Override
