@@ -70,4 +70,10 @@ public class SemesterREST{
         return crmb.getAllSemester();
     }
     
+    @GET
+    @Path(("current"))
+    @Produces(MediaType.APPLICATION_JSON)
+    public SemesterEntity getCurrentSemester(){
+        return crmb.getCurrentSemester();
+    }
 }

@@ -139,17 +139,21 @@ public class EduTechAdminController extends HttpServlet {
                         if(eam.createModule(moduleCode,name,modularCredit,description,semID)){
                             request.setAttribute("msg", "Module successfully created.");
                             request.setAttribute("success", true);
+                            request.setAttribute("moduleList", eam.getAllModules());
+                            pageAction = "ModuleList";
                         }else{
                             request.setAttribute("msg", "Error creating Module.");
                             request.setAttribute("success", false);
+                            request.setAttribute("semesterList", eam.getAllSemesters());
+                            pageAction = "NewModule";
                         }
                     }catch(Exception e){
                         request.setAttribute("msg", "Error creating Module. Module Code already exists. Please pick a different module code..");
                         request.setAttribute("success", false);
                         System.out.println(e.getMessage());
+                        request.setAttribute("semesterList", eam.getAllSemesters());
+                        pageAction = "NewModule";
                     }
-                    request.setAttribute("semesterList", eam.getAllSemesters());
-                    pageAction = "NewModule";
                     break;
                 case "EditModule":
                     id=request.getParameter("id");
@@ -163,7 +167,7 @@ public class EduTechAdminController extends HttpServlet {
                     id = request.getParameter("id");
                     if(eam.editModule(id,request.getParameter("name"),
                             request.getParameter("modularCredit")
-                            ,request.getParameter("description"))){
+                            ,request.getParameter("description"),request.getParameter("semID"))){
                         request.setAttribute("moduleInfo", eam.getModuleInfo(id));
                         request.setAttribute("msg", "Module successfully edited.");
                         request.setAttribute("success", true);
@@ -194,11 +198,19 @@ public class EduTechAdminController extends HttpServlet {
                     //refresh page
                     response.sendRedirect("EduTechAdmin?pageTransit=EditModule&id="+id);
                     break;
+                case "checkModule":
+                    id = request.getParameter("id");
+                    moduleInfo = eam.getModuleInfo(id);
+                    int userListSize = (int) moduleInfo.get(6);
+                    if(userListSize > 0){
+                        response.setHeader("hasUsers", "true");
+                    }else{
+                        response.setHeader("hasUsers", "false");
+                    }
+                    break;
                 case "deleteModule":
                     id = request.getParameter("id");
                     eam.deleteModule(id);
-                    request.setAttribute("moduleList", eam.getAllModules());
-                    pageAction = "ModuleList";
                     break;
                 case "SemesterList":
                     request.setAttribute("semesterList", eam.getAllSemesters());
@@ -217,14 +229,15 @@ public class EduTechAdminController extends HttpServlet {
                     if(eam.createSemester(request.getParameter("title"),request.getParameter("startDate"),request.getParameter("endDate"))){
                         request.setAttribute("msg", "Semester successfully created.");
                         request.setAttribute("success", true);
+                        request.setAttribute("semesterList", eam.getAllSemesters());
+                        pageAction = "SemesterList";
                     }else{
                         request.setAttribute("msg", "Error creating Semester. Please make sure this semester does not overlap with "
                                 + "existing semesters.");
                         request.setAttribute("success", false);
+                        pageAction = "NewSemester";
                     }
-                    pageAction = "NewSemester";
                     break;
-                
                 case "EditSemester":
                     id = request.getParameter("id");
                     semesterInfo = eam.getSemesterInfo(id);
@@ -247,15 +260,26 @@ public class EduTechAdminController extends HttpServlet {
                     }
                     pageAction = "EditSemester";
                     break;
+                case "checkSemester":
+                    id = request.getParameter("id");
+                    semesterInfo = eam.getSemesterInfo(id);
+                    int listSize = (int) semesterInfo.get(5);
+                    if(listSize > 0){
+                        response.setHeader("hasModules", "true");
+                    }else{
+                        response.setHeader("hasModules", "false");
+                    }
+                    break;
                 case "deleteSemester":
                     id = request.getParameter("id");
                     eam.deleteSemester(id);
-                    request.setAttribute("semesterList", eam.getAllSemesters());
-                    pageAction = "SemesterList";
                     break;
             }
-            dispatcher = context.getNamedDispatcher(pageAction);
-            dispatcher.forward(request, response);
+            if(pageAction != null && !pageAction.equals("")){
+                dispatcher = context.getNamedDispatcher(pageAction);
+                if(dispatcher!=null)
+                    dispatcher.forward(request, response);
+            }
         }catch(Exception e){
             System.out.println("********************Exception in EduTechAdminController!");
             e.printStackTrace();

@@ -51,6 +51,26 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
+                                    <%
+                                        String msg = (String)request.getAttribute("msg");
+                                        if(msg!=null){
+                                            Boolean success = (Boolean)request.getAttribute("success");
+                                            if(success){
+                                    %>
+                                    <div class="alert alert-info alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <%=msg%>
+                                    </div>                    
+                                        <%
+                        }else{
+                                        %>
+                                        <div id="errorAlert" class="alert alert-danger alert-dismissible" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <%=msg%>
+                                        </div>                    
+                                            <%
+}}
+                                            %>
                                     <table id="datatable-responsive" class="table table-striped table-bordered table-condensed table-hover nowrap" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
@@ -81,7 +101,7 @@
                                                             <a href="EduTechAdmin?pageTransit=EditModule&id=<%=moduleData.get(0)%>"><i class="fas fa-edit fa-lg"></i></a>                                                            
                                                         </li>
                                                         <li>
-                                                            <a onclick="return confirm('Delete Module?')" href="EduTechAdmin?pageTransit=deleteModule&id=<%=moduleData.get(0)%>"><i class="fas fa-trash fa-lg"></i></a> 
+                                                            <a id="delete"><i class="fas fa-trash fa-lg"></i></a> 
                                                         </li>
                                                     </ul>
                                                 </td>

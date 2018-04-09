@@ -13,11 +13,11 @@
     
     //ArrayList exists and is not empty. 
     if(moduleInfo!=null && !moduleInfo.isEmpty()){
-        name = (String) moduleInfo.get(1);
+        moduleCode = (String)(moduleInfo.get(0));
+        name = (String)moduleInfo.get(1);
         credits = (String)moduleInfo.get(2);
-        description = (String)moduleInfo.get(4);
-        moduleCode = (String)moduleInfo.get(0);
         semester = (String)moduleInfo.get(3);
+        description = (String)moduleInfo.get(4);
     }
 %>
 <!DOCTYPE html>
@@ -259,12 +259,13 @@
         <script src="js/commoninfrastructure/admin/webjs/icheck.min.js"></script>    
         <!--System Admin Base JS-->
         <script src="js/commoninfrastructure/admin/basejs/CommonAdminBaseJS.js" type="text/javascript"></script>
+        
+        <script src="js/edutech/admin/webjs/modules/EditModuleJS.js"></script>
         <script>
             //jQuery func to load textarea default value.        
             $(function(){
                 $("textarea#description").val("<%=description%>");
             });
         </script>
-        <script src="js/edutech/admin/webjs/modules/EditModuleJS.js"></script>
     </body>
 </html>
