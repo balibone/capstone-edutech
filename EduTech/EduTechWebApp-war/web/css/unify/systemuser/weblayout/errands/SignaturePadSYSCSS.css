@@ -1,0 +1,17 @@
+#can{
+    background-color: white; 
+    position:absolute; 
+    top:10%; 
+    left:10%; 
+    border:2px solid;
+}
+
+#white{
+    position:absolute;
+    top:15%;
+    left:87%;
+    width:15px;
+    height:15px;
+    background:white;
+    border:2px solid;
+}

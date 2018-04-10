@@ -32,6 +32,7 @@ public class MessageEntity implements Serializable {
     private String messageContent;
     private Long contentID;
     private String messageType;
+    private String messageStatus;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date messageDate;
@@ -50,6 +51,7 @@ public class MessageEntity implements Serializable {
         this.messageContent = messageContent;
         this.contentID = contentID;
         this.messageType = messageType;
+        this.messageStatus = "Unread";
     }
     
     /* GETTER METHODS */
@@ -60,6 +62,7 @@ public class MessageEntity implements Serializable {
     public Long getContentID() { return contentID; }
     public String getMessageType() { return messageType; }
     public Date getMessageDate() { return messageDate; }
+    public String getMessageStatus() { return messageStatus; }
     public UserEntity getUserEntity() { return userEntity; }
     
     /* SETTER METHODS */
@@ -70,5 +73,6 @@ public class MessageEntity implements Serializable {
     public void setContentID(Long contentID) { this.contentID = contentID; } 
     public void setMessageType(String messageType) { this.messageType = messageType; }
     public void setMessageDate(Date messageDate) { this.messageDate = messageDate; }
+    public void setMessageStatus(String messageStatus) { this.messageStatus = messageStatus; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

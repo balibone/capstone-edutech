@@ -8,8 +8,8 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Errands - Job Listing Details</title>
-
+        <title>Unify Errands - Job Offer Details</title>
+        
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css"/>
@@ -22,10 +22,10 @@
         <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css"/>
         <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/unify/systemuser/weblayout/errands/ViewJobDetailsSYSCSS.css" rel="stylesheet" type="text/css"/>
-
+        
         <link href="css/unify/systemuser/weblayout/errands/ViewJobOfferDetailsSYSCSS" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" type="text/css" href="css/unify/systemuser/weblayout/errands/datatables.min.css"/>
-
+        
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
@@ -40,14 +40,14 @@
         <link href="css/unify/admin/baselayout/plugin/datatables_bootstrap.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
-
+        
     </head>
     <body onload="loadMap()">
         <!-- MOBILE SIDE NAVIGATION -->
         <nav class="offcanvas">
             <div class="offcanvas-content">
                 <div id="list-menu" class="list-menu list-group" data-children=".submenu">
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
                         <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a></div>
@@ -60,7 +60,7 @@
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
                         <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
         </nav>
@@ -207,101 +207,122 @@
                     </nav>
                 </div>
             </div>
-
+            
             <div class="row justify-content-center" >
                 <div class="col-lg-3 col-md-3 ">
                     <div id="contentArea" class="container jplist">
-                        <div class="jplist-search">
-                            <div class="title"><span>Job List</span></div>
-                            <input type="text" data-path=".jobTitle" class="form-control" placeholder="Search Job ..." 
-                                   aria-label="Search Job ..." data-control-type="textbox" 
-                                   data-control-name="transmission-text-filter" data-control-action="filter" />
-                        </div>
+                      <div class="jplist-search">
+                        <div class="title"><span>Job List</span></div>
+                        <input type="text" data-path=".jobTitle" class="form-control" placeholder="Search Job ..." 
+                                               aria-label="Search Job ..." data-control-type="textbox" 
+                                               data-control-name="transmission-text-filter" data-control-action="filter" />
+                      </div>
                         <br/>
-                        <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
-                            <div class="list searchresult-row">
-                                <%
-                                    ArrayList<Vector> jobList = (ArrayList) request.getAttribute("jobListSYS");
-                                    if (jobList.size() != 0) {
-                                        for (int i = 0; i <= jobList.size() - 1; i++) {
-                                            Vector v = jobList.get(i);
-
-                                            String jobID = String.valueOf(v.get(0));
-                                            String jobImage = String.valueOf(v.get(1));
-                                            String jobTitle = String.valueOf(v.get(2));
-                                            String jobCategoryName = String.valueOf(v.get(3));
-                                            String jobPosterName = String.valueOf(v.get(4));
-                                            //String jobPostDate = String.valueOf(v.get(5));
-                                            //String jobWorkDate = String.valueOf(v.get(6));
-                                            //String startLocation = String.valueOf(v.get(7));
-                                            String jobRateType = String.valueOf(v.get(8));
-                                            String jobRate = String.valueOf(v.get(9));
-                                            //String numOfLikes = String.valueOf(v.get(10));
-%>
-                                <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
-                                    <div class="card card-product">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <%--<a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">--%>
-
-                                                <div class="col-xl-4 col-md-4 col-4">
-                                                    <img src="uploads/unify/images/errands/job/<%= jobImage%>" style="height: 70px; width: 70px;">
-                                                </div>
-
-                                                <div class="col-xl-8 col-md-8 col-8">
-                                                    <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
-                                                        <span class="jobTitle"><strong><%= jobTitle%></strong></span>
-                                                    </a>
-                                                    <p class="card-text"><%= jobCategoryName%></p>
-                                                    <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
-                                                </div>
-                                            </div>
-                                        </div>
+                      <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
+                      <div class="list searchresult-row">
+                        <%
+                            ArrayList<Vector> jobList = (ArrayList)request.getAttribute("jobListSYS");
+                            if (jobList.size()!=0) {
+                                for (int i = 0; i <= jobList.size() - 1; i++) {
+                                    Vector v = jobList.get(i);
+                                            
+                                    String jobID = String.valueOf(v.get(0));
+                                    String jobImage = String.valueOf(v.get(1));
+                                    String jobTitle = String.valueOf(v.get(2));
+                                    String jobCategoryName = String.valueOf(v.get(3));
+                                    String jobPosterName = String.valueOf(v.get(4));
+                                    //String jobPostDate = String.valueOf(v.get(5));
+                                    //String jobWorkDate = String.valueOf(v.get(6));
+                                    //String startLocation = String.valueOf(v.get(7));
+                                    String jobRateType = String.valueOf(v.get(8));
+                                    String jobRate = String.valueOf(v.get(9));
+                                    //String numOfLikes = String.valueOf(v.get(10));
+                        %>
+                       <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
+                        <div class="card card-product">
+                          <div class="card-body">
+                              <div class="row">
+                                  <%--<a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">--%>
+                                    
+                                    <div class="col-xl-4 col-md-4 col-4">
+                                        <img src="uploads/unify/images/errands/job/<%= jobImage%>" style="height: 70px; width: 70px;">
+                                    </div>
+                                    
+                                    <div class="col-xl-8 col-md-8 col-8">
+                                        <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
+                                        <span class="jobTitle"><strong><%= jobTitle%></strong></span>
+                                        </a>
+                                        <p class="card-text"><%= jobCategoryName%></p>
+                                        <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
                                     </div>
                                 </div>
-                                <%
-                                        }
+                           </div>
+                        </div>
+                        </div>
+                        <%
                                     }
-                                %>
-                            </div>
-                        </div>
-
-                        <div class="box jplist-no-results text-shadow align-center">
+                            }
+                        %>
+                    </div>
+                    </div>
+                    
+                    <div class="box jplist-no-results text-shadow align-center">
                             <p><strong>No results found. Please refine your search.</strong></p>
-                        </div>
+                    </div>
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-7 ml-1">
                     <div class="title"><span>Job Info</span></div>
                     <%
-                        ArrayList<Vector> offerList = (ArrayList) request.getAttribute("jobOfferList");
-                        if (offerList.size() != 0) {
-                            Vector jobInfo = (Vector) offerList.get(0);
-
-                            long jobID = (Long) jobInfo.get(0);
-                            String jobTitle = (String) jobInfo.get(1);
-                            String jobImg = (String) jobInfo.get(2);
-                            String jobRate = (String) jobInfo.get(3);
-                            String jobRateType = (String) jobInfo.get(4);
-                            String category = (String) jobInfo.get(5);
-                            int numOfHelpers = (Integer) jobInfo.get(6);
-                            int num = 0;
+                        ArrayList<Vector> offerList = (ArrayList)request.getAttribute("jobOfferList");
+                        if(offerList.size()!=0){
+                            Vector jobInfo = (Vector)offerList.get(0);
+                            
+                            long jobID = (Long)jobInfo.get(0);
+                            String jobTitle = (String)jobInfo.get(1);
+                            String jobImg = (String)jobInfo.get(2);
+                            String jobRate = (String)jobInfo.get(3);
+                            String jobRateType = (String)jobInfo.get(4);
+                            String category = (String)jobInfo.get(5);
+                            int numOfHelpers = (Integer)jobInfo.get(6);
+                            String jobStatus = (String)jobInfo.get(7);
                     %>
                     <div class="row">
                         <div class="col-xl-4 col-lg-5 col-md-6">
                             <img src="uploads/unify/images/errands/job/<%= jobImg%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer; height: 180px;">
                         </div>
                         <div class="col-xl-8 col-lg-7 col-md-6" >
-                            <span style="font-size: 18px; line-height: 28px;"><strong><%= jobTitle%></strong></span><br/>
+                            <span style="font-size: 20px; line-height: 24px;"><strong><%= jobTitle%></strong></span><br/>
+                            <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <%= jobStatus%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp; Category: <%= category%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; Helpers required: <%= numOfHelpers%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp; Job Rate: S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
                             <a role="button" href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= category%>" class="btn btn-primary" >View Job Details</a>
                         </div>
                    
+                      
                       <div id="offerList">    
                         <div class="col-12 mt-5">
-                          
+                            <%
+                                String message = (String)request.getAttribute("message");
+                                if(!message.equals("")){
+                                    if(message.endsWith("!")){
+                              %>
+                                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                                <button type="button" class="close" id="closeSuccess">&times;</button>
+                                <%= message%>
+                                </div>
+                                <%
+                                }else{
+                                %>
+                                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                                <button type="button" class="close" id="closeError">&times;</button>
+                                <%= message%>
+                                </div>
+                                <%
+                                    }
+                                        }
+                                %>
                             <div class="list">
                             <table class="table table-striped" id="offer-table" style="font-size: 13px;">
                                 <col width="120">
@@ -322,7 +343,7 @@
                                   <%
                                       for(int i=1; i<offerList.size(); i++){
                                           Vector offerDetails = (Vector)offerList.get(i);
-                                          num +=1;
+                                          
                                           String username = (String)offerDetails.get(0);
                                           String firstName = (String)offerDetails.get(1);
                                           String lastName = (String)offerDetails.get(2);
@@ -341,20 +362,34 @@
                                             <div class="col-2">
                                                 <img src="uploads/commoninfrastructure/admin/images/<%= userImg%>" style="width:35px; height:35px;"/>
                                             </div>
-                                        </div>
-
+                                            <div class="col-10">
+                                                <span class="senderName"><strong><%= username%></strong></span><br/>
+                                                <span class="senderName"><%= firstName%> <%= lastName%></span>
+                                            </div>
+                                          </div>
+                                      </td>
+                                    <td>S$<span class="offerPrice"><%= offerPrice%></span></td>
+                                    <td><%= offerDescription%>/<%=i%></td>
+                                    <td><%= offerStatus%></td>
+                                    <td>
                                         <%
-                                                }
-                                            }
+                                            if(offerStatus.equals("Processing") || offerStatus.equals("Closed") || offerStatus.equals("Cancelled")){
+                                            
                                         %>
                                         <span>No Action Required.</span>
                                         <%
-                                            }else{
+                                            }else if(offerStatus.equals("Pending") || offerStatus.equals("Negotiating")){
                                         %>
                                         <a role="button" class="btn btn-success" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Accept</span></a>
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#negotiateMessage<%=i%>"><span style="color: white; font-size: 12px;">Negotiate</span></button>
                                         <a role="button" class="btn btn-danger" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Reject</span></a>
-                                        <%}%>
+                                        <% }else if(offerStatus.equals("Accepted")){ %>
+                                        <a role="button" class="btn btn-danger" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Reject</span></a>
+                                        <% }else if(offerStatus.equals("Rejected")){ %>
+                                        <a role="button" class="btn btn-success" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Accept</span></a>
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#negotiateMessage<%=i%>"><span style="color: white; font-size: 12px;">Negotiate</span></button>
+                                        
+                                        <% } %>
                                     </td>
                                  
                                   </tr>
@@ -398,8 +433,8 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="chat-main">
+                                </div>
+          <div class="chat-main">
                 <div class="col-md-12 chat-header">
                     <div class="row header-one text-white p-1">
                         <div class="col-md-6 name pl-2">
@@ -417,7 +452,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
@@ -431,7 +465,7 @@
         <script src="js/unify/systemuser/webjs/errands/ViewJobOfferDetailsSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/webjs/errands/datatables.min.js" type="text/javascript"></script>
-
+        
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>
@@ -441,5 +475,5 @@
         <script src="js/unify/systemuser/basejs/jplist/jplist.pagination-bundle.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.sort-bundle.min.js"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.textbox-filter.min.js"></script>
-    </body>
+   </body>
 </html>

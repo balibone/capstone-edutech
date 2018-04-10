@@ -29,7 +29,7 @@
         <nav class="offcanvas">
             <div class="offcanvas-content">
                 <div id="list-menu" class="list-menu list-group" data-children=".submenu">
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
                         <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a></div>
@@ -42,7 +42,7 @@
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
                         <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
         </nav>
@@ -183,7 +183,7 @@
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
+                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Errands (Job Details)</li>
                         </ol>
                     </nav>
@@ -220,6 +220,7 @@
                     String numOfHelpers = (String.valueOf(jobDetailsSYSVec.get(23)));
                     String checking = (String.valueOf(jobDetailsSYSVec.get(24)));
                     String likeStatus = (String.valueOf(jobDetailsSYSVec.get(25)));
+                    String offerStatus = (String.valueOf(jobDetailsSYSVec.get(26)));
                 %>
                 <input type="hidden" id="priceType" value="<%=jobRateType%>"/>
                 <div class="row">
@@ -311,7 +312,10 @@
                             </tr>
                             <tr>   
                                 <td><i class="fa fa-book" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Category: </strong></span></td>
-                                <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=categoryName%></li></ul></td>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=categoryName%></li></ul>
+                                    <input type="hidden" id="categoryHidden" value="<%=categoryName%>">
+                                </td>
+                                
                             </tr>
                             <tr>
                                 <td><i class="fa fa-calendar" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Work Date: </strong></span></td>
@@ -328,7 +332,9 @@
                             <button id="edit-button" type="button" class="btn btn-outline-theme" onclick="location.href = 'ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>&loginUser=<%= loggedInUsername%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
                             <a role="button" class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=<%= jobID%>&username=<%=loggedInUsername%>" onclick="return confirm('Are you sure to delete the job?')">Delete Job Listing</a>
                             
-                            <%  } else {    %>
+                            <%  } else { 
+                                  if(!(offerStatus.equals("Accepted") || offerStatus.equals("Completed"))){
+                            %>
                             <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme" data-toggle="modal" data-target="#offerModal"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
                             
@@ -370,7 +376,19 @@
                               </div>
                             </div>
                             
-                            <%  }%>
+                            <%  }else if(offerStatus.equals("Accepted")){ %>
+                                 <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Poster</button>
+                                 <% if(checking.equals("false")){ %>
+                                 <a role="button" href="ErrandsSysUser?pageTransit=completeJobTransaction&jobID=<%=jobID%>&category=<%=categoryName%>&signatureImg=no" class="btn btn-outline-theme"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;Complete Job</a>   
+                                 <% }else{ %>
+                                 <button type="button" id="completeWChecking" class="btn btn-outline-theme"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;Complete Job</button>
+                            <%    }
+                                }else if(offerStatus.equals("Completed")){
+                              %>
+                                <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
+                                <button type="button" class="btn btn-outline-theme" disabled><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;The Job Is Completed</button>
+                            <% } %>
+                            <% } %>  
                             <%if(likeStatus.equals("true")) {   %>
                             <button type="button" id="likeJobBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
                             <%  } else if(likeStatus.equals("false")) {    %>
@@ -530,7 +548,7 @@
                     </div>
                 </div>
             </div>
-            
+                        
             <div class="chat-main">
                 <div class="col-md-12 chat-header">
                     <div class="row header-one text-white p-1">
@@ -549,11 +567,12 @@
                     </div>
                 </div>
             </div>
-            
+            <!-- <div id="unifyFooter"></div> -->
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="jobLikeList-iframe"></div>
+            <div id="signaturePad-iframe"></div>
             
                 
                 <input type="hidden" id="jobIDHidden" value="<%= jobID%>" />

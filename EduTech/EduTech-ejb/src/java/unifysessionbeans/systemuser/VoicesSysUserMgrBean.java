@@ -36,6 +36,7 @@ import unifyentities.voices.CompanyRequestEntity;
 import unifyentities.voices.CompanyReviewEntity;
 import unifyentities.voices.EduExprEntity;
 import unifyentities.voices.ProjectExprEntity;
+import unifyentities.voices.ReferenceEntity;
 import unifyentities.voices.ResumeEntity;
 import unifyentities.voices.SkillEntity;
 import unifyentities.voices.WorkExprEntity;
@@ -261,7 +262,6 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     public String createReviewReport(String reviewID, String reviewPoster, String reportDescription, String reviewReporter) {
         reportEntity = new CompanyReviewReportEntity();
         UserEntity reporter = lookupUnifyUser(reviewReporter);
-        System.out.println(reviewReporter);
         if (reportEntity.createReport(reviewPoster, reportDescription, reviewID, reporter)) {
                 em.persist(reportEntity);
                 reporter.getCompanyReviewReportSet().add(reportEntity);
@@ -273,40 +273,59 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     }
     
     @Override
-    public String createResume(String userFullName, String contactNum, String emailAddr, String postalAddr, 
-                               String[] workExprList, String[] eduExprList, String[] proExprList, String[] skillList, String fileName, String username) {
+    public String createResume(String userFullName, String contactNum, String emailAddr, String postalAddr, String summary, String awardStr,
+                               String[] eduExprList, String[] proExprList, String[] skillList, String[] workExprList, String[] referenceList, String fileName, String username) {
+        
         UserEntity userEntity = lookupUnifyUser(username);
         ResumeEntity resumeEntity = new ResumeEntity();
         Collection<WorkExprEntity> workExprSet = new ArrayList();
         Collection<EduExprEntity> eduExprSet = new ArrayList();
         Collection<ProjectExprEntity> proExprSet = new ArrayList();
         Collection<SkillEntity> skillSet = new ArrayList();
+        Collection<ReferenceEntity> referenceSet = new ArrayList();
         
         for(int i=0;i<workExprList.length;i=i+4) {
             WorkExprEntity workExpr = new WorkExprEntity();
-            workExpr.create(workExprList[i], workExprList[i+1], workExprList[i+2], workExprList[i+3], resumeEntity);
-            workExprSet.add(workExpr);
+            if(!workExprList[i].equals("")) {
+                workExpr.create(workExprList[i], workExprList[i+1], workExprList[i+2], workExprList[i+3], resumeEntity);
+                workExprSet.add(workExpr);
+            }
         }
         
         for(int i=0;i<eduExprList.length;i=i+4) {
             EduExprEntity eduExpr = new EduExprEntity();
-            eduExpr.create(eduExprList[i], eduExprList[i+1], eduExprList[i+2], eduExprList[i+3], resumeEntity);
-            eduExprSet.add(eduExpr);
+            if(!eduExprList[i].equals("")) {
+                eduExpr.create(eduExprList[i], eduExprList[i+1], eduExprList[i+2], eduExprList[i+3], resumeEntity);
+                eduExprSet.add(eduExpr);
+            }
+            
         }
         
         for(int i=0;i<proExprList.length;i=i+2) {
             ProjectExprEntity proExpr = new ProjectExprEntity();
-            proExpr.create(proExprList[i], proExprList[i+1], resumeEntity);
-            proExprSet.add(proExpr);
+            if(!proExprList[i].equals("")) {
+               proExpr.create(proExprList[i], proExprList[i+1], resumeEntity);
+               proExprSet.add(proExpr); 
+            }
         }
         
-        for(int i=0;i<skillList.length;i=i+2) {
+        for(int i=0;i<skillList.length;i=i+3) {
             SkillEntity skill = new SkillEntity();
-            skill.create(skillList[i], skillList[i+1], resumeEntity);
-            skillSet.add(skill);
+            if(!skillList[i].equals("")) {
+                skill.create(skillList[i], skillList[i+1], skillList[i+2], resumeEntity);
+                skillSet.add(skill);  
+            }
         }
         
-        if(resumeEntity.createResume(userFullName, contactNum, emailAddr, postalAddr, workExprSet, eduExprSet, proExprSet, skillSet, fileName, userEntity)) {
+        for(int i=0;i<referenceList.length;i=i+4) {
+            ReferenceEntity reference = new ReferenceEntity();
+            if(!referenceList[i].equals("")) {
+                reference.create(referenceList[i], referenceList[i+1], referenceList[i+2], referenceList[i+3], resumeEntity);
+                referenceSet.add(reference);
+            }
+        }
+        
+        if(resumeEntity.createResume(userFullName, contactNum, emailAddr, postalAddr, summary, awardStr, eduExprSet, proExprSet, skillSet, workExprSet, referenceSet, fileName, userEntity)) {
             userEntity.getResumeSet().add(resumeEntity);
             em.persist(resumeEntity);
             return "Resume has been created successfully!";
@@ -358,6 +377,24 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             ue.getCompanyReviewSet().remove(cre);
             em.remove(cre);
             em.merge(ce);
+            em.merge(ue);
+            reviewDeleteStatus = true;
+        }
+        return reviewDeleteStatus;
+    }
+    
+    @Override
+    public boolean deleteResume(long resumeID) {
+        boolean reviewDeleteStatus = false;
+        
+        Query q =em.createQuery("SELECT r from Resume r WHERE r.resumeID=:resumeID");
+        q.setParameter("resumeID", resumeID);
+        ResumeEntity re = (ResumeEntity) q.getSingleResult();
+        
+        if(re!=null) {
+            UserEntity ue = re.getUserEntity();
+            ue.getResumeSet().remove(re);
+            em.remove(re);
             em.merge(ue);
             reviewDeleteStatus = true;
         }

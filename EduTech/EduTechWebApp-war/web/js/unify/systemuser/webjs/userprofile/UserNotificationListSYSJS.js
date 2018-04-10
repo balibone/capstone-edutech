@@ -12,7 +12,9 @@ $(document).ready(function () {
     
     $('.mailinbox tbody').on('click', 'tr', function() {
         var msgType, msgContent, msgContentID;
-        var rowData = $(this).children("td").map(function() {
+        var $cell= $(event.target).closest('td');
+        if($cell.index() > 0 && $cell.index() < 4) {
+            var rowData = $(this).children("td").map(function() {
             return $(this).text();
         }).get();
         
@@ -31,7 +33,40 @@ $(document).ready(function () {
         } else if (msgType.indexOf('Voices') >= 0) {
             window.open('ProfileSysUser?pageTransit=', '_self');
         }
+        }
     });
     
     $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
 });
+
+function readMessage(sequenceID) {
+    var markBtn = document.getElementById('markBtn');
+    markBtn.disabled = false;
+    var message = document.getElementById(sequenceID);
+    $('#'+sequenceID).addClass('checked');
+}
+
+function markRead() {
+    var rows = document.getElementById("notificationTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+    var notificationList = new Array();
+    for(var i=0;i<rows;i++) {
+        if($('#'+i).hasClass('checked')) {
+            $.ajax({
+                type: "POST",
+                url: "ProfileSysUser",
+                data: { 
+                    msgContentID: document.getElementById('msgContentID-'+i).innerHTML.substring(1),
+                    msgSenderID: document.getElementById('msgSenderID-'+i).innerHTML,
+                    pageTransit: 'markNotificationSYS'
+                },
+                success: function(returnString) {
+                    
+                }
+            });
+            $('input[id=' + i + ']').remove();
+            $('label[for=' + i + ']').remove();
+        }
+    }
+    document.getElementById("notificationList").value = notificationList;
+    //document.notificationForm.submit();
+}

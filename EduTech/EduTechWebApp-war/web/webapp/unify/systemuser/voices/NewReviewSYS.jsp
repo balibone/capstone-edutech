@@ -225,7 +225,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <div class="image-upload">
-                                                    <img id="output-image" src="uploads/unify/images/voices/company/<%= companyImage%>" />
+                                                    <img class="img-thumbnail" src="uploads/unify/images/voices/company/<%= companyImage%>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -239,7 +239,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="employmentStatus">Employment Status&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="employmentStatus" data-width="75%" required>
+                                                <select class="form-control" name="employmentStatus" data-width="75%" required>
                                                     <option value="">Select</option>
                                                     <option value="Full Time">Full Time</option>
                                                     <option value="Part Time">Part Time</option>
@@ -260,11 +260,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="companyRating">Overall Rating&nbsp;<span class="asterik">*</span></label>
-                                                <input type="number" step="0.01" min="0" max="5" class="form-control" name="companyRating" aria-label="companyRating" required="required" />
+                                                <input type="number" step="0.1" min="0" max="5" class="form-control" name="companyRating" aria-label="companyRating" required="required" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="salaryRange">Salary Range&nbsp;<span class="asterik">*</span></label><br/>
-                                                <select class="select-dropdown" name="salaryRange" data-width="75%" required>
+                                                <select class="form-control" name="salaryRange" data-width="75%" required>
                                                     <option value="">Select</option>
                                                     <option value="Under 1000">Under 1000</option>
                                                     <option value="1000-2000">1000-2000</option>
@@ -320,7 +320,6 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-            <div id="sellNewItem-iframe"></div>
             <div id="unifyFooter"></div>
         </div>
 
