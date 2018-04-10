@@ -106,20 +106,61 @@ public class CommonMgrBean {
                 GroupEntity group = em.find(GroupEntity.class, Long.valueOf(entity.getGroupId()));
                 if(group!=null){
                     entity.setAssignedTo(group.getMembers());
+                    //persist
+                    em.persist(entity);
                 }
                 break;
             case "assessment":
                 ModuleEntity mod = em.find(ModuleEntity.class, entity.getModuleCode());
                 if(mod!=null){
                     entity.setAssignedTo(mod.getMembers());
+                    
+                    //if there is already a recurring event for this location at this time, disallow creation.
+                    Query q1 = em.createQuery("SELECT s FROM ScheduleItem s WHERE s.itemType='assessment' OR s.itemType='timetable'");
+                    for(Object o : q1.getResultList()){
+                        ScheduleItemEntity checkingAgainst = (ScheduleItemEntity) o;
+                        LocalTime receivedStartTime = entity.getStartDate().toLocalTime();
+                        LocalTime receivedEndTime = entity.getEndDate().toLocalTime();
+                        //if new sched items falls in the same day as an existing event.
+                        if(checkingAgainst.getStartDate().equals(entity.getStartDate())){
+                            LocalTime thisStartTime = checkingAgainst.getStartDate().toLocalTime();
+                            LocalTime thisEndTime = checkingAgainst.getEndDate().toLocalTime();
+                            //if recurring event has same location with the one to be created,
+                            //disallow creation if there is overlap
+                            if(checkingAgainst.getLocation().equalsIgnoreCase(entity.getLocation().trim())){
+                                //Case 1 : new event start time is in between start and end.
+                                if(receivedStartTime.equals(thisStartTime)
+                                        || (receivedStartTime.isAfter(thisStartTime) && receivedStartTime.isBefore(thisEndTime))
+                                        || (receivedStartTime.equals(thisEndTime))
+                                        ){
+                                    entity = null;
+                                }
+                                //Case 2 : new event end time is between start and end.
+                                else if(receivedEndTime.equals(thisStartTime)
+                                        || (receivedEndTime.isAfter(thisStartTime) && receivedEndTime.isBefore(thisEndTime))
+                                        || (receivedEndTime.equals(thisEndTime))
+                                        ){
+                                    entity = null;
+                                }
+                                //Case 3 : new event start is before start & new event end is after end
+                                else if(receivedStartTime.isBefore(thisStartTime) && receivedEndTime.isAfter(thisEndTime)
+                                        ){
+                                    entity = null;
+                                }
+                            }
+                        }
+                    }
+                    if(entity!=null){
+                        em.persist(entity);
+                    }
                 }
                 break;
             default://for personal, (task, timetable)<--not using this endpoint.
-                entity.getAssignedTo().add(user); 
+                entity.getAssignedTo().add(user);
+                //persist
+                em.persist(entity);
                 break;
         }
-        //persist
-        em.persist(entity);
         return entity;
     }
 
@@ -752,7 +793,7 @@ public class CommonMgrBean {
             //get assessments
             Query q2 = em.createQuery("SELECT s FROM ScheduleItem s WHERE s.itemType='assessment'");
             for(Object o : q2.getResultList()){
-                //CONVERT EACH ASSIGNMENT TO SCHEDULE ITEM.
+                //ADD EACH ASSESSMENT TO KEY DATES
                 ScheduleItemEntity sched = (ScheduleItemEntity) o;
                 keyDates.add(sched);
             }

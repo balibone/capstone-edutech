@@ -599,6 +599,39 @@
 					"response": []
 				},
 				{
+					"name": "findGroupScheduleItems",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem/members/353",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"scheduleitem",
+								"members",
+								"353"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "createScheduleItem: scheduleitem",
 					"request": {
 						"method": "POST",
@@ -949,6 +982,29 @@
 						"description": "Hello hello"
 					},
 					"response": []
+				},
+				{
+					"name": "getCurrentSemester",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/semester/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"semester",
+								"current"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1136,7 +1192,7 @@
 							"formdata": [
 								{
 									"key": "title",
-									"value": "testAttachment",
+									"value": "lessonAttachment",
 									"description": "",
 									"type": "text"
 								},
@@ -1684,6 +1740,39 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "autoAssignMembers",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group/autoAssign/358",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group",
+								"autoAssign",
+								"358"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1738,7 +1827,7 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/1552",
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/555",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1748,7 +1837,7 @@
 								"EduTechWebApp-war",
 								"api",
 								"assignment",
-								"1552"
+								"555"
 							]
 						}
 					},
@@ -1877,7 +1966,7 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/1609",
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/153",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1887,7 +1976,7 @@
 								"EduTechWebApp-war",
 								"api",
 								"assignment",
-								"1609"
+								"153"
 							]
 						}
 					},
@@ -1954,7 +2043,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/submit/153",
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/submit/555",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1965,7 +2054,7 @@
 								"api",
 								"assignment",
 								"submit",
-								"153"
+								"555"
 							]
 						}
 					},
@@ -2307,6 +2396,200 @@
 								"api",
 								"agenda",
 								"151"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AnnouncementREST",
+			"description": "",
+			"item": [
+				{
+					"name": "getAllAnnouncements",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/announcement",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"announcement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOneAnnouncement",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/announcement/402",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"announcement",
+								"402"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserAnnouncements",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/announcement/user/student",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"announcement",
+								"user",
+								"student"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createAnnouncement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"assignedTo\":[\n\t\t{\t\n\t\t\t\"username\":\"student\"\t\t\n\t\t},\n\t\t{\n\t\t\t\"username\":\"instructor\"\n\t\t},\n\t\t{\n\t\t\t\"username\":\"groupmate\"\n\t\t}\n\t],\n\t\"title\":\"testAnnouncement\",\n\t\"message\":\"hello everyone\",\n\t\"createdBy\":{\n\t\t\"username\":\"student\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/announcement",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"announcement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAnnouncement",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/announcement/401",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"announcement",
+								"401"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editAnnouncement",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"assignedTo\":[\n\t\t{\t\n\t\t\t\"username\":\"student\"\t\t\n\t\t}\t\t\n\t],\n\t\"title\":\"testAnnouncement\",\n\t\"message\":\"hello everyone\",\n\t\"createdBy\":{\n\t\t\"username\":\"student\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/announcement/402",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"announcement",
+								"402"
 							]
 						}
 					},
