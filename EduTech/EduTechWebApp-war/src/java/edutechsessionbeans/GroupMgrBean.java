@@ -16,6 +16,7 @@ import edutechentities.module.AssignmentEntity;
 import edutechentities.module.ModuleEntity;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -278,6 +279,43 @@ public class GroupMgrBean {
             modAsses = q.getResultList();
         }
         return modAsses;
+    }
+
+    public List<GroupEntity> autoAssignMembers(String assignmentId) {
+        
+        AssignmentEntity ass = em.find(AssignmentEntity.class, Long.valueOf(assignmentId));
+        ModuleEntity mod = ass.getModule();
+        ArrayList<GroupEntity> assGroups = new ArrayList<>(ass.getGroups());
+        
+        //if mod and assignment exists and assignment belong to this mod, run auto assign
+        if(mod != null && ass != null && ass.getModule().equals(mod)){
+            
+            ArrayList<UserEntity> membersToAdd = new ArrayList<>(mod.getMembers());
+            int membersIndex = 0;
+            
+            //randomise contents of array list.
+            Collections.shuffle(membersToAdd);
+            //remove those users which already have group in this assignment.
+            for(UserEntity member : membersToAdd){
+                for(GroupEntity g : ass.getGroups()){
+                    if(g.getMembers().contains(member)){
+                        membersToAdd.remove(member);
+                    }
+                }
+            }
+            
+            
+            //go through all groups in this assignment
+            for(GroupEntity g : ass.getGroups()){
+                Collection<UserEntity> groupMembers = g.getMembers();
+                //keep adding to group if group still has space AND there are still members to add.
+                while(groupMembers.size()<g.getGroupSize() && membersIndex < membersToAdd.size()){
+                    groupMembers.add(membersToAdd.get(membersIndex));
+                    membersIndex++;
+                }
+            }
+        }
+        return assGroups;
     }
     
 }
