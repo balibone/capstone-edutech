@@ -250,7 +250,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToViewChatListSYS":
                     String assocItemID = request.getParameter("assocItemID");
-                    request.setAttribute("userChatBuyingListSYS", usmr.viewUserChatBuyingList(loggedInUsername, assocItemID));
+                    request.setAttribute("userChatBuyingListSYS", usmr.viewUserChatBuyingList(loggedInUsername, assocItemID, true));
                     request.setAttribute("userChatSellingListSYS", usmr.viewUserChatSellingList(loggedInUsername, assocItemID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserChatListSYS";
@@ -260,8 +260,8 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("contentChatID", hidChatID);
                     request.setAttribute("chatListContentSYS", usmr.viewChatListContent(hidChatID));
                     request.setAttribute("chatContentInfoVecSYS", usmr.viewChatContentInfo(loggedInUsername, hidChatID));
-                    request.setAttribute("assocBuyingListSYS", usmr.viewAssocBuyingList(loggedInUsername, ""));
-                    request.setAttribute("assocSellingListSYS", usmr.viewAssocSellingList(loggedInUsername, ""));
+                    request.setAttribute("userChatBuyingListSYS", usmr.viewUserChatBuyingList(loggedInUsername, "", false));
+                    request.setAttribute("userChatSellingListSYS", usmr.viewUserChatSellingList(loggedInUsername, ""));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserChatListContentSYS";
                     break;

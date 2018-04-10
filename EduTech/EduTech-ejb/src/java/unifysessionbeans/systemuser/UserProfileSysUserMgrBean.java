@@ -263,153 +263,133 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return messageList;
     }
     
+    /* MARKETPLACE CHAT (WITHOUT CHAT HISTORY) -- BUYING TAB */
     @Override
-    public List<Vector> viewUserChatBuyingList(String username, String itemID) {
-        ArrayList<String> nameHolderArrList = new ArrayList<>();
-        chEntity = lookupEmptyChat(username);
-        
-        if(!itemID.equals("")) {
-            if (chEntity != null) {
-                uEntity = chEntity.getUserEntity();
-                uEntity.getChatSet().remove(chEntity);
-                iEntity = chEntity.getItemEntity();
-                iEntity.getChatSet().remove(chEntity);
-
-                em.merge(uEntity);
-                em.merge(iEntity);
-                em.remove(chEntity);
-                em.flush();
-                em.clear();
-            }
-            iEntity = lookupItem(Long.parseLong(itemID));
-            ChatEntity newChatE = new ChatEntity();
-            if((iEntity.getUserEntity().getUsername()).equals(username)) {
-                newChatE.createChat(iEntity.getUserEntity().getUsername(), "", username, "");
-            } else if(!(iEntity.getUserEntity().getUsername()).equals(username)) {
-                newChatE.createChat(iEntity.getUserEntity().getUsername(), username, "", "");
-            }
-            newChatE.setItemEntity(iEntity);
-            newChatE.setUserEntity(lookupUnifyUser(username));
-            em.persist(newChatE);
-        } else if(itemID.equals("")) {
-            if (chEntity != null) {
-                uEntity = chEntity.getUserEntity();
-                uEntity.getChatSet().remove(chEntity);
-                iEntity = chEntity.getItemEntity();
-                iEntity.getChatSet().remove(chEntity);
-
-                em.merge(uEntity);
-                em.merge(iEntity);
-                em.remove(chEntity);
-                em.flush();
-                em.clear();
-            }
-        }
-        
-        Query q = em.createQuery("SELECT c FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemBuyerID = :username ORDER BY c.chatPostingDate DESC");
-        q.setParameter("username", username);
+    public List<Vector> viewUserChatBuyingList(String username, String itemID, boolean checkEmptyContent) {
+        ArrayList<String> nameItemHolderArrList = new ArrayList<>();
         List<Vector> userChatList = new ArrayList<Vector>();
         
-        for (Object o : q.getResultList()) {
+        /* DELETE VIA ONE SIDE CALL ONLY */
+        if(checkEmptyContent == true) {
+            Query q = em.createQuery("SELECT c FROM Chat c WHERE c.chatContent = '' OR c.chatContent IS NULL");
+            for (Object o : q.getResultList()) {
+                ChatEntity chatE = (ChatEntity) o;
+                uEntity = chatE.getUserEntity();
+                iEntity = chatE.getItemEntity();
+
+                em.merge(chatE);
+                em.remove(chatE);
+                uEntity.getChatSet().remove(chatE);
+                iEntity.getChatSet().remove(chatE);
+
+                em.merge(uEntity);
+                em.merge(iEntity);
+            }
+            em.flush();
+            em.clear();
+        }
+        
+        if(!itemID.equals("")) {
+            if(lookupEmptyChat(username) == null) {
+                iEntity = lookupItem(Long.parseLong(itemID));
+                ChatEntity newChatE = new ChatEntity();
+                if((iEntity.getUserEntity().getUsername()).equals(username)) {
+                    newChatE.createChat(iEntity.getUserEntity().getUsername(), "", username, "");
+                } else if(!(iEntity.getUserEntity().getUsername()).equals(username)) {
+                    newChatE.createChat(iEntity.getUserEntity().getUsername(), username, "", "");
+                }
+                newChatE.setItemEntity(iEntity);
+                newChatE.setUserEntity(lookupUnifyUser(username));
+                em.persist(newChatE);
+            }
+            Query searchQ = em.createQuery("SELECT c FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemBuyerID = :username AND c.itemEntity.itemID = :itemID ORDER BY c.chatPostingDate DESC");
+            searchQ.setParameter("username", username);
+            searchQ.setParameter("itemID", Long.parseLong(itemID));
+            for (Object o : searchQ.setMaxResults(1).getResultList()) {
+                ChatEntity chatE = (ChatEntity) o;
+                Vector userChatVec = new Vector();
+                if(!(chatE.getChatReceiverID()).equals(username)) {
+                    nameItemHolderArrList.add(chatE.getChatReceiverID() + ";" + chatE.getItemEntity().getItemID());
+                    userChatVec.add(lookupUnifyUser(chatE.getChatReceiverID()).getImgFileName());
+                    userChatVec.add(lookupUnifyUser(chatE.getChatReceiverID()).getUsername());
+                } else {
+                    nameItemHolderArrList.add(chatE.getUserEntity().getUsername() + chatE.getItemEntity().getItemID());
+                    userChatVec.add(lookupUnifyUser(chatE.getUserEntity().getUsername()).getImgFileName());
+                    userChatVec.add(lookupUnifyUser(chatE.getUserEntity().getUsername()).getUsername());
+                }
+                userChatVec.add(chatE.getItemEntity().getItemName());
+                userChatVec.add(chatE.getChatID());
+                userChatVec.add(chatE.getChatStatus());
+                userChatVec.add(chatE.getChatContent());
+                userChatList.add(userChatVec);
+            }
+        }
+        Query viewQ = em.createQuery("SELECT c FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemBuyerID = :username ORDER BY c.chatPostingDate DESC");
+        viewQ.setParameter("username", username);
+        
+        for (Object o : viewQ.getResultList()) {
             ChatEntity chatE = (ChatEntity) o;
             Vector userChatVec = new Vector();
             
             if((chatE.getUserEntity().getUsername()).equals(username)) {
-                if(!nameHolderArrList.contains(chatE.getChatReceiverID())) {
-                    userChatVec.add(chatE.getChatID());
+                if(!nameItemHolderArrList.contains(chatE.getChatReceiverID() + ";" + chatE.getItemEntity().getItemID())) {
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
                     userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getChatStatus());
                     userChatVec.add(chatE.getChatContent());
-                    nameHolderArrList.add(chatE.getChatReceiverID());
+                    userChatList.add(userChatVec);
+                    nameItemHolderArrList.add(chatE.getChatReceiverID() + ";" + chatE.getItemEntity().getItemID());
                 }
             } else if((chatE.getChatReceiverID()).equals(username)) {
-                if(!nameHolderArrList.contains(chatE.getUserEntity().getUsername())) {
-                    userChatVec.add(chatE.getChatID());
+                if(!nameItemHolderArrList.contains(chatE.getUserEntity().getUsername() + ";" + chatE.getItemEntity().getItemID())) {
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
                     userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getChatStatus());
                     userChatVec.add(chatE.getChatContent());
-                    nameHolderArrList.add(chatE.getUserEntity().getUsername());
+                    userChatList.add(userChatVec);
+                    nameItemHolderArrList.add(chatE.getUserEntity().getUsername() + ";" + chatE.getItemEntity().getItemID());
                 }
             }
-            userChatList.add(userChatVec);
         }
         return userChatList;
     }
     
+    /* MARKETPLACE CHAT (WITHOUT CHAT HISTORY) -- SELLING TAB */
     @Override
     public List<Vector> viewUserChatSellingList(String username, String itemID) {
-        ArrayList<String> nameHolderArrList = new ArrayList<>();
-        chEntity = lookupEmptyChat(username);
-        
-        if(!itemID.equals("")) {
-            if (chEntity != null) {
-                uEntity = chEntity.getUserEntity();
-                uEntity.getChatSet().remove(chEntity);
-                iEntity = chEntity.getItemEntity();
-                iEntity.getChatSet().remove(chEntity);
-
-                em.merge(uEntity);
-                em.merge(iEntity);
-                em.remove(chEntity);
-                em.flush();
-                em.clear();
-            }
-            iEntity = lookupItem(Long.parseLong(itemID));
-            ChatEntity newChatE = new ChatEntity();
-            if((iEntity.getUserEntity().getUsername()).equals(username)) {
-                newChatE.createChat(iEntity.getUserEntity().getUsername(), "", username, "");
-            } else if(!(iEntity.getUserEntity().getUsername()).equals(username)) {
-                newChatE.createChat(iEntity.getUserEntity().getUsername(), username, "", "");
-            }
-            newChatE.setItemEntity(iEntity);
-            newChatE.setUserEntity(lookupUnifyUser(username));
-            em.persist(newChatE);
-        } else if(itemID.equals("")) {
-            if (chEntity != null) {
-                uEntity = chEntity.getUserEntity();
-                uEntity.getChatSet().remove(chEntity);
-                iEntity = chEntity.getItemEntity();
-                iEntity.getChatSet().remove(chEntity);
-
-                em.merge(uEntity);
-                em.merge(iEntity);
-                em.remove(chEntity);
-                em.flush();
-                em.clear();
-            }
-        }
+        ArrayList<String> nameItemHolderArrList = new ArrayList<>();
+        List<Vector> userChatList = new ArrayList<Vector>();
         
         Query q = em.createQuery("SELECT c FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemSellerID = :username ORDER BY c.chatPostingDate DESC");
         q.setParameter("username", username);
-        List<Vector> userChatList = new ArrayList<Vector>();
         
         for (Object o : q.getResultList()) {
             ChatEntity chatE = (ChatEntity) o;
             Vector userChatVec = new Vector();
             
             if((chatE.getUserEntity().getUsername()).equals(username)) {
-                if(!nameHolderArrList.contains(chatE.getChatReceiverID())) {
-                    userChatVec.add(chatE.getChatID());
+                if(!nameItemHolderArrList.contains(chatE.getChatReceiverID())) {
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
                     userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getChatStatus());
                     userChatVec.add(chatE.getChatContent());
-                    nameHolderArrList.add(chatE.getChatReceiverID());
+                    nameItemHolderArrList.add(chatE.getChatReceiverID());
                 }
             } else if((chatE.getChatReceiverID()).equals(username)) {
-                if(!nameHolderArrList.contains(chatE.getUserEntity().getUsername())) {
-                    userChatVec.add(chatE.getChatID());
+                if(!nameItemHolderArrList.contains(chatE.getUserEntity().getUsername())) {
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
                     userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
                     userChatVec.add(chatE.getItemEntity().getItemName());
+                    userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getChatStatus());
                     userChatVec.add(chatE.getChatContent());
-                    nameHolderArrList.add(chatE.getUserEntity().getUsername());
+                    nameItemHolderArrList.add(chatE.getUserEntity().getUsername());
                 }
             }
             userChatList.add(userChatVec);
@@ -417,7 +397,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return userChatList;
     }
     
-    /* PACKAGED X4 */
+    /* MARKETPLACE CHAT (WITH -OR- WITHOUT CHAT HISTORY) -- CHAT HEADER */
     @Override
     public Vector viewChatContentInfo(String username, long chatID) {
         chEntity = lookupChat(chatID);
@@ -441,10 +421,19 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                 chatContentInfoVec.add(chEntity.getItemSellerID());
             }
             chatContentInfoVec.add(chEntity.getItemEntity().getItemID());
+            chatContentInfoVec.add(chEntity.getItemEntity().getItemImage());
+            chatContentInfoVec.add(chEntity.getItemEntity().getItemName());
+            chatContentInfoVec.add(chEntity.getItemEntity().getItemPrice());
+            if((lookupItemOfferStatusFromChat(chEntity.getItemEntity().getItemID(), username).getBuyerItemOfferStatus()).equals("")) {
+                chatContentInfoVec.add("You have not made an offer on this item yet");
+            } else {
+                chatContentInfoVec.add(lookupItemOfferStatusFromChat(chEntity.getItemEntity().getItemID(), username).getBuyerItemOfferStatus());
+            }
         }
         return chatContentInfoVec;
     }
     
+    /* MARKETPLACE CHAT (WITH CHAT HISTORY) */
     @Override
     public List<Vector> viewChatListContent(long chatID) {
         List<Vector> chatListContent = new ArrayList<Vector>();
@@ -490,82 +479,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return chatListContent;
     }
     
-    @Override
-    public List<Vector> viewAssocBuyingList(String username, String itemID) {
-        ArrayList<String> nameHolderArrList = new ArrayList<>();
-        
-        Query q = em.createQuery("SELECT c FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemBuyerID = :username ORDER BY c.chatPostingDate DESC");
-        q.setParameter("username", username);
-        List<Vector> userChatList = new ArrayList<Vector>();
-        
-        for (Object o : q.getResultList()) {
-            ChatEntity chatE = (ChatEntity) o;
-            Vector userChatVec = new Vector();
-            
-            if((chatE.getUserEntity().getUsername()).equals(username)) {
-                if(!nameHolderArrList.contains(chatE.getChatReceiverID())) {
-                    userChatVec.add(chatE.getChatID());
-                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
-                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
-                    userChatVec.add(chatE.getItemEntity().getItemName());
-                    userChatVec.add(chatE.getChatStatus());
-                    userChatVec.add(chatE.getChatContent());
-                    nameHolderArrList.add(chatE.getChatReceiverID());
-                }
-            } else if((chatE.getChatReceiverID()).equals(username)) {
-                if(!nameHolderArrList.contains(chatE.getUserEntity().getUsername())) {
-                    userChatVec.add(chatE.getChatID());
-                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
-                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
-                    userChatVec.add(chatE.getItemEntity().getItemName());
-                    userChatVec.add(chatE.getChatStatus());
-                    userChatVec.add(chatE.getChatContent());
-                    nameHolderArrList.add(chatE.getUserEntity().getUsername());
-                }
-            }
-            userChatList.add(userChatVec);
-        }
-        return userChatList;
-    }
-    
-    @Override
-    public List<Vector> viewAssocSellingList(String username, String itemID) {
-        ArrayList<String> nameHolderArrList = new ArrayList<>();
-        
-        Query q = em.createQuery("SELECT c FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemSellerID = :username ORDER BY c.chatPostingDate DESC");
-        q.setParameter("username", username);
-        List<Vector> userChatList = new ArrayList<Vector>();
-        
-        for (Object o : q.getResultList()) {
-            ChatEntity chatE = (ChatEntity) o;
-            Vector userChatVec = new Vector();
-            
-            if((chatE.getUserEntity().getUsername()).equals(username)) {
-                if(!nameHolderArrList.contains(chatE.getChatReceiverID())) {
-                    userChatVec.add(chatE.getChatID());
-                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
-                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
-                    userChatVec.add(chatE.getItemEntity().getItemName());
-                    userChatVec.add(chatE.getChatStatus());
-                    userChatVec.add(chatE.getChatContent());
-                    nameHolderArrList.add(chatE.getChatReceiverID());
-                }
-            } else if((chatE.getChatReceiverID()).equals(username)) {
-                if(!nameHolderArrList.contains(chatE.getUserEntity().getUsername())) {
-                    userChatVec.add(chatE.getChatID());
-                    userChatVec.add(chatE.getItemEntity().getUserEntity().getImgFileName());
-                    userChatVec.add(chatE.getItemEntity().getUserEntity().getUsername());
-                    userChatVec.add(chatE.getItemEntity().getItemName());
-                    userChatVec.add(chatE.getChatStatus());
-                    userChatVec.add(chatE.getChatContent());
-                    nameHolderArrList.add(chatE.getUserEntity().getUsername());
-                }
-            }
-            userChatList.add(userChatVec);
-        }
-        return userChatList;
-    }
-    
+    /* MARKETPLACE CHAT (WITH CHAT HISTORY) -- NEW CHAT CONTENT */
     @Override
     public String addNewChatContent(String senderID, String receiverID, String chatContent, 
             String buyerOrSellerStat, String buyerOrSellerID, long itemID) {
@@ -609,7 +523,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             itemOfferVec.add(itemE.getCategoryEntity().getCategoryName());
             itemOfferVec.add(itemE.getUserEntity().getUsername());
             itemOfferVec.add(itemE.getUserEntity().getImgFileName());
-
+            
             long diff = currentDate.getTime() - itemE.getItemPostingDate().getTime();
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
@@ -1253,6 +1167,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return ue;
     }
     
+    /*  ====================    MISCELLANEOUS METHODS (MARKETPLACE CHAT HISTORY)    ==================== */
     public ChatEntity lookupChat(long chatID) {
         ChatEntity che = new ChatEntity();
         try {
@@ -1271,10 +1186,11 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return che;
     }
     
+    /*  ====================    MISCELLANEOUS METHODS (MARKETPLACE CHAT LIST)    ==================== */
     public ChatEntity lookupEmptyChat(String username) {
         ChatEntity che = new ChatEntity();
         try {
-            Query q = em.createQuery("SELECT c FROM Chat c WHERE c.userEntity.username = :username AND c.itemBuyerID = :username AND c.chatContent IS NOT NULL");
+            Query q = em.createQuery("SELECT c FROM Chat c WHERE c.userEntity.username = :username AND c.itemBuyerID = :username AND c.chatContent IS NULL");
             q.setParameter("username", username);
             che = (ChatEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {
@@ -1325,7 +1241,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return ite;
     }
     
-    /* ---> FOR ACCEPTING AND REJECTING THE ITEM OFFER <--- */
+    /* ---> FOR ACCEPTING AND REJECTING THE ITEM OFFER (FROM ITEM OFFER LISTING) <--- */
     public ItemOfferEntity lookupItemOffer(long itemOfferID) {
         ItemOfferEntity ioe = new ItemOfferEntity();
         try {
@@ -1333,11 +1249,31 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             q.setParameter("itemOfferID", itemOfferID);
             ioe = (ItemOfferEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {
-            System.out.println("ERROR: Item offer cannot be found. " + enfe.getMessage());
+            System.out.println("ERROR: Item Offer cannot be found. " + enfe.getMessage());
             em.remove(ioe);
             ioe = null;
         } catch (NoResultException nre) {
-            System.out.println("ERROR: Item offer does not exist. " + nre.getMessage());
+            System.out.println("ERROR: Item Offer does not exist. " + nre.getMessage());
+            em.remove(ioe);
+            ioe = null;
+        }
+        return ioe;
+    }
+    
+    /* ---> FOR ACCEPTING AND REJECTING THE ITEM OFFER (FROM CHAT) <--- */
+    public ItemOfferEntity lookupItemOfferStatusFromChat(long itemID, String username) {
+        ItemOfferEntity ioe = new ItemOfferEntity();
+        try {
+            Query q = em.createQuery("SELECT io FROM ItemOffer io WHERE io.itemEntity.itemID = :itemID AND io.userEntity.username = :username");
+            q.setParameter("itemID", itemID);
+            q.setParameter("username", username);
+            ioe = (ItemOfferEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Buyer Item Offer Status cannot be found. " + enfe.getMessage());
+            em.remove(ioe);
+            ioe = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Buyer Item Offer Status does not exist. " + nre.getMessage());
             em.remove(ioe);
             ioe = null;
         }

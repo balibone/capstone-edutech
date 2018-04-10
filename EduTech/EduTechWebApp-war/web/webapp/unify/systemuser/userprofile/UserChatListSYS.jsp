@@ -211,10 +211,10 @@
                                     if (!userChatBuyingListSYS.isEmpty()) {
                                         for (int i = 0; i <= userChatBuyingListSYS.size()-1; i++) {
                                             Vector v = userChatBuyingListSYS.get(i);
-                                            String chatID = String.valueOf(v.get(0));
-                                            String itemSellerImage = String.valueOf(v.get(1));
-                                            String itemSellerID = String.valueOf(v.get(2));
-                                            String itemName = String.valueOf(v.get(3));
+                                            String itemSellerImage = String.valueOf(v.get(0));
+                                            String itemSellerID = String.valueOf(v.get(1));
+                                            String itemName = String.valueOf(v.get(2));
+                                            String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
                                 %>
@@ -247,10 +247,10 @@
                                     if (!userChatSellingListSYS.isEmpty()) {
                                         for (int i = 0; i <= userChatSellingListSYS.size()-1; i++) {
                                             Vector v = userChatSellingListSYS.get(i);
-                                            String chatID = String.valueOf(v.get(0));
-                                            String itemSellerImage = String.valueOf(v.get(1));
-                                            String itemSellerID = String.valueOf(v.get(2));
-                                            String itemName = String.valueOf(v.get(3));
+                                            String itemSellerImage = String.valueOf(v.get(0));
+                                            String itemSellerID = String.valueOf(v.get(1));
+                                            String itemName = String.valueOf(v.get(2));
+                                            String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
                                 %>
@@ -291,25 +291,6 @@
                                 <button disabled="disabled" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chat-main">
-                <div class="col-md-12 chat-header">
-                    <div class="row header-one text-white p-1">
-                        <div class="col-md-6 name pl-2">
-                            <i class="fa fa-comment"></i>
-                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
-                        </div>
-                        <div class="col-md-6 options text-right pr-0">
-                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="chat-content">
-                    <div class="col-md-12 chats">
-                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
                     </div>
                 </div>
             </div>

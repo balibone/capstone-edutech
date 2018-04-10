@@ -207,14 +207,14 @@
                         <div id="buyingContacts">
                             <ul class="buyingContacts">
                                 <%
-                                    ArrayList<Vector> assocBuyingListSYS = (ArrayList) request.getAttribute("assocBuyingListSYS");
-                                    if (!assocBuyingListSYS.isEmpty()) {
-                                        for (int i = 0; i <= assocBuyingListSYS.size()-1; i++) {
-                                            Vector v = assocBuyingListSYS.get(i);
-                                            String chatID = String.valueOf(v.get(0));
-                                            String itemSellerImage = String.valueOf(v.get(1));
-                                            String itemSellerID = String.valueOf(v.get(2));
-                                            String itemName = String.valueOf(v.get(3));
+                                    ArrayList<Vector> userChatBuyingListSYS = (ArrayList) request.getAttribute("userChatBuyingListSYS");
+                                    if (!userChatBuyingListSYS.isEmpty()) {
+                                        for (int i = 0; i <= userChatBuyingListSYS.size()-1; i++) {
+                                            Vector v = userChatBuyingListSYS.get(i);
+                                            String itemSellerImage = String.valueOf(v.get(0));
+                                            String itemSellerID = String.valueOf(v.get(1));
+                                            String itemName = String.valueOf(v.get(2));
+                                            String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
                                 %>
@@ -243,14 +243,14 @@
                         <div id="sellingContacts">
                             <ul class="sellingContacts">
                                 <%
-                                    ArrayList<Vector> assocSellingListSYS = (ArrayList) request.getAttribute("assocSellingListSYS");
-                                    if (!assocSellingListSYS.isEmpty()) {
-                                        for (int i = 0; i <= assocSellingListSYS.size()-1; i++) {
-                                            Vector v = assocSellingListSYS.get(i);
-                                            String chatID = String.valueOf(v.get(0));
-                                            String itemSellerImage = String.valueOf(v.get(1));
-                                            String itemSellerID = String.valueOf(v.get(2));
-                                            String itemName = String.valueOf(v.get(3));
+                                    ArrayList<Vector> userChatSellingListSYS = (ArrayList) request.getAttribute("userChatSellingListSYS");
+                                    if (!userChatSellingListSYS.isEmpty()) {
+                                        for (int i = 0; i <= userChatSellingListSYS.size()-1; i++) {
+                                            Vector v = userChatSellingListSYS.get(i);
+                                            String itemSellerImage = String.valueOf(v.get(0));
+                                            String itemSellerID = String.valueOf(v.get(1));
+                                            String itemName = String.valueOf(v.get(2));
+                                            String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
                                 %>
@@ -280,9 +280,12 @@
                     <div class="content">
                         <%
                             Vector chatContentInfoVecSYS = (Vector) request.getAttribute("chatContentInfoVecSYS");
-                            String receiverImage, receiverID, senderImage, buyerOrSellerStat, buyerOrSellerID, itemID;
-                            receiverImage = receiverID = senderImage = buyerOrSellerStat = buyerOrSellerID = itemID = "";
-
+                            String receiverImage, receiverID, senderImage, buyerOrSellerStat, buyerOrSellerID;
+                            receiverImage = receiverID = senderImage = buyerOrSellerStat = buyerOrSellerID = "";
+                            
+                            String itemID, itemImage, itemName, itemPrice, buyerItemOfferStatus;
+                            itemID = itemImage = itemName = itemPrice = buyerItemOfferStatus = "";
+                            
                             if (chatContentInfoVecSYS != null) {
                                 receiverImage = (String) chatContentInfoVecSYS.get(0);
                                 receiverID = (String) chatContentInfoVecSYS.get(1);
@@ -290,6 +293,10 @@
                                 buyerOrSellerStat = (String) chatContentInfoVecSYS.get(3);
                                 buyerOrSellerID = (String) chatContentInfoVecSYS.get(4);
                                 itemID = (String.valueOf(chatContentInfoVecSYS.get(5)));
+                                itemImage = (String) chatContentInfoVecSYS.get(6);
+                                itemName = (String) chatContentInfoVecSYS.get(7);
+                                itemPrice = (String.valueOf(chatContentInfoVecSYS.get(8)));
+                                buyerItemOfferStatus = (String) chatContentInfoVecSYS.get(9);
                             }
                         %>
                         <div class="contact-profile">
@@ -302,6 +309,28 @@
                             <input type="hidden" id="buyerOrSellerStat" value="<%= buyerOrSellerStat%>" />
                             <input type="hidden" id="buyerOrSellerID" value="<%= buyerOrSellerID%>" />
                             <input type="hidden" id="hiddenItemID" value="<%= itemID%>" />
+                        </div>
+                        <div class="item-info">
+                            <img src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
+                            <p class="item-info-strong"><%= itemName%>&nbsp;($<%= itemPrice%>)<br/>
+                                <%  if (buyerItemOfferStatus.equals("Pending")) {%>
+                                <span class="badge badge-info custom-badge"><%= buyerItemOfferStatus%></span>
+                                <%  } else if (buyerItemOfferStatus.equals("Processing")) {%>
+                                <span class="badge badge-warning custom-badge"><%= buyerItemOfferStatus%></span>
+                                <%  } else if (buyerItemOfferStatus.equals("Accepted")) {%>
+                                <span class="badge badge-theme custom-badge"><%= buyerItemOfferStatus%></span>
+                                <%  } else if (buyerItemOfferStatus.equals("Rejected")) {%>
+                                <span class="badge badge-danger custom-badge"><%= buyerItemOfferStatus%></span>
+                                <%  } else if (buyerItemOfferStatus.equals("Cancelled")) {%>
+                                <span class="badge badge-danger custom-badge"><%= buyerItemOfferStatus%></span>
+                                <%  } else if (buyerItemOfferStatus.equals("Completed")) {%>
+                                <span class="badge badge-success custom-badge"><%= buyerItemOfferStatus%></span>
+                                <%  } else if (buyerItemOfferStatus.equals("Failed")) {%>
+                                <span class="badge badge-danger custom-badge"><%= buyerItemOfferStatus%></span>
+                                <%  } else if (buyerItemOfferStatus.equals("Closed")) {%>
+                                <span class="badge badge-primary custom-badge"><%= buyerItemOfferStatus%></span>
+                                <%  }%>
+                            </p>
                         </div>
                         <div class="messages">
                             <ul class="messageContent">
@@ -338,25 +367,6 @@
                                 <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chat-main">
-                <div class="col-md-12 chat-header">
-                    <div class="row header-one text-white p-1">
-                        <div class="col-md-6 name pl-2">
-                            <i class="fa fa-comment"></i>
-                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
-                        </div>
-                        <div class="col-md-6 options text-right pr-0">
-                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="chat-content">
-                    <div class="col-md-12 chats">
-                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
                     </div>
                 </div>
             </div>
