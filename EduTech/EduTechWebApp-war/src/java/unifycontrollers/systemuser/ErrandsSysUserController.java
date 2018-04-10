@@ -71,14 +71,14 @@ public class ErrandsSysUserController extends HttpServlet {
             switch (pageAction) {
                 case "goToViewJobListingSYS":
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
-                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList(request.getParameter("username")));
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList(loggedInUsername));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "goToViewJobDetailsSYS":
                     long jobID = Long.parseLong(request.getParameter("hiddenJobID"));
                     String categoryName = request.getParameter("hiddenCategoryName");
                     String loggedinUsername = request.getParameter("loggedinUser");
-                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobID, loggedinUsername));
+                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobID, loggedInUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(categoryName, jobID));
                     pageAction = "ViewJobDetailsSYS";
                     break;
@@ -98,7 +98,7 @@ public class ErrandsSysUserController extends HttpServlet {
                 case "goToEditJobListing":
                     long jID = Long.parseLong(request.getParameter("hiddenJobID"));
                     String loginUser = request.getParameter("loginUser");
-                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jID, loginUser));
+                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jID, loggedInUsername));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
                     pageAction = "EditJobListingSYS";
                     break;
@@ -109,7 +109,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     
                     long job = Long.parseLong(request.getParameter("hiddenJobID"));
                     String user = request.getParameter("username");
-                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(job, user));
+                    request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(job, loggedInUsername));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
                     pageAction = "EditJobListingSYS";
                     break;
@@ -120,14 +120,14 @@ public class ErrandsSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
-                    request.setAttribute("jobListSYS", (ArrayList) esmr.viewJobList(request.getParameter("username")));
+                    request.setAttribute("jobListSYS", (ArrayList) esmr.viewJobList(loggedInUsername));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "likeJobListingDetails":
                     long jobIDHid = Long.parseLong(request.getParameter("jobIDHid"));
                     String usernameHid = request.getParameter("usernameHid");
                     
-                    responseMessage = esmr.likeUnlikeJob(jobIDHid, usernameHid);
+                    responseMessage = esmr.likeUnlikeJob(jobIDHid, loggedInUsername);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
@@ -142,7 +142,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     String username = request.getParameter("username");
                     String reportReason = request.getParameter("reportReason");
                     
-                    responseMessage = esmr.reportJobListing(jobIDToReport, username, reportReason);
+                    responseMessage = esmr.reportJobListing(jobIDToReport, loggedInUsername, reportReason);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
@@ -152,12 +152,12 @@ public class ErrandsSysUserController extends HttpServlet {
                     String jobOfferPrice = request.getParameter("jobOfferPrice");
                     String jobOfferDescription = request.getParameter("jobOfferDescription");
                     
-                    responseMessage = esmr.sendJobOfferPrice(jobIDHidden, usernameHidden, jobOfferPrice, jobOfferDescription);
+                    responseMessage = esmr.sendJobOfferPrice(jobIDHidden, loggedInUsername, jobOfferPrice, jobOfferDescription);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
                 case "goToViewJobOfferList":
-                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(request.getParameter("username")));
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
                     pageAction = "ViewJobOfferListSYS";
                     break;
                 case "goToViewJobOfferDetails":
@@ -165,30 +165,30 @@ public class ErrandsSysUserController extends HttpServlet {
                     long hiddenJobID = Long.parseLong(request.getParameter("jobID"));
                     System.out.println("parameter: " + userName + hiddenJobID);
                     request.setAttribute("message", "");
-                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(userName));
-                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(userName, hiddenJobID));
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
+                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, hiddenJobID));
                     pageAction = "ViewJobOfferDetailsSYS";
                     break;
                 case "acceptJobOffer":
                     long offerID = Long.parseLong(request.getParameter("offerID"));
                     String userID = request.getParameter("username");
                     long relevantJob = Long.parseLong(request.getParameter("jobId"));
-                    String returnMessage = esmr.acceptJobOffer(offerID, userID);
+                    String returnMessage = esmr.acceptJobOffer(offerID, loggedInUsername);
                     
                     request.setAttribute("message", returnMessage);
-                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(userID));
-                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(userID, relevantJob));
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
+                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, relevantJob));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 case "rejectJobOffer":
                     long offer = Long.parseLong(request.getParameter("offerID"));
                     String logInUser = request.getParameter("username");
                     long relatedJob = Long.parseLong(request.getParameter("jobId"));
-                    String returnMsg = esmr.rejectJobOffer(offer, logInUser);
+                    String returnMsg = esmr.rejectJobOffer(offer, loggedInUsername);
                     
                     request.setAttribute("message", returnMsg);
-                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(logInUser));
-                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(logInUser, relatedJob));
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
+                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, relatedJob));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 case "negotiateJobOffer":
@@ -199,11 +199,11 @@ public class ErrandsSysUserController extends HttpServlet {
                     System.out.println(offerid);
                     System.out.println(loggedInUser);
                     System.out.println(message);
-                    String returnStr = esmr.negotiateJobOffer(offerid, loggedInUser, message);
+                    String returnStr = esmr.negotiateJobOffer(offerid, loggedInUsername, message);
                     
                     request.setAttribute("message", returnStr);
-                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUser));
-                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUser, jobRelated));
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
+                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, jobRelated));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 case "goToSignaturePad":
@@ -211,14 +211,14 @@ public class ErrandsSysUserController extends HttpServlet {
                     String takerID = request.getParameter("username");
                     
                     request.setAttribute("jobID", jobIDToComplete);
-                    request.setAttribute("username", takerID);
+                    request.setAttribute("username", loggedInUsername);
                     pageAction = "SignaturePadSYS";
                     break;
                 case "completeJobTransaction":
                     long jobToComplete = Long.parseLong(request.getParameter("jobID"));
                     if(getSignatureImg(request)){ System.out.println("save"); }
                     String taker = request.getParameter("username");
-                    String msg = esmr.completeAJob(taker, jobToComplete);
+                    String msg = esmr.completeAJob(loggedInUsername, jobToComplete);
                     break;
                 default:
                     break;
