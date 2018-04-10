@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
@@ -105,20 +106,61 @@ public class CommonMgrBean {
                 GroupEntity group = em.find(GroupEntity.class, Long.valueOf(entity.getGroupId()));
                 if(group!=null){
                     entity.setAssignedTo(group.getMembers());
+                    //persist
+                    em.persist(entity);
                 }
                 break;
             case "assessment":
                 ModuleEntity mod = em.find(ModuleEntity.class, entity.getModuleCode());
                 if(mod!=null){
                     entity.setAssignedTo(mod.getMembers());
+                    
+                    //if there is already a recurring event for this location at this time, disallow creation.
+                    Query q1 = em.createQuery("SELECT s FROM ScheduleItem s WHERE s.itemType='assessment' OR s.itemType='timetable'");
+                    for(Object o : q1.getResultList()){
+                        ScheduleItemEntity checkingAgainst = (ScheduleItemEntity) o;
+                        LocalTime receivedStartTime = entity.getStartDate().toLocalTime();
+                        LocalTime receivedEndTime = entity.getEndDate().toLocalTime();
+                        //if new sched items falls in the same day as an existing event.
+                        if(checkingAgainst.getStartDate().equals(entity.getStartDate())){
+                            LocalTime thisStartTime = checkingAgainst.getStartDate().toLocalTime();
+                            LocalTime thisEndTime = checkingAgainst.getEndDate().toLocalTime();
+                            //if recurring event has same location with the one to be created,
+                            //disallow creation if there is overlap
+                            if(checkingAgainst.getLocation().equalsIgnoreCase(entity.getLocation().trim())){
+                                //Case 1 : new event start time is in between start and end.
+                                if(receivedStartTime.equals(thisStartTime)
+                                        || (receivedStartTime.isAfter(thisStartTime) && receivedStartTime.isBefore(thisEndTime))
+                                        || (receivedStartTime.equals(thisEndTime))
+                                        ){
+                                    entity = null;
+                                }
+                                //Case 2 : new event end time is between start and end.
+                                else if(receivedEndTime.equals(thisStartTime)
+                                        || (receivedEndTime.isAfter(thisStartTime) && receivedEndTime.isBefore(thisEndTime))
+                                        || (receivedEndTime.equals(thisEndTime))
+                                        ){
+                                    entity = null;
+                                }
+                                //Case 3 : new event start is before start & new event end is after end
+                                else if(receivedStartTime.isBefore(thisStartTime) && receivedEndTime.isAfter(thisEndTime)
+                                        ){
+                                    entity = null;
+                                }
+                            }
+                        }
+                    }
+                    if(entity!=null){
+                        em.persist(entity);
+                    }
                 }
                 break;
             default://for personal, (task, timetable)<--not using this endpoint.
-                entity.getAssignedTo().add(user); 
+                entity.getAssignedTo().add(user);
+                //persist
+                em.persist(entity);
                 break;
         }
-        //persist
-        em.persist(entity);
         return entity;
     }
 
@@ -141,20 +183,10 @@ public class CommonMgrBean {
         Collection<UserEntity> members = em.find(GroupEntity.class, Long.valueOf(groupId)).getMembers();
         List<ScheduleItemEntity> membersScheduleItem = new ArrayList();
         for(UserEntity member: members){
-            List<ScheduleItemEntity> temp = new ArrayList();    
-            temp = findUserScheduleItems(member.getUsername());
-            temp.removeAll(membersScheduleItem);
-            membersScheduleItem.addAll(temp);
-        }
-        
-        for(ScheduleItemEntity scheduleItem: membersScheduleItem) {
-            if(scheduleItem.getItemType().equals("timetable")) {
-                String moduleCode = scheduleItem.getModuleCode();
-                ModuleEntity module = em.find(ModuleEntity.class, moduleCode);
-                Collection<UserEntity> moduleMembers = module.getMembers();
-                moduleMembers.retainAll(members);
-                scheduleItem.setAssignedTo(moduleMembers);
-            }
+            List<ScheduleItemEntity> eachMemberSchedItems = new ArrayList();    
+            eachMemberSchedItems = findUserScheduleItems(member.getUsername());
+            eachMemberSchedItems.removeAll(membersScheduleItem);
+            membersScheduleItem.addAll(eachMemberSchedItems);
         }
         
         return membersScheduleItem;
@@ -181,6 +213,7 @@ public class CommonMgrBean {
                 if(t.getAssignedTo().contains(user) && t.getDeadline()!=null && t.getProgressCode()<2){
                     //convert task to schedule item and add it to userScheduleItems.
                     ScheduleItemEntity convert = new ScheduleItemEntity();
+                    convert.setId(Long.sum(t.getId(), new Random().nextLong()));
                     convert.setAssignedTo(t.getAssignedTo());
                     convert.setCreatedAt(LocalDateTime.parse(t.getCreatedAt()));
                     convert.setCreatedBy(t.getCreatedBy());
@@ -457,6 +490,23 @@ public class CommonMgrBean {
     }
 
     public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
+        //populate assignedTo from JSON usernames
+        if(ann.getAssignedTo()!=null){
+            Collection<UserEntity> assignedTo = new ArrayList<>();
+            for(UserEntity assigned : ann.getAssignedTo()){
+                assignedTo.add(em.find(UserEntity.class,assigned.getUsername()));
+            }
+            ann.setAssignedTo(assignedTo);
+            System.out.println("*******************ASSIGN TO MODIFIED");
+        }
+        //populate createdBy from JSON username
+        UserEntity creator = em.find(UserEntity.class, ann.getCreatedBy().getUsername());
+        System.out.println("*******************CREATOR IS "+creator.getUsername());
+        if(creator != null){
+            ann.setCreatedBy(creator);
+            System.out.println("*******************CREATOR SET");
+        }
+        
         em.persist(ann);
         return ann;
     }
@@ -464,23 +514,38 @@ public class CommonMgrBean {
     public void deleteAnnouncement(String id) {
         AnnouncementEntity ann = em.find(AnnouncementEntity.class, Long.valueOf(id));
         if(ann!=null){
+            //remove announcement from join table.
+            ann.setAssignedTo(null);
             em.remove(ann);
         }
     }
 
     public AnnouncementEntity editAnnouncement(String id, AnnouncementEntity replacement) {
         AnnouncementEntity ann = em.find(AnnouncementEntity.class, Long.valueOf(id));
-        ann = replacement;
-        em.merge(ann);
-        return ann;
-    }
-
-    public AnnouncementEntity addUserToSeenBy(String id, UserEntity user) {
-        AnnouncementEntity ann = em.find(AnnouncementEntity.class, Long.valueOf(id));
-        if(ann!=null && user!=null){
-            ann.getSeenBy().add(user);
+        if(ann!=null){
+            //populate assignedTo from JSON usernames
+            if(replacement.getAssignedTo()!=null){
+                Collection<UserEntity> assignedTo = new ArrayList<>();
+                for(UserEntity assigned : replacement.getAssignedTo()){
+                    assignedTo.add(em.find(UserEntity.class,assigned.getUsername()));
+                }
+                replacement.setAssignedTo(assignedTo);
+                System.out.println("*******************ASSIGN TO MODIFIED");
+            }
+            //populate createdBy from JSON username
+            UserEntity creator = em.find(UserEntity.class, replacement.getCreatedBy().getUsername());
+            System.out.println("*******************CREATOR IS "+creator.getUsername());
+            if(creator != null){
+                replacement.setCreatedBy(creator);
+                System.out.println("*******************CREATOR SET");
+            }
+            ann.setMessage(replacement.getMessage());
+            ann.setPath(replacement.getPath());
+            ann.setTitle(replacement.getTitle());
         }
-        return ann;
+        
+        em.merge(replacement);
+        return replacement;
     }
 
     public List<AttachmentEntity> getAllAttachments() {
@@ -728,7 +793,7 @@ public class CommonMgrBean {
             //get assessments
             Query q2 = em.createQuery("SELECT s FROM ScheduleItem s WHERE s.itemType='assessment'");
             for(Object o : q2.getResultList()){
-                //CONVERT EACH ASSIGNMENT TO SCHEDULE ITEM.
+                //ADD EACH ASSESSMENT TO KEY DATES
                 ScheduleItemEntity sched = (ScheduleItemEntity) o;
                 keyDates.add(sched);
             }

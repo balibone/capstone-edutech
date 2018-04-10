@@ -63,8 +63,9 @@ public class AnnouncementREST {
     @DELETE 
     @Path("{id}") 
     @Produces({ MediaType.APPLICATION_JSON})
-    public void deleteAnnouncement(@PathParam("id") String id) {
+    public List<AnnouncementEntity> deleteAnnouncement(@PathParam("id") String id) {
         cmb.deleteAnnouncement(id);
+        return cmb.getAllAnnouncements();
     }
     
     @PUT 
@@ -74,15 +75,5 @@ public class AnnouncementREST {
     public AnnouncementEntity editAnnouncement(@PathParam("id") String id, AnnouncementEntity replacement){
         return cmb.editAnnouncement(id, replacement);
     }
-    
-    @PUT 
-    @Path("seen/{id}") 
-    @Consumes({ MediaType.APPLICATION_JSON})
-    @Produces({ MediaType.APPLICATION_JSON})
-    public AnnouncementEntity addUserToSeenBy(@PathParam("id") String id, UserEntity user){
-        return cmb.addUserToSeenBy(id,user);
-    }
-    
-
     
 }

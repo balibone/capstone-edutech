@@ -11,6 +11,7 @@ import edutechentities.ModuleEntity;
 import edutechentities.RecurringEventEntity;
 import edutechentities.ScheduleItemEntity;
 import edutechentities.SemesterEntity;
+import edutechentities.TaskEntity;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -532,7 +533,28 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         ModuleEntity module = em.find(ModuleEntity.class, mod);
         //if module doesn't already contain user, add in.
         if(!module.getMembers().contains(user)){
+            //add user to module
             module.getMembers().add(user);
+            //assign user to all existing lessons of that module
+            Query q1 = em.createQuery("SELECT l FROM Lesson l WHERE l.moduleCode = :modCode");
+            q1.setParameter("modCode", module.getModuleCode());
+            for(Object o : q1.getResultList()){
+                LessonEntity l = (LessonEntity) o;
+                //if lesson does not contain user, assign him/her
+                if(!l.getAssignedTo().contains(user)){
+                    l.getAssignedTo().add(user);
+                }
+            }
+            //assign user to all existing tasks of that module
+            Query q2 = em.createQuery("SELECT t FROM Task t WHERE t.moduleCode = :modCode");
+            q2.setParameter("modCode", module.getModuleCode());
+            for(Object o : q1.getResultList()){
+                TaskEntity t = (TaskEntity) o;
+                //if task does not contain user, assign him/her
+                if(!t.getAssignedTo().contains(user)){
+                    t.getAssignedTo().add(user);
+                }
+            }
             return true;
         }else{
             return false;
@@ -543,9 +565,29 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     public void unassignModule(String id, String mod) {
         UserEntity user = em.find(UserEntity.class, id);
         ModuleEntity module = em.find(ModuleEntity.class, mod);
-        //if module doesn't already contain user, add in.
+        //if module contains user, remove.
         if(module.getMembers().contains(user)){
             module.getMembers().remove(user);
+            //unassign user from all existing lessons of that module
+            Query q1 = em.createQuery("SELECT l FROM Lesson l WHERE l.moduleCode = :modCode");
+            q1.setParameter("modCode", module.getModuleCode());
+            for(Object o : q1.getResultList()){
+                LessonEntity l = (LessonEntity) o;
+                //if lesson contains user, assign him/her
+                if(l.getAssignedTo().contains(user)){
+                    l.getAssignedTo().remove(user);
+                }
+            }
+            //unassign user from all existing tasks of that module
+            Query q2 = em.createQuery("SELECT t FROM Task t WHERE t.moduleCode = :modCode");
+            q2.setParameter("modCode", module.getModuleCode());
+            for(Object o : q1.getResultList()){
+                TaskEntity t = (TaskEntity) o;
+                //if task contains user, assign him/her
+                if(t.getAssignedTo().contains(user)){
+                    t.getAssignedTo().remove(user);
+                }
+            }
         }
     }
     

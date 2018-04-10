@@ -109,7 +109,11 @@ public class GroupREST {
         return etr.findGroupMembers(id);
     }
     
-
-
+    @PUT
+    @Path("autoAssign/{assignmentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<GroupEntity> autoAssignMembers(@PathParam("assignmentId") String assignmentId){
+        return etr.autoAssignMembers(assignmentId);
+    }
     
 }

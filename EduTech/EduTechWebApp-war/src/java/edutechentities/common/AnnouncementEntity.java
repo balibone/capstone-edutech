@@ -31,8 +31,6 @@ public class AnnouncementEntity implements Serializable {
     @OneToOne
     private UserEntity createdBy;
     private LocalDateTime createdAt;
-    @OneToMany
-    private Collection<UserEntity> seenBy;
     private String path;
 
     public AnnouncementEntity() {
@@ -41,7 +39,6 @@ public class AnnouncementEntity implements Serializable {
         this.message = "";
         this.createdBy = null;
         this.createdAt = LocalDateTime.now();
-        this.seenBy = new ArrayList<>();
         this.path = "";
     }
     
@@ -116,14 +113,6 @@ public class AnnouncementEntity implements Serializable {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Collection<UserEntity> getSeenBy() {
-        return seenBy;
-    }
-
-    public void setSeenBy(Collection<UserEntity> seenBy) {
-        this.seenBy = seenBy;
     }
 
     public String getPath() {
