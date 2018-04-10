@@ -88,6 +88,11 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserItemTransactionSYS";
                     break;
+                case "goToErrandsTrans":
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("jobTransListSYS", (ArrayList) esmr.viewJobTransaction(loggedInUsername));
+                    pageAction = "UserJobTransaction";
+                    break;
                 case "goToMarketplaceTransDetailsSYS":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
                     long itemTransID = Long.parseLong(request.getParameter("itemTransID"));
@@ -278,7 +283,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "UserJobListingSYS";
                     break;
                 case "goToViewMyJobOfferSYS":
-                    request.setAttribute("message", " ");
+                    request.setAttribute("message", "");
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
                     pageAction = "ViewMyJobOfferSYS";

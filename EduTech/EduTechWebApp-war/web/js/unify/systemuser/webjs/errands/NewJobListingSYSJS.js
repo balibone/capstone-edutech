@@ -1,8 +1,30 @@
+var center = L.bounds([1.56073, 104.11475], [1.16, 103.502]).getCenter();
+var map = L.map('mapdiv').setView([center.x, center.y], 12);
+var search_marker_start, search_marker_end, icon_popup;
+
+var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png', {
+    detectRetina: true,
+    maxZoom: 18,
+    minZoom: 11,
+    id: 'your.mapbox.project.id',
+    accessToken: 'your.mapbox.public.access.token'
+});
+
+var pointerIcon = L.icon({ 
+    iconUrl: 'images/pointer.png', 
+    iconSize: [38, 40], 
+    iconAnchor: [22, 94], 
+    popupAnchor: [-3, -76] 
+});
+
 $(document).ready(function () {
+   
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
     //document.getElementById("selected-category").innerHTML = "testtest";
+    map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
+    basemap.addTo(map);
     
     $('#startLocation').keyup(function () {
         var baseHtml = 'https://developers.onemap.sg/commonapi/search?searchVal=';
@@ -69,6 +91,7 @@ $(document).ready(function () {
     });
     
     $('.category-list .card').click(function() {
+        
         $('.category-list .card').removeClass('active');
         $(this).addClass('active');
         
@@ -76,7 +99,9 @@ $(document).ready(function () {
         var categoryName = $(this).attr('name');
         document.getElementById("hiddenCategoryID").value = categoryID;
         document.getElementById("selected-category").innerHTML = categoryName;
+        $("#step1").removeAttr("disabled")
     });
+    
     
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
@@ -94,20 +119,30 @@ $(document).ready(function () {
 
     var minDate = year + '-' + month + '-' + day;    
     $('#workDate').attr('min', minDate);
+    
+    
 });
 
-var center = L.bounds([1.56073, 104.11475], [1.16, 103.502]).getCenter();
-var map = L.map('mapdiv').setView([center.x, center.y], 12);
-var search_marker_start, search_marker_end, icon_popup;
-var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png', {
-    detectRetina: true,
-    maxZoom: 18,
-    minZoom: 11,
-    id: 'your.mapbox.project.id',
-    accessToken: 'your.mapbox.public.access.token'
+$("input[type='text'], input[type='number'], input[type='date'], input[type='time']").on("keyup", function(){
+    
+    if($(this).val() != ""  && $("input[name='jobDuration']").is(":checked") == true 
+            && $("input[name='jobTitle']").val() != "" && $("input[name='workDate']").val()>'1980-01-01'
+            && $("input[type='number']").val() != "" && $("input[type='time']").val() != ""){
+    	
+            $("#step2").removeAttr("disabled");
+        
+    }
 });
-map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
-basemap.addTo(map);
+
+$("input[type='text']").on("keyup", function(){
+    
+    if($(this).val() != "" && $("input[name='endLocation']").val() != "" && $("input[name='startLocation']").val() != ""){
+    	
+            $("#step3").removeAttr("disabled");
+        
+    }
+});
+    
 
 var jobRateInput = document.getElementById('jobRate');
 var helperInput = document.getElementById('numOfHelpers');
@@ -152,8 +187,8 @@ function selectedStartLocation(lat, lng, postalAddress, location) {
     document.getElementById("hiddenStartLong").value = lng;
     
     if(search_marker_start) { map.removeLayer(search_marker_start); }
-    search_marker_start = L.marker([lat, lng], { draggable: false });
-    icon_popup = L.popup().setLatLng([lat, lng]).setContent(postalAddress).openOn(map);
+    search_marker_start = L.marker([lat, lng], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("Start Location: " + location);
+    
 }
 
 function selectedEndLocation(lat, lng, postalAddress, location) {
@@ -162,8 +197,7 @@ function selectedEndLocation(lat, lng, postalAddress, location) {
     document.getElementById("hiddenEndLong").value = lng;
     
     if(search_marker_end) { map.removeLayer(search_marker_end); }
-    search_marker_end = L.marker([lat, lng], { draggable: false });
-    icon_popup = L.popup().setLatLng([lat, lng]).setContent(postalAddress).openOn(map);
+    search_marker_end = L.marker([lat, lng], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("End Location: " + location);
 }
 
 function displayDuration(){
@@ -178,3 +212,6 @@ function displayDuration(){
          document.getElementsByName('jobRate')[0].placeholder = "Job Rate(S$)";
     }
 }
+
+
+

@@ -7,6 +7,9 @@ $(document).ready(function () {
    $('#contentArea').jplist({
         itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
     });
+    
+    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
+    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 
 });
 
