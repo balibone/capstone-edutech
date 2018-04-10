@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
@@ -141,20 +142,10 @@ public class CommonMgrBean {
         Collection<UserEntity> members = em.find(GroupEntity.class, Long.valueOf(groupId)).getMembers();
         List<ScheduleItemEntity> membersScheduleItem = new ArrayList();
         for(UserEntity member: members){
-            List<ScheduleItemEntity> temp = new ArrayList();    
-            temp = findUserScheduleItems(member.getUsername());
-            temp.removeAll(membersScheduleItem);
-            membersScheduleItem.addAll(temp);
-        }
-        
-        for(ScheduleItemEntity scheduleItem: membersScheduleItem) {
-            if(scheduleItem.getItemType().equals("timetable")) {
-                String moduleCode = scheduleItem.getModuleCode();
-                ModuleEntity module = em.find(ModuleEntity.class, moduleCode);
-                Collection<UserEntity> moduleMembers = module.getMembers();
-                moduleMembers.retainAll(members);
-                scheduleItem.setAssignedTo(moduleMembers);
-            }
+            List<ScheduleItemEntity> eachMemberSchedItems = new ArrayList();    
+            eachMemberSchedItems = findUserScheduleItems(member.getUsername());
+            eachMemberSchedItems.removeAll(membersScheduleItem);
+            membersScheduleItem.addAll(eachMemberSchedItems);
         }
         
         return membersScheduleItem;
@@ -181,6 +172,7 @@ public class CommonMgrBean {
                 if(t.getAssignedTo().contains(user) && t.getDeadline()!=null && t.getProgressCode()<2){
                     //convert task to schedule item and add it to userScheduleItems.
                     ScheduleItemEntity convert = new ScheduleItemEntity();
+                    convert.setId(Long.sum(t.getId(), new Random().nextLong()));
                     convert.setAssignedTo(t.getAssignedTo());
                     convert.setCreatedAt(LocalDateTime.parse(t.getCreatedAt()));
                     convert.setCreatedBy(t.getCreatedBy());
@@ -457,6 +449,23 @@ public class CommonMgrBean {
     }
 
     public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
+        //populate assignedTo from JSON usernames
+        if(ann.getAssignedTo()!=null){
+            Collection<UserEntity> assignedTo = new ArrayList<>();
+            for(UserEntity assigned : ann.getAssignedTo()){
+                assignedTo.add(em.find(UserEntity.class,assigned.getUsername()));
+            }
+            ann.setAssignedTo(assignedTo);
+            System.out.println("*******************ASSIGN TO MODIFIED");
+        }
+        //populate createdBy from JSON username
+        UserEntity creator = em.find(UserEntity.class, ann.getCreatedBy().getUsername());
+        System.out.println("*******************CREATOR IS "+creator.getUsername());
+        if(creator != null){
+            ann.setCreatedBy(creator);
+            System.out.println("*******************CREATOR SET");
+        }
+        
         em.persist(ann);
         return ann;
     }
@@ -464,23 +473,38 @@ public class CommonMgrBean {
     public void deleteAnnouncement(String id) {
         AnnouncementEntity ann = em.find(AnnouncementEntity.class, Long.valueOf(id));
         if(ann!=null){
+            //remove announcement from join table.
+            ann.setAssignedTo(null);
             em.remove(ann);
         }
     }
 
     public AnnouncementEntity editAnnouncement(String id, AnnouncementEntity replacement) {
         AnnouncementEntity ann = em.find(AnnouncementEntity.class, Long.valueOf(id));
-        ann = replacement;
-        em.merge(ann);
-        return ann;
-    }
-
-    public AnnouncementEntity addUserToSeenBy(String id, UserEntity user) {
-        AnnouncementEntity ann = em.find(AnnouncementEntity.class, Long.valueOf(id));
-        if(ann!=null && user!=null){
-            ann.getSeenBy().add(user);
+        if(ann!=null){
+            //populate assignedTo from JSON usernames
+            if(replacement.getAssignedTo()!=null){
+                Collection<UserEntity> assignedTo = new ArrayList<>();
+                for(UserEntity assigned : replacement.getAssignedTo()){
+                    assignedTo.add(em.find(UserEntity.class,assigned.getUsername()));
+                }
+                replacement.setAssignedTo(assignedTo);
+                System.out.println("*******************ASSIGN TO MODIFIED");
+            }
+            //populate createdBy from JSON username
+            UserEntity creator = em.find(UserEntity.class, replacement.getCreatedBy().getUsername());
+            System.out.println("*******************CREATOR IS "+creator.getUsername());
+            if(creator != null){
+                replacement.setCreatedBy(creator);
+                System.out.println("*******************CREATOR SET");
+            }
+            ann.setMessage(replacement.getMessage());
+            ann.setPath(replacement.getPath());
+            ann.setTitle(replacement.getTitle());
         }
-        return ann;
+        
+        em.merge(replacement);
+        return replacement;
     }
 
     public List<AttachmentEntity> getAllAttachments() {
