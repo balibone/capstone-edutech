@@ -23,6 +23,7 @@
         <button type="button" id="clr" onclick="erase()" style="position:absolute; top:80%; left:20%;">Clear</button>
         <input type="hidden" id="hiddenJobID" value="<%= request.getParameter("jobID")%>">
         <input type="hidden" id="hiddenUsername" value="<%= request.getParameter("username")%>">
+        <input type="hidden" id="hiddenCategory" value="<%= request.getParameter("category")%>">
         <img id="canvasimg" style="position:absolute; top:90%; left:10%; display:none;">
     
     <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>

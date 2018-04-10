@@ -125,7 +125,7 @@ $(document).on('click', '#saveBtn', function() {
             url: "ErrandsSysUser",
             data: { 
                 jobID: $('#hiddenJobID').val(),
-                username: $('#hiddenUsername').val(),
+                category: $('#hiddenCategory').val(),
                 signatureImg: dataURL,
                 pageTransit: 'completeJobTransaction'
             },

@@ -64,7 +64,7 @@ $(document).ready(function () {
     });
     
     $('#completeWChecking').click(function(){
-        $('iframe').attr('src', 'ErrandsSysUser?pageTransit=goToSignaturePad&jobID=' + $('#jobIDHidden').val() + '&username=' + $('#usernameHidden').val());
+        $('iframe').attr('src', 'ErrandsSysUser?pageTransit=goToSignaturePad&jobID=' + $('#jobIDHidden').val() + '&username=' + $('#usernameHidden').val() + '&category=' + $('#categoryHidden').val());
         $('#signaturePad-iframe').iziModal('open', event);
     });
     

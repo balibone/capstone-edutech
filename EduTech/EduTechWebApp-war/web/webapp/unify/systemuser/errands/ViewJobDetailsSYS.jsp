@@ -59,20 +59,60 @@
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-heart-o"></i>&nbsp;&nbsp;Likes
-                                    </a>
+                                    <a href="ProfileSysUser?pageTransit=goToViewChatListSYS&assocItemID=" class="nav-link"><i class="fa fa-comment"></i>&nbsp;&nbsp;My Chats</a>
                                 </li>
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
-                                    </a>
+                                    <div class="dropdown-container">
+                                        <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
+                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
+                                            <% 
+                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                                if (!userMessageListTopThreeSYS.isEmpty()) {
+                                                    for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
+                                                        Vector v = userMessageListTopThreeSYS.get(i);
+                                                        String messageContent = String.valueOf(v.get(0));
+                                                        String contentID = String.valueOf(v.get(1));
+                                                        String messageType = String.valueOf(v.get(2));
+                                                        String messageSenderImage = String.valueOf(v.get(4));
+                                                        String messageSentDuration = String.valueOf(v.get(5));
+                                            %>
+                                            <div id="<%= messageType%><%= contentID%>" class="media messageDIV">
+                                                <%  if (messageType.equals("System")) {%>
+                                                <img class="img-thumbnail d-flex" src="images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  } else {%>
+                                                <img class="img-thumbnail d-flex" src="uploads/commoninfrastructure/admin/images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  }%>
+                                                <div class="message-content pl-3">
+                                                    <div><%= messageContent%></div>
+                                                    <small class="font-weight-normal message-content">
+                                                        <i class="fa fa-clock-o"></i>&nbsp;<%= messageSentDuration%>&nbsp;(<%= messageType%>)
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                            <%      }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
+                                            <%  }   %>
+                                            <div class="text-center">
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
+                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;See All Notifications
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                        </div>
+                                    </div>
                                 </li>
                                 <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
-                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
-                                    <option value="ProfileSysUser?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
+                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
                                 </select>
                             </ul>
                         </div>
@@ -180,7 +220,7 @@
                     String numOfHelpers = (String.valueOf(jobDetailsSYSVec.get(23)));
                     String checking = (String.valueOf(jobDetailsSYSVec.get(24)));
                     String likeStatus = (String.valueOf(jobDetailsSYSVec.get(25)));
-                    String acceptedOffer = (String.valueOf(jobDetailsSYSVec.get(26)));
+                    String offerStatus = (String.valueOf(jobDetailsSYSVec.get(26)));
                 %>
                 <input type="hidden" id="priceType" value="<%=jobRateType%>"/>
                 <div class="row">
@@ -272,7 +312,10 @@
                             </tr>
                             <tr>   
                                 <td><i class="fa fa-book" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Category: </strong></span></td>
-                                <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=categoryName%></li></ul></td>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=categoryName%></li></ul>
+                                    <input type="hidden" id="categoryHidden" value="<%=categoryName%>">
+                                </td>
+                                
                             </tr>
                             <tr>
                                 <td><i class="fa fa-calendar" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Work Date: </strong></span></td>
@@ -290,7 +333,7 @@
                             <a role="button" class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=<%= jobID%>&username=<%=loggedInUsername%>" onclick="return confirm('Are you sure to delete the job?')">Delete Job Listing</a>
                             
                             <%  } else { 
-                                  if(acceptedOffer.equals("false")){
+                                  if(!(offerStatus.equals("Accepted") || offerStatus.equals("Completed"))){
                             %>
                             <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme" data-toggle="modal" data-target="#offerModal"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
@@ -333,22 +376,25 @@
                               </div>
                             </div>
                             
-                            <%  }else{ %>
-                                 <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
+                            <%  }else if(offerStatus.equals("Accepted")){ %>
+                                 <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Poster</button>
                                  <% if(checking.equals("false")){ %>
-                                 <button type="button" class="btn btn-outline-theme"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;Complete Job</button>   
+                                 <a role="button" href="ErrandsSysUser?pageTransit=completeJobTransaction&jobID=<%=jobID%>&category=<%=categoryName%>&signatureImg=no" class="btn btn-outline-theme"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;Complete Job</a>   
                                  <% }else{ %>
                                  <button type="button" id="completeWChecking" class="btn btn-outline-theme"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;Complete Job</button>
                             <%    }
-                                }
-                              }%>
-                            
+                                }else if(offerStatus.equals("Completed")){
+                              %>
+                                <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
+                                <button type="button" class="btn btn-outline-theme" disabled><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;The Job Is Completed</button>
+                            <% } %>
+                                
                             <%if(likeStatus.equals("true")) {   %>
                             <button type="button" id="likeJobBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
                             <%  } else if(likeStatus.equals("false")) {    %>
                             <button type="button" id="likeJobBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
                             <%  }   %>
-                          
+                          <% } %>
                         </div>
                         <span id="test1"></span>
                     </div>
@@ -499,6 +545,25 @@
                             <%      }   %>
                             <%  }   %>
                         </div>
+                    </div>
+                </div>
+            </div>
+                        
+            <div class="chat-main">
+                <div class="col-md-12 chat-header">
+                    <div class="row header-one text-white p-1">
+                        <div class="col-md-6 name pl-2">
+                            <i class="fa fa-comment"></i>
+                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
+                        </div>
+                        <div class="col-md-6 options text-right pr-0">
+                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-content">
+                    <div class="col-md-12 chats">
+                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
                     </div>
                 </div>
             </div>

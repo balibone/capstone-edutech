@@ -241,9 +241,9 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             else { jobDetailsVec.add(true); }
             //System.out.println("work time " + sdf.format(jEntity.getJobWorkDate()));
             System.out.println("like status: " + jobDetailsVec.get(25));
-            if(lookupJobOffer(jobID, username) == null){ jobDetailsVec.add(false); }
-            else if(lookupJobOffer(jobID, username).getJobOfferStatusForSender().equals("Accepted")){ jobDetailsVec.add(true); }
-            else{ jobDetailsVec.add(false); }
+            
+            if(lookupJobOffer(jobID, username) == null){ jobDetailsVec.add("No Offer"); }
+            else{ jobDetailsVec.add(lookupJobOffer(jobID, username).getJobOfferStatusForSender()); }
             
             return jobDetailsVec;
         }
@@ -862,9 +862,14 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             if(jEntity.getChecking()){
                 jtEntity.setSignatureImg("" + jobID + ".png");
             }
+            
+            offerEntity.setJobOfferStatusForPoster("Completed");
+            offerEntity.setJobOfferStatusForSender("Completed");
+            
             em.persist(jtEntity);
             em.merge(uEntity);
             em.merge(jEntity);
+            em.merge(offerEntity);
             //System.out.println("The transaction is completed successfully!");
             return "The transaction is completed successfully!";
         }

@@ -224,10 +224,10 @@
                                     %>
                                     <tr>
                                         <td><%= jobTransactionDate %><span style="display: none">;<%= jobID%>;<%= jobTransID%></span></td>
-                                        <td><img src="uploads/unify/images/errands/job/<%= jobImage%>" style="width: 50px; height: 50px;" /></td>
+                                        <td><img src="uploads/unify/images/errands/transSignature/<%= transSig%>" style="width: 50px; height: 50px;" /></td>
                                         <td><%= jobPosterID %></td>
                                         <td><%= jobTakerID %></td>
-                                        <td><img src="uploads/unify/images/errands/transSignature/<%= transSig%>" style="width: 50px; height: 50px;" /></td>
+                                        <td><img src="uploads/unify/images/errands/job/<%= jobImage%>" style="width: 50px; height: 50px;" /></td>
                                         <td><%= jobTitle %></td>
                                         <td>$<%= jobListingRate %>/<%= jobListingRateType%></td>
                                         <td>$<%= jobTransactionRate %>/<%= jobListingRateType%></td>
