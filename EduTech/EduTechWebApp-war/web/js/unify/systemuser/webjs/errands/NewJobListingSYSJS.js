@@ -91,7 +91,7 @@ $(document).ready(function () {
     });
     
     $('.category-list .card').click(function() {
-        alert();
+        
         $('.category-list .card').removeClass('active');
         $(this).addClass('active');
         

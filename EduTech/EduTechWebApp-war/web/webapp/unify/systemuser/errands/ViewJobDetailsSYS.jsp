@@ -388,13 +388,13 @@
                                 <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
                                 <button type="button" class="btn btn-outline-theme" disabled><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;The Job Is Completed</button>
                             <% } %>
-                                
+                            <% } %>  
                             <%if(likeStatus.equals("true")) {   %>
                             <button type="button" id="likeJobBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
                             <%  } else if(likeStatus.equals("false")) {    %>
                             <button type="button" id="likeJobBtn" class="btn btn-outline-theme noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
                             <%  }   %>
-                          <% } %>
+                          
                         </div>
                         <span id="test1"></span>
                     </div>
