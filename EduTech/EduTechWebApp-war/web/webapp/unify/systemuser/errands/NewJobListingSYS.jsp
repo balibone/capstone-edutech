@@ -258,7 +258,7 @@
                                                         </div>
                                                     </div>
                                                     <h5 class="mb-0">
-                                                    <button type="button" class="btn float-right next-button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Continue
+                                                    <button id="step1" type="button" class="btn float-right next-button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" disabled>Continue
                                                     </button>
                                                     </h5>
                                                 </div>
@@ -354,7 +354,7 @@
                                                     </div>
                                                     
                                                 </div>
-                                                <button type="button" class="btn next-button float-right collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                <button id="step2" type="button" class="btn next-button float-right collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" disabled>
                                                 Continue
                                                 </button>
                                             </div>
@@ -407,7 +407,7 @@
                                         <input type="hidden" name="hiddenEndLong" id="hiddenEndLong" />
                                         <input type="hidden" name="hiddenCategoryID" id="hiddenCategoryID" />
                                         <div class="form-group" style="text-align: center;">
-                                            <button type="submit" class="btn btn-theme">Create Job Listing</button>
+                                            <button id="step3" type="submit" class="btn btn-theme" disabled>Create Job Listing</button>
                                         </div>
                                     </div>
                                 </div>

@@ -99,7 +99,9 @@ $(document).ready(function () {
         var categoryName = $(this).attr('name');
         document.getElementById("hiddenCategoryID").value = categoryID;
         document.getElementById("selected-category").innerHTML = categoryName;
+        $("#step1").removeAttr("disabled")
     });
+    
     
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
@@ -117,9 +119,30 @@ $(document).ready(function () {
 
     var minDate = year + '-' + month + '-' + day;    
     $('#workDate').attr('min', minDate);
+    
+    
 });
 
+$("input[type='text'], input[type='number'], input[type='date'], input[type='time']").on("keyup", function(){
+    
+    if($(this).val() != ""  && $("input[name='jobDuration']").is(":checked") == true 
+            && $("input[name='jobTitle']").val() != "" && $("input[name='workDate']").val()>'1980-01-01'
+            && $("input[type='number']").val() != "" && $("input[type='time']").val() != ""){
+    	
+            $("#step2").removeAttr("disabled");
+        
+    }
+});
 
+$("input[type='text']").on("keyup", function(){
+    
+    if($(this).val() != "" && $("input[name='endLocation']").val() != "" && $("input[name='startLocation']").val() != ""){
+    	
+            $("#step3").removeAttr("disabled");
+        
+    }
+});
+    
 
 var jobRateInput = document.getElementById('jobRate');
 var helperInput = document.getElementById('numOfHelpers');
