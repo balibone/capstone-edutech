@@ -1773,6 +1773,39 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "getMembersWithoutGroups",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/group/memberswithoutgroup/358",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"group",
+								"memberswithoutgroup",
+								"358"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
