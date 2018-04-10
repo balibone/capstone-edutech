@@ -89,8 +89,8 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "UserItemTransactionSYS";
                     break;
                 case "goToErrandsTrans":
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("jobTransListSYS", (ArrayList) esmr.viewJobTransaction(username));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("jobTransListSYS", (ArrayList) esmr.viewJobTransaction(loggedInUsername));
                     pageAction = "UserJobTransaction";
                     break;
                 case "goToMarketplaceTransDetailsSYS":
@@ -284,8 +284,8 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToViewMyJobOfferSYS":
                     request.setAttribute("message", "");
-                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(username));
-                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(username));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
                     pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "editMyJobOfferSYS":

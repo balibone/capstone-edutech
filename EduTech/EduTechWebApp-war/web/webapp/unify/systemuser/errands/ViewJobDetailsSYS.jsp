@@ -29,7 +29,7 @@
         <nav class="offcanvas">
             <div class="offcanvas-content">
                 <div id="list-menu" class="list-menu list-group" data-children=".submenu">
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                     <div class="submenu">
                         <a data-toggle="collapse" href="#" data-target="#marketplaceSub" role="button" aria-expanded="false" aria-controls="marketplaceSub"><i class="fa fa-fw fa-file"></i>&nbsp;Marketplace</a>
                         <div id="marketplaceSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Item Listing</a></div>
@@ -42,7 +42,7 @@
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
                         <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
         </nav>
@@ -59,60 +59,20 @@
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="ProfileSysUser?pageTransit=goToViewChatListSYS&assocItemID=" class="nav-link"><i class="fa fa-comment"></i>&nbsp;&nbsp;My Chats</a>
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-heart-o"></i>&nbsp;&nbsp;Likes
+                                    </a>
                                 </li>
                                 <li class="nav-item d-none d-md-block">
-                                    <div class="dropdown-container">
-                                        <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
-                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <% 
-                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
-                                                if (!userMessageListTopThreeSYS.isEmpty()) {
-                                                    for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
-                                                        Vector v = userMessageListTopThreeSYS.get(i);
-                                                        String messageContent = String.valueOf(v.get(0));
-                                                        String contentID = String.valueOf(v.get(1));
-                                                        String messageType = String.valueOf(v.get(2));
-                                                        String messageSenderImage = String.valueOf(v.get(4));
-                                                        String messageSentDuration = String.valueOf(v.get(5));
-                                            %>
-                                            <div id="<%= messageType%><%= contentID%>" class="media messageDIV">
-                                                <%  if (messageType.equals("System")) {%>
-                                                <img class="img-thumbnail d-flex" src="images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
-                                                <%  } else {%>
-                                                <img class="img-thumbnail d-flex" src="uploads/commoninfrastructure/admin/images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
-                                                <%  }%>
-                                                <div class="message-content pl-3">
-                                                    <div><%= messageContent%></div>
-                                                    <small class="font-weight-normal message-content">
-                                                        <i class="fa fa-clock-o"></i>&nbsp;<%= messageSentDuration%>&nbsp;(<%= messageType%>)
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="dropdown-divider"></div>
-                                            <%      }   %>
-                                            <%  } else {    %>
-                                            <p style="text-align:center;">There are no notifications.</p>
-                                            <div class="dropdown-divider"></div>
-                                            <%  }   %>
-                                            <div class="text-center">
-                                                <div class="btn-group btn-group-sm" role="group">
-                                                    <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
-                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;See All Notifications
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="dropdown-divider"></div>
-                                        </div>
-                                    </div>
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
+                                    </a>
                                 </li>
                                 <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
-                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
-                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
+                                    <option value="ProfileSysUser?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
                                 </select>
                             </ul>
                         </div>
@@ -183,7 +143,7 @@
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
+                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Errands (Job Details)</li>
                         </ol>
                     </nav>
@@ -542,26 +502,7 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="chat-main">
-                <div class="col-md-12 chat-header">
-                    <div class="row header-one text-white p-1">
-                        <div class="col-md-6 name pl-2">
-                            <i class="fa fa-comment"></i>
-                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
-                        </div>
-                        <div class="col-md-6 options text-right pr-0">
-                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="chat-content">
-                    <div class="col-md-12 chats">
-                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
-                    </div>
-                </div>
-            </div>
-            
+            <!-- <div id="unifyFooter"></div> -->
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>

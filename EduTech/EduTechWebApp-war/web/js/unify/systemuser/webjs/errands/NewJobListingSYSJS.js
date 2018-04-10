@@ -10,7 +10,6 @@ var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png
     accessToken: 'your.mapbox.public.access.token'
 });
 
-
 var pointerIcon = L.icon({ 
     iconUrl: 'images/pointer.png', 
     iconSize: [38, 40], 
@@ -19,6 +18,7 @@ var pointerIcon = L.icon({
 });
 
 $(document).ready(function () {
+   
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
@@ -91,6 +91,7 @@ $(document).ready(function () {
     });
     
     $('.category-list .card').click(function() {
+        alert();
         $('.category-list .card').removeClass('active');
         $(this).addClass('active');
         
@@ -188,3 +189,6 @@ function displayDuration(){
          document.getElementsByName('jobRate')[0].placeholder = "Job Rate(S$)";
     }
 }
+
+
+

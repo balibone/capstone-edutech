@@ -65,13 +65,13 @@ public class ErrandsSysUserController extends HttpServlet {
             ServletContext servletContext = getServletContext();
             
             String pageAction = request.getParameter("pageTransit");
+            System.out.println(pageAction);
             String loggedInUsername = getCookieUsername(request);
             
             switch (pageAction) {
                 case "goToViewJobListingSYS":
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList(request.getParameter("username")));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "goToViewJobDetailsSYS":
@@ -80,12 +80,10 @@ public class ErrandsSysUserController extends HttpServlet {
                     String loggedinUsername = request.getParameter("loggedinUser");
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobID, loggedinUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(categoryName, jobID));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobDetailsSYS";
                     break;
                 case "goToNewJobListingSYS":
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "NewJobListingSYS";
                     break;
                 case "createJobListingSYS":
@@ -95,7 +93,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     request.setAttribute("jobCategoryListSYS", (ArrayList) esmr.viewJobCategoryList());
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "NewJobListingSYS";
                     break;
                 case "goToEditJobListing":
@@ -103,7 +100,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     String loginUser = request.getParameter("loginUser");
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jID, loginUser));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "EditJobListingSYS";
                     break;
                 case "editJobListingSYS":
@@ -115,7 +111,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     String user = request.getParameter("username");
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(job, user));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "EditJobListingSYS";
                     break;
                 case "deleteJobListingSYS":
@@ -126,7 +121,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
                     request.setAttribute("jobListSYS", (ArrayList) esmr.viewJobList(request.getParameter("username")));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "likeJobListingDetails":
@@ -139,6 +133,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "goToJobLikeList":
                     long jobKey = Long.parseLong(request.getParameter("jobID"));
+                    System.out.println(jobKey);
                     request.setAttribute("jobLikeListSYS", esmr.viewJobLikeList(jobKey));
                     pageAction = "jobLikeListSYS";
                     break;
@@ -163,7 +158,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "goToViewJobOfferList":
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(request.getParameter("username")));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferListSYS";
                     break;
                 case "goToViewJobOfferDetails":
@@ -173,37 +167,43 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("message", "");
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(userName));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(userName, hiddenJobID));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS";
                     break;
                 case "acceptJobOffer":
+                    long offerID = Long.parseLong(request.getParameter("offerID"));
                     String userID = request.getParameter("username");
                     long relevantJob = Long.parseLong(request.getParameter("jobId"));
+                    String returnMessage = esmr.acceptJobOffer(offerID, userID);
                     
                     request.setAttribute("message", returnMessage);
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(userID));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(userID, relevantJob));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 case "rejectJobOffer":
+                    long offer = Long.parseLong(request.getParameter("offerID"));
                     String logInUser = request.getParameter("username");
                     long relatedJob = Long.parseLong(request.getParameter("jobId"));
+                    String returnMsg = esmr.rejectJobOffer(offer, logInUser);
                     
                     request.setAttribute("message", returnMsg);
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(logInUser));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(logInUser, relatedJob));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 case "negotiateJobOffer":
+                    long offerid = Long.parseLong(request.getParameter("offerID"));
                     String loggedInUser = request.getParameter("username");
                     long jobRelated = Long.parseLong(request.getParameter("jobID"));
+                    String message = request.getParameter("message");
+                    System.out.println(offerid);
+                    System.out.println(loggedInUser);
+                    System.out.println(message);
+                    String returnStr = esmr.negotiateJobOffer(offerid, loggedInUser, message);
                     
                     request.setAttribute("message", returnStr);
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUser));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUser, jobRelated));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 case "goToSignaturePad":
