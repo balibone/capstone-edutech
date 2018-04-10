@@ -347,6 +347,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("eduExprList", vsmr.viewEduExprList(resumeID));
                     request.setAttribute("workExprList", vsmr.viewWorkExprList(resumeID));
                     request.setAttribute("proExprList", vsmr.viewProjectExprList(resumeID));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewResumeDetailsSYS";
                     break;
                 case "goToDeleteResume":
