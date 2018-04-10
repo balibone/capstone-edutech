@@ -862,7 +862,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             if(jEntity.getChecking()){
                 jtEntity.setSignatureImg("" + jobID + ".png");
             }
-            
+            jEntity.setJobStatus("Completed");
             offerEntity.setJobOfferStatusForPoster("Completed");
             offerEntity.setJobOfferStatusForSender("Completed");
             
@@ -870,10 +870,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             em.merge(uEntity);
             em.merge(jEntity);
             em.merge(offerEntity);
-            //System.out.println("The transaction is completed successfully!");
             return "The transaction is completed successfully!";
         }
-        //System.out.println("The transaction cannot be completed.");
         return "The transaction cannot be completed.";
     }
     
