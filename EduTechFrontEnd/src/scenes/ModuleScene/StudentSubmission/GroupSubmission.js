@@ -47,9 +47,6 @@ class GroupSubmission extends Component {
 		}else if(selectedFile){
 			AssignmentStore.submitAssignment(id, selectedFile, username, title);
 		}
-
-
-
 	}
 
 	handleChange(e) {

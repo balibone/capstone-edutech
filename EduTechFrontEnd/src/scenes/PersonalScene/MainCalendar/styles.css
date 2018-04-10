@@ -40,3 +40,9 @@ a.btnHover:hover{
   width: 30px;
   background-color: #00BFFF; 
 }
+
+.legend-task{
+  height: 10px;
+  width: 30px;
+  background-color: #800000; 
+}

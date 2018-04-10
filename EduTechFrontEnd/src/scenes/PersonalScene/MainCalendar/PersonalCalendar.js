@@ -126,10 +126,11 @@ class PersonalCalendar extends Component {
 					    <Col md={8}>
 					    	<Well>
 						    	<Row>
-						    		<Col md={3}><div className="legend-personal"></div>personal</Col>
-						    		<Col md={3}><div className="legend-meeting"></div>meeting</Col>
-						    		<Col md={3}><div className="legend-timetable"></div>timetable</Col>
-						    		<Col md={3}><div className="legend-assessment"></div>assessment</Col>
+						    		<Col md={2}><div className="legend-personal"></div>personal</Col>
+						    		<Col md={2}><div className="legend-meeting"></div>meeting</Col>
+						    		<Col md={2}><div className="legend-timetable"></div>timetable</Col>
+						    		<Col md={2}><div className="legend-assessment"></div>assessment</Col>
+						    		<Col md={2}><div className="legend-task"></div>task</Col>
 						    	</Row>
 					    	</Well>
 					    </Col>

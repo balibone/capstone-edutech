@@ -30,6 +30,8 @@ class MainCalendar extends Component {
 						break;
 					case "assessment": color = '00BFFF'
 						break;
+					case "task": color = "800000"
+						break;
 				}
 				scheduleItemArr = scheduleItemArr.concat({
 					id: scheduleItemTempArr[i].id,

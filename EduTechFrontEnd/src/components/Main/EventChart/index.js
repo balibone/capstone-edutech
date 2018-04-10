@@ -17,7 +17,8 @@ class EventChart extends Component {
 	    this.state = {
 	    	numberOfWeeks: [],
 	    	semesterStartDate: null,
-	    	chartData:{}
+	    	chartData:{},
+	    	semester: []
 	    }
 	  }
 
@@ -33,7 +34,7 @@ class EventChart extends Component {
 
           var result = endD.diff(startD, 'week') + 1;
 
-          this.setState({numberOfWeeks: result, semesterStartDate: startD})
+          this.setState({numberOfWeeks: result, semesterStartDate: startD, semester: res.data[0]})
         })
         .catch((err) => {
           console.log(err)
@@ -48,22 +49,22 @@ class EventChart extends Component {
 	        datasets:[
 	          {
 	              	label: "Personal",
-	              	backgroundColor: "blue",
+	              	backgroundColor: "#006400",
 	              	data: []
 	          },
 	          {
 	              	label: "Meeting",
-	              	backgroundColor: "red",
+	              	backgroundColor: "#FF8C00",
 	              	data: []
 	          },
 	          {
 	              	label: "Task Deadline",
-	              	backgroundColor: "green",
+	              	backgroundColor: "#800000",
 	              	data: []
 	          },
 	          {
 	          		label: "Assessment",
-	              	backgroundColor: "orange",
+	              	backgroundColor: "#00BFFF",
 	              	data: []	
 	          }
 	        ]
@@ -88,6 +89,7 @@ class EventChart extends Component {
 						numberOfWeeks={this.state.numberOfWeeks} 
 						scheduleItems={scheduleItems}
 						semesterStartDate={semesterStartDate}
+						semester={this.state.semester}
 					/>
 				</Paper>
 			

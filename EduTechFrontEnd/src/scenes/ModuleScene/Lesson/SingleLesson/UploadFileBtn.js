@@ -30,6 +30,7 @@ class UploadFileBtn extends Component {
         swal("File Size Error!", "Your file size is more than 10MB.", "error");
       }else{
         LessonStore.uploadAttachment(title, selectedFile, lessonId, username);
+        this.setState({file: null, title: ""})
       }
     }
   }

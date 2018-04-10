@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Bar} from 'react-chartjs-2';
 import moment from 'moment';
+import {Paper} from 'material-ui';
 
 import {FadingCircle} from 'better-react-spinkit';
 
@@ -88,7 +89,7 @@ class BarChart extends Component {
 	}
 
 	renderBarChart(data, numberOfWeeks){
-
+		const semester = this.props.semester;
 		let weekLabels = []
 		for(var i=1 ; i<=numberOfWeeks ; i++){
 			weekLabels.push('Week ' + i);
@@ -96,6 +97,11 @@ class BarChart extends Component {
 		data.labels = weekLabels;
 		console.log("BAR CHART", data)
 		return (
+			<div>
+			<div style={{textAlign: 'center'}}>
+				<h3>Semester Weekly Chart</h3>
+				<p className="lead">{semester.title}</p>
+			</div>
 			<Bar
 		          data={data}
 		          onClick={(info) => console.log(info)}
@@ -109,18 +115,14 @@ class BarChart extends Component {
 					        }
 					      }]
 					    },
-		            	title:{
-		              		display:this.props.displayTitle,
-		              		text:'Semester view in weeks ',
-		              		fontSize:20
-		            	},
 		            	legend:{
 		              		display:true,
 		              		position:'right'
 		            	}
 		          	}}
 		          	height={100}
-		        />	
+		        />
+		        </div>	
 		)
 	}
 
