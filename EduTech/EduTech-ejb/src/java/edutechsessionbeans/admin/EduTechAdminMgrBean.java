@@ -249,6 +249,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
     @Override
     public void deleteModule(String id) {
         ModuleEntity mod = em.find(ModuleEntity.class,id);
+        //detach module from all semesters.
         Query q1 = em.createQuery("SELECT s FROM Semester s");
         if(mod!=null){
             for(Object o : q1.getResultList()){
@@ -262,8 +263,8 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
                 }
             }
             mod.setModuleEvents(null);
+            mod.setRecurringEvents(null);
             mod.setMembers(null);
-            em.flush();
             em.remove(mod);
         }
     }
@@ -273,14 +274,19 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         
         ArrayList modInfo = new ArrayList();
         ModuleEntity mod = em.find(ModuleEntity.class, id);
+        //0
         modInfo.add(String.valueOf(mod.getModuleCode()));
+        //1
         modInfo.add(String.valueOf(mod.getTitle()));
+        //2
         modInfo.add(String.valueOf(mod.getModularCredit()));
+        //3
         if(mod.getSemester() != null){
             modInfo.add(String.valueOf(mod.getSemester().getTitle()+" | ID: "+mod.getSemester().getId()));
         }else{
             modInfo.add("");
         }
+        //4
         modInfo.add(String.valueOf(mod.getDescription()));
         //get list of users for this module
         Collection users = mod.getMembers();
@@ -318,8 +324,9 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             userInfoList.add(userInfo);
             
         }
-        
+        //5
         modInfo.add(userInfoList);
+        //6
         modInfo.add(userInfoList.size());
         
         Collection recurringEvents = mod.getRecurringEvents();
@@ -336,17 +343,20 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             
             eventInfoList.add(eventInfo);
         }
+        //7
         modInfo.add(eventInfoList);
         return modInfo;
     }
     
     @Override
-    public boolean editModule(String id, String name, String credits, String description) {
+    public boolean editModule(String id, String name, String credits, String description, String semID) {
         try{
+            SemesterEntity sem = em.find(SemesterEntity.class, Long.valueOf(semID));
             ModuleEntity mod = em.find(ModuleEntity.class, id);
             mod.setTitle(name);
             mod.setModularCredit(Long.valueOf(credits));
             mod.setDescription(description);
+            mod.setSemester(sem);
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -571,7 +581,15 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
         //detach module from event
         event.setModule(null);
         //detach lessons from module
-        mod.setModuleEvents(null);
+        Collection<ScheduleItemEntity> lessons = mod.getModuleEvents();
+        Query q1 = em.createQuery("SELECT l FROM Lesson l WHERE l.recurringEvent = :toBeDeleted");
+        q1.setParameter("toBeDeleted", event);
+        for(Object o : q1.getResultList()){
+            LessonEntity l = (LessonEntity) o;
+            if(lessons.contains(l)){
+                lessons.remove(l);
+            }
+        }
         //remove event and cascade delete of lessons
         em.remove(event);
     }

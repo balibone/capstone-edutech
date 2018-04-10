@@ -37,7 +37,7 @@ public interface EduTechAdminMgrBeanRemote {
 
     public ArrayList getModuleInfo(String id);
 
-    public boolean editModule(String id, String name, String credits, String description);
+    public boolean editModule(String id, String name, String credits, String description, String semID);
 
     public boolean addEventToMod(String title, String location, String day, String startTime, String endTime, String description, String id);
 

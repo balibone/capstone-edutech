@@ -21,6 +21,7 @@ import edutechentities.group.MeetingMinuteEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import edutechentities.module.AssignmentEntity;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -733,6 +734,22 @@ public class CommonMgrBean {
             }
         }
         return keyDates;
+    }
+
+    public SemesterEntity getCurrentSemester() {
+        LocalDate currDate = LocalDate.now();
+        SemesterEntity sem = new SemesterEntity();
+        Query q1 = em.createQuery("SELECT s FROM Semester s");
+        for(Object o:q1.getResultList()){
+            SemesterEntity s = (SemesterEntity) o;
+            LocalDate startDate = s.getStartDate();
+            LocalDate endDate = s.getEndDate();
+            //if semester starts before or on today's date and end after or on today's date, then it is current semester
+            if( (startDate.isBefore(currDate) || startDate.isEqual(currDate)) && (endDate.isAfter(currDate) || endDate.isEqual(currDate)) ){
+                sem = s;
+            }
+        }
+        return sem;
     }
 
 }
