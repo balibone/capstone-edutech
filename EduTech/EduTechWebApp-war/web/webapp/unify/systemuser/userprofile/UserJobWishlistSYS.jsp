@@ -1,11 +1,3 @@
-<%-- 
-  - Author(s):          TAN CHIN WEE WINSTON
-  - Date:               6th April 2018
-  - Version:            1.0
-  - Credits to:         NIL
-  - Description:        View User Marketplace Listings (Marketplace)
-  --%>
-  
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -16,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Marketplace Listings</title>
+        <title>Unify - My Errands Wishlist</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
@@ -28,7 +20,7 @@
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/weblayout/userprofile/UserAccountSYSCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/userprofile/UserJobWishlistSYSCSS.css" rel="stylesheet" type="text/css" />
 
         <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
@@ -37,6 +29,8 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -165,7 +159,6 @@
                                         <option value="marketplace">Marketplace</option>
                                         <option value="errands">Errands</option>
                                         <option value="companyReview">Company Review</option>
-                                        <option value="shouts">Shouts</option>
                                     </select>
                                 </div>
                                 <input type="text" class="form-control" id="search-input" placeholder="Search here..." aria-label="Search here..." autocomplete="off" />
@@ -181,7 +174,7 @@
                                 <button type="button" class="btn btn-outline-theme newItemListingBtn">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
                                 </button>
-                                <a class="btn btn-outline-theme" href="ErrandsSysUser?pageTransit=goToNewJobListingSYS" role="button">
+                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
                                     <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
                                 </a>
                             </div>
@@ -199,7 +192,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User Account</li>
+                            <li class="breadcrumb-item active" aria-current="page">My Errands Wishlist</li>
                         </ol>
                     </nav>
                 </div>
@@ -237,7 +230,7 @@
                                     <i class="fa fa-fw fa-shopping-cart"></i>&nbsp;My Marketplace
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
-                                <button type="button" class="list-group-item list-group-item-action errandsBtn" data-toggle="modal" data-target="#errandsModalCenter">
+                                <button type="button" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
@@ -249,34 +242,6 @@
                                     <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
-                                <button type="button" class="list-group-item list-group-item-action voicesBtn">
-                                    <i class="fa fa-fw fa-commenting"></i>&nbsp;My Voices
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                                <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList&username=<%=loggedInUsername%>" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToErrandsTrans" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToCompanyReview" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-building"></i>&nbsp;Company Review List
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToCompanyRequest" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-question-circle"></i>&nbsp;Company Request List
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToResume" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-file"></i>&nbsp;Resume List
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -298,149 +263,128 @@
                             <button type="button" class="close" id="closeError">&times;</button>
                             <%= errorMessage%>
                         </div>
-                        <%  }%>
+                        <%  }   %>
 
-                        <div class="title"><span>My Marketplace Listings</span></div>
+                        <div class="title"><span>My Errands Wishlist</span></div>
+                        
+
+                        <!-- JOB LISTING -->
                         <div class="jplist-search sorting-bar">
-                            <button class="btn btn-outline-theme btn-block dropdown-toggle d-md-none mt-2" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                                Search Filter
-                            </button>
-                            <div class="collapse d-md-block pt-3 pt-md-0" id="collapseFilter">
-                                <div class="mt-2" remove-class-on-xs="mt-2" add-class-on-xs="w-100">
-                                    <span>Item Name:</span>
-                                    <input type="text" data-path=".itemName" class="searchInputText w-25" placeholder="Search Item ..." 
-                                           remove-class-on-xs="w-25" add-class-on-xs="w-100" aria-label="Search Item ..." 
-                                           data-control-type="textbox" data-control-action="filter" />
-                                </div>
-                                <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100">
-                                    <input type="hidden" id="dbItemCategory" value="<%= request.getAttribute("itemCategoryStr")%>" />
-                                    <div id="itemCategoryDropdown" class="jplist-drop-down-search" add-class-on-xs="w-100" 
+                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" style="width: 200px;">
+                                    <input type="hidden" id="dbJobCategory" value="<%= request.getAttribute("jobCategoryStr")%>" />
+                                    <div id="jobCategoryDropdown" class="jplist-drop-down-search" add-class-on-xs="w-100" style="width: 200px;"
                                          data-control-type="filter-drop-down" data-control-name="category-filter" data-control-action="filter">
-                                        <ul></ul>
+                                        <ul class="categoryList"></ul>
                                     </div>
-                                </div>
-                                <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                     data-control-type="filter-drop-down" data-control-name="category-filter" 
-                                     data-control-action="filter">
-                                    <ul>
-                                        <li><span data-path="default">All Item Conditions</span></li>
-                                        <li><span data-path=".New">New</span></li>
-                                        <li><span data-path=".Used">Used</span></li>
-                                    </ul>
-                                </div>
-                                <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                     data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
-                                     data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
-                                    <ul>
-                                        <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
-                                        <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
-                                        <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
-                                        <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
-                                        <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
-                                        <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
-                                        <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
-                                    </ul>
-                                </div>
-                                <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
-                                     data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
-                                    <ul>
-                                        <li><span data-number="4">4 per page</span></li>
-                                        <li><span data-number="8">8 per page</span></li>
-                                        <li><span data-number="12" data-default="true">12 per page</span></li>
-                                        <li><span data-number="16">16 per page</span></li>
-                                    </ul>
-                                </div>
+                            </div>
+                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
+                                <ul>
+                                    <li><span data-path=".jobPostDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
+                                    <li><span data-path=".numOfLikes" data-order="desc" data-type="number">Popularity</span></li>
+                                    <li><span data-path=".jobTitle" data-order="asc" data-type="text">Title Asc</span></li>
+                                    <li><span data-path=".jobTitle" data-order="desc" data-type="text">Title Desc</span></li>
+                                    <li><span data-path=".jobRate" data-order="asc" data-type="number">Job Rate Asc</span></li>
+                                    <li><span data-path=".jobRate" data-order="desc" data-type="number">Job Rate Desc</span></li>
+                                </ul>
+                            </div>
+                            <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
+                                 data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
+                                <ul>
+                                    <li><span data-number="4">4 per page</span></li>
+                                    <li><span data-number="8">8 per page</span></li>
+                                    <li><span data-number="12" data-default="true">12 per page</span></li>
+                                    <li><span data-number="16">16 per page</span></li>
+                                </ul>
+                            </div>
+                            <div class="mt-2 mr-3" remove-class-on-xs="mt-2" add-class-on-xs="w-100">
+                                   
+                                    
+                                    <input type="text" data-path=".jobTitle" class="form-control searchInputText" placeholder="Search Job Title" 
+                                               aria-label="Search Job ..." data-control-type="textbox" 
+                                               data-control-name="transmission-text-filter" data-control-action="filter" />
                             </div>
                         </div>
 
-                        <!-- ITEM LISTING -->
-                        <div class="row equal-height" add-class-on-xs="no-gutters">
+                        <!-- JOB LISTING -->
+                        <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
                             <div class="list searchresult-row">
                                 <%
-                                    ArrayList<Vector> userItemAccountListSYS = (ArrayList) request.getAttribute("userItemAccountListSYS");
-                                    if (!userItemAccountListSYS.isEmpty()) {
-                                        for (int i = 0; i <= userItemAccountListSYS.size() - 1; i++) {
-                                            Vector v = userItemAccountListSYS.get(i);
-                                            String itemID = String.valueOf(v.get(0));
-                                            String itemImage = String.valueOf(v.get(1));
-                                            String itemName = String.valueOf(v.get(2));
-                                            String itemCategoryName = String.valueOf(v.get(3));
-                                            String itemSellerID = String.valueOf(v.get(4));
-                                            String itemSellerImage = String.valueOf(v.get(5));
-                                            String itemPostedDuration = String.valueOf(v.get(6));
-                                            String itemPostingDate = String.valueOf(v.get(7));
-                                            String itemPrice = String.valueOf(v.get(8));
-                                            String itemNumOfLikes = String.valueOf(v.get(9));
-                                            String itemLikeStatus = String.valueOf(v.get(10));
-                                            String itemNumOfPendingOffer = String.valueOf(v.get(11));
-                                            String itemCondition = String.valueOf(v.get(12));
-                                            String itemStatus = String.valueOf(v.get(13));
+                                    ArrayList<Vector> jobListSYS = (ArrayList) request.getAttribute("jobWishlist");
+                                    if (!jobListSYS.isEmpty()) {
+                                        for (int i = 0; i <= jobListSYS.size() - 1; i++) {
+                                            Vector v = jobListSYS.get(i);
+                                            
+                                            String jobID = String.valueOf(v.get(0));
+                                            String jobImage = String.valueOf(v.get(1));
+                                            String jobTitle = String.valueOf(v.get(2));
+                                            String jobCategoryName = String.valueOf(v.get(3));
+                                            String jobPosterName = String.valueOf(v.get(4));
+                                            String jobPostDate = String.valueOf(v.get(5));
+                                            String jobWorkDate = String.valueOf(v.get(6));
+                                            String startLocation = String.valueOf(v.get(7));
+                                            String jobRateType = String.valueOf(v.get(8));
+                                            String jobRate = String.valueOf(v.get(9));
+                                            String numOfLikes = String.valueOf(v.get(10));
+                                            String likeStatus = String.valueOf(v.get(11));
+                                            
+                                            String categoryPath = jobCategoryName;
+                                                if(categoryPath.contains(" ")){
+                                                    categoryPath = categoryPath.replace(" ", "");
+                                                }
                                 %>
-                                <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
+                                <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
-                                        <div class="card-header" style="font-size: 13px;">
-                                            <button type="button" class="text-right close" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:7px;">
-                                                <img src="images/unifyimages/sidebar-divider-dots.png" />
-                                            </button>
-                                            <button type="button" id="qtipItemReportTrigger<%= itemID%>" class="text-right close qtipItemReportTrigger"></button>
-                                            <div class="dropdown-menu dropdown-menu-reportListing">
-                                                <%  if (!itemNumOfPendingOffer.equals("0")) {%>
-                                                <button id="pendingItemOfferBtn<%= itemID%>" type="button" class="dropdown-item myAccountBtn">View Item Offers</button>
-                                                <%  }   %>
-                                                <%  if (!loggedInUsername.equals(itemSellerID)) {%>
-                                                <button id="reportItemListingBtn<%= itemID%>" type="button" class="dropdown-item myAccountBtn">Report Listing</button>
-                                                <%  }%>
-                                            </div>
-                                            <div class="pull-left" style="padding-right: 10px;">
-                                                <div class="profilePicBorder">
-                                                    <img class="profilePic" src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
-                                                </div>
-                                            </div>
-                                            <div class="profileContent">
-                                                <h3 class="profileHeader"><%= itemSellerID%></h3>
-                                                <time class="profileTime"><i class="fa fa-clock-o" style="margin-right: 5px;"></i><%= itemPostedDuration%></time>
-                                            </div>
-                                        </div>
                                         <div class="card-content">
-                                            <div class="card-body mb-2">
-                                                <div class="img-wrapper mb-2">
-                                                    <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>">
-                                                        <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
-                                                    </a>
-                                                    <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
-                                                        <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
-                                                            <%  if (itemLikeStatus.equals("true")) {%>
-                                                            <button type="button" id="likeItemBtn<%= itemID%>" class="btn btn-link btn-sm myAccountBtn likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this item"><i class="fa fa-heart"></i></button>
-                                                            <%  } else if (itemLikeStatus.equals("false")) {%>
-                                                            <button type="button" id="likeItemBtn<%= itemID%>" class="btn btn-link btn-sm myAccountBtn noLikeStatus" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>
-                                                            <%  }   %>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-xl-3 col-md-3 col-3">
+                                                        <div class="img-wrapper" style="margin-bottom: 15px">
+                                                            <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%= loggedInUsername%>">
+                                                                <img class="card-img-top" style="width: 160px; height: 150px;" src="uploads/unify/images/errands/job/<%= jobImage%>" />
+                                                            </a>
                                                         </div>
                                                     </div>
-                                                    <%  if (itemStatus.equals("Reserved")) { %>
-                                                    <span class="badge badge-warning custom-badge arrowed-left label label-top-right">Reserved</span>
-                                                    <%  } else if (itemStatus.equals("Sold")) { %>
-                                                    <span class="badge badge-danger custom-badge arrowed-left label label-top-right">Sold</span>
-                                                    <%  }%>
+                                                            
+                                                    <div class="col-xl-7 col-md-7 col-7" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%= loggedInUsername%>';">
+                                                        <span class="card-title jobTitle job-title"><strong><%= jobTitle%></strong></span><br/>
+                                                        <span class="card-text category <%= categoryPath%>"><%= jobCategoryName%></span><br/>
+                                                        <i class="far fa-calendar-alt"></i>&nbsp; <span class="card-text date"><%= jobWorkDate%></span>&nbsp; 
+                                                        <i class="fas fa-map-marker-alt"></i>&nbsp; <span class=" card-text location"><%= startLocation%></span><br/><br/>
+                                                        <i class="fas fa-user-circle fa-lg"></i>&nbsp;<span class="card-text user"><strong>&nbsp;<%= jobPosterName%></strong></span>
+                                                        <div class="post-date">
+                                                            <i class="far fa-clock"></i>&nbsp;<span class="card-text jobPostDate"><%= jobPostDate%></span><br/>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-2 col-2">
+                                                        <div class="like-button" >
+                                                            <%if(likeStatus.equals("true")){%>
+                                                            <i id="likeIcon<%=jobID%>" class="fas fa-heart like likeIcon"></i>&nbsp;<span id="likeCount<%=jobID%>" class="numOfLikes"><%=numOfLikes%></span>
+                                                            <%}else if(likeStatus.equals("false")){%>
+                                                            <i id="likeIcon<%=jobID%>" class="fas fa-heart noLike likeIcon"></i>&nbsp;<span id="likeCount<%=jobID%>" class="numOfLikes"><%=numOfLikes%></span>
+                                                            <% }%>
+                                                        </div>
+                                                        <div class="job-price">
+                                                            <span class="card-text rate jobRate"><strong>S$<%= jobRate%></strong></span><br/>
+                                                            <%
+                                                                if(jobRateType.equals("Fixed")){
+                                                            %>
+                                                            <span class="card-text type">(Fixed Rate)</span>
+                                                            <%
+                                                                }else{
+                                                            %>
+                                                            <span class="card-text type">(Hourly Rate)</span>
+                                                            <%
+                                                              }
+                                                            %>
+                                                        </div>
+                                                        
+                                                    </div>
                                                 </div>
-                                                <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
-                                                <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
-                                                <span class="card-text <%= itemCategoryName.replaceAll(" ", "")%>" style="display:none;"><%= itemCategoryName%></span>
-                                                <span class="card-text" style="font-size: 11px;">Condition:&nbsp;<span class="<%= itemCondition%>"><strong><%= itemCondition%></strong></span></span>
                                             </div>
                                         </div>
-                                        <div class="card-footer text-muted mt-1">
-                                            <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
-                                            <span class="float-right">
-                                                <button id="itemLikersBtn<%= itemID%>" class="myAccountBtn">
-                                                    <i class="fa fa-heart-o"></i>&nbsp;
-                                                    <span class="itemNumOfLikes" id="itemNumOfLikes<%= itemID%>"><%= itemNumOfLikes%></span>
-                                                </button>&nbsp;&nbsp;
-                                                <button id="pendingItemOfferBtn<%= itemID%>" class="myAccountBtn">
-                                                    <i class="fa fa-users"></i>&nbsp;
-                                                    <span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span>
-                                                </button>
-                                            </span>
-                                        </div>
+                                             
                                     </div>
                                 </div>
                                 <%      }   %>
@@ -457,11 +401,15 @@
                             <div class="jplist-pagination" data-control-animate-to-top="true" 
                                  data-control-type="pagination" data-control-name="paging" data-control-action="paging">
                             </div>
+                            
                         </div>
+                        
                     </div>
-                </div>
+                  </div>  
+                    
+                
             </div>
-
+            
             <div class="chat-main">
                 <div class="col-md-12 chat-header">
                     <div class="row header-one text-white p-1">
@@ -484,27 +432,7 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-            <div id="itemLikeList-iframe"></div>
-            <div id="sellNewItem-iframe"></div>
-
-            <div style="display:none;" id="reportItemListingTip">
-                Report Category&nbsp;<span style="color:#FF0000;">*</span><br/>
-                <select id="itemReportCategory" class="itemReportFields" style="margin-bottom: 7px;">
-                    <option value="" disabled="disabled" selected="selected">- Please Select -</option>
-                    <option value="Counterfeit Item">Counterfeit Item</option>
-                    <option value="Prohibited Item">Prohibited Item</option>
-                    <option value="Wrong Item Category">Wrong Item Category</option>
-                    <option value="Irrelevant Keywords">Irrelevant Keywords</option>
-                    <option value="Duplicate Post">Duplicate Post</option>
-                    <option value="Offensive Content">Offensive Content</option>
-                    <option value="Mispriced Listing">Mispriced Listing</option>
-                </select><br/>
-                Report Description&nbsp;<span style="color:#FF0000;">*</span><br/>
-                <textarea rows="3" id="itemReportDescription" class="itemReportFields" placeholder="e.g. This listing contains inappropriate content ..."></textarea><br/>
-                <button type="button" id="sendItemReportBtn" style="margin:7px 0 7px 0;">Send Item Report</button><br/>
-                <input type="hidden" id="itemHiddenID" />
-                <span id="successReportResponse"></span><span id="failedReportResponse"></span>
-            </div>
+            
 
             <div id="modal-custom">
                 <button data-iziModal-close class="icon-close"><i class="fa fa-times"></i></button>
@@ -513,7 +441,7 @@
                         <p class="text-center"><strong>Select one of the following to view.</strong></p>
                         <div class="row">
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUnifyUserAccountSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUnifyUserAccountSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-shopping-cart display-2"></i></h1>
                                         <h6>My Listings</h6>
@@ -521,7 +449,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMarketplaceTransSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToMarketplaceTransSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
                                         <h6>My Transactions</h6>
@@ -529,7 +457,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUserItemWishlistSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToUserItemWishlistSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-heart display-2"></i></h1>
                                         <h6>My Wishlist</h6>
@@ -537,7 +465,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-edit display-2"></i></h1>
                                         <h6>My Offers</h6>
@@ -545,7 +473,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToPendingItemOfferListSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location='ProfileSysUser?pageTransit=goToPendingItemOfferListSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-bullhorn display-2"></i></h1>
                                         <h6>Marketplace Offers</h6>
@@ -556,65 +484,6 @@
                     </section>
                 </div>
             </div>
-            
-            
-            <!-- Modal -->
-            <div class="modal fade" id="errandsModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width: 1200px;">
-              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Select one of the following to view.</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                     <div class="row">
-                            <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMyJobListing';">
-                                    <div class="card-block card-title mt-5 mb-5">
-                                        <h1 class="mb-3"><i class="fa fa-shopping-cart display-2"></i></h1>
-                                        <h6>My Listings</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToErrandsTrans';">
-                                    <div class="card-block card-title mt-5 mb-5">
-                                        <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
-                                        <h6>My Transactions</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUserJobWishlistSYS';">
-                                    <div class="card-block card-title mt-5 mb-5">
-                                        <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
-                                        <h6>My Wishlist</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToViewMyJobOfferSYS';">
-                                    <div class="card-block card-title mt-5 mb-5">
-                                        <h1 class="mb-3"><i class="fa fa-edit display-2"></i></h1>
-                                        <h6>My Offers</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ErrandsSysUser?pageTransit=goToViewJobOfferList';">
-                                    <div class="card-block card-title mt-5 mb-5">
-                                        <h1 class="mb-3"><i class="fa fa-bullhorn display-2"></i></h1>
-                                        <h6>Errands Offers</h6>
-                                    </div>
-                                </div>
-                            </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-           </div> 
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -627,7 +496,7 @@
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/userprofile/UserAccountSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/userprofile/UserJobWishlistSYSJS.js" type="text/javascript"></script>
 
         <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>

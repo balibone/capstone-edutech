@@ -1005,6 +1005,83 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         return userJobList;
     }
     
+    @Override
+    public List<Vector> viewUserJobWishlist(String username) {
+        Date currentDate = new Date();
+        String dateString = "";
+        
+        Query q = em.createQuery("SELECT ll FROM LikeListing ll WHERE ll.userEntity.username = :username AND "
+                + "ll.jobEntity.categoryEntity.categoryActiveStatus = '1'");
+        q.setParameter("username", username);
+        List<Vector> userJobWishlist = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            LikeListingEntity likeListE = (LikeListingEntity) o;
+            Vector likeListVec = new Vector();
+            
+            likeListVec.add(likeListE.getJobEntity().getJobID());
+            likeListVec.add(likeListE.getJobEntity().getJobImage());
+            likeListVec.add(likeListE.getJobEntity().getJobTitle());
+            likeListVec.add(likeListE.getJobEntity().getCategoryEntity().getCategoryName());
+            likeListVec.add(likeListE.getJobEntity().getUserEntity().getUsername());
+            //likeListVec.add(likeListE.getJobEntity().getUserEntity().getImgFileName());
+
+            long diff = currentDate.getTime() - likeListE.getJobEntity().getJobPostDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            
+            if(!dateString.equals("")) {
+                likeListVec.add(dateString);
+            } else {
+                likeListVec.add("Just Now");
+            }
+            likeListVec.add(df.format(likeListE.getJobEntity().getJobWorkDate()));
+            likeListVec.add(likeListE.getJobEntity().getJobStartLocation());
+            likeListVec.add(likeListE.getJobEntity().getJobRateType());
+            likeListVec.add(rateFormat.format(likeListE.getJobEntity().getJobRate()));
+            likeListVec.add(getJobLikeCount(likeListE.getJobEntity().getJobID()));
+            if(lookupLike(likeListE.getJobEntity().getJobID(), username) == null) { likeListVec.add(false);}
+            else { likeListVec.add(true); }
+            
+            likeListVec.add(likeListE.getJobEntity().getJobStatus());
+            userJobWishlist.add(likeListVec);
+            dateString = "";
+        }
+        return userJobWishlist;
+    }
+    
     /* MISCELLANEOUS METHODS */
     public CategoryEntity lookupCategory(long categoryID) {
         CategoryEntity ce = new CategoryEntity();

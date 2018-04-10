@@ -222,6 +222,14 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserItemWishlistSYS";
                     break;
+                case "goToUserJobWishlistSYS":
+                    request.setAttribute("jobWishlist", (ArrayList) esmr.viewUserJobWishlist(loggedInUsername));
+                    request.setAttribute("jobCategoryStr", esmr.getJobCategoryList());
+                    
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "UserJobWishlistSYS";
+                    break;
                 case "goToUserNotificationListSYS":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListSYS", usmr.viewUserMessageList(loggedInUsername));
