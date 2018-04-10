@@ -275,12 +275,21 @@
                                     <li><span data-number="16">16 per page</span></li>
                                 </ul>
                             </div>
+                            <div class="input-group-addon" style="float: right; margin-top: 10px">
+                                <form action="VoicesSysUser" method="POST" name="notificationForm" enctype="multipart/form-data">
+                                    <input type="hidden" name="pageTransit" value="markNotificationSYS" />
+                                    <input type="hidden" name="notificationList" value="" />
+                                    
+                                </form>
+                                <button id="markBtn" class="btn btn-sm btn-theme" disabled="disabled" onclick="markRead()">&nbsp;Mark As Read</button>
+                                
+                            </div>
                         </div>
                         
                         <!-- USER MESSAGE LIST -->
                         <!-- <div class="list searchresult-row"> -->
                             <div class="table-relative table-responsive mailinbox">
-                                <table class="table table-condensed table-striped margin-0px">
+                                <table id="notificationTable" class="table table-condensed table-striped margin-0px">
                                     <thead>
                                         <tr>
                                             <th colspan="2">
@@ -305,6 +314,7 @@
                                                     String msgSenderImage = String.valueOf(v.get(4));
                                                     String msgSentDateTime = String.valueOf(v.get(5));
                                                     String msgSentDuration = String.valueOf(v.get(6));
+                                                    String msgStatus = String.valueOf(v.get(7));
                                         %>
                                         <tr class="unread">
                                             <td style="width: 5%;">
@@ -314,13 +324,15 @@
                                                     <%  } else {%>
                                                     <img src="uploads/commoninfrastructure/admin/images/<%= msgSenderImage%>" style="width:40px;height:40px;" />
                                                     <%  }%>
-                                                    <input id="1" type="checkbox" class="checkbox" />
-                                                    <label for="1"></label>
+                                                    <% if(msgStatus.toUpperCase().equals("UNREAD")) {%>
+                                                    <input id="<%= i%>" type="checkbox" class="checkbox" onchange="readMessage('<%= i%>')"/>
+                                                    <label for="<%= i%>"></label>
+                                                    <% } %>
                                                 </div>
                                             </td>
-                                            <td style="width: 10%;"><%= msgSenderID%></td>
+                                            <td id="msgSenderID-<%= i%>" style="width: 10%;"><%= msgSenderID%></td>
                                             <td style="width: 20%;"><%= msgType%></td>
-                                            <td style="width: 40%;"><%= msgContent%><span style="display:none;">;<%= msgContentID%></span></td>
+                                            <td style="width: 40%;"><%= msgContent%><span id="msgContentID-<%= i%>" style="display:none;">;<%= msgContentID%></span></td>
                                             <td style="width: 25%;"><%= msgSentDateTime%><br/><%= msgSentDuration%></td>
                                         </tr>
                                         <%      }   %>

@@ -81,21 +81,20 @@ public class VoicesSysUserController extends HttpServlet {
                     break;
                 case "goToViewCompanyDetailsSYS":
                     long companyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
-                    String username = request.getParameter("hiddenUsername");
                     
                     request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(companyID));
-                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID, username));
+                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID, loggedInUsername));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(companyID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewCompanyDetailsSYS";
                     break;
                 case "goToViewReviewListSYS":
                     long companyID_ = Long.parseLong(request.getParameter("hiddenCompanyID"));
-                    String username_ = request.getParameter("hiddenUsername");
                     String type = request.getParameter("type");
                     request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(companyID_));
-                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID_, username_));
+                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID_, loggedInUsername));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(companyID_));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("tabType", type);
                     pageAction="ViewCompanyDetailsSYS";
                     break;
@@ -128,29 +127,18 @@ public class VoicesSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     long returnCompanyID = Long.parseLong(request.getParameter("hiddenCompanyID"));
-                    String returnUsername = request.getParameter("username");
                     request.setAttribute("companyDetailsSYS", vsmr.viewCompanyDetails(returnCompanyID));
-                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(returnCompanyID, returnUsername));
+                    request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(returnCompanyID, loggedInUsername));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(returnCompanyID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewCompanyDetailsSYS";
                     break;
                 case "likeReviewListingSYS":
                     long reviewIDHid = Long.parseLong(request.getParameter("reviewIDHid"));
-                    String usernameHid = request.getParameter("usernameHid");
                     
-                    responseMessage = vsmr.likeUnlikeReview(reviewIDHid, usernameHid);
+                    responseMessage = vsmr.likeUnlikeReview(reviewIDHid, loggedInUsername);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
-                    break;
-                case "goToNewResumeSYS":
-                    pageAction = "NewResumeSYS";
-                    break;
-                case "createResumeSYS":
-                    responseMessage = createResume(request);
-                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
-                    else { request.setAttribute("errorMessage", responseMessage); }
-                    pageAction = "NewResumeSYS";
                     break;
                 case "goToReviewDetails":
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
@@ -178,12 +166,12 @@ public class VoicesSysUserController extends HttpServlet {
         String reviewRating = request.getParameter("companyRating");
         String employmentStatus = request.getParameter("employmentStatus");
         String salaryRange = request.getParameter("salaryRange");
-        String reviewPoster = request.getParameter("username");
+        String loggedInUsername = getCookieUsername(request);
         
         System.out.println(companyName + "     " + employmentStatus + "    " + salaryRange);
         
         responseMessage = vsmr.createCompanyReview(companyIndustry, companyName, reviewTitle, 
-                reviewPros, reviewCons, reviewRating, employmentStatus, salaryRange, reviewPoster);
+                reviewPros, reviewCons, reviewRating, employmentStatus, salaryRange, loggedInUsername);
         return responseMessage;
     }
     
@@ -192,88 +180,23 @@ public class VoicesSysUserController extends HttpServlet {
         String otherIndustry = request.getParameter("otherIndustry");
         String requestCompany = request.getParameter("requestCompany");
         String requestComment = request.getParameter("requestComment");
-        String requestPoster = request.getParameter("username");
+        String loggedInUsername = getCookieUsername(request);
         
         if(companyIndustry.equals("otherIndustry")) {
             companyIndustry = otherIndustry;
         }
         
-        responseMessage = vsmr.createCompanyRequest(requestCompany, companyIndustry, requestComment, requestPoster);
+        responseMessage = vsmr.createCompanyRequest(requestCompany, companyIndustry, requestComment, loggedInUsername);
         return responseMessage;
     }
     
     private String createReviewReport(HttpServletRequest request) {
-        String reporter = request.getParameter("username");
+        String loggedInUsername = getCookieUsername(request);
         String reportDescription = request.getParameter("reportDescription");
         String reviewPoster = request.getParameter("hiddenReviewPoster");
         String reviewID = request.getParameter("hiddenReviewID");
         
-        responseMessage = vsmr.createReviewReport(reviewID, reviewPoster, reportDescription, reporter);
-        return responseMessage;
-    }
-    
-    private String createResume(HttpServletRequest request) {
-        String fileName = "";
-        try {
-            Part filePart = request.getPart("userImage");
-            fileName = (String) getFileName(filePart);
-            if(fileName.contains("\\")) {
-                fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
-            }
-                    
-            String appPath = request.getServletContext().getRealPath("");
-            String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
-                    + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
-            String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
-                    + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "voices"
-                    + File.separator + "resume" + File.separator;
-            
-            InputStream inputStream = null;
-            OutputStream outputStream = null;
-            
-            try {
-                File outputFilePath = new File(imageDir + fileName);
-                inputStream = filePart.getInputStream();
-                outputStream = new FileOutputStream(outputFilePath);
-
-                int read = 0;
-                final byte[] bytes = new byte[1024];
-                while ((read = inputStream.read(bytes)) != -1) {
-                    outputStream.write(bytes, 0, read);
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                fileName = "";
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            fileName = "";
-        }
-        
-        String userFullName = request.getParameter("userFullName");
-        String contactNum = request.getParameter("contactNum");
-        String emailAddr = request.getParameter("emailAddr");
-        String postalAddr = request.getParameter("postalAddr");
-        
-        String workExpr = request.getParameter("workExprList");
-        String[] workExprList = workExpr.split(",");
-        String eduExpr = request.getParameter("eduExprList");
-        String[] eduExprList = eduExpr.split(",");
-        String proExpr = request.getParameter("proExprList");
-        String[] proExprList = proExpr.split(",");
-        String skill = request.getParameter("skillList");
-        String[] skillList = skill.split(",");
-        
-        String username = request.getParameter("username");
-        
-        responseMessage = vsmr.createResume(userFullName, contactNum, emailAddr, postalAddr, workExprList, eduExprList, proExprList, skillList, fileName, username);
+        responseMessage = vsmr.createReviewReport(reviewID, reviewPoster, reportDescription, loggedInUsername);
         return responseMessage;
     }
     

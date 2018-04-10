@@ -249,6 +249,10 @@
                                     <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
+                                <button type="button" class="list-group-item list-group-item-action voicesBtn">
+                                    <i class="fa fa-fw fa-commenting"></i>&nbsp;My Voices
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
                                 <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList&username=<%=loggedInUsername%>" class="list-group-item list-group-item-action">
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
                                 </a>

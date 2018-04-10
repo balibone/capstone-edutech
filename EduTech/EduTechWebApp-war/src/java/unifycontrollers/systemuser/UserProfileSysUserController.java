@@ -10,7 +10,11 @@
 
 package unifycontrollers.systemuser;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import javax.ejb.EJB;
@@ -21,11 +25,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Part;
 
 import unifysessionbeans.systemuser.MarketplaceSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.VoicesSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.ErrandsSysUserMgrBeanRemote;
+
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 10,
+        maxFileSize = 1024 * 1024 * 50,
+        maxRequestSize = 1024 * 1024 * 100
+)
 
 public class UserProfileSysUserController extends HttpServlet {
     @EJB
@@ -46,6 +58,7 @@ public class UserProfileSysUserController extends HttpServlet {
             
             String pageAction = request.getParameter("pageTransit");
             String loggedInUsername = getCookieUsername(request);
+            System.out.println(pageAction);
             
             switch (pageAction) {
                 case "goToUnifyBot":
@@ -308,8 +321,20 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToResume":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("resumeListSYS", (ArrayList) vsmr.viewUserResume(loggedInUsername));
                     pageAction = "UserResume";
+                    break;
+                case "goToNewResumeSYS":
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "NewResumeSYS";
+                    break;
+                case "createResumeSYS":
+                    responseMessage = createResume(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "NewResumeSYS";
                     break;
                 case "goToViewResumeDetails":
                     long resumeID = Long.parseLong(request.getParameter("hiddenResumeID"));
@@ -318,6 +343,26 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("workExprList", vsmr.viewWorkExprList(resumeID));
                     request.setAttribute("proExprList", vsmr.viewProjectExprList(resumeID));
                     pageAction = "ViewResumeDetailsSYS";
+                    break;
+                case "goToDeleteResume":
+                    long delResumeID = Long.parseLong(request.getParameter("hiddenResumeID"));
+                    if (vsmr.deleteResume(delResumeID)) {
+                        System.out.println("Selected Resume has been deleted successfully.");
+                    } else {
+                        System.out.println("Selected Resume cannot be deleted. Please try again later.");
+                    }
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("resumeListSYS", (ArrayList) vsmr.viewUserResume(loggedInUsername));
+                    pageAction = "UserResume";
+                    break;
+                case "markNotificationSYS":
+                    long msgContentID = Long.parseLong(request.getParameter("msgContentID"));
+                    String msgSenderID = (String) request.getParameter("msgSenderID");
+                    
+                    responseMessage = usmr.markNotification(msgContentID, msgSenderID);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
                     break;
                 default:
                     break;
@@ -375,5 +420,90 @@ public class UserProfileSysUserController extends HttpServlet {
         System.out.println(message);
         
         return message;
+    }
+    
+    private String createResume(HttpServletRequest request) {
+        String fileName = "";
+        try {
+            Part filePart = request.getPart("userImage");
+            fileName = (String) getFileName(filePart);
+            if(fileName.contains("\\")) {
+                fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
+            }
+                    
+            String appPath = request.getServletContext().getRealPath("");
+            String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
+                    + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+            String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
+                    + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "voices"
+                    + File.separator + "resume" + File.separator;
+            
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            
+            try {
+                File outputFilePath = new File(imageDir + fileName);
+                inputStream = filePart.getInputStream();
+                outputStream = new FileOutputStream(outputFilePath);
+
+                int read = 0;
+                final byte[] bytes = new byte[1024];
+                while ((read = inputStream.read(bytes)) != -1) {
+                    outputStream.write(bytes, 0, read);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                fileName = "";
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fileName = "";
+        }
+        
+        String userFullName = request.getParameter("userFullName");
+        String contactNum = request.getParameter("contactNum");
+        String emailAddr = request.getParameter("emailAddr");
+        String postalAddr = request.getParameter("postalAddr");
+        String summary = request.getParameter("summary");
+        String awardStr = request.getParameter("awardStr");
+        
+        String eduExpr = request.getParameter("eduExprList");
+        String[] eduExprList = eduExpr.split(";&",Integer.MAX_VALUE);
+        String proExpr = request.getParameter("proExprList");
+        String[] proExprList = proExpr.split(";&",Integer.MAX_VALUE);
+        String skill = request.getParameter("skillList");
+        String[] skillList = skill.split(";&",Integer.MAX_VALUE);
+        String workExpr = request.getParameter("workExprList");
+        String[] workExprList = workExpr.split(";&",Integer.MAX_VALUE);
+        String reference = request.getParameter("referenceList");
+        String[] referenceList = reference.split(";&",Integer.MAX_VALUE);
+        
+        
+        //System.out.print("InfoInfoInfo: " + workExpr);
+        //System.out.print("InfoInfoInfo: " + workExprList.length);
+        
+        
+        String loggedInUsername = getCookieUsername(request);
+        
+        responseMessage = vsmr.createResume(userFullName, contactNum, emailAddr, postalAddr, summary, awardStr, eduExprList, proExprList, skillList, workExprList, referenceList, fileName, loggedInUsername);
+        return responseMessage;
+    }
+    
+    private String getFileName(final Part part) {
+        final String partHeader = part.getHeader("content-disposition");
+        for (String content : partHeader.split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
     }
 }

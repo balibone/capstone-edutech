@@ -45,3 +45,17 @@ and open the template in the editor.
     color: #ff9900; 
     font-weight: bold;
 }
+
+.jplist-pagination {
+    cursor: pointer;
+    float: left;
+    line-height: 30px;
+    vertical-align: middle;
+    }
+            
+.jplist-pagination .jplist-pagingprev, 
+.jplist-pagination .jplist-pagingmid, 
+.jplist-pagination .jplist-pagingnext {
+    float: right; 
+    vertical-align: middle;
+}

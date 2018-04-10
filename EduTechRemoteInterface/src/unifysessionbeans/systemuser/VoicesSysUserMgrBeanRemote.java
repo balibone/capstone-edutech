@@ -16,12 +16,13 @@ public interface VoicesSysUserMgrBeanRemote {
                 String reviewCons, String reviewRating, String employmentStatus, String salaryRange, String reviewPoster);
     public String createCompanyRequest(String requestCompany, String companyIndustry, String requestComment, String requestPoster);
     public String createReviewReport(String reviewID, String reviewPoster, String reportDescription, String reviewReporter);
-    public String createResume(String userFullName, String contactNum, String emailAddr, String postalAddr, 
-                               String[] workExprList, String[] eduExprList, String[] proExprList, String[] skillList, String fileName, String username);
+    public String createResume(String userFullName, String contactNum, String emailAddr, String postalAddr, String summary, String awardStr,
+                               String[] eduExprList, String[] proExprList, String[] skillList, String[] workExprList, String[] referenceList, String fileName, String username);
     
     public List<String> populateCompanyIndustry();
     public String populateCompanyIndustryString();
     public boolean deleteReview(long reviewID);
+    public boolean deleteResume(long resumeID);
     public boolean cancelRequest(long requestID);
     public String likeUnlikeReview(long reviewIDHid, String usernameHid);
     

@@ -47,4 +47,6 @@ public interface UserProfileSysUserMgrBeanRemote {
     /*  ====================    MISCELLANEOUS METHODS (USER ITEM TRANSACTION)    ==================== */
     public List<Vector> viewItemTransaction(String username);
     public Vector viewTransactionItemDetails(long itemID, long itemTransID, String username);
+    
+    public String markNotification(long msgContentID, String msgSenderID);
 }

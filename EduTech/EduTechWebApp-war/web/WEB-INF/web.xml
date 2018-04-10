@@ -435,6 +435,8 @@
     
     <servlet><servlet-name>UserCompanyReview</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyReview.jsp</jsp-file></servlet>
     <servlet><servlet-name>UserCompanyRequest</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserCompanyRequest.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserResume</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserResume.jsp</jsp-file></servlet>
+    
     <servlet>
         <servlet-name>UserJobListingSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserJobListingSYS.jsp</jsp-file>
@@ -447,39 +449,15 @@
         <servlet-name>JobListingInUserProfileSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/JobListingInUserProfileSYS.jsp</jsp-file>
     </servlet>
-    <servlet>
-        <servlet-name>UserResume</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/userprofile/UserResume.jsp</jsp-file>
-    </servlet>
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
-    <servlet>
-        <servlet-name>ViewCompanyListingSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/voices/ViewCompanyListingSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewReviewSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/voices/NewReviewSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewCompanyDetailsSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/voices/ViewCompanyDetailsSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewCompanyRequestSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/voices/NewCompanyRequestSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewReviewReportSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/voices/NewReviewReportSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>NewResumeSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/voices/NewResumeSYS.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewResumeDetailsSYS</servlet-name>
-        <jsp-file>/webapp/unify/systemuser/voices/ViewResumeDetailsSYS.jsp</jsp-file>
-    </servlet>
+    <servlet><servlet-name>ViewCompanyListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ViewCompanyListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewReviewSYS</servlet-name><jsp-file>/webapp/unify/systemuser/voices/NewReviewSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewCompanyDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ViewCompanyDetailsSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewCompanyRequestSYS</servlet-name><jsp-file>/webapp/unify/systemuser/voices/NewCompanyRequestSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewReviewReportSYS</servlet-name><jsp-file>/webapp/unify/systemuser/voices/NewReviewReportSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewResumeSYS</servlet-name><jsp-file>/webapp/unify/systemuser/voices/NewResumeSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewResumeDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ViewResumeDetailsSYS.jsp</jsp-file></servlet>
 
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - SHOUTS (JSP) -->
     <servlet><servlet-name>ViewShoutsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutsListingSYS.jsp</jsp-file></servlet>
