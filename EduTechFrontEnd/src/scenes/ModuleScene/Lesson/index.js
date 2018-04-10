@@ -8,17 +8,9 @@ import LessonStore from '../../../stores/LessonStore/LessonStore';
 
 @observer
 class Lesson extends Component {
-
-
-
 	render(){
-		var lessonList = toJS(LessonStore.lessonList);
-		var uploadedFile = toJS(LessonStore.uploadedFile); 
-		// if(lessonList){
-		// 	console.log("Lesson from store", lessonList)
-		// }
-		// console.log("first lessonList: ", lessonList[0])
-
+		const lessonList = toJS(LessonStore.lessonList);
+		const uploadedFile = toJS(LessonStore.uploadedFile); 
 		return(
 			<div className="standardTopGap">
 				<PanelGroup accordion id="accordion-example">
