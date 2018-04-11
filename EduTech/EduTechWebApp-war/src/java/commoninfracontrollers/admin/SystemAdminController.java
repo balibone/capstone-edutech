@@ -296,7 +296,7 @@ public class SystemAdminController extends HttpServlet {
         Part imagePart = request.getPart("profileImage");
         final String fileName;
         //so that file name is unique
-        fileName= LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"q"+getFileName(imagePart);
+        fileName= LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"qup"+getFileName(imagePart);
  
         FileOutputStream out = null;
         InputStream fileContent = null;
@@ -378,7 +378,7 @@ public class SystemAdminController extends HttpServlet {
             Files.createDirectories(Paths.get(imageDir));
             Part imagePart = request.getPart("profileImage");
             //so that file name is unique
-            fileName= LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"q"+getFileName(imagePart);
+            fileName= LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"qup"+getFileName(imagePart);
             
             FileOutputStream out = null;
             InputStream fileContent = null;

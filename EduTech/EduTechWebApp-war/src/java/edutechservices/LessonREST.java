@@ -150,7 +150,7 @@ public class LessonREST {
                         System.out.println("uploader is "+username);
                     }
                 }else if(!item.isFormField()){
-                    fileName = LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"q"+item.getName();
+                    fileName = LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"qup"+item.getName();
                     System.out.println("file name is "+fileName);
                     
                     
