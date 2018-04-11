@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -294,7 +295,8 @@ public class SystemAdminController extends HttpServlet {
         
         Part imagePart = request.getPart("profileImage");
         final String fileName;
-        fileName= getFileName(imagePart);
+        //so that file name is unique
+        fileName= LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"q"+getFileName(imagePart);
  
         FileOutputStream out = null;
         InputStream fileContent = null;
@@ -375,7 +377,8 @@ public class SystemAdminController extends HttpServlet {
             //creates directory path if not present.
             Files.createDirectories(Paths.get(imageDir));
             Part imagePart = request.getPart("profileImage");
-            fileName= getFileName(imagePart);
+            //so that file name is unique
+            fileName= LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"q"+getFileName(imagePart);
             
             FileOutputStream out = null;
             InputStream fileContent = null;

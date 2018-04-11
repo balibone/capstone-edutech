@@ -20,6 +20,7 @@ import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
@@ -149,7 +150,7 @@ public class LessonREST {
                         System.out.println("uploader is "+username);
                     }
                 }else if(!item.isFormField()){
-                    fileName = item.getName();
+                    fileName = LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"q"+item.getName();
                     System.out.println("file name is "+fileName);
                     
                     
