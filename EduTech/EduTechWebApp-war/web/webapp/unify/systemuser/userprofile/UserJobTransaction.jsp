@@ -253,8 +253,8 @@
                                                 String jobID = String.valueOf(v.get(0));
                                                 String jobTransID = String.valueOf(v.get(1));
                                                 String jobTransactionDate = String.valueOf(v.get(2));
-                                                String jobPosterID = String.valueOf(v.get(3));
-                                                String jobTakerID = String.valueOf(v.get(4));
+                                                String jobTakerID = String.valueOf(v.get(3));
+                                                String jobPosterID = String.valueOf(v.get(4));
                                                 String jobImage = String.valueOf(v.get(5));
                                                 String jobTitle = String.valueOf(v.get(6));
                                                 String jobListingRate = String.valueOf(v.get(7));

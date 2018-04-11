@@ -849,31 +849,48 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     @Override
     public String completeAJob(String username, long jobID){
         
-        JobTransactionEntity jtEntity;
-        
-        uEntity = lookupUnifyUser(username);
-        jEntity = lookupJob(jobID);
-        JobOfferEntity offerEntity = lookupJobOffer(jobID, username);
-        if(offerEntity != null){
-            jtEntity = new JobTransactionEntity();
-            jtEntity.createJobTransaction(jEntity.getCategoryEntity().getCategoryName(), offerEntity.getJobOfferPrice(), jEntity.getJobRateType(), username);
-            jtEntity.setJobEntity(jEntity);
-            jtEntity.setUserEntity(jEntity.getUserEntity());
-            if(jEntity.getChecking()){
-                jtEntity.setSignatureImg("" + jobID + ".png");
+            JobTransactionEntity jtEntity;
+
+            uEntity = lookupUnifyUser(username);
+            jEntity = lookupJob(jobID);
+            JobOfferEntity offerEntity = lookupJobOffer(jobID, username);
+            if(offerEntity != null){
+                /* GENERATE TRANSACTION RECORD */
+                jtEntity = new JobTransactionEntity();
+                jtEntity.createJobTransaction(jEntity.getCategoryEntity().getCategoryName(), offerEntity.getJobOfferPrice(), jEntity.getJobRateType(), username);
+                jtEntity.setJobEntity(jEntity);
+                jtEntity.setUserEntity(jEntity.getUserEntity());
+                if(jEntity.getChecking()){
+                    jtEntity.setSignatureImg("" + jobID + ".png");
+                }
+                /* UPDATE JOB STATUS AND OFFER STATUS*/
+                int numOfHelpers = jEntity.getNumOfHelpers();
+                Query query = em.createQuery("SELECT COUNT(o.jobOfferID) FROM JobOffer o WHERE o.jobEntity = :job AND o.jobOfferStatusForPoster = 'Completed'");
+                query.setParameter("job", jEntity);
+                Long count = (Long)query.getSingleResult();
+                if(count == numOfHelpers){ offerEntity.getJobEntity().setJobStatus("Completed"); }
+                offerEntity.setJobOfferStatusForPoster("Completed");
+                offerEntity.setJobOfferStatusForSender("Completed");
+
+                mEntity = new MessageEntity();
+                mEntity.createContentMessage(username, offerEntity.getJobEntity().getUserEntity().getUsername(), 
+                username + " has just completed the job (" + jEntity.getJobTitle() + "). Check it out!", 
+                offerEntity.getJobEntity().getJobID(), "Errands");
+                /* THE TAKER WHO COMPLETES THE JOB IS THE ONE WHO POST THE MESSAGE */
+                mEntity.setUserEntity(uEntity);
+                (jEntity.getUserEntity()).getMessageSet().add(mEntity);
+                
+                em.persist(mEntity);
+                em.persist(jtEntity);
+                em.merge(uEntity);
+                em.merge(jEntity);
+                em.merge(offerEntity);
+                return "The transaction is completed successfully!";
+            }else{
+                return "Some errors occured while processing your item offer. Please try again.";
             }
-            jEntity.setJobStatus("Completed");
-            offerEntity.setJobOfferStatusForPoster("Completed");
-            offerEntity.setJobOfferStatusForSender("Completed");
-            
-            em.persist(jtEntity);
-            em.merge(uEntity);
-            em.merge(jEntity);
-            em.merge(offerEntity);
-            return "The transaction is completed successfully!";
-        }
-        return "The transaction cannot be completed.";
     }
+     
     
     @Override
     public Vector viewTransactionJobDetails(long jobID, long jobTransID, String username) {
@@ -959,7 +976,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     /* USER PROFILE */
     @Override
     public List<Vector> viewJobTransaction(String username) {
-        Query q = em.createQuery("SELECT t FROM JobTransaction t WHERE t.userEntity.username = :username");
+        Query q = em.createQuery("SELECT t FROM JobTransaction t WHERE t.userEntity.username = :username OR t.jobTakerID = :username");
         q.setParameter("username", username);
         List<Vector> jobTransList = new ArrayList<Vector>();
         
@@ -971,7 +988,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobTransVec.add(jobTransE.getJobEntity().getJobID());
             jobTransVec.add(jobTransE.getJobTransactionID());
             jobTransVec.add(df.format(jobTransE.getJobTransactionDate()));
-            jobTransVec.add(jobTransE.getUserEntity().getUsername());
+            jobTransVec.add(jobTransE.getJobTakerID());
             jobTransVec.add(jobTransE.getJobEntity().getUserEntity().getUsername());
             jobTransVec.add(jobTransE.getJobEntity().getJobImage());
             jobTransVec.add(jobTransE.getJobEntity().getJobTitle());
