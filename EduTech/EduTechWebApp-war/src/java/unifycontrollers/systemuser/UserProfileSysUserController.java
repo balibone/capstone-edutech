@@ -103,6 +103,15 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserItemTransactionDetailsSYS";
                     break;
+                case "goToErrandsTransDetailsSYS":
+                    long jobID = Long.parseLong(request.getParameter("jobID"));
+                    long jobTransID = Long.parseLong(request.getParameter("jobTransID"));
+                    
+                    request.setAttribute("jobTransDetailsSYSVec", esmr.viewTransactionJobDetails(jobID, jobTransID, loggedInUsername));
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "UserJobTransactionDetailsSYS";
+                    break;
                 case "goToJobListingInUserProfile":
                     String user = request.getParameter("posterName");
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(user));

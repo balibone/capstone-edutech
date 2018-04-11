@@ -45,6 +45,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     private LikeListingEntity llEntity;
     private JobOfferEntity joEntity;
     private JobReportEntity jrEntity;
+    private JobTransactionEntity jtEntity;
     private MessageEntity mEntity;
     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -428,7 +429,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobEntity = :je");
             q.setParameter("je", lookupJob(jobIDToDelete));
             
-            ArrayList<JobOfferEntity> offerList = (ArrayList)q.getResultList();
+            Vector<JobOfferEntity> offerList = (Vector)q.getResultList();
             for(int i=0; i<offerList.size(); i++){
                 String status = offerList.get(i).getJobOfferStatusForPoster();
                 if(status.equals("Pending") || status.equals("Accepted") || status.equals("Negotiating")){
@@ -436,9 +437,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 }
             }
             
-            em.remove(jEntity);
-            em.flush();
-            em.clear();
+            jEntity.setJobStatus("Delisted");
+            em.merge(jEntity);
             return "Job listing has been deleted successfully!";
         }
     }
@@ -504,9 +504,9 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             likeListingVec.add(likeListingE.getUserEntity().getUsername());
             likeListingVec.add(likeListingE.getUserEntity().getUserFirstName());
             likeListingVec.add(likeListingE.getUserEntity().getUserLastName());
-            //likeListingVec.add(getPositiveItemReviewCount(likeListingE.getUserEntity().getUsername()));
-            //likeListingVec.add(getNeutralItemReviewCount(likeListingE.getUserEntity().getUsername()));
-            //likeListingVec.add(getNegativeItemReviewCount(likeListingE.getUserEntity().getUsername()));
+            likeListingVec.add(getPositiveJobReviewCount(likeListingE.getUserEntity().getUsername()));
+            likeListingVec.add(getNeutralJobReviewCount(likeListingE.getUserEntity().getUsername()));
+            likeListingVec.add(getNegativeJobReviewCount(likeListingE.getUserEntity().getUsername()));
             jobLikeList.add(likeListingVec);
         }
         return jobLikeList;
@@ -858,7 +858,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jtEntity = new JobTransactionEntity();
             jtEntity.createJobTransaction(jEntity.getCategoryEntity().getCategoryName(), offerEntity.getJobOfferPrice(), jEntity.getJobRateType(), username);
             jtEntity.setJobEntity(jEntity);
-            jtEntity.setUserEntity(uEntity);
+            jtEntity.setUserEntity(jEntity.getUserEntity());
             if(jEntity.getChecking()){
                 jtEntity.setSignatureImg("" + jobID + ".png");
             }
@@ -873,6 +873,54 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             return "The transaction is completed successfully!";
         }
         return "The transaction cannot be completed.";
+    }
+    
+    @Override
+    public Vector viewTransactionJobDetails(long jobID, long jobTransID, String username) {
+        jEntity = lookupJob(jobID);
+        jtEntity = lookupJobTransaction(jobTransID);
+        Vector transactionJobDetailsVec = new Vector();
+        
+        if (jEntity != null) {
+            /* JOB INFORMATION */
+            transactionJobDetailsVec.add(jEntity.getJobID());
+            transactionJobDetailsVec.add(jEntity.getJobTitle());
+            transactionJobDetailsVec.add(jEntity.getCategoryEntity().getCategoryName());
+            transactionJobDetailsVec.add(jEntity.getJobRateType());
+            transactionJobDetailsVec.add(String.format ("%,.2f", jEntity.getJobRate()));
+            transactionJobDetailsVec.add(jEntity.getJobDescription());
+            transactionJobDetailsVec.add(jEntity.getJobImage());
+            transactionJobDetailsVec.add(jEntity.getJobStatus());
+            transactionJobDetailsVec.add(getJobLikeCount(jobID));
+            if(lookupLike(jobID, username) == null) { transactionJobDetailsVec.add(false);}
+            else { transactionJobDetailsVec.add(true); }
+            transactionJobDetailsVec.add(df.format(jEntity.getJobPostDate()));
+            /* WORK INFORMATION */
+            transactionJobDetailsVec.add(jEntity.getJobStartLocation());
+            transactionJobDetailsVec.add(jEntity.getJobStartLat());
+            transactionJobDetailsVec.add(jEntity.getJobStartLong());
+            transactionJobDetailsVec.add(jEntity.getJobEndLocation());
+            transactionJobDetailsVec.add(jEntity.getJobEndLat());
+            transactionJobDetailsVec.add(jEntity.getJobEndLong());
+            transactionJobDetailsVec.add(jEntity.getJobInformation());
+            /* JOB POSTER INFORMATION */
+            transactionJobDetailsVec.add(jEntity.getUserEntity().getUsername());
+            transactionJobDetailsVec.add(jEntity.getUserEntity().getImgFileName());
+            transactionJobDetailsVec.add(df.format(jEntity.getUserEntity().getUserCreationDate()));
+            transactionJobDetailsVec.add(getPositiveJobReviewCount(jEntity.getUserEntity().getUsername()));
+            transactionJobDetailsVec.add(getNeutralJobReviewCount(jEntity.getUserEntity().getUsername()));
+            transactionJobDetailsVec.add(getNegativeJobReviewCount(jEntity.getUserEntity().getUsername()));
+            /* JOB TRANSACTION + JOB TAKER INFORMATION */
+            transactionJobDetailsVec.add(df.format(jtEntity.getJobTransactionDate()));
+            transactionJobDetailsVec.add(jtEntity.getJobTakerID());
+            transactionJobDetailsVec.add(lookupUnifyUser(jtEntity.getJobTakerID()).getImgFileName());
+            transactionJobDetailsVec.add(df.format(lookupUnifyUser(jtEntity.getJobTakerID()).getUserCreationDate()));
+            transactionJobDetailsVec.add(getPositiveJobReviewCount(lookupUnifyUser(jtEntity.getJobTakerID()).getUsername()));
+            transactionJobDetailsVec.add(getNeutralJobReviewCount(lookupUnifyUser(jtEntity.getJobTakerID()).getUsername()));
+            transactionJobDetailsVec.add(getNegativeJobReviewCount(lookupUnifyUser(jtEntity.getJobTakerID()).getUsername()));
+            transactionJobDetailsVec.add(String.format ("%,.2f", jtEntity.getJobTransactionRate()));
+        }
+        return transactionJobDetailsVec;
     }
     
     @Override
@@ -919,7 +967,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             JobTransactionEntity jobTransE = (JobTransactionEntity) o;
             Vector jobTransVec = new Vector();
 
-            /* ITEM SELLER IS THE PERSON WHO CREATED THE ITEM TRANSACTION */
+            /* JOB POSTER IS THE PERSON WHO CREATED THE JOB TRANSACTION */
             jobTransVec.add(jobTransE.getJobEntity().getJobID());
             jobTransVec.add(jobTransE.getJobTransactionID());
             jobTransVec.add(df.format(jobTransE.getJobTransactionDate()));
@@ -1204,6 +1252,24 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         return lle;
     }
     
+    public JobTransactionEntity lookupJobTransaction(long jobTransID) {
+        JobTransactionEntity jte = new JobTransactionEntity();
+        try {
+            Query q = em.createQuery("SELECT t FROM JobTransaction t WHERE t.jobTransactionID = :jobTransID");
+            q.setParameter("jobTransID", jobTransID);
+            jte = (JobTransactionEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Job Transaction cannot be found. " + enfe.getMessage());
+            em.remove(jte);
+            jte = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Job Transaction does not exist. " + nre.getMessage());
+            em.remove(jte);
+            jte = null;
+        }
+        return jte;
+    }
+    
     public MessageEntity lookupContentMessage(long jobID, String username) {
         MessageEntity me = new MessageEntity();
         try {
@@ -1234,6 +1300,45 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             ex.printStackTrace();
         }
         return jobLikeCount;
+    }
+    
+    public Long getPositiveJobReviewCount(String username) {
+        Long positiveJobReviewCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.jobReceiverID = :username AND r.jobReviewRating = 'Positive'");
+        q.setParameter("username", username);
+        try {
+            positiveJobReviewCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ErrandsSysUserMgrBean.getPositiveJobReviewCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return positiveJobReviewCount;
+    }
+    
+    public Long getNeutralJobReviewCount(String username) {
+        Long neutralJobReviewCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.jobReceiverID = :username AND r.jobReviewRating = 'Neutral'");
+        q.setParameter("username", username);
+        try {
+            neutralJobReviewCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ErrandsSysUserMgrBean.getNeutralJobReviewCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return neutralJobReviewCount;
+    }
+    
+    public Long getNegativeJobReviewCount(String username) {
+        Long neagtiveJobReviewCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.jobReceiverID = :username AND r.jobReviewRating = 'Negative'");
+        q.setParameter("username", username);
+        try {
+            neagtiveJobReviewCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ErrandsSysUserMgrBean.getNegativeJobReviewCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return neagtiveJobReviewCount;
     }
     
 }

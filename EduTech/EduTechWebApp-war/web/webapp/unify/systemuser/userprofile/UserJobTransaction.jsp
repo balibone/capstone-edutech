@@ -300,7 +300,7 @@
                 </div>
             </div>                    
                                
-            <div id="itemDetails-iframe"></div>
+            <div id="jobDetails-iframe"></div>
             
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
@@ -317,9 +317,16 @@
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
     
+        <script src="js/unify/systemuser/basejs/datatable/buttons.html5.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/buttons.print.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.buttons-v1.5.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.select-v1.2.5.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables-v1.10.16.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/jszip-v3.1.3.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/pdfmake-v0.1.32.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/vfs_fonts-v0.1.32.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/UserJobTransactionJS.js" type="text/javascript"></script>
     </body>
 </html>

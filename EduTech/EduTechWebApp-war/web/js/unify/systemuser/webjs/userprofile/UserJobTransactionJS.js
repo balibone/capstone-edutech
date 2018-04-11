@@ -4,7 +4,21 @@ $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
-    $('#jobTransTable').DataTable({ "responsive": true, "pageLength": 10, "lengthMenu": [10, 20, 30, 50] });
+    $('#jobTransTable').DataTable({
+        'dom': 'Bfrtip',
+        'responsive': true, 
+        'pageLength': 10,
+        'buttons': [
+            {
+                extend: 'collection',
+                text: 'Export Options',
+                autoClose: true,
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            }
+        ]
+    });
     
     $('#jobTransTable tbody').on('click', 'tr', function(event) {
         var rowData = $(this).children("td").map(function() {
@@ -13,13 +27,13 @@ $(document).ready(function () {
         jobTransDate = $.trim(rowData[0]);
         jobID = jobTransDate.split(';')[1];
         jobTransID = jobTransDate.split(';')[2];
-        $('iframe').attr('src', 'ProfileSysUser?pageTransit=goToViewJobDetailsInModalSYS&jobID=' + jobID + '&itemTransID=' + jobTransID);
-        $('#jobDetails-iframe').iziModal('open', event);
+        window.location.href= 'ProfileSysUser?pageTransit=goToErrandsTransDetailsSYS&jobID=' + jobID + '&jobTransID=' + jobTransID;
+        //$('#jobDetails-iframe').iziModal('open', event);
     });
     
     $("#jobDetails-iframe").iziModal({
         title: 'Job Listing Details',
-        subtitle: 'Detailed information of your item listing',
+        subtitle: 'Detailed information of your job listing',
         iconClass: 'fa fa-cubes',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
