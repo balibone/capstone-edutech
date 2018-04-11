@@ -1106,11 +1106,33 @@
 				{
 					"name": "createLesson",
 					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"createdBy\": {\n        \"username\": \"instructor\"\n    },\n    \"moduleCode\": \"IS2103\",\n    \"title\": \"Lesson 1\",\n    \"startDate\":\"2018-04-10T00:00:00\",\n    \"endDate\":\"2018-04-10T01:00:00\",\n    \"location\":\"LT19\",\n    \"itemType\": \"timetable\"\n}"
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/lesson",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"lesson"
+							]
 						}
 					},
 					"response": []
@@ -2088,6 +2110,36 @@
 								"assignment",
 								"submit",
 								"555"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "downloadAssignmentSubmission",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/octet-stream"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/download/358/651",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"assignment",
+								"download",
+								"358",
+								"651"
 							]
 						}
 					},
