@@ -145,6 +145,7 @@ $(document).ready(function () {
     
     
     $('#reportJobBtn').click(function(){
+        $('#reportJobModal').modal('toggle');
         $.ajax({
             type: "POST",
             url: "ErrandsSysUser",
