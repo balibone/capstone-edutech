@@ -417,11 +417,17 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToViewResumeDetails":
                     long resumeID = Long.parseLong(request.getParameter("hiddenResumeID"));
+                    
+                    request.setAttribute("hiddenResumeID", resumeID);
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("basicDetailsVec", vsmr.viewResumeBasicDetails(resumeID));
                     request.setAttribute("eduExprList", vsmr.viewEduExprList(resumeID));
-                    request.setAttribute("workExprList", vsmr.viewWorkExprList(resumeID));
                     request.setAttribute("proExprList", vsmr.viewProjectExprList(resumeID));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("workExprList", vsmr.viewWorkExprList(resumeID));
+                    request.setAttribute("referenceList", vsmr.viewReferenceList(resumeID));
+                    request.setAttribute("proSkillList", vsmr.viewProSkillList(resumeID));
+                    request.setAttribute("perSkillList", vsmr.viewPerSkillList(resumeID));
                     pageAction = "ViewResumeDetailsSYS";
                     break;
                 case "goToDeleteResumeSYS":
