@@ -296,7 +296,7 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <input type="hidden" id="dbCompanyIndustry" value="<%= request.getAttribute("industryStrSYS")%>" />
-                                                <select class="form-control" id="companyIndustry" name="companyIndustry" onchange="javascript: otherIndustry()" required>
+                                                <select class="form-control" id="companyIndustry" name="companyIndustry" required="required" onchange="javascript: otherIndustry()" required>
                                                     <option value="" disabled selected>-- Select Company Industry --</option>
                                                     <option value="otherIndustry" >Other Industry</option>
                                                 </select>

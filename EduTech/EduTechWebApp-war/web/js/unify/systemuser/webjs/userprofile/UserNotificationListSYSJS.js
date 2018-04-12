@@ -31,7 +31,7 @@ $(document).ready(function () {
         } else if (msgType.indexOf('Errands') >= 0) {
             window.open('ProfileSysUser?pageTransit=', '_self');
         } else if (msgType.indexOf('Voices') >= 0) {
-            window.open('ProfileSysUser?pageTransit=', '_self');
+            //window.open('ProfileSysUser?pageTransit=', '_self');
         }
         }
     });

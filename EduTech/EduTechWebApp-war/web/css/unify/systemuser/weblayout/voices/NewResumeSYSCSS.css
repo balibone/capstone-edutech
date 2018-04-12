@@ -3,6 +3,13 @@
 .form-row .card { padding: 20px 0 20px 0; }
 .form-row .card:hover, .form-row .card.active { border-color: #4D7496; }
 
+.eduExpr { background-color: #D9DEE4; padding: 10px; }
+.proExpr { background-color: #D9DEE4; padding: 10px; }
+.award { background-color: #D9DEE4; padding: 10px; }
+.workExpr { background-color: #D9DEE4; padding: 10px; }
+.skill { background-color: #D9DEE4; padding: 10px; }
+.reference { background-color: #D9DEE4; padding: 10px; }
+
 input[type="file"] { display: none; }
 .image-upload { border: 3px dashed #D6D6D6; background-color: #FAFAFA; max-width: 151px; min-width: 151px; max-height: 156px; min-height: 156px;}
 #output-image { max-width: 145px; min-width: 145px; max-height: 150px; min-height: 150px; }

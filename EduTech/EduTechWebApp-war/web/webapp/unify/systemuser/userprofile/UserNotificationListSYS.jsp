@@ -251,31 +251,9 @@
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Your Item Listing</span></div>
+                        <div class="title"><span>Your Notification Listing</span></div>
                         <div class="jplist-search sorting-bar">
-                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
-                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
-                                <ul>
-                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
-                                    <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
-                                    <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
-                                    <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
-                                    <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
-                                </ul>
-                            </div>
-                            <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
-                                 data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
-                                <ul>
-                                    <li><span data-number="4">4 per page</span></li>
-                                    <li><span data-number="8">8 per page</span></li>
-                                    <li><span data-number="12" data-default="true">12 per page</span></li>
-                                    <li><span data-number="16">16 per page</span></li>
-                                </ul>
-                            </div>
-                            <div class="input-group-addon" style="float: right; margin-top: 10px">
+                            <div class="input-group-addon" style="float: right;">
                                 <form action="VoicesSysUser" method="POST" name="notificationForm" enctype="multipart/form-data">
                                     <input type="hidden" name="pageTransit" value="markNotificationSYS" />
                                     <input type="hidden" name="notificationList" value="" />
@@ -287,7 +265,7 @@
                         </div>
                         
                         <!-- USER MESSAGE LIST -->
-                        <!-- <div class="list searchresult-row"> -->
+                        
                             <div class="table-relative table-responsive mailinbox">
                                 <table id="notificationTable" class="table table-condensed table-striped margin-0px">
                                     <thead>
@@ -316,7 +294,7 @@
                                                     String msgSentDuration = String.valueOf(v.get(6));
                                                     String msgStatus = String.valueOf(v.get(7));
                                         %>
-                                        <tr class="unread">
+                                        <tr class="unread list-item">
                                             <td style="width: 5%;">
                                                 <div class="user-image">
                                                     <%  if (msgType.equals("System")) {%>
@@ -332,7 +310,7 @@
                                             </td>
                                             <td id="msgSenderID-<%= i%>" style="width: 10%;"><%= msgSenderID%></td>
                                             <td style="width: 20%;"><%= msgType%></td>
-                                            <td style="width: 40%;"><%= msgContent%><span id="msgContentID-<%= i%>" style="display:none;">;<%= msgContentID%></span></td>
+                                            <td class="msgContent" style="width: 40%;"><%= msgContent%><span id="msgContentID-<%= i%>" style="display:none;">;<%= msgContentID%></span></td>
                                             <td style="width: 25%;"><%= msgSentDateTime%><br/><%= msgSentDuration%></td>
                                         </tr>
                                         <%      }   %>
@@ -340,11 +318,10 @@
                                     </tbody>
                                 </table>
                             </div>
-                        <!-- </div> -->
                         <div class="box jplist-no-results text-shadow align-center">
                             <p><strong>No results found. Please refine your search.</strong></p>
                         </div>
-                        <div class="jplist-search">
+                        <div class="jplist-search box">
                             <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
                                  data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
                             </div>

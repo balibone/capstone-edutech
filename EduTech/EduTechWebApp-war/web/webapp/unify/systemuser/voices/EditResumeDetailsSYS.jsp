@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -257,7 +258,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="resumeForm col-lg-9 col-md-8">
                         <%                                
                             String successMessage = (String) request.getAttribute("successMessage");
@@ -296,11 +297,27 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <% 
+                                    Vector basicDetailsSYS = (Vector) request.getAttribute("basicDetailsVec");
+                                    String image, userFullName, userContactNum, userEmailAddr, userPostalAddr, userSummary, userAwardStr;
+                                        image = userFullName = userContactNum = userEmailAddr = userPostalAddr = userSummary = userAwardStr = "";
+    
+                                    if(basicDetailsSYS!=null) {
+                                        image = String.valueOf(basicDetailsSYS.get(0));
+                                        userFullName = String.valueOf(basicDetailsSYS.get(1));
+                                        userContactNum = String.valueOf(basicDetailsSYS.get(2));
+                                        userEmailAddr = String.valueOf(basicDetailsSYS.get(3));
+                                        userPostalAddr = String.valueOf(basicDetailsSYS.get(4));
+                                        userSummary = String.valueOf(basicDetailsSYS.get(5));
+                                        userAwardStr = String.valueOf(basicDetailsSYS.get(6));
+                                    }
+                                %>
                                 <div class="row" style="background-color: #D9DEE4; display: table-row; border-spacing: 10px">
                                     <div class="ml-1" style="display: table-cell">
                                         <div class="form-group" style="margin-left: 80px; margin-top: 30px; margin-right: 50px;">
                                             <div class="image-upload">
-                                                <img id="output-image" />
+                                                <img id="output-image" src="uploads/unify/images/voices/resume/<%= image%>"/>
+                                                <input type="hidden" name="oldUserImage" value="<%= image%>" />
                                             </div>
                                             <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 151px;">
                                                 <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
@@ -311,19 +328,19 @@
                                     <div class="col-md-1" style="padding-top: 30px; display: table-cell; vertical-align:middle;">
                                         <div class="form-group">
                                             <label for="userFullName">Full Name&nbsp;<span class="asterik">*</span></label>
-                                            <input type="text" class="form-control" name="userFullName" placeholder="Enter your full name" required="required" style="width: 50%"/>
+                                            <input type="text" class="form-control" name="userFullName" value="<%= userFullName%>" style="width: 50%"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="contactNum">Contact Number&nbsp;<span class="asterik">*</span></label><br/>
-                                            <input type="text" class="form-control" name="contactNum" placeholder="Enter your contact number" required="required" style="width: 50%"/>
+                                            <input type="text" class="form-control" name="contactNum" value="<%= userContactNum%>" style="width: 50%"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="emailAddr">Email Address&nbsp;<span class="asterik">*</span></label><br/>
-                                            <input type="text" class="form-control" name="emailAddr" placeholder="Enter your email address" required="required" style="width: 50%"/>
+                                            <input type="text" class="form-control" name="emailAddr" value="<%= userEmailAddr%>" style="width: 50%"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="postalAddr">Postal Address&nbsp;<span class="asterik">*</span></label><br/>
-                                            <input type="text" class="form-control" name="postalAddr" placeholder="Enter your postal address (with postal code)" required="required" />
+                                            <input type="text" class="form-control" name="postalAddr" value="<%= userPostalAddr%>" />
                                         </div>
                                     </div>
                                 </div>
@@ -336,11 +353,12 @@
                                         </tr>
                                         <tr bgcolor="#D9DEE4">
                                             <td colspan="4" valign="top" style="padding: 10px">
-                                                <textarea type="text" class="form-control" name="summary" rows="3"></textarea>
+                                                <textarea type="text" class="form-control" name="summary" rows="3"><%= userSummary%></textarea>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                
                                 <table border="0" cellspacing="2" cellpadding="3" width="100%">
                                     <tbody id="eduExprTable">
                                         <tr bgcolor="#4D7496">
@@ -348,21 +366,64 @@
                                                 <b style="color: #fff">Education Experience</b>
                                            </td>
                                         </tr>
+                                        <%
+                                            List<Vector> eduExprList = (ArrayList) request.getAttribute("eduExprList");
+                                            if(eduExprList.isEmpty()) {
+                                        %>
                                         <tr class="eduExpr">
                                             <td valign="middle"><b><center>School Name: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="schoolName[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="schoolName[]" style="margin-right: 10px; width: 80%"/>
+                                            </td>
                                             <td valign="middle"><b><center>Period: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="schoolPeriod[]" style="margin-right: 10px; width: 50%"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="schoolPeriod[]" style="margin-right: 10px; width: 50%"/>
                                             <td></td>
                                         </tr>
                                         <tr class="eduExpr">
                                             <td valign="middle"><b><center>Degree: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="schoolDegree[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="schoolDegree[]" style="margin-right: 10px; width: 80%"/>
                                             <td valign="middle"><b><center>Major: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="schoolMajor[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="schoolMajor[]" style="margin-right: 10px; width: 80%"/>
                                             <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="eduExprRemoveBtn"></i></td>
                                             <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="eduExprBtn"></i></td>
                                         </tr>
+                                        <% } else {
+                                                for(int i=0;i<eduExprList.size();i++) {
+                                                    Vector v = eduExprList.get(i);
+                                                    String schoolName = String.valueOf(v.get(0));
+                                                    String schoolPeriod = String.valueOf(v.get(1));
+                                                    String schoolDegree = String.valueOf(v.get(2));
+                                                    String schoolMajor = String.valueOf(v.get(3));%>
+                                        <tr class="eduExpr">
+                                            <td valign="middle"><b><center>School Name: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="schoolName[]" value="<%= schoolName%>" style="margin-right: 10px; width: 80%"/>
+                                            </td>
+                                            <td valign="middle"><b><center>Period: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="schoolPeriod[]" value="<%= schoolPeriod%>" style="margin-right: 10px; width: 50%"/>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="eduExpr">
+                                            <td valign="middle"><b><center>Degree: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="schoolDegree[]" value="<%= schoolDegree%>" style="margin-right: 10px; width: 80%"/>
+                                            </td>
+                                            <td valign="middle"><b><center>Major: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="schoolMajor[]" value="<%= schoolMajor%>" style="margin-right: 10px; width: 80%"/>
+                                            </td>
+                                            <% if(i==0) {%>
+                                            <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="eduExprRemoveBtn"></i></td>
+                                            <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="eduExprBtn"></i></td>
+                                            <% } else {%><td></td>
+                                            <% } %>
+                                        </tr>
+                                        <%      } 
+                                            }%>
                                     </tbody>
                                 </table>
                                 <table border="0" cellspacing="2" cellpadding="3" width="100%">
@@ -372,17 +433,48 @@
                                                 <b style="color: #fff">Project Experience</b>
                                             </td>
                                         </tr>
+                                        <%  List<Vector> proExprList = (ArrayList) request.getAttribute("proExprList");
+                                            if(proExprList.isEmpty()) {%>
                                         <tr class="proExpr">
                                             <td valign="middle"><b><center>Project Title: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="projectTitle[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="projectTitle[]" style="margin-right: 10px; width: 80%"/>
+                                            </td>
                                             <td valign="middle"></td>
                                         </tr>
                                         <tr class="proExpr">
                                             <td valign="middle"><b><center>Description: </center></b></td>
-                                            <td valign="middle"><textarea type="text" class="form-control" name="projectDes[]" rows="2"></textarea></td>
+                                            <td valign="middle">
+                                                <textarea type="text" class="form-control" name="projectDes[]" rows="2"></textarea>
+                                            </td>
                                             <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="proExprRemoveBtn"></i></td>
                                             <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="proExprBtn"></i></td>
                                         </tr>
+                                        <% } else {
+                                                for(int i=0;i<proExprList.size();i++) {
+                                                    Vector v = proExprList.get(i);
+                                                    String proTitle = String.valueOf(v.get(0));
+                                                    String proDes = String.valueOf(v.get(1));%>
+                                        <tr class="proExpr">
+                                            <td valign="middle"><b><center>Project Title: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="projectTitle[]" value="<%= proTitle%>" style="margin-right: 10px; width: 80%"/>
+                                            </td>
+                                            <td valign="middle"></td>
+                                        </tr>
+                                        <tr class="proExpr">
+                                            <td valign="middle"><b><center>Description: </center></b></td>
+                                            <td valign="middle">
+                                                <textarea type="text" class="form-control" name="projectDes[]" rows="2"><%= proDes%></textarea>
+                                            </td>
+                                            <% if(i==0) {%>
+                                            <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="proExprRemoveBtn"></i></td>
+                                            <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="proExprBtn"></i></td>
+                                            <% } else { %><td></td>
+                                            <% } %>
+                                        </tr>
+                                        <%      }
+                                           }%>
                                     </tbody>
                                 </table>
                                 <table border="0" cellspacing="2" cellpadding="3" width="100%">
@@ -392,12 +484,31 @@
                                                 <b style="color: #fff">Achievements & Awards</b>
                                             </td>
                                         </tr>
+                                        <% String[] award = userAwardStr.split(";&");%>
+                                        <% if(award.length == 0) {%>
                                         <tr class="award">
                                             <td valign="middle"><b><center>Achievement: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="award[]" style="margin-right: 10px;"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="award[]" style="margin-right: 10px;"/>
+                                            </td>
                                             <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="awardRemoveBtn"></i></td>
                                             <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="awardBtn"></i></td>
                                         </tr>
+                                        <% } else {
+                                                for(int i=0;i<award.length;i++) {%>
+                                        <tr class="award">
+                                            <td valign="middle"><b><center>Achievement: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="award[]" value="<%= award[i]%>" style="margin-right: 10px;"/>
+                                            </td>
+                                            <% if(i==0) {%>
+                                            <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="awardRemoveBtn"></i></td>
+                                            <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="awardBtn"></i></td>
+                                            <% } else {%><td></td>
+                                            <% } %>
+                                        </tr>        
+                                        <%      }
+                                            }%>
                                     </tbody>
                                 </table>
                                 <table border="0" cellspacing="2" cellpadding="3" width="100%">
@@ -414,15 +525,21 @@
                                             <th>(e.g. Leadership, etc)</th>
                                             <th></th>
                                         </tr>
+                                        <%  List<Vector> proSkillList = (ArrayList) request.getAttribute("proSkillList");
+                                            List<Vector> perSkillList = (ArrayList) request.getAttribute("perSkillList");
+                                            int count = Math.max(proSkillList.size(), perSkillList.size());
+                                            if(count==0) {%>
                                         <tr class="skill">
-                                            <td><input type="text" class="form-control" name="proSkillName[]" /></td>
+                                            <td><input type="text" class="form-control" name="proSkillName[]" />
+                                            </td>
                                             <td><select class="form-control" name="proSkillLevel[]" style="width: 100%">
                                                 <option value="" default>-- Skill Level --</option>
                                                 <option value="Beginner">Beginner</option>
                                                 <option value="Intermediate">Intermediate</option>
                                                 <option value="Advanced">Advanced</option>
                                                 </select></td>
-                                            <td><input type="text" class="form-control" name="perSkillName[]"/></td>
+                                            <td><input type="text" class="form-control" name="perSkillName[]"/>
+                                            </td>
                                             <td><select class="form-control" name="perSkillLevel[]" style="width: 100%">
                                                 <option value="" default>-- Skill Level --</option>
                                                 <option value="Beginner">Beginner</option>
@@ -432,6 +549,45 @@
                                             <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="skillRemoveBtn"></i></td>    
                                             <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="skillBtn"></i></td>
                                         </tr>
+                                        <% } else { 
+                                                for(int i=0;i<count;i++) {
+                                                    String proSkillName, proSkillLevel, perSkillName, perSkillLevel;
+                                                    proSkillName = proSkillLevel = perSkillName = perSkillLevel = "";
+                                                    if(i<proSkillList.size()) {
+                                                        Vector pro = proSkillList.get(i);
+                                                        proSkillName = String.valueOf(pro.get(0));
+                                                        proSkillLevel = String.valueOf(pro.get(1));
+                                                    }
+                                                    if(i<perSkillList.size()) {
+                                                        Vector per = perSkillList.get(i);
+                                                        perSkillName = String.valueOf(per.get(0));
+                                                        perSkillLevel = String.valueOf(per.get(1));
+                                                    }%>
+                                        <tr class="skill">
+                                            <td><input type="text" class="form-control" value="<%= proSkillName%>" name="proSkillName[]" />
+                                            </td>
+                                            <td><select class="form-control" name="proSkillLevel[]" style="width: 100%">
+                                                <option value="" <%if((proSkillLevel.equals(""))){%> selected <%}%>>-- Skill Level --</option>
+                                                <option value="Beginner" <%if((proSkillLevel.equals("Beginner"))){%> selected <%}%>>Beginner</option>
+                                                <option value="Intermediate" <%if((proSkillLevel.equals("Intermediate"))){%> selected <%}%>>Intermediate</option>
+                                                <option value="Advanced" <%if((proSkillLevel.equals("Advanced"))){%> selected <%}%>>Advanced</option>
+                                                </select></td>
+                                            <td><input type="text" class="form-control" value="<%= perSkillName%>" name="perSkillName[]"/>
+                                            </td>
+                                            <td><select class="form-control" name="perSkillLevel[]" style="width: 100%">
+                                                <option value="" <%if((perSkillLevel.equals(""))){%> selected <%}%>>-- Skill Level --</option>
+                                                <option value="Beginner" <%if((perSkillLevel.equals("Beginner"))){%> selected <%}%>>Beginner</option>
+                                                <option value="Intermediate" <%if((perSkillLevel.equals("Intermediate"))){%> selected <%}%>>Intermediate</option>
+                                                <option value="Advanced" <%if((perSkillLevel.equals("Advanced"))){%> selected <%}%>>Advanced</option>
+                                                </select></td>
+                                            <% if(i==0) {%>
+                                            <td style="float: right"><i class="fa fa-minus-circle fa-2x" id="skillRemoveBtn"></i></td>    
+                                            <td style="float: right"><i class="fa fa-plus-circle fa-2x" id="skillBtn"></i></td>
+                                            <% } else {%><td></td>
+                                            <% } %>
+                                        </tr>
+                                        <%      } 
+                                           }%>
                                     </tbody>
                                 </table>
                                 <table border="0" cellspacing="2" cellpadding="3" width="100%">
@@ -441,25 +597,76 @@
                                                 <b style="color: #fff">Working Experience</b>
                                             </td>
                                         </tr>
+                                        <%
+                                            List<Vector> workExprList = (ArrayList) request.getAttribute("workExprList");
+                                            if(workExprList.isEmpty()) {
+                                        %>
                                         <tr class="workExpr">
                                             <td valign="middle"><b><center>Title: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="workTitle[]" style="margin-right: 10px; width: 100%" /></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="workTitle[]" style="margin-right: 10px; width: 100%" />
+                                            </td>
                                             <td></td>
                                             <td></td>
                                         </tr>
                                         <tr class="workExpr">
                                             <td valign="middle"><b><center>Company: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="workCompany[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="workCompany[]" style="margin-right: 10px; width: 80%"/>
+                                            </td>
                                             <td valign="middle"><b><center>Period: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="workPeriod[]" style="margin-right: 10px; width: 50%"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="workPeriod[]" style="margin-right: 10px; width: 50%"/>
+                                            </td>
                                         </tr>
                                         <tr class="workExpr">
                                             <td valign="middle"><b><center>Description: </center></b></td>
-                                            <td valign="middle"><textarea type="text" class="form-control" name="workDes[]" rows="2" style="width: 180%"></textarea></td>
+                                            <td valign="middle">
+                                                <textarea type="text" class="form-control" name="workDes[]" rows="2" style="width: 180%"></textarea>
+                                            </td>
                                             <td></td>
                                             <td style="float: right; margin-top: 10px"><i class="fa fa-minus-circle fa-2x" id="workExprRemoveBtn"></i></td>
                                             <td style="float: right; margin-top: 10px"><i class="fa fa-plus-circle fa-2x" id="workExprBtn"></i></td>
                                         </tr>
+                                        <% } else {
+                                                for(int i=0;i<workExprList.size();i++) {
+                                                    Vector v = workExprList.get(i);
+                                                    String workCompany = String.valueOf(v.get(0));
+                                                    String workTitle = String.valueOf(v.get(1));
+                                                    String workPeriod = String.valueOf(v.get(2));
+                                                    String workDes = String.valueOf(v.get(3));%>
+                                        <tr class="workExpr">
+                                            <td valign="middle"><b><center>Title: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="workTitle[]" value="<%= workTitle%>" style="margin-right: 10px; width: 100%" />
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="workExpr">
+                                            <td valign="middle"><b><center>Company: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="workCompany[]" value="<%= workCompany%>" style="margin-right: 10px; width: 80%"/>
+                                            </td>
+                                            <td valign="middle"><b><center>Period: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="workPeriod[]" value="<%= workPeriod%>" style="margin-right: 10px; width: 50%"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="workExpr">
+                                            <td valign="middle"><b><center>Description: </center></b></td>
+                                            <td valign="middle">
+                                                <textarea type="text" class="form-control" name="workDes[]" rows="2" style="width: 180%"><%= workDes%></textarea>
+                                            </td>
+                                            <td></td>
+                                            <% if(i==0) {%>
+                                            <td style="float: right; margin-top: 10px"><i class="fa fa-minus-circle fa-2x" id="workExprRemoveBtn"></i></td>
+                                            <td style="float: right; margin-top: 10px"><i class="fa fa-plus-circle fa-2x" id="workExprBtn"></i></td>
+                                            <% } else {%><td></td>
+                                            <% }%>
+                                        </tr>
+                                        <%      }
+                                            }%>
                                     </tbody>
                                 </table>
                                 <table border="0" cellspacing="2" cellpadding="3" width="100%">
@@ -469,37 +676,88 @@
                                                 <b style="color: #fff">References</b>
                                             </td>
                                         </tr>
+                                        <% List<Vector> referenceList = (ArrayList) request.getAttribute("referenceList");
+                                            if(referenceList.isEmpty()) {%>
                                         <tr class="reference">
                                             <td valign="middle"><b><center>Referee Name: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="refName[]" style="margin-right: 10px; width: 100%"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="refName[]" style="margin-right: 10px; width: 100%"/>
+                                            </td>
                                             <td></td>
                                             <td></td>
                                         </tr>
                                         <tr class="reference">
                                             <td valign="middle"><b><center>Company: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="refCompany[]" style="margin-right: 10px; width: 80%"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="refCompany[]" style="margin-right: 10px; width: 80%"/>
+                                            </td>
                                             <td valign="middle"><b><center>Position: </center></b></td>
-                                            <td valign="middle"><input type="text" class="form-control" name="refPosition[]" style="margin-right: 10px; width: 50%"/></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="refPosition[]" style="margin-right: 10px; width: 50%"/>
+                                            </td>
                                         </tr>
                                         <tr class="reference">
                                             <td valign="middle"><b><center>Reference: </center></b></td>
-                                            <td valign="middle"><textarea type="text" class="form-control" name="refDes[]" rows="2" style="width: 190%"></textarea></td>
+                                            <td valign="middle">
+                                                <textarea type="text" class="form-control" name="refDes[]" rows="2" style="width: 190%"></textarea>
+                                            </td>
                                             <td></td>
                                             <td style="float: right; margin-top: 10px"><i class="fa fa-minus-circle fa-2x" id="referenceRemoveBtn"></i></td>
                                             <td style="float: right; margin-top: 10px"><i class="fa fa-plus-circle fa-2x" id="referenceBtn"></i></td>
                                         </tr>
+                                        <% } else {
+                                                for(int i=0;i<referenceList.size();i++) {
+                                                    Vector v = referenceList.get(i);
+                                                    String refName = String.valueOf(v.get(0));
+                                                    String refCompany = String.valueOf(v.get(1));
+                                                    String refPosition = String.valueOf(v.get(2));
+                                                    String refContent = String.valueOf(v.get(3));%>
+                                        <tr class="reference">
+                                            <td valign="middle"><b><center>Referee Name: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="refName[]" value="<%= refName%>" style="margin-right: 10px; width: 100%"/>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="reference">
+                                            <td valign="middle"><b><center>Company: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="refCompany[]" value="<%= refCompany%>" style="margin-right: 10px; width: 80%"/>
+                                            </td>
+                                            <td valign="middle"><b><center>Position: </center></b></td>
+                                            <td valign="middle">
+                                                <input type="text" class="form-control" name="refPosition[]" value="<%= refPosition%>" style="margin-right: 10px; width: 50%"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="reference">
+                                            <td valign="middle"><b><center>Reference: </center></b></td>
+                                            <td valign="middle">
+                                                <textarea type="text" class="form-control" name="refDes[]" rows="2" style="width: 190%"><%= refContent%></textarea>
+                                            </td>
+                                            <td></td>
+                                            <% if(i==0) {%>
+                                            <td style="float: right; margin-top: 10px"><i class="fa fa-minus-circle fa-2x" id="referenceRemoveBtn"></i></td>
+                                            <td style="float: right; margin-top: 10px"><i class="fa fa-plus-circle fa-2x" id="referenceBtn"></i></td>
+                                            <% } else {%><td></td>
+                                            <% } %>
+                                        </tr>
+                                        <%      } 
+                                           }%>
                                     </tbody>
                                 </table>
                                 <br/>
                                 <div class="form-row" style="justify-content: center;">
-                                    <input type="hidden" name="pageTransit" id="pageTransit" value="createResumeSYS" />
+                                    <input type="hidden" name="pageTransit" id="pageTransit" value="" />
+                                    <input type="hidden" name="hiddenResumeID" id="hiddenResumeID" value="<%= request.getAttribute("hiddenResumeID")%>" />
+                                    <input type="hidden" name="imageUploadStatus" id="imageUploadStatus" value="" />
                                     <input type="hidden" name="eduExprList" id="eduExprList" value="" />
                                     <input type="hidden" name="proExprList" id="proExprList" value="" />
                                     <input type="hidden" name="awardStr" id="awardStr" value="" />
                                     <input type="hidden" name="skillList" id="skillList" value="" />
                                     <input type="hidden" name="workExprList" id="workExprList" value="" />
                                     <input type="hidden" name="referenceList" id="referenceList" value="" />
-                                    <button class="btn btn-theme btn-search" type="submit" onclick="createWorkExprList()">Save</button>
+                                    <button class="btn btn-theme btn-search" type="submit" onclick="createList()">Save</button>
                                 </div>
                             </form>
                         </div>
@@ -525,6 +783,6 @@
         <script src="js/unify/systemuser/webjs/marketplace/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/marketplace/custom.min.js"></script>
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/voices/NewResumeSYSJS.js" type="text/javascript"></script>                                    
+        <script src="js/unify/systemuser/webjs/voices/EditResumeDetailsSYSJS.js" type="text/javascript"></script>                                    
     </body>
 </html>

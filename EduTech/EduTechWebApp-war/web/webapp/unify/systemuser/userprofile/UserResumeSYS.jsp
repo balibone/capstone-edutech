@@ -275,6 +275,15 @@
                                 </span>
                             </div>
                         </div>
+                        <%                                
+                            String successMessage = (String) request.getAttribute("successMessage");
+                            if (successMessage != null) {
+                        %>
+                        <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeSuccess">&times;</button>
+                            <%= successMessage %>
+                        </div>
+                        <%  } %>
                         <div class="table-responsive">
                             <table id="resumeTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="font-size: 13px;">
                                 <thead>
@@ -304,10 +313,10 @@
                                                 <a href="ProfileSysUser?pageTransit=goToViewResumeDetails&hiddenResumeID=<%= resumeID%>" style="color: #fff; text-decoration:none;">View</a>
                                             </button>
                                             <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-warning">
-                                                <a href="ProfileSysUser?pageTransit=goToDeleteReview&hiddenReviewID=<%= resumeID%>" style="color: #fff; text-decoration:none;">Edit</a>
+                                                <a href="ProfileSysUser?pageTransit=goToEditResumeDetailsSYS&hiddenResumeID=<%= resumeID%>" style="color: #fff; text-decoration:none;">Edit</a>
                                             </button>
                                             <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-danger">
-                                                <a href="ProfileSysUser?pageTransit=goToDeleteResume&hiddenResumeID=<%= resumeID%>" style="color: #fff; text-decoration:none;"
+                                                <a href="ProfileSysUser?pageTransit=goToDeleteResumeSYS&hiddenResumeID=<%= resumeID%>" style="color: #fff; text-decoration:none;"
                                                    onclick="return confirm('Are you sure to delete the resume?')">Delete</a>
                                             </button></td>
                                     </tr>

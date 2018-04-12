@@ -36,15 +36,15 @@ public class ResumeEntity implements Serializable {
     private String summary;
     private UserEntity userEntity;
 
-    @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "resumeEntity")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "resumeEntity")
     private Collection<WorkExprEntity> workExprSet = new ArrayList<WorkExprEntity>();
-    @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "resumeEntity")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "resumeEntity")
     private Collection<EduExprEntity> eduExprSet = new ArrayList<EduExprEntity>();
-    @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "resumeEntity")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "resumeEntity")
     private Collection<ProjectExprEntity> projectExprSet = new ArrayList<ProjectExprEntity>();
-    @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "resumeEntity")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "resumeEntity")
     private Collection<SkillEntity> skillSet = new ArrayList<SkillEntity>();
-    @OneToMany(cascade={CascadeType.PERSIST}, mappedBy = "resumeEntity")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "resumeEntity")
     private Collection<ReferenceEntity> referenceSet = new ArrayList<ReferenceEntity>();
 
     @PrePersist

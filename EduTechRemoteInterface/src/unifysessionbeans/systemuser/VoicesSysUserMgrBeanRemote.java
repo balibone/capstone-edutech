@@ -17,7 +17,7 @@ public interface VoicesSysUserMgrBeanRemote {
     public String createCompanyRequest(String requestCompany, String companyIndustry, String requestComment, String requestPoster);
     public String createReviewReport(String reviewID, String reviewPoster, String reportDescription, String reviewReporter);
     public String createResume(String userFullName, String contactNum, String emailAddr, String postalAddr, String summary, String awardStr,
-                               String[] eduExprList, String[] proExprList, String[] skillList, String[] workExprList, String[] referenceList, String fileName, String username);
+                               String[] eduExprList, String[] proExprList, String[] skillList, String[] workExprList, String[] referenceList, String fileName, String username, String type);
     
     public List<String> populateCompanyIndustry();
     public String populateCompanyIndustryString();
@@ -35,4 +35,7 @@ public interface VoicesSysUserMgrBeanRemote {
     public List<Vector> viewEduExprList(long resumeID);
     public List<Vector> viewWorkExprList(long resumeID);
     public List<Vector> viewProjectExprList(long resumeID);
+    public List<Vector> viewReferenceList(long resumeID);
+    public List<Vector> viewProSkillList(long resumeID);
+    public List<Vector> viewPerSkillList(long resumeID);
 }
