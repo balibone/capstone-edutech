@@ -14,8 +14,12 @@ map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
 basemap.addTo(map);
 
 $(document).ready(function () {
+    
+    
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
+
+    
 
     var startLocation = document.getElementById("startLocation").value;
     var startLatitude = document.getElementById("startLat").value;
@@ -115,22 +119,26 @@ $(document).ready(function () {
     });*/
     
     $('#sendOfferBtn').click(function(){
+        $('#offerModal').modal('toggle');
         $.ajax({
             type: "POST",
             url: "ErrandsSysUser",
             data: { 
                 jobIDHidden: $('#jobIDHidden').val(),
-                usernameHidden: $('#usernameHidden').val(),
+                category: $('#categoryHidden').val(),
                 jobOfferPrice: $('#jobOfferPrice').val(),
                 jobOfferDescription: $('#jobOfferDescription').val(),
                 pageTransit: 'sendJobOfferPrice'
             },
-            success: function(returnString) {
-                alert(returnString);
-                /*$('#successOfferResponse').hide();
-                $('#failedOfferResponse').hide();
-                if(returnString.endsWith("!")) { $('#successOfferResponse').text(returnString).show(); }
-                else if(returnString.endsWith(".")) { $('#failedOfferResponse').text(returnString).show(); }*/
+            success: function(returnString){
+                if(returnString.endsWith("!")){
+                    $('#successPanel').css('display','block');
+                    $('#success').text(returnString);
+                }else{
+                    $('#errorPanel').css('display','block');
+                    $('#error').text(returnString);
+                   
+                }
             }
         });
     });
@@ -151,6 +159,10 @@ $(document).ready(function () {
             }
         });
     });
+    
+    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
+    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
+    
  });     
 
 $(document).on('click', '#likeJobBtn', function() {

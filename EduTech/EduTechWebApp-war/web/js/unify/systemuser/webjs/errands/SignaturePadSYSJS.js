@@ -117,7 +117,7 @@ var canvas, ctx, flag = false,
     }
     
 $(document).on('click', '#saveBtn', function() {
-        alert();
+        
         var dataURL = canvas.toDataURL();
         
         $.ajax({

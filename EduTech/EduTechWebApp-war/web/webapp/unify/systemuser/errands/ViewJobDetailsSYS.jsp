@@ -190,6 +190,7 @@
                 </div>
             </div>
 
+            
             <div class="container" style="margin-bottom: 30px;">
                 <%
                     Vector jobDetailsSYSVec = (Vector) request.getAttribute("jobDetailsSYSVec");
@@ -274,6 +275,17 @@
                     </div>
                         
                     <div class="col-xl-8 col-lg-7 col-md-6" >
+                    
+                        <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0; display: none;">
+                        <button type="button" class="close" id="closeSuccess">&times;</button>
+                        <span id="sucess"></span>
+                        </div>
+                    
+                        <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0; display: none;">
+                        <button type="button" class="close" id="closeError">&times;</button>
+                        <span id="error"></span>
+                        </div>
+                   
                         <span class="border-top-0" id="job_title" style="margin-left: 10px;"><strong><%= jobTitle%></strong></span><br/>
                         <table class="job-information" style="margin-left: 10px;">
                             <col width="150px" />
