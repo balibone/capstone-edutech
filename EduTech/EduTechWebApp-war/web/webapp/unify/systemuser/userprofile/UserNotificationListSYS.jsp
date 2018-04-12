@@ -271,7 +271,7 @@
                                     <thead>
                                         <tr>
                                             <th colspan="2">
-                                                <input id="all" type="checkbox" class="checkall" />
+                                                <input id="all" type="checkbox" class="checkall" onchange="checkAll()"/>
                                                 <label for="all"></label>&nbsp;&nbsp;&nbsp;Sender
                                             </th>
                                             <th>Notification Type</th>

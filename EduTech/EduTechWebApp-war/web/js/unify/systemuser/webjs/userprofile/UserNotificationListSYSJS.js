@@ -39,11 +39,27 @@ $(document).ready(function () {
     $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
 });
 
+function checkAll() {
+    
+    var rows = document.getElementById("notificationTable").getElementsByTagName("tbody")[0].getElementsByTagName('tr').length;
+    var checkbox = document.getElementById("notificationTable").getElementsByTagName("tbody")[0].getElementsByTagName('input');
+    
+    for(var i=0;i<rows;i++) {
+        if(checkbox[i].type==='checkbox'&&checkbox[i].checked===false){
+            checkbox[i].checked=true;
+            $('#'+i).addClass('checked');
+        } else if(checkbox[i].type==='checkbox'&&checkbox[i].checked===true){
+            checkbox[i].checked=false;
+            $('#'+i).removeClass('checked');
+        }
+    }
+}
+
 function readMessage(sequenceID) {
     var markBtn = document.getElementById('markBtn');
     markBtn.disabled = false;
-    var message = document.getElementById(sequenceID);
-    $('#'+sequenceID).addClass('checked');
+    if($('#'+sequenceID).hasClass('checked')) { $('#'+sequenceID).removeClass('checked'); }
+    else { $('#'+sequenceID).addClass('checked'); }
 }
 
 function markRead() {
