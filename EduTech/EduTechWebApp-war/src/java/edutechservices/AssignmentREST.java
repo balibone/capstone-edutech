@@ -21,6 +21,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -33,10 +34,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
 
 @RequestScoped
 @Path("assignment")
@@ -150,7 +153,7 @@ public class AssignmentREST {
                         System.out.println("uploader is "+username);
                     }
                 }else if(!item.isFormField()){
-                    fileName = item.getName();
+                    fileName = LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"qup"+item.getName();
                     System.out.println("file name is "+fileName);
                     
                     
@@ -176,4 +179,25 @@ public class AssignmentREST {
         }
         return ass;
     }
+    
+    @GET
+    @Path("download/{assignmentId}/{attachmentId}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadAssignmentSubmission(@PathParam("assignmentId") String assignmentId, @PathParam("attachmentId") String attachmentId) throws IOException, ServletException, FileUploadException, Exception {
+        String appPath = context.getRealPath("");
+        System.out.println("app path is "+ appPath);
+        String truncatedAppPath = appPath.replace("dist"
+                +File.separator+"gfdeploy"+File.separator+"EduTech"+File.separator+"EduTechWebApp-war_war", "");
+        System.out.println("truncated path is "+truncatedAppPath);
+        //Extract file name of this attachment entity to display on HTTP response.
+        String fileName= cmb.getOneAttachment(Long.valueOf(attachmentId)).getFileName();
+        //extract local file
+        File resFile = new File(truncatedAppPath + "EduTechWebApp-war"+File.separator+ "web" + File.separator+ "uploads" + File.separator + "edutech" 
+                    + File.separator + "assignment" + File.separator + assignmentId + File.separator + fileName);
+        return Response
+            .ok(FileUtils.readFileToByteArray(resFile))
+            .type("application/octet-stream")
+            .header("Content-Disposition", "attachment; filename=\""+fileName+"\"")
+            .build();
+    } 
 }

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -42,7 +43,10 @@ public class SystemAdminController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-            System.out.println(pageAction);
+            if(pageAction == null){
+                //so that nullpointer wont be thrown at switch (pageAction)
+                pageAction = "";
+            }
             String loggedInUsername = "";
 
             //instantiate variables used in switch statement
@@ -258,10 +262,12 @@ public class SystemAdminController extends HttpServlet {
                 default:
                     break;
             }
-            if(pageAction != null && !pageAction.equals("")){
+            if(pageAction != null){
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
                 if(dispatcher!=null)
                     dispatcher.forward(request, response);
+                else 
+                    response.sendError(404);
             }else{
                 System.out.println("WARNING: Your pageAction is null!");
             }
@@ -294,7 +300,8 @@ public class SystemAdminController extends HttpServlet {
         
         Part imagePart = request.getPart("profileImage");
         final String fileName;
-        fileName= getFileName(imagePart);
+        //so that file name is unique
+        fileName= LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"qup"+getFileName(imagePart);
  
         FileOutputStream out = null;
         InputStream fileContent = null;
@@ -375,7 +382,8 @@ public class SystemAdminController extends HttpServlet {
             //creates directory path if not present.
             Files.createDirectories(Paths.get(imageDir));
             Part imagePart = request.getPart("profileImage");
-            fileName= getFileName(imagePart);
+            //so that file name is unique
+            fileName= LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"qup"+getFileName(imagePart);
             
             FileOutputStream out = null;
             InputStream fileContent = null;

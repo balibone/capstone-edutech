@@ -24,7 +24,6 @@ import edutechentities.module.AssignmentEntity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -95,73 +94,81 @@ public class CommonMgrBean {
         return  String.valueOf(em.createQuery("SELECT COUNT(s) FROM SystemUser s WHERE s.userActiveStatus=1").getSingleResult());
     }
 
-    public ScheduleItemEntity createScheduleItem(ScheduleItemEntity entity) {
-        entity.setCreatedAt(LocalDateTime.parse(getCurrentISODate()));
+    public ScheduleItemEntity createScheduleItem(ScheduleItemEntity thisSchedItem) {
+        thisSchedItem.setCreatedAt(LocalDateTime.parse(getCurrentISODate()));
         // get proper User - initially json createdBy only contains a username key
-        UserEntity user = em.find(UserEntity.class,entity.getCreatedBy().getUsername());
-        entity.setCreatedBy(user);
+        UserEntity user = em.find(UserEntity.class,thisSchedItem.getCreatedBy().getUsername());
+        thisSchedItem.setCreatedBy(user);
         //Set assignedTo
-        switch(entity.getItemType()) {
+        switch(thisSchedItem.getItemType()) {
             case "meeting":
-                GroupEntity group = em.find(GroupEntity.class, Long.valueOf(entity.getGroupId()));
+                GroupEntity group = em.find(GroupEntity.class, Long.valueOf(thisSchedItem.getGroupId()));
                 if(group!=null){
-                    entity.setAssignedTo(group.getMembers());
+                    thisSchedItem.setAssignedTo(group.getMembers());
+                    MeetingMinuteEntity mm = new MeetingMinuteEntity();
+                    //set bidirectional relationship
+                    thisSchedItem.setMeetingMinute(mm);
+                    mm.setMeeting(thisSchedItem);
+                    mm.setCreatedAt(LocalDateTime.now());
+                    mm.setStartTime(thisSchedItem.getStartDate());
+                    mm.setEndTime(thisSchedItem.getEndDate());
                     //persist
-                    em.persist(entity);
+                    em.persist(mm);
+                    em.persist(thisSchedItem);
                 }
                 break;
             case "assessment":
-                ModuleEntity mod = em.find(ModuleEntity.class, entity.getModuleCode());
+                ModuleEntity mod = em.find(ModuleEntity.class, thisSchedItem.getModuleCode());
                 if(mod!=null){
-                    entity.setAssignedTo(mod.getMembers());
+                    thisSchedItem.setAssignedTo(mod.getMembers());
                     
                     //if there is already a recurring event for this location at this time, disallow creation.
                     Query q1 = em.createQuery("SELECT s FROM ScheduleItem s WHERE s.itemType='assessment' OR s.itemType='timetable'");
                     for(Object o : q1.getResultList()){
                         ScheduleItemEntity checkingAgainst = (ScheduleItemEntity) o;
-                        LocalTime receivedStartTime = entity.getStartDate().toLocalTime();
-                        LocalTime receivedEndTime = entity.getEndDate().toLocalTime();
+                        LocalTime receivedStartTime = thisSchedItem.getStartDate().toLocalTime();
+                        LocalTime receivedEndTime = thisSchedItem.getEndDate().toLocalTime();
                         //if new sched items falls in the same day as an existing event.
-                        if(checkingAgainst.getStartDate().equals(entity.getStartDate())){
+                        if(checkingAgainst.getStartDate().equals(thisSchedItem.getStartDate())){
                             LocalTime thisStartTime = checkingAgainst.getStartDate().toLocalTime();
                             LocalTime thisEndTime = checkingAgainst.getEndDate().toLocalTime();
                             //if recurring event has same location with the one to be created,
                             //disallow creation if there is overlap
-                            if(checkingAgainst.getLocation().equalsIgnoreCase(entity.getLocation().trim())){
+                            if(checkingAgainst.getLocation().equalsIgnoreCase(thisSchedItem.getLocation().trim())){
                                 //Case 1 : new event start time is in between start and end.
                                 if(receivedStartTime.equals(thisStartTime)
                                         || (receivedStartTime.isAfter(thisStartTime) && receivedStartTime.isBefore(thisEndTime))
                                         || (receivedStartTime.equals(thisEndTime))
                                         ){
-                                    entity = null;
+                                    thisSchedItem = null;
                                 }
                                 //Case 2 : new event end time is between start and end.
                                 else if(receivedEndTime.equals(thisStartTime)
                                         || (receivedEndTime.isAfter(thisStartTime) && receivedEndTime.isBefore(thisEndTime))
                                         || (receivedEndTime.equals(thisEndTime))
                                         ){
-                                    entity = null;
+                                    thisSchedItem = null;
                                 }
                                 //Case 3 : new event start is before start & new event end is after end
                                 else if(receivedStartTime.isBefore(thisStartTime) && receivedEndTime.isAfter(thisEndTime)
                                         ){
-                                    entity = null;
+                                    thisSchedItem = null;
                                 }
                             }
                         }
                     }
-                    if(entity!=null){
-                        em.persist(entity);
+                    if(thisSchedItem!=null){
+                        em.persist(thisSchedItem);
                     }
                 }
                 break;
             default://for personal, (task, timetable)<--not using this endpoint.
-                entity.getAssignedTo().add(user);
+                thisSchedItem.getAssignedTo().add(user);
                 //persist
-                em.persist(entity);
+                em.persist(thisSchedItem);
                 break;
         }
-        return entity;
+        return thisSchedItem;
     }
 
     public ScheduleItemEntity editScheduleItem(String id, ScheduleItemEntity entity) {

@@ -116,4 +116,10 @@ public class GroupREST {
         return etr.autoAssignMembers(assignmentId);
     }
     
+    @GET
+    @Path("memberswithoutgroup/{assignmentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<UserEntity> getMembersWithoutGroup(@PathParam("assignmentId") String assignmentId){
+        return etr.getMembersWithoutGroup(assignmentId);
+    }
 }

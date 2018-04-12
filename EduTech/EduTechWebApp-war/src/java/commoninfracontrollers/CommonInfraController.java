@@ -31,7 +31,10 @@ public class CommonInfraController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-
+            if(pageAction == null){
+                //so that nullpointer wont be thrown at switch (pageAction)
+                pageAction = "";
+            }
             switch (pageAction) {
                 case "loginToSys":
                     String enteredUsername = request.getParameter("username");
@@ -197,10 +200,12 @@ public class CommonInfraController extends HttpServlet {
                 default:
                     break;
             }
-            if(pageAction != null && !pageAction.trim().equals("")){
+            if(pageAction != null){
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
                 if(dispatcher!=null)
                     dispatcher.forward(request, response);
+                else//if dispatcher is null, means pageAction refers to an invalid jsp. 
+                    response.sendError(404);
             }else{
                 System.out.println("WARNING: Your pageAction is null!");
             }    
