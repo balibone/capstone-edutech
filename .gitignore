@@ -21,4 +21,10 @@
 # ignore all "node_modules" folders.
 node_modules/
 /EduTechFrontEnd/nbproject/private/
+
+# ignore all project.properties
 EduTech/nbproject/project\.properties
+
+EduTech/EduTech-ejb/nbproject/project\.properties
+
+EduTech/EduTechWebApp-war/nbproject/project\.properties
