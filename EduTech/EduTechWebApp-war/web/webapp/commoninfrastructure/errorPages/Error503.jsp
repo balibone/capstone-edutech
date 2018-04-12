@@ -6,7 +6,7 @@
         <title>Welcome to EduBox</title>
         <!-- Cascading Style Sheet (CSS) -->
         <link href="css/commoninfrastructure/login/bootstrapv4.min.css" rel="stylesheet" type="text/css">
-        <link href="css/commoninfrastructure/LandingPageCSS.css" rel="stylesheet" type="text/css">
+        <link href="css/commoninfrastructure/ErrorPagesCSS.css" rel="stylesheet" type="text/css">
         <style>
             a {
                 color: #FFFFFF;
@@ -68,11 +68,12 @@
             <button type="button" class="btn btn-outline-primary" onclick="location.href='CommonInfra?pageTransit=goToLogout'">Log Out</button>
         </nav>
         <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
+            <div class="row d-flex justify-content-center">
+                <div class="errorCol col-xs-12">
                     <img class="mb-4" src="images/edubox-logo.png" width="auto" height="100">
                     <h1 class="h4 mb-3 font-weight-normal">503 Service Unavailable</h1>
                     <p>Our server was unable to process your request at this time. Please try again later.</p>
+                    <a href="CommonInfra?pageTransit=goToCommonLanding" class="btn btn-primary">Go Back Home</a>
                 </div>
             </div>
         </div>
@@ -80,7 +81,6 @@
         <!--Javascript-->
         <script src="js/commoninfrastructure/login/jquery.min.js"></script>
         <script src="js/commoninfrastructure/login/bootstrapv4.min.js"></script>
-        <script src="js/commoninfrastructure/LandingPageJS.js"></script>
     </body>
 </html>
 
