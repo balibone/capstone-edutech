@@ -243,6 +243,8 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
                 } else {
                     dateString += "s ago";
                 }
+            } else {
+                dateString = "now";
             }
 
             shoutVec.add(dateString);
@@ -258,6 +260,160 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
         }
         System.out.println("ViewShoutList retrieved");
         return shoutList;
+    }
+
+    public List<Vector> viewMyShoutList(String username) {
+        Query q = em.createQuery("SELECT c FROM Shouts c WHERE c.shoutStatus='Active' AND c.shoutUser.username = :username ORDER BY c.shoutDate DESC");
+        q.setParameter("username", username);
+        List<Vector> myShoutList = new ArrayList<Vector>();
+
+        Date currentDate = new Date();
+        String dateString = "";
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        for (Object o : q.getResultList()) {
+            ShoutsEntity myShoutE = (ShoutsEntity) o;
+
+            Vector shoutVec = new Vector();
+
+            shoutVec.add(myShoutE.getShoutID());
+            shoutVec.add(df.format(myShoutE.getShoutDate()));
+            shoutVec.add(myShoutE.getShoutStatus());
+            shoutVec.add(myShoutE.getShoutContent());
+            shoutVec.add(myShoutE.getShoutLat());
+            shoutVec.add(myShoutE.getShoutLong());
+            shoutVec.add(myShoutE.getUserEntity().getUsername());
+            shoutVec.add(df.format(myShoutE.getShoutEditedDate()));
+
+            //find listing posted time from current time
+            long diff = currentDate.getTime() - myShoutE.getShoutDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+
+            shoutVec.add(dateString);
+            shoutVec.add(getShoutsLikesCount(myShoutE.getShoutID()));
+            shoutVec.add(getShoutsCommentsCount(myShoutE.getShoutID()));
+
+            //check for user bookmarked of this post
+            shoutVec.add(checkBookmarkShout(username, myShoutE.getShoutID()));
+            shoutVec.add(checkLikeShout(username, myShoutE.getShoutID()));
+
+            //System.out.println(shoutVec.size());
+            myShoutList.add(shoutVec);
+        }
+        System.out.println("ViewShoutList retrieved");
+        return myShoutList;
+    }
+
+    public List<Vector> viewMyBookmarkedShoutList(String username) {
+        Query q = em.createQuery("SELECT c FROM ShoutsBookmarks c WHERE c.userEntity.username = :username ORDER BY c.shoutsEntity.shoutDate DESC");
+        q.setParameter("username", username);
+        List<Vector> myShoutList = new ArrayList<Vector>();
+
+        Date currentDate = new Date();
+        String dateString = "";
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        for (Object o : q.getResultList()) {
+            ShoutsBookmarksEntity myShoutE = (ShoutsBookmarksEntity) o;
+
+            Vector shoutVec = new Vector();
+
+            shoutVec.add(myShoutE.getShoutsEntity().getShoutID());
+            shoutVec.add(df.format(myShoutE.getShoutsEntity().getShoutDate()));
+            shoutVec.add(myShoutE.getShoutsEntity().getShoutStatus());
+            shoutVec.add(myShoutE.getShoutsEntity().getShoutContent());
+            shoutVec.add(myShoutE.getShoutsEntity().getShoutLat());
+            shoutVec.add(myShoutE.getShoutsEntity().getShoutLong());
+            shoutVec.add(myShoutE.getUserEntity().getUsername());
+            shoutVec.add(df.format(myShoutE.getShoutsEntity().getShoutEditedDate()));
+
+            //find listing posted time from current time
+            long diff = currentDate.getTime() - myShoutE.getShoutsEntity().getShoutDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else {
+                dateString = "Just posted";
+            }
+
+            shoutVec.add(dateString);
+            shoutVec.add(getShoutsLikesCount(myShoutE.getShoutsEntity().getShoutID()));
+            shoutVec.add(getShoutsCommentsCount(myShoutE.getShoutsEntity().getShoutID()));
+
+            //check for user bookmarked of this post
+            shoutVec.add(checkBookmarkShout(username, myShoutE.getShoutsEntity().getShoutID()));
+            shoutVec.add(checkLikeShout(username, myShoutE.getShoutsEntity().getShoutID()));
+
+            //System.out.println(shoutVec.size());
+            myShoutList.add(shoutVec);
+        }
+        System.out.println("ViewShoutList retrieved");
+        return myShoutList;
     }
 
     @Override
@@ -334,6 +490,18 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
     }
 
     @Override
+    public String viewShoutContent(String shoutID) {
+
+        shoutsEntity = lookupShout(shoutID);
+
+        String shoutContent = shoutsEntity.getShoutContent();
+
+        System.out.println("Shout content retrieved (ShoutsSysUserMgrBean.viewShoutContent)");
+        return shoutContent;
+
+    }
+
+    @Override
     public String createShout(String shoutContent, String shoutPoster) {
 
         shoutsEntity = new ShoutsEntity();
@@ -365,11 +533,11 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             return "There are some issues with this shout. Please try again.";
         } else {
             shoutsEntity = lookupShout(shoutID);
-            
+
             UserEntity userE = shoutsEntity.getUserEntity();
-            
+
+            //ShoutsBookmarksEntity bookmarksE = shoutsEntity.getShoutsBookmarksSet();
             //shoutE.getShoutsCommentsSet().remove(shoutsEntity);
-            
             //em.merge(shoutE);
             em.merge(userE);
 

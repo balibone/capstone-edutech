@@ -1266,7 +1266,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         try {
             /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
             mEntity = new MessageEntity();
-          
+
             mEntity.createContentMessage(messageSenderID, messageReceiverID,
                     itemReported + " was delisted due to violation of posting guidelines.",
                     Long.parseLong(itemReported), "System");
@@ -1278,24 +1278,24 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             em.persist(mEntity);
 
             return "Message successfully sent!";
-            
+
         } catch (Exception nre) {
             System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
-            
+
             return "Error sending message to user";
         }
 
     }
-    
+
     @Override
     public String sendAlertEventRequest(String messageSenderID, String messageReceiverID, String eventID, String status) {
 
         try {
             /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
             mEntity = new MessageEntity();
-          
+
             String eventTitle = erEntity.getEventRequestTitle(Long.parseLong(eventID));
-            
+
             mEntity.createContentMessage(messageSenderID, messageReceiverID,
                     eventTitle + " (Request ID: " + eventID + ") was " + status + " by the administrator.",
                     Long.parseLong(eventID), "System");
@@ -1307,10 +1307,10 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             em.persist(mEntity);
 
             return "Message successfully sent!";
-            
+
         } catch (Exception nre) {
             System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
-            
+
             return "Error sending message to user";
         }
 
@@ -1433,8 +1433,11 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             requestDetails.add(df.format(erEntity.getEventRequestStartDateTime()));
             requestDetails.add(df.format(erEntity.getEventRequestEndDateTime()));
 
-            requestDetails.add(df.format(erEntity.getEventReviewedDate()));
-
+            if (erEntity.getEventReviewedDate() == null) {
+                requestDetails.add(df.format(erEntity.getEventRequestDate()));
+            } else {
+                requestDetails.add(df.format(erEntity.getEventReviewedDate()));
+            }
             requestDetails.add(erEntity.getEventRequestVenueLat());
             requestDetails.add(erEntity.getEventRequestVenueLong());
 
@@ -1480,8 +1483,10 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
             //create event in event entity
             eEntity = new EventEntity();
-            eEntity.createEvent(erEntity.getEventRequestDescription(), erEntity.getEventRequestVenue(),
+            eEntity.createEvent(erEntity.getEventRequestTitle(), erEntity.getEventRequestDescription(), erEntity.getEventRequestVenue(),
                     erEntity.getEventRequestStartDateTime(), erEntity.getEventRequestEndDateTime(), erEntity.getUserEntity());
+            eEntity.setEventRequestEntity(erEntity);
+            erEntity.setEventEntity(eEntity);
             em.persist(eEntity);
             System.out.println("Event Created");
             return "Event has been approved!";
