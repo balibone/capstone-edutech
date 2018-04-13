@@ -278,7 +278,7 @@
                     
                         <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0; display: none;">
                         <button type="button" class="close" id="closeSuccess">&times;</button>
-                        <span id="sucess"></span>
+                        <span id="success"></span>
                         </div>
                     
                         <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0; display: none;">

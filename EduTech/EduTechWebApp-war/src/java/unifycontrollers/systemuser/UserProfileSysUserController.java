@@ -112,6 +112,18 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserJobTransactionDetailsSYS";
                     break;
+                case "createJobReview":
+                    long jobTransactionID = Long.parseLong(request.getParameter("jobTransID"));
+                    String reviewReceiverID = request.getParameter("receiver");
+                    String reviewRating = request.getParameter("reviewRating");
+                    System.out.println(reviewRating);
+                    String reviewContent = request.getParameter("reviewContent");
+                    System.out.println(reviewContent);
+                    responseMessage = esmr.createJobReview(loggedInUsername, reviewReceiverID, jobTransactionID, reviewRating, reviewContent);
+                    System.out.println(responseMessage);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
+                    break;
                 case "goToJobListingInUserProfile":
                     String user = request.getParameter("posterName");
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(user));
@@ -297,6 +309,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     response.getWriter().write(responseMessage);
                     break;
                 case "goToMyJobListing":
+                    request.setAttribute("jobCategoryStr", esmr.getJobCategoryList());
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userJobListing", (ArrayList) esmr.viewUserJobList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));

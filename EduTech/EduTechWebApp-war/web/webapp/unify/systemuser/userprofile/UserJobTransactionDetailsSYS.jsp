@@ -189,24 +189,15 @@
             </div>
 
             <div id="contentArea" class="container jplist" style="margin-bottom: 30px;">
-                <%
-                    String successMessage = (String) request.getAttribute("successMessage");
-                    if (successMessage != null) {
-                %>
-                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0; display: none;">
                     <button type="button" class="close" id="closeSuccess">&times;</button>
-                    <%= successMessage%>
+                    <span id="success"></span>
                 </div>
-                <%  }   %>
-                <%
-                    String errorMessage = (String) request.getAttribute("errorMessage");
-                    if (errorMessage != null) {
-                %>
-                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                    
+                <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0; display: none;">
                     <button type="button" class="close" id="closeError">&times;</button>
-                    <%= errorMessage%>
+                    <span id="error"></span>
                 </div>
-                <%  }%>
                 <div class="row">
                     <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
                         <div class="card user-card">
@@ -255,7 +246,8 @@
                     </div>
 
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>My Marketplace Transaction Details</span></div>
+                        
+                        <div class="title"><span>My Errands Transaction Details</span></div>
                         <%
                             Vector jobTransDetailsSYSVec = (Vector) request.getAttribute("jobTransDetailsSYSVec");
                             String jobID, jobTitle, jobCategoryName, jobRateType, jobRate, jobDescription, jobImage, jobStatus, jobNumOfLikes, jobLikeStatus;
@@ -267,8 +259,8 @@
                             String jobTransactionDate, jobTakerID, jobTakerImage, jobTakerJoinDate, jobTransactionRate;
                             jobTransactionDate = jobTakerID = jobTakerImage = jobTakerJoinDate = jobTransactionRate = "";
 
-                            String jobPosterPositive, jobPosterNeutral, jobPosterNegative, jobTakerPositive, jobTakerNeutral, jobTakerNegative;
-                            jobPosterPositive = jobPosterNeutral = jobPosterNegative = jobTakerPositive = jobTakerNeutral = jobTakerNegative = "";
+                            String jobPosterPositive, jobPosterNeutral, jobPosterNegative, jobTakerPositive, jobTakerNeutral, jobTakerNegative, jobTransactionID;
+                            jobPosterPositive = jobPosterNeutral = jobPosterNegative = jobTakerPositive = jobTakerNeutral = jobTakerNegative = jobTransactionID = "";
 
                             if (jobTransDetailsSYSVec != null) {
                                 /* JOB INFORMATION */
@@ -307,6 +299,7 @@
                                 jobTakerNeutral = (String.valueOf(jobTransDetailsSYSVec.get(29)));
                                 jobTakerNegative = (String.valueOf(jobTransDetailsSYSVec.get(30)));
                                 jobTransactionRate = (String.valueOf(jobTransDetailsSYSVec.get(31)));
+                                jobTransactionID = (String.valueOf(jobTransDetailsSYSVec.get(32)));
                             }
                         %>
                         <form class="form-horizontal" action="ErrandsSysUser" method="POST">
@@ -317,13 +310,13 @@
                                         <input type="hidden" id="hiddenJobID" value="<%= jobID%>" />
                                         <h5 class="user-name"><strong><%= jobTitle%></strong></h5>
                                         <p class="card-text mb-0">$<%= jobRate%>/<%= jobRateType%></p>
-                                        <%--<p class="card-text mb-3">Item Condition:&nbsp;&nbsp;
-                                            <%  if (itemCondition.equals("New")) { %>
-                                            <span class="badge badge-success custom-badge"><%= itemCondition%></span>
-                                            <%  } else if (itemCondition.equals("Used")) { %>
-                                            <span class="badge badge-danger custom-badge"><%= itemCondition%></span>
-                                            <%  }   %>
-                                        </p>--%>
+                                    </div>
+                                    <div class="media-body ml-3">
+                                        <% if(loggedInUsername.equals(jobPosterID)){%>
+                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#reviewToTaker">Leave feedback to the taker! </button>
+                                        <%}else{%>
+                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#reviewToPoster">Leave feedback to the poster!</button>
+                                        <% } %>
                                     </div>
                                 </div>
                             </div>
@@ -347,6 +340,7 @@
                                                                 </div>
                                                                 <div class="media-body col-md-12">
                                                                     <h5 class="sellerInfo"><%= jobPosterID%></h5>
+                                                                    <input type="hidden" id="posterID" value="<%= jobPosterID%>">
                                                                     Joined on <%= jobPosterJoinDate%><br/>
                                                                     <hr/>
                                                                     <div class="rating">
@@ -413,6 +407,7 @@
                                                                 </div>
                                                                 <div class="media-body col-md-12">
                                                                     <h5 class="sellerInfo"><%= jobTakerID%></h5>
+                                                                    <input type="hidden" id="takerID" value="<%= jobTakerID%>">
                                                                     Joined on <%= jobTakerJoinDate%><br/>
                                                                     <hr/>
                                                                     <div class="rating">
@@ -427,7 +422,9 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="bg-light w-25">Job Transaction Date</td>
+                                                        <td class="bg-light w-25">Job Transaction Date
+                                                            <input type="hidden" id="jobTransID" value="<%= jobTransactionID%>">
+                                                        </td>
                                                         <td><%= jobTransactionDate%></td>
                                                     </tr>
                                                     <tr>
@@ -519,6 +516,68 @@
                     </section>
                 </div>
             </div>
+            
+            <div class="modal fade" id="reviewToTaker" tabindex="-1" role="dialog" aria-labelledby="reviewToTaker" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">How was your experience?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="reviewRating">Rate your experience: </label>
+                    <select class="form-control" id="reviewRatingToTaker">
+                      <option>Positive</option>
+                      <option>Neutral</option>
+                      <option>Negative</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="reviewContent">Describe your experience: </label>
+                    <textarea class="form-control" id="reviewContentToTaker" rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="reviewToTakerBtn">Leave Feedback</button>
+                </div>
+              </div>
+            </div>
+          </div>
+            
+          <div class="modal fade" id="reviewToPoster" tabindex="-1" role="dialog" aria-labelledby="reviewToPoster" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">How was your experience?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="reviewRating">Rate your experience: </label>
+                    <select class="form-control" id="reviewRatingToPoster">
+                      <option>Positive</option>
+                      <option>Neutral</option>
+                      <option>Negative</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="reviewContent">Describe your experience: </label>
+                    <textarea class="form-control" id="reviewContentToPoster" rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="reviewToPosterBtn">Leave Feedback</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->

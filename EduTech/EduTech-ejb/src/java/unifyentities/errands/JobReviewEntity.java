@@ -31,13 +31,12 @@ public class JobReviewEntity implements Serializable {
     private Long jobReviewID;
     private String jobReviewRating;
     private String jobReviewContent;
-    private String jobReviewStatus;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date jobReviewDate;
     
     /* FOREIGN KEY */
-    private String jobReceiverID;
+    private String reviewReceiverID;
     
     @ManyToOne
     private JobEntity jobEntity;
@@ -47,13 +46,25 @@ public class JobReviewEntity implements Serializable {
     @PrePersist
     public void creationDate() { this.jobReviewDate = new Date(); }
     
+    public JobReviewEntity(){
+        setJobReviewID(System.nanoTime());
+    }
+    
+    public boolean createJobReview(String reviewRating, String reviewContent, String receiverID){
+        this.jobReviewRating = reviewRating;
+        this.jobReviewContent = reviewContent;
+        this.reviewReceiverID = receiverID;
+        
+        return true;
+        
+    }
+    
     /* GETTER METHODS */
     public Long getJobReviewID() { return jobReviewID; }
     public String getJobReviewRating() { return jobReviewRating; }
     public String getJobReviewContent() { return jobReviewContent; }
     public Date getJobReviewDate() { return jobReviewDate; }
-    public String getJobReceiverID() { return jobReceiverID; }
-    public String getJobReviewStatus() { return jobReviewStatus; }
+    public String getReviewReceiverID() { return reviewReceiverID; }
     public JobEntity getJobEntity() { return jobEntity; }
     public UserEntity getUserEntity() { return userEntity; }
     
@@ -62,8 +73,7 @@ public class JobReviewEntity implements Serializable {
     public void setJobReviewRating(String jobReviewRating) { this.jobReviewRating = jobReviewRating; }
     public void setJobReviewContent(String jobReviewContent) { this.jobReviewContent = jobReviewContent; }
     public void setJobReviewDate(Date jobReviewDate) { this.jobReviewDate = jobReviewDate; }
-    public void setJobReceiverID(String jobReceiverID) { this.jobReceiverID = jobReceiverID; }
-    public void setJobReviewStatus(String jobReviewStatus) { this.jobReviewStatus = jobReviewStatus; }
+    public void setReviewReceiverID(String jobReceiverID) { this.reviewReceiverID = jobReceiverID; }
     public void setJobEntity(JobEntity jobEntity) { this.jobEntity = jobEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
 }

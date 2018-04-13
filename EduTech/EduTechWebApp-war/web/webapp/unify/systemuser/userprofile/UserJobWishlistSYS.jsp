@@ -268,7 +268,7 @@
                         <div class="title"><span>My Errands Wishlist</span></div>
                         
 
-                        <!-- JOB LISTING -->
+                        <!-- JOB LISTING SORTING-->
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" style="width: 200px;">
                                     <input type="hidden" id="dbJobCategory" value="<%= request.getAttribute("jobCategoryStr")%>" />

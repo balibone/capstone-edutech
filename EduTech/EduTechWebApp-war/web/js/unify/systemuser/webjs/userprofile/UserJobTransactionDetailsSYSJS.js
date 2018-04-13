@@ -39,5 +39,59 @@ $(document).ready(function () {
     search_marker_1 = L.marker([endLatitude, endLongitude], {draggable: false, icon: pointerIcon}).addTo(map).bindPopup("End Location: " + endLocation);
     
     $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
+    
+    $('#reviewToTakerBtn').click(function() {
+        $('#reviewToTaker').modal('toggle');
+        $.ajax({
+            type: "POST",
+            url: "ProfileSysUser",
+            data: { 
+                receiver: $('#takerID').val(),
+                reviewRating: $('#reviewRatingToTaker').val(),
+                reviewContent: $('#reviewContentToTaker').val(),
+                jobTransID: $('#jobTransID').val(),
+                pageTransit: 'createJobReview'
+            },
+            success: function(returnString){
+                if(returnString.endsWith("!")){
+                    $('#successPanel').css('display','block');
+                    $('#success').text(returnString);
+                }else{
+                    $('#errorPanel').css('display','block');
+                    $('#error').text(returnString);
+                   
+                }
+            }
+        });
+    });
+    
+    $('#reviewToPosterBtn').click(function() {
+        $('#reviewToPoster').modal('toggle');
+        $.ajax({
+            type: "POST",
+            url: "ProfileSysUser",
+            data: { 
+                receiver: $('#posterID').val(),
+                reviewRating: $('#reviewRatingToPoster option:selected').val(),
+                reviewContent: $('#reviewContentToPoster').val(),
+                jobTransID: $('#jobTransID').val(),
+                pageTransit: 'createJobReview'
+            },
+            success: function(returnString){
+                if(returnString.endsWith("!")){
+                    $('#successPanel').css('display','block');
+                    $('#success').text(returnString);
+                }else{
+                    $('#errorPanel').css('display','block');
+                    $('#error').text(returnString);
+                   
+                }
+            }
+        });
+    });
+    
+    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
+    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
+    
 });
 

@@ -30,6 +30,7 @@ import java.text.DecimalFormat;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.errands.JobTransactionEntity;
+import unifyentities.errands.JobReviewEntity;
 
 @Stateless
 public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
@@ -46,6 +47,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     private JobOfferEntity joEntity;
     private JobReportEntity jrEntity;
     private JobTransactionEntity jtEntity;
+    private JobReviewEntity reviewEntity;
     private MessageEntity mEntity;
     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -887,7 +889,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 em.merge(offerEntity);
                 return "The transaction is completed successfully!";
             }else{
-                return "Some errors occured while processing your item offer. Please try again.";
+                return "Some errors occured while processing your job offer. Please try again.";
             }
     }
      
@@ -936,8 +938,44 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             transactionJobDetailsVec.add(getNeutralJobReviewCount(lookupUnifyUser(jtEntity.getJobTakerID()).getUsername()));
             transactionJobDetailsVec.add(getNegativeJobReviewCount(lookupUnifyUser(jtEntity.getJobTakerID()).getUsername()));
             transactionJobDetailsVec.add(String.format ("%,.2f", jtEntity.getJobTransactionRate()));
+            transactionJobDetailsVec.add(jtEntity.getJobTransactionID());
         }
         return transactionJobDetailsVec;
+    }
+    
+    @Override
+    public String createJobReview(String username, String receiver, long transactionID, String reviewRating, String reviewContent){
+        
+        if(lookupUnifyUser(username) == null){ return "There is some issues with your profile. Please try it later."; }
+        else if(lookupUnifyUser(receiver) == null){ return "There is something wrong with reciever's profile. Please try it later.";}
+        else if(lookupJobTransaction(transactionID) == null){ return "There is something wrong with the transaction. Please try it later.";}
+        else{
+            uEntity = lookupUnifyUser(username);
+            jtEntity = lookupJobTransaction(transactionID);
+            reviewEntity = new JobReviewEntity();
+            reviewEntity.createJobReview(reviewRating, reviewContent, receiver);
+            reviewEntity.setJobEntity(jtEntity.getJobEntity());
+            reviewEntity.setUserEntity(uEntity);
+            em.persist(reviewEntity);
+            
+            uEntity.getJobReviewSet().add(reviewEntity);
+            jtEntity.getJobEntity().getJobReviewSet().add(reviewEntity);
+            
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(username, receiver, 
+            username + " has just left you a review about the transaction of " + jEntity.getJobTitle() + ". Check it out!", 
+            jtEntity.getJobEntity().getJobID(), "Errands");
+            /* THE TAKER WHO COMPLETES THE JOB IS THE ONE WHO POST THE MESSAGE */
+            mEntity.setUserEntity(uEntity);
+            lookupUnifyUser(receiver).getMessageSet().add(mEntity);
+            
+            em.merge(reviewEntity);
+            em.persist(mEntity);
+            em.merge(uEntity);
+            em.merge(jtEntity);
+            
+            return "Your rating feedback has been sent successfully!";
+        }
     }
     
     @Override
@@ -1018,6 +1056,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
 
             userJobVec.add(jE.getJobID());
             userJobVec.add(jE.getJobImage());
+            System.out.println("Img: " + userJobVec.get(1));
             userJobVec.add(jE.getJobTitle());
             userJobVec.add(jE.getCategoryEntity().getCategoryName());
             userJobVec.add(jE.getUserEntity().getUsername());
@@ -1321,7 +1360,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     
     public Long getPositiveJobReviewCount(String username) {
         Long positiveJobReviewCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.jobReceiverID = :username AND r.jobReviewRating = 'Positive'");
+        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.reviewReceiverID = :username AND r.jobReviewRating = 'Positive'");
         q.setParameter("username", username);
         try {
             positiveJobReviewCount = (Long) q.getSingleResult();
@@ -1334,7 +1373,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     
     public Long getNeutralJobReviewCount(String username) {
         Long neutralJobReviewCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.jobReceiverID = :username AND r.jobReviewRating = 'Neutral'");
+        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.reviewReceiverID = :username AND r.jobReviewRating = 'Neutral'");
         q.setParameter("username", username);
         try {
             neutralJobReviewCount = (Long) q.getSingleResult();
@@ -1347,7 +1386,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     
     public Long getNegativeJobReviewCount(String username) {
         Long neagtiveJobReviewCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.jobReceiverID = :username AND r.jobReviewRating = 'Negative'");
+        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.reviewReceiverID = :username AND r.jobReviewRating = 'Negative'");
         q.setParameter("username", username);
         try {
             neagtiveJobReviewCount = (Long) q.getSingleResult();
