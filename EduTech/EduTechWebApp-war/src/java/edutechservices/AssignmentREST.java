@@ -13,7 +13,9 @@ import edutechsessionbeans.GroupMgrBean;
 import edutechsessionbeans.ModuleMgrBean;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Iterator;
@@ -109,11 +111,12 @@ public class AssignmentREST {
     @Path("module/{moduleCode}")
     @Produces({ MediaType.APPLICATION_JSON})
     public List<AssignmentEntity> getModuleAssignments(@PathParam("moduleCode") String moduleCode){
-        return etr.getModuleAssignments(moduleCode);
+        return mmb.getModuleAssignments(moduleCode);
     }
     
     @POST
     @Path("submit/{assignmentId}")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public AssignmentEntity submitAssignment(@PathParam("assignmentId") String assignmentId) throws FileUploadException, IOException, Exception{
         String title ="";
@@ -200,4 +203,31 @@ public class AssignmentREST {
             .header("Content-Disposition", "attachment; filename=\""+fileName+"\"")
             .build();
     } 
+    
+    @DELETE
+    @Path("delete/{assignmentId}/{attachmentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public AssignmentEntity deleteAssignmentSubmission(@PathParam("assignmentId") String assignmentId, @PathParam("attachmentId") String attachmentId){
+        String fileName="";
+        
+        String appPath = context.getRealPath("");
+        System.out.println("app path is "+ appPath);
+        String truncatedAppPath = appPath.replace("dist"
+                +File.separator+"gfdeploy"+File.separator+"EduTech"+File.separator+"EduTechWebApp-war_war", "");
+        System.out.println("truncated path is "+truncatedAppPath);
+        fileName = cmb.deleteAttachment(attachmentId);
+        //delete local file
+        try{
+            Files.deleteIfExists(Paths.get(truncatedAppPath + "EduTechWebApp-war"+File.separator+ "web" + File.separator+ "uploads" + File.separator + "edutech" 
+                    + File.separator + "assignment" + File.separator + assignmentId + File.separator + fileName));
+        }catch(NoSuchFileException e){
+            System.out.println("No such file/directory exists");
+        }catch(DirectoryNotEmptyException e){
+            System.out.println("Directory is not empty.");
+        }catch(IOException e){
+            System.out.println("Invalid permissions.");
+        }
+        System.out.println("Deletion of "+fileName+" is successful.");
+        return mmb.getOneAssignment(Long.valueOf(assignmentId));
+    }
 }

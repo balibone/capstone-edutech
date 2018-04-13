@@ -49,7 +49,7 @@ public class RecurringEventEntity implements Serializable {
     //cascade everything, uncluding deletion of recurring event. (will delete all lessons associated).
     @XmlElement
     @XmlInverseReference(mappedBy = "recurringEvent")
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="recurringEvent",cascade=CascadeType.ALL)
     private List<LessonEntity> lessons;
 
     public RecurringEventEntity() {

@@ -497,23 +497,27 @@ public class CommonMgrBean {
     }
 
     public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
-        //populate assignedTo from JSON usernames
-        if(ann.getAssignedTo()!=null){
-            Collection<UserEntity> assignedTo = new ArrayList<>();
-            for(UserEntity assigned : ann.getAssignedTo()){
-                assignedTo.add(em.find(UserEntity.class,assigned.getUsername()));
-            }
-            ann.setAssignedTo(assignedTo);
-            System.out.println("*******************ASSIGN TO MODIFIED");
-        }
         //populate createdBy from JSON username
         UserEntity creator = em.find(UserEntity.class, ann.getCreatedBy().getUsername());
         System.out.println("*******************CREATOR IS "+creator.getUsername());
+        
         if(creator != null){
             ann.setCreatedBy(creator);
             System.out.println("*******************CREATOR SET");
+            //populate assignedTo from JSON usernames
+            if(ann.getAssignedTo()!=null){
+                Collection<UserEntity> assignedTo = new ArrayList<>();
+                for(UserEntity assigned : ann.getAssignedTo()){
+                    //assigned to everyone except the creator
+                    if(!assigned.equals(creator)){
+                        assignedTo.add(em.find(UserEntity.class,assigned.getUsername()));
+                    }
+                }
+                ann.setAssignedTo(assignedTo);
+                System.out.println("*******************ASSIGN TO MODIFIED");
+            }
         }
-        
+
         em.persist(ann);
         return ann;
     }
@@ -571,9 +575,9 @@ public class CommonMgrBean {
         return att;
     }
 
-    public String deleteAttachment(String id) {
+    public String deleteAttachment(String attachmentId) {
         String fileName = "";
-        AttachmentEntity att = em.find(AttachmentEntity.class, Long.valueOf(id));
+        AttachmentEntity att = em.find(AttachmentEntity.class, Long.valueOf(attachmentId));
         if(att!=null){
             fileName = att.getFileName();
             //detach att from all lessons
@@ -594,11 +598,11 @@ public class CommonMgrBean {
                     attachments.remove(att);
                 }
             }
-            //detach att from all submission
-            Query q3 = em.createQuery("SELECT s FROM Submission s");
+            //detach att from all assignments
+            Query q3 = em.createQuery("SELECT a FROM Assignment a");
             for(Object o: q3.getResultList()){
-                AssignmentEntity s = (AssignmentEntity)o;
-                Collection<AttachmentEntity> attachments = s.getSubmissions();
+                AssignmentEntity a = (AssignmentEntity)o;
+                Collection<AttachmentEntity> attachments = a.getSubmissions();
                 if(attachments.contains(att)){
                     attachments.remove(att);
                 }

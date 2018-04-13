@@ -14,10 +14,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 /**
  *
@@ -30,8 +33,9 @@ public class SemesterEntity implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
-    //Semester cannot return list of modules.. will give cyclic error. Hence marked with XmlTransient to exclude from Json
-    @XmlTransient
+    @XmlElement
+    @XmlInverseReference(mappedBy="semester")
+    @OneToMany(mappedBy = "semester")
     private List<ModuleEntity> modules;
     private LocalDate startDate;
     private LocalDate endDate;

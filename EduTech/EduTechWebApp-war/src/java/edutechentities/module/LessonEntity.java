@@ -31,7 +31,6 @@ public class LessonEntity extends ScheduleItemEntity implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @XmlElement
-    @XmlInverseReference(mappedBy = "lessons")
     @ManyToOne
     private RecurringEventEntity recurringEvent;
     @OneToMany(cascade=CascadeType.ALL)
