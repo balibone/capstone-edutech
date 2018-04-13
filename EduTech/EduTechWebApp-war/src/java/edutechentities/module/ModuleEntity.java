@@ -16,6 +16,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -43,7 +44,7 @@ public class ModuleEntity implements Serializable {
     @OneToMany
     private Collection<UserEntity> members;
     @XmlElement
-    @XmlInverseReference(mappedBy="modules")
+    @ManyToOne
     private SemesterEntity semester;
     @XmlElement
     @XmlInverseReference(mappedBy="module")
