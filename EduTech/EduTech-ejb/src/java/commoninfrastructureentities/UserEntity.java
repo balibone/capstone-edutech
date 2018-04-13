@@ -39,6 +39,7 @@ import unifyentities.shouts.ShoutsCommentsEntity;
 import unifyentities.shouts.ShoutsBookmarksEntity;
 import unifyentities.shouts.ShoutsReportEntity;
 import unifyentities.voices.ResumeEntity;
+import unifyentities.event.EventRSVPEntity;
 
 @Entity(name = "SystemUser")
 public class UserEntity implements Serializable {
@@ -104,6 +105,8 @@ public class UserEntity implements Serializable {
     private Collection<ShoutsBookmarksEntity> shoutsBookmarksSet = new ArrayList<ShoutsBookmarksEntity>();
     @OneToMany(mappedBy = "userEntity")
     private Collection<ShoutsReportEntity> shoutsReportSet = new ArrayList<ShoutsReportEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private Collection<EventRSVPEntity> eventRsvpSet = new ArrayList<EventRSVPEntity>();
     
     @PrePersist
     public void creationDate() { 
@@ -183,6 +186,7 @@ public class UserEntity implements Serializable {
     public Collection<ShoutsCommentsEntity> getShoutsCommentsSet() { return shoutsCommentsSet; }
     public Collection<ShoutsBookmarksEntity> getShoutsBookmarksSet() { return shoutsBookmarksSet; }
     public Collection<ShoutsReportEntity> getShoutsReportSet() { return shoutsReportSet; }
+    public Collection<EventRSVPEntity> getEventRsvpSet() { return eventRsvpSet; }
     
     /* SETTER METHODS */
     public void setUsername(String username) { this.username = username; }
@@ -218,6 +222,7 @@ public class UserEntity implements Serializable {
     public void setShoutsCommentsSet(Collection<ShoutsCommentsEntity> shoutsCommentsSet) { this.shoutsCommentsSet = shoutsCommentsSet; }
     public void setShoutsBookmarksSet(Collection<ShoutsBookmarksEntity> shoutsBookmarksSet) { this.shoutsBookmarksSet = shoutsBookmarksSet; }
     public void setShoutsReportSet(Collection<ShoutsReportEntity> shoutsReportSet) { this.shoutsReportSet = shoutsReportSet; }
+    public void setEventRsvpSet(Collection<EventRSVPEntity> eventRsvpSet) { this.eventRsvpSet = eventRsvpSet; }
     
     public String getEmail() {
         return email;
