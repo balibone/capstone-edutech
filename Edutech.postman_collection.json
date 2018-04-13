@@ -647,7 +647,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"createdBy\": {\n        \"username\": \"instructor\"\n    },\n    \"moduleCode\": \"IS4103\",\n    \"title\": \"Assignment 1\",\n    \"startDate\":\"2018-04-10T00:00:00\",\n    \"endDate\":\"2018-04-10T01:00:00\",\n    \"location\":\"LT19\",\n    \"itemType\": \"assessment\"\n}"
+							"raw": "{\n\t\"createdBy\": {\n        \"username\": \"instructor\"\n    },\n    \"groupId\":357,\n    \"title\": \"Meeting 2\",\n    \"startDate\":\"2018-04-10T00:00:00\",\n    \"endDate\":\"2018-04-10T01:00:00\",\n    \"location\":\"LT19\",\n    \"itemType\": \"meeting\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/EduTechWebApp-war/api/scheduleitem",
@@ -2140,6 +2140,40 @@
 								"download",
 								"358",
 								"651"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAssignmentSubmission",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/EduTechWebApp-war/api/assignment/delete/358/501",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"EduTechWebApp-war",
+								"api",
+								"assignment",
+								"delete",
+								"358",
+								"501"
 							]
 						}
 					},
