@@ -270,17 +270,6 @@ public class GroupMgrBean {
         return g;
     }
 
-    public List<AssignmentEntity> getModuleAssignments(String moduleCode) {
-        ModuleEntity mod = em.find(ModuleEntity.class, moduleCode);
-        List<AssignmentEntity> modAsses = new ArrayList<>();
-        if(mod!=null){
-            Query q = em.createQuery("SELECT ass FROM Assignment ass WHERE ass.module= :modCode");
-            q.setParameter("modCode", mod);
-            modAsses = q.getResultList();
-        }
-        return modAsses;
-    }
-
     public List<GroupEntity> autoAssignMembers(String assignmentId) {
         
         AssignmentEntity ass = em.find(AssignmentEntity.class, Long.valueOf(assignmentId));

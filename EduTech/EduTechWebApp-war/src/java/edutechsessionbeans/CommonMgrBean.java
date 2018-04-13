@@ -575,9 +575,9 @@ public class CommonMgrBean {
         return att;
     }
 
-    public String deleteAttachment(String id) {
+    public String deleteAttachment(String attachmentId) {
         String fileName = "";
-        AttachmentEntity att = em.find(AttachmentEntity.class, Long.valueOf(id));
+        AttachmentEntity att = em.find(AttachmentEntity.class, Long.valueOf(attachmentId));
         if(att!=null){
             fileName = att.getFileName();
             //detach att from all lessons
@@ -598,11 +598,11 @@ public class CommonMgrBean {
                     attachments.remove(att);
                 }
             }
-            //detach att from all submission
-            Query q3 = em.createQuery("SELECT s FROM Submission s");
+            //detach att from all assignments
+            Query q3 = em.createQuery("SELECT a FROM Assignment a");
             for(Object o: q3.getResultList()){
-                AssignmentEntity s = (AssignmentEntity)o;
-                Collection<AttachmentEntity> attachments = s.getSubmissions();
+                AssignmentEntity a = (AssignmentEntity)o;
+                Collection<AttachmentEntity> attachments = a.getSubmissions();
                 if(attachments.contains(att)){
                     attachments.remove(att);
                 }
