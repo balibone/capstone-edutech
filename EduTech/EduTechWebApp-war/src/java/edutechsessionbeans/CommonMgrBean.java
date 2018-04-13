@@ -28,12 +28,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -45,6 +52,11 @@ public class CommonMgrBean {
 
     @PersistenceContext
     private EntityManager em;
+    
+    //for mail
+    private Properties mailServerProperties;
+    private Session mailSession;
+    private MimeMessage mailMessage;
     
     // HELPER METHOD 
     public String getCurrentISODate() {
@@ -496,7 +508,7 @@ public class CommonMgrBean {
         return anns;
     }
 
-    public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
+    public AnnouncementEntity createAnnouncement(AnnouncementEntity ann, int localPort) {
         //populate createdBy from JSON username
         UserEntity creator = em.find(UserEntity.class, ann.getCreatedBy().getUsername());
         System.out.println("*******************CREATOR IS "+creator.getUsername());
@@ -509,16 +521,20 @@ public class CommonMgrBean {
                 Collection<UserEntity> assignedTo = new ArrayList<>();
                 for(UserEntity assigned : ann.getAssignedTo()){
                     //assigned to everyone except the creator
-                    if(!assigned.equals(creator)){
-                        assignedTo.add(em.find(UserEntity.class,assigned.getUsername()));
+                    //need to check usernames because the assigned to user entities have not been populated correctly yet.
+                    if(!assigned.getUsername().equals(creator.getUsername())){
+                        //correctly populate user entity to be assigned this announcement
+                        assigned = em.find(UserEntity.class,assigned.getUsername());
+                        //add the proper user inside announcement
+                        assignedTo.add(assigned);
+                        //send email
+                        sendAnnouncementEmail(assigned, ann, localPort);
                     }
                 }
                 ann.setAssignedTo(assignedTo);
                 System.out.println("*******************ASSIGN TO MODIFIED");
             }
         }
-
-        em.persist(ann);
         return ann;
     }
 
@@ -826,6 +842,53 @@ public class CommonMgrBean {
             }
         }
         return sem;
+    }
+    
+//helper method to send email
+    private void sendAnnouncementEmail(UserEntity assigned, AnnouncementEntity ann, int localPort) {
+        try{
+            // Step1
+            System.out.println("\n 1st ===> setup Mail Server Properties..");
+            mailServerProperties = System.getProperties();
+            //mail server settings
+            mailServerProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            mailServerProperties.put("mail.smtp.port", "587");
+            mailServerProperties.put("mail.smtp.auth", "true");
+            mailServerProperties.put("mail.smtp.starttls.enable", "true");
+            System.out.println("Mail Server Properties have been setup successfully..");
+            
+            // Step2
+            System.out.println("\n\n 2nd ===> get Mail Session..");
+            mailSession = Session.getDefaultInstance(mailServerProperties, null);
+            mailMessage = new MimeMessage(mailSession);
+            mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(assigned.getEmail()));
+            mailMessage.setSubject("Greetings from EduBox");
+//            String hostAndPort = java.net.InetAddress.getLocalHost().getHostAddress()+":"+localPort;
+//            System.out.println("HOST AND PORT IS "+hostAndPort);
+            String emailBody = "Hey "+ assigned.getUsername() + ",<br><br>"
+                    + "You have a new notification on EduTech!<br><br>"
+                    + "Here is your notification: <br><br>"
+                    + "<b>------------------START-----------------</b><br><br>"
+                    + "Title:<i>"+ann.getTitle()+"</i><br><br>"
+                    + "Message:"+ann.getMessage()+"<br><br>"
+                    + "<a href='http://localhost:3000/"+ann.getPath()+"'><button>Click here to see event in EduTech</button></a><br><br>"
+                    + "<b>------------------END-----------------</b><br><br>"
+                    + "<br><br>Cheers,<br>EduBox Team";
+            mailMessage.setContent(emailBody, "text/html");
+            System.out.println("Mail Session has been created successfully..");
+            
+            // Step3
+            System.out.println("\n\n 3rd ===> Get Session and Send mail");
+            Transport transport = mailSession.getTransport("smtp");
+            
+            // Enter your correct gmail UserID and Password
+            // if you have 2FA enabled then provide App Specific Password
+            transport.connect("smtp.gmail.com", "41capstone03@gmail.com", "8mccapstone");
+            transport.sendMessage(mailMessage, mailMessage.getAllRecipients());
+            transport.close();
+        }catch(Exception e){
+            System.out.println("Error sending user creation email!");
+        }
     }
 
 }
