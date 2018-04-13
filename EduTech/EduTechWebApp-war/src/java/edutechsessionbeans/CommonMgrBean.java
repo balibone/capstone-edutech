@@ -497,23 +497,27 @@ public class CommonMgrBean {
     }
 
     public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
-        //populate assignedTo from JSON usernames
-        if(ann.getAssignedTo()!=null){
-            Collection<UserEntity> assignedTo = new ArrayList<>();
-            for(UserEntity assigned : ann.getAssignedTo()){
-                assignedTo.add(em.find(UserEntity.class,assigned.getUsername()));
-            }
-            ann.setAssignedTo(assignedTo);
-            System.out.println("*******************ASSIGN TO MODIFIED");
-        }
         //populate createdBy from JSON username
         UserEntity creator = em.find(UserEntity.class, ann.getCreatedBy().getUsername());
         System.out.println("*******************CREATOR IS "+creator.getUsername());
+        
         if(creator != null){
             ann.setCreatedBy(creator);
             System.out.println("*******************CREATOR SET");
+            //populate assignedTo from JSON usernames
+            if(ann.getAssignedTo()!=null){
+                Collection<UserEntity> assignedTo = new ArrayList<>();
+                for(UserEntity assigned : ann.getAssignedTo()){
+                    //assigned to everyone except the creator
+                    if(!assigned.equals(creator)){
+                        assignedTo.add(em.find(UserEntity.class,assigned.getUsername()));
+                    }
+                }
+                ann.setAssignedTo(assignedTo);
+                System.out.println("*******************ASSIGN TO MODIFIED");
+            }
         }
-        
+
         em.persist(ann);
         return ann;
     }
