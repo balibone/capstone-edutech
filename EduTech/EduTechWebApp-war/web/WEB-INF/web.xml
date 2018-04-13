@@ -286,6 +286,8 @@
     <servlet><servlet-name>ViewResumeDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ViewResumeDetailsSYS.jsp</jsp-file></servlet>
     
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - SHOUTS (JSP) -->
+    <servlet><servlet-name>ViewMyShoutsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewMyShoutsListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewMyBookmarkedShoutsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewMyBookmarkedShoutsListingSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewShoutsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ViewShoutsListingSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>NewShoutSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/NewShoutSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>NewShoutModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/NewShoutModalSYS.jsp</jsp-file></servlet>
@@ -297,6 +299,17 @@
     <servlet><servlet-name>ReportShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/ReportShoutCommentModalSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>NewShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/NewShoutCommentModalSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>EditShoutCommentModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/shouts/EditShoutCommentModalSYS.jsp</jsp-file></servlet>
+
+    <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - EVENTS (JSP) -->
+    <servlet><servlet-name>ViewEventsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/events/ViewEventsListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewMyEventsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/events/ViewMyEventsListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewMyRsvpEventsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/events/ViewMyRsvpEventsListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewMyRequestedEventsListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/events/ViewMyRequestedEventsListingSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewEventModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/events/NewEventModalSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewEventSYS</servlet-name><jsp-file>/webapp/unify/systemuser/events/NewEventSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewEventDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/events/ViewEventDetailsSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewRequestedEventDetailsSYS</servlet-name><jsp-file>/webapp/unify/systemuser/events/ViewRequestedEventDetailsSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>EditEventRequestSYS</servlet-name><jsp-file>/webapp/unify/systemuser/events/EditEventRequestSYS.jsp</jsp-file></servlet>
     <!-- END OF UNIFY - SYSTEMUSER -->
     
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->

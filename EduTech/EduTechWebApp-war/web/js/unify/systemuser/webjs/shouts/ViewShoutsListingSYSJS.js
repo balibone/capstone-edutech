@@ -215,9 +215,7 @@ $(document).ready(function () {
         overlayClose: true,
         iframe: true,
         iframeHeight: 500,
-        onClosed: function () {
-            window.location.reload(true);
-        }
+        
     });
 
     $('#reportShout-iframe').iziModal({
