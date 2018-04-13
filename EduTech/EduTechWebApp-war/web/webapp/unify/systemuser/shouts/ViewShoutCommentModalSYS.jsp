@@ -105,7 +105,7 @@
                                     <div class="row">
                                         <div class="col-xl-12 col-md-12 col-12">
                                             <div class="shout-main-content">
-                                                <span class="card-content shoutContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><center><i>Comments for shout:<br><%= commentShoutContentModal%></i></center></span>
+                                                <span class="card-content shoutContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><center><i><%= commentShoutContentModal%></i></center></span>
                                             </div>
                                         </div>
                                     </div>

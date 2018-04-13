@@ -9,7 +9,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Shouts - Shouts Listing Details</title>
+        <title>Unify Shouts!</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -82,6 +82,10 @@
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
                         <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
+                    <div class="submenu">
+                        <a data-toggle="collapse" href="#" data-target="#shoutsSub" role="button" aria-expanded="false" aria-controls="shoutsSub"><i class="fa fa-fw fa-bullhorn"></i>&nbsp;Shouts!</a>
+                        <div id="shoutsSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS">Shouts!</a></div>
+                    </div>
                     <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
@@ -107,8 +111,7 @@
                                             <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <% 
-                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                            <%                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
                                                     for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
                                                         Vector v = userMessageListTopThreeSYS.get(i);
@@ -136,7 +139,7 @@
                                             <%  } else {    %>
                                             <p style="text-align:center;">There are no notifications.</p>
                                             <div class="dropdown-divider"></div>
-                                            <%  }   %>
+                                            <%  }%>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
@@ -227,7 +230,7 @@
                 <div class="container">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccount">Unify Home</a></li>
+                            <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page"><a href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS&loggedInUsername=<%=loggedInUsername%>">Shouts Listing</a></li>
                         </ol>
                     </nav>
@@ -265,8 +268,8 @@
                                     <%-- search by shout content --%>
                                     <div class="filter-sidebar">
                                         <div class="title"><span>Search Filter</span></div>
-                                        <div class="subtitle" style="margin-bottom: 5px">Shout Content</div>
-                                        <input type="text" data-path=".shoutContent" class="form-control" placeholder="Search Content" 
+                                        <div class="subtitle" style="margin-bottom: 5px">Search Shout Content</div>
+                                        <input type="text" data-path=".shoutContent" class="form-control" placeholder="Enter keyword" 
                                                aria-label="Search Content" data-control-type="textbox" id="name-filter"
                                                data-control-name="content-text-filter" data-control-action="filter" />
                                     </div>
@@ -357,10 +360,23 @@
                                                             <span class="card-header shoutCategory" style="color: #007bff; font-size: 10px; line-height: 2.5;">Categories, Type</span>
                                                         </div>
                                                         
+                                                        
+                                                        
                                                         <div class="shout-ID">
                                                             <span class="card-title shoutID" style="color: #2b3233; font-size: 25px; line-height: 2.5;"><strong>#<%= shoutID%></strong></span>
                                                         </div>
                                                         --%>
+
+                                                        <%
+                                                            if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
+                                                        %>
+
+                                                        <div class="shout-user-info">
+                                                            <span class="card-header shoutUsername" style="font-size: 12px">Posted by you</span>
+                                                        </div>
+
+                                                        <%  }%>
+
                                                         <div class="shout-content">
                                                             <span class="card-content shoutContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><%= shoutContent%></span>
                                                         </div>
@@ -454,10 +470,16 @@
 
                                         <%-- card footer --%>
                                         <div class="card-footer text-muted mt-1">
-                                            <%-- keep user anonymous 
+                                            <%--
+                                            <%
+                                                                if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
+                                                            %>
+                                            
                                             <div class="shout-user-info">
-                                                <i class="fa fa-users" style="color: #64676d">&nbsp;</i><span class="card-text shoutUsername" style="font-size: 12px"><%= shoutUsername%></span>
+                                                <i class="fa fa-users" style="color: #64676d">&nbsp;</i><span class="card-text shoutUsername" style="font-size: 12px">Posted by you</span>
                                             </div>
+                                            
+                                            <%  }%>
                                             --%>
                                             <div class="shout-post-date">
                                                 <i class="fa fa-clock-o">&nbsp;</i><span class="float-none shoutDuration" style="color: #64676d; font-size: 12px">Posted <%= shoutDuration%>
