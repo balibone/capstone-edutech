@@ -217,8 +217,11 @@
                                                     <%--    on <%= shoutDate%> --%>
                                                 </span>
 
+                                                <%
+                                                    if (!commentUsername.equals(request.getAttribute("loggedInUsername"))) {
+                                                %>
                                                 <span class = "float-right"><a href ="ShoutsSysUser?pageTransit=goToReportShoutCommentSYS&hiddenCommentID=<%=commentID%>&hiddenShoutID=<%=commentShoutIDModal%>&hiddenCommentContent=<%=commentContent%>"><i class="fa fa-flag">&nbsp;&nbsp;</i><span class="report" style="color: #64676d; font-size: 12px">Report Comment</span></a></span>
-
+                                                <%  }%>
                                             </div>
 
                                         </div>

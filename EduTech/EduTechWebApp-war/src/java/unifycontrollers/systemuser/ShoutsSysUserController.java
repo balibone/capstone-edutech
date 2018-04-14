@@ -145,8 +145,10 @@ public class ShoutsSysUserController extends HttpServlet {
                     } else {
                         request.setAttribute("errorMessage", responseMessage);
                     }
-
-                    pageAction = "ReportShoutModalSYS";
+                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewShoutsListingSYS";
+                    //pageAction = "ReportShoutModalSYS";
                     break;
                 case "goToReportShoutSYS":
                     String reportShoutID = request.getParameter("hiddenShoutID");

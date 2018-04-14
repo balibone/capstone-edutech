@@ -418,7 +418,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
 
     @Override
     public List<Vector> viewCommentList(String commentShoutID) {
-        Query q = em.createQuery("SELECT l FROM ShoutsComments l WHERE l.shoutsEntity.shoutID = :shoutID ORDER BY l.commentDate DESC");
+        Query q = em.createQuery("SELECT l FROM ShoutsComments l WHERE l.shoutsEntity.shoutID = :shoutID AND l.commentStatus = 'Active' ORDER BY l.commentDate DESC");
         Long commentShoutIDLong = Long.parseLong(commentShoutID);
         q.setParameter("shoutID", commentShoutIDLong);
         List<Vector> commentList = new ArrayList<Vector>();
@@ -605,6 +605,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
         shoutsEntity = lookupShout(shoutID);
 
         if (shoutsCommentsEntity.addNewComment(shoutCommentContent)) {
+            shoutsCommentsEntity.setCommentStatus("Active");
             shoutsCommentsEntity.setUserEntity(userEntity);
             shoutsCommentsEntity.setShoutsEntity(shoutsEntity);
 
@@ -851,7 +852,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
     // SHOUTS COMMENTS COUNT
     public Long getShoutsCommentsCount(long shoutID) {
         Long shoutsLikesCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(l.commentID) FROM ShoutsComments l WHERE l.shoutsEntity.shoutID = :shoutID");
+        Query q = em.createQuery("SELECT COUNT(l.commentID) FROM ShoutsComments l WHERE l.shoutsEntity.shoutID = :shoutID AND l.commentStatus = 'Active'");
         q.setParameter("shoutID", shoutID);
         try {
             shoutsLikesCount = (Long) q.getSingleResult();
