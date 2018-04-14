@@ -21,6 +21,9 @@ import edutechentities.group.MeetingMinuteEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import edutechentities.module.AssignmentEntity;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -30,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Scanner;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.mail.Message;
@@ -529,11 +533,14 @@ public class CommonMgrBean {
                         assignedTo.add(assigned);
                         //send email
                         sendAnnouncementEmail(assigned, ann, localPort);
+                        //send push notification
+                        sendPushNotification(assigned, ann);
                     }
                 }
                 ann.setAssignedTo(assignedTo);
                 System.out.println("*******************ASSIGN TO MODIFIED");
             }
+            em.persist(ann);
         }
         return ann;
     }
@@ -869,8 +876,8 @@ public class CommonMgrBean {
                     + "You have a new notification on EduTech!<br><br>"
                     + "Here is your notification: <br><br>"
                     + "<b>------------------START-----------------</b><br><br>"
-                    + "Title:<i>"+ann.getTitle()+"</i><br><br>"
-                    + "Message:"+ann.getMessage()+"<br><br>"
+                    + "Title: <i>"+ann.getTitle()+"</i><br><br>"
+                    + "Message: "+ann.getMessage()+"<br><br>"
                     + "<a href='http://localhost:3000/"+ann.getPath()+"'><button>Click here to see event in EduTech</button></a><br><br>"
                     + "<b>------------------END-----------------</b><br><br>"
                     + "<br><br>Cheers,<br>EduBox Team";
@@ -888,6 +895,61 @@ public class CommonMgrBean {
             transport.close();
         }catch(Exception e){
             System.out.println("Error sending user creation email!");
+        }
+    }
+
+    private void sendPushNotification(UserEntity assigned, AnnouncementEntity ann) {
+        try {
+            String jsonResponse;
+            
+            URL url = new URL("https://onesignal.com/api/v1/notifications");
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setUseCaches(false);
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setRequestProperty("Authorization", "Basic M2NlNmYwYjItMGZkYy00MTg1LTk2NjktNTE0ZWRmNjBmZTNi");
+            con.setRequestMethod("POST");
+            
+            String strJsonBody = "{"
+                    + "\"app_id\": \"7c25a78b-f0ea-4190-a170-b04ecd514446\","
+                    //dont change this
+                    + "\"filters\": [{\"field\": \"tag\", \"key\": \"username\", \"relation\": \"=\", \"value\": \""+assigned.getUsername()+"\"}],"
+                    //heading is notification title
+                    + "\"headings\": {\"en\": \"EduTech : "+ann.getTitle()+"\"},"
+                    //contents is notification body
+                    + "\"contents\": {\"en\": \""+ann.getMessage()+"\"}"
+                    + ",\"url\": \"http://localhost:3000/"+ann.getPath()+"\""
+                    + "}";
+            
+            //for debugging
+            System.out.println("strJsonBody:\n" + strJsonBody);
+            
+            byte[] sendBytes = strJsonBody.getBytes("UTF-8");
+            con.setFixedLengthStreamingMode(sendBytes.length);
+            
+            OutputStream outputStream = con.getOutputStream();
+            outputStream.write(sendBytes);
+            
+            int httpResponse = con.getResponseCode();
+            System.out.println("httpResponse: " + httpResponse);
+            
+            if (httpResponse >= HttpURLConnection.HTTP_OK
+                    && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
+                Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
+                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                scanner.close();
+            }
+            else {
+                Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
+                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                scanner.close();
+            }
+            System.out.println("jsonResponse:\n" + jsonResponse);
+            
+        } catch(Throwable t) {
+            t.printStackTrace();
         }
     }
 
