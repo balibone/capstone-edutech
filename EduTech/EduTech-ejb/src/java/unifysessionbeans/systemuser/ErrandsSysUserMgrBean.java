@@ -956,6 +956,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             reviewEntity.createJobReview(reviewRating, reviewContent, receiver);
             reviewEntity.setJobEntity(jtEntity.getJobEntity());
             reviewEntity.setUserEntity(uEntity);
+            reviewEntity.setJobTransactionEntity(jtEntity);
             em.persist(reviewEntity);
             
             uEntity.getJobReviewSet().add(reviewEntity);
@@ -976,6 +977,97 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             
             return "Your rating feedback has been sent successfully!";
         }
+    }
+    
+    @Override
+    public List<Vector> viewAllReviewsReceived(String username){
+        List<Vector> allReviewList = new ArrayList<Vector>();
+        Query q = em.createQuery("SELECT r FROM JobReview r WHERE r.reviewReceiverID = :username");
+        q.setParameter("username", username);
+        
+        if(q.getResultList() != null){
+            for(Object o: q.getResultList()){
+                Vector reviewDetails = new Vector();
+                JobReviewEntity reviewE = (JobReviewEntity)o;
+                reviewDetails.add(reviewE.getUserEntity().getUsername());
+                reviewDetails.add(reviewE.getUserEntity().getUserFirstName());
+                reviewDetails.add(reviewE.getUserEntity().getUserLastName());
+                reviewDetails.add(reviewE.getUserEntity().getImgFileName());
+                reviewDetails.add(reviewE.getJobEntity().getJobTitle());
+                reviewDetails.add(reviewE.getJobReviewRating());
+                reviewDetails.add(reviewE.getJobReviewContent());
+                reviewDetails.add(reviewE.getJobReviewDate());
+                reviewDetails.add(reviewE.getJobTransactionEntity().getJobTransactionID());
+                reviewDetails.add(reviewE.getJobEntity().getJobID());
+                
+                allReviewList.add(reviewDetails);
+            }
+        }
+        
+        return allReviewList;
+    }
+    
+    @Override
+    public List<Vector> viewReviewListOfAJob(String username, long urljobID) {
+        boolean jobInfoEntry = false;
+        jEntity = lookupJob(urljobID);
+        List<Vector> jobReviewList = new ArrayList<Vector>();
+
+        Query q = em.createQuery("SELECT r FROM JobReview r WHERE r.reviewReceiverID = :username "
+                + "AND r.jobEntity.jobID = :jobID");
+        q.setParameter("username", username);
+        q.setParameter("jobID", urljobID);
+        
+        if(q.getResultList().isEmpty()){
+            Vector jobDetails = new Vector();
+            jobDetails.add(jEntity.getJobID());
+            jobDetails.add(jEntity.getJobTitle());
+            jobDetails.add(jEntity.getJobImage());
+            jobDetails.add(String.format ("%,.2f", jEntity.getJobRate()));
+            jobDetails.add(jEntity.getJobRateType());
+            jobDetails.add(jEntity.getCategoryEntity().getCategoryName());
+            jobDetails.add(jEntity.getNumOfHelpers());
+            jobDetails.add(jEntity.getJobStatus());
+            jobReviewList.add(jobDetails);
+            jobInfoEntry = true;
+            
+        }else{
+        
+            for (Object o : q.getResultList()) {
+                JobReviewEntity jobReviewE = (JobReviewEntity) o;
+                Vector jobReviewDetailsVec = new Vector();
+
+                if(jobInfoEntry == false) {
+                    Vector jobDetailsVec = new Vector();
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getJobID());
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getJobTitle());
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getJobImage());
+                    jobDetailsVec.add(String.format ("%,.2f", jobReviewE.getJobEntity().getJobRate()));
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getJobRateType());
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getCategoryEntity().getCategoryName());
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getNumOfHelpers());
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getJobStatus());
+                    jobReviewList.add(jobDetailsVec);
+                    jobInfoEntry = true;
+                }
+                jobReviewDetailsVec.add(jobReviewE.getUserEntity().getUsername());
+                jobReviewDetailsVec.add(jobReviewE.getUserEntity().getUserFirstName());
+                jobReviewDetailsVec.add(jobReviewE.getUserEntity().getUserLastName());
+                jobReviewDetailsVec.add(jobReviewE.getUserEntity().getImgFileName());
+                //jobOfferDetailsVec.add(getPositiveItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+                //jobOfferDetailsVec.add(getNeutralItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+                //jobOfferDetailsVec.add(getNegativeItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+                jobReviewDetailsVec.add(jobReviewE.getJobReviewRating());
+                jobReviewDetailsVec.add(jobReviewE.getJobReviewContent());
+                jobReviewDetailsVec.add(jobReviewE.getJobReviewDate());
+                jobReviewDetailsVec.add(jobReviewE.getJobTransactionEntity().getJobTransactionID());
+                
+                jobReviewDetailsVec.add(jobReviewE.getJobReviewID());
+                jobReviewList.add(jobReviewDetailsVec);
+            }
+        }
+        System.out.println("offerList size: " + jobReviewList.size());
+        return jobReviewList;
     }
     
     @Override

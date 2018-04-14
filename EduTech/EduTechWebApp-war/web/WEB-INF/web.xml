@@ -504,6 +504,15 @@
         <servlet-name>UserJobTransactionDetailsSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserJobTransactionDetailsSYS.jsp</jsp-file>
     </servlet>
+    
+    <servlet>
+        <servlet-name>ViewJobReviewListSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/ViewJobReviewListSYS.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewJobReviewDetailsSYS</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/userprofile/ViewJobReviewDetailsSYS.jsp</jsp-file>
+    </servlet>
     <servlet>
         <servlet-name>UserJobWishlistSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/userprofile/UserJobWishlistSYS.jsp</jsp-file>

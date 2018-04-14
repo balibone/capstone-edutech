@@ -12,6 +12,8 @@ package unifyentities.errands;
 
 import commoninfrastructureentities.UserEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import java.util.Date;
 
@@ -23,6 +25,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity(name = "JobTransaction")
 public class JobTransactionEntity implements Serializable {
@@ -44,6 +47,8 @@ public class JobTransactionEntity implements Serializable {
     private JobEntity jobEntity;
     @ManyToOne
     private UserEntity userEntity;
+    @OneToMany(mappedBy = "jobTransEntity")
+    private Collection<JobReviewEntity> jobReviewSet = new ArrayList<JobReviewEntity>();
     
     @PrePersist
     public void creationDate() { this.jobTransactionDate = new Date(); }

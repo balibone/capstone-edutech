@@ -42,6 +42,8 @@ public class JobReviewEntity implements Serializable {
     private JobEntity jobEntity;
     @ManyToOne
     private UserEntity userEntity;
+    @ManyToOne
+    private JobTransactionEntity jobTransEntity;
     
     @PrePersist
     public void creationDate() { this.jobReviewDate = new Date(); }
@@ -67,6 +69,7 @@ public class JobReviewEntity implements Serializable {
     public String getReviewReceiverID() { return reviewReceiverID; }
     public JobEntity getJobEntity() { return jobEntity; }
     public UserEntity getUserEntity() { return userEntity; }
+    public JobTransactionEntity getJobTransactionEntity() { return jobTransEntity; }
     
     /* SETTER METHODS */
     public void setJobReviewID(Long jobReviewID) { this.jobReviewID = jobReviewID; }
@@ -76,4 +79,5 @@ public class JobReviewEntity implements Serializable {
     public void setReviewReceiverID(String jobReceiverID) { this.reviewReceiverID = jobReceiverID; }
     public void setJobEntity(JobEntity jobEntity) { this.jobEntity = jobEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setJobTransactionEntity(JobTransactionEntity jobTransEntity) { this.jobTransEntity = jobTransEntity; }
 }

@@ -610,6 +610,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToViewJobReviewList';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-file-text-o" aria-hidden="true"></i></h1>
+                                        <h6>Errands Review</h6>
+                                    </div>
+                                </div>
+                            </div>
                   </div>
                 </div>
               </div>

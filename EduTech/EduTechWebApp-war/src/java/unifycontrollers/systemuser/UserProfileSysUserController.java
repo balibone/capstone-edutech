@@ -124,6 +124,22 @@ public class UserProfileSysUserController extends HttpServlet {
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
+                case "goToViewJobReviewList":
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
+                    request.setAttribute("allReviewList", (ArrayList)esmr.viewAllReviewsReceived(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewJobReviewListSYS";
+                    break;
+                case "goToViewJobReviewDetails":
+                    long hiddenJobID = Long.parseLong(request.getParameter("jobID"));
+                    System.out.println("parameter: " + hiddenJobID);
+                    request.setAttribute("message", "");
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
+                    request.setAttribute("jobReviewList", (ArrayList)esmr.viewReviewListOfAJob(loggedInUsername, hiddenJobID));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewJobReviewDetailsSYS";
+                    break;
                 case "goToJobListingInUserProfile":
                     String user = request.getParameter("posterName");
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(user));
