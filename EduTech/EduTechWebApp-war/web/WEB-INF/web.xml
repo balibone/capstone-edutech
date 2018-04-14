@@ -224,6 +224,7 @@
     <servlet><servlet-name>ReportedReviewDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetailsFromAllList.jsp</jsp-file></servlet>
     <servlet><servlet-name>ReportedShoutDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedShoutDetailsFromAllList.jsp</jsp-file></servlet>
     <servlet><servlet-name>ReportedShoutCommentDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedShoutCommentDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportedEventDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedEventDetailsFromAllList.jsp</jsp-file></servlet>
     <servlet><servlet-name>AllReportedListing</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing.jsp</jsp-file></servlet>
     
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMINPORTAL - EVENT REQUESTS (JSP) -->

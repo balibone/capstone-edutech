@@ -102,6 +102,16 @@ public interface ContentAdminMgrBeanRemote {
     public String resolveOnlyShoutCommentReport(String reportID);
     public String resolveDelistShoutCommentReport(String reportID);
     public String delistShoutComment(String reportID);
+    public Long getUnresolvedShoutCommentReportCount();
+    public Long getResolvedShoutCommentReportCount();
+    //events related
+    public List<Vector> viewReportedEventsListing();
+    public Vector viewEventDetails(String eventReportID);
+    public String resolveOnlyEventReport(String reportID);
+    public String resolveDelistEventReport(String reportID);
+    public String delistEvent(String reportID);
+    public Long getUnresolvedEventReportCount();
+    public Long getResolvedEventReportCount();
 
     /* METHODS FOR UNIFY ADMIN DASHBOARD */
     public Long getTagsListCount();

@@ -51,6 +51,31 @@ $(document).ready(function () {
         iframeHeight: 500
     });
 
+    $('#eventReportList tbody').on('click', 'tr', function (event) {
+        var $cell = $(event.target).closest('td');
+        if ($cell.index() > 0) {
+            var rowData = $(this).children("td").map(function () {
+                return $(this).text();
+            }).get();
+            rowCategoryName = $.trim(rowData[0]);
+            $('iframe').attr('src', 'ContentAdmin?pageTransit=goToReportedEventDetailsFromAllList&eventView=' + rowCategoryName);
+            $('#viewEvent-iframe').iziModal('open', event);
+        }
+    });
+
+    $('#viewEvent-iframe').iziModal({
+        title: 'Event Report',
+        subtitle: 'Administrator may update report status here',
+        iconClass: 'fa fa-wpforms',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#337AB7',
+        width: 600,
+        overlayClose: true,
+        iframe: true,
+        iframeHeight: 500
+    });
+    
     $('#reportedErrandsList tbody').on('click', 'tr', function (event) {
         var $cell = $(event.target).closest('td');
         if ($cell.index() > 0) {

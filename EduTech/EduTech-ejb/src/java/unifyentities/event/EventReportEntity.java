@@ -63,6 +63,7 @@ public class EventReportEntity implements Serializable {
     public void setEventReportStatus(String eventReportStatus) { this.eventReportStatus = eventReportStatus; }
     public void setEventReportDate(Date eventReportDate) { this.eventReportDate = eventReportDate; }
     public void setEventReportReviewedDate(Date eventReportReviewedDate) { this.eventReportReviewedDate = eventReportReviewedDate; }
+    public void setEventReportReviewedDate() { this.eventReportReviewedDate = new Date(); }
     
     public void setEventEntity(EventEntity eventEntity) { this.eventEntity = eventEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

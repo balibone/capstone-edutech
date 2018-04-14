@@ -631,6 +631,80 @@
                                 </div>
                                 <%-- end of shout comments report table --%>
                                 
+                                <%-- events report table --%>
+                                <div class="tab-pane" id="eventReport">
+                                    <div class="col-md-12">    
+                                        <div class="widget box">
+                                            <div class="widget-header">
+                                                <h4><i class="fa fa-reorder"></i>&nbsp;List of Events Reported</h4>
+                                                <div class="toolbar no-padding">
+                                                    <div class="btn-group">
+                                                        <!-- SUPPORT BAR --><span>&nbsp;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <%-- datatable --%>
+                                            <div class="widget-content no-padding">
+                                                <table id="eventReportList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Report ID</th>
+                                                            <th>Report Date</th>
+                                                            <th>Reported Event Title</th>
+                                                            <th>Reported Event Poster</th>
+                                                            <th>Reported By</th>
+                                                            <th>Report Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <%
+                                                            ArrayList<Vector> eventReportList = (ArrayList) request.getAttribute("eventReportList");
+
+                                                            for (int i = 0; i <= eventReportList.size() - 1; i++) {
+                                                                Vector v = eventReportList.get(i);
+                                                                String reportID = String.valueOf(v.get(0));
+                                                                String reportStatus = String.valueOf(v.get(1));
+                                                                String reportDescription = String.valueOf(v.get(2));
+                                                                String reportDate = String.valueOf(v.get(3));
+                                                                String reportedReviewID = String.valueOf(v.get(4));
+                                                                String reportedPosterID = String.valueOf(v.get(5));
+                                                                String reportedReporterID = String.valueOf(v.get(6));
+                                                                String reportedEventTitle = String.valueOf(v.get(7));
+
+                                                        %>
+                                                        <tr>
+                                                            <td><%= reportID%></td>
+                                                            <td><%= reportDate%></td>
+                                                            <td><%= reportedEventTitle%></td>
+                                                            <td><%= reportedPosterID%></td>
+                                                            <td><%= reportedReporterID%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                               } else if (reportStatus.equals("Resolved (Delisted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Event Delisted)</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
+                                                        </tr>
+
+                                                        <%  }%>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%-- end of shout comments report table --%>
+                                
                             </div>
                             <%-- end of tab contents --%>
                         </div>
@@ -645,6 +719,7 @@
                 <div id="viewErrandReview-iframe"></div>
                 <div id="viewShout-iframe"></div>
                 <div id="viewShoutComment-iframe"></div>
+                <div id="viewEvent-iframe"></div>
             </div>
         </div>
     </body>

@@ -55,7 +55,7 @@ public class UserProfileAdminController extends HttpServlet {
                     request.setAttribute("companyReviewCount", vamr.getCompanyReviewCount());
                     request.setAttribute("latestTransList", eamr.getLatestThreeTransactions());
                     request.setAttribute("recentCompanyReviewList", vamr.ViewRecentCompanyReviewList());
-                    request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount()+ camr.getUnresolvedErrandsReportCount()+camr.getUnresolvedErrandsReviewReportCount()+camr.getUnresolvedItemReportCount());
+                    request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount()+ camr.getUnresolvedErrandsReportCount()+camr.getUnresolvedErrandsReviewReportCount()+camr.getUnresolvedItemReportCount()+camr.getUnresolvedShoutReportCount()+camr.getUnresolvedShoutCommentReportCount()+camr.getUnresolvedEventReportCount());
                     request.setAttribute("pendingEventRequestCount", camr.getPendingEventRequestCount());
                     request.setAttribute("eventRequestList", (ArrayList) camr.viewEventRequestListingDashboard());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListingDashboard());
