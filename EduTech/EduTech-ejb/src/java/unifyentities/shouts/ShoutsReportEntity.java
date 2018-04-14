@@ -62,6 +62,7 @@ public class ShoutsReportEntity implements Serializable {
     public void setShoutReportStatus(String shoutReportStatus) { this.shoutReportStatus = shoutReportStatus; }
     public void setShoutReportDate(Date shoutReportDate) { this.shoutReportDate = shoutReportDate; }
     public void setShoutReportReviewedDate(Date shoutReportReviewedDate) { this.shoutReportReviewedDate = shoutReportReviewedDate; }
+    public void setShoutReportReviewedDate() { this.shoutReportReviewedDate = new Date(); }
     
     public void setShoutsEntity(ShoutsEntity shoutsEntity) { this.shoutsEntity = shoutsEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
