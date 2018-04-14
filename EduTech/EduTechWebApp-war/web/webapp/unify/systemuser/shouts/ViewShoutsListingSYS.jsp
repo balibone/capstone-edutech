@@ -489,11 +489,15 @@
                                                 <span class="float-none shoutDate" hidden="true" style="color: #64676d; font-size: 12px"><%= shoutDate%>
                                                 </span>
 
+                                                <%
+                                                    if (!shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
+                                                %>
                                                 <span class = "float-right"><a onClick ="reportShout('<%= shoutID%>,<%= shoutContent%>')" class="reportThis">
                                                         <i class="fa fa-flag icon"></i>
                                                         <i class="fa fa-flag-o icon"></i>
                                                         <span class="report" style="color: #64676d; font-size: 12px">Report Post</span>
                                                     </a></span>
+                                                    <%  }%>
 
                                             </div>
 
