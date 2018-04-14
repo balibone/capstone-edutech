@@ -250,6 +250,11 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemDetailsVec.add(getNeutralItemReviewCount(iEntity.getUserEntity().getUsername()));
             itemDetailsVec.add(getNegativeItemReviewCount(iEntity.getUserEntity().getUsername()));
             itemDetailsVec.add(getChatCount(itemID, username));
+            if(lookupItemOfferCurrStatus(itemID, username) == null) {
+                itemDetailsVec.add(true);       /* CAN MAKE ITEM OFFER*/
+            } else {
+                itemDetailsVec.add(false);      /* CANNOT MAKE ITEM OFFER*/
+            }
         }
         return itemDetailsVec;
     }

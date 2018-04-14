@@ -105,14 +105,14 @@ $(document).ready(function () {
                                     '&itemIDHidden=' + $('#hiddenItemID').val() + '&itemStatus=Sold', '_self');
                         }
                     },
-                    "Available": {
+                    /* "Available": {
                         label: "Mark Listing As Available",
                         className: 'btn-success',
                         callback: function () {
                             window.open('ProfileSysUser?pageTransit=completeAnItemOfferSYS&urlItemOfferID=' + btnItemOfferID + 
                                     '&itemIDHidden=' + $('#hiddenItemID').val() + '&itemStatus=Available', '_self');
                         }
-                    },
+                    }, */
                     cancel: {
                         label: "Cancel",
                         className: 'btn-primary'

@@ -206,8 +206,8 @@
                     String itemPostingDate, tradeLocation, tradeLat, tradeLong, tradeInformation, itemSellerID, itemSellerImage, itemSellerJoinDate;
                     itemPostingDate = tradeLocation = tradeLat = tradeLong = tradeInformation = itemSellerID = itemSellerImage = itemSellerJoinDate = "";
 
-                    String itemSellerPositive, itemSellerNeutral, itemSellerNegative, chatCount;
-                    itemSellerPositive = itemSellerNeutral = itemSellerNegative = chatCount = "";
+                    String itemSellerPositive, itemSellerNeutral, itemSellerNegative, chatCount, itemOfferBool;
+                    itemSellerPositive = itemSellerNeutral = itemSellerNegative = chatCount = itemOfferBool = "";
                     
                     if (itemDetailsSYSVec != null) {
                         itemID = (String.valueOf(itemDetailsSYSVec.get(0)));
@@ -232,6 +232,7 @@
                         itemSellerNeutral = (String.valueOf(itemDetailsSYSVec.get(19)));
                         itemSellerNegative = (String.valueOf(itemDetailsSYSVec.get(20)));
                         chatCount = (String.valueOf(itemDetailsSYSVec.get(21)));
+                        itemOfferBool = (String.valueOf(itemDetailsSYSVec.get(22)));
                     }
                 %>
                 <div class="row">
@@ -306,10 +307,18 @@
                                             <button type="button" class="btn btn-outline-theme" onclick="location.href='MarketplaceSysUser?pageTransit=goToEditItemListingSYS&urlItemID=<%= itemID%>'"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Listing</button>
                                             <%  } else if(Integer.parseInt(chatCount) == 0) {    %>
                                             <button type="button" class="btn btn-outline-theme" onclick="location.href='ProfileSysUser?pageTransit=goToViewChatListSYS&assocItemID=<%= itemID%>'"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
+                                            <%  if(itemOfferBool.equals("true")) {  %>
                                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
+                                            <%  } else if(itemOfferBool.equals("false")) {   %>
+                                            <button type="button" class="btn btn-outline-theme" onclick="location.href='ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS'"><i class="fa fa-star"></i>&nbsp;&nbsp;View My Offer Made</button>
+                                            <%  }   %>
                                             <%  } else if(Integer.parseInt(chatCount) > 0) { %>
                                             <button type="button" class="btn btn-outline-theme" onclick="location.href='ProfileSysUser?pageTransit=goToViewChatListSYS&assocItemID='"><i class="fa fa-comments"></i>&nbsp;&nbsp;View Chat History</button>
+                                            <%  if(itemOfferBool.equals("true")) {  %>
                                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
+                                            <%  } else if(itemOfferBool.equals("false")) {   %>
+                                            <button type="button" class="btn btn-outline-theme" onclick="location.href='ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS'"><i class="fa fa-star"></i>&nbsp;&nbsp;View My Offer Made</button>
+                                            <%  }   %>
                                             <%  }   %>
                                             <%  if(itemLikeStatus.equals("true")) {   %>
                                             <button type="button" id="likeItemBtn" class="btn btn-outline-theme likeStatus itemListingDetailsBtn" data-toggle="tooltip" data-placement="top" title="Like this item"><i class="fa fa-heart"></i></button>

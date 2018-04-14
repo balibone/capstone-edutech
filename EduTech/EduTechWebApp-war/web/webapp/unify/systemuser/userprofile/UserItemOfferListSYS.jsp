@@ -316,7 +316,7 @@
                                     <%
                                         ArrayList<Vector> userBuyerOfferListSYS = (ArrayList) request.getAttribute("userBuyerOfferListSYS");
                                         if (!userBuyerOfferListSYS.isEmpty()) {
-                                            for (int i = 0; i <= userBuyerOfferListSYS.size() - 1; i++) {
+                                            for (int i = 0; i <= userBuyerOfferListSYS.size()-1; i++) {
                                                 Vector v = userBuyerOfferListSYS.get(i);
                                                 String itemID = String.valueOf(v.get(0));
                                                 String itemImage = String.valueOf(v.get(1));

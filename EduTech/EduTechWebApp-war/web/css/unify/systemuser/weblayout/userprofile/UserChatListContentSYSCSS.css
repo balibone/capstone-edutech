@@ -1,5 +1,6 @@
 p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
 .noChatRecords { text-align: center; vertical-align: middle; line-height: 500px; }
+.noDisplay { display: none; }
 
 #frame {
     width: 100%;
@@ -533,9 +534,10 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
 }
 #frame #sidepanel #sellingContacts ul li.contact .wrap img {
     width: 40px;
+    height: auto;
     border-radius: 50%;
     float: left;
-    margin-right: 10px;
+    margin: 5px 10px 20px 0;
 }
 @media screen and (max-width: 735px) {
     #frame #sidepanel #sellingContacts ul li.contact .wrap img {
@@ -669,15 +671,15 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
 
 #frame .content .messages {
     height: auto;
-    min-height: calc(100% - 93px);
-    max-height: calc(100% - 93px);
+    min-height: calc(75%);
+    max-height: calc(75%);
     overflow-y: scroll;
     overflow-x: hidden;
     background: #FFFFFF;
 }
 @media screen and (max-width: 735px) {
     #frame .content .messages {
-        max-height: calc(100% - 105px);
+        max-height: calc(75%);
     }
 }
 #frame .content .messages::-webkit-scrollbar {

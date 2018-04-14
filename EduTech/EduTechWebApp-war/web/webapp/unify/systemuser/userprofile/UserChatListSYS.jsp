@@ -211,8 +211,8 @@
                                     if (!userChatBuyingListSYS.isEmpty()) {
                                         for (int i = 0; i <= userChatBuyingListSYS.size()-1; i++) {
                                             Vector v = userChatBuyingListSYS.get(i);
-                                            String itemSellerImage = String.valueOf(v.get(0));
-                                            String itemSellerID = String.valueOf(v.get(1));
+                                            String itemBuyerImage = String.valueOf(v.get(0));
+                                            String itemBuyerID = String.valueOf(v.get(1));
                                             String itemName = String.valueOf(v.get(2));
                                             String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
@@ -220,14 +220,14 @@
                                 %>
                                 <li id="contact<%= chatID%>" class="contact">
                                     <div class="wrap">
-                                        <img src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
+                                        <img src="uploads/commoninfrastructure/admin/images/<%= itemBuyerImage%>" />
                                         <div class="meta">
                                             <%  if(chatStatus.equals("Unread")) {   %>
-                                            <p class="name" style="font-weight:bolder;"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
+                                            <p class="name" style="font-weight:bolder;"><%= itemBuyerID%><span style="display:none">;<%= chatID%></span></p>
                                             <p class="name" style="font-weight:bolder;"><%= itemName%></p>
                                             <p class="preview" style="font-weight:bolder;"><%= chatContent%></p>
                                             <%  } else if(chatStatus.equals("Read")) {  %>
-                                            <p class="name"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
+                                            <p class="name"><%= itemBuyerID%><span style="display:none">;<%= chatID%></span></p>
                                             <p class="name"><%= itemName%></p>
                                             <p class="preview"><%= chatContent%></p>
                                             <%  }   %>
@@ -254,7 +254,7 @@
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
                                 %>
-                                <li id="contact<%= chatID%>" cidlass="contact">
+                                <li id="contact<%= chatID%>" class="contact">
                                     <div class="wrap">
                                         <img src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
                                         <div class="meta">
@@ -262,7 +262,7 @@
                                             <p class="name" style="font-weight:bolder;"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
                                             <p class="name" style="font-weight:bolder;"><%= itemName%></p>
                                             <p class="preview" style="font-weight:bolder;"><%= chatContent%></p>
-                                            <%  } else if(chatStatus.equals("Read")) {  %>
+                                            <%  } else if(chatStatus.equals("Read")) {   %>
                                             <p class="name"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
                                             <p class="name"><%= itemName%></p>
                                             <p class="preview"><%= chatContent%></p>

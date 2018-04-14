@@ -533,9 +533,10 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
 }
 #frame #sidepanel #sellingContacts ul li.contact .wrap img {
     width: 40px;
+    height: auto;
     border-radius: 50%;
     float: left;
-    margin-right: 10px;
+    margin: 5px 10px 20px 0;
 }
 @media screen and (max-width: 735px) {
     #frame #sidepanel #sellingContacts ul li.contact .wrap img {

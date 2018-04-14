@@ -55,7 +55,6 @@ $(document).ready(function () {
                 url: "MarketplaceSysUser",
                 data: { 
                     itemIDHidden: $('#itemIDHidden').val(),
-                    usernameHidden: $('#usernameHidden').val(),
                     itemOfferPrice: $('#itemOfferPrice').val(),
                     itemOfferDescription: $('#itemOfferDescription').val(),
                     pageTransit: 'sendItemOfferPrice'
