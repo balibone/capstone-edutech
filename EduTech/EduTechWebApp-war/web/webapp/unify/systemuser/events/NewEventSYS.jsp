@@ -22,7 +22,7 @@
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/qtip/jquery.qtip-v3.0.3.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/weblayout/events/ViewEventDetailsSYSCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/events/NewEventSYSCSS.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -187,9 +187,10 @@
 
             <div class="container" style="margin-bottom: 30px;">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-9 col-sm-9 col-xs-9">
                         <div class="x_panel">
-                            <%                                String successMessage = (String) request.getAttribute("successMessage");
+                            <%                                
+                                String successMessage = (String) request.getAttribute("successMessage");
                                 if (successMessage != null) {
                             %>
                             <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
@@ -221,9 +222,24 @@
 
                                 <form class="form-horizontal form-label-left" action="EventsSysUser" method="POST" enctype="form-data">
 
-                                    <div class="form-row">
+                                    <div class="form-row" style="justify-content: left">
+
+                                        <div class="col-md-3 ml-3">
+                                            <div class="form-group">
+                                                <div class="image-upload">
+                                                    <img id="output-image" />
+                                                </div>
+                                                <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 171px;">
+                                                    <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
+                                                </label>
+                                                <input id="file-upload" name="eventPoster" type="file" accept="image/*" onchange="javascript: previewImage(event)"/>
+                                            </div>
+
+                                        </div>
 
                                         <div class="col-md-6 ml-6">
+
+
 
                                             <div class="form-group">
                                                 <label for="eventTitle">Event Title</label>
@@ -241,6 +257,8 @@
                                                 <label for="eventEndDateTime">Event End Date & Time</label>
                                                 <input type="datetime-local" name="eventEndDateTime" required="required">
                                             </div>
+                                            
+                                            
 
                                         </div>
 
@@ -301,6 +319,6 @@
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/events/ViewEventDetailsSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/events/NewEventSYSJS.js" type="text/javascript"></script>
     </body>
 </html>

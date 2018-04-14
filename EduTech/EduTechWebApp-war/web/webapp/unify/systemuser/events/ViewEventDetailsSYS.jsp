@@ -296,7 +296,7 @@
                                                     <%
                                                         if (eventCreator.equals(request.getAttribute("loggedInUsername"))) {
                                                     %>
-                                                    <a href="EventsSysUser?pageTransit=goToDeleteEventSYS&hiddenEventID=<%= eventID%>"><span class="badge badge-danger" style="font-size: 12px">
+                                                    <a href="EventsSysUser?pageTransit=goToDeleteEventSYS&hiddenEventID=<%= eventID%>"><span class="badge badge-danger" style="font-size: 12px" onclick="return confirm('Confirm delete?')">
                                                             Delete event
                                                         </span></a>
                                                     <%  }%></h5></li></ul>
