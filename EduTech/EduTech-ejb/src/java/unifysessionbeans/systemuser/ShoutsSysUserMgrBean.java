@@ -321,6 +321,8 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
                 } else {
                     dateString += "s ago";
                 }
+            }else {
+                dateString = "now";
             }
 
             shoutVec.add(dateString);
@@ -477,6 +479,8 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
                 } else {
                     dateString += "s ago";
                 }
+            }else {
+                dateString = "now";
             }
 
             commentVec.add(dateString);

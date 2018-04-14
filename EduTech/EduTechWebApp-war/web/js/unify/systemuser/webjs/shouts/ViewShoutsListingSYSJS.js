@@ -60,7 +60,8 @@ function bookmarkAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    $('#bookmark-alert').iziModal('open', event);
+    window.location.reload(true);
+    //$('#bookmark-alert').iziModal('open', event);
 }
 
 function unbookmarkAlert(shoutIDusername) {
@@ -80,7 +81,8 @@ function unbookmarkAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    $('#unbookmark-alert').iziModal('open', event);
+    window.location.reload(true);
+    //$('#unbookmark-alert').iziModal('open', event);
 }
 
 function bookmarkFrame(shoutIDusername) {
@@ -101,7 +103,7 @@ function bookmarkFrame(shoutIDusername) {
         return [shoutIDusername];
 
 
-    $('#bookmark-iframe').iziModal('open', event);
+    //$('#bookmark-iframe').iziModal('open', event);
 }
 
 function likeAlert(shoutIDusername) {
@@ -123,7 +125,10 @@ function likeAlert(shoutIDusername) {
         return [shoutIDusername];
 
 
-    $('#like-alert').iziModal('open', event);
+    //$('#like-alert').iziModal('open', event);
+
+    window.location.reload(true);
+
 }
 
 function unlikeAlert(shoutIDusername) {
@@ -144,8 +149,8 @@ function unlikeAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-
-    $('#unlike-alert').iziModal('open', event);
+    window.location.reload(true);
+    //$('#unlike-alert').iziModal('open', event);
 }
 
 function newShout() {
@@ -215,7 +220,6 @@ $(document).ready(function () {
         overlayClose: true,
         iframe: true,
         iframeHeight: 500,
-        
     });
 
     $('#reportShout-iframe').iziModal({
@@ -227,7 +231,7 @@ $(document).ready(function () {
         width: 500,
         overlayClose: true,
         iframe: true,
-        iframeHeight: 450,
+        iframeHeight: 450
     });
 
     $('#bookmark-iframe').iziModal({
