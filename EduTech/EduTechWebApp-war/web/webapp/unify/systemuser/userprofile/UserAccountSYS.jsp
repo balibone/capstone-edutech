@@ -249,34 +249,10 @@
                                     <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
-                                <button type="button" class="list-group-item list-group-item-action voicesBtn">
+                                <button type="button" class="list-group-item list-group-item-action voicesBtn" data-toggle="modal" data-target="#voicesModalCenter">
                                     <i class="fa fa-fw fa-commenting"></i>&nbsp;My Voices
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
-                                <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList&username=<%=loggedInUsername%>" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToErrandsTrans" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToCompanyReview" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-building"></i>&nbsp;Company Review List
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToCompanyRequest" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-question-circle"></i>&nbsp;Company Request List
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToResume" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-file"></i>&nbsp;Resume List
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -629,6 +605,50 @@
               </div>
             </div>
            </div> 
+        </div>
+        
+        <!-- Voices Modal-->
+        <div class="modal fade" id="voicesModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width: 1200px;">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle" style="font-size: 15px"><strong>Select one of the following to view.</strong></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-5 ml-4">
+                                    <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToCompanyReview';">
+                                        <div class="card-block card-title mt-5 mb-5">
+                                            <h1 class="mb-3"><i class="fa fa-fw fa-building"></i></h1>
+                                            <h6>My Company Reviews</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 ml-4">
+                                    <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToCompanyRequest';">
+                                        <div class="card-block card-title mt-5 mb-5">
+                                            <h1 class="mb-3"><i class="fa fa-fw fa-question-circle"></i></h1>
+                                            <h6>My Company Requests</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <div class="col-sm-5 ml-4">
+                                    <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToResume';">
+                                        <div class="card-block card-title mt-5 mb-5">
+                                            <h1 class="mb-3"><i class="fa fa-fw fa-file"></i></h1>
+                                            <h6>My Resume List</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
