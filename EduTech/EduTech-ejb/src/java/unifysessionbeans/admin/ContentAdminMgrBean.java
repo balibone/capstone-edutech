@@ -39,6 +39,8 @@ import unifyentities.common.JobReviewReportEntity;
 import unifyentities.common.EventRequestEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.event.EventEntity;
+import unifyentities.shouts.ShoutsEntity;
+import unifyentities.shouts.ShoutsReportEntity;
 import unifyentities.voices.CompanyEntity;
 
 @Stateless
@@ -60,6 +62,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     private EventEntity eEntity;
     private CompanyEntity cEntity;
     private MessageEntity mEntity;
+    private ShoutsReportEntity srEntity;
+    private ShoutsEntity shEntity;
 
     @Override
     public List<Vector> viewTagListing() {
@@ -320,9 +324,9 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getItemReportStatus());
             reportedVec.add(reportedE.getItemReportDescription());
             reportedVec.add(df.format(reportedE.getItemReportDate()));
-            reportedVec.add(reportedE.getItemID());
-            reportedVec.add(reportedE.getItemPosterID());
-            reportedVec.add(reportedE.getItemReporterID());
+            reportedVec.add(reportedE.getItemEntity().getItemID());
+            reportedVec.add(reportedE.getItemEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
             reportedList.add(reportedVec);
         }
         return reportedList;
@@ -343,9 +347,9 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getItemReportStatus());
             reportedVec.add(reportedE.getItemReportDescription());
             reportedVec.add(df.format(reportedE.getItemReportDate()));
-            reportedVec.add(reportedE.getItemID());
-            reportedVec.add(reportedE.getItemPosterID());
-            reportedVec.add(reportedE.getItemReporterID());
+            reportedVec.add(reportedE.getItemEntity().getItemID());
+            reportedVec.add(reportedE.getItemEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
             reportedList.add(reportedVec);
         }
         return reportedList;
@@ -364,14 +368,25 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             marketplaceDetails.add(irEntity.getItemReportStatus());
             marketplaceDetails.add(irEntity.getItemReportDescription());
             marketplaceDetails.add(df.format(irEntity.getItemReportDate()));
-            marketplaceDetails.add(irEntity.getItemID());
-            marketplaceDetails.add(irEntity.getItemPosterID());
-            marketplaceDetails.add(irEntity.getItemReporterID());
-            marketplaceDetails.add(df.format(irEntity.getItemReviewedDate()));
+            if (lookupMarketplaceItem(irEntity.getItemEntity().getItemID()) != null) {
+                marketplaceDetails.add(irEntity.getItemEntity().getItemID());
+                marketplaceDetails.add(irEntity.getItemEntity().getUserEntity().getUsername());
+                marketplaceDetails.add(irEntity.getUserEntity().getUsername());
+            } else {
+                marketplaceDetails.add("INFO DELETED");
+                marketplaceDetails.add("INFO DELETED");
+                marketplaceDetails.add("INFO DELETED");
+            }
+            if (irEntity.getItemReviewedDate() == null) {
+                marketplaceDetails.add("");
+            } else {
+                marketplaceDetails.add(df.format(irEntity.getItemReviewedDate()));
+            }
+
             System.out.println("ADDED ITEM REPORT DETAILS");
             //from item entity
-            if (lookupMarketplaceItem(irEntity.getItemID()) != null) {
-                iEntity = lookupMarketplaceItem(irEntity.getItemID());
+            if (lookupMarketplaceItem(irEntity.getItemEntity().getItemID()) != null) {
+                iEntity = lookupMarketplaceItem(irEntity.getItemEntity().getItemID());
                 marketplaceDetails.add(iEntity.getItemName());
                 marketplaceDetails.add(iEntity.getItemDescription());
                 marketplaceDetails.add(iEntity.getItemImage());
@@ -908,6 +923,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getJobReportDescription());
             reportedVec.add(df.format(reportedE.getJobReportDate()));
             reportedVec.add(reportedE.getJobEntity().getJobID());
+            reportedVec.add(reportedE.getJobEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
             //reportedVec.add(reportedE.getJobPosterID());
             //reportedVec.add(reportedE.getJobReporterID());
             reportedList.add(reportedVec);
@@ -931,6 +948,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getJobReportDescription());
             reportedVec.add(df.format(reportedE.getJobReportDate()));
             reportedVec.add(reportedE.getJobEntity().getJobID());
+            reportedVec.add(reportedE.getJobEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
             //reportedVec.add(reportedE.getJobPosterID());
             //reportedVec.add(reportedE.getJobReporterID());
             reportedList.add(reportedVec);
@@ -952,6 +971,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             errandDetails.add(jrEntity.getJobReportDescription());
             errandDetails.add(df.format(jrEntity.getJobReportDate()));
             errandDetails.add(jrEntity.getJobEntity().getJobID());
+            errandDetails.add(jrEntity.getJobEntity().getUserEntity().getUsername());
+            errandDetails.add(jrEntity.getUserEntity().getUsername());
             //errandDetails.add(jrEntity.getJobPosterID());
             //errandDetails.add(jrEntity.getJobReporterID());
             errandDetails.add(df.format(jrEntity.getJobReviewedDate()));
@@ -1553,6 +1574,164 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             ex.printStackTrace();
         }
         return rejectedEventRequestCount;
+    }
+    
+    //shouts related
+    public ShoutsReportEntity lookupShoutReport(String shoutReportID) {
+        ShoutsReportEntity ire = new ShoutsReportEntity();
+        Long shoutReportIDLong = Long.valueOf(shoutReportID);
+        try {
+            Query q = em.createQuery("SELECT c FROM ShoutsReport c WHERE c.shoutReportID = :shoutReportID");
+            q.setParameter("shoutReportID", shoutReportIDLong);
+            ire = (ShoutsReportEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout report cannot be found. " + enfe.getMessage());
+            em.remove(ire);
+            ire = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout report does not exist. " + nre.getMessage());
+            em.remove(ire);
+            ire = null;
+        }
+        return ire;
+    }
+    
+    public ShoutsEntity lookupShout(Long shoutID) {
+        ShoutsEntity se = new ShoutsEntity();
+        
+        try {
+            Query q = em.createQuery("SELECT c FROM Shouts c WHERE c.shoutID = :shoutID");
+            q.setParameter("shoutID", shoutID);
+            se = (ShoutsEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout cannot be found. " + enfe.getMessage());
+            em.remove(se);
+            se = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout does not exist. " + nre.getMessage());
+            em.remove(se);
+            se = null;
+        }
+        return se;
+    }
+    
+    @Override
+    public List<Vector> viewReportedShoutsListing() {
+        Query q = em.createQuery("SELECT i FROM ShoutsReport i ORDER BY i.shoutReportDate DESC");
+        List<Vector> reportedList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        for (Object o : q.getResultList()) {
+            ShoutsReportEntity reportedE = (ShoutsReportEntity) o;
+            Vector reportedVec = new Vector();
+
+            reportedVec.add(reportedE.getShoutReportID());
+            reportedVec.add(reportedE.getShoutReportStatus());
+            reportedVec.add(reportedE.getShoutReportContent());
+            reportedVec.add(df.format(reportedE.getShoutReportDate()));
+            reportedVec.add(reportedE.getShoutsEntity().getShoutID());
+            reportedVec.add(reportedE.getShoutsEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
+            reportedList.add(reportedVec);
+        }
+        return reportedList;
+    }
+    
+    @Override
+    public Vector viewShoutDetails(String shoutReportID) {
+        srEntity = lookupShoutReport(shoutReportID);
+        
+        Vector shoutReportDetails = new Vector();
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        if (srEntity != null) {
+            shoutReportDetails.add(srEntity.getShoutReportID());
+            shoutReportDetails.add(srEntity.getShoutReportStatus());
+            shoutReportDetails.add(srEntity.getShoutReportContent());
+            shoutReportDetails.add(df.format(srEntity.getShoutReportDate()));
+            if (lookupShout(srEntity.getShoutsEntity().getShoutID()) != null) {
+                shoutReportDetails.add(srEntity.getShoutsEntity().getShoutID());
+                shoutReportDetails.add(srEntity.getShoutsEntity().getUserEntity().getUsername());
+                shoutReportDetails.add(srEntity.getUserEntity().getUsername());
+            } else {
+                shoutReportDetails.add("INFO DELETED");
+                shoutReportDetails.add("INFO DELETED");
+                shoutReportDetails.add("INFO DELETED");
+            }
+            if (srEntity.getShoutReportReviewedDate() == null) {
+                shoutReportDetails.add("");
+            } else {
+                shoutReportDetails.add(df.format(srEntity.getShoutReportReviewedDate()));
+            }
+
+            //from shout entity
+            if (lookupShout(srEntity.getShoutsEntity().getShoutID()) != null) {
+                shEntity = lookupShout(srEntity.getShoutsEntity().getShoutID());
+                shoutReportDetails.add(shEntity.getShoutID());
+                shoutReportDetails.add(shEntity.getShoutContent());
+                shoutReportDetails.add(shEntity.getShoutStatus());
+                return shoutReportDetails;
+            }
+            return shoutReportDetails;
+        }
+        return null;
+    }
+    
+    @Override
+    public String resolveOnlyShoutReport(String reportID) {
+        try {
+            srEntity = lookupShoutReport(reportID);
+            srEntity.setShoutReportStatus("Resolved (No Issue Found)");
+            srEntity.setShoutReportReviewedDate();
+            em.merge(srEntity);
+            return "Shout report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving shout report";
+        }
+    }
+    
+    @Override
+    public String resolveDelistShoutReport(String reportID) {
+        try {
+            srEntity = lookupShoutReport(reportID);
+            srEntity.setShoutReportStatus("Resolved (Delisted)");
+            srEntity.setShoutReportReviewedDate();
+            em.merge(srEntity);
+            return "Shout report has been resolved and delisted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving shout report";
+        }
+    }
+    
+    @Override
+    public String delistShout(String reportID) {
+
+        double reportIDLong = Double.parseDouble(reportID);
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Shouts i WHERE i.shoutID = :shoutID");
+            q.setParameter("shoutID", reportIDLong);
+
+            shEntity = (ShoutsEntity) q.getSingleResult();
+
+            shEntity.setShoutStatus("Delisted");
+
+            em.flush();
+            em.clear();
+            return "Shout has been delisted!";
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout to be delisted cannot be found. " + enfe.getMessage());
+            em.remove(shEntity);
+            return "Shout to be deleted could not be found";
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout to be delisted does not exist. " + nre.getMessage());
+            em.remove(shEntity);
+            return "Shout to be deleted does not exist";            
+        }
     }
 
     /* MISCELLANEOUS METHODS */

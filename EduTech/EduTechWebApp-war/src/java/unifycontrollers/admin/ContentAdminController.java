@@ -83,7 +83,53 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("tagsList", (ArrayList) camr.viewTagListing());
                     pageAction = "TagListing";
                     break;
+                case "goToReportedShoutDetailsFromAllList":
+                    String shoutReportID = request.getParameter("shoutView");
+                    request.setAttribute("reportedShoutVec", camr.viewShoutDetails(shoutReportID));
+                    pageAction = "ReportedShoutDetailsFromAllList";
+                    break;
+                case "resolveShoutReportFromAllList":
+                    if (resolveOnlyShoutReport(request)) {
+                        request.setAttribute("successMessage", "Selected report has been set to <b>resolved</b>.");
+                    } else {
+                        request.setAttribute("errorMessage", "Selected report cannot be updated. Please try again.");
+                    }
+                    request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount());
+                    request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount());
+                    request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListing());
+                    request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
+                    request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
+                    pageAction = "AllReportedListing";
+                    break;
+                case "resolveDelistShoutReportFromAllList":
+                    String delistShoutID = request.getParameter("reportedItemID");
+                    if (resolveDelistShoutReport(request)) {
+                        responseMessage = camr.delistShout(delistShoutID);
+                        if (responseMessage.endsWith("!")) {
+                            request.setAttribute("successMessage", responseMessage);
+                        } else {
+                            request.setAttribute("errorMessage", responseMessage);
+                        }
+                    } else {
+                        request.setAttribute("errorMessage", "Selected shout cannot be updated. Please try again.");
+                    }
 
+                    //for sending message to poster of marketplace item
+                    String delistShoutPosterID = request.getParameter("reportedPosterID");
+                    String delistShoutSenderID = request.getParameter("loggedInUsername");
+                    camr.sendAlertReport(delistShoutSenderID, delistShoutPosterID, delistShoutID);
+                    
+                    request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount());
+                    request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount());
+                    request.setAttribute("reportErrandsList", (ArrayList) camr.viewReportedErrandsListing());
+                    request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
+                    request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
+                    request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
+                    pageAction = "AllReportedListing";
+                    break;
                 case "goToReportedMarketplaceDetailsFromAllList":
                     String marketplaceReportIDView3 = request.getParameter("marketplaceView");
                     request.setAttribute("reportedMarketplaceVec", camr.viewMarketplaceDetails2(marketplaceReportIDView3));
@@ -101,6 +147,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "resolveDeleteMarketplaceReportFromAllList":
@@ -121,6 +168,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "resolveDelistMarketplaceReportFromAllList":
@@ -147,6 +195,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "unresolveMarketplaceReport":
@@ -172,6 +221,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "resolveDeleteErrandReportFromAllList":
@@ -195,6 +245,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "resolveDelistErrandReportFromAllList":
@@ -224,6 +275,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "unresolveErrandReport":
@@ -259,6 +311,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "resolveDeleteErrandReviewReportFromAllList":
@@ -279,6 +332,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "resolveDelistErrandReviewReportFromAllList":
@@ -305,6 +359,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "unresolveErrandReviewReport":
@@ -335,6 +390,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "resolveDeleteReviewReportFromAllList":
@@ -355,6 +411,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "resolveDelistReviewReportFromAllList":
@@ -381,6 +438,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "unresolveReviewReport":
@@ -401,6 +459,7 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("reportErrandsReviewList", (ArrayList) camr.viewReportedErrandsReviewListing());
                     request.setAttribute("reportReviewList", (ArrayList) camr.viewReportedReviewListing());
                     request.setAttribute("reportList", (ArrayList) camr.viewReportedMarketplaceListing());
+                    request.setAttribute("shoutReportList", (ArrayList) camr.viewReportedShoutsListing());
                     pageAction = "AllReportedListing";
                     break;
                 case "goToEventRequest":
@@ -856,6 +915,46 @@ public class ContentAdminController extends HttpServlet {
         return reportUpdateStatus;
     }
 
+    private boolean resolveOnlyShoutReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+
+        try {
+            responseMessage = camr.resolveOnlyShoutReport(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            reportUpdateStatus = true;
+        } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving only shout report. ");
+        }
+
+        return reportUpdateStatus;
+    }
+    
+    private boolean resolveDelistShoutReport(HttpServletRequest request) {
+        boolean reportUpdateStatus = false;
+
+        String reportStatusUpdate = request.getParameter("reportID");
+
+        try {
+            responseMessage = camr.resolveDelistShoutReport(reportStatusUpdate);
+            if (responseMessage.endsWith("!")) {
+                request.setAttribute("successMessage", responseMessage);
+            } else {
+                request.setAttribute("errorMessage", responseMessage);
+            }
+            reportUpdateStatus = true;
+        } catch (Exception ex) {
+            System.out.println("ERROR: Error resolving shout item. ");
+        }
+
+        return reportUpdateStatus;
+    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);

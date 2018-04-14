@@ -1,6 +1,30 @@
 var rowCategoryName;
 $(document).ready(function () {
 
+    $('#shoutReportList tbody').on('click', 'tr', function (event) {
+        var $cell = $(event.target).closest('td');
+        if ($cell.index() > 0) {
+            var rowData = $(this).children("td").map(function () {
+                return $(this).text();
+            }).get();
+            rowCategoryName = $.trim(rowData[0]);
+            $('iframe').attr('src', 'ContentAdmin?pageTransit=goToReportedShoutDetailsFromAllList&shoutView=' + rowCategoryName);
+            $('#viewShout-iframe').iziModal('open', event);
+        }
+    });
+
+    $('#viewShout-iframe').iziModal({
+        title: 'Shout Report',
+        subtitle: 'Administrator may update report status here',
+        iconClass: 'fa fa-wpforms',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#337AB7',
+        width: 600,
+        overlayClose: true,
+        iframe: true,
+        iframeHeight: 500
+    });
 
     $('#reportedErrandsList tbody').on('click', 'tr', function (event) {
         var $cell = $(event.target).closest('td');

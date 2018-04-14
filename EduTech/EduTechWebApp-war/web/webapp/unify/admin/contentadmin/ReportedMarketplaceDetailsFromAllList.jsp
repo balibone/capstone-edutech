@@ -160,11 +160,11 @@
                                 <td><%= reportedItemID%></td>
                             </tr>
                             <tr>
-                                <td>User ID of Review Poster</td>
+                                <td>Reported Item Poster</td>
                                 <td><%= reportedPosterID%></td>
                             </tr>
                             <tr>
-                                <td>User ID of Reporter</td>
+                                <td>Reported By</td>
                                 <td><%= reportedReporterID%></td>
                             </tr>
                         </table>
