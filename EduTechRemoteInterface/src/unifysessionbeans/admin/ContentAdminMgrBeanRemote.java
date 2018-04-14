@@ -94,6 +94,8 @@ public interface ContentAdminMgrBeanRemote {
     public String resolveOnlyShoutReport(String reportID);
     public String resolveDelistShoutReport(String reportID);
     public String delistShout(String reportID);
+    public Long getUnresolvedShoutReportCount();
+    public Long getResolvedShoutReportCount();
 
     /* METHODS FOR UNIFY ADMIN DASHBOARD */
     public Long getTagsListCount();

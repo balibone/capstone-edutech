@@ -1733,6 +1733,33 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             return "Shout to be deleted does not exist";            
         }
     }
+    
+    @Override
+    public Long getUnresolvedShoutReportCount() {
+        Long unresolvedShoutReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.shoutReportID) FROM ShoutsReport c WHERE c.shoutReportStatus='Unresolved'");
+        try {
+            unresolvedShoutReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getUnresolvedShoutReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return unresolvedShoutReportCount;
+    }
+
+    @Override
+    public Long getResolvedShoutReportCount() {
+        Long resolvedShoutReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.shoutReportID) FROM ShoutsReport c WHERE c.shoutReportStatus<>'Unresolved'");
+        try {
+            resolvedShoutReportCount = (Long) q.getSingleResult();
+            System.out.println("Resolved Shout Report Count: " + resolvedShoutReportCount);
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getResolvedShoutReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return resolvedShoutReportCount;
+    }
 
     /* MISCELLANEOUS METHODS */
     public TagEntity lookupTag(String tagID) {
