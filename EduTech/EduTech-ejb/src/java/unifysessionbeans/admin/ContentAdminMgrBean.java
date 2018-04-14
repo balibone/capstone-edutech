@@ -39,6 +39,8 @@ import unifyentities.common.JobReviewReportEntity;
 import unifyentities.common.EventRequestEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.event.EventEntity;
+import unifyentities.shouts.ShoutsCommentsEntity;
+import unifyentities.shouts.ShoutsCommentsReportEntity;
 import unifyentities.shouts.ShoutsEntity;
 import unifyentities.shouts.ShoutsReportEntity;
 import unifyentities.voices.CompanyEntity;
@@ -64,6 +66,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     private MessageEntity mEntity;
     private ShoutsReportEntity srEntity;
     private ShoutsEntity shEntity;
+    private ShoutsCommentsReportEntity scrEntity;
+    private ShoutsCommentsEntity scEntity;
 
     @Override
     public List<Vector> viewTagListing() {
@@ -1759,6 +1763,163 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             ex.printStackTrace();
         }
         return resolvedShoutReportCount;
+    }
+    
+    //shout comments related
+    public ShoutsCommentsReportEntity lookupShoutCommentReport(String shoutCommentReportID) {
+        ShoutsCommentsReportEntity ire = new ShoutsCommentsReportEntity();
+        Long shoutCommentReportIDLong = Long.valueOf(shoutCommentReportID);
+        try {
+            Query q = em.createQuery("SELECT c FROM ShoutsCommentsReport c WHERE c.shoutCommentReportID = :shoutCommentReportID");
+            q.setParameter("shoutCommentReportID", shoutCommentReportIDLong);
+            ire = (ShoutsCommentsReportEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout comment report cannot be found. " + enfe.getMessage());
+            em.remove(ire);
+            ire = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout comment report does not exist. " + nre.getMessage());
+            em.remove(ire);
+            ire = null;
+        }
+        return ire;
+    }
+    
+    public ShoutsCommentsEntity lookupShoutComment(Long shoutCommentID) {
+        ShoutsCommentsEntity se = new ShoutsCommentsEntity();
+        
+        try {
+            Query q = em.createQuery("SELECT c FROM ShoutsComments c WHERE c.commentID = :commentID");
+            q.setParameter("commentID", shoutCommentID);
+            se = (ShoutsCommentsEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout comment cannot be found. " + enfe.getMessage());
+            em.remove(se);
+            se = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout comment does not exist. " + nre.getMessage());
+            em.remove(se);
+            se = null;
+        }
+        return se;
+    }
+    
+    @Override
+    public List<Vector> viewReportedShoutCommentsListing() {
+        Query q = em.createQuery("SELECT i FROM ShoutsCommentsReport i ORDER BY i.shoutCommentReportDate DESC");
+        List<Vector> reportedList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        for (Object o : q.getResultList()) {
+            ShoutsCommentsReportEntity reportedE = (ShoutsCommentsReportEntity) o;
+            Vector reportedVec = new Vector();
+
+            reportedVec.add(reportedE.getShoutCommentReportID());
+            reportedVec.add(reportedE.getShoutCommentReportStatus());
+            reportedVec.add(reportedE.getShoutCommentReportContent());
+            reportedVec.add(df.format(reportedE.getShoutCommentReportDate()));
+            reportedVec.add(reportedE.getShoutsCommentsEntity().getCommentID());
+            reportedVec.add(reportedE.getShoutsCommentsEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
+            reportedList.add(reportedVec);
+        }
+        return reportedList;
+    }
+    
+    @Override
+    public Vector viewShoutCommentDetails(String shoutCommentReportID) {
+        scrEntity = lookupShoutCommentReport(shoutCommentReportID);
+        
+        Vector shoutCommentReportDetails = new Vector();
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        if (scrEntity != null) {
+            shoutCommentReportDetails.add(scrEntity.getShoutCommentReportID());
+            shoutCommentReportDetails.add(scrEntity.getShoutCommentReportStatus());
+            shoutCommentReportDetails.add(scrEntity.getShoutCommentReportContent());
+            shoutCommentReportDetails.add(df.format(scrEntity.getShoutCommentReportDate()));
+            if (lookupShoutComment(scrEntity.getShoutsCommentsEntity().getCommentID()) != null) {
+                shoutCommentReportDetails.add(scrEntity.getShoutsCommentsEntity().getCommentID());
+                shoutCommentReportDetails.add(scrEntity.getShoutsCommentsEntity().getUserEntity().getUsername());
+                shoutCommentReportDetails.add(scrEntity.getUserEntity().getUsername());
+            } else {
+                shoutCommentReportDetails.add("INFO DELETED");
+                shoutCommentReportDetails.add("INFO DELETED");
+                shoutCommentReportDetails.add("INFO DELETED");
+            }
+            if (scrEntity.getShoutCommentReportReviewedDate() == null) {
+                shoutCommentReportDetails.add("");
+            } else {
+                shoutCommentReportDetails.add(df.format(scrEntity.getShoutCommentReportReviewedDate()));
+            }
+
+            //from shout entity
+            if (lookupShoutComment(scrEntity.getShoutsCommentsEntity().getCommentID()) != null) {
+                scEntity = lookupShoutComment(scrEntity.getShoutsCommentsEntity().getCommentID());
+                shoutCommentReportDetails.add(scEntity.getCommentID());
+                shoutCommentReportDetails.add(scEntity.getCommentContent());
+                return shoutCommentReportDetails;
+            }
+            return shoutCommentReportDetails;
+        }
+        return null;
+    }
+    
+    @Override
+    public String resolveOnlyShoutCommentReport(String reportID) {
+        try {
+            scrEntity = lookupShoutCommentReport(reportID);
+            scrEntity.setShoutCommentReportStatus("Resolved (No Issue Found)");
+            scrEntity.setShoutCommentReportReviewedDate();
+            em.merge(scrEntity);
+            return "Shout comment report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving shout comment report";
+        }
+    }
+    
+    @Override
+    public String resolveDelistShoutCommentReport(String reportID) {
+        try {
+            scrEntity = lookupShoutCommentReport(reportID);
+            scrEntity.setShoutCommentReportStatus("Resolved (Delisted)");
+            scrEntity.setShoutCommentReportReviewedDate();
+            em.merge(scrEntity);
+            return "Shout comment report has been resolved and delisted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving shout comment report";
+        }
+    }
+    
+    @Override
+    public String delistShoutComment(String reportID) {
+
+        double reportIDLong = Double.parseDouble(reportID);
+
+        try {
+            Query q = em.createQuery("SELECT i FROM ShoutsComments i WHERE i.commentID = :commentID");
+            q.setParameter("commentID", reportIDLong);
+
+            scEntity = (ShoutsCommentsEntity) q.getSingleResult();
+
+            scEntity.setCommentStatus("Delisted");
+
+            em.flush();
+            em.clear();
+            return "Shout comment has been delisted!";
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout comment to be delisted cannot be found. " + enfe.getMessage());
+            em.remove(scEntity);
+            return "Shout comment to be deleted could not be found";
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout comment to be delisted does not exist. " + nre.getMessage());
+            em.remove(scEntity);
+            return "Shout comment to be deleted does not exist";            
+        }
     }
 
     /* MISCELLANEOUS METHODS */

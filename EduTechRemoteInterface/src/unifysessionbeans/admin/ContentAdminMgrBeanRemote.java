@@ -96,6 +96,12 @@ public interface ContentAdminMgrBeanRemote {
     public String delistShout(String reportID);
     public Long getUnresolvedShoutReportCount();
     public Long getResolvedShoutReportCount();
+    //shout comments related
+    public List<Vector> viewReportedShoutCommentsListing();
+    public Vector viewShoutCommentDetails(String shoutCommentReportID);
+    public String resolveOnlyShoutCommentReport(String reportID);
+    public String resolveDelistShoutCommentReport(String reportID);
+    public String delistShoutComment(String reportID);
 
     /* METHODS FOR UNIFY ADMIN DASHBOARD */
     public Long getTagsListCount();

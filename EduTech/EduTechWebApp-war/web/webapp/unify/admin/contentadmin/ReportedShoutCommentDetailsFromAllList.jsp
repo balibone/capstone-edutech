@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Unify Admin - Reported Shout Details</title>
+        <title>Unify Admin - Reported Shout Comment Details</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
@@ -40,11 +40,11 @@
 
     </head>
     <body style="background-color: #FFFFFF;">
-        <%            Vector reportListVec = (Vector) request.getAttribute("reportedShoutVec");
+        <%            Vector reportListVec = (Vector) request.getAttribute("reportedShoutCommentVec");
             String reportID, reportStatus, reportDescription, reportDate, reportedItemID,
-                    reportedPosterID, reportedReporterID, shoutID, shoutContent, shoutStatus, reviewedDate;
+                    reportedPosterID, reportedReporterID, shoutID, shoutContent, reviewedDate;
             reportID = reportStatus = reportDescription = reportDate = reportedItemID = reportedPosterID = reportedReporterID
-                    = shoutID = shoutContent = shoutStatus = reviewedDate = "";
+                    = shoutID = shoutContent = reviewedDate = "";
             if (reportListVec != null) {
                 reportID = (String.valueOf(reportListVec.get(0)));
                 reportStatus = (String.valueOf(reportListVec.get(1)));
@@ -57,7 +57,6 @@
                 if (reportListVec.size() > 8) {
                     shoutID = (String.valueOf(reportListVec.get(8)));
                     shoutContent = (String.valueOf(reportListVec.get(9)));
-                    shoutStatus = (String.valueOf(reportListVec.get(10)));
                 }
             }
         %>
@@ -80,34 +79,20 @@
                                 if (reportListVec.size() > 8) {
                             %>
 
+                            
                             <tr>
-                                <td>Item Status</td>
-                                <%
-                                    if (shoutStatus.equals("Delisted")) {
-                                %>
-                                <td><span class="label label-danger">Delisted</span></td>
-                                <%
-                                } else {
-                                %>
-                                <td><span class="label label-success"><%= shoutStatus%></span></td>
-                                    <%
-                                        }
-                                    %>
-
-                            </tr>
-                            <tr>
-                                <td>Shout ID</td>
+                                <td>Shout Comment ID</td>
                                 <td><%= shoutID%></td>
                             </tr>
                             <tr>
-                                <td>Shout Content</td>
+                                <td>Shout Comment Content</td>
                                 <td><%= shoutContent%></td>
                             </tr>
                             <%
                             } else {
                             %>
                             <div class="form-group">
-                                <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"> <b>SHOUT HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"> <b>SHOUT COMMENT HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
                             </div>
                             <%
                                 }
@@ -132,7 +117,7 @@
                                 <%
                                 } else if (reportStatus.equals("Resolved (Delisted)")) {
                                 %>
-                                <td><span class="label label-success">Resolved (Shout Delisted)</span></td>
+                                <td><span class="label label-success">Resolved (Shout Comment Delisted)</span></td>
                                 <%
                                 } else {
                                 %>
@@ -151,11 +136,11 @@
                                 <td><%= reportDate%></td>
                             </tr>
                             <tr>
-                                <td>Reported Shout ID</td>
+                                <td>Reported Shout Comment ID</td>
                                 <td><%= reportedItemID%></td>
                             </tr>
                             <tr>
-                                <td>Reported Shout Poster</td>
+                                <td>Reported Shout Comment Poster</td>
                                 <td><%= reportedPosterID%></td>
                             </tr>
                             <tr>
@@ -179,8 +164,8 @@
                         %>
                         <%-- resolve and do nothing --%>
                         <td>
-                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#shoutReport" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveShoutReportFromAllList"/>
+                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#shoutCommentReport" method="GET" target="_parent">
+                                <input type="hidden" name="pageTransit" value="resolveShoutCommentReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <button type="submit" class="btn btn-primary">Resolved (Do Nothing)</button>
@@ -188,14 +173,14 @@
                         </td>
                         <%-- resolve and delete item --%>
                         <td>
-                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#shoutReport" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveDelistShoutReportFromAllList"/>
+                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#shoutCommentReport" method="GET" target="_parent">
+                                <input type="hidden" name="pageTransit" value="resolveDelistShoutCommentReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <input type="hidden" name="reportedItemID" value="<%= reportedItemID%>" />
                                 <input type="hidden" name="reportedPosterID" value="<%= reportedPosterID%>" />
                                 <input type="hidden" name="loggedInUsername" value="<%= loggedInUsername%>" />
-                                <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm delisting of shout?')">Delist Shout & Resolve</button>
+                                <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm delisting of shout comment?')">Delist Shout Comment & Resolve</button>
                             </form>
                         </td>
                         <%
@@ -203,8 +188,8 @@
                         %>
                         <%-- resolve and do nothing --%>
                         <td>
-                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#shoutReport" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveShoutReportFromAllList"/>
+                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#shoutCommentReport" method="GET" target="_parent">
+                                <input type="hidden" name="pageTransit" value="resolveShoutCommentReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <button type="submit" class="btn btn-primary">Resolved (Do Nothing)</button>
