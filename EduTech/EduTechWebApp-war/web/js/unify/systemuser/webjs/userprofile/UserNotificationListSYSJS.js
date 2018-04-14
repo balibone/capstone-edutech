@@ -2,10 +2,6 @@ $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
-    $('#contentArea').jplist({
-        itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
-    });
-    
     $('.mailinbox tbody input:checkbox').click(function () {
         $(this).parents('tr').toggleClass('selected', $(this).prop('checked'));
     });
@@ -37,6 +33,15 @@ $(document).ready(function () {
     });
     
     $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
+    
+    $('#notificationTable').DataTable({
+        'dom': 'Bfrtip',
+        'responsive': true, 
+        'pageLength': 10,
+        'buttons': [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
 });
 
 function checkAll() {

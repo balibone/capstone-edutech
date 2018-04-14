@@ -283,8 +283,12 @@
                             userAwardStr = String.valueOf(basicDetailsSYS.get(6));
                         }
                     %>
+                    
                     <div class="resumeContent col-lg-9 col-md-8">
-                        <div class="wrapper">
+                        <div class="input-group-addon" style="float: right; margin-top: 10px; margin-right: 50px">
+                            <button onclick="download()" class="btn btn-sm btn-theme">&nbsp;Download</button>
+                        </div>
+                        <div class="wrapper" id="wrapper">
                             <!--SIDEBAR WRAPPER-->
                             <div class="sidebar-wrapper">
                                 <!--PROFILE CONTAINER-->
@@ -576,5 +580,7 @@
         <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/voices/ViewResumeDetailsSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/voices/html2canvas.min.js" type="text/javascript"></script>
+        <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
     </body>
 </html>

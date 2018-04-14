@@ -19,23 +19,21 @@
         <title>Unify - My Notification List</title>
 
         <!-- CASCADING STYLESHEET -->
-        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/weblayout/userprofile/UserNotificationListSYSCSS.css" rel="stylesheet" type="text/css">
         
-        <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/select.dataTables.min.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -203,7 +201,7 @@
                 </div>
             </div>
 
-            <div id="contentArea" class="container jplist mb-3">
+            <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
                         <div class="card user-card">
@@ -252,8 +250,8 @@
                     </div>
                     <div class="col-lg-9 col-md-8">
                         <div class="title"><span>Your Notification Listing</span></div>
-                        <div class="jplist-search sorting-bar">
-                            <div class="input-group-addon" style="float: right;">
+                        <div class="table-responsive mailList">
+                            <div class="input-group-addon" style="float: left;">
                                 <form action="VoicesSysUser" method="POST" name="notificationForm" enctype="multipart/form-data">
                                     <input type="hidden" name="pageTransit" value="markNotificationSYS" />
                                     <input type="hidden" name="notificationList" value="" />
@@ -262,25 +260,20 @@
                                 <button id="markBtn" class="btn btn-sm btn-theme" disabled="disabled" onclick="markRead()">&nbsp;Mark As Read</button>
                                 
                             </div>
-                        </div>
-                        
-                        <!-- USER MESSAGE LIST -->
-                        
-                            <div class="table-relative table-responsive mailinbox">
-                                <table id="notificationTable" class="table table-condensed table-striped margin-0px">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2">
-                                                <input id="all" type="checkbox" class="checkall" onchange="checkAll()"/>
-                                                <label for="all"></label>&nbsp;&nbsp;&nbsp;Sender
-                                            </th>
-                                            <th>Notification Type</th>
-                                            <th>Notification Content</th>
-                                            <th>Notification Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% 
+                            <table id="notificationTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <input id="all" type="checkbox" class="checkall" onchange="checkAll()"/>
+                                            <label for="all"></label>&nbsp;&nbsp;&nbsp;Sender
+                                        </th>
+                                        <th>Notification Type</th>
+                                        <th>Notification Content</th>
+                                        <th>Notification Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% 
                                             ArrayList<Vector> userMessageListSYS = (ArrayList) request.getAttribute("userMessageListSYS");
                                             if (!userMessageListSYS.isEmpty()) {
                                                 for (int i = 0; i <= userMessageListSYS.size() - 1; i++) {
@@ -294,7 +287,7 @@
                                                     String msgSentDuration = String.valueOf(v.get(6));
                                                     String msgStatus = String.valueOf(v.get(7));
                                         %>
-                                        <tr class="unread list-item">
+                                    <tr class="unread list-item">
                                             <td style="width: 5%;">
                                                 <div class="user-image">
                                                     <%  if (msgType.equals("System")) {%>
@@ -313,21 +306,10 @@
                                             <td class="msgContent" style="width: 40%;"><%= msgContent%><span id="msgContentID-<%= i%>" style="display:none;">;<%= msgContentID%></span></td>
                                             <td style="width: 25%;"><%= msgSentDateTime%><br/><%= msgSentDuration%></td>
                                         </tr>
-                                        <%      }   %>
-                                        <%  }   %>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="box jplist-no-results text-shadow align-center">
-                            <p><strong>No results found. Please refine your search.</strong></p>
-                        </div>
-                        <div class="jplist-search box">
-                            <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
-                                 data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
-                            </div>
-                            <div class="jplist-pagination" data-control-animate-to-top="true" 
-                                 data-control-type="pagination" data-control-name="paging" data-control-action="paging">
-                            </div>
+                                    <%      }   %>
+                                    <%  }%>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -419,15 +401,16 @@
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/UserNotificationListSYSJS.js" type="text/javascript"></script>
-
-        <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-toggle-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.history-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.jquery-ui-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.pagination-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.sort-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.textbox-filter.min.js"></script>
+        
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.buttons-v1.5.1.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.select-v1.2.5.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables-v1.10.16.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/jszip-v3.1.3.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/pdfmake-v0.1.32.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/vfs_fonts-v0.1.32.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/buttons.html5.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/buttons.print.min.js" type="text/javascript"></script>
     </body>
 </html>
