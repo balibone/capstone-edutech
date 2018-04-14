@@ -45,7 +45,7 @@
                             <form class="form-inline">
                                 <div class="form-group">
                                     <label for="csv">User Data CSV</label>
-                                    <input type="file" accept=".csv" class="form-control" id="csv" placeholder="Upload CSV">
+                                    <input type="file" accept=".csv" class="form-control" id="csv" onchange="handleFileUpload(this.files)" placeholder="Upload CSV">
                                 </div>
                             </form>
                             <div class="alert alert-info fade in" role="alert" style="font-size: 15px">
@@ -61,7 +61,7 @@
                         <div class="col-xs-6" style="display:flex; justify-content: flex-end;">
                             <button type="submit" class="btn btn-success" style="margin: none;">Submit CSV & Perform Mass Creation</button>
                         </div>
-                        <div class="col-xs-12">
+                        <div class="col-xs-12" id="previewTableDiv">
                             <table id="previewTable" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
@@ -108,10 +108,7 @@
         <script src="js/commoninfrastructure/admin/basejs/CommonAdminBaseJS.js"></script>
         <!--New User JS-->
         <script src="js/commoninfrastructure/admin/basejs/NewUserJS.js"></script> 
-        <script>
-            $(document).ready(function() {
-                $('#previewTable').DataTable();
-            } );
-        </script>
+        <!--Mass Upload Preview Table JS-->
+        <script src="js/commoninfrastructure/admin/webjs/PreviewTableJS.js"></script>
     </body>
 </html>
