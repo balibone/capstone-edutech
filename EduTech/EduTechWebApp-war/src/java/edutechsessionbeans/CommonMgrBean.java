@@ -7,6 +7,7 @@ package edutechsessionbeans;
 
 
 import commoninfraentities.UserEntity;
+import commoninfrasessionbeans.CommonInfraMgrBeanRemote;
 import edutechentities.common.AnnouncementEntity;
 import edutechentities.common.AttachmentEntity;
 import edutechentities.common.PostEntity;
@@ -22,8 +23,10 @@ import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import edutechentities.module.AssignmentEntity;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -34,6 +37,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.mail.Message;
@@ -56,6 +62,8 @@ public class CommonMgrBean {
 
     @PersistenceContext
     private EntityManager em;
+    @EJB
+    CommonInfraMgrBeanRemote cmb;
     
     //for mail
     private Properties mailServerProperties;
@@ -108,6 +116,27 @@ public class CommonMgrBean {
 
     public String countUsers() {
         return  String.valueOf(em.createQuery("SELECT COUNT(s) FROM SystemUser s WHERE s.userActiveStatus=1").getSingleResult());
+    }
+    
+    public void massCreateUsers(List<UserEntity> userList) {
+        for(UserEntity u : userList){
+            try {
+                UserEntity newUser = new UserEntity();
+                newUser.setContactNum(u.getContactNum());
+                newUser.setEmail(u.getEmail());
+                newUser.setUserFirstName(u.getUserFirstName());
+                newUser.setUserLastName(u.getUserLastName());
+                newUser.setUserSalutation(u.getUserSalutation());
+                newUser.setUserType(u.getUserType());
+                newUser.setUsername(u.getUsername());
+                newUser.setUserPassword(cmb.encodePassword(u.getUsername(), String.valueOf(Math.random())));
+                em.persist(newUser);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(CommonMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(CommonMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public ScheduleItemEntity createScheduleItem(ScheduleItemEntity thisSchedItem) {
@@ -851,7 +880,7 @@ public class CommonMgrBean {
         return sem;
     }
     
-//helper method to send email
+//helper method to send announcement email
     private void sendAnnouncementEmail(UserEntity assigned, AnnouncementEntity ann, int localPort) {
         try{
             // Step1
@@ -897,7 +926,14 @@ public class CommonMgrBean {
             System.out.println("Error sending user creation email!");
         }
     }
-
+    
+    //helper method to send creation emails
+    public void sendCreationEmails(List<UserEntity> userList){
+        //send email to each new user
+        for(UserEntity u : userList){
+            cmb.sendCreateEmail(u.getUsername(), 8080);
+        }
+    }
     private void sendPushNotification(UserEntity assigned, AnnouncementEntity ann) {
         try {
             String jsonResponse;

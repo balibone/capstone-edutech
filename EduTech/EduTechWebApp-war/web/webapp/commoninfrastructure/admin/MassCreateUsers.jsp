@@ -42,24 +42,23 @@
                     <hr>
                     <div class="row">
                         <div class="col-xs-12">
-                            <form class="form-inline">
+                            <form class="form-inline" id="uploadCsv">
                                 <div class="form-group">
-                                    <label for="csv">User Data CSV</label>
+                                    <label for="csv">User Data CSV (preview below): </label>
                                     <input type="file" accept=".csv" class="form-control" id="csv" onchange="handleFileUpload(this.files)" placeholder="Upload CSV">
                                 </div>
+                                <button type="reset" class="btn btn-warning" style="margin: unset;">Clear</button>
+                                <button type="submit" form="uploadCsv" class="btn btn-success" style="margin: unset;">Submit CSV & Perform Mass Creation</button>
                             </form>
-                            <div class="alert alert-info fade in" role="alert" style="font-size: 15px">
-                                <b>Attention!</b> Users created through this facility will have <b>a default profile picture assigned to them,</b> which can be changed later. <b>Temporary passwords will also be emailed to them,</b> so ensure that all user emails in CSV are <b>valid.</b>
+                            <div class="alert alert-info fade in" role="alert" style="font-size: 15px;">
+                                <b>Attention! Temporary passwords will be e-mailed to these new users,</b> so ensure that all user e-mails in CSV are <b>valid.</b><br>Users are also assigned <b>a default profile picture</b> which they can change later.
                             </div>
                         </div>
                             
                     </div>
                     <div class="row">
                         <div class="col-xs-6">
-                            <h4>Preview CSV Data:</h4>
-                        </div>
-                        <div class="col-xs-6" style="display:flex; justify-content: flex-end;">
-                            <button type="submit" class="btn btn-success" style="margin: none;">Submit CSV & Perform Mass Creation</button>
+                            <h4>CSV Data Preview:</h4>
                         </div>
                         <div class="col-xs-12" id="previewTableDiv">
                             <table id="previewTable" class="table table-striped table-bordered" style="width:100%">
@@ -71,19 +70,13 @@
                                         <th>Username</th>
                                         <th>Email</th>
                                         <th>Contact Number</th>
+                                        <th>Type</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                </tbody>
                             </table>
+                        </div>
+                        <div id="wait" style="display:none;border:1px solid black; border-radius: 15px; position:absolute; top:50%; left:50%; padding:10px; background-color: #f5f5f5; text-align: center;">
+                            <img src='images/ajax-loader.gif'/><br><b><h3>Creating users & sending E-mails..<br>Do not refresh page!</h3></b>
                         </div>
                     </div>
                 </div>
