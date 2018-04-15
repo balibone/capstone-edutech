@@ -21,9 +21,13 @@
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/userprofile/UserItemTransactionCSS.css" rel="stylesheet" type="text/css" />
         
-        <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -60,20 +64,60 @@
                             </nav>
                             <ul class="nav">
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-heart-o"></i>&nbsp;&nbsp;Likes
-                                    </a>
+                                    <a href="ProfileSysUser?pageTransit=goToViewChatListSYS&assocItemID=" class="nav-link"><i class="fa fa-comment"></i>&nbsp;&nbsp;My Chats</a>
                                 </li>
                                 <li class="nav-item d-none d-md-block">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
-                                    </a>
+                                    <div class="dropdown-container">
+                                        <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
+                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
+                                            <% 
+                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                                if (!userMessageListTopThreeSYS.isEmpty()) {
+                                                    for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
+                                                        Vector v = userMessageListTopThreeSYS.get(i);
+                                                        String messageContent = String.valueOf(v.get(0));
+                                                        String contentID = String.valueOf(v.get(1));
+                                                        String messageType = String.valueOf(v.get(2));
+                                                        String messageSenderImage = String.valueOf(v.get(4));
+                                                        String messageSentDuration = String.valueOf(v.get(5));
+                                            %>
+                                            <div id="<%= messageType%><%= contentID%>" class="media messageDIV">
+                                                <%  if (messageType.equals("System")) {%>
+                                                <img class="img-thumbnail d-flex" src="images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  } else {%>
+                                                <img class="img-thumbnail d-flex" src="uploads/commoninfrastructure/admin/images/<%= messageSenderImage%>" style="width:35px;height:35px;" />
+                                                <%  }%>
+                                                <div class="message-content pl-3">
+                                                    <div><%= messageContent%></div>
+                                                    <small class="font-weight-normal message-content">
+                                                        <i class="fa fa-clock-o"></i>&nbsp;<%= messageSentDuration%>&nbsp;(<%= messageType%>)
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                            <%      }   %>
+                                            <%  } else {    %>
+                                            <p style="text-align:center;">There are no notifications.</p>
+                                            <div class="dropdown-divider"></div>
+                                            <%  }   %>
+                                            <div class="text-center">
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
+                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;See All Notifications
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                        </div>
+                                    </div>
                                 </li>
                                 <select class="select-dropdown-nav accountNavigation" data-width="120px">
                                     <option value="#" selected data-before='<i class="fa fa-user align-baseline" /></i>'>&nbsp;&nbsp;<%= loggedInUsername%></option>
                                     <option value="CommonInfra?pageTransit=goToCommonLanding" data-before='<i class="fa fa-external-link align-baseline" /></i>'>&nbsp;&nbsp;Landing Page</option>
-                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccount" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
-                                    <option value="ProfileSysUser?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
+                                    <option value="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" data-before='<i class="fa fa-user-circle align-baseline" /></i>'>&nbsp;&nbsp;My Account</option>
+                                    <option value="CommonInfra?pageTransit=goToLogout" data-before='<i class="fa fa-sign-out align-baseline" /></i>'>&nbsp;&nbsp;Logout</option>
                                 </select>
                             </ul>
                         </div>
@@ -151,7 +195,7 @@
                 </div>
             </div>
 
-            <div class="container">
+            <div id="contentArea" class="container jplist mb-3">
                 <div class="row">
                     <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
                         <div class="card user-card">
@@ -197,9 +241,47 @@
                             </div>
                         </div>
                     </div>
+                                    
                     <div class="col-lg-9 col-md-8">
                         <div class="title"><span>Your Job Listing</span></div>
-                        <div class="row">
+                        
+                        <div class="jplist-search sorting-bar">
+                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" style="width: 200px;">
+                                    <input type="hidden" id="dbJobCategory" value="<%= request.getAttribute("jobCategoryStr")%>" />
+                                    <div id="jobCategoryDropdown" class="jplist-drop-down-search" add-class-on-xs="w-100" style="width: 200px;"
+                                         data-control-type="filter-drop-down" data-control-name="category-filter" data-control-action="filter">
+                                            <ul id="categoryList"><li class="active"><span data-path="default">All Job Categories</span></li><li><span data-path=".MovingandPacking">Moving and Packing</span></li><li><span data-path=".ItemLiftingandShifting"> Item Lifting and Shifting</span></li><li><span data-path=".FoodDelivery"> Food Delivery</span></li><li><span data-path=".PeerTutoring"> Peer Tutoring</span></li><li><span data-path=".ItemDelivery"> Item Delivery</span></li><li><span data-path=".EventHelperRecruitment"> Event Helper Recruitment</span></li><li class="active"><span data-path="default">All Job Categories</span></li><li><span data-path=".MovingandPacking">Moving and Packing</span></li><li><span data-path=".ItemLiftingandShifting"> Item Lifting and Shifting</span></li><li><span data-path=".FoodDelivery"> Food Delivery</span></li><li><span data-path=".PeerTutoring"> Peer Tutoring</span></li><li><span data-path=".ItemDelivery"> Item Delivery</span></li><li><span data-path=".EventHelperRecruitment"> Event Helper Recruitment</span></li></ul> 
+                                    </div>
+                            </div>
+                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
+                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort">
+                                <ul>
+                                    
+                                    <li><span data-path=".jobTitle" data-order="asc" data-type="text">Title Asc</span></li>
+                                    <li><span data-path=".jobTitle" data-order="desc" data-type="text">Title Desc</span></li>
+                                    <li><span data-path=".jobRate" data-order="asc" data-type="number">Job Rate Asc</span></li>
+                                    <li><span data-path=".jobRate" data-order="desc" data-type="number">Job Rate Desc</span></li>
+                                </ul>
+                            </div>
+                            <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
+                                 data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
+                                <ul>
+                                    <li><span data-number="4">4 per page</span></li>
+                                    <li><span data-number="8">8 per page</span></li>
+                                    <li><span data-number="12" data-default="true">12 per page</span></li>
+                                    <li><span data-number="16">16 per page</span></li>
+                                </ul>
+                            </div>
+                            <div class="mt-2 mr-3" remove-class-on-xs="mt-2" add-class-on-xs="w-100">
+                                    <input type="text" data-path=".jobTitle" class="form-control searchInputText" placeholder="Search Job Title" 
+                                               aria-label="Search Job ..." data-control-type="textbox" 
+                                               data-control-name="transmission-text-filter" data-control-action="filter" />
+                            </div>
+                        </div>
+                                    
+                        <div id="itemListing" class="row equal-height ml-2" add-class-on-xs="no-gutters">
+                            
+                                <div class="row list searchresult-row">
                             <%
                                 ArrayList<Vector> jobListing = (ArrayList) request.getAttribute("userJobListing");
                                 if(jobListing != null){
@@ -220,34 +302,74 @@
                                         }else{
                                             jobRateType = "Fixed Rate";
                                         }
+                                        
+                                        String categoryPath = categoryName;
+                                                if(categoryPath.contains(" ")){
+                                                    categoryPath = categoryPath.replace(" ", "");
+                                                }
                             %>
-                            <div class="col-sm-6">
-                                <div class="card">
+                            <div class="col-xl-6 col-md-6 col-6 list-item">
+                                <div class="card card-product">
+                                    <div class="card-content">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-4"><img src="uploads/unify/images/errands/job/<%= jobImg%>" style="height: 100px; width: 100px;"></div>
+                                            <div class="col-md-4"><img src="uploads/unify/images/errands/job/<%=jobImg%>" style="height: 100px; width: 100px;"></div>
                                             <div class="col-md-8">
-                                                <h5><%= jobTitle%></h5>
-                                                <span><%= categoryName%></span><br/>
-                                                <span>S$<%= jobRate%>/<%= jobRateType%></span><br/>
-                                                <a href="ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>" class="btn btn-primary mt-2" style="padding: 5px 5px; font-size: 15px;">Edit</a>
-                                                <a href="ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=<%= jobID%>" onclick="return confirm('Are you sure to delete the job?')" class="btn btn-danger mt-2" style="padding: 5px 5px; font-size: 15px;">Delete</a>
+                                                <span class="card-title jobTitle job-title" style="font-size: 17px;"><strong><%= jobTitle%></strong></span><br/>
+                                                <span class="card-text category <%= categoryPath%>"><%= categoryName%></span><br/>
+                                                <span class="card-text rate jobRate">S$<%= jobRate%></span> <span>/<%= jobRateType%></span><br/>
+                                                <a href="ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>" class="btn btn-primary mt-2 mb-3" style="padding: 5px 5px; font-size: 15px;">Edit</a>
+                                                <a href="ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=<%= jobID%>" onclick="return confirm('Are you sure to delete the job?')" class="btn btn-danger mb-3 mt-2" style="padding: 5px 5px; font-size: 15px;">Delete</a>
                                             </div>
+                                            
                                         </div>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                             <%
                                     }
                                 }
                             %>
+                            </div>
+                         
+                      </div>
+                        <div class="box jplist-no-results text-shadow align-center">
+                            <p><strong>No results found. Please refine your search.</strong></p>
+                        </div>
+                        <div class="jplist-search">
+                            <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
+                                 data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
+                            </div>
+                            <div class="jplist-pagination" data-control-animate-to-top="true" 
+                                 data-control-type="pagination" data-control-name="paging" data-control-action="paging">
+                            </div>
+                            
                         </div>
                     </div>
             </div>
             
         </div>
-                        <div id="unifyFooter"></div>
-            <div id="itemDetails-iframe"></div>
+           
+            <div class="chat-main">
+                <div class="col-md-12 chat-header">
+                    <div class="row header-one text-white p-1">
+                        <div class="col-md-6 name pl-2">
+                            <i class="fa fa-comment"></i>
+                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
+                        </div>
+                        <div class="col-md-6 options text-right pr-0">
+                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-content">
+                    <div class="col-md-12 chats">
+                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
+                    </div>
+                </div>
+            </div>            
+            
             
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
@@ -265,9 +387,17 @@
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
     
-        <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
+        
         <script src="js/unify/systemuser/webjs/userprofile/UserJobListingSYSJS.js" type="text/javascript"></script>
+        
+        <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-toggle-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.history-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.jquery-ui-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.pagination-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.sort-bundle.min.js"></script>
+        <script src="js/unify/systemuser/basejs/jplist/jplist.textbox-filter.min.js"></script>
     </body>
 </html>

@@ -8,8 +8,8 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify - My Job Transactions</title>
-
+        <title>Unify Errands - Job Review</title>
+        
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
@@ -24,6 +24,8 @@
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+        
+        
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -43,12 +45,12 @@
                         <a data-toggle="collapse" href="#" data-target="#companyReviewSub" role="button" aria-expanded="false" aria-controls="companyReviewSub"><i class="fa fa-fw fa-user"></i>&nbsp;Company Review</a>
                         <div id="companyReviewSub" class="collapse" data-parent="#list-menu" role="tabpanel"><a href="VoicesSysUser?pageTransit=goToViewCompanyListingSYS">Company Listing</a></div>
                     </div>
-                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccount"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
+                    <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS"><i class="fa fa-fw fa-home"></i>&nbsp;Unify Home</a>
                 </div>
             </div>
         </nav>
         <div class="content-overlay"></div>
-        
+
         <!-- PAGE TOP HEADER -->
         <div class="top-header">
             <div class="container">
@@ -185,16 +187,16 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Errands Transaction</li>
+                            <li class="breadcrumb-item active" aria-current="page">Job Offers</li>
                         </ol>
                     </nav>
                 </div>
             </div>
-
-            <div class="container">
+            
+            <div id="contentArea" class="container jplist mb-3">
                 <div class="row">
-                    <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                        <div class="card user-card">
+                <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                    <div class="card user-card">
                             <%
                                 Vector userAccountVec = (Vector) request.getAttribute("userAccountVec");
                                 String username, userFirstName, userLastName, userImage, userCreationDate;
@@ -219,69 +221,118 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
+                                <button type="button" class="list-group-item list-group-item-action marketplaceBtn active">
+                                    <i class="fa fa-fw fa-shopping-cart"></i>&nbsp;My Marketplace
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action errandsBtn" data-toggle="modal" data-target="#errandsModalCenter">
+                                    <i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-comments"></i>&nbsp;My Whispers
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action voicesBtn">
+                                    <i class="fa fa-fw fa-commenting"></i>&nbsp;My Voices
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
+                                <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList&username=<%=loggedInUsername%>" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
+                                </a>
                                 <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
                                 </a>
-                                <a href="account-address.html" class="list-group-item list-group-item-action">
+                                <a href="ProfileSysUser?pageTransit=goToErrandsTrans" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToCompanyReview" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-building"></i>&nbsp;Company Review List
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToCompanyRequest" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-question-circle"></i>&nbsp;Company Request List
+                                </a>
+                                <a href="ProfileSysUser?pageTransit=goToResume" class="list-group-item list-group-item-action">
+                                    <i class="fa fa-fw fa-file"></i>&nbsp;Resume List
                                 </a>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Errands Transaction</span></div>
+                </div>
+                    
+                <div class="col-lg-9 col-md-8">
+                     <div class="title"><span>Errands Reviews</span></div>
                         <div class="table-responsive">
-                            <table id="jobTransTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="font-size: 13px;">
+                            <table id="jobReviewTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="font-size: 13px;">
                                 <thead>
-                                    <tr>
-                                        <th>Transaction Date</th>
-                                        <th>Signature</th>
-                                        <th>Poster ID</th>
-                                        <th>Taker ID</th>
-                                        <th>Job Image</th>
-                                        <th>Job Title</th>
-                                        <th>Listing Rate</th>
-                                        <th>Transaction Rate</th>
-                                    </tr>
+                                  <tr>
+                                    <th scope="col">The Review is Given by</th>
+                                    <th scope="col">Job Title</th>
+                                    <th scope="col">Rating</th>
+                                    <th scope="col">Review Content</th>
+                                    <th scope="col">Review Date</th>
+                                  </tr>
                                 </thead>
                                 <tbody>
-                                    <%
-                                        ArrayList<Vector> jobTransListSYS = (ArrayList) request.getAttribute("jobTransListSYS");
-                                        if (!jobTransListSYS.isEmpty()) {
-                                            for (int i = 0; i <= jobTransListSYS.size()-1; i++) {
-                                                Vector v = jobTransListSYS.get(i);
-                                                String jobID = String.valueOf(v.get(0));
-                                                String jobTransID = String.valueOf(v.get(1));
-                                                String jobTransactionDate = String.valueOf(v.get(2));
-                                                String jobTakerID = String.valueOf(v.get(3));
-                                                String jobPosterID = String.valueOf(v.get(4));
-                                                String jobImage = String.valueOf(v.get(5));
-                                                String jobTitle = String.valueOf(v.get(6));
-                                                String jobListingRate = String.valueOf(v.get(7));
-                                                String jobListingRateType = String.valueOf(v.get(8));
-                                                String jobTransactionRate = String.valueOf(v.get(9));
-                                                String transSig = String.valueOf(v.get(10));
-                                    %>
-                                    <tr>
-                                        <td><%= jobTransactionDate %><span style="display: none">;<%= jobID%>;<%= jobTransID%></span></td>
-                                        <td><img src="uploads/unify/images/errands/transSignature/<%= transSig%>" style="width: 50px; height: 50px;" /></td>
-                                        <td><%= jobPosterID %></td>
-                                        <td><%= jobTakerID %></td>
-                                        <td><img src="uploads/unify/images/errands/job/<%= jobImage%>" style="width: 50px; height: 50px;" /></td>
-                                        <td><%= jobTitle %></td>
-                                        <td>$<%= jobListingRate %>/<%= jobListingRateType%></td>
-                                        <td>$<%= jobTransactionRate %>/<%= jobListingRateType%></td>
-                                    </tr>
-                                    <%      }   %>
-                                    <%  }%>
+                                  <%
+                                      ArrayList<Vector> allReviewList = (ArrayList)request.getAttribute("allReviewList");
+                                      
+                                      for(int i=0; i<allReviewList.size(); i++){
+                                          Vector reviewDetails = (Vector)allReviewList.get(i);
+                                          
+                                          String reviewer = (String)reviewDetails.get(0);
+                                          String firstName = (String)reviewDetails.get(1);
+                                          String lastName = (String)reviewDetails.get(2);
+                                          String userImg = (String)reviewDetails.get(3);
+                                          String jobTitle = (String)reviewDetails.get(4);
+                                          String reviewRating = (String)reviewDetails.get(5);
+                                          String reviewContent = (String)reviewDetails.get(6);
+                                          String reviewDate = String.valueOf(reviewDetails.get(7));
+                                          String jobTransactionID = String.valueOf(reviewDetails.get(8));
+                                          String jobID = String.valueOf(reviewDetails.get(9));
+                                  %>
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <img src="uploads/commoninfrastructure/admin/images/<%= userImg%>" style="width:35px; height:35px;"/>
+                                            </div>
+                                            <div class="col-10">
+                                                <span class="senderName"><strong>&nbsp;&nbsp;&nbsp;<%= reviewer%></strong></span><br/>
+                                                <span class="senderName">&nbsp;&nbsp;&nbsp;<%= firstName%> <%= lastName%></span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><%= jobTitle%></td>  
+                                    <td><span class="offerPrice"><%= reviewRating%></span></td>
+                                    <td><%= reviewContent%></td>
+                                    <td><%= reviewDate%><span style="display: none">;<%= jobID%>;<%= jobTransactionID%></span></td>
+                                </tr>
+                                  <%
+                                      }
+                                    
+                                  %>
                                 </tbody>
-                            </table>
-                        </div>
-                    </div>
+                            </table> 
+                          </div>
+                        </div><br/>
+                       
+                      </div>
                 </div>
-            </div>
+                </div>
             
-            <div class="chat-main">
+        
+        
+         <div class="chat-main">
                 <div class="col-md-12 chat-header">
                     <div class="row header-one text-white p-1">
                         <div class="col-md-6 name pl-2">
@@ -298,15 +349,8 @@
                         <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
                     </div>
                 </div>
-            </div>                    
-                               
-            <div id="jobDetails-iframe"></div>
-            
-            <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
-                <i class="fa fa-angle-double-up"></i>
-            </a>
-        </div>
-
+            </div>           
+                    
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
@@ -327,6 +371,8 @@
         <script src="js/unify/systemuser/basejs/datatable/jszip-v3.1.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/pdfmake-v0.1.32.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/vfs_fonts-v0.1.32.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/userprofile/ViewJobReviewListSYSJS.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/UserJobTransactionJS.js" type="text/javascript"></script>
+        
     </body>
 </html>
