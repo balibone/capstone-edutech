@@ -12,6 +12,7 @@ import edutechsessionbeans.CommonMgrBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,6 +21,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -32,6 +34,8 @@ public class AnnouncementREST {
     
     @EJB
     CommonMgrBean cmb;
+    @Context
+    private HttpServletRequest request;
     
     @GET 
     @Produces({ MediaType.APPLICATION_JSON})
@@ -57,7 +61,7 @@ public class AnnouncementREST {
     @Consumes({ MediaType.APPLICATION_JSON})
     @Produces({ MediaType.APPLICATION_JSON})
     public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
-        return cmb.createAnnouncement(ann);
+        return cmb.createAnnouncement(ann, request.getLocalPort());
     }
     
     @DELETE 

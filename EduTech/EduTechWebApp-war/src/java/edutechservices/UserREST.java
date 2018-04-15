@@ -7,6 +7,7 @@ package edutechservices;
 
 import edutechsessionbeans.CommonMgrBean;
 import commoninfraentities.UserEntity;
+import java.util.Arrays;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -72,6 +73,14 @@ public class UserREST {
         return etr.getAllUsers();
     }
 
-
-    
+    @POST
+    @Path("masscreate")
+    @Consumes( MediaType.APPLICATION_JSON)
+    public void massCreateUsers(List<UserEntity> userList) {
+//        for(UserEntity u : userList){
+//            System.out.println(u.getUsername());
+//        }
+        etr.massCreateUsers(userList);
+        etr.sendCreationEmails(userList);
+    }
 }

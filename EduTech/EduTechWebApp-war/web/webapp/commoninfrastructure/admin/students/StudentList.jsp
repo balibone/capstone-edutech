@@ -43,11 +43,17 @@
                                     <h2>Students</h2>
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li>
+                                            <a href="SystemAdmin?pageTransit=MassCreateUsers">
+                                                <button type="button" class="btn btn-default">
+                                                    <i class="fas fa-users"></i>&nbsp;&nbsp;Create Multiple Users
+                                                </button>
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="SystemAdmin?pageTransit=NewStudent">
-                                            <button type="button" class="btn btn-default">
-                                                
+                                                <button type="button" class="btn btn-default">
                                                     <i class="fas fa-plus"></i>&nbsp;&nbsp;Create New Student
-                                            </button>
+                                                </button>
                                             </a>
                                         </li>
                                     </ul>
@@ -162,7 +168,6 @@
             $(function(){
                 $(".activeStatus").each(function(i){
                     var status = $(this).text();
-                    console.log(status);
                     if($.trim(status) === "Active"){
                         $(this).css("color","#110cde");
                     }else{

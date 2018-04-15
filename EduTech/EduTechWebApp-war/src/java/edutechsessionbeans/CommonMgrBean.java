@@ -7,6 +7,7 @@ package edutechsessionbeans;
 
 
 import commoninfraentities.UserEntity;
+import commoninfrasessionbeans.CommonInfraMgrBeanRemote;
 import edutechentities.common.AnnouncementEntity;
 import edutechentities.common.AttachmentEntity;
 import edutechentities.common.PostEntity;
@@ -21,6 +22,11 @@ import edutechentities.group.MeetingMinuteEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import edutechentities.module.AssignmentEntity;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,12 +34,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -45,6 +62,13 @@ public class CommonMgrBean {
 
     @PersistenceContext
     private EntityManager em;
+    @EJB
+    CommonInfraMgrBeanRemote cmb;
+    
+    //for mail
+    private Properties mailServerProperties;
+    private Session mailSession;
+    private MimeMessage mailMessage;
     
     // HELPER METHOD 
     public String getCurrentISODate() {
@@ -92,6 +116,27 @@ public class CommonMgrBean {
 
     public String countUsers() {
         return  String.valueOf(em.createQuery("SELECT COUNT(s) FROM SystemUser s WHERE s.userActiveStatus=1").getSingleResult());
+    }
+    
+    public void massCreateUsers(List<UserEntity> userList) {
+        for(UserEntity u : userList){
+            try {
+                UserEntity newUser = new UserEntity();
+                newUser.setContactNum(u.getContactNum());
+                newUser.setEmail(u.getEmail());
+                newUser.setUserFirstName(u.getUserFirstName());
+                newUser.setUserLastName(u.getUserLastName());
+                newUser.setUserSalutation(u.getUserSalutation());
+                newUser.setUserType(u.getUserType());
+                newUser.setUsername(u.getUsername());
+                newUser.setUserPassword(cmb.encodePassword(u.getUsername(), String.valueOf(Math.random())));
+                em.persist(newUser);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(CommonMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(CommonMgrBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public ScheduleItemEntity createScheduleItem(ScheduleItemEntity thisSchedItem) {
@@ -496,7 +541,7 @@ public class CommonMgrBean {
         return anns;
     }
 
-    public AnnouncementEntity createAnnouncement(AnnouncementEntity ann) {
+    public AnnouncementEntity createAnnouncement(AnnouncementEntity ann, int localPort) {
         //populate createdBy from JSON username
         UserEntity creator = em.find(UserEntity.class, ann.getCreatedBy().getUsername());
         System.out.println("*******************CREATOR IS "+creator.getUsername());
@@ -509,16 +554,23 @@ public class CommonMgrBean {
                 Collection<UserEntity> assignedTo = new ArrayList<>();
                 for(UserEntity assigned : ann.getAssignedTo()){
                     //assigned to everyone except the creator
-                    if(!assigned.equals(creator)){
-                        assignedTo.add(em.find(UserEntity.class,assigned.getUsername()));
+                    //need to check usernames because the assigned to user entities have not been populated correctly yet.
+                    if(!assigned.getUsername().equals(creator.getUsername())){
+                        //correctly populate user entity to be assigned this announcement
+                        assigned = em.find(UserEntity.class,assigned.getUsername());
+                        //add the proper user inside announcement
+                        assignedTo.add(assigned);
+                        //send email
+                        sendAnnouncementEmail(assigned, ann, localPort);
+                        //send push notification
+                        sendPushNotification(assigned, ann);
                     }
                 }
                 ann.setAssignedTo(assignedTo);
                 System.out.println("*******************ASSIGN TO MODIFIED");
             }
+            em.persist(ann);
         }
-
-        em.persist(ann);
         return ann;
     }
 
@@ -826,6 +878,115 @@ public class CommonMgrBean {
             }
         }
         return sem;
+    }
+    
+//helper method to send announcement email
+    private void sendAnnouncementEmail(UserEntity assigned, AnnouncementEntity ann, int localPort) {
+        try{
+            // Step1
+            System.out.println("\n 1st ===> setup Mail Server Properties..");
+            mailServerProperties = System.getProperties();
+            //mail server settings
+            mailServerProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            mailServerProperties.put("mail.smtp.port", "587");
+            mailServerProperties.put("mail.smtp.auth", "true");
+            mailServerProperties.put("mail.smtp.starttls.enable", "true");
+            System.out.println("Mail Server Properties have been setup successfully..");
+            
+            // Step2
+            System.out.println("\n\n 2nd ===> get Mail Session..");
+            mailSession = Session.getDefaultInstance(mailServerProperties, null);
+            mailMessage = new MimeMessage(mailSession);
+            mailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(assigned.getEmail()));
+            mailMessage.setSubject("Greetings from EduBox");
+//            String hostAndPort = java.net.InetAddress.getLocalHost().getHostAddress()+":"+localPort;
+//            System.out.println("HOST AND PORT IS "+hostAndPort);
+            String emailBody = "Hey "+ assigned.getUsername() + ",<br><br>"
+                    + "You have a new notification on EduTech!<br><br>"
+                    + "Here is your notification: <br><br>"
+                    + "<b>------------------START-----------------</b><br><br>"
+                    + "Title: <i>"+ann.getTitle()+"</i><br><br>"
+                    + "Message: "+ann.getMessage()+"<br><br>"
+                    + "<a href='http://localhost:3000/"+ann.getPath()+"'><button>Click here to see event in EduTech</button></a><br><br>"
+                    + "<b>------------------END-----------------</b><br><br>"
+                    + "<br><br>Cheers,<br>EduBox Team";
+            mailMessage.setContent(emailBody, "text/html");
+            System.out.println("Mail Session has been created successfully..");
+            
+            // Step3
+            System.out.println("\n\n 3rd ===> Get Session and Send mail");
+            Transport transport = mailSession.getTransport("smtp");
+            
+            // Enter your correct gmail UserID and Password
+            // if you have 2FA enabled then provide App Specific Password
+            transport.connect("smtp.gmail.com", "41capstone03@gmail.com", "8mccapstone");
+            transport.sendMessage(mailMessage, mailMessage.getAllRecipients());
+            transport.close();
+        }catch(Exception e){
+            System.out.println("Error sending user creation email!");
+        }
+    }
+    
+    //helper method to send creation emails
+    public void sendCreationEmails(List<UserEntity> userList){
+        //send email to each new user
+        for(UserEntity u : userList){
+            cmb.sendCreateEmail(u.getUsername(), 8080);
+        }
+    }
+    private void sendPushNotification(UserEntity assigned, AnnouncementEntity ann) {
+        try {
+            String jsonResponse;
+            
+            URL url = new URL("https://onesignal.com/api/v1/notifications");
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setUseCaches(false);
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setRequestProperty("Authorization", "Basic M2NlNmYwYjItMGZkYy00MTg1LTk2NjktNTE0ZWRmNjBmZTNi");
+            con.setRequestMethod("POST");
+            
+            String strJsonBody = "{"
+                    + "\"app_id\": \"7c25a78b-f0ea-4190-a170-b04ecd514446\","
+                    //dont change this
+                    + "\"filters\": [{\"field\": \"tag\", \"key\": \"username\", \"relation\": \"=\", \"value\": \""+assigned.getUsername()+"\"}],"
+                    //heading is notification title
+                    + "\"headings\": {\"en\": \"EduTech : "+ann.getTitle()+"\"},"
+                    //contents is notification body
+                    + "\"contents\": {\"en\": \""+ann.getMessage()+"\"}"
+                    + ",\"url\": \"http://localhost:3000/"+ann.getPath()+"\""
+                    + "}";
+            
+            //for debugging
+            System.out.println("strJsonBody:\n" + strJsonBody);
+            
+            byte[] sendBytes = strJsonBody.getBytes("UTF-8");
+            con.setFixedLengthStreamingMode(sendBytes.length);
+            
+            OutputStream outputStream = con.getOutputStream();
+            outputStream.write(sendBytes);
+            
+            int httpResponse = con.getResponseCode();
+            System.out.println("httpResponse: " + httpResponse);
+            
+            if (httpResponse >= HttpURLConnection.HTTP_OK
+                    && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
+                Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
+                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                scanner.close();
+            }
+            else {
+                Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
+                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                scanner.close();
+            }
+            System.out.println("jsonResponse:\n" + jsonResponse);
+            
+        } catch(Throwable t) {
+            t.printStackTrace();
+        }
     }
 
 }
