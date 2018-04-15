@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,14 +30,24 @@ public class ShoutsSysUserController extends HttpServlet {
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
             System.out.println(pageAction);
+            
+            String loggedInUsername = getCookieUsername(request);
 
             switch (pageAction) {
                 case "goToViewShoutsListingSYS":
-                    String usernameShoutListing = request.getParameter("loggedInUsername");
-                    //System.out.println(usernameShoutListing);
-                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(usernameShoutListing));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(usernameShoutListing));
+                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewShoutsListingSYS";
+                    break;
+                case "goToViewMyShoutsListingSYS":
+                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewMyShoutList(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewMyShoutsListingSYS";
+                    break;
+                case "goToViewMyBookmarkedShoutsListingSYS":
+                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewMyBookmarkedShoutList(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewMyBookmarkedShoutsListingSYS";
                     break;
                 case "goToSetBookmarkSYS":
                     System.out.println("At (ShoutsSysUserController.goToSetBookmarkSYS");
@@ -108,10 +119,10 @@ public class ShoutsSysUserController extends HttpServlet {
                     } else {
                         request.setAttribute("errorMessage", responseMessage);
                     }
-                    //String usernameAfterCreateShout = request.getParameter("loggedInUsername");
-                    //request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(usernameAfterCreateShout));
-                    //pageAction = "ViewShoutsListingSYS";
-                    pageAction = "NewShoutModalSYS";
+                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewShoutsListingSYS";
+                    //pageAction = "NewShoutModalSYS";
                     break;
                 case "goToDeleteShoutSYS":
                     System.out.println("At (ShoutsSysUserController.goToDeleteShoutSYS");
@@ -121,8 +132,9 @@ public class ShoutsSysUserController extends HttpServlet {
                     } else {
                         request.setAttribute("errorMessage", responseMessage);
                     }
-                    String usernameAfterShoutDelete = request.getParameter("loggedInUsername");
-                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(usernameAfterShoutDelete));
+                    //String usernameAfterShoutDelete = request.getParameter("loggedInUsername");
+                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewShoutsListingSYS";
                     break;
                 case "goToReportShoutSubmit":
@@ -133,8 +145,10 @@ public class ShoutsSysUserController extends HttpServlet {
                     } else {
                         request.setAttribute("errorMessage", responseMessage);
                     }
-
-                    pageAction = "ReportShoutModalSYS";
+                    request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    pageAction = "ViewShoutsListingSYS";
+                    //pageAction = "ReportShoutModalSYS";
                     break;
                 case "goToReportShoutSYS":
                     String reportShoutID = request.getParameter("hiddenShoutID");
@@ -151,6 +165,7 @@ public class ShoutsSysUserController extends HttpServlet {
                     }
                     String shoutCommentIDAfterReport = request.getParameter("shoutID");
                     request.setAttribute("commentShoutIDModal", shoutCommentIDAfterReport);
+                    request.setAttribute("commentShoutContentModal", ssmr.viewShoutContent(shoutCommentIDAfterReport));
                     request.setAttribute("commentListSYS", (ArrayList) ssmr.viewCommentList(shoutCommentIDAfterReport));
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList(shoutCommentIDAfterReport));
                     pageAction = "ViewShoutCommentModalSYS";
@@ -183,8 +198,9 @@ public class ShoutsSysUserController extends HttpServlet {
                     System.out.println(commentShoutIDModal);
                     System.out.println(commentShoutContentModal);
                     request.setAttribute("commentShoutIDModal", commentShoutIDModal);
-                    request.setAttribute("commentShoutContentModal", commentShoutContentModal);
+                    //request.setAttribute("commentShoutContentModal", commentShoutContentModal);
                     request.setAttribute("commentListSYS", (ArrayList) ssmr.viewCommentList(commentShoutIDModal));
+                    request.setAttribute("commentShoutContentModal", ssmr.viewShoutContent(commentShoutIDModal));
                     //request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList(commentShoutIDModal));
                     pageAction = "ViewShoutCommentModalSYS";
                     break;
@@ -200,6 +216,7 @@ public class ShoutsSysUserController extends HttpServlet {
                     request.setAttribute("commentShoutIDModal", shoutIDAfterDelete);
                     request.setAttribute("commentListSYS", (ArrayList) ssmr.viewCommentList(shoutIDAfterDelete));
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList(shoutIDAfterDelete));
+                    request.setAttribute("commentShoutContentModal", ssmr.viewShoutContent(shoutIDAfterDelete));
                     pageAction = "ViewShoutCommentModalSYS";
                     break;
                 case "goToNewShoutCommentSYS":
@@ -222,7 +239,8 @@ public class ShoutsSysUserController extends HttpServlet {
                     String shoutContentAfterCreate = request.getParameter("shoutContent");
                     System.out.println(shoutContentAfterCreate);
                     request.setAttribute("commentShoutIDModal", shoutIDAfterCreate);
-                    request.setAttribute("commentShoutContentModal", shoutContentAfterCreate);
+                    //request.setAttribute("commentShoutContentModal", shoutContentAfterCreate);
+                    request.setAttribute("commentShoutContentModal", ssmr.viewShoutContent(shoutIDAfterCreate));
                     request.setAttribute("commentListSYS", (ArrayList) ssmr.viewCommentList(shoutIDAfterCreate));
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList(shoutIDAfterCreate));
                     pageAction = "ViewShoutCommentModalSYS";
@@ -251,7 +269,8 @@ public class ShoutsSysUserController extends HttpServlet {
                     String shoutIDAfterEdit = request.getParameter("shoutID");
                     String shoutContentAfterEdit = request.getParameter("shoutContent");
                     System.out.println(shoutContentAfterEdit);
-                    request.setAttribute("commentShoutContentModal", shoutContentAfterEdit);
+                    //request.setAttribute("commentShoutContentModal", shoutContentAfterEdit);
+                    request.setAttribute("commentShoutContentModal", ssmr.viewShoutContent(shoutIDAfterEdit));
                     request.setAttribute("commentShoutIDModal", shoutIDAfterEdit);
                     request.setAttribute("commentListSYS", (ArrayList) ssmr.viewCommentList(shoutIDAfterEdit));
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList(shoutIDAfterEdit));
@@ -446,6 +465,19 @@ public class ShoutsSysUserController extends HttpServlet {
         processRequest(request, response);
     }
 
+    private String getCookieUsername(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String loggedInUsername = null;
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (c.getName().equals("username") && !c.getValue().equals("")) {
+                    loggedInUsername = c.getValue();
+                }
+            }
+        }
+        return loggedInUsername;
+    }
+    
     @Override
     public String getServletInfo() {
         return "Shouts System User Servlet";

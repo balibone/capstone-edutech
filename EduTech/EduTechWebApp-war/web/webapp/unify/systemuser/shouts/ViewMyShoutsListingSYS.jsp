@@ -29,40 +29,7 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
-        <style>
-            .star-rating {
-                unicode-bidi: bidi-override;
-                width: 120px;
-                color: #ddd;
-                font-size: 0;
-                position: relative;
-                display: table;
-                text-shadow: 0px 1px 0 #a2a2a2;
-            }
-            .star-rating span {
-                padding: 3px;
-                font-size: 15px;
-            }
-
-            .star-rating-top {
-                color: #FFD700;
-                padding: 0;
-                position: absolute;
-                z-index: 1;
-                display: block;
-                top: 0;
-                left: 0;
-                overflow: hidden;
-                white-space: nowrap;
-            }
-
-            .star-rating-bottom {
-                padding: 0;
-                display: block;
-                z-index: 0;
-            }
-        </style>   
-
+        
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -111,7 +78,8 @@
                                             <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <%                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
+                                            <% 
+                                                ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
                                                     for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
                                                         Vector v = userMessageListTopThreeSYS.get(i);
@@ -139,7 +107,7 @@
                                             <%  } else {    %>
                                             <p style="text-align:center;">There are no notifications.</p>
                                             <div class="dropdown-divider"></div>
-                                            <%  }%>
+                                            <%  }   %>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
@@ -207,14 +175,6 @@
                     <div class="col-4 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block mt-3">
                         <div class="d-flex align-items-center float-right abg-secondary">
                             <div class="btn-group btn-group-sm mr-3" role="group">
-                                <%-- deleted
-                                <a class="btn btn-outline-theme" href="MarketplaceSysUser?pageTransit=goToNewItemListingSYS" role="button">
-                                    <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Sell An Item
-                                </a>
-                                <a class="btn btn-outline-theme" href="ProfileSysUser?pageTransit=goToUserAccount" role="button">
-                                    <i class="fa fa-user-plus d-none d-lg-inline-block"></i>&nbsp;Post A Job
-                                </a>
-                                --%>
                                 <a OnClick="newShout()"><button type="button" class="btn btn-outline-theme center"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Create A New Shout</button></a>   
                             </div>
                         </div>
@@ -231,7 +191,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS&loggedInUsername=<%=loggedInUsername%>">Shouts Listing</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="ShoutsSysUser?pageTransit=goToViewMyShoutsListingSYS">My Shouts Listing</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -274,26 +234,14 @@
                                                data-control-name="content-text-filter" data-control-action="filter" />
                                     </div>
 
-                                    <%-- search by shout user *removed - to keep anonymity
-                                    <div class="filter-sidebar">
-                                        <div class="subtitle" style="margin-bottom: 5px">Shout User</div>
-                                        <input type="text" data-path=".shoutUsername" class="form-control" placeholder="Search User" 
-                                               aria-label="Search User" data-control-type="textbox" id="user-filter"
-                                               data-control-name="user-text-filter" data-control-action="filter" />
-                                    </div>
-                                    --%>
-
-                                    <%-- additional filters --%>
                                 </div>
                             </div>
                         </div>
-                        <%-- deleted
-                        <a OnClick="newShout()"><button type="button" class="btn btn-outline-info center"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Create A New Shout</button></a>   
-                        --%>
+                        
                     </div>
 
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Shouts Listing</span></div>
+                        <div class="title"><span>Shouts Posted By You</span></div>
                         <div class="jplist-search sorting-bar">
 
                             <div class="dateSort jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
@@ -319,11 +267,6 @@
                                         data-control-name="reset" data-control-action="reset"><i class="fa fa-retweet">&nbsp;&nbsp;Reset</i>
                                 </button>
                             </div>
-                            <%-- removed
-                            <div class="jplist-panel">
-                                <a OnClick="newShout()"><button type="button" class="btn btn-outline-info center"><i class="fa fa-plus"></i>&nbsp;&nbsp;New Shout</button></a>
-                            </div>
-                            --%>
                         </div>
 
                         <!-- SHOUTS LISTING -->
@@ -355,28 +298,6 @@
                                                 <div class="row">
 
                                                     <div class="col-xl-8 col-md-8 col-8">
-                                                        <%-- removed
-                                                        <div class="shout-ID">
-                                                            <span class="card-header shoutCategory" style="color: #007bff; font-size: 10px; line-height: 2.5;">Categories, Type</span>
-                                                        </div>
-                                                        
-                                                        
-                                                        
-                                                        <div class="shout-ID">
-                                                            <span class="card-title shoutID" style="color: #2b3233; font-size: 25px; line-height: 2.5;"><strong>#<%= shoutID%></strong></span>
-                                                        </div>
-                                                        --%>
-
-                                                        <%
-                                                            if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
-                                                        %>
-
-                                                        <div class="shout-user-info">
-                                                            <span class="card-header shoutUsername" style="font-size: 12px">Posted by you</span>
-                                                        </div>
-
-                                                        <%  }%>
-
                                                         <div class="shout-content">
                                                             <span class="card-content shoutContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><%= shoutContent%></span>
                                                         </div>
@@ -432,20 +353,6 @@
                                                                 <%  }%>
                                                         </div>
 
-                                                        <%-- updated with delete-Shout2
-                                                        <div class="delete-Shout">
-                                                            <%
-
-                                                                if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
-                                                            %>
-                                                            <span class = "float-right"><a href = "ShoutsSysUser?pageTransit=goToDeleteShoutSYS&hiddenUsername=<%=loggedInUsername%>&hiddenShoutID=<%=shoutID%>" onclick="return confirm('Confirm delete?')" class="deleteThis">
-                                                                    <i class="fa fa-trash icon"></i>
-                                                                    <i class="fa fa-trash-o icon"></i>
-                                                                    <span class="float-none shoutDelete" style="color: #64676d; font-size: 12px">&nbsp;Delete Shout</a></span>
-                                                                    <%  }%>
-                                                        </div>
-                                                        --%>
-
                                                         <div class="delete-Shout2">
                                                             <%
                                                                 if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
@@ -456,11 +363,7 @@
                                                                     <span class="float-none shoutDelete" style="color: #64676d; font-size: 12px">&nbsp;Delete Shout</a></span>
                                                                     <%  }%>
                                                         </div>
-                                                        <%-- bookmark alert in iframe 
-                                                            <div class="bookmark-Shout">
-                                                            <span class = "float-right"><a onClick ="bookmarkFrame('<%= shoutID%>,<%=loggedInUsername%>')"><i class="fa fa-bookmark">&nbsp;&nbsp;</i><span class="bookmark" style="color: #64676d; font-size: 12px">Bookmark This</span></a></span>
-                                                        </div>
-                                                        --%>
+                                                       
 
                                                     </div> 
 
@@ -470,34 +373,18 @@
 
                                         <%-- card footer --%>
                                         <div class="card-footer text-muted mt-1">
-                                            <%--
-                                            <%
-                                                                if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
-                                                            %>
                                             
                                             <div class="shout-user-info">
                                                 <i class="fa fa-users" style="color: #64676d">&nbsp;</i><span class="card-text shoutUsername" style="font-size: 12px">Posted by you</span>
                                             </div>
                                             
-                                            <%  }%>
-                                            --%>
                                             <div class="shout-post-date">
                                                 <i class="fa fa-clock-o">&nbsp;</i><span class="float-none shoutDuration" style="color: #64676d; font-size: 12px">Posted <%= shoutDuration%>
-                                                    <%--    on <%= shoutDate%> --%>
+                                                    
                                                 </span>
 
                                                 <span class="float-none shoutDate" hidden="true" style="color: #64676d; font-size: 12px"><%= shoutDate%>
                                                 </span>
-
-                                                <%
-                                                    if (!shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
-                                                %>
-                                                <span class = "float-right"><a onClick ="reportShout('<%= shoutID%>,<%= shoutContent%>')" class="reportThis">
-                                                        <i class="fa fa-flag icon"></i>
-                                                        <i class="fa fa-flag-o icon"></i>
-                                                        <span class="report" style="color: #64676d; font-size: 12px">Report Post</span>
-                                                    </a></span>
-                                                    <%  }%>
 
                                             </div>
 

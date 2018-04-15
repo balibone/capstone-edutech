@@ -69,7 +69,7 @@
                                 <i><p><%= shoutContent %></p></i>
                                 <p><i>(<span class="asterik">*</span>) Your report is kept anonymous and confidential</i></p>
                                 
-                                    <form class="form-horizontal form-label-left" action="ShoutsSysUser" method="POST" enctype="form-data">
+                                    <form class="form-horizontal form-label-left" action="ShoutsSysUser" target="_parent" method="POST" enctype="form-data">
                                         
                                             <div class="form-row" style="justify-content: left;">
                                                 

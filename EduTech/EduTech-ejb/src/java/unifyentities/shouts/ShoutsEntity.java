@@ -41,18 +41,23 @@ public class ShoutsEntity implements Serializable {
     private UserEntity shoutUser;
       
     //link to likes entity
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shoutsEntity")
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "shoutsEntity")
     private Collection<ShoutsLikesEntity> shoutsLikesSet = new ArrayList<ShoutsLikesEntity>();
     //link to bookmarked entity
     
     //link to comments entity?
-     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shoutsEntity")
+     @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "shoutsEntity")
     private Collection<ShoutsCommentsEntity> shoutsCommentsSet = new ArrayList<ShoutsCommentsEntity>();
      
     //link to bookmarks entity?
-     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shoutsEntity")
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "shoutsEntity")
     private Collection<ShoutsBookmarksEntity> shoutsBookmarksSet = new ArrayList<ShoutsBookmarksEntity>(); 
      
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "shoutsEntity")
+    private Collection<ShoutsReportEntity> shoutsReportSet = new ArrayList<ShoutsReportEntity>(); 
+    
+    //@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shoutsEntity")
+    //private Collection<ShoutsCommentsReportEntity> shoutsCommentsReportSet = new ArrayList<ShoutsCommentsReportEntity>(); 
         
     @PrePersist
     public void creationDate() { this.shoutDate = new Date(); }
@@ -79,6 +84,8 @@ public class ShoutsEntity implements Serializable {
     public Collection<ShoutsLikesEntity> getShoutsLikesSet() { return shoutsLikesSet; }
     public Collection<ShoutsCommentsEntity> getShoutsCommentsSet() { return shoutsCommentsSet; }
     public Collection<ShoutsBookmarksEntity> getShoutsBookmarksSet() { return shoutsBookmarksSet; }
+    public Collection<ShoutsReportEntity> getShoutsReportSet() { return shoutsReportSet; }
+    //public Collection<ShoutsCommentsReportEntity> getShoutsCommentsReportSet() { return shoutsCommentsReportSet; }
     
     /* SETTER METHODS */
     public void setShoutID(Long shoutID) { this.shoutID = shoutID; }

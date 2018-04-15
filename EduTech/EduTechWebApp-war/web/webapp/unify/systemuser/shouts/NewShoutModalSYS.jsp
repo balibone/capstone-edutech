@@ -59,7 +59,7 @@
                             <p>Share what is on your mind! <br>Just remember to keep it civil and friendly :)</p>
                             <p>(<span class="asterik">*</span>) Your shout is kept anonymous</p>
 
-                            <form class="form-horizontal form-label-left" action="ShoutsSysUser" method="POST" enctype="form-data">
+                            <form class="form-horizontal form-label-left" action="ShoutsSysUser"  target="_parent" method="POST" enctype="form-data">
 
                                 <div class="form-row" style="justify-content: left;">
 

@@ -23,6 +23,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import commoninfrastructureentities.UserEntity;
+import java.util.ArrayList;
+import java.util.Collection;
+import unifyentities.event.EventEntity;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToOne;
 
 @Entity(name = "EventRequest")
 public class EventRequestEntity implements Serializable {
@@ -51,8 +56,17 @@ public class EventRequestEntity implements Serializable {
     @ManyToOne
     private UserEntity userEntity;
     
+    @OneToOne
+    private EventEntity eventEntity;
+    
     @PrePersist
     public void creationDate() { this.eventRequestDate = new Date(); }
+    
+    public boolean createEvent(String eventTitle) {
+        this.eventRequestTitle = eventTitle;
+        this.eventRequestStatus = "Pending";
+        return true;
+    }
     
         
     /* GETTER METHODS */
@@ -70,6 +84,7 @@ public class EventRequestEntity implements Serializable {
     public String getEventRequestVenueLong() { return eventRequestVenueLong; }
     
     public UserEntity getUserEntity() { return userEntity; }
+    public EventEntity getEventEntity() { return eventEntity; }
     
     /* SETTER METHODS */
     public void setEventRequestID(Long eventRequestID) { this.eventRequestID = eventRequestID; }
@@ -85,4 +100,5 @@ public class EventRequestEntity implements Serializable {
     public void setEventRequestVenueLong(String eventRequestVenueLong) {this.eventRequestVenueLong = eventRequestVenueLong; }
     
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
+    public void setEventEntity(EventEntity eventEntity) { this.eventEntity = eventEntity; }
 }

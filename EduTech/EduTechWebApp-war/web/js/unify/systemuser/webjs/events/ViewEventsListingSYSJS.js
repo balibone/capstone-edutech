@@ -18,6 +18,16 @@ function viewComment(shoutIDContent) {
     $('#viewComment-iframe').iziModal('open', event);
 }
 
+function eventDetails(eventID) {
+
+        //alert('test');
+        //$().attr('src', 'EventsSysUser?pageTransit=goToViewEventSYS&hiddenEventID=' + eventID + '');
+        
+        //$(this).attr('target', 'EventsSysUser?pageTransit=goToViewEventSYS&hiddenEventID=' + eventID + '');
+   
+        window.location.href = 'EventsSysUser?pageTransit=goToViewEventDetailsSYS&hiddenEventID=' + eventID + '';
+}
+
 function reportShout(shoutIDContent) {
 
     if (!shoutIDContent)
@@ -39,8 +49,7 @@ function deleteAlert(shoutID) {
 
         $.get('ShoutsSysUser?pageTransit=goToDeleteShoutSYS&hiddenShoutID=' + shoutID + '');
 
-        window.location.reload(true);
-        //$('#deleteShout-alert').iziModal('open', event);
+        $('#deleteShout-alert').iziModal('open', event);
     }
 }
 
@@ -61,8 +70,7 @@ function bookmarkAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    window.location.reload(true);
-    //$('#bookmark-alert').iziModal('open', event);
+    $('#bookmark-alert').iziModal('open', event);
 }
 
 function unbookmarkAlert(shoutIDusername) {
@@ -82,8 +90,7 @@ function unbookmarkAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    window.location.reload(true);
-    //$('#unbookmark-alert').iziModal('open', event);
+    $('#unbookmark-alert').iziModal('open', event);
 }
 
 function bookmarkFrame(shoutIDusername) {
@@ -104,7 +111,7 @@ function bookmarkFrame(shoutIDusername) {
         return [shoutIDusername];
 
 
-    //$('#bookmark-iframe').iziModal('open', event);
+    $('#bookmark-iframe').iziModal('open', event);
 }
 
 function likeAlert(shoutIDusername) {
@@ -126,10 +133,7 @@ function likeAlert(shoutIDusername) {
         return [shoutIDusername];
 
 
-    //$('#like-alert').iziModal('open', event);
-
-    window.location.reload(true);
-
+    $('#like-alert').iziModal('open', event);
 }
 
 function unlikeAlert(shoutIDusername) {
@@ -150,8 +154,8 @@ function unlikeAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    window.location.reload(true);
-    //$('#unlike-alert').iziModal('open', event);
+
+    $('#unlike-alert').iziModal('open', event);
 }
 
 function newShout() {
@@ -159,7 +163,10 @@ function newShout() {
     $('#newShout-iframe').iziModal('open', event);
 }
 
-
+function newEventRequest() {
+    $('iframe').attr('src', 'EventsSysUser?pageTransit=goToNewEventModalSYS');
+    $('#newEventRequest-iframe').iziModal('open', event);
+}
 
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
@@ -184,21 +191,51 @@ $(document).ready(function () {
         itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
     });
 
-    $('.itemCard').on('click', function (event) {
+    $('.card').on('click', function (event) {
+        alert(here);
         var itemID = $(this).attr('id');
-        if (itemID != null) {
+        if (itemID !== null) {
             $('iframe').attr('src', 'MarketplaceSysUser?pageTransit=goToViewItemDetailsModalSYS&itemID=' + itemID);
-            $('#itemcard-iframe').iziModal('open', event);
+            $('#eventCard-iframe').iziModal('open', event);
         } else {
-            alert("Item cannot be found. Please refresh the page and try again.")
+            alert("Item cannot be found. Please refresh the page and try again.");
         }
     });
 
+    $('#viewEvent-iframe').iziModal({
+        title: 'Event Details',
+        iconClass: 'fa fa-comments',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#4D7496',
+        width: 500,
+        overlayClose: true,
+        iframe: true,
+        iframeHeight: 500,
+        onClosed: function () {
+            window.location.reload(true);
+        }
+    });
 
 
     $('#viewComment-iframe').iziModal({
         title: 'Comments',
         iconClass: 'fa fa-comments',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#4D7496',
+        width: 500,
+        overlayClose: true,
+        iframe: true,
+        iframeHeight: 500,
+        onClosed: function () {
+            window.location.reload(true);
+        }
+    });
+    
+    $('#newEventRequest-iframe').iziModal({
+        title: 'Submit Event Request',
+        iconClass: 'fa fa-calendar-plus-o',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
         headerColor: '#4D7496',
@@ -221,6 +258,9 @@ $(document).ready(function () {
         overlayClose: true,
         iframe: true,
         iframeHeight: 500,
+        onClosed: function () {
+            window.location.reload(true);
+        }
     });
 
     $('#reportShout-iframe').iziModal({
@@ -232,7 +272,7 @@ $(document).ready(function () {
         width: 500,
         overlayClose: true,
         iframe: true,
-        iframeHeight: 450
+        iframeHeight: 450,
     });
 
     $('#bookmark-iframe').iziModal({

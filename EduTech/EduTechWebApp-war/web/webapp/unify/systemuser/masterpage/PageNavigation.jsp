@@ -33,7 +33,13 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="shoutsNAV" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shouts</a>
                             <div class="dropdown-menu t-90 smooth" aria-labelledby="shoutsNAV">
-                                <a class="dropdown-item" href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS&loggedInUsername=<%=username%>">Shouts Listing</a>
+                                <a class="dropdown-item" href="ShoutsSysUser?pageTransit=goToViewShoutsListingSYS">Shouts Listing</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="eventsNAV" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Events</a>
+                            <div class="dropdown-menu t-90 smooth" aria-labelledby="eventsNAV">
+                                <a class="dropdown-item" href="EventsSysUser?pageTransit=goToViewEventsListingSYS">Events Listing</a>
                             </div>
                         </li>
                     </ul>

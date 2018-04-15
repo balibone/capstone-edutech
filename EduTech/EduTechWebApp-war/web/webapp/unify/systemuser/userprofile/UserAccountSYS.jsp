@@ -241,11 +241,11 @@
                                     <i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
-                                <button type="button" class="list-group-item list-group-item-action">
+                                <button type="button" class="list-group-item list-group-item-action shoutBtn">
                                     <i class="fa fa-fw fa-comments"></i>&nbsp;My Whispers
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
-                                <button type="button" class="list-group-item list-group-item-action">
+                                <button type="button" class="list-group-item list-group-item-action eventBtn">
                                     <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
@@ -490,6 +490,8 @@
             </a>
             <div id="itemLikeList-iframe"></div>
             <div id="sellNewItem-iframe"></div>
+            <div id="shout-iframe"></div>
+            <div id="event-iframe"></div>
 
             <div style="display:none;" id="reportItemListingTip">
                 Report Category&nbsp;<span style="color:#FF0000;">*</span><br/>

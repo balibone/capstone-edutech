@@ -183,6 +183,9 @@
                                 <li><a href="#errandReport" data-toggle="tab">Errands Reported</a></li>
                                 <li><a href="#errandReviewReport" data-toggle="tab">Errand Reviews Reported</a></li>
                                 <li><a href="#marketplaceReport" data-toggle="tab">Marketplace Items Reported</a></li>
+                                <li><a href="#shoutReport" data-toggle="tab">Shouts Reported</a></li>
+                                <li><a href="#shoutCommentReport" data-toggle="tab">Shout Comments Reported</a></li>
+                                <li><a href="#eventReport" data-toggle="tab">Events Reported</a></li>
                             </ul>
 
                             <div class="tab-content">
@@ -356,8 +359,8 @@
                                                             <th>Report ID</th>
                                                             <th>Report Date</th>
                                                             <th>Reported Item ID</th>
-                                                            <th>User ID of Item Poster</th>
-                                                            <th>User ID of Reporter</th>
+                                                            <th>Reported Item Poster</th>
+                                                            <th>Reported By</th>
                                                             <th>Report Status</th>
                                                         </tr>
                                                     </thead>
@@ -481,6 +484,227 @@
                                     </div>
                                 </div>
                                 <%-- end of fourth table --%>
+                                
+                                <%-- shouts report table --%>
+                                <div class="tab-pane" id="shoutReport">
+                                    <div class="col-md-12">    
+                                        <div class="widget box">
+                                            <div class="widget-header">
+                                                <h4><i class="fa fa-reorder"></i>&nbsp;List of Shouts Reported</h4>
+                                                <div class="toolbar no-padding">
+                                                    <div class="btn-group">
+                                                        <!-- SUPPORT BAR --><span>&nbsp;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <%-- datatable --%>
+                                            <div class="widget-content no-padding">
+                                                <table id="shoutReportList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Report ID</th>
+                                                            <th>Report Date</th>
+                                                            <th>Reported Shout ID</th>
+                                                            <th>Reported Shout Poster</th>
+                                                            <th>Reported By</th>
+                                                            <th>Report Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <%
+                                                            ArrayList<Vector> shoutReportList = (ArrayList) request.getAttribute("shoutReportList");
+
+                                                            for (int i = 0; i <= shoutReportList.size() - 1; i++) {
+                                                                Vector v = shoutReportList.get(i);
+                                                                String reportID = String.valueOf(v.get(0));
+                                                                String reportStatus = String.valueOf(v.get(1));
+                                                                String reportDescription = String.valueOf(v.get(2));
+                                                                String reportDate = String.valueOf(v.get(3));
+                                                                String reportedReviewID = String.valueOf(v.get(4));
+                                                                String reportedPosterID = String.valueOf(v.get(5));
+                                                                String reportedReporterID = String.valueOf(v.get(6));
+
+                                                        %>
+                                                        <tr>
+                                                            <td><%= reportID%></td>
+                                                            <td><%= reportDate%></td>
+                                                            <td><%= reportedReviewID%></td>
+                                                            <td><%= reportedPosterID%></td>
+                                                            <td><%= reportedReporterID%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                               } else if (reportStatus.equals("Resolved (Delisted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Shout Delisted)</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
+                                                        </tr>
+
+                                                        <%  }%>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%-- end of shouts report table --%>
+                                
+                                <%-- shout comments report table --%>
+                                <div class="tab-pane" id="shoutCommentReport">
+                                    <div class="col-md-12">    
+                                        <div class="widget box">
+                                            <div class="widget-header">
+                                                <h4><i class="fa fa-reorder"></i>&nbsp;List of Shout Comments Reported</h4>
+                                                <div class="toolbar no-padding">
+                                                    <div class="btn-group">
+                                                        <!-- SUPPORT BAR --><span>&nbsp;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <%-- datatable --%>
+                                            <div class="widget-content no-padding">
+                                                <table id="shoutCommentReportList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Report ID</th>
+                                                            <th>Report Date</th>
+                                                            <th>Reported Comment ID</th>
+                                                            <th>Reported Comment Poster</th>
+                                                            <th>Reported By</th>
+                                                            <th>Report Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <%
+                                                            ArrayList<Vector> shoutCommentReportList = (ArrayList) request.getAttribute("shoutCommentReportList");
+
+                                                            for (int i = 0; i <= shoutCommentReportList.size() - 1; i++) {
+                                                                Vector v = shoutCommentReportList.get(i);
+                                                                String reportID = String.valueOf(v.get(0));
+                                                                String reportStatus = String.valueOf(v.get(1));
+                                                                String reportDescription = String.valueOf(v.get(2));
+                                                                String reportDate = String.valueOf(v.get(3));
+                                                                String reportedReviewID = String.valueOf(v.get(4));
+                                                                String reportedPosterID = String.valueOf(v.get(5));
+                                                                String reportedReporterID = String.valueOf(v.get(6));
+
+                                                        %>
+                                                        <tr>
+                                                            <td><%= reportID%></td>
+                                                            <td><%= reportDate%></td>
+                                                            <td><%= reportedReviewID%></td>
+                                                            <td><%= reportedPosterID%></td>
+                                                            <td><%= reportedReporterID%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                               } else if (reportStatus.equals("Resolved (Delisted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Shout Comment Delisted)</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
+                                                        </tr>
+
+                                                        <%  }%>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%-- end of shout comments report table --%>
+                                
+                                <%-- events report table --%>
+                                <div class="tab-pane" id="eventReport">
+                                    <div class="col-md-12">    
+                                        <div class="widget box">
+                                            <div class="widget-header">
+                                                <h4><i class="fa fa-reorder"></i>&nbsp;List of Events Reported</h4>
+                                                <div class="toolbar no-padding">
+                                                    <div class="btn-group">
+                                                        <!-- SUPPORT BAR --><span>&nbsp;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <%-- datatable --%>
+                                            <div class="widget-content no-padding">
+                                                <table id="eventReportList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Report ID</th>
+                                                            <th>Report Date</th>
+                                                            <th>Reported Event Title</th>
+                                                            <th>Reported Event Poster</th>
+                                                            <th>Reported By</th>
+                                                            <th>Report Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <%
+                                                            ArrayList<Vector> eventReportList = (ArrayList) request.getAttribute("eventReportList");
+
+                                                            for (int i = 0; i <= eventReportList.size() - 1; i++) {
+                                                                Vector v = eventReportList.get(i);
+                                                                String reportID = String.valueOf(v.get(0));
+                                                                String reportStatus = String.valueOf(v.get(1));
+                                                                String reportDescription = String.valueOf(v.get(2));
+                                                                String reportDate = String.valueOf(v.get(3));
+                                                                String reportedReviewID = String.valueOf(v.get(4));
+                                                                String reportedPosterID = String.valueOf(v.get(5));
+                                                                String reportedReporterID = String.valueOf(v.get(6));
+                                                                String reportedEventTitle = String.valueOf(v.get(7));
+
+                                                        %>
+                                                        <tr>
+                                                            <td><%= reportID%></td>
+                                                            <td><%= reportDate%></td>
+                                                            <td><%= reportedEventTitle%></td>
+                                                            <td><%= reportedPosterID%></td>
+                                                            <td><%= reportedReporterID%></td>
+                                                            <%
+                                                                if (reportStatus.equals("Resolved (No Issue Found)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (No Issue Found)</span></td>
+                                                            <%
+                                                               } else if (reportStatus.equals("Resolved (Delisted)")) {
+                                                            %>
+                                                            <td><span class="label label-success">Resolved (Event Delisted)</span></td>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <td><span class="label label-warning">Unresolved</span></td>
+                                                            <%
+                                                                }
+                                                            %>
+                                                        </tr>
+
+                                                        <%  }%>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%-- end of shout comments report table --%>
+                                
                             </div>
                             <%-- end of tab contents --%>
                         </div>
@@ -493,6 +717,9 @@
                 <div id="viewReview-iframe"></div>
                 <div id="viewMarketplace-iframe"></div>
                 <div id="viewErrandReview-iframe"></div>
+                <div id="viewShout-iframe"></div>
+                <div id="viewShoutComment-iframe"></div>
+                <div id="viewEvent-iframe"></div>
             </div>
         </div>
     </body>

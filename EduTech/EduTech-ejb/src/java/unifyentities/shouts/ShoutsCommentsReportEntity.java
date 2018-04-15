@@ -62,6 +62,7 @@ public class ShoutsCommentsReportEntity implements Serializable {
     public void setShoutCommentReportStatus(String shoutCommentReportStatus) { this.shoutCommentReportStatus = shoutCommentReportStatus; }
     public void setShoutCommentReportDate(Date shoutCommentReportDate) { this.shoutCommentReportDate = shoutCommentReportDate; }
     public void setShoutCommentReportReviewedDate(Date shoutCommentReportReviewedDate) { this.shoutCommentReportReviewedDate = shoutCommentReportReviewedDate; }
+    public void setShoutCommentReportReviewedDate() { this.shoutCommentReportReviewedDate = new Date(); }
     
     public void setShoutsCommentsEntity(ShoutsCommentsEntity shoutsCommentEntity) { this.shoutsCommentEntity = shoutsCommentEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

@@ -65,6 +65,12 @@ public class UserProfileSysUserController extends HttpServlet {
                 case "goToUnifyBot":
                     pageAction = "UnifyBot";
                     break;
+                case "goToViewShoutModalSYS":
+                    pageAction = "ViewShoutModalSYS";
+                    break;
+                case "goToViewEventModalSYS":
+                    pageAction = "ViewEventModalSYS";
+                    break;
                 case "goToUserProfileSYS":
                     String itemSellerID = request.getParameter("itemSellerID");
                     request.setAttribute("userItemListSYS", usmr.viewUserItemList(loggedInUsername, itemSellerID));

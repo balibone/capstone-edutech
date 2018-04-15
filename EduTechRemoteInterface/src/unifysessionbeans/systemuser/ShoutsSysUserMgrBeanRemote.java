@@ -10,7 +10,10 @@ public interface ShoutsSysUserMgrBeanRemote {
     public List<Vector> viewShoutList();
     public List<Vector> viewShoutList(String shoutID);
     public List<Vector> viewShoutList2(String username);
+    public List<Vector> viewMyShoutList(String username);
+    public List<Vector> viewMyBookmarkedShoutList(String username);
     public List<Vector> viewCommentList(String commentShoutID);
+    public String viewShoutContent(String shoutID);
     public String createShout(String shoutContent, String shoutPoster);
     public String deleteShout(String shoutID);
     public String createShoutReport(String shoutReportContent, String shoutPoster, String shoutID);

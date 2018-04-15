@@ -105,4 +105,37 @@ $(document).ready(function () {
     $('#closeError').click(function () { $('#errorPanel').fadeOut(300); });
     $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
     $('.voicesBtn').click(function (event) { $('#modal-voices').iziModal('open', event); });
+    
+    $('.shoutBtn').click(function (event) {$('iframe').attr('src', 'ProfileSysUser?pageTransit=goToViewShoutModalSYS'); $('#shout-iframe').iziModal('open', event); });
+    $('.eventBtn').click(function (event) {$('iframe').attr('src', 'ProfileSysUser?pageTransit=goToViewEventModalSYS'); $('#event-iframe').iziModal('open', event); });
+    
+    $('#shout-iframe').iziModal({
+        title: 'Shouts',
+        iconClass: 'fa fa-bullhorn',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#4D7496',
+        width: 500,
+        closeOnEscape: true,
+        overlayClose: true,
+        timeout: 100,
+        timeoutProgressbar: true,
+        iframe: true,
+        iframeHeight: 500
+    });
+    
+    $('#event-iframe').iziModal({
+        title: 'Events',
+        iconClass: 'fa fa-calendar',
+        transitionIn: 'transitionIn',
+        transitionOut: 'transitionOut',
+        headerColor: '#4D7496',
+        width: 500,
+        closeOnEscape: true,
+        overlayClose: true,
+        timeout: 100,
+        timeoutProgressbar: true,
+        iframe: true,
+        iframeHeight: 500
+    });
 });

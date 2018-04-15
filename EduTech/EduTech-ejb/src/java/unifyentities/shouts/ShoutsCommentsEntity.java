@@ -27,6 +27,9 @@ public class ShoutsCommentsEntity implements Serializable {
     private Long commentID;
     private String commentContent;
     
+    //set to 'Active' or 'Delisted'
+    private String commentStatus;
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date commentDate;
     
@@ -50,6 +53,7 @@ public class ShoutsCommentsEntity implements Serializable {
     public Long getCommentID() { return commentID; }
     public String getCommentContent() { return commentContent; }
     public Date getCommentDate() { return commentDate; }
+    public String getCommentStatus() { return commentStatus; }
     
     public ShoutsEntity getShoutsEntity() { return shoutsEntity; }
     public UserEntity getUserEntity() { return userEntity; }
@@ -58,6 +62,7 @@ public class ShoutsCommentsEntity implements Serializable {
     public void setCommentID(Long commentID) { this.commentID = commentID; }
     public void setCommentContent(String commentContent) { this.commentContent = commentContent; }
     public void setCommentDate(Date commentDate) { this.commentDate = commentDate; }
+    public void setCommentStatus(String commentStatus) { this.commentStatus = commentStatus; }
     
     public void setShoutsEntity(ShoutsEntity shoutsEntity) { this.shoutsEntity = shoutsEntity; }
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }

@@ -39,6 +39,11 @@ import unifyentities.common.JobReviewReportEntity;
 import unifyentities.common.EventRequestEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.event.EventEntity;
+import unifyentities.event.EventReportEntity;
+import unifyentities.shouts.ShoutsCommentsEntity;
+import unifyentities.shouts.ShoutsCommentsReportEntity;
+import unifyentities.shouts.ShoutsEntity;
+import unifyentities.shouts.ShoutsReportEntity;
 import unifyentities.voices.CompanyEntity;
 
 @Stateless
@@ -60,6 +65,11 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     private EventEntity eEntity;
     private CompanyEntity cEntity;
     private MessageEntity mEntity;
+    private ShoutsReportEntity srEntity;
+    private ShoutsEntity shEntity;
+    private ShoutsCommentsReportEntity scrEntity;
+    private ShoutsCommentsEntity scEntity;
+    private EventReportEntity erpEntity;
 
     @Override
     public List<Vector> viewTagListing() {
@@ -320,9 +330,9 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getItemReportStatus());
             reportedVec.add(reportedE.getItemReportDescription());
             reportedVec.add(df.format(reportedE.getItemReportDate()));
-            reportedVec.add(reportedE.getItemID());
-            reportedVec.add(reportedE.getItemPosterID());
-            reportedVec.add(reportedE.getItemReporterID());
+            reportedVec.add(reportedE.getItemEntity().getItemID());
+            reportedVec.add(reportedE.getItemEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
             reportedList.add(reportedVec);
         }
         return reportedList;
@@ -343,9 +353,9 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getItemReportStatus());
             reportedVec.add(reportedE.getItemReportDescription());
             reportedVec.add(df.format(reportedE.getItemReportDate()));
-            reportedVec.add(reportedE.getItemID());
-            reportedVec.add(reportedE.getItemPosterID());
-            reportedVec.add(reportedE.getItemReporterID());
+            reportedVec.add(reportedE.getItemEntity().getItemID());
+            reportedVec.add(reportedE.getItemEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
             reportedList.add(reportedVec);
         }
         return reportedList;
@@ -364,14 +374,25 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             marketplaceDetails.add(irEntity.getItemReportStatus());
             marketplaceDetails.add(irEntity.getItemReportDescription());
             marketplaceDetails.add(df.format(irEntity.getItemReportDate()));
-            marketplaceDetails.add(irEntity.getItemID());
-            marketplaceDetails.add(irEntity.getItemPosterID());
-            marketplaceDetails.add(irEntity.getItemReporterID());
-            marketplaceDetails.add(df.format(irEntity.getItemReviewedDate()));
+            if (lookupMarketplaceItem(irEntity.getItemEntity().getItemID()) != null) {
+                marketplaceDetails.add(irEntity.getItemEntity().getItemID());
+                marketplaceDetails.add(irEntity.getItemEntity().getUserEntity().getUsername());
+                marketplaceDetails.add(irEntity.getUserEntity().getUsername());
+            } else {
+                marketplaceDetails.add("INFO DELETED");
+                marketplaceDetails.add("INFO DELETED");
+                marketplaceDetails.add("INFO DELETED");
+            }
+            if (irEntity.getItemReviewedDate() == null) {
+                marketplaceDetails.add("");
+            } else {
+                marketplaceDetails.add(df.format(irEntity.getItemReviewedDate()));
+            }
+
             System.out.println("ADDED ITEM REPORT DETAILS");
             //from item entity
-            if (lookupMarketplaceItem(irEntity.getItemID()) != null) {
-                iEntity = lookupMarketplaceItem(irEntity.getItemID());
+            if (lookupMarketplaceItem(irEntity.getItemEntity().getItemID()) != null) {
+                iEntity = lookupMarketplaceItem(irEntity.getItemEntity().getItemID());
                 marketplaceDetails.add(iEntity.getItemName());
                 marketplaceDetails.add(iEntity.getItemDescription());
                 marketplaceDetails.add(iEntity.getItemImage());
@@ -908,6 +929,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getJobReportDescription());
             reportedVec.add(df.format(reportedE.getJobReportDate()));
             reportedVec.add(reportedE.getJobEntity().getJobID());
+            reportedVec.add(reportedE.getJobEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
             //reportedVec.add(reportedE.getJobPosterID());
             //reportedVec.add(reportedE.getJobReporterID());
             reportedList.add(reportedVec);
@@ -931,6 +954,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reportedVec.add(reportedE.getJobReportDescription());
             reportedVec.add(df.format(reportedE.getJobReportDate()));
             reportedVec.add(reportedE.getJobEntity().getJobID());
+            reportedVec.add(reportedE.getJobEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
             //reportedVec.add(reportedE.getJobPosterID());
             //reportedVec.add(reportedE.getJobReporterID());
             reportedList.add(reportedVec);
@@ -952,6 +977,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             errandDetails.add(jrEntity.getJobReportDescription());
             errandDetails.add(df.format(jrEntity.getJobReportDate()));
             errandDetails.add(jrEntity.getJobEntity().getJobID());
+            errandDetails.add(jrEntity.getJobEntity().getUserEntity().getUsername());
+            errandDetails.add(jrEntity.getUserEntity().getUsername());
             //errandDetails.add(jrEntity.getJobPosterID());
             //errandDetails.add(jrEntity.getJobReporterID());
             errandDetails.add(df.format(jrEntity.getJobReviewedDate()));
@@ -1266,7 +1293,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         try {
             /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
             mEntity = new MessageEntity();
-          
+
             mEntity.createContentMessage(messageSenderID, messageReceiverID,
                     itemReported + " was delisted due to violation of posting guidelines.",
                     Long.parseLong(itemReported), "System");
@@ -1278,24 +1305,24 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             em.persist(mEntity);
 
             return "Message successfully sent!";
-            
+
         } catch (Exception nre) {
             System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
-            
+
             return "Error sending message to user";
         }
 
     }
-    
+
     @Override
     public String sendAlertEventRequest(String messageSenderID, String messageReceiverID, String eventID, String status) {
 
         try {
             /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
             mEntity = new MessageEntity();
-          
+
             String eventTitle = erEntity.getEventRequestTitle(Long.parseLong(eventID));
-            
+
             mEntity.createContentMessage(messageSenderID, messageReceiverID,
                     eventTitle + " (Request ID: " + eventID + ") was " + status + " by the administrator.",
                     Long.parseLong(eventID), "System");
@@ -1307,10 +1334,10 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             em.persist(mEntity);
 
             return "Message successfully sent!";
-            
+
         } catch (Exception nre) {
             System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
-            
+
             return "Error sending message to user";
         }
 
@@ -1433,8 +1460,11 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             requestDetails.add(df.format(erEntity.getEventRequestStartDateTime()));
             requestDetails.add(df.format(erEntity.getEventRequestEndDateTime()));
 
-            requestDetails.add(df.format(erEntity.getEventReviewedDate()));
-
+            if (erEntity.getEventReviewedDate() == null) {
+                requestDetails.add(df.format(erEntity.getEventRequestDate()));
+            } else {
+                requestDetails.add(df.format(erEntity.getEventReviewedDate()));
+            }
             requestDetails.add(erEntity.getEventRequestVenueLat());
             requestDetails.add(erEntity.getEventRequestVenueLong());
 
@@ -1480,8 +1510,10 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
             //create event in event entity
             eEntity = new EventEntity();
-            eEntity.createEvent(erEntity.getEventRequestDescription(), erEntity.getEventRequestVenue(),
+            eEntity.createEvent(erEntity.getEventRequestTitle(), erEntity.getEventRequestDescription(), erEntity.getEventRequestVenue(),
                     erEntity.getEventRequestStartDateTime(), erEntity.getEventRequestEndDateTime(), erEntity.getUserEntity());
+            eEntity.setEventRequestEntity(erEntity);
+            erEntity.setEventEntity(eEntity);
             em.persist(eEntity);
             System.out.println("Event Created");
             return "Event has been approved!";
@@ -1548,6 +1580,562 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             ex.printStackTrace();
         }
         return rejectedEventRequestCount;
+    }
+    
+    //shouts related
+    public ShoutsReportEntity lookupShoutReport(String shoutReportID) {
+        ShoutsReportEntity ire = new ShoutsReportEntity();
+        Long shoutReportIDLong = Long.valueOf(shoutReportID);
+        try {
+            Query q = em.createQuery("SELECT c FROM ShoutsReport c WHERE c.shoutReportID = :shoutReportID");
+            q.setParameter("shoutReportID", shoutReportIDLong);
+            ire = (ShoutsReportEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout report cannot be found. " + enfe.getMessage());
+            em.remove(ire);
+            ire = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout report does not exist. " + nre.getMessage());
+            em.remove(ire);
+            ire = null;
+        }
+        return ire;
+    }
+    
+    public ShoutsEntity lookupShout(Long shoutID) {
+        ShoutsEntity se = new ShoutsEntity();
+        
+        try {
+            Query q = em.createQuery("SELECT c FROM Shouts c WHERE c.shoutID = :shoutID");
+            q.setParameter("shoutID", shoutID);
+            se = (ShoutsEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout cannot be found. " + enfe.getMessage());
+            em.remove(se);
+            se = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout does not exist. " + nre.getMessage());
+            em.remove(se);
+            se = null;
+        }
+        return se;
+    }
+    
+    @Override
+    public List<Vector> viewReportedShoutsListing() {
+        Query q = em.createQuery("SELECT i FROM ShoutsReport i ORDER BY i.shoutReportDate DESC");
+        List<Vector> reportedList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        for (Object o : q.getResultList()) {
+            ShoutsReportEntity reportedE = (ShoutsReportEntity) o;
+            Vector reportedVec = new Vector();
+
+            reportedVec.add(reportedE.getShoutReportID());
+            reportedVec.add(reportedE.getShoutReportStatus());
+            reportedVec.add(reportedE.getShoutReportContent());
+            reportedVec.add(df.format(reportedE.getShoutReportDate()));
+            reportedVec.add(reportedE.getShoutsEntity().getShoutID());
+            reportedVec.add(reportedE.getShoutsEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
+            reportedList.add(reportedVec);
+        }
+        return reportedList;
+    }
+    
+    @Override
+    public Vector viewShoutDetails(String shoutReportID) {
+        srEntity = lookupShoutReport(shoutReportID);
+        
+        Vector shoutReportDetails = new Vector();
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        if (srEntity != null) {
+            shoutReportDetails.add(srEntity.getShoutReportID());
+            shoutReportDetails.add(srEntity.getShoutReportStatus());
+            shoutReportDetails.add(srEntity.getShoutReportContent());
+            shoutReportDetails.add(df.format(srEntity.getShoutReportDate()));
+            if (lookupShout(srEntity.getShoutsEntity().getShoutID()) != null) {
+                shoutReportDetails.add(srEntity.getShoutsEntity().getShoutID());
+                shoutReportDetails.add(srEntity.getShoutsEntity().getUserEntity().getUsername());
+                shoutReportDetails.add(srEntity.getUserEntity().getUsername());
+            } else {
+                shoutReportDetails.add("INFO DELETED");
+                shoutReportDetails.add("INFO DELETED");
+                shoutReportDetails.add("INFO DELETED");
+            }
+            if (srEntity.getShoutReportReviewedDate() == null) {
+                shoutReportDetails.add("");
+            } else {
+                shoutReportDetails.add(df.format(srEntity.getShoutReportReviewedDate()));
+            }
+
+            //from shout entity
+            if (lookupShout(srEntity.getShoutsEntity().getShoutID()) != null) {
+                shEntity = lookupShout(srEntity.getShoutsEntity().getShoutID());
+                shoutReportDetails.add(shEntity.getShoutID());
+                shoutReportDetails.add(shEntity.getShoutContent());
+                shoutReportDetails.add(shEntity.getShoutStatus());
+                return shoutReportDetails;
+            }
+            return shoutReportDetails;
+        }
+        return null;
+    }
+    
+    @Override
+    public String resolveOnlyShoutReport(String reportID) {
+        try {
+            srEntity = lookupShoutReport(reportID);
+            srEntity.setShoutReportStatus("Resolved (No Issue Found)");
+            srEntity.setShoutReportReviewedDate();
+            em.merge(srEntity);
+            return "Shout report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving shout report";
+        }
+    }
+    
+    @Override
+    public String resolveDelistShoutReport(String reportID) {
+        try {
+            srEntity = lookupShoutReport(reportID);
+            srEntity.setShoutReportStatus("Resolved (Delisted)");
+            srEntity.setShoutReportReviewedDate();
+            em.merge(srEntity);
+            return "Shout report has been resolved and delisted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving shout report";
+        }
+    }
+    
+    @Override
+    public String delistShout(String reportID) {
+
+        double reportIDLong = Double.parseDouble(reportID);
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Shouts i WHERE i.shoutID = :shoutID");
+            q.setParameter("shoutID", reportIDLong);
+
+            shEntity = (ShoutsEntity) q.getSingleResult();
+
+            shEntity.setShoutStatus("Delisted");
+
+            em.flush();
+            em.clear();
+            return "Shout has been delisted!";
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout to be delisted cannot be found. " + enfe.getMessage());
+            em.remove(shEntity);
+            return "Shout to be deleted could not be found";
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout to be delisted does not exist. " + nre.getMessage());
+            em.remove(shEntity);
+            return "Shout to be deleted does not exist";            
+        }
+    }
+    
+    @Override
+    public Long getUnresolvedShoutReportCount() {
+        Long unresolvedShoutReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.shoutReportID) FROM ShoutsReport c WHERE c.shoutReportStatus='Unresolved'");
+        try {
+            unresolvedShoutReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getUnresolvedShoutReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return unresolvedShoutReportCount;
+    }
+
+    @Override
+    public Long getResolvedShoutReportCount() {
+        Long resolvedShoutReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.shoutReportID) FROM ShoutsReport c WHERE c.shoutReportStatus<>'Unresolved'");
+        try {
+            resolvedShoutReportCount = (Long) q.getSingleResult();
+            System.out.println("Resolved Shout Report Count: " + resolvedShoutReportCount);
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getResolvedShoutReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return resolvedShoutReportCount;
+    }
+    
+    //shout comments related
+    public ShoutsCommentsReportEntity lookupShoutCommentReport(String shoutCommentReportID) {
+        ShoutsCommentsReportEntity ire = new ShoutsCommentsReportEntity();
+        Long shoutCommentReportIDLong = Long.valueOf(shoutCommentReportID);
+        try {
+            Query q = em.createQuery("SELECT c FROM ShoutsCommentsReport c WHERE c.shoutCommentReportID = :shoutCommentReportID");
+            q.setParameter("shoutCommentReportID", shoutCommentReportIDLong);
+            ire = (ShoutsCommentsReportEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout comment report cannot be found. " + enfe.getMessage());
+            em.remove(ire);
+            ire = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout comment report does not exist. " + nre.getMessage());
+            em.remove(ire);
+            ire = null;
+        }
+        return ire;
+    }
+    
+    public ShoutsCommentsEntity lookupShoutComment(Long shoutCommentID) {
+        ShoutsCommentsEntity se = new ShoutsCommentsEntity();
+        
+        try {
+            Query q = em.createQuery("SELECT c FROM ShoutsComments c WHERE c.commentID = :commentID");
+            q.setParameter("commentID", shoutCommentID);
+            se = (ShoutsCommentsEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout comment cannot be found. " + enfe.getMessage());
+            em.remove(se);
+            se = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout comment does not exist. " + nre.getMessage());
+            em.remove(se);
+            se = null;
+        }
+        return se;
+    }
+    
+    @Override
+    public List<Vector> viewReportedShoutCommentsListing() {
+        Query q = em.createQuery("SELECT i FROM ShoutsCommentsReport i ORDER BY i.shoutCommentReportDate DESC");
+        List<Vector> reportedList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        for (Object o : q.getResultList()) {
+            ShoutsCommentsReportEntity reportedE = (ShoutsCommentsReportEntity) o;
+            Vector reportedVec = new Vector();
+
+            reportedVec.add(reportedE.getShoutCommentReportID());
+            reportedVec.add(reportedE.getShoutCommentReportStatus());
+            reportedVec.add(reportedE.getShoutCommentReportContent());
+            reportedVec.add(df.format(reportedE.getShoutCommentReportDate()));
+            reportedVec.add(reportedE.getShoutsCommentsEntity().getCommentID());
+            reportedVec.add(reportedE.getShoutsCommentsEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
+            reportedList.add(reportedVec);
+        }
+        return reportedList;
+    }
+    
+    @Override
+    public Vector viewShoutCommentDetails(String shoutCommentReportID) {
+        scrEntity = lookupShoutCommentReport(shoutCommentReportID);
+        
+        Vector shoutCommentReportDetails = new Vector();
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        if (scrEntity != null) {
+            shoutCommentReportDetails.add(scrEntity.getShoutCommentReportID());
+            shoutCommentReportDetails.add(scrEntity.getShoutCommentReportStatus());
+            shoutCommentReportDetails.add(scrEntity.getShoutCommentReportContent());
+            shoutCommentReportDetails.add(df.format(scrEntity.getShoutCommentReportDate()));
+            if (lookupShoutComment(scrEntity.getShoutsCommentsEntity().getCommentID()) != null) {
+                shoutCommentReportDetails.add(scrEntity.getShoutsCommentsEntity().getCommentID());
+                shoutCommentReportDetails.add(scrEntity.getShoutsCommentsEntity().getUserEntity().getUsername());
+                shoutCommentReportDetails.add(scrEntity.getUserEntity().getUsername());
+            } else {
+                shoutCommentReportDetails.add("INFO DELETED");
+                shoutCommentReportDetails.add("INFO DELETED");
+                shoutCommentReportDetails.add("INFO DELETED");
+            }
+            if (scrEntity.getShoutCommentReportReviewedDate() == null) {
+                shoutCommentReportDetails.add("");
+            } else {
+                shoutCommentReportDetails.add(df.format(scrEntity.getShoutCommentReportReviewedDate()));
+            }
+
+            //from shout entity
+            if (lookupShoutComment(scrEntity.getShoutsCommentsEntity().getCommentID()) != null) {
+                scEntity = lookupShoutComment(scrEntity.getShoutsCommentsEntity().getCommentID());
+                shoutCommentReportDetails.add(scEntity.getCommentID());
+                shoutCommentReportDetails.add(scEntity.getCommentContent());
+                return shoutCommentReportDetails;
+            }
+            return shoutCommentReportDetails;
+        }
+        return null;
+    }
+    
+    @Override
+    public String resolveOnlyShoutCommentReport(String reportID) {
+        try {
+            scrEntity = lookupShoutCommentReport(reportID);
+            scrEntity.setShoutCommentReportStatus("Resolved (No Issue Found)");
+            scrEntity.setShoutCommentReportReviewedDate();
+            em.merge(scrEntity);
+            return "Shout comment report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving shout comment report";
+        }
+    }
+    
+    @Override
+    public String resolveDelistShoutCommentReport(String reportID) {
+        try {
+            scrEntity = lookupShoutCommentReport(reportID);
+            scrEntity.setShoutCommentReportStatus("Resolved (Delisted)");
+            scrEntity.setShoutCommentReportReviewedDate();
+            em.merge(scrEntity);
+            return "Shout comment report has been resolved and delisted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving shout comment report";
+        }
+    }
+    
+    @Override
+    public String delistShoutComment(String reportID) {
+
+        double reportIDLong = Double.parseDouble(reportID);
+
+        try {
+            Query q = em.createQuery("SELECT i FROM ShoutsComments i WHERE i.commentID = :commentID");
+            q.setParameter("commentID", reportIDLong);
+
+            scEntity = (ShoutsCommentsEntity) q.getSingleResult();
+
+            scEntity.setCommentStatus("Delisted");
+
+            em.flush();
+            em.clear();
+            return "Shout comment has been delisted!";
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Shout comment to be delisted cannot be found. " + enfe.getMessage());
+            em.remove(scEntity);
+            return "Shout comment to be deleted could not be found";
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Shout comment to be delisted does not exist. " + nre.getMessage());
+            em.remove(scEntity);
+            return "Shout comment to be deleted does not exist";            
+        }
+    }
+    
+    @Override
+    public Long getUnresolvedShoutCommentReportCount() {
+        Long unresolvedShoutCommentReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.shoutCommentReportID) FROM ShoutsCommentsReport c WHERE c.shoutCommentReportStatus='Unresolved'");
+        try {
+            unresolvedShoutCommentReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getUnresolvedShoutCommentReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return unresolvedShoutCommentReportCount;
+    }
+
+    @Override
+    public Long getResolvedShoutCommentReportCount() {
+        Long resolvedShoutCommentReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.shoutCommentReportID) FROM ShoutsCommentsReport c WHERE c.shoutCommentReportStatus<>'Unresolved'");
+        try {
+            resolvedShoutCommentReportCount = (Long) q.getSingleResult();
+            System.out.println("Resolved Shout Comment Report Count: " + resolvedShoutCommentReportCount);
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getResolvedShoutCommentReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return resolvedShoutCommentReportCount;
+    }
+    
+    //events related
+    public EventReportEntity lookupEventReport(String eventReportID) {
+        EventReportEntity ire = new EventReportEntity();
+        Long eventReportIDLong = Long.valueOf(eventReportID);
+        try {
+            Query q = em.createQuery("SELECT c FROM EventReport c WHERE c.eventReportID = :eventReportID");
+            q.setParameter("eventReportID", eventReportIDLong);
+            ire = (EventReportEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Event report cannot be found. " + enfe.getMessage());
+            em.remove(ire);
+            ire = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Event report does not exist. " + nre.getMessage());
+            em.remove(ire);
+            ire = null;
+        }
+        return ire;
+    }
+    
+    public EventEntity lookupEvent(Long eventID) {
+        EventEntity se = new EventEntity();
+        
+        try {
+            Query q = em.createQuery("SELECT c FROM Event c WHERE c.eventID = :eventID");
+            q.setParameter("eventID", eventID);
+            se = (EventEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Event cannot be found. " + enfe.getMessage());
+            em.remove(se);
+            se = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Event does not exist. " + nre.getMessage());
+            em.remove(se);
+            se = null;
+        }
+        return se;
+    }
+    
+    @Override
+    public List<Vector> viewReportedEventsListing() {
+        Query q = em.createQuery("SELECT i FROM EventReport i ORDER BY i.eventReportDate DESC");
+        List<Vector> reportedList = new ArrayList<Vector>();
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        for (Object o : q.getResultList()) {
+            EventReportEntity reportedE = (EventReportEntity) o;
+            Vector reportedVec = new Vector();
+
+            reportedVec.add(reportedE.getEventReportID());
+            reportedVec.add(reportedE.getEventReportStatus());
+            reportedVec.add(reportedE.getEventReportContent());
+            reportedVec.add(df.format(reportedE.getEventReportDate()));
+            reportedVec.add(reportedE.getEventEntity().getEventID());
+            reportedVec.add(reportedE.getEventEntity().getUserEntity().getUsername());
+            reportedVec.add(reportedE.getUserEntity().getUsername());
+            reportedVec.add(reportedE.getEventEntity().getEventTitle());
+            reportedList.add(reportedVec);
+        }
+        return reportedList;
+    }
+    
+    @Override
+    public Vector viewEventDetails(String eventReportID) {
+        erpEntity = lookupEventReport(eventReportID);
+        
+        Vector eventReportDetails = new Vector();
+
+        DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+        if (erpEntity != null) {
+            eventReportDetails.add(erpEntity.getEventReportID());
+            eventReportDetails.add(erpEntity.getEventReportStatus());
+            eventReportDetails.add(erpEntity.getEventReportContent());
+            eventReportDetails.add(df.format(erpEntity.getEventReportDate()));
+            if (lookupEvent(erpEntity.getEventEntity().getEventID()) != null) {
+                eventReportDetails.add(erpEntity.getEventEntity().getEventID());
+                eventReportDetails.add(erpEntity.getEventEntity().getUserEntity().getUsername());
+                eventReportDetails.add(erpEntity.getUserEntity().getUsername());
+            } else {
+                eventReportDetails.add("INFO DELETED");
+                eventReportDetails.add("INFO DELETED");
+                eventReportDetails.add("INFO DELETED");
+            }
+            if (erpEntity.getEventReportReviewedDate() == null) {
+                eventReportDetails.add("");
+            } else {
+                eventReportDetails.add(df.format(erpEntity.getEventReportReviewedDate()));
+            }
+
+            //from shout entity
+            if (lookupEvent(erpEntity.getEventEntity().getEventID()) != null) {
+                eEntity = lookupEvent(erpEntity.getEventEntity().getEventID());
+                eventReportDetails.add(eEntity.getEventID());
+                eventReportDetails.add(eEntity.getEventDescription());
+                eventReportDetails.add(eEntity.getEventStatus());
+                eventReportDetails.add(eEntity.getEventTitle());
+                return eventReportDetails;
+            }
+            return eventReportDetails;
+        }
+        return null;
+    }
+    
+    @Override
+    public String resolveOnlyEventReport(String reportID) {
+        try {
+            erpEntity = lookupEventReport(reportID);
+            erpEntity.setEventReportStatus("Resolved (No Issue Found)");
+            erpEntity.setEventReportReviewedDate();
+            em.merge(erpEntity);
+            return "Event report has been resolved!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving event report";
+        }
+    }
+    
+    @Override
+    public String resolveDelistEventReport(String reportID) {
+        try {
+            erpEntity = lookupEventReport(reportID);
+            erpEntity.setEventReportStatus("Resolved (Delisted)");
+            erpEntity.setEventReportReviewedDate();
+            em.merge(erpEntity);
+            return "Event report has been resolved and delisted!";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Error resolving event report";
+        }
+    }
+    
+    @Override
+    public String delistEvent(String reportID) {
+
+        double reportIDLong = Double.parseDouble(reportID);
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Event i WHERE i.eventID = :eventID");
+            q.setParameter("eventID", reportIDLong);
+
+            eEntity = (EventEntity) q.getSingleResult();
+
+            eEntity.setEventStatus("Delisted");
+
+            em.flush();
+            em.clear();
+            return "Event has been delisted!";
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Event to be delisted cannot be found. " + enfe.getMessage());
+            em.remove(eEntity);
+            return "Event to be deleted could not be found";
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Event to be delisted does not exist. " + nre.getMessage());
+            em.remove(eEntity);
+            return "Event to be deleted does not exist";            
+        }
+    }
+    
+    @Override
+    public Long getUnresolvedEventReportCount() {
+        Long unresolvedEventReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.eventReportID) FROM EventReport c WHERE c.eventReportStatus='Unresolved'");
+        try {
+            unresolvedEventReportCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getUnresolvedEventReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return unresolvedEventReportCount;
+    }
+
+    @Override
+    public Long getResolvedEventReportCount() {
+        Long resolvedEventReportCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT c.eventReportID) FROM EventReport c WHERE c.eventReportStatus<>'Unresolved'");
+        try {
+            resolvedEventReportCount = (Long) q.getSingleResult();
+            System.out.println("Resolved Event Report Count: " + resolvedEventReportCount);
+        } catch (Exception ex) {
+            System.out.println("Exception in ContentAdminMgrBean.getResolvedEventReportCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return resolvedEventReportCount;
     }
 
     /* MISCELLANEOUS METHODS */

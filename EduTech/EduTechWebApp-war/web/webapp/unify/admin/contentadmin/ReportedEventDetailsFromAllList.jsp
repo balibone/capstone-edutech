@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Unify Admin - Reported Marketplace Item Details</title>
+        <title>Unify Admin - Reported Event Details</title>
 
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/admin/baselayout/bootstrap-v3.1.1.min.css" rel="stylesheet" type="text/css" />
@@ -40,11 +40,11 @@
 
     </head>
     <body style="background-color: #FFFFFF;">
-        <%            Vector reportListVec = (Vector) request.getAttribute("reportedMarketplaceVec");
+        <%            Vector reportListVec = (Vector) request.getAttribute("reportedEventVec");
             String reportID, reportStatus, reportDescription, reportDate, reportedItemID,
-                    reportedPosterID, reportedReporterID, itemName, itemDescription, itemImage, reviewedDate, itemStatus;
+                    reportedPosterID, reportedReporterID, eventID, eventContent, eventStatus, reviewedDate, eventTitle;
             reportID = reportStatus = reportDescription = reportDate = reportedItemID = reportedPosterID = reportedReporterID
-                    = itemName = itemDescription = itemImage = reviewedDate = itemStatus = "";
+                    = eventID = eventContent = eventStatus = reviewedDate = eventTitle = "";
             if (reportListVec != null) {
                 reportID = (String.valueOf(reportListVec.get(0)));
                 reportStatus = (String.valueOf(reportListVec.get(1)));
@@ -55,10 +55,10 @@
                 reportedReporterID = (String.valueOf(reportListVec.get(6)));
                 reviewedDate = (String.valueOf(reportListVec.get(7)));
                 if (reportListVec.size() > 8) {
-                    itemName = (String.valueOf(reportListVec.get(8)));
-                    itemDescription = (String.valueOf(reportListVec.get(9)));
-                    itemImage = (String.valueOf(reportListVec.get(10)));
-                    itemStatus = (String.valueOf(reportListVec.get(11)));
+                    eventID = (String.valueOf(reportListVec.get(8)));
+                    eventContent = (String.valueOf(reportListVec.get(9)));
+                    eventStatus = (String.valueOf(reportListVec.get(10)));
+                    eventTitle = (String.valueOf(reportListVec.get(11)));
                 }
             }
         %>
@@ -70,7 +70,7 @@
             <div class="tabbable tabbable-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#reportInfo" data-toggle="tab">Request Details</a></li>
-                    <li><a href="#reportedItem" data-toggle="tab">Details of Item Reported</a></li>
+                    <li><a href="#reportedItem" data-toggle="tab">Details of Event Reported</a></li>
                 </ul>
                 <%-- tab 1 --%>
                 <div class="tab-content">
@@ -82,37 +82,37 @@
                             %>
 
                             <tr>
-                                <td>Item Status</td>
+                                <td>Event Status</td>
                                 <%
-                                    if (itemStatus.equals("Delisted")) {
+                                    if (eventStatus.equals("Delisted")) {
                                 %>
                                 <td><span class="label label-danger">Delisted</span></td>
                                 <%
                                 } else {
                                 %>
-                                <td><span class="label label-success"><%= itemStatus%></span></td>
+                                <td><span class="label label-success"><%= eventStatus%></span></td>
                                     <%
                                         }
                                     %>
 
                             </tr>
                             <tr>
-                                <td>Item Name</td>
-                                <td><%= itemName%></td>
+                                <td>Event ID</td>
+                                <td><%= eventID%></td>
                             </tr>
                             <tr>
-                                <td>Item Description</td>
-                                <td><%= itemDescription%></td>
+                                <td>Event Title</td>
+                                <td><%= eventTitle%></td>
                             </tr>
                             <tr>
-                                <td>Item Image</td>
-                                <td><div style="height:auto;overflow: auto;"><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" alt="" style="width:250px; height:auto;"></div></td>
+                                <td>Event Description</td>
+                                <td><%= eventContent%></td>
                             </tr>
                             <%
                             } else {
                             %>
                             <div class="form-group">
-                                <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"> <b>ITEM HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12"><font color = "red"> <b>EVENT HAS BEEN DELETED FROM SYSTEM&nbsp;&nbsp;</b></font></label>
                             </div>
                             <%
                                 }
@@ -137,7 +137,7 @@
                                 <%
                                 } else if (reportStatus.equals("Resolved (Delisted)")) {
                                 %>
-                                <td><span class="label label-success">Resolved (Marketplace Item Delisted)</span></td>
+                                <td><span class="label label-success">Resolved (Shout Delisted)</span></td>
                                 <%
                                 } else {
                                 %>
@@ -156,11 +156,11 @@
                                 <td><%= reportDate%></td>
                             </tr>
                             <tr>
-                                <td>Reported Item ID</td>
+                                <td>Reported Event ID</td>
                                 <td><%= reportedItemID%></td>
                             </tr>
                             <tr>
-                                <td>Reported Item Poster</td>
+                                <td>Reported Event Poster</td>
                                 <td><%= reportedPosterID%></td>
                             </tr>
                             <tr>
@@ -180,12 +180,12 @@
                 <table border="0" style="margin: auto;">
                     <tr>
                         <%
-                            if (reportStatus.equals("Unresolved") && !itemName.equals("")) {
+                            if (reportStatus.equals("Unresolved") && !eventID.equals("")) {
                         %>
                         <%-- resolve and do nothing --%>
                         <td>
-                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#marketplaceReport" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveMarketplaceReportFromAllList"/>
+                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#eventReport" method="GET" target="_parent">
+                                <input type="hidden" name="pageTransit" value="resolveEventReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <button type="submit" class="btn btn-primary">Resolved (Do Nothing)</button>
@@ -193,23 +193,23 @@
                         </td>
                         <%-- resolve and delete item --%>
                         <td>
-                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#marketplaceReport" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveDelistMarketplaceReportFromAllList"/>
+                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#eventReport" method="GET" target="_parent">
+                                <input type="hidden" name="pageTransit" value="resolveDelistEventReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <input type="hidden" name="reportedItemID" value="<%= reportedItemID%>" />
                                 <input type="hidden" name="reportedPosterID" value="<%= reportedPosterID%>" />
                                 <input type="hidden" name="loggedInUsername" value="<%= loggedInUsername%>" />
-                                <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm delisting of item?')">Delist Item & Resolve</button>
+                                <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm delisting of event?')">Delist Event & Resolve</button>
                             </form>
                         </td>
                         <%
-                        } else if (reportStatus.equals("Unresolved") && itemName.equals("")) {
+                        } else if (reportStatus.equals("Unresolved") && eventID.equals("")) {
                         %>
                         <%-- resolve and do nothing --%>
                         <td>
-                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#marketplaceReport" method="GET" target="_parent">
-                                <input type="hidden" name="pageTransit" value="resolveMarketplaceReportFromAllList"/>
+                            <form action="ContentAdmin?pageTransit=goToAllReportedListing#eventReport" method="GET" target="_parent">
+                                <input type="hidden" name="pageTransit" value="resolveEventReportFromAllList"/>
                                 <input type="hidden" name="reportID" value="<%= reportID%>" />
                                 <input type="hidden" name="reportStatus" value="<%= reportStatus%>" />
                                 <button type="submit" class="btn btn-primary">Resolved (Do Nothing)</button>
