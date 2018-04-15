@@ -58,6 +58,10 @@
         <jsp-file>/webapp/commoninfrastructure/admin/Dashboard.jsp</jsp-file>
     </servlet>
     <servlet>
+        <servlet-name>MassCreateUsers</servlet-name>
+        <jsp-file>/webapp/commoninfrastructure/admin/MassCreateUsers.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>AllAdminList</servlet-name>
         <jsp-file>/webapp/commoninfrastructure/admin/admins/AllAdminList.jsp</jsp-file>
     </servlet>
