@@ -168,7 +168,6 @@
             $(function(){
                 $(".activeStatus").each(function(i){
                     var status = $(this).text();
-                    console.log(status);
                     if($.trim(status) === "Active"){
                         $(this).css("color","#110cde");
                     }else{
