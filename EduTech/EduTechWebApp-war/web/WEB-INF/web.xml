@@ -172,7 +172,7 @@
     <servlet><servlet-name>VoicesAdmin</servlet-name><servlet-class>unifycontrollers.admin.VoicesAdminController</servlet-class></servlet>
     <servlet><servlet-name>ContentAdmin</servlet-name><servlet-class>unifycontrollers.admin.ContentAdminController</servlet-class></servlet>
     
-    <!-- SERVLET CLASS MAPPING - UNIFY - ADMIN - ERRANDS (JSP) -->
+    <!-- SERVLET CLASS MAPPING - UNIFY - ADMINPORTAL - ERRANDS (JSP) -->
     <servlet><servlet-name>NewJobCategory</servlet-name><jsp-file>/webapp/unify/admin/errands/NewJobCategory.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewJobCategoryDetails</servlet-name><jsp-file>/webapp/unify/admin/errands/ViewJobCategoryDetails.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewJobCategoryListing</servlet-name><jsp-file>/webapp/unify/admin/errands/ViewJobCategoryListing.jsp</jsp-file></servlet>
