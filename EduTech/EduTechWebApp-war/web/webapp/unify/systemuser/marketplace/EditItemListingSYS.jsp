@@ -306,7 +306,7 @@
                                         </div>
                                     </div><hr/>
                                     <div class="form-row">
-                                        <h5 class="info-text pt-2 pb-2">Item Category</h5>
+                                        <h5 class="pt-3 pb-3" style="margin:0 auto;">You may Re-Select the Marketplace Category for this Product Listing</h5>
                                         <input type="hidden" name="hiddenItemCategoryID" id="dbItemCategoryID" value="<%= itemCategoryID%>" />
                                         <div class="owl-carousel owl-theme">
                                             <%

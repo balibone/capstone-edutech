@@ -159,14 +159,9 @@ function validateFirstStep() {
 }
 
 function validateSecondStep() {
-    $(".wizard-card form").validate({
-        rules: {
-        },
-        messages: {
-        }
-    });
-
-    if (!$(".wizard-card form").valid()) {
+    var checkedValue = $('#checkedValue').val();
+    if (checkedValue != 'Checked'){
+        alert("Please select an Item Category.");
         console.log('invalid');
         return false;
     }
