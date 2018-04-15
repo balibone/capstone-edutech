@@ -36,6 +36,7 @@ public class MeetingMinuteEntity implements Serializable {
     private Long id;
     @XmlElement
     @XmlInverseReference(mappedBy = "meetingMinute")
+    @OneToOne(mappedBy = "meetingMinute") 
     private ScheduleItemEntity meeting;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

@@ -9,13 +9,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>convForm - example</title>
+        <title>Unify Chatbot</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/unify/systemuser/baselayout/convo/jquery.convform.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="https://eduardotkoller.github.io/convForm/demo.css">
+        <link rel="stylesheet" href="css/unify/systemuser/baselayout/convo/bootstrap-v3.3.7.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        
         <style type="text/css">
             * { font-family: 'Roboto', sans-serif; }
             html, body { font-size: 13px; }
@@ -92,9 +92,9 @@
                 </div>
             </div>
         </section>
-        <script src="https://eduardotkoller.github.io/convForm/jquery-1.12.3.min.js" type="text/javascript"></script>
-        <script src="https://eduardotkoller.github.io/convForm/dist/autosize.min.js" type="text/javascript"></script>
-        <script src="https://eduardotkoller.github.io/convForm/dist/jquery.convform.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/convo/jquery-1.12.3.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/convo/autosize.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/convo/jquery.convform.js" type="text/javascript"></script>
 
         <script type="text/javascript">
             function mktListings() { window.open("MarketplaceSysUser?pageTransit=goToViewItemListingSYS", "_parent"); }

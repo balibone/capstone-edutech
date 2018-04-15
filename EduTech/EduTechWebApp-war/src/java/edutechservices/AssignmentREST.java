@@ -13,7 +13,9 @@ import edutechsessionbeans.GroupMgrBean;
 import edutechsessionbeans.ModuleMgrBean;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Iterator;
@@ -21,6 +23,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -33,10 +36,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
 
 @RequestScoped
 @Path("assignment")
@@ -106,11 +111,12 @@ public class AssignmentREST {
     @Path("module/{moduleCode}")
     @Produces({ MediaType.APPLICATION_JSON})
     public List<AssignmentEntity> getModuleAssignments(@PathParam("moduleCode") String moduleCode){
-        return etr.getModuleAssignments(moduleCode);
+        return mmb.getModuleAssignments(moduleCode);
     }
     
     @POST
     @Path("submit/{assignmentId}")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public AssignmentEntity submitAssignment(@PathParam("assignmentId") String assignmentId) throws FileUploadException, IOException, Exception{
         String title ="";
@@ -150,7 +156,7 @@ public class AssignmentREST {
                         System.out.println("uploader is "+username);
                     }
                 }else if(!item.isFormField()){
-                    fileName = item.getName();
+                    fileName = LocalDateTime.now().withNano(0).toString().replaceAll("-", "").replaceAll(":", "")+"qup"+item.getName();
                     System.out.println("file name is "+fileName);
                     
                     
@@ -175,5 +181,53 @@ public class AssignmentREST {
             ass = mmb.submitAssignment(assignmentId, att, username);
         }
         return ass;
+    }
+    
+    @GET
+    @Path("download/{assignmentId}/{attachmentId}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadAssignmentSubmission(@PathParam("assignmentId") String assignmentId, @PathParam("attachmentId") String attachmentId) throws IOException, ServletException, FileUploadException, Exception {
+        String appPath = context.getRealPath("");
+        System.out.println("app path is "+ appPath);
+        String truncatedAppPath = appPath.replace("dist"
+                +File.separator+"gfdeploy"+File.separator+"EduTech"+File.separator+"EduTechWebApp-war_war", "");
+        System.out.println("truncated path is "+truncatedAppPath);
+        //Extract file name of this attachment entity to display on HTTP response.
+        String fileName= cmb.getOneAttachment(Long.valueOf(attachmentId)).getFileName();
+        //extract local file
+        File resFile = new File(truncatedAppPath + "EduTechWebApp-war"+File.separator+ "web" + File.separator+ "uploads" + File.separator + "edutech" 
+                    + File.separator + "assignment" + File.separator + assignmentId + File.separator + fileName);
+        return Response
+            .ok(FileUtils.readFileToByteArray(resFile))
+            .type("application/octet-stream")
+            .header("Content-Disposition", "attachment; filename=\""+fileName+"\"")
+            .build();
+    } 
+    
+    @DELETE
+    @Path("delete/{assignmentId}/{attachmentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public AssignmentEntity deleteAssignmentSubmission(@PathParam("assignmentId") String assignmentId, @PathParam("attachmentId") String attachmentId){
+        String fileName="";
+        
+        String appPath = context.getRealPath("");
+        System.out.println("app path is "+ appPath);
+        String truncatedAppPath = appPath.replace("dist"
+                +File.separator+"gfdeploy"+File.separator+"EduTech"+File.separator+"EduTechWebApp-war_war", "");
+        System.out.println("truncated path is "+truncatedAppPath);
+        fileName = cmb.deleteAttachment(attachmentId);
+        //delete local file
+        try{
+            Files.deleteIfExists(Paths.get(truncatedAppPath + "EduTechWebApp-war"+File.separator+ "web" + File.separator+ "uploads" + File.separator + "edutech" 
+                    + File.separator + "assignment" + File.separator + assignmentId + File.separator + fileName));
+        }catch(NoSuchFileException e){
+            System.out.println("No such file/directory exists");
+        }catch(DirectoryNotEmptyException e){
+            System.out.println("Directory is not empty.");
+        }catch(IOException e){
+            System.out.println("Invalid permissions.");
+        }
+        System.out.println("Deletion of "+fileName+" is successful.");
+        return mmb.getOneAssignment(Long.valueOf(assignmentId));
     }
 }

@@ -548,7 +548,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             //assign user to all existing tasks of that module
             Query q2 = em.createQuery("SELECT t FROM Task t WHERE t.moduleCode = :modCode");
             q2.setParameter("modCode", module.getModuleCode());
-            for(Object o : q1.getResultList()){
+            for(Object o : q2.getResultList()){
                 TaskEntity t = (TaskEntity) o;
                 //if task does not contain user, assign him/her
                 if(!t.getAssignedTo().contains(user)){
@@ -581,7 +581,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             //unassign user from all existing tasks of that module
             Query q2 = em.createQuery("SELECT t FROM Task t WHERE t.moduleCode = :modCode");
             q2.setParameter("modCode", module.getModuleCode());
-            for(Object o : q1.getResultList()){
+            for(Object o : q2.getResultList()){
                 TaskEntity t = (TaskEntity) o;
                 //if task contains user, assign him/her
                 if(t.getAssignedTo().contains(user)){

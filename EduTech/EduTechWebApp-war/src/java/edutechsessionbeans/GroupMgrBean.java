@@ -270,17 +270,6 @@ public class GroupMgrBean {
         return g;
     }
 
-    public List<AssignmentEntity> getModuleAssignments(String moduleCode) {
-        ModuleEntity mod = em.find(ModuleEntity.class, moduleCode);
-        List<AssignmentEntity> modAsses = new ArrayList<>();
-        if(mod!=null){
-            Query q = em.createQuery("SELECT ass FROM Assignment ass WHERE ass.module= :modCode");
-            q.setParameter("modCode", mod);
-            modAsses = q.getResultList();
-        }
-        return modAsses;
-    }
-
     public List<GroupEntity> autoAssignMembers(String assignmentId) {
         
         AssignmentEntity ass = em.find(AssignmentEntity.class, Long.valueOf(assignmentId));
@@ -290,16 +279,21 @@ public class GroupMgrBean {
         //if mod and assignment exists and assignment belong to this mod, run auto assign
         if(mod != null && ass != null && ass.getModule().equals(mod)){
             
-            ArrayList<UserEntity> membersToAdd = new ArrayList<>(mod.getMembers());
-            int membersIndex = 0;
+            ArrayList<UserEntity> studentsToAdd = new ArrayList<>();
+            for(UserEntity u : mod.getMembers()){
+                if(u.getUserType().equalsIgnoreCase("student")){
+                    studentsToAdd.add(u);
+                }
+            }
+            int studentsToAddIndex = 0;
             
             //randomise contents of array list.
-            Collections.shuffle(membersToAdd);
+            Collections.shuffle(studentsToAdd);
             //remove those users which already have group in this assignment.
-            for(UserEntity member : membersToAdd){
+            for(UserEntity member : studentsToAdd){
                 for(GroupEntity g : ass.getGroups()){
                     if(g.getMembers().contains(member)){
-                        membersToAdd.remove(member);
+                        studentsToAdd.remove(member);
                     }
                 }
             }
@@ -309,13 +303,41 @@ public class GroupMgrBean {
             for(GroupEntity g : ass.getGroups()){
                 Collection<UserEntity> groupMembers = g.getMembers();
                 //keep adding to group if group still has space AND there are still members to add.
-                while(groupMembers.size()<g.getGroupSize() && membersIndex < membersToAdd.size()){
-                    groupMembers.add(membersToAdd.get(membersIndex));
-                    membersIndex++;
+                while(groupMembers.size()<g.getGroupSize() && studentsToAddIndex < studentsToAdd.size()){
+                    groupMembers.add(studentsToAdd.get(studentsToAddIndex));
+                    studentsToAddIndex++;
                 }
             }
         }
         return assGroups;
+    }
+
+    public List<UserEntity> getMembersWithoutGroup(String assignmentId) {
+        ArrayList<UserEntity> grouplessStudents = new ArrayList<>();
+        AssignmentEntity ass = em.find(AssignmentEntity.class, Long.valueOf(assignmentId));
+        ArrayList<GroupEntity> assGroups = new ArrayList<>(ass.getGroups());
+        
+        if(ass!=null){
+            ArrayList<UserEntity> modStudents = new ArrayList<>();
+            for(UserEntity u : ass.getModule().getMembers()){
+                if(u.getUserType().equalsIgnoreCase("student")){
+                    modStudents.add(u);
+                }
+            }
+            grouplessStudents.addAll(modStudents);
+            for(UserEntity u : modStudents){
+                //label to break out of inner loop
+                innerloop:
+                for(GroupEntity g : assGroups){
+                    if(g.getMembers().contains(u)){
+                        grouplessStudents.remove(u);
+                        break innerloop;
+                    }
+                }
+                //when break hits it will continue here, aka next loop iteration will run.
+            }
+        }
+        return grouplessStudents;
     }
     
 }

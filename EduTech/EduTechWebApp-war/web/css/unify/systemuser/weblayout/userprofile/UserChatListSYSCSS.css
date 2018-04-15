@@ -411,9 +411,10 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
 }
 #frame #sidepanel #buyingContacts ul li.contact .wrap img {
     width: 40px;
+    height: auto;
     border-radius: 50%;
     float: left;
-    margin-right: 10px;
+    margin: 5px 10px 20px 0;
 }
 @media screen and (max-width: 735px) {
     #frame #sidepanel #buyingContacts ul li.contact .wrap img {
@@ -532,9 +533,10 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
 }
 #frame #sidepanel #sellingContacts ul li.contact .wrap img {
     width: 40px;
+    height: auto;
     border-radius: 50%;
     float: left;
-    margin-right: 10px;
+    margin: 5px 10px 20px 0;
 }
 @media screen and (max-width: 735px) {
     #frame #sidepanel #sellingContacts ul li.contact .wrap img {
@@ -650,35 +652,17 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
         border-left: 1px solid rgba(0, 0, 0, 0.3);
     }
 }
-#frame .content .contact-profile {
-    width: 100%;
-    height: 60px;
-    line-height: 60px;
-    background: #F5F5F5;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-}
-#frame .content .contact-profile img {
-    width: 40px;
-    border-radius: 50%;
-    float: left;
-    margin: 9px 12px 0 9px;
-}
-#frame .content .contact-profile p {
-    float: left;
-}
-#frame .content .contact-profile .social-media {
-    float: right;
-}
-#frame .content .contact-profile .social-media i {
-    margin-left: 14px;
-    cursor: pointer;
-}
-#frame .content .contact-profile .social-media i:nth-last-child(1) {
-    margin-right: 20px;
-}
-#frame .content .contact-profile .social-media i:hover {
-    color: #4D7496;
-}
+
+/* CONTACT PROFILE */
+#frame .content .contact-profile { width: 100%; height: 50px; line-height: 50px; background: #F5F5F5; border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
+#frame .content .contact-profile img { width: 40px; max-height: 40px; border-radius: 50%; float: left; margin: 7px 12px 0 10px; }
+#frame .content .contact-profile p { float: left; }
+#frame .content .contact-profile .social-media { float: right; }
+#frame .content .contact-profile .social-media i { margin-left: 14px; cursor: pointer; }
+#frame .content .contact-profile .social-media i:nth-last-child(1) { margin-right: 20px; }
+#frame .content .contact-profile .social-media i:hover { color: #4D7496; }
+
+
 #frame .content .messages {
     height: auto;
     min-height: calc(100% - 93px);

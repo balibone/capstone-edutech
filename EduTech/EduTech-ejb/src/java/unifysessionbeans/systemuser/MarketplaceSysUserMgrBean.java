@@ -249,6 +249,12 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             itemDetailsVec.add(getPositiveItemReviewCount(iEntity.getUserEntity().getUsername()));
             itemDetailsVec.add(getNeutralItemReviewCount(iEntity.getUserEntity().getUsername()));
             itemDetailsVec.add(getNegativeItemReviewCount(iEntity.getUserEntity().getUsername()));
+            itemDetailsVec.add(getChatCount(itemID, username));
+            if(lookupItemOfferCurrStatus(itemID, username) == null) {
+                itemDetailsVec.add(true);       /* CAN MAKE ITEM OFFER*/
+            } else {
+                itemDetailsVec.add(false);      /* CANNOT MAKE ITEM OFFER*/
+            }
         }
         return itemDetailsVec;
     }
@@ -712,6 +718,7 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
         return me;
     }
     
+    
     public static boolean isNumeric(String strValue) {
         return strValue.matches("-?\\d+(\\.\\d+)?");  // match a number with optional '-' and decimal
     }
@@ -783,5 +790,21 @@ public class MarketplaceSysUserMgrBean implements MarketplaceSysUserMgrBeanRemot
             ex.printStackTrace();
         }
         return positiveItemReviewCount;
+    }
+    
+    /* MISCELLANEOUS METHODS (CHAT COUNT) */
+    public Long getChatCount(long itemID, String username) {
+        Long chatCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(c.chatID) FROM Chat c WHERE (c.userEntity.username = :username OR c.chatReceiverID = :username) AND c.itemEntity.itemID = :itemID AND (c.chatContent != '' OR c.chatContent IS NOT NULL)");
+        q.setParameter("itemID", itemID);
+        q.setParameter("username", username);
+        
+        try {
+            chatCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in MarketplaceSysUserMgrBean.getChatCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return chatCount;
     }
 }

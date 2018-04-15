@@ -7,13 +7,9 @@ import javax.websocket.server.HandshakeRequest;
 import javax.websocket.server.ServerEndpointConfig;
 import javax.websocket.server.ServerEndpointConfig.Configurator;
 
-import commoninfraentities.UserEntity;
-
 public class ChatServerConfigurator extends Configurator {
     @Override
-    public void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {
-        HttpSession httpSession = (HttpSession) request.getHttpSession();
-        UserEntity user = (UserEntity) httpSession.getAttribute("user");
-        config.getUserProperties().put("user", user);
+    public void modifyHandshake(ServerEndpointConfig serverEC, HandshakeRequest request, HandshakeResponse response) {
+        serverEC.getUserProperties().put("username", (String)((HttpSession) request.getHttpSession()).getAttribute("username"));
     }
 }

@@ -250,7 +250,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="companyPros">Company Pros</label>
+                                                <label for="companyPros">Company Pros&nbsp;<span class="asterik">*</span></label>
                                                 <textarea class="form-control" name="companyPros" rows="3" placeholder="Enter the company pros" required="required"></textarea>
                                             </div>
                                         </div>
@@ -276,7 +276,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="companyCons">Company Cons</label>
+                                                <label for="companyCons">Company Cons&nbsp;<span class="asterik">*</span></label>
                                                 <textarea class="form-control" name="companyCons" rows="3" placeholder="Enter the company cons" required="required"></textarea>
                                             </div>
                                         </div>

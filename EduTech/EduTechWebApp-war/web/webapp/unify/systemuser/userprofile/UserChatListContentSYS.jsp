@@ -72,7 +72,7 @@
                                             <% 
                                                 ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
-                                                    for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
+                                                    for (int i = 0; i <= userMessageListTopThreeSYS.size()-1; i++) {
                                                         Vector v = userMessageListTopThreeSYS.get(i);
                                                         String messageContent = String.valueOf(v.get(0));
                                                         String contentID = String.valueOf(v.get(1));
@@ -207,27 +207,27 @@
                         <div id="buyingContacts">
                             <ul class="buyingContacts">
                                 <%
-                                    ArrayList<Vector> assocBuyingListSYS = (ArrayList) request.getAttribute("assocBuyingListSYS");
-                                    if (!assocBuyingListSYS.isEmpty()) {
-                                        for (int i = 0; i <= assocBuyingListSYS.size()-1; i++) {
-                                            Vector v = assocBuyingListSYS.get(i);
-                                            String chatID = String.valueOf(v.get(0));
-                                            String itemSellerImage = String.valueOf(v.get(1));
-                                            String itemSellerID = String.valueOf(v.get(2));
-                                            String itemName = String.valueOf(v.get(3));
+                                    ArrayList<Vector> userChatBuyingListSYS = (ArrayList) request.getAttribute("userChatBuyingListSYS");
+                                    if (!userChatBuyingListSYS.isEmpty()) {
+                                        for (int i = 0; i <= userChatBuyingListSYS.size()-1; i++) {
+                                            Vector v = userChatBuyingListSYS.get(i);
+                                            String itemBuyerImage = String.valueOf(v.get(0));
+                                            String itemBuyerID = String.valueOf(v.get(1));
+                                            String itemName = String.valueOf(v.get(2));
+                                            String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
                                 %>
                                 <li id="contact<%= chatID%>" class="contact">
                                     <div class="wrap">
-                                        <img src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
+                                        <img src="uploads/commoninfrastructure/admin/images/<%= itemBuyerImage%>" />
                                         <div class="meta">
                                             <%  if(chatStatus.equals("Unread")) {   %>
-                                            <p class="name" style="font-weight:bolder;"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
+                                            <p class="name" style="font-weight:bolder;"><%= itemBuyerID%><span style="display:none">;<%= chatID%></span></p>
                                             <p class="name" style="font-weight:bolder;"><%= itemName%></p>
                                             <p class="preview" style="font-weight:bolder;"><%= chatContent%></p>
                                             <%  } else if(chatStatus.equals("Read")) {  %>
-                                            <p class="name"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
+                                            <p class="name"><%= itemBuyerID%><span style="display:none">;<%= chatID%></span></p>
                                             <p class="name"><%= itemName%></p>
                                             <p class="preview"><%= chatContent%></p>
                                             <%  }   %>
@@ -243,14 +243,14 @@
                         <div id="sellingContacts">
                             <ul class="sellingContacts">
                                 <%
-                                    ArrayList<Vector> assocSellingListSYS = (ArrayList) request.getAttribute("assocSellingListSYS");
-                                    if (!assocSellingListSYS.isEmpty()) {
-                                        for (int i = 0; i <= assocSellingListSYS.size()-1; i++) {
-                                            Vector v = assocSellingListSYS.get(i);
-                                            String chatID = String.valueOf(v.get(0));
-                                            String itemSellerImage = String.valueOf(v.get(1));
-                                            String itemSellerID = String.valueOf(v.get(2));
-                                            String itemName = String.valueOf(v.get(3));
+                                    ArrayList<Vector> userChatSellingListSYS = (ArrayList) request.getAttribute("userChatSellingListSYS");
+                                    if (!userChatSellingListSYS.isEmpty()) {
+                                        for (int i = 0; i <= userChatSellingListSYS.size()-1; i++) {
+                                            Vector v = userChatSellingListSYS.get(i);
+                                            String itemSellerImage = String.valueOf(v.get(0));
+                                            String itemSellerID = String.valueOf(v.get(1));
+                                            String itemName = String.valueOf(v.get(2));
+                                            String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
                                 %>
@@ -262,7 +262,7 @@
                                             <p class="name" style="font-weight:bolder;"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
                                             <p class="name" style="font-weight:bolder;"><%= itemName%></p>
                                             <p class="preview" style="font-weight:bolder;"><%= chatContent%></p>
-                                            <%  } else if(chatStatus.equals("Read")) {  %>
+                                            <%  } else if(chatStatus.equals("Read")) {   %>
                                             <p class="name"><%= itemSellerID%><span style="display:none">;<%= chatID%></span></p>
                                             <p class="name"><%= itemName%></p>
                                             <p class="preview"><%= chatContent%></p>
@@ -280,9 +280,12 @@
                     <div class="content">
                         <%
                             Vector chatContentInfoVecSYS = (Vector) request.getAttribute("chatContentInfoVecSYS");
-                            String receiverImage, receiverID, senderImage, buyerOrSellerStat, buyerOrSellerID, itemID;
-                            receiverImage = receiverID = senderImage = buyerOrSellerStat = buyerOrSellerID = itemID = "";
-
+                            String receiverImage, receiverID, senderImage, buyerOrSellerStat, buyerOrSellerID;
+                            receiverImage = receiverID = senderImage = buyerOrSellerStat = buyerOrSellerID = "";
+                            
+                            String itemID, itemImage, itemName, itemPrice, itemOfferID, buyerItemOfferStatus, currentOfferPrice;
+                            itemID = itemImage = itemName = itemPrice = itemOfferID = buyerItemOfferStatus = currentOfferPrice = "";
+                            
                             if (chatContentInfoVecSYS != null) {
                                 receiverImage = (String) chatContentInfoVecSYS.get(0);
                                 receiverID = (String) chatContentInfoVecSYS.get(1);
@@ -290,6 +293,12 @@
                                 buyerOrSellerStat = (String) chatContentInfoVecSYS.get(3);
                                 buyerOrSellerID = (String) chatContentInfoVecSYS.get(4);
                                 itemID = (String.valueOf(chatContentInfoVecSYS.get(5)));
+                                itemImage = (String) chatContentInfoVecSYS.get(6);
+                                itemName = (String) chatContentInfoVecSYS.get(7);
+                                itemPrice = (String.valueOf(chatContentInfoVecSYS.get(8)));
+                                itemOfferID = (String.valueOf(chatContentInfoVecSYS.get(9)));
+                                buyerItemOfferStatus = (String) chatContentInfoVecSYS.get(10);
+                                currentOfferPrice = (String) chatContentInfoVecSYS.get(11);
                             }
                         %>
                         <div class="contact-profile">
@@ -302,6 +311,85 @@
                             <input type="hidden" id="buyerOrSellerStat" value="<%= buyerOrSellerStat%>" />
                             <input type="hidden" id="buyerOrSellerID" value="<%= buyerOrSellerID%>" />
                             <input type="hidden" id="hiddenItemID" value="<%= itemID%>" />
+                            <input type="hidden" id="hiddenItemOfferID" value="<%= itemOfferID%>" />
+                        </div>
+                        <div class="item-info" style="cursor:pointer;" onclick="location.href='MarketplaceSysUser?pageTransit=goToMsgViewItemDetailsSYS&itemHidID=<%= itemID%>'">
+                            <img src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
+                            <p class="item-info-strong"><%= itemName%>&nbsp;($<%= itemPrice%>)<br/>
+                                <span id="buyerItemOfferStatus">
+                                    <%  if (buyerItemOfferStatus.equals("Pending")) {%>
+                                    <span class="badge badge-info custom-badge"><%= buyerItemOfferStatus%></span>
+                                    <%  } else if (buyerItemOfferStatus.equals("Processing")) {%>
+                                    <span class="badge badge-warning custom-badge"><%= buyerItemOfferStatus%></span>
+                                    <%  } else if (buyerItemOfferStatus.equals("Accepted")) {%>
+                                    <span class="badge badge-theme custom-badge"><%= buyerItemOfferStatus%></span>
+                                    <%  } else if (buyerItemOfferStatus.equals("Rejected")) {%>
+                                    <span class="badge badge-danger custom-badge"><%= buyerItemOfferStatus%></span>
+                                    <%  } else if (buyerItemOfferStatus.equals("Cancelled")) {%>
+                                    <span class="badge badge-danger custom-badge"><%= buyerItemOfferStatus%></span>
+                                    <%  } else if (buyerItemOfferStatus.equals("Completed")) {%>
+                                    <span class="badge badge-success custom-badge"><%= buyerItemOfferStatus%></span>
+                                    <%  } else if (buyerItemOfferStatus.equals("Failed")) {%>
+                                    <span class="badge badge-danger custom-badge"><%= buyerItemOfferStatus%></span>
+                                    <%  } else if (buyerItemOfferStatus.equals("Closed")) {%>
+                                    <span class="badge badge-primary custom-badge"><%= buyerItemOfferStatus%></span>
+                                    <%  } else { %>
+                                    <%= buyerItemOfferStatus%>
+                                    <%  }   %>
+                                </span>
+                            </p>
+                            <div class="noDisplay">
+                                <%  
+                                    String chatType = request.getParameter("hidChatType");  
+                                    if((chatType.equals("Buying")) && (buyerItemOfferStatus.equals("You have not made an offer on this item yet"))) {
+                                %>
+                                <div id="sendOfferPanel" class="pull-right pt-2 pr-4">
+                                    <input type="text" id="itemOfferPrice" />
+                                    <button type="button" id="sendOfferBtn" class="btn btn-sm btn-theme chatListContentBtn">Send Offer</button>
+                                </div>
+                                <%  } else if((chatType.equals("Buying")) && (buyerItemOfferStatus.equals("Processing"))) {   %>
+                                <div id="updateOfferPanel" class="pull-right pt-2 pr-4">
+                                    <input type="text" id="updatedOfferPrice" placeholder="<%= currentOfferPrice%>" />
+                                    <button type="button" id="updateOfferBtn" class="btn btn-sm btn-theme chatListContentBtn">Update Offer</button>
+                                </div>
+                                <%  } else if((chatType.equals("Selling")) && (buyerItemOfferStatus.equals("No Offer Status"))) {   %>
+                                <div id="noOfferPanel" class="pull-right pt-2 pr-4">
+                                    <span>No Offer Yet</span>
+                                </div>
+                                <%  } else if((chatType.equals("Selling")) && (buyerItemOfferStatus.equals("Pending"))) {   %>
+                                <div id="acceptRejectOfferPanel" class="pull-right pt-2 pr-4">
+                                    <button type="button" id="acceptOfferBtn" class="btn btn-sm btn-theme chatListContentBtn">Accept Offer</button>
+                                    <button type="button" id="negotiateOfferBtn" class="btn btn-sm btn-theme chatListContentBtn">Reject Offer</button>
+                                </div>
+                                <%  } else if((chatType.equals("Selling")) && (buyerItemOfferStatus.equals("Accepted"))) {   %>
+                                <div id="acceptedOfferPanel" class="pull-right pt-2 pr-4">
+                                    <button type="button" id="markedOfferAsCompletedBtn" class="btn btn-sm btn-theme chatListContentBtn">Marked As Sold</button>
+                                    <button type="button" id="reopenListingBtn" class="btn btn-sm btn-theme chatListContentBtn">Reopen Listing</button>
+                                </div>
+                                <%  } else if((chatType.equals("Selling")) && (buyerItemOfferStatus.equals("Completed"))) {   %>
+                                <div id="provideFeedbackPanel" class="pull-right pt-2 pr-4">
+                                    <button type="button" id="provideFeedbackBtn" class="btn btn-sm btn-theme chatListContentBtn">Provide Feedback</button>
+                                </div>
+                                <%  } else {    %>
+                                <span>&nbsp;</span>
+                                <%  }   %>
+                                <input type="hidden" id="tempItemOfferPrice" />
+                                <div id="updateOfferPanelInterior" class="pull-right pt-2 pr-4 noDisplay">
+                                    <input type="text" id="updatedOfferPriceInterior" placeholder="<%= currentOfferPrice%>" />
+                                    <button type="button" id="updateOfferBtnInterior" class="btn btn-sm btn-theme chatListContentBtn">Update Offer</button>
+                                </div>
+                                <div id="acceptRejectOfferPanelInterior" class="pull-right pt-2 pr-4 noDisplay">
+                                    <button type="button" id="acceptOfferBtnInterior" class="btn btn-sm btn-theme chatListContentBtn">Accept Offer</button>
+                                    <button type="button" id="negotiateOfferBtnInterior" class="btn btn-sm btn-theme chatListContentBtn">Reject Offer</button>
+                                </div>
+                                <div id="acceptedOfferPanelInterior" class="pull-right pt-2 pr-4 noDisplay">
+                                    <button type="button" id="markedOfferAsCompletedBtnInterior" class="btn btn-sm btn-theme chatListContentBtn">Marked As Sold</button>
+                                    <button type="button" id="reopenListingBtnInterior" class="btn btn-sm btn-theme chatListContentBtn">Reopen Listing</button>
+                                </div>
+                                <div id="provideFeedbackPanelInterior" class="pull-right pt-2 pr-4 noDisplay">
+                                    <button type="button" id="provideFeedbackBtnInterior" class="btn btn-sm btn-theme chatListContentBtn">Provide Feedback</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="messages">
                             <ul class="messageContent">
@@ -315,20 +403,19 @@
                                             String chatSenderImage = String.valueOf(v.get(2));
                                             String chatReceiverID = String.valueOf(v.get(3));
                                             String chatReceiverImage = String.valueOf(v.get(4));
-                                            String buyerORSellerID = String.valueOf(v.get(5));
-                                            if(buyerORSellerID.equals(chatSenderID) && !chatContent.equals("")) {
                                 %>
+                                <%          if(loggedInUsername.equals(chatSenderID) && !chatContent.equals("")) {  %>
                                 <li class="sent">
                                     <img class="chatSenderIMG" src="uploads/commoninfrastructure/admin/images/<%= chatSenderImage%>" />
                                     <p><%= chatContent%></p>
                                 </li>
-                                <%          }  else if(buyerORSellerID.equals(chatReceiverID) && !chatContent.equals("")) {  %>
+                                <%          } else if(loggedInUsername.equals(chatReceiverID) && !chatContent.equals("")) {   %>
                                 <li class="replies">
-                                    <img src="uploads/commoninfrastructure/admin/images/<%= chatReceiverImage%>" />
+                                    <img src="uploads/commoninfrastructure/admin/images/<%= chatSenderImage%>" />
                                     <p><%= chatContent%></p>
                                 </li>
                                 <%          }    %>
-                                <%      }    %>
+                                <%      } %>
                                 <%  } %>
                             </ul>
                         </div>
@@ -341,25 +428,8 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="chat-main">
-                <div class="col-md-12 chat-header">
-                    <div class="row header-one text-white p-1">
-                        <div class="col-md-6 name pl-2">
-                            <i class="fa fa-comment"></i>
-                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
-                        </div>
-                        <div class="col-md-6 options text-right pr-0">
-                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="chat-content">
-                    <div class="col-md-12 chats">
-                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
-                    </div>
-                </div>
-            </div>
+            <input type="hidden" id="messageSenderID" />
+            <input type="hidden" id="loggedInUserID" value="<%= loggedInUsername%>" />
         </div>
         
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -368,6 +438,7 @@
         <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/bootbox.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/UserChatListContentSYSJS.js" type="text/javascript"></script>
     </body>

@@ -306,7 +306,7 @@
                                         </div>
                                     </div><hr/>
                                     <div class="form-row">
-                                        <h5 class="info-text pt-2 pb-2">Item Category</h5>
+                                        <h5 class="pt-3 pb-3" style="margin:0 auto;">You may Re-Select the Marketplace Category for this Product Listing</h5>
                                         <input type="hidden" name="hiddenItemCategoryID" id="dbItemCategoryID" value="<%= itemCategoryID%>" />
                                         <div class="owl-carousel owl-theme">
                                             <%
@@ -394,6 +394,8 @@
             <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
             <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
             <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
             <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
             <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
             <script src="js/unify/systemuser/basejs/bootbox.min.js" type="text/javascript"></script>

@@ -334,7 +334,8 @@
                                     <ul>
                                         <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
                                         <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
-                                        <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
+                                        <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Bid</span></li>
+                                        <li><span data-path=".itemNumOfTotalOffer" data-order="desc" data-type="number">Total Bid</span></li>
                                         <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
                                         <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
                                         <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
@@ -375,6 +376,8 @@
                                             String itemNumOfPendingOffer = String.valueOf(v.get(11));
                                             String itemCondition = String.valueOf(v.get(12));
                                             String itemStatus = String.valueOf(v.get(13));
+                                            String totalItemOfferCount = String.valueOf(v.get(14));
+                                            String pendingItemOfferCount = String.valueOf(v.get(15));
                                 %>
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -425,7 +428,8 @@
                                                 <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
                                                 <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
                                                 <span class="card-text <%= itemCategoryName.replaceAll(" ", "")%>" style="display:none;"><%= itemCategoryName%></span>
-                                                <span class="card-text" style="font-size: 11px;">Condition:&nbsp;<span class="<%= itemCondition%>"><strong><%= itemCondition%></strong></span></span>
+                                                <span class="card-text" style="font-size: 11px;">Condition:&nbsp;<span class="<%= itemCondition%>"><strong><%= itemCondition%></strong></span></span><br/>
+                                                <span class="card-text" style="font-size: 11px;">Total Bid:&nbsp;<strong><span class="itemNumOfTotalOffer"><%= totalItemOfferCount%></span></strong><span class="pl-3">Pending Bid:&nbsp;<strong><%= pendingItemOfferCount%></strong></span></span>
                                             </div>
                                         </div>
                                         <div class="card-footer text-muted mt-1">
@@ -436,7 +440,7 @@
                                                     <span class="itemNumOfLikes" id="itemNumOfLikes<%= itemID%>"><%= itemNumOfLikes%></span>
                                                 </button>&nbsp;&nbsp;
                                                 <button id="pendingItemOfferBtn<%= itemID%>" class="myAccountBtn">
-                                                    <i class="fa fa-users"></i>&nbsp;
+                                                    <i class="fa fa-clock-o"></i>&nbsp;
                                                     <span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span>
                                                 </button>
                                             </span>

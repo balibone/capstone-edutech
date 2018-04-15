@@ -51,7 +51,8 @@ $(document).ready(function () {
     
     $('.choice').click(function() {
         var categoryID = $(this).attr('id');
-        document.getElementById("hiddenCategoryID").value = categoryID;
+        document.getElementById('hiddenCategoryID').value = categoryID;
+        document.getElementById('checkedValue').value = 'Checked';
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

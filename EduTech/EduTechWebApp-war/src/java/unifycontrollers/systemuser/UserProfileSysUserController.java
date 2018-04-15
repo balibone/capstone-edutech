@@ -22,6 +22,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -297,19 +298,24 @@ public class UserProfileSysUserController extends HttpServlet {
                     break;
                 case "goToViewChatListSYS":
                     String assocItemID = request.getParameter("assocItemID");
-                    request.setAttribute("userChatBuyingListSYS", usmr.viewUserChatBuyingList(loggedInUsername, assocItemID));
-                    request.setAttribute("userChatSellingListSYS", usmr.viewUserChatSellingList(loggedInUsername, assocItemID));
+                    request.setAttribute("userChatBuyingListSYS", usmr.viewUserChatBuyingList(loggedInUsername, assocItemID, true));
+                    request.setAttribute("userChatSellingListSYS", usmr.viewUserChatSellingList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "UserChatListSYS";
                     break;
                 case "goToViewChatListContentSYS":
                     long hidChatID = Long.parseLong(request.getParameter("hidChatID"));
+                    String hidChatType = request.getParameter("hidChatType");
                     request.setAttribute("contentChatID", hidChatID);
-                    request.setAttribute("chatListContentSYS", usmr.viewChatListContent(hidChatID));
+                    request.setAttribute("hidChatType", hidChatType);
+                    request.setAttribute("chatListContentSYS", usmr.viewChatListContent(loggedInUsername, hidChatID));
                     request.setAttribute("chatContentInfoVecSYS", usmr.viewChatContentInfo(loggedInUsername, hidChatID));
-                    request.setAttribute("assocBuyingListSYS", usmr.viewAssocBuyingList(loggedInUsername, ""));
-                    request.setAttribute("assocSellingListSYS", usmr.viewAssocSellingList(loggedInUsername, ""));
+                    request.setAttribute("userChatBuyingListSYS", usmr.viewUserChatBuyingList(loggedInUsername, "", false));
+                    request.setAttribute("userChatSellingListSYS", usmr.viewUserChatSellingList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("username", loggedInUsername);
                     pageAction = "UserChatListContentSYS";
                     break;
                 case "addNewChatContent":
@@ -399,6 +405,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("eduExprList", vsmr.viewEduExprList(resumeID));
                     request.setAttribute("workExprList", vsmr.viewWorkExprList(resumeID));
                     request.setAttribute("proExprList", vsmr.viewProjectExprList(resumeID));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewResumeDetailsSYS";
                     break;
                 case "goToDeleteResume":
