@@ -249,7 +249,6 @@
                                                                             <div class="col-3"><img src="uploads/unify/images/common/category/<%= categoryImage%>" style="width: 60px; height: 60px; " /></div>
                                                                             <div class="col-9"><span><strong><%= categoryName%></strong></span> <br/> test</div>
                                                                         </div>
-        					
                                                                     </div>
                                                                 </div>
                                                             </div>

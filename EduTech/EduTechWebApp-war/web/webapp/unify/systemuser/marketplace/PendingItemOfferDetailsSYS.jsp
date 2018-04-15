@@ -284,7 +284,7 @@
                                     String itemCondition = String.valueOf(itemOfferUserListSYS.get(0).get(4));
                             %>
                             <div class="formDiv">
-                                <div class="form-row media">
+                                <div class="form-row media" style="cursor:pointer;" onclick="location.href='MarketplaceSysUser?pageTransit=goToMsgViewItemDetailsSYS&itemHidID=<%= itemID%>'">
                                     <img class="img-thumbnail" src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width:50px;height:50px;"/>
                                     <div class="media-body ml-3">
                                         <input type="hidden" id="hiddenItemID" value="<%= itemID%>" />
