@@ -1,0 +1,7 @@
+userSalutation,userFirstName,userLastName,username,email,contactNum,userType
+test,test,test,masstest1,41capstone03@gmail.com,3,student
+test,test,test,masstest2,41capstone03@gmail.com,3,dualadmin
+test,test,test,masstest3,41capstone03@gmail.com,3,instructor
+test,test,test,masstest4,41capstone03@gmail.com,3,edutechadmin
+test,test,test,masstest5,41capstone03@gmail.com,3,unifyadmin
+test,test,test,masstest6,41capstone03@gmail.com,3,systemadmin

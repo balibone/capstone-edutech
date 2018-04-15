@@ -42,9 +42,13 @@
                     <hr>
                     <div class="row">
                         <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>Download Example CSV : </label>
+                                <a href="resources/SampleMassUSER.csv" download><img src="images/csv.png" style="height: 60px;"></a>
+                            </div>
                             <form class="form-inline" id="uploadCsv">
                                 <div class="form-group">
-                                    <label for="csv">User Data CSV (preview below): </label>
+                                    <label for="csv">Upload User Data CSV : </label>
                                     <input type="file" accept=".csv" class="form-control" id="csv" onchange="handleFileUpload(this.files)" placeholder="Upload CSV">
                                 </div>
                                 <button type="reset" class="btn btn-warning" style="margin: unset;">Clear</button>
