@@ -7,7 +7,7 @@ $(document).ready(function() {
     $("#uploadCsv").on("submit", function(event){
         event.preventDefault();
         if(typeof parseData === "undefined"){
-            alert("Please select a .csv file!");
+            alert("Please upload a .csv file!");
         }else{
             console.log("------------------ Submitting JSON : ");
             console.log(JSON.stringify(parseData));
