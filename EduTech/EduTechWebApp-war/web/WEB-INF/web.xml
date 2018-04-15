@@ -239,6 +239,7 @@
     <servlet><servlet-name>MarketplaceSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.MarketplaceSysUserController</servlet-class></servlet>
     <servlet><servlet-name>VoicesSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.VoicesSysUserController</servlet-class></servlet>
     <servlet><servlet-name>ShoutsSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.ShoutsSysUserController</servlet-class></servlet>
+    <servlet><servlet-name>EventsSysUser</servlet-name><servlet-class>unifycontrollers.systemuser.EventsSysUserController</servlet-class></servlet>
     
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - ERRANDS (JSP) -->
     <servlet><servlet-name>ViewJobListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/errands/ViewJobListingSYS.jsp</jsp-file></servlet>
@@ -332,6 +333,7 @@
     <servlet-mapping><servlet-name>MarketplaceSysUser</servlet-name><url-pattern>/MarketplaceSysUser</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>VoicesSysUser</servlet-name><url-pattern>/VoicesSysUser</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>ShoutsSysUser</servlet-name><url-pattern>/ShoutsSysUser</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>EventsSysUser</servlet-name><url-pattern>/EventsSysUser</url-pattern></servlet-mapping>
     
     <!-- MISCELLANEOUS -->
     <session-config><session-timeout>400</session-timeout></session-config>
