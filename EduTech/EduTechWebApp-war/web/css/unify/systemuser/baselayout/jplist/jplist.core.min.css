@@ -28,7 +28,7 @@
 .jplist-drop-down-search{float:left;height:30px;width:175px;box-shadow:0 0 1px #fff;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;border:1px solid #dbdbdb;border-radius:3px;text-shadow:1px 1px 1px #fff;color:#27252a;background:#fff;background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#fff),color-stop(100%,#efefef));background:-webkit-linear-gradient(top,#fff 0,#efefef 100%);background:linear-gradient(to bottom,#fff 0,#efefef 100%);position:relative}
 .jplist-drop-down-search .jplist-dd-panel{float:left;width:175px;height:30px;line-height:30px;overflow:hidden;text-indent:10px;cursor:pointer}
 .jplist-drop-down-search .jplist-dd-panel:after{content:'\25BC';color:#111;display:inline-block;position:absolute;right:10px;z-index:1000}
-.jplist-drop-down-search ul{-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;border:1px solid #dbdbdb;border-radius:0 0 3px 3px;position:relative;top:0;z-index:1000;width:148px;display:none;overflow:hidden;background:#fff;list-style:none;margin:0;padding:0;box-shadow:0 3px 6px #bbb}
+.jplist-drop-down-search ul{-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;border:1px solid #dbdbdb;border-radius:0 0 3px 3px;position:relative;top:0;z-index:1000;width:175px;display:none;overflow:hidden;background:#fff;list-style:none;margin:0;padding:0;box-shadow:0 3px 6px #bbb}
 .jplist-drop-down-search ul li{width:100%;float:left;height:30px;line-height:30px;text-indent:10px;cursor:pointer}
 .jplist-drop-down-search ul li:hover{background-color:#ececec}
 .jplist-drop-down-search:hover .jplist-dd-panel{color:#0381bb}
@@ -37,7 +37,7 @@
 .jplist-drop-down{float:left;height:30px;width:175px;box-shadow:0 0 1px #fff;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;border:1px solid #dbdbdb;border-radius:3px;text-shadow:1px 1px 1px #fff;color:#27252a;background:#fff;background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#fff),color-stop(100%,#efefef));background:-webkit-linear-gradient(top,#fff 0,#efefef 100%);background:linear-gradient(to bottom,#fff 0,#efefef 100%);margin:10px 10px 0 0;position:relative}
 .jplist-drop-down .jplist-dd-panel{float:left;width:175px;height:30px;line-height:30px;overflow:hidden;text-indent:10px;cursor:pointer}
 .jplist-drop-down .jplist-dd-panel:after{content:'\25BC';color:#111;display:inline-block;position:absolute;right:10px;z-index:1000}
-.jplist-drop-down ul{-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;border:1px solid #dbdbdb;border-radius:0 0 3px 3px;position:relative;top:0;z-index:1000;width:148px;display:none;overflow:hidden;background:#fff;list-style:none;margin:0;padding:0;box-shadow:0 3px 6px #bbb}
+.jplist-drop-down ul{-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;border:1px solid #dbdbdb;border-radius:0 0 3px 3px;position:relative;top:0;z-index:1000;width:175px;display:none;overflow:hidden;background:#fff;list-style:none;margin:0;padding:0;box-shadow:0 3px 6px #bbb}
 .jplist-drop-down ul li{width:100%;float:left;height:30px;line-height:30px;text-indent:10px;cursor:pointer}
 .jplist-drop-down ul li:hover{background-color:#ececec}
 .jplist-drop-down:hover .jplist-dd-panel{color:#0381bb}

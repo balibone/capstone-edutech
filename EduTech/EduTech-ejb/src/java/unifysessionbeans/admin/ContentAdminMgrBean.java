@@ -1069,7 +1069,6 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
                 jreEntity = lookupJobReview(jrrEntity.getJobReviewID());
                 errandReviewDetails.add(jreEntity.getJobReviewRating());
                 errandReviewDetails.add(jreEntity.getJobReviewContent());
-                errandReviewDetails.add(jreEntity.getJobReviewStatus());
                 System.out.println("ADDED ERRAND REVIEW DETAILS");
 
                 return errandReviewDetails;
@@ -1241,8 +1240,6 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             q.setParameter("jobReviewID", jobReviewIDNum);
 
             jreEntity = (JobReviewEntity) q.getSingleResult();
-
-            jreEntity.setJobReviewStatus("Delisted");
 
             //em.remove(jreEntity);
             em.flush();

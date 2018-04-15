@@ -77,7 +77,7 @@
                         <div class="tab-pane" id="account">
                             <h4 class="info-text">Choose the Item Category</h4>
                             <div class="row">
-                                <div class="col-sm-10 col-sm-offset-1 owl-carousel owl-theme">
+                                <div id="itemCategoryCarousel" class="col-sm-10 col-sm-offset-1 owl-carousel owl-theme">
                                     <%
                                         ArrayList<Vector> itemCategoryListSYS = (ArrayList) request.getAttribute("itemCategoryListSYS");
                                         if (!itemCategoryListSYS.isEmpty()) {
@@ -88,13 +88,14 @@
                                                 String categoryName = String.valueOf(v.get(2));
                                     %>
                                     <div id="<%= categoryID%>" class="choice" data-toggle="wizard-radio">
-                                        <input type="radio" name="itemCategory" />
+                                        <input type="radio" name="itemCategory[]" />
                                         <div class="icon"><img src="uploads/unify/images/common/category/<%= categoryImage%>" style="width:85px;height:85px;padding-top:25px;margin:0 auto;" /></div>
                                         <h6><%= categoryName%></h6>
                                     </div>
                                     <%      }   %>
                                     <%  }   %>
                                 </div>
+                                <input type="hidden" id="checkedValue" value="Unchecked" />
                             </div>
                         </div>
                         <div class="tab-pane" id="address">

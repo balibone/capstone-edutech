@@ -65,8 +65,9 @@ public class ErrandsSysUserController extends HttpServlet {
             ServletContext servletContext = getServletContext();
             
             String pageAction = request.getParameter("pageTransit");
-            System.out.println(pageAction);
+            System.out.println("pageAction: " + pageAction);
             String loggedInUsername = getCookieUsername(request);
+            
             
             switch (pageAction) {
                 case "goToViewJobListingSYS":
@@ -79,6 +80,8 @@ public class ErrandsSysUserController extends HttpServlet {
                     long jobID = Long.parseLong(request.getParameter("hiddenJobID"));
                     String categoryName = request.getParameter("hiddenCategoryName");
                     String loggedinUsername = request.getParameter("loggedinUser");
+                    
+                    
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobID, loggedInUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(categoryName, jobID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
@@ -155,13 +158,18 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "sendJobOfferPrice":
                     long jobIDHidden = Long.parseLong(request.getParameter("jobIDHidden"));
-                    String usernameHidden = request.getParameter("usernameHidden");
+                    String jobCategory = request.getParameter("category");
                     String jobOfferPrice = request.getParameter("jobOfferPrice");
                     String jobOfferDescription = request.getParameter("jobOfferDescription");
                     
                     responseMessage = esmr.sendJobOfferPrice(jobIDHidden, loggedInUsername, jobOfferPrice, jobOfferDescription);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
+                    /*request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobIDHidden, loggedInUsername));
+                    request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(jobCategory, jobIDHidden));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    
+                    pageAction = "ViewJobDetailsSYS";*/
                     break;
                 case "goToViewJobOfferList":
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
@@ -217,6 +225,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, jobRelated));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
+                    
                     break;
                 case "goToSignaturePad":
                     long jobIDToComplete = Long.parseLong(request.getParameter("jobID"));
@@ -241,7 +250,10 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
             }
             dispatcher = servletContext.getNamedDispatcher(pageAction);
-            dispatcher.forward(request, response);       
+            System.out.println("dispatch page action: " + pageAction);
+            System.out.println("dispatcher:" + dispatcher);
+            dispatcher.forward(request, response);     
+            
         }
         catch(Exception ex) {
             log("Exception in ErrandsSysUserController: processRequest()");

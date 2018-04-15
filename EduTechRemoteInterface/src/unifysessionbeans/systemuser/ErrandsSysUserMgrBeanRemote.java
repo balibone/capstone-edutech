@@ -30,7 +30,12 @@ public interface ErrandsSysUserMgrBeanRemote {
     public String rejectJobOffer(long jobOfferID, String username);
     public String negotiateJobOffer(long jobOfferID, String username, String negotiateMessage);
     public String completeAJob(String username, long jobID);
+    public Vector viewTransactionJobDetails(long jobID, long jobTransID, String username);
+    public String createJobReview(String username, String receiver, long transactionID, String reviewRating, String reviewContent);
+    public List<Vector> viewAllReviewsReceived(String username);
+    public List<Vector> viewReviewListOfAJob(String username, long urljobID);
     public List<Vector> viewJobTransaction(String username);
+    public List<Vector> viewUserJobWishlist(String username);
     public List<Vector> viewUserJobList(String username);
     public List<Vector> viewMyJobOffer(String username);
     public String reportJobListing(long jobID, String username, String reportReason);

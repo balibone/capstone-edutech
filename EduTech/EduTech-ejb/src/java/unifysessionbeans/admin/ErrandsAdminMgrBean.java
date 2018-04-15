@@ -327,17 +327,18 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             jobReviewSet = jEntity.getJobReviewSet();
             if (!jobReviewSet.isEmpty()) {
                 for (JobReviewEntity jre : jobReviewSet) {
-                    
+                    /*
                     if(!jre.getJobReviewStatus().equals("Delisted")){
                         Vector jobReviewDetails = new Vector();
                     
                         jobReviewDetails.add(sdf.format(jre.getJobReviewDate()));
                         jobReviewDetails.add(jre.getUserEntity().getUsername());
-                        jobReviewDetails.add(jre.getJobReceiverID());
+                        jobReviewDetails.add(jre.getReviewReceiverID());
                         jobReviewDetails.add(jre.getJobReviewRating());
                         jobReviewDetails.add(jre.getJobReviewContent());
                         jobReviewList.add(jobReviewDetails);
                     }
+                    */
                 }
             } else {
                 Query q = em.createQuery("SELECT r FROM JobReview r WHERE r.jobEntity.jobID = :jobID AND r.jobReviewStatus = 'Available'");
@@ -349,7 +350,7 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
 
                     jobReviewVec.add(sdf.format(jobReviewE.getJobReviewDate()));
                     jobReviewVec.add(jobReviewE.getUserEntity().getUsername());
-                    jobReviewVec.add(jobReviewE.getJobReceiverID());
+                    jobReviewVec.add(jobReviewE.getReviewReceiverID());
                     jobReviewVec.add(jobReviewE.getJobReviewRating());
                     jobReviewVec.add(jobReviewE.getJobReviewContent());
                     jobReviewList.add(jobReviewVec);

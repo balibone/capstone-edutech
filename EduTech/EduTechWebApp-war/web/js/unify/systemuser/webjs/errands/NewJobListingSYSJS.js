@@ -91,7 +91,6 @@ $(document).ready(function () {
     });
     
     $('.category-list .card').click(function() {
-        
         $('.category-list .card').removeClass('active');
         $(this).addClass('active');
         
@@ -101,8 +100,6 @@ $(document).ready(function () {
         document.getElementById("selected-category").innerHTML = categoryName;
         $("#step1").removeAttr("disabled")
     });
-    
-    
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
@@ -119,8 +116,6 @@ $(document).ready(function () {
 
     var minDate = year + '-' + month + '-' + day;    
     $('#workDate').attr('min', minDate);
-    
-    
 });
 
 $("input[type='text'], input[type='number'], input[type='date'], input[type='time']").on("keyup", function(){

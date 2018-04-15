@@ -334,7 +334,8 @@
                                     <ul>
                                         <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
                                         <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
-                                        <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
+                                        <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Bid</span></li>
+                                        <li><span data-path=".itemNumOfTotalOffer" data-order="desc" data-type="number">Total Bid</span></li>
                                         <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
                                         <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
                                         <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
@@ -375,6 +376,8 @@
                                             String itemNumOfPendingOffer = String.valueOf(v.get(11));
                                             String itemCondition = String.valueOf(v.get(12));
                                             String itemStatus = String.valueOf(v.get(13));
+                                            String totalItemOfferCount = String.valueOf(v.get(14));
+                                            String pendingItemOfferCount = String.valueOf(v.get(15));
                                 %>
                                 <div class="col-xl-3 col-md-3 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -425,7 +428,8 @@
                                                 <span class="card-title itemName"><strong><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>"><%= itemName%></a></strong></span><br/>
                                                 <span class="card-text itemPostingDate" style="display:none;"><%= itemPostingDate%></span>
                                                 <span class="card-text <%= itemCategoryName.replaceAll(" ", "")%>" style="display:none;"><%= itemCategoryName%></span>
-                                                <span class="card-text" style="font-size: 11px;">Condition:&nbsp;<span class="<%= itemCondition%>"><strong><%= itemCondition%></strong></span></span>
+                                                <span class="card-text" style="font-size: 11px;">Condition:&nbsp;<span class="<%= itemCondition%>"><strong><%= itemCondition%></strong></span></span><br/>
+                                                <span class="card-text" style="font-size: 11px;">Total Bid:&nbsp;<strong><span class="itemNumOfTotalOffer"><%= totalItemOfferCount%></span></strong><span class="pl-3">Pending Bid:&nbsp;<strong><%= pendingItemOfferCount%></strong></span></span>
                                             </div>
                                         </div>
                                         <div class="card-footer text-muted mt-1">
@@ -436,7 +440,7 @@
                                                     <span class="itemNumOfLikes" id="itemNumOfLikes<%= itemID%>"><%= itemNumOfLikes%></span>
                                                 </button>&nbsp;&nbsp;
                                                 <button id="pendingItemOfferBtn<%= itemID%>" class="myAccountBtn">
-                                                    <i class="fa fa-users"></i>&nbsp;
+                                                    <i class="fa fa-clock-o"></i>&nbsp;
                                                     <span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span>
                                                 </button>
                                             </span>
@@ -560,7 +564,7 @@
             
             <!-- Modal -->
             <div class="modal fade" id="errandsModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width: 1200px;">
-              <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Select one of the following to view.</h5>
@@ -570,7 +574,7 @@
                   </div>
                   <div class="modal-body">
                      <div class="row">
-                            <div class="col-sm-5 ml-4">
+                            <div class="col-sm-4">
                                 <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMyJobListing';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-shopping-cart display-2"></i></h1>
@@ -578,7 +582,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-5 ml-4">
+                            <div class="col-sm-4">
                                 <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToErrandsTrans';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
@@ -586,8 +590,15 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="col-sm-5 ml-4">
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUserJobWishlistSYS';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-heart display-2"></i></h1>
+                                        <h6>My Wishlist</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
                                 <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToViewMyJobOfferSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-edit display-2"></i></h1>
@@ -595,7 +606,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-5 ml-4">
+                            <div class="col-sm-4">
                                 <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ErrandsSysUser?pageTransit=goToViewJobOfferList';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-bullhorn display-2"></i></h1>
@@ -603,11 +614,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-4">
+                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToViewJobReviewList';">
+                                    <div class="card-block card-title mt-5 mb-5">
+                                        <h1 class="mb-3"><i class="fa fa-file-text-o" aria-hidden="true"></i></h1>
+                                        <h6>Errands Review</h6>
+                                    </div>
+                                </div>
+                            </div>
                   </div>
                 </div>
               </div>
             </div>
-            
+           </div> 
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->

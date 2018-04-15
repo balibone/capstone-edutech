@@ -30,6 +30,7 @@ import java.text.DecimalFormat;
 import unifyentities.common.LikeListingEntity;
 import unifyentities.common.MessageEntity;
 import unifyentities.errands.JobTransactionEntity;
+import unifyentities.errands.JobReviewEntity;
 
 @Stateless
 public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
@@ -45,6 +46,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     private LikeListingEntity llEntity;
     private JobOfferEntity joEntity;
     private JobReportEntity jrEntity;
+    private JobTransactionEntity jtEntity;
+    private JobReviewEntity reviewEntity;
     private MessageEntity mEntity;
     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -428,7 +431,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobEntity = :je");
             q.setParameter("je", lookupJob(jobIDToDelete));
             
-            ArrayList<JobOfferEntity> offerList = (ArrayList)q.getResultList();
+            Vector<JobOfferEntity> offerList = (Vector)q.getResultList();
             for(int i=0; i<offerList.size(); i++){
                 String status = offerList.get(i).getJobOfferStatusForPoster();
                 if(status.equals("Pending") || status.equals("Accepted") || status.equals("Negotiating")){
@@ -436,9 +439,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 }
             }
             
-            em.remove(jEntity);
-            em.flush();
-            em.clear();
+            jEntity.setJobStatus("Delisted");
+            em.merge(jEntity);
             return "Job listing has been deleted successfully!";
         }
     }
@@ -504,9 +506,9 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             likeListingVec.add(likeListingE.getUserEntity().getUsername());
             likeListingVec.add(likeListingE.getUserEntity().getUserFirstName());
             likeListingVec.add(likeListingE.getUserEntity().getUserLastName());
-            //likeListingVec.add(getPositiveItemReviewCount(likeListingE.getUserEntity().getUsername()));
-            //likeListingVec.add(getNeutralItemReviewCount(likeListingE.getUserEntity().getUsername()));
-            //likeListingVec.add(getNegativeItemReviewCount(likeListingE.getUserEntity().getUsername()));
+            likeListingVec.add(getPositiveJobReviewCount(likeListingE.getUserEntity().getUsername()));
+            likeListingVec.add(getNeutralJobReviewCount(likeListingE.getUserEntity().getUsername()));
+            likeListingVec.add(getNegativeJobReviewCount(likeListingE.getUserEntity().getUsername()));
             jobLikeList.add(likeListingVec);
         }
         return jobLikeList;
@@ -849,32 +851,223 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     @Override
     public String completeAJob(String username, long jobID){
         
-        JobTransactionEntity jtEntity;
-        
-        uEntity = lookupUnifyUser(username);
-        jEntity = lookupJob(jobID);
-        JobOfferEntity offerEntity = lookupJobOffer(jobID, username);
-        if(offerEntity != null){
-            jtEntity = new JobTransactionEntity();
-            jtEntity.createJobTransaction(jEntity.getCategoryEntity().getCategoryName(), offerEntity.getJobOfferPrice(), jEntity.getJobRateType(), username);
-            jtEntity.setJobEntity(jEntity);
-            jtEntity.setUserEntity(uEntity);
-            if(jEntity.getChecking()){
-                jtEntity.setSignatureImg("" + jobID + ".png");
+            JobTransactionEntity jtEntity;
+
+            uEntity = lookupUnifyUser(username);
+            jEntity = lookupJob(jobID);
+            JobOfferEntity offerEntity = lookupJobOffer(jobID, username);
+            if(offerEntity != null){
+                /* GENERATE TRANSACTION RECORD */
+                jtEntity = new JobTransactionEntity();
+                jtEntity.createJobTransaction(jEntity.getCategoryEntity().getCategoryName(), offerEntity.getJobOfferPrice(), jEntity.getJobRateType(), username);
+                jtEntity.setJobEntity(jEntity);
+                jtEntity.setUserEntity(jEntity.getUserEntity());
+                if(jEntity.getChecking()){
+                    jtEntity.setSignatureImg("" + jobID + ".png");
+                }
+                /* UPDATE JOB STATUS AND OFFER STATUS*/
+                int numOfHelpers = jEntity.getNumOfHelpers();
+                Query query = em.createQuery("SELECT COUNT(o.jobOfferID) FROM JobOffer o WHERE o.jobEntity = :job AND o.jobOfferStatusForPoster = 'Completed'");
+                query.setParameter("job", jEntity);
+                Long count = (Long)query.getSingleResult();
+                if(count == numOfHelpers){ offerEntity.getJobEntity().setJobStatus("Completed"); }
+                offerEntity.setJobOfferStatusForPoster("Completed");
+                offerEntity.setJobOfferStatusForSender("Completed");
+
+                mEntity = new MessageEntity();
+                mEntity.createContentMessage(username, offerEntity.getJobEntity().getUserEntity().getUsername(), 
+                username + " has just completed the job (" + jEntity.getJobTitle() + "). Check it out!", 
+                offerEntity.getJobEntity().getJobID(), "Errands");
+                /* THE TAKER WHO COMPLETES THE JOB IS THE ONE WHO POST THE MESSAGE */
+                mEntity.setUserEntity(uEntity);
+                (jEntity.getUserEntity()).getMessageSet().add(mEntity);
+                
+                em.persist(mEntity);
+                em.persist(jtEntity);
+                em.merge(uEntity);
+                em.merge(jEntity);
+                em.merge(offerEntity);
+                return "The transaction is completed successfully!";
+            }else{
+                return "Some errors occured while processing your job offer. Please try again.";
             }
-            
-            offerEntity.setJobOfferStatusForPoster("Completed");
-            offerEntity.setJobOfferStatusForSender("Completed");
-            
-            em.persist(jtEntity);
-            em.merge(uEntity);
-            em.merge(jEntity);
-            em.merge(offerEntity);
-            //System.out.println("The transaction is completed successfully!");
-            return "The transaction is completed successfully!";
+    }
+     
+    
+    @Override
+    public Vector viewTransactionJobDetails(long jobID, long jobTransID, String username) {
+        jEntity = lookupJob(jobID);
+        jtEntity = lookupJobTransaction(jobTransID);
+        Vector transactionJobDetailsVec = new Vector();
+        
+        if (jEntity != null) {
+            /* JOB INFORMATION */
+            transactionJobDetailsVec.add(jEntity.getJobID());
+            transactionJobDetailsVec.add(jEntity.getJobTitle());
+            transactionJobDetailsVec.add(jEntity.getCategoryEntity().getCategoryName());
+            transactionJobDetailsVec.add(jEntity.getJobRateType());
+            transactionJobDetailsVec.add(String.format ("%,.2f", jEntity.getJobRate()));
+            transactionJobDetailsVec.add(jEntity.getJobDescription());
+            transactionJobDetailsVec.add(jEntity.getJobImage());
+            transactionJobDetailsVec.add(jEntity.getJobStatus());
+            transactionJobDetailsVec.add(getJobLikeCount(jobID));
+            if(lookupLike(jobID, username) == null) { transactionJobDetailsVec.add(false);}
+            else { transactionJobDetailsVec.add(true); }
+            transactionJobDetailsVec.add(df.format(jEntity.getJobPostDate()));
+            /* WORK INFORMATION */
+            transactionJobDetailsVec.add(jEntity.getJobStartLocation());
+            transactionJobDetailsVec.add(jEntity.getJobStartLat());
+            transactionJobDetailsVec.add(jEntity.getJobStartLong());
+            transactionJobDetailsVec.add(jEntity.getJobEndLocation());
+            transactionJobDetailsVec.add(jEntity.getJobEndLat());
+            transactionJobDetailsVec.add(jEntity.getJobEndLong());
+            transactionJobDetailsVec.add(jEntity.getJobInformation());
+            /* JOB POSTER INFORMATION */
+            transactionJobDetailsVec.add(jEntity.getUserEntity().getUsername());
+            transactionJobDetailsVec.add(jEntity.getUserEntity().getImgFileName());
+            transactionJobDetailsVec.add(df.format(jEntity.getUserEntity().getUserCreationDate()));
+            transactionJobDetailsVec.add(getPositiveJobReviewCount(jEntity.getUserEntity().getUsername()));
+            transactionJobDetailsVec.add(getNeutralJobReviewCount(jEntity.getUserEntity().getUsername()));
+            transactionJobDetailsVec.add(getNegativeJobReviewCount(jEntity.getUserEntity().getUsername()));
+            /* JOB TRANSACTION + JOB TAKER INFORMATION */
+            transactionJobDetailsVec.add(df.format(jtEntity.getJobTransactionDate()));
+            transactionJobDetailsVec.add(jtEntity.getJobTakerID());
+            transactionJobDetailsVec.add(lookupUnifyUser(jtEntity.getJobTakerID()).getImgFileName());
+            transactionJobDetailsVec.add(df.format(lookupUnifyUser(jtEntity.getJobTakerID()).getUserCreationDate()));
+            transactionJobDetailsVec.add(getPositiveJobReviewCount(lookupUnifyUser(jtEntity.getJobTakerID()).getUsername()));
+            transactionJobDetailsVec.add(getNeutralJobReviewCount(lookupUnifyUser(jtEntity.getJobTakerID()).getUsername()));
+            transactionJobDetailsVec.add(getNegativeJobReviewCount(lookupUnifyUser(jtEntity.getJobTakerID()).getUsername()));
+            transactionJobDetailsVec.add(String.format ("%,.2f", jtEntity.getJobTransactionRate()));
+            transactionJobDetailsVec.add(jtEntity.getJobTransactionID());
         }
-        //System.out.println("The transaction cannot be completed.");
-        return "The transaction cannot be completed.";
+        return transactionJobDetailsVec;
+    }
+    
+    @Override
+    public String createJobReview(String username, String receiver, long transactionID, String reviewRating, String reviewContent){
+        
+        if(lookupUnifyUser(username) == null){ return "There is some issues with your profile. Please try it later."; }
+        else if(lookupUnifyUser(receiver) == null){ return "There is something wrong with reciever's profile. Please try it later.";}
+        else if(lookupJobTransaction(transactionID) == null){ return "There is something wrong with the transaction. Please try it later.";}
+        else{
+            uEntity = lookupUnifyUser(username);
+            jtEntity = lookupJobTransaction(transactionID);
+            reviewEntity = new JobReviewEntity();
+            reviewEntity.createJobReview(reviewRating, reviewContent, receiver);
+            reviewEntity.setJobEntity(jtEntity.getJobEntity());
+            reviewEntity.setUserEntity(uEntity);
+            reviewEntity.setJobTransactionEntity(jtEntity);
+            em.persist(reviewEntity);
+            
+            uEntity.getJobReviewSet().add(reviewEntity);
+            jtEntity.getJobEntity().getJobReviewSet().add(reviewEntity);
+            
+            mEntity = new MessageEntity();
+            mEntity.createContentMessage(username, receiver, 
+            username + " has just left you a review about the transaction of " + jEntity.getJobTitle() + ". Check it out!", 
+            jtEntity.getJobEntity().getJobID(), "Errands");
+            /* THE TAKER WHO COMPLETES THE JOB IS THE ONE WHO POST THE MESSAGE */
+            mEntity.setUserEntity(uEntity);
+            lookupUnifyUser(receiver).getMessageSet().add(mEntity);
+            
+            em.merge(reviewEntity);
+            em.persist(mEntity);
+            em.merge(uEntity);
+            em.merge(jtEntity);
+            
+            return "Your rating feedback has been sent successfully!";
+        }
+    }
+    
+    @Override
+    public List<Vector> viewAllReviewsReceived(String username){
+        List<Vector> allReviewList = new ArrayList<Vector>();
+        Query q = em.createQuery("SELECT r FROM JobReview r WHERE r.reviewReceiverID = :username");
+        q.setParameter("username", username);
+        
+        if(q.getResultList() != null){
+            for(Object o: q.getResultList()){
+                Vector reviewDetails = new Vector();
+                JobReviewEntity reviewE = (JobReviewEntity)o;
+                reviewDetails.add(reviewE.getUserEntity().getUsername());
+                reviewDetails.add(reviewE.getUserEntity().getUserFirstName());
+                reviewDetails.add(reviewE.getUserEntity().getUserLastName());
+                reviewDetails.add(reviewE.getUserEntity().getImgFileName());
+                reviewDetails.add(reviewE.getJobEntity().getJobTitle());
+                reviewDetails.add(reviewE.getJobReviewRating());
+                reviewDetails.add(reviewE.getJobReviewContent());
+                reviewDetails.add(reviewE.getJobReviewDate());
+                reviewDetails.add(reviewE.getJobTransactionEntity().getJobTransactionID());
+                reviewDetails.add(reviewE.getJobEntity().getJobID());
+                
+                allReviewList.add(reviewDetails);
+            }
+        }
+        
+        return allReviewList;
+    }
+    
+    @Override
+    public List<Vector> viewReviewListOfAJob(String username, long urljobID) {
+        boolean jobInfoEntry = false;
+        jEntity = lookupJob(urljobID);
+        List<Vector> jobReviewList = new ArrayList<Vector>();
+
+        Query q = em.createQuery("SELECT r FROM JobReview r WHERE r.reviewReceiverID = :username "
+                + "AND r.jobEntity.jobID = :jobID");
+        q.setParameter("username", username);
+        q.setParameter("jobID", urljobID);
+        
+        if(q.getResultList().isEmpty()){
+            Vector jobDetails = new Vector();
+            jobDetails.add(jEntity.getJobID());
+            jobDetails.add(jEntity.getJobTitle());
+            jobDetails.add(jEntity.getJobImage());
+            jobDetails.add(String.format ("%,.2f", jEntity.getJobRate()));
+            jobDetails.add(jEntity.getJobRateType());
+            jobDetails.add(jEntity.getCategoryEntity().getCategoryName());
+            jobDetails.add(jEntity.getNumOfHelpers());
+            jobDetails.add(jEntity.getJobStatus());
+            jobReviewList.add(jobDetails);
+            jobInfoEntry = true;
+            
+        }else{
+        
+            for (Object o : q.getResultList()) {
+                JobReviewEntity jobReviewE = (JobReviewEntity) o;
+                Vector jobReviewDetailsVec = new Vector();
+
+                if(jobInfoEntry == false) {
+                    Vector jobDetailsVec = new Vector();
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getJobID());
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getJobTitle());
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getJobImage());
+                    jobDetailsVec.add(String.format ("%,.2f", jobReviewE.getJobEntity().getJobRate()));
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getJobRateType());
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getCategoryEntity().getCategoryName());
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getNumOfHelpers());
+                    jobDetailsVec.add(jobReviewE.getJobEntity().getJobStatus());
+                    jobReviewList.add(jobDetailsVec);
+                    jobInfoEntry = true;
+                }
+                jobReviewDetailsVec.add(jobReviewE.getUserEntity().getUsername());
+                jobReviewDetailsVec.add(jobReviewE.getUserEntity().getUserFirstName());
+                jobReviewDetailsVec.add(jobReviewE.getUserEntity().getUserLastName());
+                jobReviewDetailsVec.add(jobReviewE.getUserEntity().getImgFileName());
+                //jobOfferDetailsVec.add(getPositiveItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+                //jobOfferDetailsVec.add(getNeutralItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+                //jobOfferDetailsVec.add(getNegativeItemReviewCount(itemOfferE.getUserEntity().getUsername()));
+                jobReviewDetailsVec.add(jobReviewE.getJobReviewRating());
+                jobReviewDetailsVec.add(jobReviewE.getJobReviewContent());
+                jobReviewDetailsVec.add(jobReviewE.getJobReviewDate());
+                jobReviewDetailsVec.add(jobReviewE.getJobTransactionEntity().getJobTransactionID());
+                
+                jobReviewDetailsVec.add(jobReviewE.getJobReviewID());
+                jobReviewList.add(jobReviewDetailsVec);
+            }
+        }
+        System.out.println("offerList size: " + jobReviewList.size());
+        return jobReviewList;
     }
     
     @Override
@@ -913,7 +1106,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     /* USER PROFILE */
     @Override
     public List<Vector> viewJobTransaction(String username) {
-        Query q = em.createQuery("SELECT t FROM JobTransaction t WHERE t.userEntity.username = :username");
+        Query q = em.createQuery("SELECT t FROM JobTransaction t WHERE t.userEntity.username = :username OR t.jobTakerID = :username");
         q.setParameter("username", username);
         List<Vector> jobTransList = new ArrayList<Vector>();
         
@@ -921,11 +1114,11 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             JobTransactionEntity jobTransE = (JobTransactionEntity) o;
             Vector jobTransVec = new Vector();
 
-            /* ITEM SELLER IS THE PERSON WHO CREATED THE ITEM TRANSACTION */
+            /* JOB POSTER IS THE PERSON WHO CREATED THE JOB TRANSACTION */
             jobTransVec.add(jobTransE.getJobEntity().getJobID());
             jobTransVec.add(jobTransE.getJobTransactionID());
             jobTransVec.add(df.format(jobTransE.getJobTransactionDate()));
-            jobTransVec.add(jobTransE.getUserEntity().getUsername());
+            jobTransVec.add(jobTransE.getJobTakerID());
             jobTransVec.add(jobTransE.getJobEntity().getUserEntity().getUsername());
             jobTransVec.add(jobTransE.getJobEntity().getJobImage());
             jobTransVec.add(jobTransE.getJobEntity().getJobTitle());
@@ -955,6 +1148,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
 
             userJobVec.add(jE.getJobID());
             userJobVec.add(jE.getJobImage());
+            System.out.println("Img: " + userJobVec.get(1));
             userJobVec.add(jE.getJobTitle());
             userJobVec.add(jE.getCategoryEntity().getCategoryName());
             userJobVec.add(jE.getUserEntity().getUsername());
@@ -1005,6 +1199,83 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         }
         System.out.println("size: " + userJobList.size());
         return userJobList;
+    }
+    
+    @Override
+    public List<Vector> viewUserJobWishlist(String username) {
+        Date currentDate = new Date();
+        String dateString = "";
+        
+        Query q = em.createQuery("SELECT ll FROM LikeListing ll WHERE ll.userEntity.username = :username AND "
+                + "ll.jobEntity.categoryEntity.categoryActiveStatus = '1'");
+        q.setParameter("username", username);
+        List<Vector> userJobWishlist = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            LikeListingEntity likeListE = (LikeListingEntity) o;
+            Vector likeListVec = new Vector();
+            
+            likeListVec.add(likeListE.getJobEntity().getJobID());
+            likeListVec.add(likeListE.getJobEntity().getJobImage());
+            likeListVec.add(likeListE.getJobEntity().getJobTitle());
+            likeListVec.add(likeListE.getJobEntity().getCategoryEntity().getCategoryName());
+            likeListVec.add(likeListE.getJobEntity().getUserEntity().getUsername());
+            //likeListVec.add(likeListE.getJobEntity().getUserEntity().getImgFileName());
+
+            long diff = currentDate.getTime() - likeListE.getJobEntity().getJobPostDate().getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays != 0) {
+                dateString = diffDays + " day";
+                if (diffDays == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffHours != 0) {
+                dateString = diffHours + " hour";
+                if (diffHours == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffMinutes != 0) {
+                dateString = diffMinutes + " minute";
+                if (diffMinutes == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            } else if (diffSeconds != 0) {
+                dateString = diffSeconds + " second";
+                if (diffSeconds == 1) {
+                    dateString += " ago";
+                } else {
+                    dateString += "s ago";
+                }
+            }
+            
+            if(!dateString.equals("")) {
+                likeListVec.add(dateString);
+            } else {
+                likeListVec.add("Just Now");
+            }
+            likeListVec.add(df.format(likeListE.getJobEntity().getJobWorkDate()));
+            likeListVec.add(likeListE.getJobEntity().getJobStartLocation());
+            likeListVec.add(likeListE.getJobEntity().getJobRateType());
+            likeListVec.add(rateFormat.format(likeListE.getJobEntity().getJobRate()));
+            likeListVec.add(getJobLikeCount(likeListE.getJobEntity().getJobID()));
+            if(lookupLike(likeListE.getJobEntity().getJobID(), username) == null) { likeListVec.add(false);}
+            else { likeListVec.add(true); }
+            
+            likeListVec.add(likeListE.getJobEntity().getJobStatus());
+            userJobWishlist.add(likeListVec);
+            dateString = "";
+        }
+        return userJobWishlist;
     }
     
     /* MISCELLANEOUS METHODS */
@@ -1129,6 +1400,24 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         return lle;
     }
     
+    public JobTransactionEntity lookupJobTransaction(long jobTransID) {
+        JobTransactionEntity jte = new JobTransactionEntity();
+        try {
+            Query q = em.createQuery("SELECT t FROM JobTransaction t WHERE t.jobTransactionID = :jobTransID");
+            q.setParameter("jobTransID", jobTransID);
+            jte = (JobTransactionEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Job Transaction cannot be found. " + enfe.getMessage());
+            em.remove(jte);
+            jte = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Job Transaction does not exist. " + nre.getMessage());
+            em.remove(jte);
+            jte = null;
+        }
+        return jte;
+    }
+    
     public MessageEntity lookupContentMessage(long jobID, String username) {
         MessageEntity me = new MessageEntity();
         try {
@@ -1159,6 +1448,45 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             ex.printStackTrace();
         }
         return jobLikeCount;
+    }
+    
+    public Long getPositiveJobReviewCount(String username) {
+        Long positiveJobReviewCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.reviewReceiverID = :username AND r.jobReviewRating = 'Positive'");
+        q.setParameter("username", username);
+        try {
+            positiveJobReviewCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ErrandsSysUserMgrBean.getPositiveJobReviewCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return positiveJobReviewCount;
+    }
+    
+    public Long getNeutralJobReviewCount(String username) {
+        Long neutralJobReviewCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.reviewReceiverID = :username AND r.jobReviewRating = 'Neutral'");
+        q.setParameter("username", username);
+        try {
+            neutralJobReviewCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ErrandsSysUserMgrBean.getNeutralJobReviewCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return neutralJobReviewCount;
+    }
+    
+    public Long getNegativeJobReviewCount(String username) {
+        Long neagtiveJobReviewCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(r.jobReviewID) FROM JobReview r WHERE r.reviewReceiverID = :username AND r.jobReviewRating = 'Negative'");
+        q.setParameter("username", username);
+        try {
+            neagtiveJobReviewCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in ErrandsSysUserMgrBean.getNegativeJobReviewCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return neagtiveJobReviewCount;
     }
     
 }
