@@ -92,4 +92,12 @@ public class ModuleREST {
         mrb.massAssignUsersToMods(nominalRoll);
     }
     
+    @POST
+    @Path("masscreate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void massCreateModules(ArrayList<ModuleEntity> moduleList){
+        for(ModuleEntity m : moduleList){
+            mrb.createModule(m);
+        }
+    }
 }

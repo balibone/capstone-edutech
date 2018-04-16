@@ -3,7 +3,6 @@ var parseData;
 $(document).ready(function() {
     $('#previewTable').DataTable();
     console.log("previewTable initialised");
-    //submit user list JSON to UserREST endpoint.
     $("#uploadCsv").on("submit", function(event){
         event.preventDefault();
         if(typeof parseData === "undefined"){
@@ -22,7 +21,7 @@ $(document).ready(function() {
                 },
                 error: function(jqXHR,status,error){
                     console.log("Request fired to "+this.url);
-                    alert(status+": "+error+". Please ensure the module codes & usernames in your CSV refer to existing modules & users.");
+                    alert(status+": "+error+". Please ensure that your CSV is formatted according to the <b>example CSV<b>.");
                 }
             });
         }

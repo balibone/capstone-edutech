@@ -3,7 +3,7 @@ var parseData;
 $(document).ready(function() {
     $('#previewTable').DataTable();
     console.log("previewTable initialised");
-    //submit user list JSON to UserREST endpoint.
+    //submit module list JSON to ModuleREST endpoint.
     $("#uploadCsv").on("submit", function(event){
         event.preventDefault();
         if(typeof parseData === "undefined"){
@@ -12,7 +12,7 @@ $(document).ready(function() {
             console.log("------------------ Submitting JSON : ");
             console.log(JSON.stringify(parseData, null, "   "));
             $.ajax({
-                url: "api/module/massassign",
+                url: "api/module/masscreate",
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(parseData),
@@ -22,7 +22,7 @@ $(document).ready(function() {
                 },
                 error: function(jqXHR,status,error){
                     console.log("Request fired to "+this.url);
-                    alert(status+": "+error+". Please ensure the semesters in your CSV refer to existing semesters.");
+                    alert(status+": "+error+". Please ensure that submitted module codes do not already exist in database and that your CSV is formatted according to the <b>example CSV<b>.");
                 }
             });
         }
@@ -75,7 +75,7 @@ function handleFileUpload(fileList){
             
             //empty table div and replace with empty table
             $('#previewTableDiv').empty().append(
-                    '<table id="previewTable" class="table table-striped table-bordered" style="width:100%"><thead><tr><th>Module Code</th><th>Name</th><th>Credits</th></tr></thead></table>'
+                    '<table id="previewTable" class="table table-striped table-bordered" style="width:100%"><thead><tr><th>Module Code</th><th>Title</th><th>Credits</th></tr></thead></table>'
                     );
             //reinitialise table
             $('#previewTable').DataTable({
