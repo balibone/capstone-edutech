@@ -327,8 +327,6 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
             jobReviewSet = jEntity.getJobReviewSet();
             if (!jobReviewSet.isEmpty()) {
                 for (JobReviewEntity jre : jobReviewSet) {
-                    /*
-                    if(!jre.getJobReviewStatus().equals("Delisted")){
                         Vector jobReviewDetails = new Vector();
                     
                         jobReviewDetails.add(sdf.format(jre.getJobReviewDate()));
@@ -337,11 +335,9 @@ public class ErrandsAdminMgrBean implements ErrandsAdminMgrBeanRemote {
                         jobReviewDetails.add(jre.getJobReviewRating());
                         jobReviewDetails.add(jre.getJobReviewContent());
                         jobReviewList.add(jobReviewDetails);
-                    }
-                    */
                 }
             } else {
-                Query q = em.createQuery("SELECT r FROM JobReview r WHERE r.jobEntity.jobID = :jobID AND r.jobReviewStatus = 'Available'");
+                Query q = em.createQuery("SELECT r FROM JobReview r WHERE r.jobEntity.jobID = :jobID");
                 q.setParameter("jobID", jEntity.getJobID());
 
                 for (Object o : q.getResultList()) {
