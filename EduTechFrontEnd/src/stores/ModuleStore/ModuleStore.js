@@ -1,39 +1,56 @@
-import { observable, action, computed, toJS } from 'mobx';
+import { observable, action, runInAction, computed } from 'mobx';
 import axios from 'axios';
+import swal from 'sweetalert';
+
+import UtilStore from '../UtilStore/UtilStore';
+import { findUserModules } from '../../services/moduleApi';
+
 
 class ModuleStore {
 	@observable moduleList = [];
-	@observable selectedModule = [];
+	@observable donePopulating = false;
+	@observable selectedModule;
 
-	constructor(){
-		if (JSON.parse(localStorage.getItem('moduleList')) && JSON.parse(localStorage.getItem('moduleList')).length > 0) {
-			this.populateModule();
-		} else {
-			this.moduleList = localStorage.getItem('moduleList');
+	async populateModuleList(username) {
+		const modules = await findUserModules(username);
+		runInAction(() => {
+			this.moduleList = modules.data;
+			this.donePopulating = true;
+		});
+	}
+
+	@action
+	getModule(moduleCode) {
+		this.selectedModule = this.moduleList.find(module => module.moduleCode === moduleCode);
+		return this.selectedModule;
+	}
+
+	@action
+	setSelectedModule(moduleCode) {
+		this.selectedModule = this.moduleList.find(module => module.moduleCode === moduleCode);
+		return this.selectedModule;
+	}
+
+	@computed
+	get students() {
+		return this.selectedModule.members.filter(member => member.userType === 'student');
+	}
+
+	@computed
+	get instructors() {
+		return this.selectedModule.members.filter(member => member.userType === 'instructor');
+	}
+
+	@action
+	async editModuleDescription(newDescription) {
+		try {
+			this.selectedModule.description = newDescription;
+			await axios.put(`/module/${this.selectedModule.moduleCode}`, this.selectedModule);
+			UtilStore.openSnackbar('Module decription updated')
+		} catch (e) {
+			swal('Error', 'Error updating group description', 'error')
 		}
 	}
-
-	@action
-	populateModule(){
-		const username = localStorage.getItem('username');
-		axios.get(`/module/user/${username}`)
-		.then((res) => {
-			// console.log('populate module', res.data)
-			localStorage.setItem('moduleList',JSON.stringify(res.data));
-			this.moduleList = res.data;
-		})
-		.catch((err) => {
-			console.log(err);
-		})
-	}
-
-	@action
-	getOneModule(moduleCode){
-		let moduleList = toJS(this.moduleList);
-		this.selectedModule = moduleList.find((module) => module.moduleCode === moduleCode)
-	}
-
-
 }
 
 export default new ModuleStore();

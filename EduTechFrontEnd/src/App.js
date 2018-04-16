@@ -1,46 +1,90 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { teal500, teal700, orangeA200 } from 'material-ui/styles/colors';
+import { Snackbar } from 'material-ui';
+import { BrowserRouter } from 'react-router-dom';
+import { observer } from 'mobx-react';
+import { Wave } from 'better-react-spinkit';
 
-import Navbar from './components/Navbar';
-import Main from './components/Main';
-import Home from './Home';
-
-
-import { getUserDetails } from './services/api/user';
-import { getUserModules, getModuleDetails } from './services/api/module';
-import { getUserGroups, getGroupDetails } from './services/api/group';
-
+import MainPage from './components/MainPage';
+import TaskStore from './stores/TaskStore/TaskStore';
+import ScheduleItemStore from './stores/ScheduleItemStore/ScheduleItemStore';
 import GroupStore from './stores/GroupStore/GroupStore';
 import ModuleStore from './stores/ModuleStore/ModuleStore';
-import UserStore from './stores/UserStore/UserStore';
+import UtilStore from './stores/UtilStore/UtilStore';
+import { findUser } from './services/userApi';
+import { fetchVenueSuggestions } from './services/nusmodsApi';
 
+import './App.css';
 
-function getCookie(name) {
-  const value = "; " + document.cookie;
-  const parts = value.split("; " + name + "=");
-  if (parts.length == 2) return parts.pop().split(";").shift();
-  return false;
+const muiTheme = getMuiTheme({
+    palette: {
+        primary1Color: teal500,
+        primary2Color: teal700,
+        accent1Color: orangeA200,
+    },
+});
+
+@observer
+class App extends Component {
+  async componentWillMount() {
+    const { username } = this.props;
+    await this.retrieveCurrentUser(username);
+    await GroupStore.populateGroupList(username);
+    await ModuleStore.populateModuleList(username);
+    await ScheduleItemStore.populateScheduleItems(username);
+    await TaskStore.populateTasks(username);
+    await this.retrieveNUSVenues();
+  }
+  async retrieveCurrentUser(username) {
+    // retrieve & store current user
+    const user = await findUser(username);
+    localStorage.setItem('currentUser', JSON.stringify(user.data));
+  }
+  async retrieveNUSVenues() {
+    const venues = await fetchVenueSuggestions();
+    localStorage.setItem('NUSVenues', JSON.stringify(venues.data));
+  }
+  render() {
+    if (!GroupStore.donePopulating || !ScheduleItemStore.donePopulating
+      || !TaskStore.donePopulating || !ModuleStore.donePopulating) {
+        return (
+          <div className="fakeBody">
+            <div className="initialSpinner">
+              <center>
+                <Wave size={100} />
+                <span className="spinnerText">Loading...</span>
+              </center>
+            </div>
+          </div>
+        );
+      }
+    if (localStorage.getItem('userType') === 'instructor') {
+      return (
+        <BrowserRouter>
+          <MuiThemeProvider muiTheme={muiTheme}>
+            <MainPage />
+          </MuiThemeProvider>
+        </BrowserRouter>
+      );
+    }
+    return (
+      <BrowserRouter>
+        <MuiThemeProvider>
+          <div>
+            <MainPage />
+            <Snackbar
+              open={UtilStore.snackbarIsOpen}
+              message={UtilStore.snackbarMessage}
+              autoHideDuration={4000}
+              onRequestClose={() => UtilStore.closeSnackbar()}
+            />
+          </div>
+        </MuiThemeProvider>
+      </BrowserRouter>
+    );
+  }
 }
-
-let App = <span></span>;
-
-if (getCookie('username')) {
-  localStorage.setItem('username', getCookie('username'));
-  const { currentUser } = UserStore;
-  GroupStore.populateGroup();
-  ModuleStore.populateModule();
-
-  App = () => (
-    <MuiThemeProvider>
-      <Navbar userStore={UserStore} user={getUserDetails(1)} modules={getUserModules(1)} groups={getUserGroups(1)} />
-      <Main user={getUserDetails(1)} moduleDetails={getModuleDetails('IS4100')} groupDetails={getGroupDetails(1)} />
-    </MuiThemeProvider>
-  );
-
-} else {
-  window.location.replace('http://localhost:8080/EduTechWebApp-war/');
-}
-
-
 
 export default App;

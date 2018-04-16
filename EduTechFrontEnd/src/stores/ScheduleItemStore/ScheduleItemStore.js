@@ -1,210 +1,195 @@
-import {observable, action, computed, toJS} from 'mobx';
-import axios from 'axios';
+import { observable, action, computed, runInAction } from 'mobx';
 import moment from 'moment';
-import {ScheduleItem} from './ScheduleItem';
 import swal from 'sweetalert';
-import {fetchScheduleItems} from '../../services/api/scheduleItem';
+import axios from 'axios';
 
-// let fetchedItems = fetchScheduleItems();
+import ScheduleItem from './ScheduleItem';
+import UtilStore from '../UtilStore/UtilStore';
+import { findSemester, findUserScheduleItems, createScheduleItem, editScheduleItem, deleteScheduleItem } from '../../services/scheduleItemApi';
 
 class ScheduleItemStore {
+  @observable scheduleItems = [
+    {
+      id: 0,
+      title: 'All Day Event very long title',
+      allDay: true,
+      start: new Date(2015, 3, 0),
+      end: new Date(2015, 3, 1),
+    },
+  ];
+  @observable donePopulating = false;
+  @observable semester;
+  @observable userGroupScheduleItems = [];
 
-    @observable scheduleItems = [];
-    @observable userGroupScheduleItems = [];
-    @observable addFormSuccess = false;
-    @observable editFormSuccess = false;
-    @observable recentKeyDates = [];
-
-    @action
-	  populateScheduleItems(username){
-      axios.get(`/scheduleitem/user/${username}`)
-      .then((res) => {
-        this.scheduleItems = res.data;
-      })
-      .catch((error)=>{
-        console.log(error);
-        swal("Network Error!", "Unable to get calendar items.", "error")
-        // this.scheduleItems = null;
+  async populateScheduleItems(username) {
+    try {
+      const scheduleItems = await findUserScheduleItems(username);
+      const semester = await findSemester();
+      runInAction(() => {
+        // populate with fake data if no items, so bigCalendar will show #hack
+        this.scheduleItems = scheduleItems.data.length > 0 ?
+          scheduleItems.data : this.scheduleItems;
+        this.semester = semester.data[0]; // eslint-disable-line
+        this.donePopulating = true;
       });
-     }
-
-     @action
-     populateMergedScheduleItemsForGroup(groupId){
-      axios.get(`/scheduleitem/members/${groupId}`)
-        .then((res) => {
-          this.userGroupScheduleItems = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-
-     }
-
-     @action
-    addScheduleItem(title, description, startDate, endDate, location, createdBy, assignedTo, itemType, moduleCode, groupId) {
-        
-        if(!title || !description || !startDate || !endDate || !location || !itemType){
-          swal("Warning!", "Please make sure all fields are entered.", "warning");
-        } else if(startDate > endDate) {
-          swal("Time Error!", "Please make sure start time is earlier than end time.", "warning");
-        } else{
-          const dType = "ScheduleItem";
-          startDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
-          endDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
-          const newScheduleItem = new ScheduleItem(title, description, startDate, endDate, location, createdBy, assignedTo, itemType, moduleCode, groupId, dType);
-          const dataSet = toJS(newScheduleItem);
-          dataSet.createdBy ={username: dataSet.createdBy};
-
-          axios.post('/scheduleitem', dataSet)
-            .then((res) => {
-              this.scheduleItems.push(newScheduleItem);
-              swal(res.data,"Schedule Event Added!" , "success");
-              this.populateScheduleItems(localStorage.getItem('username'));
-              this.addFormSuccess = true;
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-        }
+    } catch (e) {
+      swal('Error', 'Error populating personal schedule items', 'error');
     }
+  }
 
-    @action
-    updateScheduleItem(id, title, description, startDate, endDate, location, createdBy, groupId) {
-      if(!title || !description || !startDate || !endDate || !location){
-        swal("Warning!", "Please make sure all fields are entered.", "warning");
-      } else if(startDate >= endDate) {
-        swal("Time Error!", "Please make sure start time is earlier than end time.", "warning");
-      } else{
-        var index = this.getIndex(id, this.scheduleItems, "id");
+  @action
+  async addScheduleItem(
+    title, description, start, end, location,
+    assignedTo, itemType, moduleCode, groupId,
+  ) {
+    if (!title || !description || !start || !end || !location || !itemType) {
+      swal('Warning!', 'Please make sure all fields are entered.', 'warning');
+    } else if (start > end) {
+      swal('Time Error!', 'Please make sure start time is earlier than end time.', 'warning');
+    } else {
+      const createdBy = JSON.parse(localStorage.getItem('currentUser'));
+      const dType = 'ScheduleItem';
+      const newScheduleItem = new ScheduleItem(
+        title, description, start, end, location, createdBy,
+        assignedTo, itemType, moduleCode, groupId, dType,
+      );
+      // const scheduleItem = await axios.post('/scheduleitem', newScheduleItem);
+      try {
+        const scheduleItem = await createScheduleItem(newScheduleItem);
+        this.scheduleItems.push(scheduleItem.data);
+        UtilStore.openSnackbar(`${scheduleItem.data.title} added to calendar`);
+      } catch (e) {
+        swal('Error', 'Error adding schedule item', 'error');
+      }
+    }
+  }
+
+  @action
+  async updateScheduleItem(id, title, description, start, end, location) {
+    if (!title || !description || !start || !end || !location) {
+      swal('Warning!', 'Please make sure all fields are entered.', 'warning');
+    } else if (start > end) {
+      swal('Time Error!', 'Please make sure start time is earlier than end time.', 'warning');
+    } else {
+      const index = this.scheduleItems.findIndex(scheduleItem => scheduleItem.id === id);
+      const startDate = moment(start).format('YYYY-MM-DDTHH:mm:ss');
+      const endDate = moment(end).format('YYYY-MM-DDTHH:mm:ss');
+      const updatedScheduleItem = {
+        ...this.scheduleItems[index],
+        title,
+        description,
+        startDate,
+        endDate,
+      };
+      try {
+        await editScheduleItem(id, updatedScheduleItem);
+        UtilStore.openSnackbar('Event updated');
         this.scheduleItems[index].title = title;
         this.scheduleItems[index].description = description;
         this.scheduleItems[index].startDate = startDate;
         this.scheduleItems[index].endDate = endDate;
         this.scheduleItems[index].location = location;
-        this.scheduleItems[index].groupId = groupId;
-        const dataSet = toJS(this.scheduleItems[index]);
-        console.log("Dataset to put: ", dataSet)
-        this.editFormSuccess = true;
-        axios.put(`/scheduleitem/${id}`, dataSet)
-        .then((res) => {
-          swal("Success!","Item updated successfully." , "success");
-          this.populateScheduleItems(localStorage.getItem('username'));
-          
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      }     
-    }
-
-    @computed
-    get getRecentKeyDates(){
-      var now = moment(new Date());
-      var scheduleItemsSort = this.scheduleItems;
-      var allDurations = []
-      var allDurationsInHr = []
-      var startDate = []
-      if(scheduleItemsSort){
-          for(var i =0 ; i<scheduleItemsSort.length ; i++){
-          startDate[i] = moment(scheduleItemsSort[i].startDate);
-          allDurations[i] = moment.duration(startDate[i].diff(now));
-          if(allDurations[i].asHours()>0){
-            allDurationsInHr[i] = {
-              duration: allDurations[i].asHours(),
-              itemDetails: scheduleItemsSort[i],
-            }
-          }
-        }
-        allDurationsInHr.sort(function(a,b) {return (a.duration > b.duration) ? 1 : ((b.duration > a.duration) ? -1 : 0);} );
-        // this.recentKeyDates = allDurationsInHr;
-        return allDurationsInHr;
+      } catch (e) {
+        swal('Error', 'Error editing  schedule item', 'error');
       }
-      return allDurations;
     }
+  }
 
-    @action
-    getGroupRecentKeyDates(groupId){
-      var now = moment(new Date());
-      var scheduleItemsSort = this.scheduleItems;
-      var allDurations = []
-      var allDurationsInHr = []
-      var startDate = []
-      if(scheduleItemsSort){
-          for(var i =0 ; i<scheduleItemsSort.length ; i++){
-          startDate[i] = moment(scheduleItemsSort[i].startDate);
-          allDurations[i] = moment.duration(startDate[i].diff(now));
-          if(allDurations[i].asHours()>0){
-            allDurationsInHr[i] = {
-              duration: allDurations[i].asHours(),
-              itemDetails: scheduleItemsSort[i],
-
-            }
-          }
-        }
-        allDurationsInHr.sort(function(a,b) {return (a.duration > b.duration) ? 1 : ((b.duration > a.duration) ? -1 : 0);} );
-        console.log("KEY DATES no filter: ", allDurationsInHr)
-        allDurationsInHr.filter((item) => item.itemDetails.id == groupId)
-        console.log("KEY DATES filtered: ", allDurationsInHr)
-        this.recentKeyDates = allDurationsInHr;
-      }
-      this.recentKeyDates = allDurations;
+  @action
+  async removeScheduleItem(scheduleItemId) {
+    try {
+      await deleteScheduleItem(scheduleItemId);
+      const index =
+        this.scheduleItems.findIndex(scheduleItem => scheduleItem.id === scheduleItemId);
+      const deletedScheduleItem = this.scheduleItems[index];
+      this.scheduleItems.splice(index, 1);
+      UtilStore.openSnackbar(`${deletedScheduleItem.title} deleted from calendar`);
+    } catch (e) {
+      swal('Error', 'Error deleting schedule item', 'error');
     }
+  }
 
-    @computed
-    get allScheduleItems(){
-      return this.scheduleItems;
-    }
+  @action
+  getModuleKeyDates(moduleCode) {
+    return this.sortedUpcomingKeyDates.filter(scheduleItem => (scheduleItem.itemType === 'assessment' || scheduleItem.itemType === 'task') && scheduleItem.moduleCode === moduleCode);
+  }
 
-    @action
-    findOne(id){
-      return this.scheduleItems.filter(item => item.id == id)
-    }
+  @action
+  getGroupKeyDates(groupId) {
+    return this.sortedUpcomingKeyDates.filter(scheduleItem => (scheduleItem.itemType === 'meeting' || scheduleItem.itemType === 'task') && scheduleItem.groupId === groupId);
+  }
 
-     @action
-    selectedScheduleItem(selectedItem) {
-      return this.scheduleItems.filter(item => moment(item.startDate).format('MMM DD YYYY HH:mm').includes(selectedItem))
-    }
+  getUpcomingScheduleItems(scheduleItems) {
+    return scheduleItems.filter(scheduleItemDate =>
+      new Date(scheduleItemDate.startDate) > new Date());
+  }
 
-    @action
-    removeScheduleItem(id, scheduleItem: ScheduleItem) {
-      axios.delete( `/scheduleitem/${id}`)
-      .then((res) => {
-        const index = this.scheduleItems.indexOf(scheduleItem);
-        if (index > -1) {
-          this.scheduleItems.splice(index, 1);
-        }
-        swal("Success!", "Item removed successfully.", "success")
-        this.populateScheduleItems(localStorage.getItem('username'));
-      })
-      .catch((err) =>{
-        console.log(err);
-      })
-    }
+  sortScheduleItemsAsc(scheduleItems) {
+    return scheduleItems.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+  }
 
-    @computed
-    get getNumberOfWeeks(){
-        axios.get('/semester')
-        .then((res) => {
-          const startD = moment(res.data[0].startDate);
-          const endD = moment(res.data[0].endDate);
-          var result = endD.diff(startD, 'week') + 1;
-          return result;
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
+  sortScheduleItemsDesc(scheduleItems) {
+    return scheduleItems.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+  }
 
-    getIndex(value, arr, prop) {
-      for(var i = 0; i < arr.length; i++) {
-          if(arr[i][prop] === value) {
-              return i;
-          }
-      }
-      return -1;
-    }
+  @computed
+  get sortedUpcomingKeyDates() {
+    const upcomingScheduleItems = this.getUpcomingScheduleItems(this.scheduleItems);
+    const sortedScheduleItems = this.sortScheduleItemsAsc(upcomingScheduleItems);
+    return sortedScheduleItems;
+  }
 
+  @action
+  getModuleKeyDates(moduleCode) {
+    return this.sortedUpcomingKeyDates.filter(scheduleItem => (scheduleItem.itemType === 'assessment' || scheduleItem.itemType === 'task') && scheduleItem.moduleCode === moduleCode);
+  }
 
+  @action
+  getGroupKeyDates(groupId) {
+    return this.sortedUpcomingKeyDates.filter(scheduleItem => (scheduleItem.itemType === 'meeting' || scheduleItem.itemType === 'task') && scheduleItem.groupId === groupId);
+  }
+
+  @action
+  getKeyDates(itemType) {
+    return this.sortedUpcomingKeyDates.filter(scheduleItem => scheduleItem.itemType === itemType);
+  }
+
+  @computed
+  get personalItems() {
+    return this.scheduleItems.filter(scheduleItem => scheduleItem.itemType === 'personal');
+  }
+  @computed
+  get timetableItems() {
+    return this.scheduleItems.filter(scheduleItem => scheduleItem.itemType === 'timetable');
+  }
+  @computed
+  get meetingItems() {
+    return this.scheduleItems.filter(scheduleItem => scheduleItem.itemType === 'meeting');
+  }
+  @computed
+  get assessmentItems() {
+    return this.scheduleItems.filter(scheduleItem => scheduleItem.itemType === 'assessment');
+  }
+  @computed
+  get taskItems() {
+    return this.scheduleItems.filter(scheduleItem => scheduleItem.itemType === 'task');
+  }
+
+  @computed
+  get semesterNumberOfWeeks() {
+    return moment(this.semester.endDate).diff(moment(this.semester.startDate), 'week') + 1;
+  }
+
+  @action
+  populateMergedScheduleItemsForGroup(groupId){
+   axios.get(`/scheduleitem/members/${groupId}`)
+     .then((res) => {
+       this.userGroupScheduleItems = res.data;
+     })
+     .catch((err) => {
+       console.log(err);
+     })
+  }
 }
 
-export default new ScheduleItemStore;
+export default new ScheduleItemStore();

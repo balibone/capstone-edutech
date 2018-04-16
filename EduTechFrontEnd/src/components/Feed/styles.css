@@ -1,0 +1,8 @@
+.standardTopGap {
+  margin-top: 20px;
+}
+
+.feedEmptyState {
+  text-align: center !important;
+  color: #AAA;
+}

@@ -1,7 +1,7 @@
-import { observable, computed } from 'mobx';
+import { observable } from 'mobx';
+import moment from 'moment';
 
-export class ScheduleItem {
-  // id = Math.random();
+export default class ScheduleItem {
   @observable title;
   @observable description;
   @observable startDate;
@@ -14,11 +14,14 @@ export class ScheduleItem {
   @observable groupId;
   @observable dType;
 
-  constructor(title, description,startDate, endDate, location, createdBy, assignedTo, itemType, moduleCode, groupId, dType) {
+  constructor(
+    title, description, startDate, endDate, location, createdBy,
+    assignedTo, itemType, moduleCode, groupId, dType,
+  ) {
       this.title = title;
       this.description = description;
-      this.startDate = startDate;
-      this.endDate = endDate;
+      this.startDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+      this.endDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
       this.location = location;
       this.createdBy = createdBy;
       this.assignedTo = assignedTo;

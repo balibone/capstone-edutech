@@ -1,0 +1,26 @@
+.leftDrawer div {
+    z-index: 1 !important;
+}
+
+.profile {
+  padding: 100px 5px 10px 5px;
+  color: white;
+  text-align: center;
+  background-color: #00BCD4;
+}
+
+.profile img {
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.leftMenuHeaders {
+  margin: 10px 0;
+  padding: 0 0 0 18px;
+  color: #AAA;
+}
+
+.menuIcon {
+  color: grey;
+  padding-top: 3px;
+}

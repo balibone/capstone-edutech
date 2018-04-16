@@ -1,0 +1,9 @@
+.weeklyChart {
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.weeklyChart .dateRange {
+  margin-top: -20px;
+  margin-bottom: 50px;
+}
