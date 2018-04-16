@@ -9,6 +9,7 @@ import edutechentities.common.ScheduleItemEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;
 import edutechsessionbeans.ModuleMgrBean;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -83,6 +84,11 @@ public class ModuleREST {
         return mrb.getUserModules(userId);
     }
 
-    
+    @POST 
+    @Path("massassign")
+    @Consumes({ MediaType.APPLICATION_JSON})
+    public void massAssignUsersToMods(ArrayList<ModuleAndUser> nominalRoll) {
+        mrb.massAssignUsersToMods(nominalRoll);
+    }
     
 }

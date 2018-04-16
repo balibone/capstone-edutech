@@ -12,6 +12,7 @@ import edutechentities.common.TaskEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.module.ModuleEntity;
 import edutechentities.module.AssignmentEntity;
+import edutechservices.ModuleAndUser;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -274,6 +275,17 @@ public class ModuleMgrBean {
             }
         }
         return ass;
+    }
+
+    public void massAssignUsersToMods(ArrayList<ModuleAndUser> nominalRoll) {
+        for(ModuleAndUser row : nominalRoll){
+            ModuleEntity mod = em.find(ModuleEntity.class, row.getModuleCode());
+            UserEntity user = em.find(UserEntity.class, row.getUsername());
+            //if mod and user exist, and user is not in module yet, add user to module.
+            if(mod!=null && user !=null && !mod.getMembers().contains(user)){
+                mod.getMembers().add(user);
+            }
+        }
     }
 
 }

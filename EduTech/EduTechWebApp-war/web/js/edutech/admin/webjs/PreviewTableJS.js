@@ -12,17 +12,17 @@ $(document).ready(function() {
             console.log("------------------ Submitting JSON : ");
             console.log(JSON.stringify(parseData, null, "   "));
             $.ajax({
-                url: "api/user/masscreate",
+                url: "api/module/massassign",
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(parseData),
                 success: function(data){
-                    alert("Mass creation successful");
-                    top.location.replace("SystemAdmin?pageTransit=SystemAdminDashboard");
+                    alert("Mass assignment successful");
+                    top.location.replace("EduTechAdmin?pageTransit=EduTechAdminDashboard");
                 },
                 error: function(jqXHR,status,error){
                     console.log("Request fired to "+this.url);
-                    alert(status+": "+error+". Please ensure usernames in CSV do not duplicate with any existing usernames.");
+                    alert(status+": "+error+". Please ensure the module codes & usernames in your CSV refer to existing modules & users.");
                 }
             });
         }
@@ -48,15 +48,9 @@ function handleFileUpload(fileList){
             parseData = results.data;
             //remove that last line that was showing empty row.
             parseData.pop();
-            //remove rows with duplicate usernames AND/OR invalid user types
+            //remove rows with duplicate usernames
             for(var i = 0; i < parseData.length-1; i++) {
                 var base = parseData[i];
-                
-                //if base object is not yet null and usertype is invalid, set it to null
-                if(base !== null && base.userType !== "student" && base.userType !== "instructor" &&  base.userType !== "dualadmin" &&  base.userType !== "unifyadmin" &&  base.userType !== "edutechadmin" && base.userType !== "superadmin"){
-                    parseData[i] = null;
-                    base = parseData[i];
-                }
                 
                 //if base object is still !== null 
                 if(base !== null){
@@ -74,26 +68,21 @@ function handleFileUpload(fileList){
                 }
             }
             if(parseData.indexOf(null)!==-1){
-                alert("There were some discrepancies in your CSV, such as rows with duplicate usernames AND/OR invalid user types. We have cleaned this data for you.");
+                alert("There were some discrepancies in your CSV, such as rows with duplicate usernames. We have cleaned this data for you.");
             }
             //throw away all null values
             parseData = parseData.filter(obj => obj !== null);
             
             //empty table div and replace with empty table
             $('#previewTableDiv').empty().append(
-                    '<table id="previewTable" class="table table-striped table-bordered" style="width:100%"><thead><tr><th>Salutation</th><th>First Name</th><th>Last Name</th><th>Username</th><th>Email</th><th>Contact Number</th><th>Type</th></tr></thead></table>'
+                    '<table id="previewTable" class="table table-striped table-bordered" style="width:100%"><thead><tr><th>Module Code</th><th>Username</th></tr></thead></table>'
                     );
             //reinitialise table
             $('#previewTable').DataTable({
                 data: parseData,
                 columns: [
-                    {data:'userSalutation'},
-                    {data:'userFirstName'},
-                    {data:'userLastName'},
-                    {data:'username'},
-                    {data:'email'},
-                    {data:'contactNum'},
-                    {data:'userType'}
+                    {data:'moduleCode'},
+                    {data:'username'}
                 ]
             });
             console.log("CSV TO JSON  END --");
