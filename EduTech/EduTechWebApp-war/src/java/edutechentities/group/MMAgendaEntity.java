@@ -5,6 +5,7 @@
  */
 package edutechentities.group;
 
+import commoninfraentities.UserEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,11 +32,15 @@ public class MMAgendaEntity implements Serializable {
     @Lob
     private String conclusion;
     private LocalDateTime modifiedAt;
+    @OneToOne
+    private UserEntity modifiedBy;
 
     public MMAgendaEntity() {
         this.title = "";
         this.discussion = "";
         this.conclusion = "";
+        this.modifiedAt = LocalDateTime.now();
+        this.modifiedBy = null;
     }
 
     public Long getId() {
@@ -100,6 +106,14 @@ public class MMAgendaEntity implements Serializable {
 
     public void setModifiedAt(LocalDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
+    }
+
+    public UserEntity getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(UserEntity modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
     
 }
