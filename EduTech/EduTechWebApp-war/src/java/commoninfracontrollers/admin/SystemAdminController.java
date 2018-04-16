@@ -43,10 +43,7 @@ public class SystemAdminController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-            if(pageAction == null){
-                //so that nullpointer wont be thrown at switch (pageAction)
-                pageAction = "";
-            }
+            
             String loggedInUsername = "";
 
             //instantiate variables used in switch statement
@@ -261,6 +258,9 @@ public class SystemAdminController extends HttpServlet {
                     break;
                 default:
                     break;
+            }
+            if(pageAction == null){
+                pageAction = "";
             }
             if(pageAction != null){
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
