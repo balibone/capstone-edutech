@@ -14,3 +14,22 @@ input[type="file"] { display: none; }
 .image-upload { border: 3px dashed #D6D6D6; background-color: #FAFAFA; max-width: 151px; min-width: 151px; max-height: 156px; min-height: 156px;}
 #output-image { max-width: 145px; min-width: 145px; max-height: 150px; min-height: 150px; }
 
+.badge-light {
+    color: #fff;
+    background-color: red;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+}
+

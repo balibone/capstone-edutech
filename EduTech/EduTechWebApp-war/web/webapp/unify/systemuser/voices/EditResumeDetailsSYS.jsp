@@ -61,7 +61,7 @@
                                 <li class="nav-item d-none d-md-block">
                                     <div class="dropdown-container">
                                         <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
-                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
+                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications<span class="badge badge-light"><%= request.getAttribute("unreadNotificationCount")%></span>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
                                             <% 

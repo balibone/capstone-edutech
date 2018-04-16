@@ -218,11 +218,12 @@ p {
 }
 .skillset .item {
   margin-bottom: 10px;
-  margin-right: 5px;
-  width: 250px;
-  float:left;
+  width: 200px;
+  float: left;
   overflow: hidden;
 }
+
+
 .skillset .level-title {
   font-size: 14px;
   margin-top: 0;
@@ -295,5 +296,22 @@ p {
     top: 1px;
   }
 }
-/* Large devices (large desktops, 1200px and up) */
-/* Ex-Large devices (large desktops, 1200px and up) */
+
+.badge-light {
+    color: #fff;
+    background-color: red;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+}
