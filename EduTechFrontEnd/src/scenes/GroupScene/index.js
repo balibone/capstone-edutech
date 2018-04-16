@@ -95,11 +95,14 @@ export default class GroupScene extends Component {
     if (GroupScheduleItemStore.sortedUpcomingMeetings[0]) {
       const { agendas } = GroupScheduleItemStore.sortedUpcomingMeetings[0].meetingMinute;
       const { title } = GroupScheduleItemStore.sortedUpcomingMeetings[0];
-      const agendaList = agendas.map((agenda, index) => (
-        <ListItem
-          primaryText={`${index+1}) ${agenda.title}`}
-        />
-      ));
+      let agendaList = <ListItem primaryText="No agenda created for this meeting" />
+      if (agendas.length > 0) {
+        agendaList = agendas.map((agenda, index) => (
+          <ListItem
+            primaryText={`${index+1}) ${agenda.title}`}
+          />
+        ));
+      }
       const actions = [
        <FlatButton
          label="Close"
@@ -123,7 +126,7 @@ export default class GroupScene extends Component {
         </Dialog>
       );
     }
-    return <p className="lead">No Agenda created for this meeting</p>;
+    return '';
   }
 
   renderUpcomingMeetings() {
