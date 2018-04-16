@@ -6,6 +6,7 @@
 package edutechentities.group;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,6 +29,7 @@ public class MMAgendaEntity implements Serializable {
     private String discussion; 
     @Lob
     private String conclusion;
+    private LocalDateTime modifiedAt;
 
     public MMAgendaEntity() {
         this.title = "";
@@ -90,6 +92,14 @@ public class MMAgendaEntity implements Serializable {
 
     public void setConclusion(String conclusion) {
         this.conclusion = conclusion;
+    }
+
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
     
 }
