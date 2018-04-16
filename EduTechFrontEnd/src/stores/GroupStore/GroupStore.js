@@ -1,74 +1,80 @@
-import { observable, action, computed, toJS } from 'mobx';
+import { observable, action, runInAction, computed } from 'mobx';
 import axios from 'axios';
+import swal from 'sweetalert';
 
-import Group from './Group';
+import UtilStore from '../UtilStore/UtilStore';
+
+import AssignmentStore from '../ModuleStore/AssignmentStore';
+import { findUserGroups, autoAssignMembers, findGroup } from '../../services/groupApi';
 
 class GroupStore {
-	@observable groupList = [];
-	@observable selectedGroup = null;
-	@observable groupId;
-	@observable newGroups = [];
-	@observable moduleGrouping = [];
+  @observable groupList = [];
+  @observable donePopulating = false;
+  @observable selectedGroup;
+  @observable collabGroup;
+  @observable doneFetchingCollabGroup = false;
 
-	constructor() {
-		if (JSON.parse(localStorage.getItem('groupList')) && JSON.parse(localStorage.getItem('groupList')).length > 0) {
-			this.populateGroup();
-		} else {
-			this.groupList = localStorage.getItem('groupList')
-		}
-	}
 
-	@action
-	populateGroup(){
-		const username = localStorage.getItem('username');
-		axios.get(`/group/user/${username}`)
-		.then((res) =>{
-			localStorage.setItem('groupList', JSON.stringify(res.data));
-			this.groupList = res.data;
-		})
-		.catch((err) => {
-			console.log(err);
-		})
-	}
+  async populateGroupList(username) {
+    const groups = await findUserGroups(username);
+    runInAction(() => {
+      this.groupList = groups.data;
+      this.donePopulating = true;
+    });
+  }
 
-	// @action
-	// populateModuleGroup(moduleCode){
-	// 	console.log("in populate module group")
-	// 	axios.get(`/group/module/${moduleCode}`)
-	// 	.then((res) => {
-	// 		console.log("populateModuleGroup", res.data);
-	// 		this.moduleGrouping = res.data;
-	// 	})
-	// 	.catch((err) => {
-	// 		console.log(err)
-	// 	})
-	// 	console.log("populateModuleGroup2", this.moduleGrouping);
-	// }
+  async fetchCollabGroup(id) {
+    const group = await findGroup(id);
+    runInAction(() => {
+      this.collabGroup = group.data;
+      this.doneFetchingCollabGroup = true;
+    });
+  }
 
-	async editGroupDetails(group: Group) {
-		await axios.put(`/group/${group.id}`, group);
-		this.populateGroup();
-	}
-
-	@computed
-	get currentGroup() {
-		const whatThis = this.groupList.find(group => group.id === parseInt(this.groupId, 10))
-		return whatThis;
-	}
-
-	// @action
-	// getSelectedGroup(id){
-	// 	let groupList = toJS(this.groupList);
-	// 	this.selectedGroup = groupList.find((group) => group.id === parseInt(id))
-	// 	return this.selectedGroup;
-	// }
+  @action
+  async doAutoAssignMembers(assignmentId, moduleCode) {
+    console.log('autoAssign members in ', assignmentId)
+    try {
+      const res = await autoAssignMembers(assignmentId);
+      console.log('res data auto assign: ', res.data);
+      AssignmentStore.populateModuleAssignments(moduleCode)
+      // this.groupList = res.data;
+      // this.donePopulating = true;
+    } catch(e) {
+      console.log(e);
+    }
+  }
 
 	@action
-	getCreatedGroups(newGroups){
-		console.log("new created groups", newGroups)
-		this.newGroups = newGroups;
+	getGroup(groupId) {
+		return this.groupList.find(group => group.id === parseInt(groupId, 10));
 	}
 
+  @action
+  setSelectedGroup(groupId) {
+    this.selectedGroup = this.groupList.find(group => group.id === parseInt(groupId, 10));
+  }
+
+  @computed
+  get students() {
+    return this.selectedGroup.members.filter(member => member.userType === 'student');
+  }
+
+  @computed
+  get instructors() {
+    return this.selectedGroup.members.filter(member => member.userType === 'instructor');
+  }
+
+  @action
+  async editGroupDescription(newDescription) {
+    try {
+      this.selectedGroup.description = newDescription;
+      await axios.put(`/group/${this.selectedGroup.id}`, this.selectedGroup);
+      UtilStore.openSnackbar('Group decription updated');
+    } catch (e) {
+      swal('Error', 'Error updating group description', 'error');
+    }
+  }
 }
 
 export default new GroupStore();

@@ -3,21 +3,16 @@ import { Media, FormControl } from 'react-bootstrap';
 import { Paper, Popover, Menu, MenuItem } from 'material-ui';
 import { observer } from 'mobx-react';
 import moment from 'moment';
+import swal from 'sweetalert';
 
+import { USER_IMAGE_PATH } from '../../../utils/constants';
 import SinglePostReply from './SinglePostReply';
 import './styles.css';
-
-const liker = {
-  id: 1,
-  name: 'Hafidz',
-  img: 'avatar.png',
-};
 
 @observer
 export default class SinglePost extends Component {
   state = {
     open: false,
-    hasLiked: false,
   }
 
   handlePopoverClick(event) {
@@ -37,10 +32,19 @@ export default class SinglePost extends Component {
   };
 
   handleDeletePost(feedStore, post) {
-    this.setState({
-      open: false,
+    this.setState({ open: false });
+    swal({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this post if you delete it!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        feedStore.deletePost(post);
+      }
     });
-    feedStore.deletePost(post);
   }
 
   handlePinPost(feedStore, post) {
@@ -50,13 +54,8 @@ export default class SinglePost extends Component {
     feedStore.pinPost(post);
   }
 
-  toggleVoteIdea(feedStore, post) {
-    const hasLiked = feedStore.toggleLikePost(post, liker);
-    this.setState({ hasLiked });
-  }
-
-  renderPopoverMenuItems(feedStore, post) {
-    if (post.isPinned) {
+  renderPopoverMenuItems(feedStore, post, scene) {
+    if (post.isPinned || (scene === 'module' && localStorage.getItem('userType') === 'student')) {
       return <MenuItem primaryText="Delete post" onClick={() => this.handleDeletePost(feedStore, post)} />;
     }
     return (
@@ -68,13 +67,11 @@ export default class SinglePost extends Component {
   }
 
   renderPostMenu(feedStore, post) {
-    // TODO: if not post owner, don't show anything
-    console.log('renderPostMenu post', post)
     if (post.createdBy.username === localStorage.getItem('username')) {
       if (post.isPinned) {
         return (
           <div className="pull-right">
-            <i className="fas fa-thumbtack postMenu" onClick={() => feedStore.unpinPost(post)} /> &nbsp;
+            <i className="fas fa-thumbtack postMenu" onClick={() => feedStore.unpinPost(this.props.scene)} /> &nbsp;
             <i className="fas fa-ellipsis-h postMenu" onClick={e => this.handlePopoverClick(e)} />
           </div>
         );
@@ -108,41 +105,27 @@ export default class SinglePost extends Component {
         post={post}
         postMessage={post.message}
         groupId={groupId}
+        key={post.id}
       />
     ));
   }
 
-  renderLike(feedStore, post) {
-    const likeIcon = this.state.hasLiked ? 'fa fa-thumbs-up' : 'far fa-thumbs-up';
-    const likeCount = post.likers.length > 0 ? post.likers.length : '';
-    return (
-      <div className="pull-right postMenu">
-        { likeCount } &nbsp;
-        <i
-          className={likeIcon}
-          onClick={() => this.toggleVoteIdea(feedStore, post)}
-        />
-      </div>
-    );
-  }
-
   render() {
     const {
-      post, replyPost, feedStore, groupId,
+      post, replyPost, feedStore, groupId, scene,
     } = this.props;
-    const { poster } = post;
     return (
-      <Paper className="paperDefault standardTopGap feedPaper">
+      <Paper className="singlePost animated fadeInDown">
         <Media>
           <Media.Left>
-            <img width={64} height={64} src={`http://localhost:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/${post.createdBy.imgFileName}`} alt="thumbnail" className="img-circle" />
+            <img width={64} height={64} src={USER_IMAGE_PATH + post.createdBy.imgFileName} alt="thumbnail" className="img-circle" />
           </Media.Left>
           <Media.Body>
             <Media.Heading>
               <span className="capitalize">{post.createdBy.username}</span>
               <span className="postedAt">posted {moment(post.createdAt).fromNow()}</span>
               <div>
-              {this.renderPostMenu(feedStore, post)}
+              {this.renderPostMenu(feedStore, post, scene)}
                 <Popover
                   open={this.state.open}
                   anchorEl={this.state.anchorEl}
@@ -151,7 +134,7 @@ export default class SinglePost extends Component {
                   onRequestClose={this.handlePopoverRequestClose}
                 >
                   <Menu>
-                    {this.renderPopoverMenuItems(feedStore, post)}
+                    {this.renderPopoverMenuItems(feedStore, post, scene)}
                   </Menu>
                 </Popover>
               </div>

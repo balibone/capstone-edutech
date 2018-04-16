@@ -20,7 +20,7 @@ class GroupingListStudent extends Component {
 		const assignmentId = this.props.assignmentId;
 		console.log("add this student", username);
 		console.log("to this group", this.props.group)
-		AssignmentStore.joinAssignmentGroup(username, groupId, assignmentId);
+		AssignmentStore.joinAssignmentGroup(username, groupId, assignmentId, this.props.moduleCode);
 	}
 
 	leaveGroup(){
@@ -29,7 +29,7 @@ class GroupingListStudent extends Component {
 		const assignmentId = this.props.assignmentId;
 		console.log("remove this student", username);
 		console.log("from this group", this.props.group)
-		AssignmentStore.leaveAssignmentGroup(username, groupId, assignmentId);
+		AssignmentStore.leaveAssignmentGroup(username, groupId, assignmentId, this.props.moduleCode);
 	}
 
 	renderStudentList(group){
@@ -47,7 +47,7 @@ class GroupingListStudent extends Component {
 		return studentListItem.map((student) => {
 			const style = student === 'vacant' ? 'warning': 'info'
 			return <ListGroupItem bsStyle={style}>{student}</ListGroupItem>
-		})	
+		})
 	}
 
 	renderJoinButton(username, members){
@@ -63,7 +63,7 @@ class GroupingListStudent extends Component {
 			return (
 				<ButtonToolbar className="pull-right" style={{marginTop: '-20px'}}>
 					<Button bsStyle="warning" bsSize="small" onClick={this.leaveGroup.bind(this)}>
-				      Leave Group
+				      Leave
 				    </Button>
 			    </ButtonToolbar>
 				)
@@ -73,7 +73,7 @@ class GroupingListStudent extends Component {
 			return (
 				<ButtonToolbar className="pull-right" style={{marginTop: '-20px'}}>
 					<Button bsStyle="primary" bsSize="small" onClick={this.joinGroup.bind(this)}>
-				      Join Group
+				      Join
 				    </Button>
 			    </ButtonToolbar>
 			)
@@ -92,8 +92,8 @@ class GroupingListStudent extends Component {
 		return(
 			<Col xs={12} md={6}>
 				<ListGroup>
-					<ListGroupItem header={group.title}>Number of Students: {memberSize}		
-						{this.renderJoinButton(username, members)}					
+					<ListGroupItem header={group.title}>Number of Students: {memberSize}
+						{this.renderJoinButton(username, members)}
 					</ListGroupItem>
 					{this.renderStudentList(group)}
 				</ListGroup>

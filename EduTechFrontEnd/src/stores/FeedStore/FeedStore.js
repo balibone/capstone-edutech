@@ -1,8 +1,14 @@
 import { observable, action, computed, toJS, runInAction } from 'mobx';
 import axios from 'axios';
-import Post from './Post';
+import swal from 'sweetalert';
 
-export default class FeedStore {
+import Post from './Post';
+import UtilStore from '../UtilStore/UtilStore';
+import GroupStore from '../GroupStore/GroupStore';
+import ModuleStore from '../ModuleStore/ModuleStore';
+import AnnouncementStore from '../AnnouncementStore/AnnouncementStore';
+
+class FeedStore {
     @observable posts = [];
 
     @observable currentPageId;
@@ -20,18 +26,35 @@ export default class FeedStore {
 
     async createPost(post: Post) {
       await axios.post('/post', post);
+      if (!isNaN(post.pageId)) {
+        AnnouncementStore.postAnnouncement(
+          GroupStore.selectedGroup.title,
+          `New conversation started: ${post.message}`,
+           GroupStore.selectedGroup.members,
+           `/group/${GroupStore.selectedGroup.id}?tabKey=Conversations`,
+        );
+      } else {
+        AnnouncementStore.postAnnouncement(
+          ModuleStore.selectedModule.moduleCode,
+          `New conversation started: ${post.message}`,
+           ModuleStore.selectedModule.members,
+           `/module/${ModuleStore.selectedModule.moduleCode}?tabKey=Conversations`,
+        );
+      }
+      UtilStore.openSnackbar('post added');
       this.fetchPagePosts();
     }
 
     async replyPost(parentPostId, post: Post) {
       await axios.post(`/post/${parentPostId}`, post);
+      UtilStore.openSnackbar('Reply added');
       this.fetchPagePosts();
     }
 
     @action
     async removePost(postId) {
-      console.log('removePost', postId)
       await axios.delete(`/post/${postId}`);
+      UtilStore.openSnackbar('post deleted');
       this.fetchPagePosts();
     }
 
@@ -51,12 +74,7 @@ export default class FeedStore {
 
     @action
     deletePost(post: Post) {
-      console.log('deletePost', post);
       this.removePost(post.id);
-      // const index = this.posts.indexOf(post);
-      // if (index > -1) {
-      //   this.posts.splice(index, 1);
-      // }
     }
 
     @action
@@ -67,14 +85,22 @@ export default class FeedStore {
       if (index > -1) {
         this.posts[index].isPinned = true;
       }
+      UtilStore.openSnackbar('post pinned');
+      window.scrollTo(0, 0);
     }
 
     @action
-    unpinPost() {
+    unpinPost(scene) {
+      if (scene === 'module' && localStorage.getItem('userType') === 'student') {
+        swal('Error', 'You cannot unpin posts from this page.', 'error');
+        return false;
+      }
       if (this.pinnedPost) {
         axios.put(`/post/pin/${this.pinnedPost.id}`);
         this.pinnedPost.isPinned = false;
       }
+      UtilStore.openSnackbar('post unpinned');
+      return true;
     }
 
     @computed
@@ -118,3 +144,5 @@ export default class FeedStore {
       return false;
     }
 }
+
+export default new FeedStore();

@@ -28,7 +28,6 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <button type="button" class="btn btn-outline-primary" onclick="location.href='CommonInfra?pageTransit=goToLogout'">Log Out</button>
         </nav>
         <div class="container">
             <div class="row d-flex justify-content-center">
@@ -36,7 +35,7 @@
                     <img class="mb-4" src="images/edubox-logo.png" width="auto" height="100">
                     <h1 class="h4 mb-3 font-weight-normal">503 Service Unavailable</h1>
                     <p>Our server was unable to process your request at this time. Please try again later.</p>
-                    <a href="CommonInfra?pageTransit=goToCommonLanding" class="btn btn-primary">Go Back Home</a>
+                    <a href="CommonInfra?pageTransit=goToCommonLanding" class="btn btn-primary">Go Back To Landing Page</a>
                 </div>
             </div>
         </div>

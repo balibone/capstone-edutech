@@ -1,0 +1,38 @@
+.keyDates{
+    position: relative;
+    height: 92vh;
+    padding: 0px 20px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.header {
+  width: 100%;
+}
+
+.header {
+  margin-bottom: 0px;
+}
+
+.widgetsEmptyState {
+    margin-top: 50px;
+    text-align: center;
+    color: #333;
+}
+
+.widgetDate {
+  color: #AAA;
+}
+
+.footerOptions {
+  position: absolute;
+  bottom: 0;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+}
+
+.widgetForm {
+  /* min-height: 200px !important; */
+  padding-bottom: 130px;
+}

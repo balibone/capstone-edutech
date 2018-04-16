@@ -35,10 +35,7 @@ public class EduTechAdminController extends HttpServlet {
         RequestDispatcher dispatcher = null;
         ServletContext context = getServletContext();
         String pageAction = request.getParameter("pageTransit");
-        if(pageAction == null){
-            //so that nullpointer wont be thrown at switch (pageAction)
-            pageAction = "";
-        }
+        
         try{
             //instantiate variables used in switch statement
             String id = "";
@@ -278,6 +275,9 @@ public class EduTechAdminController extends HttpServlet {
                     id = request.getParameter("id");
                     eam.deleteSemester(id);
                     break;
+            }
+            if(pageAction == null){
+                pageAction = "";
             }
             if(pageAction != null){
                 dispatcher = context.getNamedDispatcher(pageAction);

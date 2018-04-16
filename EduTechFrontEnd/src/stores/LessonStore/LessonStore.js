@@ -6,14 +6,15 @@ import swal from 'sweetalert';
 import FileSaver from 'file-saver';
 import _ from 'lodash';
 
+import UtilStore from '../UtilStore/UtilStore';
+
 class LessonStore {
 	@observable lessonList = [];
   @observable uploadedFile = [];
 
 	@action
-	getLessonsForModule(moduleCode){
-    const username = localStorage.getItem('username');
-    var unsoredLessonList = [];
+	getLessonsForModule(moduleCode) {
+    let unsoredLessonList = [];
 		axios.get(`/module/lessons/${moduleCode}`) // to replace with get modules for user
 		.then((res) => {
       unsoredLessonList = res.data;
@@ -25,18 +26,18 @@ class LessonStore {
 		})
 	}
 
-  @action
-  uploadAttachment(title, file, lessonId){
+	@action
+  uploadAttachment(title, file, lessonId, username) {
     const formData = new FormData();
     formData.append('title', title)
     formData.append('file', file)
+    formData.append('createdBy', username)
 
     axios.post(`/lesson/uploadAttachment/${lessonId}`,formData)
     .then((res) => {
       this.uploadedFile = res.data;
       this.uploadedFile[0].lessonId = lessonId;
-      console.log("uploadedFile with lessonId:" , this.uploadedFile)
-      swal("Success !", `${file.name} is successfully uploaded.`, "success");
+			UtilStore.openSnackbar(`${file.name} is successfully uploaded.`)
     })
     .catch((err) => {
       console.log(err);
@@ -45,7 +46,7 @@ class LessonStore {
 
   @action
   downloadAllFiles(lessonId, title, dateTimeFormat){
-    axios.get(`/lesson/downloadAllAttachments/${lessonId}`,{responseType: 'blob'})
+    axios.get(`/lesson/downloadAllAttachments/${lessonId}`, { responseType: 'blob' })
     .then((res) => {
       const downloadedZip = res.data;
       var zipFileName = title.concat("_" + dateTimeFormat + ".zip");
@@ -57,7 +58,7 @@ class LessonStore {
   }
 
   @action
-  downloadOneFile(lessonId, attachmentId, fileName){
+  downloadOneFile(lessonId, attachmentId, fileName) {
     console.log("DOWNLOADING ONE FILE", lessonId, attachmentId, fileName)
     axios.get(`/lesson/downloadAttachment/${lessonId}/${attachmentId}`,{responseType: 'blob'})
     .then((res) => {
@@ -70,13 +71,11 @@ class LessonStore {
   }
 
   @action
-  removeOneFile(lessonId, attachmentId, fileName){
+  removeOneFile(lessonId, attachmentId, fileName) {
     axios.delete(`/lesson/deleteAttachment/${lessonId}/${attachmentId}`)
     .then((res) => {
       console.log("delete file success!", res.data);
-      swal(`${fileName} has been deleted!`, {icon: "success"});
-
-      // swal("Sucess !", "File removed.", "success");
+			UtilStore.openSnackbar(`${fileName} has been deleted!`)
     })
     .catch((err) => {
       console.log(err);
@@ -102,7 +101,7 @@ class LessonStore {
   fetchFilesForLesson(lessonId) {
       var attachmentArr = [];
       var index = _.findIndex(this.lessonList, (item) => {return item.id === lessonId});
-      
+
       axios.get(`/lesson/allAttachments/${lessonId}`)
       .then(action("fetchSuccess", res => {
                 // const filteredProjects = somePreprocessing(projects)
@@ -110,14 +109,13 @@ class LessonStore {
                 // this.state = "done"
 
                 this.lessonList[index].files = res.data;
-                console.log("lesson", this.lessonList[index])
             }),
             // inline created action
             action("fetchError", error => {
                 console.log(error)
-            }) 
+            })
       )
-    }  
+    }
 
 }
 

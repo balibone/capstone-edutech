@@ -1,0 +1,36 @@
+.sideSection {
+  text-align: center;
+  padding: 3px 15px 50px 15px;
+  position: relative;
+  max-height: 90vh;
+}
+
+.sideSectionItem {
+  margin: 25px 0;
+}
+
+.statNumberTask {
+  font-size: 5.2em;
+}
+
+.sideTopSection .fa-edit {
+  display: none;
+
+}
+
+.sideTopSection:hover .fa-edit {
+  display: inline;
+  margin-left: 5px;
+  color: #AAA;
+}
+
+.sideTopSection .viewMembersButton {
+  display: none;
+
+}
+
+
+.sideTopSection:hover .viewMembersButton {
+  display: inline;
+  color: #AAA;
+}

@@ -46,7 +46,9 @@
             }
         </style>
         
-        
+        <!--ReCAPTCHA-->
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+
     </head>
     
     <body class="text-center">
@@ -93,7 +95,10 @@
                     </div>
                 </div>
             </div>
-            
+            <div class="form-group">
+                <div class="g-recaptcha" data-sitekey="6Lc-c1MUAAAAAD9JbT3Qwqu9Rx7cSFD8gGJiuKoQ"></div>
+            </div>
+
             <input type="hidden" name="pageTransit" value="resetPassword"/>
             <%  if(request.getAttribute("failMsg") != null) {   %>
             <div class="alert alert-danger" role="alert"><%= request.getAttribute("failMsg")%></div>

@@ -17,7 +17,7 @@ class MergeGroupStore {
 			console.log(err);
 			swal("Error!", "Network error in merge meetings.", "error")
 		})
-	}	
+	}
 
 	async fetchMergedCalendar(usersArray) {
 		const mergedScheduleItems = [];

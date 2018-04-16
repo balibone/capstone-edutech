@@ -24,12 +24,13 @@ class UploadFileBtn extends Component {
     const selectedFile = this.state.file;
     const lessonId = this.props.lessonId;
     const title = this.state.title;
-
+    const username = localStorage.getItem('username');
     if(selectedFile){
       if(selectedFile.size > 10000000){   // 10MB is max file size
         swal("File Size Error!", "Your file size is more than 10MB.", "error");
       }else{
-        LessonStore.uploadAttachment(title, selectedFile, lessonId);
+        LessonStore.uploadAttachment(title, selectedFile, lessonId, username);
+        this.setState({file: null, title: ""})
       }
     }
   }
