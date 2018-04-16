@@ -1,4 +1,4 @@
-import { observable, computed } from 'mobx';
+import { observable } from 'mobx';
 
 export default class Module {
 	@observable moduleCode;
@@ -8,7 +8,7 @@ export default class Module {
 	@observable members;
 	@observable semester;
 
-	constructor(moduleCode, title, description, modularCredit, members, semester){
+	constructor(moduleCode, title, description, modularCredit, members, semester) {
 		this.moduleCode = moduleCode;
 		this.title = title;
 		this.description = description;
@@ -16,5 +16,4 @@ export default class Module {
 		this.members = members;
 		this.semester = semester;
 	}
-
 }

@@ -1,0 +1,44 @@
+.myCalendar {
+  height: 80vh;
+  text-align: center;
+  padding-top: 3px;
+  position: relative
+}
+
+.calendarContainter {
+  height: 60vh;
+}
+
+.expandButton {
+  position: absolute;
+  left: 0;
+  bottom: 25px;
+}
+
+.calendarContainter {
+  height: 90%;
+}
+
+.rbc-event-label {
+  display: none;
+}
+
+.rbc-event-content {
+  font-size: 0.9em;
+}
+
+.rbc-calendar {
+  padding-bottom: 55px;
+}
+
+#root > div > div.mainContent > div > div > div.col-md-8 > div > div.calendarContainter > div > div.rbc-time-view > div.rbc-time-header.rbc-overflowing > div.rbc-time-header-content > div.rbc-allday-cell > div.rbc-row-content > div {
+    /* display: none; */
+}
+
+.calendarFormField {
+  margin: 20px 0;
+}
+
+.calendarDateFormField {
+  margin: 0 3px;
+}

@@ -2,3 +2,7 @@ div.merge-calendar{
 	font-size: small;
 	background: #00FFFF;
 }
+
+.groupCalendar {
+	height: 90vh;
+}

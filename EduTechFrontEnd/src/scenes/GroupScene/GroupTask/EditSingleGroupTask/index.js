@@ -18,9 +18,8 @@ const EditSingleGroupTask = ({
   const edittedDateValue = edittedDate ? new Date(edittedDate) : null;
   const edittedAssigneeValue =
     edittedAssignee[0] ? edittedAssignee[0].username : null;
-  console.log(edittedAssigneeValue);
   return (
-    <Paper className="taskItem paperDefault">
+    <Paper className="editTaskItem">
       <div>
         <Row>
           <Col md={12}>
@@ -36,6 +35,7 @@ const EditSingleGroupTask = ({
           <Col md={6}>
             <DropdownList
               data={groupMemberNames}
+              style={{ textAlign: 'left' }}
               placeholder="Assign a member"
               onChange={assignedTo => handleChangeAssigneeEdit(assignedTo)}
               value={edittedAssigneeValue}
@@ -52,15 +52,15 @@ const EditSingleGroupTask = ({
           </Col>
         </Row>
       </div>
-      <ButtonToolbar>
-        <Button bsStyle="primary" bsSize="xsmall" onClick={() => handleSaveEdit(task)}>
-          Save
+      <ButtonToolbar className="pull-right editActionButtons">
+        <Button bsSize="xsmall" onClick={() => handleCancelEdit(task)}>
+          cancel
         </Button>
         <Button bsStyle="danger" bsSize="xsmall" onClick={() => removeTask(task)}>
           delete
         </Button>
-        <Button bsSize="xsmall" onClick={() => handleCancelEdit(task)}>
-          cancel
+        <Button bsStyle="primary" bsSize="xsmall" onClick={() => handleSaveEdit(task)}>
+          Save
         </Button>
       </ButtonToolbar>
     </Paper>

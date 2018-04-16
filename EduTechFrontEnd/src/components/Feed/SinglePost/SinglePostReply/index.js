@@ -3,7 +3,9 @@ import { Media } from 'react-bootstrap';
 import { Popover, Menu, MenuItem } from 'material-ui';
 import { observer } from 'mobx-react';
 import moment from 'moment';
+import swal from 'sweetalert';
 
+import { USER_IMAGE_PATH } from '../../../../utils/constants';
 
 @observer
 export default class SinglePostReply extends Component {
@@ -12,7 +14,6 @@ export default class SinglePostReply extends Component {
   }
 
   handlePopoverClick(event) {
-    // This prevents ghost click.
     event.preventDefault();
 
     this.setState({
@@ -28,10 +29,19 @@ export default class SinglePostReply extends Component {
   };
 
   handleDeletePost(feedStore, post) {
-    this.setState({
-      open: false,
+    this.setState({ open: false });
+    swal({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this post if you delete it!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        feedStore.deletePost(post);
+      }
     });
-    feedStore.deletePost(post);
   }
 
 
@@ -40,7 +50,6 @@ export default class SinglePostReply extends Component {
   }
 
   renderPostMenu(feedStore, post) {
-    // TODO: if not post owner, don't show anything
     if (post.createdBy.username === localStorage.getItem('username')) {
       if (post.isPinned) {
         return (
@@ -65,18 +74,17 @@ export default class SinglePostReply extends Component {
           </div>
         );
       }
-    return <span />
+    return <span />;
   }
 
 
   render() {
-
     const { postMessage, feedStore, post } = this.props;
     return (
-      <Media>
+      <Media className="animated fadeInDown">
         <hr />
         <Media.Left>
-          <img width={64} height={64} src={`http://localhost:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/${post.createdBy.imgFileName}`} alt="thumbnail" className="img-circle" />
+          <img width={64} height={64} src={USER_IMAGE_PATH + post.createdBy.imgFileName} alt="thumbnail" className="img-circle" />
         </Media.Left>
         <Media.Body>
           <Media.Heading>
@@ -98,6 +106,6 @@ export default class SinglePostReply extends Component {
           <p>{postMessage}</p>
         </Media.Body>
       </Media>
-    )
+    );
   }
 }

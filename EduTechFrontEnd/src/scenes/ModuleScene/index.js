@@ -1,77 +1,95 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import { Paper } from 'material-ui';
-import { Tabs, Tab } from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {toJS} from 'mobx';
+import React, { Component } from 'react';
+import { Tabs, Tab, Paper, FlatButton, List, ListItem, Avatar, Dialog, Subheader } from 'material-ui';
+import { Row, Col } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { Animated } from 'react-animated-css';
+import * as qs from 'query-string';
 
-import Feed from '../../components/Feed';
 import Lesson from './Lesson';
-import Submission from './Submission';
 import Assignment from './Assignment';
 import GroupingInstructor from './GroupingInstructor';
 import GroupingStudent from './GroupingStudent';
-import StudentSubmission from './StudentSubmission';
+import RightPanel from './RightPanel';
 
 import LessonStore from '../../stores/LessonStore/LessonStore';
 import ModuleStore from '../../stores/ModuleStore/ModuleStore';
-import GroupStore from '../../stores/GroupStore/GroupStore';  
 import AssignmentStore from '../../stores/ModuleStore/AssignmentStore';
+import { USER_IMAGE_PATH } from '../../utils/constants';
+
+
+import Feed from '../../components/Feed';
 
 @observer
-class ModuleScene extends Component {
-
-  constructor(props){
-    super(props)
-    // let { moduleCode } = this.props.match.params;
+export default class ModuleScene extends Component {
+  state = {
+    activeTabKey: 'Conversations',
   }
 
-  componentDidMount(){
-    let { moduleCode } = this.props.match.params;
+  componentDidMount() {
+    const { moduleCode } = this.props.match.params;
+    ModuleStore.setSelectedModule(moduleCode);
     LessonStore.getLessonsForModule(moduleCode);
-    ModuleStore.getOneModule(moduleCode);
     // GroupStore.populateModuleGroup(moduleCode);
     AssignmentStore.populateModuleAssignments(moduleCode);
+    if (qs.parse(this.props.location.search).tabKey) {
+      this.setState({ activeTabKey: qs.parse(this.props.location.search).tabKey });
+    }
   }
 
   componentWillReceiveProps(newProps) {
-    let { moduleCode } = newProps.match.params;
+    const { moduleCode } = newProps.match.params;
+    ModuleStore.setSelectedModule(moduleCode);
     LessonStore.getLessonsForModule(moduleCode);
-    ModuleStore.getOneModule(moduleCode);
     AssignmentStore.populateModuleAssignments(moduleCode);
     // GroupStore.populateModuleGroup(moduleCode);
+    if (qs.parse(this.props.location.search).tabKey) {
+      this.setState({ activeTabKey: qs.parse(this.props.location.search).tabKey });
+    }
+  }
+  renderGroupingPage() {
+    return localStorage.getItem('userType') === 'student' ? <GroupingStudent /> : <GroupingInstructor />;
   }
 
-  render(){
-    const { match } = this.props;
-    
-    // const selectedModule = toJS(ModuleStore.selectedModule);
-    // console.log("selected module", selectedModule)
-    return(
-      <Paper className="standardTopGap standardBottomGap paperDefault">
-        <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-          <Tab eventKey={1} title={match.params.moduleCode}>
-            <Feed pageId={match.params.moduleCode} />
-          </Tab>
-          <Tab eventKey={2} title="Lessons">
-            <Lesson />
-          </Tab>
-          <Tab eventKey={3} title="Assignment">
-            <Assignment moduleCode={match.params.moduleCode} />
-          </Tab>
-          <Tab eventKey={4} title="Grouping Instructor">
-            <GroupingInstructor />
-          </Tab>
-          <Tab eventKey={5} title="Grouping Student">
-            <GroupingStudent />
-          </Tab>
-          <Tab eventKey={6} title="My Submission">
-            <StudentSubmission />
-          </Tab>
-        </Tabs>
-      </Paper>
-    )
+  render() {
+    const { moduleCode } = this.props.match.params;
+    let module = null;
+    if (ModuleStore.moduleList.length > 0) {
+      module = ModuleStore.getModule(moduleCode);
+    }
+    return (
+      <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible>
+        <Row>
+          <Col md={8}>
+          <Paper>
+            <Tabs value={this.state.activeTabKey} onChange={tabKey => this.setState({ activeTabKey: tabKey })}>
+              <Tab label="Conversations" value="Conversations">
+                <div className="tabContent">
+                  <Feed pageId={moduleCode} scene="module" />
+                </div>
+              </Tab>
+              <Tab label="Lessons" value="Lessons">
+                <div className="tabContent">
+                  <Lesson />
+                </div>
+              </Tab>
+              <Tab label="Assignments" value="Assignments">
+                <div className="tabContent">
+                  <Assignment moduleCode={moduleCode} />
+                </div>
+              </Tab>
+              <Tab label="Groupings" value="Groupings">
+                <div className="tabContent">
+                  {this.renderGroupingPage()}
+                </div>
+              </Tab>
+            </Tabs>
+          </Paper>
+          </Col>
+          <Col md={4}>
+            <RightPanel moduleCode={moduleCode} />
+          </Col>
+        </Row>
+      </Animated>
+    );
   }
 }
-
-export default ModuleScene;

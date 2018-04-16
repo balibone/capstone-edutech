@@ -13,10 +13,10 @@ class GroupingStudent extends Component{
 	renderAssignmentList(){
 		const assignmentList = toJS(AssignmentStore.assignmentList);
     	if(assignmentList.length > 0){
-    		return assignmentList.map((assignment) => 
+    		return assignmentList.map((assignment) =>
 
     			(
-    				(assignment.groups.length>0) ? 
+    				(assignment.groups.length>0) ?
     				<SingleAssignmentGroup key={assignment.id} assignment={assignment} />
     				:(<span></span>)
     			)
