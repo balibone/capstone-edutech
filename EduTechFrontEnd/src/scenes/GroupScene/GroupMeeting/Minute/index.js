@@ -106,7 +106,7 @@ class Minute extends Component {
 		           
 				</Modal.Body>
 				<Modal.Footer>
-					<Button onClick={this.props.handleClose.bind(this)}>Close</Button>
+					<Button onClick={this.props.handleClose.bind(this)}>Close</Button> &nbsp;
 					<Button bsStyle="primary" onClick={this.addMinute.bind(this)}>Apply Changes</Button>
 				</Modal.Footer>
 	        </div>
