@@ -70,7 +70,7 @@
                                 </li>
                                 <li class="nav-item d-none d-md-block">
                                     <a href="#" class="nav-link">
-                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Messages
+                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Notifications<span class="badge badge-light"><%= request.getAttribute("unreadNotificationCount")%></span>
                                     </a>
                                 </li>
                                 <select class="select-dropdown-nav accountNavigation" data-width="120px">

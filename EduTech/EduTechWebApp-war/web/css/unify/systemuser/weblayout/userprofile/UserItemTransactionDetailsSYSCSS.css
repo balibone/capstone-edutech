@@ -4,3 +4,22 @@ img { vertical-align: middle; border: 0; }
 .profileRating li { display: inline-block; padding-right: 15px; }
 .ratingImage { padding: 0 2px; width: auto; height: 18px; }
 .ratingValue { margin: 0 0 0 5px; vertical-align: middle; color: #8F939C; font-weight: bold; }
+
+.badge-light {
+    color: #fff;
+    background-color: red;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+}

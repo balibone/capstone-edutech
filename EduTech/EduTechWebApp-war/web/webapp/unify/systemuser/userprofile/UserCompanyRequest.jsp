@@ -19,7 +19,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/userprofile/UserItemTransactionCSS.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/weblayout/userprofile/UserItemTransactionSYSCSS.css" rel="stylesheet" type="text/css" />
         
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css">
@@ -65,8 +65,9 @@
                                 <li class="nav-item d-none d-md-block">
                                     <div class="dropdown-container">
                                         <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
-                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
+                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications<span class="badge badge-light"><%= request.getAttribute("unreadNotificationCount")%></span>
                                         </a>
+                                        
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
                                             <% 
                                                 ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
@@ -305,8 +306,8 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
-        </div>
-        <div id="modal-custom">
+            
+            <div id="modal-custom">
                 <button data-iziModal-close class="icon-close"><i class="fa fa-times"></i></button>
                 <div class="sections">
                     <section>
@@ -412,16 +413,16 @@
         
         <!-- Voices Modal-->
         <div class="modal fade" id="voicesModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width: 1200px;">
-              <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style="font-size: 15px"><strong>Select one of the following to view.</strong></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                     <div class="row">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle" style="font-size: 15px"><strong>Select one of the following to view.</strong></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
                             <div class="col-sm-5 ml-4">
                                 <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToCompanyReview';">
                                     <div class="card-block card-title mt-5 mb-5">
@@ -447,11 +448,11 @@
                                     </div>
                                 </div>
                             </div>
-                  </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            
+        </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->

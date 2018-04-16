@@ -164,6 +164,8 @@ $(document).ready(function () {
         reference_count--;
     });
     
+    $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
+    
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
 });
