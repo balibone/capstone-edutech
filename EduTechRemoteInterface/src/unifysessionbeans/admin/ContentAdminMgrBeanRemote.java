@@ -40,14 +40,14 @@ public interface ContentAdminMgrBeanRemote {
     //jobs review related
     public List<Vector> viewReportedErrandsReviewListing();
     public List<Vector> viewReportedErrandsReviewListingDashboard();
-    public Vector viewErrandReviewDetails(String errandReviewReportID);
+    //public Vector viewErrandReviewDetails(String errandReviewReportID);
     public String resolveErrandReview(String reportReviewID);
     public String resolveOnlyErrandReview(String reportReviewID);
     public String resolveDeleteErrandReview(String reportReviewID);
     public String resolveDelistErrandReview(String reportReviewID);
     public String unresolveErrandReview(String reportReviewID);
     public String deleteJobReview(String jobReviewID);
-    public String delistJobReview(String jobReviewID);
+    //public String delistJobReview(String jobReviewID);
     public Long getUnresolvedErrandsReviewReportCount();
     public Long getResolvedErrandsReviewReportCount();
     //marketplace related

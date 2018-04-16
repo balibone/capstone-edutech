@@ -187,6 +187,7 @@ function selectedStartLocation(lat, lng, postalAddress, location) {
 }
 
 function selectedEndLocation(lat, lng, postalAddress, location) {
+    
     document.getElementById("endLocation").value = location;
     document.getElementById("hiddenEndLat").value = lat;
     document.getElementById("hiddenEndLong").value = lng;
