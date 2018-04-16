@@ -56,7 +56,7 @@ public class EventRequestEntity implements Serializable {
     @ManyToOne
     private UserEntity userEntity;
     
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.REMOVE})
     private EventEntity eventEntity;
     
     @PrePersist

@@ -233,7 +233,7 @@
                         <div class="title"><span><%= eventTitle%></span></div>
                     </div>
                     <div class="col-xl-4 col-lg-5 col-md-6">
-                        <img src="" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer;">
+                        <img src="http://www.posteroven.com/static_v/1.018/images/home/examples/poex-bjj.png" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer;">
                         <div class="title d-none d-md-block"><span>Share to</span></div>
                         <ul class="list-inline d-none d-md-block">
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-facebook"></i></button></li>
