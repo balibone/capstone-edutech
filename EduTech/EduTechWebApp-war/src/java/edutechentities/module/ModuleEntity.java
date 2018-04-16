@@ -55,7 +55,7 @@ public class ModuleEntity implements Serializable {
         this.moduleCode = "";
         this.title = "";
         this.moduleEvents = new ArrayList<>();
-        this.modularCredit = Long.valueOf(0);
+        this.modularCredit = Long.valueOf(4);
         this.description = "";
         this.members = new ArrayList<>();
         this.semester = null;
@@ -65,9 +65,12 @@ public class ModuleEntity implements Serializable {
     public ModuleEntity(String moduleCode, String name, Long modularCredit, String description, SemesterEntity semester) {
         this.moduleCode = moduleCode;
         this.title = name;
+        this.moduleEvents = new ArrayList<>();
         this.modularCredit = modularCredit;
         this.description = description;
+        this.members = new ArrayList<>();
         this.semester = semester;
+        this.recurringEvents = new ArrayList<>();
     }
 
     public Long getModularCredit() {

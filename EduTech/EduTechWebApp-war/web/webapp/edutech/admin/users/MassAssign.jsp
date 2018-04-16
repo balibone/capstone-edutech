@@ -72,7 +72,7 @@
                             </table>
                         </div>
                         <div id="wait" style="display:none;border:1px solid black; border-radius: 15px; position:absolute; top:50%; left:50%; padding:10px; background-color: #f5f5f5; text-align: center;">
-                            <img src='images/ajax-loader.gif'/><br><b><h3>Mass assigning users..<br>Do not refresh page!</h3></b>
+                            <img src='images/ajax-loader.gif'/><br><b><h3>Mass assigning users..<br>Please do not refresh page!</h3></b>
                         </div>
                     </div>
                 </div>

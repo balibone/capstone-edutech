@@ -12,7 +12,7 @@ import edutechentities.common.TaskEntity;
 import edutechentities.group.GroupEntity;
 import edutechentities.module.ModuleEntity;
 import edutechentities.module.AssignmentEntity;
-import edutechservices.ModuleAndUser;
+import JAXBWrapperClasses.ModuleAndUser;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

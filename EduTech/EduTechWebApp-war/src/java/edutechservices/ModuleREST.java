@@ -5,6 +5,7 @@
  */
 package edutechservices;
 
+import JAXBWrapperClasses.ModuleAndUser;
 import edutechentities.common.ScheduleItemEntity;
 import edutechentities.module.LessonEntity;
 import edutechentities.module.ModuleEntity;

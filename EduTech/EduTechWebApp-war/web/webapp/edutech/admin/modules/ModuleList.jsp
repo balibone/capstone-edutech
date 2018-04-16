@@ -41,6 +41,13 @@
                                     <h2>Modules</h2>
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li>
+                                            <a href="EduTechAdmin?pageTransit=MassCreateModules">
+                                                <button type="button" class="btn btn-default">
+                                                    <i class="fas fa-users"></i>&nbsp;&nbsp;Create Multiple Modules
+                                                </button>
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href='EduTechAdmin?pageTransit=NewModule'>
                                             <button id="create" type="button" class="btn btn-default">
                                                 
@@ -75,7 +82,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Module Code</th>
-                                                <th>Name</th>
+                                                <th>Title</th>
                                                 <th>Credits</th>
                                                 <th>Assigned To Semester</th>
                                                 <th>Actions</th>
@@ -92,7 +99,15 @@
                                                 <td id='id'><%=moduleData.get(0)%></td>
                                                 <td><%=moduleData.get(1)%></td>
                                                 <td><%=moduleData.get(2)%></td>
+                                                <% 
+                                                    if (!moduleData.get(4).equals("") && !moduleData.get(3).equals("")){
+                                                    %>
                                                 <td><%=moduleData.get(4)%> (ID: <%=moduleData.get(3)%>)</td>
+                                                <%
+                                                }else{%>
+                                                <td style="color: #e80505;">Unassigned</td>
+                                                <%}%>
+                                                
                                                 <td>
                                                     <ul class="list-inline">
                                                         <li>

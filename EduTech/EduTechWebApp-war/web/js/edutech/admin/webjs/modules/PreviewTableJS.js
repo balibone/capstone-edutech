@@ -17,12 +17,12 @@ $(document).ready(function() {
                 contentType: 'application/json',
                 data: JSON.stringify(parseData),
                 success: function(data){
-                    alert("Mass assignment successful");
+                    alert("Mass creation successful");
                     top.location.replace("EduTechAdmin?pageTransit=EduTechAdminDashboard");
                 },
                 error: function(jqXHR,status,error){
                     console.log("Request fired to "+this.url);
-                    alert(status+": "+error+". Please ensure the module codes & usernames in your CSV refer to existing modules & users.");
+                    alert(status+": "+error+". Please ensure the semesters in your CSV refer to existing semesters.");
                 }
             });
         }
@@ -59,7 +59,7 @@ function handleFileUpload(fileList){
                         //if base object is !== null
                         if(comparison != null){
                             console.log("comparing index "+i+" : "+base+" against index "+j+" : "+comparison+" !");
-                            if(base.username+","+base.moduleCode === comparison.username+","+comparison.moduleCode){
+                            if(base.moduleCode === comparison.moduleCode){
                                 console.log("Duplicate! Removing index "+j+" ...");
                                 parseData[j] = null;
                             }
@@ -68,21 +68,22 @@ function handleFileUpload(fileList){
                 }
             }
             if(parseData.indexOf(null)!==-1){
-                alert("There were some discrepancies in your CSV, such as rows with duplicate entries. We have cleaned this data for you.");
+                alert("There were some discrepancies in your CSV, such as rows with duplicate module codes. We have cleaned this data for you.");
             }
             //throw away all null values
             parseData = parseData.filter(obj => obj !== null);
             
             //empty table div and replace with empty table
             $('#previewTableDiv').empty().append(
-                    '<table id="previewTable" class="table table-striped table-bordered" style="width:100%"><thead><tr><th>Module Code</th><th>Username</th></tr></thead></table>'
+                    '<table id="previewTable" class="table table-striped table-bordered" style="width:100%"><thead><tr><th>Module Code</th><th>Name</th><th>Credits</th></tr></thead></table>'
                     );
             //reinitialise table
             $('#previewTable').DataTable({
                 data: parseData,
                 columns: [
                     {data:'moduleCode'},
-                    {data:'username'}
+                    {data:'title'},
+                    {data:'modularCredit'},
                 ]
             });
             console.log("CSV TO JSON  END --");

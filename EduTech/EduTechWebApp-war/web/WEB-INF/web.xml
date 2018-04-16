@@ -152,6 +152,10 @@
         <jsp-file>/webapp/edutech/admin/modules/NewModule.jsp</jsp-file>
     </servlet>
     <servlet>
+        <servlet-name>MassCreateModules</servlet-name>
+        <jsp-file>/webapp/edutech/admin/modules/MassCreateModules.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>EditModule</servlet-name>
         <jsp-file>/webapp/edutech/admin/modules/EditModule.jsp</jsp-file>
     </servlet>
