@@ -251,7 +251,7 @@
                                         <th>Date</th>
                                         <th>Company</th>
                                         <th>Title</th>
-                                        <th>Thumbs Up</th>
+                                        <th>Rating</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -267,14 +267,15 @@
                                                 String reviewPoster = String.valueOf(v.get(2));
                                                 String reviewCompany = String.valueOf(v.get(3));
                                                 String reviewTitle = String.valueOf(v.get(4));
-                                                String reviewThumbsUp = String.valueOf(v.get(5));
+                                                String reviewRating = String.valueOf(v.get(5));
                                                 String reviewStatus = String.valueOf(v.get(6));
+                                                String reviewCompanyID = String.valueOf(v.get(7));
                                     %>
                                     <tr>
                                         <td><%= reviewDate %><span style="display: none">;<%= reviewID%></span></td>
-                                        <td><%= reviewCompany %></td>
+                                        <td><%= reviewCompany %><span style="display: none">;<%= reviewCompanyID%></span></td>
                                         <td><%= reviewTitle %></td>
-                                        <td><%= reviewThumbsUp %></td>
+                                        <td><%= reviewRating %></td>
                                         <td><%= reviewStatus %></td>
                                         <td>
                                             <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-danger">

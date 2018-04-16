@@ -630,8 +630,9 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             reviewVec.add(cre.getUserEntity().getUsername());
             reviewVec.add(cre.getCompanyEntity().getCompanyName());
             reviewVec.add(cre.getReviewTitle());
-            reviewVec.add(getReviewLikeCount(cre.getReviewID()));
+            reviewVec.add(cre.getReviewRating());
             reviewVec.add(cre.getReviewStatus());
+            reviewVec.add(cre.getCompanyEntity().getCompanyID());
             reviewList.add(reviewVec);
         }
         return reviewList;
