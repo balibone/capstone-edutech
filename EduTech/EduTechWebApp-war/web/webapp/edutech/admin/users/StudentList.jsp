@@ -39,6 +39,11 @@
                             <div class="x_panel">
                                 <div class="x_title">
                                     <h2>Students</h2>
+                                    <a href="SystemAdmin?pageTransit=MassAssign" style="display: flex; justify-content: flex-end;">
+                                        <button type="button" class="btn btn-default">
+                                            <i class="fas fa-users"></i>&nbsp;&nbsp;Assign Multiple Users To Multiple Mods
+                                        </button>
+                                    </a>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
