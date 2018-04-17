@@ -1,4 +1,10 @@
-var webSocket = new WebSocket('ws://localhost:8080/EduTechWebApp-war/WebSocketGateway/' + $('#0').val() + '&' + $('#hiddenItemID').val());
+var windowIP = window.location.hostname;
+var windowURL = window.location.href;
+var windowURLCast = new URL(windowURL);
+var hidChatType = windowURLCast.searchParams.get("hidChatType");
+var hidBuyerCRED = windowURLCast.searchParams.get("hidBuyerCRED");
+
+var webSocket = new WebSocket('ws://' + windowIP + ':8080/EduTechWebApp-war/WebSocketGateway/' + $('#hiddenItemID').val() + '&' + hidBuyerCRED);
 webSocket.onerror = function (event) {
     console.log(event.data);
 };
@@ -11,10 +17,6 @@ webSocket.onmessage = function (event) {
         $('<li class="replies"><img src="uploads/commoninfrastructure/admin/images/' + $('#receiverIMG').val() + '" /><p>' + event.data + '</p></li>').appendTo($('.messages ul'));
     }
     $(".messages").animate({scrollTop: $(document).height()}, "fast");
-    
-    var windowURL = window.location.href;
-    var windowURLCast = new URL(windowURL);
-    var hidChatType = windowURLCast.searchParams.get("hidChatType");
     
     var messageContent = event.data;
     if (messageContent.indexOf('Offered') >= 0 && hidChatType == 'Selling') {
@@ -58,7 +60,6 @@ webSocket.onmessage = function (event) {
         $('#acceptedOfferPanelInterior').hide();
         $('#provideFeedbackPanelInterior').show();
     }
-    
     $('#messageSenderID').val("");
 };
 
@@ -66,21 +67,33 @@ $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
-    $('#buyingContacts').show();
-    $('#sellingContacts').hide();
+    if(hidChatType == 'Buying') {
+        $('#buyingContacts').show();
+        $('#buyingPanelBtn').addClass('active');
+        $('#sellingContacts').hide();
+    } else if(hidChatType == 'Selling') {
+        $('#sellingContacts').show();
+        $('#sellingPanelBtn').addClass('active');
+        $('#buyingContacts').hide();
+    }
+    
     $(".messages").animate({scrollTop: $(document).height()}, "fast");
-    $('ul').find('#contact' + $('#contentChatID').val() + '.contact').addClass('active');
-
+    $('ul').find('#contact' + $('#contentChatID').val() + '\\%' + hidBuyerCRED + '.contact').addClass('active');
+    
     $('ul.buyingContacts li').click(function () {
-        var buyingChatID = $(this).attr('id');
-        buyingChatID = buyingChatID.replace('contact', '');
-        window.open('ProfileSysUser?pageTransit=goToViewChatListContentSYS&hidChatID=' + buyingChatID + '&hidChatType=Buying', '_self');
+        var tempBuyingChatID = $(this).attr('id');
+        tempBuyingChatID = tempBuyingChatID.replace('contact', '');
+        var buyingChatID = tempBuyingChatID.split('%')[0];
+        var buyerCRED = tempBuyingChatID.split('%')[1];
+        window.open('ProfileSysUser?pageTransit=goToViewChatListContentSYS&hidChatID=' + buyingChatID + '&hidChatType=Buying&hidBuyerCRED=' + buyerCRED, '_self');
     });
 
     $('ul.sellingContacts li').click(function () {
-        var sellingChatID = $(this).attr('id');
-        sellingChatID = sellingChatID.replace('contact', '');
-        window.open('ProfileSysUser?pageTransit=goToViewChatListContentSYS&hidChatID=' + sellingChatID + '&hidChatType=Selling', '_self');
+        var tempSellingChatID = $(this).attr('id');
+        tempSellingChatID = tempSellingChatID.replace('contact', '');
+        var sellingChatID = tempSellingChatID.split('%')[0];
+        var buyerCRED = tempSellingChatID.split('%')[1];
+        window.open('ProfileSysUser?pageTransit=goToViewChatListContentSYS&hidChatID=' + sellingChatID + '&hidChatType=Selling&hidBuyerCRED=' + buyerCRED, '_self');
     });
     
     $('.chatListContentBtn').click(function () {
@@ -396,11 +409,15 @@ $(document).ready(function () {
 
 function toggleBuying() {
     $('#buyingContacts').show();
+    $('#buyingPanelBtn').addClass('active');
     $('#sellingContacts').hide();
+    $('#sellingPanelBtn').removeClass('active');
 }
 function toggleSelling() {
     $('#buyingContacts').hide();
+    $('#buyingPanelBtn').removeClass('active');
     $('#sellingContacts').show();
+    $('#sellingPanelBtn').addClass('active');
 }
 
 function sendMessage() {
@@ -426,6 +443,12 @@ function sendMessage() {
     });
     webSocket.send(message);
     $('#messageSenderID').val($('#loggedInUserID').val());
+    
+    if(hidChatType == 'Buying') {
+        $('#contact' + $('#contentChatID').val() + '\\%' + hidBuyerCRED).prependTo('#buyingContactsUL');
+    } else if(hidChatType == 'Selling') {
+        $('#contact' + $('#contentChatID').val() + '\\%' + hidBuyerCRED).prependTo('#sellingContactsUL');
+    }
 }
 
 function sendMessageOfferStatus(messageType) {

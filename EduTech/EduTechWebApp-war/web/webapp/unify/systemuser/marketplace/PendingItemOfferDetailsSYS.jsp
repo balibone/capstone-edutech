@@ -388,16 +388,28 @@
                                         <div class="col-sm-6 pl-1 pr-1 list-item">
                                             <div class="card">
                                                 <div class="card-body media">
-                                                    <img class="img-circle pull-left mr-3 d-flex align-self-start" src="uploads/commoninfrastructure/admin/images/<%= itemOfferUserImage%>" style="width:50px;height:50px;" />
+                                                    <a href="ProfileSysUser?pageTransit=goToUserProfileSYS&itemSellerID=<%= itemOfferUserID%>">
+                                                        <img class="img-circle pull-left mr-3 d-flex align-self-start" src="uploads/commoninfrastructure/admin/images/<%= itemOfferUserImage%>" style="width:50px;height:50px;" />
+                                                    </a>
                                                     <div class="media-body">
                                                         <span class="text-muted pull-right mt-0">
                                                             <span class="itemOfferDate" style="display:none;"><%= itemOfferDate%></span>
                                                             <small class="text-muted"><%= itemOfferPostedDuration%></small>
                                                         </span>
-                                                        <strong class="text-primary"><%= itemOfferUserFirstName%>&nbsp;<%= itemOfferUserLastName%></strong>
+                                                        <strong class="text-primary">
+                                                            <a href="ProfileSysUser?pageTransit=goToUserProfileSYS&itemSellerID=<%= itemOfferUserID%>">
+                                                                <%= itemOfferUserFirstName%>&nbsp;<%= itemOfferUserLastName%>
+                                                            </a>
+                                                        </strong>
                                                         <div class="rating">
                                                             <ul class="profileRating">
-                                                                <li><span class="card-text text-muted">@<%= itemOfferUserID%></span></li>
+                                                                <li>
+                                                                    <span class="card-text text-muted">
+                                                                        <a href="ProfileSysUser?pageTransit=goToUserProfileSYS&itemSellerID=<%= itemOfferUserID%>">
+                                                                            @<%= itemOfferUserID%>
+                                                                        </a>
+                                                                    </span>
+                                                                </li>
                                                                 <li>[&nbsp;<img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%= itemOfferUserPositiveCount%></span></li>
                                                                 <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%= itemOfferUserNeutralCount%></span></li>
                                                                 <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%= itemOfferUserNegativeCount%></span>&nbsp;]</li>
