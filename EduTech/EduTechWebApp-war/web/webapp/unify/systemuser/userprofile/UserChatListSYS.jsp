@@ -217,8 +217,9 @@
                                             String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
+                                            String buyerCRED = String.valueOf(v.get(6));
                                 %>
-                                <li id="contact<%= chatID%>" class="contact">
+                                <li id="contact<%= chatID%>%<%= buyerCRED%>" class="contact">
                                     <div class="wrap">
                                         <img src="uploads/commoninfrastructure/admin/images/<%= itemBuyerImage%>" />
                                         <div class="meta">
@@ -253,8 +254,9 @@
                                             String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
+                                            String buyerCRED = String.valueOf(v.get(6));
                                 %>
-                                <li id="contact<%= chatID%>" class="contact">
+                                <li id="contact<%= chatID%>%<%= buyerCRED%>" class="contact">
                                     <div class="wrap">
                                         <img src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
                                         <div class="meta">

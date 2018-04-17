@@ -99,7 +99,7 @@ $(document).ready(function () {
                 buttons: {
                     "Sold": {
                         label: "Mark Listing As Sold",
-                        className: 'btn-danger',
+                        className: 'btn-success',
                         callback: function () {
                             window.open('ProfileSysUser?pageTransit=completeAnItemOfferSYS&urlItemOfferID=' + btnItemOfferID + 
                                     '&itemIDHidden=' + $('#hiddenItemID').val() + '&itemStatus=Sold', '_self');
@@ -128,7 +128,7 @@ $(document).ready(function () {
                 buttons: {
                     "Confirm Re-Open": {
                         label: "Confirm Re-Open",
-                        className: 'btn-success',
+                        className: 'btn-danger',
                         callback: function () {
                             window.open('ProfileSysUser?pageTransit=reopenAnItemOfferSYS&urlItemOfferID=' + btnItemOfferID + 
                                     '&itemIDHidden=' + $('#hiddenItemID').val() + '&itemStatus=Available', '_self');

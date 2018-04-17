@@ -79,8 +79,6 @@ public class ErrandsSysUserController extends HttpServlet {
                 case "goToViewJobDetailsSYS":
                     long jobID = Long.parseLong(request.getParameter("hiddenJobID"));
                     String categoryName = request.getParameter("hiddenCategoryName");
-                    String loggedinUsername = request.getParameter("loggedinUser");
-                    
                     
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobID, loggedInUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(categoryName, jobID));
@@ -116,7 +114,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
                     long job = Long.parseLong(request.getParameter("hiddenJobID"));
-                    String user = request.getParameter("username");
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(job, loggedInUsername));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
@@ -135,7 +132,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "likeJobListingDetails":
                     long jobIDHid = Long.parseLong(request.getParameter("jobIDHid"));
-                    String usernameHid = request.getParameter("usernameHid");
                     
                     responseMessage = esmr.likeUnlikeJob(jobIDHid, loggedInUsername);
                     response.setContentType("text/plain");
@@ -149,7 +145,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "reportJobListing":
                     long jobIDToReport = Long.parseLong(request.getParameter("jobID"));
-                    String username = request.getParameter("username");
                     String reportReason = request.getParameter("reportReason");
                     
                     responseMessage = esmr.reportJobListing(jobIDToReport, loggedInUsername, reportReason);
@@ -188,7 +183,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "acceptJobOffer":
                     long offerID = Long.parseLong(request.getParameter("offerID"));
-                    String userID = request.getParameter("username");
                     long relevantJob = Long.parseLong(request.getParameter("jobId"));
                     String returnMessage = esmr.acceptJobOffer(offerID, loggedInUsername);
                     
@@ -200,7 +194,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "rejectJobOffer":
                     long offer = Long.parseLong(request.getParameter("offerID"));
-                    String logInUser = request.getParameter("username");
                     long relatedJob = Long.parseLong(request.getParameter("jobId"));
                     String returnMsg = esmr.rejectJobOffer(offer, loggedInUsername);
                     
@@ -212,12 +205,8 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "negotiateJobOffer":
                     long offerid = Long.parseLong(request.getParameter("offerID"));
-                    String loggedInUser = request.getParameter("username");
                     long jobRelated = Long.parseLong(request.getParameter("jobID"));
                     String message = request.getParameter("message");
-                    System.out.println(offerid);
-                    System.out.println(loggedInUser);
-                    System.out.println(message);
                     String returnStr = esmr.negotiateJobOffer(offerid, loggedInUsername, message);
                     
                     request.setAttribute("message", returnStr);
@@ -229,7 +218,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     break;
                 case "goToSignaturePad":
                     long jobIDToComplete = Long.parseLong(request.getParameter("jobID"));
-                    String takerID = request.getParameter("username");
                     
                     request.setAttribute("jobID", jobIDToComplete);
                     request.setAttribute("username", loggedInUsername);
@@ -239,8 +227,6 @@ public class ErrandsSysUserController extends HttpServlet {
                     long jobToComplete = Long.parseLong(request.getParameter("jobID"));
                     String category = request.getParameter("category");
                     if(getSignatureImg(request)){ System.out.println("save"); }
-                    String taker = request.getParameter("username");
-                    String msg = esmr.completeAJob(loggedInUsername, jobToComplete);
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobToComplete, loggedInUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(category, jobToComplete));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
