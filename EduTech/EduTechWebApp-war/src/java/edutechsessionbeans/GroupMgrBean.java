@@ -17,6 +17,7 @@ import edutechentities.module.ModuleEntity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -289,15 +290,17 @@ public class GroupMgrBean {
             
             //randomise contents of array list.
             Collections.shuffle(studentsToAdd);
+            
             //remove those users which already have group in this assignment.
-            for(UserEntity member : studentsToAdd){
+            //Use iterator to prevent ConcurrentModificationException
+            for (Iterator<UserEntity> iterator = studentsToAdd.iterator(); iterator.hasNext();) {
+                UserEntity member = iterator.next();
                 for(GroupEntity g : ass.getGroups()){
                     if(g.getMembers().contains(member)){
-                        studentsToAdd.remove(member);
+                        iterator.remove();
                     }
                 }
             }
-            
             
             //go through all groups in this assignment
             for(GroupEntity g : ass.getGroups()){
