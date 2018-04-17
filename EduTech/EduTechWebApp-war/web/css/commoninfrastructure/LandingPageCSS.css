@@ -24,7 +24,7 @@ h1 {
   color: #fff;
   position: absolute;
   left: 50%;
-  top: 30%;
+  top: 35%;
   transform: translateX(-50%);
   white-space: nowrap;
 }
@@ -34,7 +34,7 @@ p {
   color: #fff;
   position: absolute;
   left: 50%;
-  top: 39%;
+  top: 45%;
   transform: translateX(-50%);
   white-space: nowrap;
   /*font-weight: 500;*/
