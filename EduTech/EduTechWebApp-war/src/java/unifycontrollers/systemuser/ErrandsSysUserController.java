@@ -74,6 +74,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewJobList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "goToViewJobDetailsSYS":
@@ -83,11 +84,13 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobID, loggedInUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(categoryName, jobID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobDetailsSYS";
                     break;
                 case "goToNewJobListingSYS":
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "NewJobListingSYS";
                     break;
                 case "createJobListingSYS":
@@ -98,6 +101,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     
                     request.setAttribute("jobCategoryListSYS", (ArrayList) esmr.viewJobCategoryList());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "NewJobListingSYS";
                     break;
                 case "goToEditJobListing":
@@ -106,6 +110,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jID, loggedInUsername));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "EditJobListingSYS";
                     break;
                 case "editJobListingSYS":
@@ -117,6 +122,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(job, loggedInUsername));
                     request.setAttribute("jobCategoryListSYS", (ArrayList)esmr.viewJobCategoryList());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "EditJobListingSYS";
                     break;
                 case "deleteJobListingSYS":
@@ -128,6 +134,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("categoryList", (ArrayList)esmr.getJobCategoryList());
                     request.setAttribute("jobListSYS", (ArrayList) esmr.viewJobList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobListingSYS";
                     break;
                 case "likeJobListingDetails":
@@ -169,6 +176,7 @@ public class ErrandsSysUserController extends HttpServlet {
                 case "goToViewJobOfferList":
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobOfferListSYS";
                     break;
                 case "goToViewJobOfferDetails":
@@ -179,6 +187,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, hiddenJobID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS";
                     break;
                 case "acceptJobOffer":
@@ -190,6 +199,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, relevantJob));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 case "rejectJobOffer":
@@ -201,6 +211,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, relatedJob));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     break;
                 case "negotiateJobOffer":
@@ -213,6 +224,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
                     request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, jobRelated));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS"; 
                     
                     break;
@@ -230,6 +242,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobToComplete, loggedInUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(category, jobToComplete));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobDetailsSYS";
                     break;
                 default:
