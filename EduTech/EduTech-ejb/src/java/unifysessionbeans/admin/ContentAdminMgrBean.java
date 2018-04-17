@@ -1073,7 +1073,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         return reportedList;
     }
 
-    /*@Override
+    @Override
     public Vector viewErrandReviewDetails(String errandReviewReportID) {
         jrrEntity = lookupReportedErrandReview(errandReviewReportID);
         Vector errandReviewDetails = new Vector();
@@ -1103,7 +1103,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             return errandReviewDetails;
         }
         return null;
-    }*/
+    }
 
     public JobReviewEntity lookupJobReview(Long jobReviewID) {
         JobReviewEntity jre = new JobReviewEntity();
@@ -1256,7 +1256,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
     }
 
-    /*@Override
+    @Override
     public String delistJobReview(String jobReviewID) {
         //boolean jobDeleteStatus = false;
 
@@ -1285,7 +1285,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             //return jobDeleteStatus;
         }
 
-    }*/
+    }
 
     @Override
     public String sendAlertReport(String messageSenderID, String messageReceiverID, String itemReported) {
