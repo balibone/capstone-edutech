@@ -21,7 +21,8 @@ $(document).ready(function() {
         width: 650,
         overlayClose: true,
         iframe: true,
-        iframeHeight: 450
+        iframeHeight: 450,
+        onClosed: function () { window.location.reload(true); }
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
