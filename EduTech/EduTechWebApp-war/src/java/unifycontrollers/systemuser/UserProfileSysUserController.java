@@ -520,10 +520,9 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "EditResumeDetailsSYS";
                     break;
                 case "markNotificationSYS":
-                    long msgContentID = Long.parseLong(request.getParameter("msgContentID"));
-                    String msgSenderID = (String) request.getParameter("msgSenderID");
+                    long msgID = Long.parseLong(request.getParameter("msgID"));
                     
-                    responseMessage = usmr.markNotification(msgContentID, msgSenderID);
+                    responseMessage = usmr.markNotification(msgID);
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
