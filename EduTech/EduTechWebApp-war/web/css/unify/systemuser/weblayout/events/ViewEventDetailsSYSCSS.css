@@ -1,0 +1,4 @@
+input[type="file"] { display: none; }
+.image-upload { border: 3px dashed #D6D6D6; background-color: #FAFAFA; max-width: 171px; min-width: 171px; max-height: 176px; min-height: 176px;}
+#output-image { max-width: 165px; min-width: 165px; max-height: 170px; min-height: 170px; }
+

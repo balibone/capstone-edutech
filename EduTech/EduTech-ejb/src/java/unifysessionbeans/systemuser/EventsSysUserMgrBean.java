@@ -510,6 +510,8 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
             } else {
                 eventVec.add("Upcoming");
             }
+            
+            eventVec.add(eventE.getEventPoster());
 
         }
         System.out.println("ViewEventsList retrieved");
@@ -554,7 +556,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
             else{
                 eventRequestVec.add("");
             }
-            
+            eventRequestVec.add(eventRequestE.getEventRequestPoster());
         }
         
         return eventRequestVec;
@@ -563,7 +565,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
 
     @Override
     public String createEvent(String username, String eventTitle, String eventDesc,
-            String eventVenue, String eventStartDateTime, String eventEndDateTime) {
+            String eventVenue, String eventStartDateTime, String eventEndDateTime, String fileName) {
 
         eventRequestEntity = new EventRequestEntity();
 
@@ -581,6 +583,8 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
 
             eventRequestEntity.setEventRequestVenueLat("0");
             eventRequestEntity.setEventRequestVenueLong("0");
+            
+            eventRequestEntity.setEventRequestPoster(fileName);
 
             em.persist(eventRequestEntity);
 
@@ -712,7 +716,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
     
     @Override
     public String editEventRequest(String eventRequestID, String eventRequestTitle, String eventRequestDesc,
-            String eventRequestVenue, String eventRequestStartDateTime, String eventRequestEndDateTime) {
+            String eventRequestVenue, String eventRequestStartDateTime, String eventRequestEndDateTime, String fileName) {
 
         if (lookupEventRequest(eventRequestID) == null) {
             
@@ -725,6 +729,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
             eventRequestEntity.setEventRequestVenue(eventRequestVenue);
             eventRequestEntity.setEventRequestStartDateTime(getDateFromString(eventRequestStartDateTime));
             eventRequestEntity.setEventRequestEndDateTime(getDateFromString(eventRequestEndDateTime));
+            eventRequestEntity.setEventRequestPoster(fileName);
             
             em.merge(eventRequestEntity);
             

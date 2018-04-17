@@ -172,8 +172,12 @@
 
         <%
             Vector eventDetailsVec = (Vector) request.getAttribute("eventDetailsVec");
-            String eventID, eventStatus, eventDesc, eventStart, eventEnd, eventVenue, eventApproveDate, eventCreator, eventTitle, rsvpCount, rsvpStatus, eventHappening;
-            eventID = eventStatus = eventDesc = eventStart = eventEnd = eventVenue = eventApproveDate = eventCreator = eventTitle = rsvpCount = rsvpStatus = eventHappening = "";
+            String eventID, eventStatus, eventDesc, eventStart, eventEnd, eventVenue, 
+                    eventApproveDate, eventCreator, eventTitle, rsvpCount, rsvpStatus, 
+                    eventHappening, eventPoster;
+            eventID = eventStatus = eventDesc = eventStart = eventEnd = eventVenue = 
+                    eventApproveDate = eventCreator = eventTitle = rsvpCount = 
+                    rsvpStatus = eventHappening = eventPoster = "";
 
             if (eventDetailsVec != null) {
                 eventID = (String.valueOf(eventDetailsVec.get(0)));
@@ -188,6 +192,7 @@
                 rsvpCount = (String.valueOf(eventDetailsVec.get(9)));
                 rsvpStatus = (String.valueOf(eventDetailsVec.get(10)));
                 eventHappening = (String.valueOf(eventDetailsVec.get(11)));
+                eventPoster = (String.valueOf(eventDetailsVec.get(12)));
             }
         %>
 
@@ -233,7 +238,7 @@
                         <div class="title"><span><%= eventTitle%></span></div>
                     </div>
                     <div class="col-xl-4 col-lg-5 col-md-6">
-                        <img src="http://www.posteroven.com/static_v/1.018/images/home/examples/poex-bjj.png" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer;">
+                        <img src="uploads/unify/images/events/<%= eventPoster%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer;">
                         <div class="title d-none d-md-block"><span>Share to</span></div>
                         <ul class="list-inline d-none d-md-block">
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-facebook"></i></button></li>

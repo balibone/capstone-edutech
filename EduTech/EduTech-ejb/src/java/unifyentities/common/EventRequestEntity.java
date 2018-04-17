@@ -53,6 +53,8 @@ public class EventRequestEntity implements Serializable {
     private String eventRequestVenueLat;
     private String eventRequestVenueLong;
     
+    private String eventRequestPoster;
+    
     @ManyToOne
     private UserEntity userEntity;
     
@@ -82,6 +84,7 @@ public class EventRequestEntity implements Serializable {
     public Date getEventReviewedDate() { return eventReviewedDate; }
     public String getEventRequestVenueLat() { return eventRequestVenueLat; }
     public String getEventRequestVenueLong() { return eventRequestVenueLong; }
+    public String getEventRequestPoster() { return eventRequestPoster; }
     
     public UserEntity getUserEntity() { return userEntity; }
     public EventEntity getEventEntity() { return eventEntity; }
@@ -98,6 +101,7 @@ public class EventRequestEntity implements Serializable {
     public void setEventReviewedDate() { this.eventReviewedDate = new Date(); }
     public void setEventRequestVenueLat(String eventRequestVenueLat) {this.eventRequestVenueLat = eventRequestVenueLat; }
     public void setEventRequestVenueLong(String eventRequestVenueLong) {this.eventRequestVenueLong = eventRequestVenueLong; }
+    public void setEventRequestPoster(String eventRequestPoster) { this.eventRequestPoster = eventRequestPoster; }
     
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
     public void setEventEntity(EventEntity eventEntity) { this.eventEntity = eventEntity; }

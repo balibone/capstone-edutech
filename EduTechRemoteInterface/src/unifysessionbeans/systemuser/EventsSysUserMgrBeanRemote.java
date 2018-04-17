@@ -12,7 +12,7 @@ public interface EventsSysUserMgrBeanRemote {
     public List<Vector> viewMyEventsRequestList(String username);
     public List<Vector> viewMyRsvpEventsList(String username);
     public String createEvent(String username, String eventTitle, String eventDesc, 
-            String eventVenue, String eventStartDateTime, String eventEndDateTime);
+            String eventVenue, String eventStartDateTime, String eventEndDateTime, String fileName);
     public Vector viewEventDetails(String username, String eventID);
     public Vector viewEventRequestDetails(String username, String eventRequestID);
     public String createRsvp(String username, String eventID);
@@ -21,5 +21,5 @@ public interface EventsSysUserMgrBeanRemote {
     public String deleteEvent(String username, String eventID);
     public String deleteEventRequest(String username, String eventID);
     public String editEventRequest(String eventRequestID, String eventTitle, String eventDesc, 
-            String eventVenue, String eventStartDateTime, String eventEndDateTime);
+            String eventVenue, String eventStartDateTime, String eventEndDateTime, String fileName);
 }

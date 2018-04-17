@@ -42,9 +42,11 @@
     <body style="background-color: #FFFFFF;">
         <%            Vector eventRequestVec = (Vector) request.getAttribute("eventRequestVec");
             String requestID, requestStatus, requestDate, requesterID, requestDescription,
-                    requestVenue, requestStartDateTime, requestEndDateTime, requestReviewedDate, requestVenueLat, requestVenueLong, requestTitle;
+                    requestVenue, requestStartDateTime, requestEndDateTime, requestReviewedDate,
+                    requestVenueLat, requestVenueLong, requestTitle, requestPoster;
             requestID = requestStatus = requestDate = requesterID = requestDescription
-                    = requestVenue = requestStartDateTime = requestEndDateTime = requestReviewedDate = requestVenueLat = requestVenueLong = requestTitle = "";
+                    = requestVenue = requestStartDateTime = requestEndDateTime = requestReviewedDate = 
+                    requestVenueLat = requestVenueLong = requestTitle = requestPoster = "";
             if (eventRequestVec != null) {
                 requestID = (String.valueOf(eventRequestVec.get(0)));
                 requestStatus = (String.valueOf(eventRequestVec.get(1)));
@@ -60,8 +62,10 @@
 
                 requestVenueLat = (String.valueOf(eventRequestVec.get(9)));
                 requestVenueLong = (String.valueOf(eventRequestVec.get(10)));
-                
+
                 requestTitle = (String.valueOf(eventRequestVec.get(11)));
+                
+                requestPoster = (String.valueOf(eventRequestVec.get(12)));
             }
         %>
 
@@ -102,6 +106,14 @@
                                         <input type="hidden" id="requestVenueLong" value="<%= requestVenueLong%>" />
                                         Requested Location: <strong><%= requestVenue%></strong><br/>
                                         <div id="venueMap" style="width: auto; height: 300px; margin-top: 10px;"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Poster Submitted</td>
+                                <td>
+                                    <div class="image-upload">
+                                        <img id="output-image" src="uploads/unify/images/events/<%= requestPoster%>" />
                                     </div>
                                 </td>
                             </tr>
