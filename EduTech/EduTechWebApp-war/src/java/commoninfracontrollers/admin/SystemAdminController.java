@@ -259,7 +259,7 @@ public class SystemAdminController extends HttpServlet {
                     response.sendRedirect("SystemAdmin?pageTransit=AllAdminList");
                     break;
             }
-            if(pageAction != null && pageAction.equals("placeHolderAction")){
+            if(pageAction != null && !pageAction.equals("placeHolderAction")){
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
                 if(dispatcher!=null)
                     dispatcher.forward(request, response);

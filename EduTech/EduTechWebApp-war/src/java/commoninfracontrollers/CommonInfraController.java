@@ -206,7 +206,7 @@ public class CommonInfraController extends HttpServlet {
                     }
                     pageAction = "IntegratedSPLogin";
             }
-            if(pageAction != null && pageAction.equals("placeHolderAction")){
+            if(pageAction != null && !pageAction.equals("placeHolderAction")){
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
                 if(dispatcher!=null)
                     dispatcher.forward(request, response);
