@@ -31,6 +31,27 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
         <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    
+        <style>
+            .jobTitle{
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 100%;
+                display: block;
+            }
+            
+            .location{
+                line-height: 1.8;
+                font-size: 16px;
+                display: inline-block;
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        </style>
+    
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -327,6 +348,7 @@
                                             String jobRate = String.valueOf(v.get(9));
                                             String numOfLikes = String.valueOf(v.get(10));
                                             String likeStatus = String.valueOf(v.get(11));
+                                            String postDate = String.valueOf(v.get(13));
                                             
                                             String categoryPath = jobCategoryName;
                                                 if(categoryPath.contains(" ")){
@@ -347,13 +369,14 @@
                                                     </div>
                                                             
                                                     <div class="col-xl-7 col-md-7 col-7" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%= loggedInUsername%>';">
-                                                        <span class="card-title jobTitle job-title"><strong><%= jobTitle%></strong></span><br/>
+                                                        <span class="jobTitle job-title"><strong><%= jobTitle%></strong></span>
                                                         <span class="card-text category <%= categoryPath%>"><%= jobCategoryName%></span><br/>
-                                                        <i class="far fa-calendar-alt"></i>&nbsp; <span class="card-text date"><%= jobWorkDate%></span>&nbsp; 
-                                                        <i class="fas fa-map-marker-alt"></i>&nbsp; <span class=" card-text location"><%= startLocation%></span><br/><br/>
+                                                        <i class="far fa-calendar-alt"></i>&nbsp; <span class="card-text date"><%= jobWorkDate%></span><br/> 
+                                                        <span class="card-text location"><i class="fas fa-map-marker-alt"></i>&nbsp;<%= startLocation%></span><br/>
                                                         <i class="fas fa-user-circle fa-lg"></i>&nbsp;<span class="card-text user"><strong>&nbsp;<%= jobPosterName%></strong></span>
                                                         <div class="post-date">
-                                                            <i class="far fa-clock"></i>&nbsp;<span class="card-text jobPostDate"><%= jobPostDate%></span><br/>
+                                                            <i class="far fa-clock"></i>&nbsp;<span class="card-text"><%= jobPostDate%></span><br/>
+                                                            <span class="jobPostDate" style="display: none"><%= postDate%></span>
                                                         </div>
                                                         
                                                     </div>

@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unify Errands - Job Listing Details</title>
+        <title>Unify Errands - Errands Offer</title>
         
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
@@ -33,7 +33,15 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
         
-        
+        <style>
+            .jobTitle{
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 100%;
+                display: block;
+            }
+        </style>
         
     </head>
     <body onload="loadMap()">
@@ -230,12 +238,14 @@
                                     //String startLocation = String.valueOf(v.get(7));
                                     String jobRateType = String.valueOf(v.get(8));
                                     String jobRate = String.valueOf(v.get(9));
-                                    //String numOfLikes = String.valueOf(v.get(10));
+                                    String jobStatus = String.valueOf(v.get(10));
+                                    
+                                    if(!jobStatus.equals("Completed")){
                         %>
                        <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                         <div class="card card-product">
                           <div class="card-body">
-                              <div class="row">
+                              <div class="row" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>'">
                                   
                                     <div class="col-xl-4 col-md-4 col-4">
                                         <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
@@ -244,9 +254,7 @@
                                     </div>
                                   
                                     <div class="col-xl-8 col-md-8 col-8">
-                                        <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
-                                            <span class="jobTitle"><strong><%= jobTitle%></strong></span>
-                                        </a>
+                                        <span class="jobTitle"><strong><%= jobTitle%></strong></span>
                                         <p class="card-text"><%= jobCategoryName%></p>
                                         <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
                                     </div>
@@ -255,6 +263,7 @@
                         </div>
                         </div>
                         <%
+                                        }
                                     }
                             }
                         %>

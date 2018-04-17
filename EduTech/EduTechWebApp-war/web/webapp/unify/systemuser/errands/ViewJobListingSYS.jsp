@@ -333,13 +333,14 @@
                                             String jobTitle = String.valueOf(v.get(2));
                                             String jobCategoryName = String.valueOf(v.get(3));
                                             String jobPosterName = String.valueOf(v.get(4));
-                                            String jobPostDate = String.valueOf(v.get(5));
+                                            String jobPostDuration = String.valueOf(v.get(5));
                                             String jobWorkDate = String.valueOf(v.get(6));
                                             String startLocation = String.valueOf(v.get(7));
                                             String jobRateType = String.valueOf(v.get(8));
                                             String jobRate = String.valueOf(v.get(9));
                                             String numOfLikes = String.valueOf(v.get(10));
                                             String likeStatus = String.valueOf(v.get(11));
+                                            String jobPostDate = String.valueOf(v.get(12));
                                             
                                             String categoryPath = jobCategoryName;
                                                 if(categoryPath.contains(" ")){
@@ -360,15 +361,15 @@
                                                     </div>
                                                             
                                                     <div class="col-xl-7 col-md-7 col-7" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%= loggedInUsername%>';">
-                                                        <span class="card-title jobTitle job-title"><strong><%= jobTitle%></strong></span><br/>
+                                                        <span class="jobTitle job-title"><strong><%= jobTitle%></strong></span><br/>
                                                         <span class="card-text category <%= categoryPath%>"><%= jobCategoryName%></span><br/>
-                                                        <i class="far fa-calendar-alt"></i>&nbsp; <span class="card-text date"><%= jobWorkDate%></span>&nbsp; 
-                                                        <i class="fas fa-map-marker-alt"></i>&nbsp; <span class=" card-text location"><%= startLocation%></span><br/><br/>
+                                                        <i class="far fa-calendar-alt"></i>&nbsp; <span class="card-text date"><%= jobWorkDate%></span>&nbsp;<br/> 
+                                                        <span class="card-text location"><i class="fas fa-map-marker-alt"></i>&nbsp;<%= startLocation%></span><br/>
                                                         <i class="fas fa-user-circle fa-lg"></i>&nbsp;<span class="card-text user"><strong>&nbsp;<%= jobPosterName%></strong></span>
                                                         <div class="post-date">
-                                                            <i class="far fa-clock"></i>&nbsp;<span class="card-text jobPostDate"><%= jobPostDate%></span><br/>
+                                                            <i class="far fa-clock"></i>&nbsp;<span class="card-text"><%= jobPostDuration%></span><br/>
                                                         </div>
-                                                        
+                                                        <span class="card-text jobPostDate" style="display:none;"><%= jobPostDate%></span>
                                                     </div>
                                                     <div class="col-xl-2 col-md-2 col-2">
                                                         <div class="like-button" >

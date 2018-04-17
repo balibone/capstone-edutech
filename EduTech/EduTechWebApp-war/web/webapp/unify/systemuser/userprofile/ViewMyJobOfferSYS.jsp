@@ -29,6 +29,17 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
+        
+        <style>
+            .jobTitle{
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 100%;
+                display: block;
+            }
+        </style>
+    
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -246,16 +257,13 @@
                         <div class="title"><span>Job Offers(I've made)</span></div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
-                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
+                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" >
                                 <ul>
-                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
-                                    <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
-                                    <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
-                                    <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
-                                    <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
+                                    <li><span data-path=".offerSentDate" data-order="desc" data-type="datetime" >Recent Offer</span></li>
+                                    <li><span data-path=".jobTitle" data-order="asc" data-type="text">Title Asc</span></li>
+                                    <li><span data-path=".jobTitle" data-order="desc" data-type="text">Title Desc</span></li>
+                                    <li><span data-path=".jobRate" data-order="asc" data-type="number">Job Rate Asc</span></li>
+                                    <li><span data-path=".jobRate" data-order="desc" data-type="number">Job Rate Desc</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -323,6 +331,7 @@
                                             String offerDescription = String.valueOf(v.get(9));
                                             String offerStatus = String.valueOf(v.get(10));
                                             String offerDate = String.valueOf(v.get(11));
+                                            String offerSentDate = String.valueOf(v.get(12));
                                 %>
                                 
                                 <div class="col-xl-12 col-md-312 col-12 d-block d-lg-none d-xl-block list-item">
@@ -339,30 +348,41 @@
                                                 </div>
                                                 <div class="col-xl-4 col-md-4 col-4 jobInfo">
                                                     <span class="jobTitle"><strong><a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%=loggedInUsername%>"><%= jobTitle%></a></strong></span><br/>
-                                                    <span class="card-text itemCategoryName"><%= jobCategoryName%></span><br/>
-                                                    <span class="card-text">S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
+                                                    <span class="card-text jobCategoryName"><%= jobCategoryName%></span><br/>
+                                                    <span class="card-text jobRate">S$<%= jobRate%></span>/<%= jobRateType%><br/>
                                                     <span class="card-text">Posted by&nbsp;&nbsp;<i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;<%= jobPosterID%></span>
                                                     <input type="hidden" id="jobIDHidden" value="<%= jobID%>">
                                                 </div>
                                                 <div class="col-xl-6 col-md-6 col-6 offerInfo">
-                                                    <span><strong><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;&nbsp;Status:</strong> <%=offerStatus%></span><br/>
+                                                    <strong><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;&nbsp;Status:</strong> 
+                                                    <% if(offerStatus.equals("Pending")){%>
+                                                    <span class="bg-warning p-1 text-white"><%=offerStatus%></span><br/>
+                                                    <% }else if(offerStatus.equals("Processing") || offerStatus.equals("Negotiating")){%>
+                                                    <span class="bg-info p-1 text-white"><%=offerStatus%></span><br/>
+                                                    <% }else if(offerStatus.equals("Accepted") || offerStatus.equals("Completed")){%>
+                                                    <span class="bg-success p-1 text-white"><%=offerStatus%></span><br/>
+                                                    <% }else if(offerStatus.equals("Rejected") || offerStatus.equals("Withdrawn")){%>
+                                                    <span class="bg-secondary p-1 text-white"><%=offerStatus%></span><br/>
+                                                    <% }%>
                                                     <span><strong><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp;My Offer Price: </strong>S$<%= offerPrice%></span><br/>
-                                                    <span><strong><i class="fa fa-comments" aria-hidden="true"></i>&nbsp;&nbsp;Comments: 
+                                                    <span><strong><i class="fa fa-comments" aria-hidden="true"></i>&nbsp;&nbsp;Comments:</strong> 
                                                         <%if(offerDescription.equals("")){%>
-                                                            </strong>No Comments</span><br/>
+                                                            No Comments</span><br/>
                                                         <%}else{%>
-                                                            </strong><%=offerDescription%></span><br/>
+                                                            <%=offerDescription%></span><br/>
                                                         <%}%>
-                                                    <span class="offerDate"><i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp;sent on <%=offerDate%></span><br/>
+                                                    <i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp;sent on <span class="offerDate"><%=offerDate%></span><br/>
+                                                    <span style="display: none" class="offerSentDate"><%= offerSentDate%></span>
                                                     <div class="action-button">
-                                                        <%if(offerStatus.equals("Accepted") || offerStatus.equals("Completed")){%>
+                                                        <%if(offerStatus.equals("Accepted")){%>
                                                         <a role="button" href="ProfileSysUser?pageTransit=goToDeleteMyJobOfferSYS&offerID=<%= offerID%>" class="btn btn-danger" onClick="return confirm('Are you sure to withdraw your offer?')"><span style="font-size: 14px;">Withdraw</span></a>
-                                                        <% }else{ %>
-                                                        <button id="editOfferBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal"><span style="font-size: 14px;">Edit</span></button>
+                                                        <% }else if(offerStatus.equals("Completed") || offerStatus.equals("Withdrawn")){ %>
+                                                        <% }else{%>
+                                                        <button id="editOfferBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal<%= jobID%>"><span style="font-size: 14px;">Edit</span></button>
                                                         <a role="button" href="ProfileSysUser?pageTransit=goToDeleteMyJobOfferSYS&offerID=<%= offerID%>" class="btn btn-danger" onClick="return confirm('Are you sure to withdraw your offer?')"><span style="font-size: 14px;">Withdraw</span></a>
                                                         <% } %>
                                                         
-                                                     <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                     <div class="modal fade" id="offerModal<%= jobID%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                       <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                           <div class="modal-header">
@@ -407,13 +427,6 @@
                                             </div>
                                           </div>
                                         </div>
-                                        <%--<div class="card-footer text-muted mt-1">
-                                            <span class="float-left"><span class="ml-1 price itemPrice">$<%= itemPrice%></span></span>
-                                            <span class="float-right">
-                                                <button id="likeItemBtn<%= itemID%>" class="myAccountBtn"><i class="fa fa-heart-o"></i>&nbsp;<span class="itemNumOfLikes"><%= itemNumOfLikes%></span></button>&nbsp;&nbsp;
-                                                <button id="pendingItemOfferBtn<%= itemID%>" class="myAccountBtn"><i class="fa fa-users"></i>&nbsp;<span class="itemNumOfPendingOffer"><%= itemNumOfPendingOffer%></span></button>
-                                            </span>
-                                        </div>--%>
                                     </div>
                                 </div>
                                 <%      }   %>

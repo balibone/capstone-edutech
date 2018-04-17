@@ -28,6 +28,17 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
+    
+        <style>
+        .jobTitle{
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 100%;
+                display: block;
+            }
+        </style>
+        
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -248,6 +259,24 @@
                     </div>
                                     
                     <div class="col-lg-9 col-md-8">
+                        <%                    
+                            String successMessage = (String) request.getAttribute("successMessage");
+                            if (successMessage != null) {
+                        %>
+                        <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeSuccess">&times;</button>
+                            <%= successMessage%>
+                        </div>
+                        <%  }   %>
+                        <%
+                            String errorMessage = (String) request.getAttribute("errorMessage");
+                            if (errorMessage != null) {
+                        %>
+                        <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeError">&times;</button>
+                            <%= errorMessage%>
+                        </div>
+                        <%  }   %>
                         <div class="title"><span>Your Job Listing</span></div>
                         
                         <div class="jplist-search sorting-bar">
@@ -255,7 +284,7 @@
                                     <input type="hidden" id="dbJobCategory" value="<%= request.getAttribute("jobCategoryStr")%>" />
                                     <div id="jobCategoryDropdown" class="jplist-drop-down-search" add-class-on-xs="w-100" style="width: 200px;"
                                          data-control-type="filter-drop-down" data-control-name="category-filter" data-control-action="filter">
-                                            <ul id="categoryList"><li class="active"><span data-path="default">All Job Categories</span></li><li><span data-path=".MovingandPacking">Moving and Packing</span></li><li><span data-path=".ItemLiftingandShifting"> Item Lifting and Shifting</span></li><li><span data-path=".FoodDelivery"> Food Delivery</span></li><li><span data-path=".PeerTutoring"> Peer Tutoring</span></li><li><span data-path=".ItemDelivery"> Item Delivery</span></li><li><span data-path=".EventHelperRecruitment"> Event Helper Recruitment</span></li><li class="active"><span data-path="default">All Job Categories</span></li><li><span data-path=".MovingandPacking">Moving and Packing</span></li><li><span data-path=".ItemLiftingandShifting"> Item Lifting and Shifting</span></li><li><span data-path=".FoodDelivery"> Food Delivery</span></li><li><span data-path=".PeerTutoring"> Peer Tutoring</span></li><li><span data-path=".ItemDelivery"> Item Delivery</span></li><li><span data-path=".EventHelperRecruitment"> Event Helper Recruitment</span></li></ul> 
+                                            <ul id="categoryList"><li class="active"><span data-path="default">All Job Categories</span></li><li><span data-path=".MovingandPacking">Moving and Packing</span></li><li><span data-path=".ItemLiftingandShifting"> Item Lifting and Shifting</span></li><li><span data-path=".FoodDelivery"> Food Delivery</span></li><li><span data-path=".PeerTutoring"> Peer Tutoring</span></li><li><span data-path=".ItemDelivery"> Item Delivery</span></li><li><span data-path=".EventHelperRecruitment"> Event Helper Recruitment</span></li></ul> 
                                     </div>
                             </div>
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
@@ -320,11 +349,31 @@
                                         <div class="row">
                                             <div class="col-md-4"><img src="uploads/unify/images/errands/job/<%=jobImg%>" style="height: 100px; width: 100px;"></div>
                                             <div class="col-md-8">
-                                                <span class="card-title jobTitle job-title" style="font-size: 17px;"><strong><%= jobTitle%></strong></span><br/>
+                                                <span class="jobTitle job-title" style="font-size: 17px;"><strong><%= jobTitle%></strong></span><br/>
                                                 <span class="card-text category <%= categoryPath%>"><%= categoryName%></span><br/>
                                                 <span class="card-text rate jobRate">S$<%= jobRate%></span> <span>/<%= jobRateType%></span><br/>
+                                                <%--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal<%=jobID%>">Edit Job Status</button>--%>
                                                 <a href="ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>" class="btn btn-primary mt-2 mb-3" style="padding: 5px 5px; font-size: 15px;">Edit</a>
-                                                <a href="ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=<%= jobID%>" onclick="return confirm('Are you sure to delete the job?')" class="btn btn-danger mb-3 mt-2" style="padding: 5px 5px; font-size: 15px;">Delete</a>
+                                                <a href="ProfileSysUser?pageTransit=deleteMyJobListingSYS&hiddenJobID=<%= jobID%>" onclick="return confirm('Are you sure to delete the job?')" class="btn btn-danger mb-3 mt-2" style="padding: 5px 5px; font-size: 15px;">Delete</a>
+                                                <%--<div class="modal fade bd-example-modal-sm" id="modal<%=jobID%>" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-sm">
+                                                      <div class="modal-content">
+                                                          <form method="post" action="ErrandsSysUser?pageTransit=editMyJobStatus">
+                                                            Set the job as
+                                                            <div class="form-group">
+                                                                <select class="form-control" name="newStatus">
+                                                                  <option>Available</option>
+                                                                  <option>In Progress</option>
+                                                                  <option>Completed</option>
+                                                                </select>
+                                                            </div>
+                                                            <input type="hidden" name="jobID" value="<%=jobID%>">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Update</button>
+                                                           </form>
+                                                      </div>
+                                                    </div>
+                                                  </div>--%>
                                             </div>
                                             
                                         </div>

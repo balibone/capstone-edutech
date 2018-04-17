@@ -41,6 +41,16 @@
         <link href="css/unify/admin/baselayout/responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/admin/baselayout/icons.css" rel="stylesheet" type="text/css" />
         
+        <style>
+            .jobTitle{
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 100%;
+                display: block;
+            }
+        </style>
+        
     </head>
     <body onload="loadMap()">
         <!-- MOBILE SIDE NAVIGATION -->
@@ -237,11 +247,14 @@
                                     String jobRateType = String.valueOf(v.get(8));
                                     String jobRate = String.valueOf(v.get(9));
                                     //String numOfLikes = String.valueOf(v.get(10));
+                                    String jobStatus = String.valueOf(v.get(10));
+                                    
+                                    if(!jobStatus.equals("Completed")){
                         %>
                        <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                         <div class="card card-product">
                           <div class="card-body">
-                              <div class="row">
+                              <div class="row" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>'">
                                   <%--<a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">--%>
                                     
                                     <div class="col-xl-4 col-md-4 col-4">
@@ -249,9 +262,7 @@
                                     </div>
                                     
                                     <div class="col-xl-8 col-md-8 col-8">
-                                        <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
-                                        <span class="jobTitle"><strong><%= jobTitle%></strong></span>
-                                        </a>
+                                        <span class="jobTitle" ><strong><%= jobTitle%></strong></span>
                                         <p class="card-text"><%= jobCategoryName%></p>
                                         <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
                                     </div>
@@ -259,7 +270,7 @@
                            </div>
                         </div>
                         </div>
-                        <%
+                        <% }
                                     }
                             }
                         %>
@@ -292,8 +303,12 @@
                             <img src="uploads/unify/images/errands/job/<%= jobImg%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer; height: 180px;">
                         </div>
                         <div class="col-xl-8 col-lg-7 col-md-6" >
-                            <span style="font-size: 20px; line-height: 24px;"><strong><%= jobTitle%></strong></span><br/>
-                            <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <%= jobStatus%></span><br/>
+                            <span style="font-size: 20px; line-height: 32px;"><strong><%= jobTitle%></strong></span><br/>
+                            <%if(jobStatus.equals("Available")){%>
+                            <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <span class="p-1 text-white bg-success"><%= jobStatus%></span></span><br/>
+                            <%}else if(jobStatus.equals("Reserved")){%>
+                            <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <span class="p-1 text-white bg-warning"><%= jobStatus%></span></span><br/>
+                            <%}%>
                             <span style="font-size: 16px;"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp; Category: <%= category%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; Helpers required: <%= numOfHelpers%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp; Job Rate: S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>

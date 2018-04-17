@@ -305,7 +305,7 @@
                                                         <div class="form-group row">
                                                             <label for="jobDescription" class="col-sm-3 col-form-label"><strong>Job Description</strong></label>
                                                             <div class="col-sm-9">
-                                                                <textarea class="form-control" name="jobDescription" rows="5" placeholder="Enter the job description" required="required"></textarea>
+                                                                <textarea class="form-control" name="jobDescription" rows="5" placeholder="Enter the job description"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">

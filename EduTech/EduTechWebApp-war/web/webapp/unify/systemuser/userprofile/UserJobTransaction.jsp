@@ -24,6 +24,20 @@
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+        
+        <style>
+            .jobTitle {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+            table {
+                table-layout: fixed;
+                border-collapse: collapse;
+                width: 100%;
+              }
+        </style>
+    
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -246,15 +260,22 @@
                         <div class="title"><span>Errands Transaction</span></div>
                         <div class="table-responsive">
                             <table id="jobTransTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="font-size: 13px;">
+                                <col width="50">
+                                <col width="50">
+                                <col width="50">
+                                <col width="50">
+                                <col width="50">
+                                <col width="100">
+                                <col width="70">
                                 <thead>
                                     <tr>
-                                        <th>Transaction Date</th>
+                                        <th>Date</th>
                                         <th>Signature</th>
-                                        <th>Poster ID</th>
-                                        <th>Taker ID</th>
+                                        <th>Poster</th>
+                                        <th>Taker</th>
                                         <th>Job Image</th>
                                         <th>Job Title</th>
-                                        <th>Listing Rate</th>
+                                        <%--<th>Listing Rate</th>--%>
                                         <th>Transaction Rate</th>
                                     </tr>
                                 </thead>
@@ -275,15 +296,20 @@
                                                 String jobListingRateType = String.valueOf(v.get(8));
                                                 String jobTransactionRate = String.valueOf(v.get(9));
                                                 String transSig = String.valueOf(v.get(10));
+                                                String jobChecking = String.valueOf(v.get(11));
                                     %>
                                     <tr>
                                         <td><%= jobTransactionDate %><span style="display: none">;<%= jobID%>;<%= jobTransID%></span></td>
+                                        <%if(jobChecking.equals("true")){%>
                                         <td><img src="uploads/unify/images/errands/transSignature/<%= transSig%>" style="width: 50px; height: 50px;" /></td>
+                                        <%}else{%>
+                                        <td>N.A.</td>
+                                        <%}%>
                                         <td><%= jobPosterID %></td>
                                         <td><%= jobTakerID %></td>
                                         <td><img src="uploads/unify/images/errands/job/<%= jobImage%>" style="width: 50px; height: 50px;" /></td>
-                                        <td><%= jobTitle %></td>
-                                        <td>$<%= jobListingRate %>/<%= jobListingRateType%></td>
+                                        <td class="jobTitle"><%= jobTitle %></td>
+                                        <%--<td>$<%= jobListingRate %>/<%= jobListingRateType%></td>--%>
                                         <td>$<%= jobTransactionRate %>/<%= jobListingRateType%></td>
                                     </tr>
                                     <%      }   %>

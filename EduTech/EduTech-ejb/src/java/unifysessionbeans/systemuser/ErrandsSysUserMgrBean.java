@@ -116,6 +116,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobVec.add(getJobLikeCount(jobE.getJobID()));
             if(lookupLike(jobE.getJobID(), username) == null) { jobVec.add(false);}
             else { jobVec.add(true); }
+            jobVec.add(jobE.getJobPostDate());
             jobList.add(jobVec);
             dateString = "";
         }
@@ -422,6 +423,16 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         }
     }
     
+    /*@Override
+    public String editJobStatus(long jobID, String newStatus){
+        
+        jEntity = lookupJob(jobID);
+        if(jEntity != null){
+            jEntity.setJobStatus(newStatus);
+        }
+        
+    }*/
+    
     @Override
     public String deleteJobListing(long jobIDToDelete) {
         if (lookupJob(jobIDToDelete) == null) { return "There are some issues with your job listing. Please try again."; }
@@ -627,10 +638,10 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         if (q.getSingleResult() == null) { return "There are some issues with your job offer. Please try again."; }
         else {
             JobOfferEntity offerEntity = (JobOfferEntity)q.getSingleResult();
-            em.remove(offerEntity);
-            em.flush();
-            em.clear();
-            return "Job Offer has been deleted successfully!";
+            offerEntity.setJobOfferStatusForPoster("Canceled");
+            offerEntity.setJobOfferStatusForSender("Withdrawn");
+            em.merge(offerEntity);
+            return "Job Offer has been withdrawn successfully!";
         }
     }
     
@@ -832,7 +843,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             /* MESSAGE SENDER IS THE JOB POSTER WHO NEGOTIATES THE OFFER, MESSAGE RECEIVER IS THE JOB OFFER SENDER */
             mEntity = new MessageEntity();
             mEntity.createContentMessage(offer.getJobEntity().getUserEntity().getUsername(), offer.getUserEntity().getUsername(), 
-                        offer.getJobEntity().getUserEntity().getUsername() + " negotiates on your offer of " + offer.getJobEntity().getJobTitle() + ". Here is his/her message: " + negotiateMessage, 
+                        offer.getJobEntity().getUserEntity().getUsername() + " negotiates on your offer of " + offer.getJobEntity().getJobTitle() + ": " + negotiateMessage, 
                         offer.getJobOfferID(), "Errands");
             /* JOB POSTER WHO ACCEPTS THE OFFER IS THE USERENTITY_USERNAME */
             mEntity.setUserEntity(offer.getJobEntity().getUserEntity());
@@ -866,13 +877,15 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                     jtEntity.setSignatureImg("" + jobID + ".png");
                 }
                 /* UPDATE JOB STATUS AND OFFER STATUS*/
+                offerEntity.setJobOfferStatusForPoster("Completed");
+                offerEntity.setJobOfferStatusForSender("Completed");
+                em.merge(offerEntity);
+                
                 int numOfHelpers = jEntity.getNumOfHelpers();
                 Query query = em.createQuery("SELECT COUNT(o.jobOfferID) FROM JobOffer o WHERE o.jobEntity = :job AND o.jobOfferStatusForPoster = 'Completed'");
                 query.setParameter("job", jEntity);
                 Long count = (Long)query.getSingleResult();
                 if(count == numOfHelpers){ offerEntity.getJobEntity().setJobStatus("Completed"); }
-                offerEntity.setJobOfferStatusForPoster("Completed");
-                offerEntity.setJobOfferStatusForSender("Completed");
 
                 mEntity = new MessageEntity();
                 mEntity.createContentMessage(username, offerEntity.getJobEntity().getUserEntity().getUsername(), 
@@ -911,8 +924,9 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             transactionJobDetailsVec.add(jEntity.getJobImage());
             transactionJobDetailsVec.add(jEntity.getJobStatus());
             transactionJobDetailsVec.add(getJobLikeCount(jobID));
-            if(lookupLike(jobID, username) == null) { transactionJobDetailsVec.add(false);}
-            else { transactionJobDetailsVec.add(true); }
+            /*if(lookupLike(jobID, username) == null) { transactionJobDetailsVec.add(false);}
+            else { transactionJobDetailsVec.add(true); }*/
+            transactionJobDetailsVec.add(jEntity.getChecking());
             transactionJobDetailsVec.add(df.format(jEntity.getJobPostDate()));
             /* WORK INFORMATION */
             transactionJobDetailsVec.add(jEntity.getJobStartLocation());
@@ -949,6 +963,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         if(lookupUnifyUser(username) == null){ return "There is some issues with your profile. Please try it later."; }
         else if(lookupUnifyUser(receiver) == null){ return "There is something wrong with reciever's profile. Please try it later.";}
         else if(lookupJobTransaction(transactionID) == null){ return "There is something wrong with the transaction. Please try it later.";}
+        else if(lookupJobReview(transactionID, username, receiver)!=null){ return "You have already left feedback to the receiver previously. Thank you for your feedback.";}
         else{
             uEntity = lookupUnifyUser(username);
             jtEntity = lookupJobTransaction(transactionID);
@@ -996,7 +1011,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 reviewDetails.add(reviewE.getJobEntity().getJobTitle());
                 reviewDetails.add(reviewE.getJobReviewRating());
                 reviewDetails.add(reviewE.getJobReviewContent());
-                reviewDetails.add(reviewE.getJobReviewDate());
+                reviewDetails.add(df.format(reviewE.getJobReviewDate()));
                 reviewDetails.add(reviewE.getJobTransactionEntity().getJobTransactionID());
                 reviewDetails.add(reviewE.getJobEntity().getJobID());
                 
@@ -1059,7 +1074,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 //jobOfferDetailsVec.add(getNegativeItemReviewCount(itemOfferE.getUserEntity().getUsername()));
                 jobReviewDetailsVec.add(jobReviewE.getJobReviewRating());
                 jobReviewDetailsVec.add(jobReviewE.getJobReviewContent());
-                jobReviewDetailsVec.add(jobReviewE.getJobReviewDate());
+                jobReviewDetailsVec.add(df.format(jobReviewE.getJobReviewDate()));
+                System.out.println(jobReviewDetailsVec.get(7));
                 jobReviewDetailsVec.add(jobReviewE.getJobTransactionEntity().getJobTransactionID());
                 
                 jobReviewDetailsVec.add(jobReviewE.getJobReviewID());
@@ -1095,6 +1111,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 offerInfo.add(joE.getJobOfferDescription());
                 offerInfo.add(joE.getJobOfferStatusForSender());
                 offerInfo.add(df.format(joE.getJobOfferDate()));
+                offerInfo.add(joE.getJobOfferDate());
                 
                 myJobOfferList.add(offerInfo);
             }
@@ -1126,6 +1143,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobTransVec.add(jobTransE.getJobEntity().getJobRateType());
             jobTransVec.add(String.format ("%,.2f", jobTransE.getJobTransactionRate()));
             jobTransVec.add(jobTransE.getSignatureImg());
+            jobTransVec.add(jobTransE.getJobEntity().getChecking());
             jobTransList.add(jobTransVec);
         }
         return jobTransList;
@@ -1194,6 +1212,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             userJobVec.add(String.format ("%,.2f", jE.getJobRate()));
             //userJobVec.add(getItemLikeCount(jE.getJobID()));
             userJobVec.add(jE.getJobRateType());
+            userJobVec.add(jE.getJobStatus());
             userJobList.add(userJobVec);
             dateString = "";
         }
@@ -1272,6 +1291,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             else { likeListVec.add(true); }
             
             likeListVec.add(likeListE.getJobEntity().getJobStatus());
+            likeListVec.add(likeListE.getJobEntity().getJobPostDate());
             userJobWishlist.add(likeListVec);
             dateString = "";
         }
@@ -1416,6 +1436,26 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jte = null;
         }
         return jte;
+    }
+    
+    public JobReviewEntity lookupJobReview(long jobTransID, String username, String receiver){
+        JobReviewEntity jre = new JobReviewEntity();
+        try{
+            Query q = em.createQuery("SELECT r FROM JobReview r WHERE r.jobTransEntity.jobTransactionID = :jobTransID AND r.userEntity.username = :username AND r.reviewReceiverID = :receiver");
+            q.setParameter("jobTransID", jobTransID);
+            q.setParameter("username", username);
+            q.setParameter("receiver", receiver);
+            jre = (JobReviewEntity) q.getSingleResult();
+        }catch(EntityNotFoundException enfe){
+            System.out.println("ERROR: Job Review cannot be found. " + enfe.getMessage());
+            em.remove(jre);
+            jre = null;
+        }catch (NoResultException nre) {
+            System.out.println("ERROR: Job Review does not exist. " + nre.getMessage());
+            em.remove(jre);
+            jre = null;
+        }
+        return jre;
     }
     
     public MessageEntity lookupContentMessage(long jobID, String username) {

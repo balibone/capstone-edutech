@@ -24,8 +24,19 @@
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
-
-
+        
+        <style>
+        .jobTitle {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+            table {
+                table-layout: fixed;
+                border-collapse: collapse;
+                width: 100%;
+              }
+        </style>
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -273,6 +284,11 @@
                         <div class="title"><span>Errands Reviews</span></div>
                         <div class="table-responsive">
                             <table id="jobReviewTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="font-size: 13px;">
+                                <col width="100">
+                                <col width="120">
+                                <col width="40">
+                                <col width="100">
+                                <col width="70">
                                 <thead>
                                     <tr>
                                         <th scope="col">The Review is Given by</th>
@@ -311,16 +327,16 @@
                                                     <span class="senderName">&nbsp;&nbsp;&nbsp;<%= firstName%> <%= lastName%></span>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td><%= jobTitle%></td>  
-                                        <td><span class="offerPrice"><%= reviewRating%></span></td>
-                                        <td><%= reviewContent%></td>
-                                        <td><%= reviewDate%><span style="display: none">;<%= jobID%>;<%= jobTransactionID%></span></td>
-                                    </tr>
-                                    <%
-                                        }
-
-                                    %>
+                                    </td>
+                                    <td class="jobTitle"><%= jobTitle%></td>  
+                                    <td><span class="offerPrice"><%= reviewRating%></span></td>
+                                    <td><%= reviewContent%></td>
+                                    <td><%= reviewDate%><span style="display: none">;<%= jobID%>;<%= jobTransactionID%></span></td>
+                                </tr>
+                                  <%
+                                      }
+                                    
+                                  %>
                                 </tbody>
                             </table> 
                         </div>

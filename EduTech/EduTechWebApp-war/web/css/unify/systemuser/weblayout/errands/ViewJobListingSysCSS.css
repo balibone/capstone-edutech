@@ -64,23 +64,33 @@ td.info{
 .job-title{
     font-size: 22px;
     color: #5183ad;
-    line-height: 1.5;
+    line-height: 1.1;
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .category{
     font-size: 16px;
     color: #93979e;
-    line-height: 1.5;
+    line-height: 2;
 }
 
 .date{
-    line-height: 2.2;
+    line-height: 1.8;
     font-size: 16px;
 }
 
 .location{
-    line-height: 2.2;
+    line-height: 1.8;
     font-size: 16px;
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .type{

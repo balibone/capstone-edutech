@@ -21,6 +21,17 @@
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/weblayout/userprofile/UserJobTransactionDetailsSYSCSS.css" rel="stylesheet" type="text/css" />
+    
+        <style>
+            .jobTitle{
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 100%;
+                display: block;
+            }
+        </style>
+    
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -262,6 +273,7 @@
                             String jobPosterPositive, jobPosterNeutral, jobPosterNegative, jobTakerPositive, jobTakerNeutral, jobTakerNegative, jobTransactionID;
                             jobPosterPositive = jobPosterNeutral = jobPosterNegative = jobTakerPositive = jobTakerNeutral = jobTakerNegative = jobTransactionID = "";
 
+                            String jobChecking = "";
                             if (jobTransDetailsSYSVec != null) {
                                 /* JOB INFORMATION */
                                 jobID = (String.valueOf(jobTransDetailsSYSVec.get(0)));
@@ -273,7 +285,7 @@
                                 jobImage = (String) jobTransDetailsSYSVec.get(6);
                                 jobStatus = (String) jobTransDetailsSYSVec.get(7);
                                 jobNumOfLikes = (String.valueOf(jobTransDetailsSYSVec.get(8)));
-                                jobLikeStatus = (String.valueOf(jobTransDetailsSYSVec.get(9)));
+                                jobChecking = (String.valueOf(jobTransDetailsSYSVec.get(9)));
                                 jobPostingDate = (String.valueOf(jobTransDetailsSYSVec.get(10)));
                                 /* TRADE INFORMATION */
                                 startLocation = (String) jobTransDetailsSYSVec.get(11);
@@ -304,14 +316,16 @@
                         %>
                         <form class="form-horizontal" action="ErrandsSysUser" method="POST">
                             <div class="formDiv">
-                                <div class="form-row media mb-2">
-                                    <img class="img-thumbnail" src="uploads/unify/images/errands/job/<%= jobImage%>" style="width:50px;height:50px;"/>
-                                    <div class="media-body ml-3">
+                                <div class="form-row media mb-2 row">
+                                    <div class="col-lg-1 col-md-1 col-sm-1">
+                                    <img class="img-thumbnail" src="uploads/unify/images/errands/job/<%= jobImage%>" style="width:60px; height:60px;"/>
+                                    </div>
+                                    <div class="media-body ml-1 col-lg-7 col-md-7 col-sm-7">
                                         <input type="hidden" id="hiddenJobID" value="<%= jobID%>" />
-                                        <h5 class="user-name"><strong><%= jobTitle%></strong></h5>
+                                        <span style="font-size: 18px;" class="user-name jobTitle"><strong><%= jobTitle%></strong></span>
                                         <p class="card-text mb-0">$<%= jobRate%>/<%= jobRateType%></p>
                                     </div>
-                                    <div class="media-body ml-3">
+                                    <div class="media-body ml-3 col-lg-4 col-md-4 col-sm-4 mt-1">
                                         <% if(loggedInUsername.equals(jobPosterID)){%>
                                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#reviewToTaker">Leave feedback to the taker! </button>
                                         <%}else{%>
@@ -431,6 +445,15 @@
                                                         <td class="bg-light w-25">Job Transaction Price</td>
                                                         <td>$<%= jobTransactionRate%>/<%= jobRateType%></td>
                                                     </tr>
+                                                    <tr>
+                                                        <td class="bg-light w-25">Transaction Signature</td>
+                                                        <% if(jobChecking.equals("true")){%>
+                                                        <td><img src="uploads/unify/images/errands/transSignature/<%=jobID%>.png"></td>
+                                                        <%}else{%>
+                                                        <td>No Signature Required.</td>
+                                                        <% }%>
+                                                    </tr>
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>
