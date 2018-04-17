@@ -628,10 +628,10 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         if (q.getSingleResult() == null) { return "There are some issues with your job offer. Please try again."; }
         else {
             JobOfferEntity offerEntity = (JobOfferEntity)q.getSingleResult();
-            em.remove(offerEntity);
-            em.flush();
-            em.clear();
-            return "Job Offer has been deleted successfully!";
+            offerEntity.setJobOfferStatusForPoster("Canceled");
+            offerEntity.setJobOfferStatusForSender("Withdrawn");
+            em.merge(offerEntity);
+            return "Job Offer has been withdrawn successfully!";
         }
     }
     
@@ -914,8 +914,9 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             transactionJobDetailsVec.add(jEntity.getJobImage());
             transactionJobDetailsVec.add(jEntity.getJobStatus());
             transactionJobDetailsVec.add(getJobLikeCount(jobID));
-            if(lookupLike(jobID, username) == null) { transactionJobDetailsVec.add(false);}
-            else { transactionJobDetailsVec.add(true); }
+            /*if(lookupLike(jobID, username) == null) { transactionJobDetailsVec.add(false);}
+            else { transactionJobDetailsVec.add(true); }*/
+            transactionJobDetailsVec.add(jEntity.getChecking());
             transactionJobDetailsVec.add(df.format(jEntity.getJobPostDate()));
             /* WORK INFORMATION */
             transactionJobDetailsVec.add(jEntity.getJobStartLocation());
@@ -1099,6 +1100,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 offerInfo.add(joE.getJobOfferDescription());
                 offerInfo.add(joE.getJobOfferStatusForSender());
                 offerInfo.add(df.format(joE.getJobOfferDate()));
+                offerInfo.add(joE.getJobOfferDate());
                 
                 myJobOfferList.add(offerInfo);
             }
@@ -1130,6 +1132,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobTransVec.add(jobTransE.getJobEntity().getJobRateType());
             jobTransVec.add(String.format ("%,.2f", jobTransE.getJobTransactionRate()));
             jobTransVec.add(jobTransE.getSignatureImg());
+            jobTransVec.add(jobTransE.getJobEntity().getChecking());
             jobTransList.add(jobTransVec);
         }
         return jobTransList;

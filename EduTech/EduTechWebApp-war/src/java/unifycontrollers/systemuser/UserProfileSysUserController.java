@@ -398,6 +398,8 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "goToDeleteMyJobOfferSYS":
+                    long jOffer = Long.parseLong(request.getParameter("offerID"));
+                    request.setAttribute("message", esmr.deleteJobOffer(jOffer));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
