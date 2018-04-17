@@ -423,6 +423,16 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         }
     }
     
+    /*@Override
+    public String editJobStatus(long jobID, String newStatus){
+        
+        jEntity = lookupJob(jobID);
+        if(jEntity != null){
+            jEntity.setJobStatus(newStatus);
+        }
+        
+    }*/
+    
     @Override
     public String deleteJobListing(long jobIDToDelete) {
         if (lookupJob(jobIDToDelete) == null) { return "There are some issues with your job listing. Please try again."; }
@@ -1001,7 +1011,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 reviewDetails.add(reviewE.getJobEntity().getJobTitle());
                 reviewDetails.add(reviewE.getJobReviewRating());
                 reviewDetails.add(reviewE.getJobReviewContent());
-                reviewDetails.add(reviewE.getJobReviewDate());
+                reviewDetails.add(df.format(reviewE.getJobReviewDate()));
                 reviewDetails.add(reviewE.getJobTransactionEntity().getJobTransactionID());
                 reviewDetails.add(reviewE.getJobEntity().getJobID());
                 
@@ -1064,7 +1074,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                 //jobOfferDetailsVec.add(getNegativeItemReviewCount(itemOfferE.getUserEntity().getUsername()));
                 jobReviewDetailsVec.add(jobReviewE.getJobReviewRating());
                 jobReviewDetailsVec.add(jobReviewE.getJobReviewContent());
-                jobReviewDetailsVec.add(jobReviewE.getJobReviewDate());
+                jobReviewDetailsVec.add(df.format(jobReviewE.getJobReviewDate()));
+                System.out.println(jobReviewDetailsVec.get(7));
                 jobReviewDetailsVec.add(jobReviewE.getJobTransactionEntity().getJobTransactionID());
                 
                 jobReviewDetailsVec.add(jobReviewE.getJobReviewID());
@@ -1280,6 +1291,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             else { likeListVec.add(true); }
             
             likeListVec.add(likeListE.getJobEntity().getJobStatus());
+            likeListVec.add(likeListE.getJobEntity().getJobPostDate());
             userJobWishlist.add(likeListVec);
             dateString = "";
         }

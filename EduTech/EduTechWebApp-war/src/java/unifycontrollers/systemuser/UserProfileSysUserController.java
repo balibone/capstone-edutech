@@ -368,6 +368,16 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "UserJobListingSYS";
                     break;
+                case "editMyJobStatus":
+                    long jobIDToEdit = Long.parseLong(request.getParameter("jobID"));
+                    String newStatus = request.getParameter("newStatus");
+                    System.out.println(newStatus);
+                    
+                    request.setAttribute("jobCategoryStr", esmr.getJobCategoryList());
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userJobListing", (ArrayList) esmr.viewUserJobList(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    break;
                 case "deleteMyJobListingSYS":
                     long jobIDToDelete = Long.parseLong(request.getParameter("hiddenJobID"));
                     responseMessage = esmr.deleteJobListing(jobIDToDelete);

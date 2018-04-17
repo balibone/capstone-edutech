@@ -365,11 +365,11 @@
                                                     <span class="bg-secondary p-1 text-white"><%=offerStatus%></span><br/>
                                                     <% }%>
                                                     <span><strong><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp;My Offer Price: </strong>S$<%= offerPrice%></span><br/>
-                                                    <span><strong><i class="fa fa-comments" aria-hidden="true"></i>&nbsp;&nbsp;Comments: 
+                                                    <span><strong><i class="fa fa-comments" aria-hidden="true"></i>&nbsp;&nbsp;Comments:</strong> 
                                                         <%if(offerDescription.equals("")){%>
-                                                            </strong>No Comments</span><br/>
+                                                            No Comments</span><br/>
                                                         <%}else{%>
-                                                            </strong><%=offerDescription%></span><br/>
+                                                            <%=offerDescription%></span><br/>
                                                         <%}%>
                                                     <i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp;sent on <span class="offerDate"><%=offerDate%></span><br/>
                                                     <span style="display: none" class="offerSentDate"><%= offerSentDate%></span>
