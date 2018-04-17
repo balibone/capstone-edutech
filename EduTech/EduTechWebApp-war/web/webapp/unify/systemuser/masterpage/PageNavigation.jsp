@@ -47,6 +47,7 @@
                                 <a class="dropdown-item" data-toggle="modal" data-target="#errandsModalCenter"><i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands</a>
                                 <a class="dropdown-item shoutBtn"><i class="fa fa-fw fa-comments"></i>&nbsp;My Whispers</a>
                                 <a class="dropdown-item eventBtn"><i class="fa fa-fw fa-calendar"></i>&nbsp;My Events</a>
+                                <a class="dropdown-item voicesBtn" data-toggle="modal" data-target="#voicesModalCenter"><i class="fa fa-fw fa-commenting"></i>&nbsp;My Voices</a>
                             </div>
                         </li>
                     </ul>

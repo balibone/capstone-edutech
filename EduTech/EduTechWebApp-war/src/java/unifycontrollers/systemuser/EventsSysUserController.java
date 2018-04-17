@@ -40,16 +40,19 @@ public class EventsSysUserController extends HttpServlet {
                 case "goToViewEventsListingSYS":
                     request.setAttribute("eventsListSYS", (ArrayList) esmr.viewEventsList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewEventsListingSYS";
                     break;
                 case "goToViewMyEventsListingSYS":
                     request.setAttribute("eventsListSYS", (ArrayList) esmr.viewMyEventsList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewMyEventsListingSYS";
                     break;
                 case "goToViewMyRsvpEventsListingSYS":
                     request.setAttribute("eventsListSYS", (ArrayList) esmr.viewMyRsvpEventsList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewMyRsvpEventsListingSYS";
                     break;
                 case "goToNewEventModalSYS":
@@ -57,6 +60,7 @@ public class EventsSysUserController extends HttpServlet {
                     break;
                 case "goToNewEventSYS":
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "NewEventSYS";
                     break;
                 case "goToCreateEvent":
@@ -68,12 +72,14 @@ public class EventsSysUserController extends HttpServlet {
                     }
                     request.setAttribute("eventsListSYS", (ArrayList) esmr.viewEventsList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewEventsListingSYS";
                     break;
                 case "goToViewEventDetailsSYS":
                     String eventDetailsEventID = request.getParameter("hiddenEventID");
                     request.setAttribute("eventDetailsVec", esmr.viewEventDetails(loggedInUsername, eventDetailsEventID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewEventDetailsSYS";
                     break;
                 case "goToRsvpToEventSYS":
@@ -87,6 +93,7 @@ public class EventsSysUserController extends HttpServlet {
                     }
                     request.setAttribute("eventDetailsVec", esmr.viewEventDetails(loggedInUsername, rsvpEventID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewEventDetailsSYS";
                     break;
                 case "goToRemoveRsvpToEventSYS":
@@ -100,6 +107,7 @@ public class EventsSysUserController extends HttpServlet {
                     }
                     request.setAttribute("eventDetailsVec", esmr.viewEventDetails(loggedInUsername, removeRsvpEventID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewEventDetailsSYS";
                     break;
                 case "goToReportEventSubmit":
@@ -112,6 +120,7 @@ public class EventsSysUserController extends HttpServlet {
                     String eventIDAfterReport = request.getParameter("hiddenEventID");
                     request.setAttribute("eventDetailsVec", esmr.viewEventDetails(loggedInUsername, eventIDAfterReport));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewEventDetailsSYS";
                     break;
                 case "goToDeleteEventSYS":
@@ -123,6 +132,7 @@ public class EventsSysUserController extends HttpServlet {
                     }
                     request.setAttribute("eventsListSYS", (ArrayList) esmr.viewMyEventsList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewMyEventsListingSYS";
                     break;
                 case "goToDeleteEventRequestSYS":
@@ -134,23 +144,27 @@ public class EventsSysUserController extends HttpServlet {
                     }
                     request.setAttribute("eventsRequestListSYS", (ArrayList) esmr.viewMyEventsRequestList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewMyRequestedEventsListingSYS";
                     break;
                 case "goToViewMyRequestedEventsListingSYS":
                     request.setAttribute("eventsRequestListSYS", (ArrayList) esmr.viewMyEventsRequestList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewMyRequestedEventsListingSYS";
                     break;
                 case "goToViewRequestedEventDetailsSYS":
                     String requestedEventDetailsEventID = request.getParameter("hiddenEventRequestID");
                     request.setAttribute("eventDetailsVec", esmr.viewEventRequestDetails(loggedInUsername, requestedEventDetailsEventID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewRequestedEventDetailsSYS";
                     break;
                  case "goToEditEventRequestSYS":
                     String editEventRequestID = request.getParameter("hiddenEventRequestID");
                     request.setAttribute("eventDetailsVec", esmr.viewEventRequestDetails(loggedInUsername, editEventRequestID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "EditEventRequestSYS";
                     break;
                 case "goToEditEventRequestSubmit":
@@ -162,6 +176,7 @@ public class EventsSysUserController extends HttpServlet {
                     }
                     request.setAttribute("eventsRequestListSYS", (ArrayList) esmr.viewMyEventsRequestList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewMyRequestedEventsListingSYS";
                     break;
 

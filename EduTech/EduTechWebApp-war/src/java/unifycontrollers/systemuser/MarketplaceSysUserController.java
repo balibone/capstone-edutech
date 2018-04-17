@@ -67,6 +67,7 @@ public class MarketplaceSysUserController extends HttpServlet {
                     request.setAttribute("userItemAccountListSYS", (ArrayList) usmr.viewUserItemAccountList(loggedInUsername));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "UserAccountSYS";
                     break;
                 case "goToEditItemListingSYS":
@@ -75,6 +76,7 @@ public class MarketplaceSysUserController extends HttpServlet {
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(urlItemID));
                     request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "EditItemListingSYS";
                     break;
                 case "editItemListingSYS":
@@ -86,6 +88,7 @@ public class MarketplaceSysUserController extends HttpServlet {
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(itemIDToUpdate));
                     request.setAttribute("itemCategoryListSYS", (ArrayList) msmr.viewItemCategoryList());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "EditItemListingSYS";
                     break;
                 case "deleteItemListingSYS":
@@ -97,12 +100,14 @@ public class MarketplaceSysUserController extends HttpServlet {
                     request.setAttribute("userItemAccountListSYS", (ArrayList) usmr.viewUserItemAccountList(loggedInUsername));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "UserAccountSYS";
                     break;
                 case "goToViewItemListingSYS":
                     request.setAttribute("itemListSYS", (ArrayList) msmr.viewItemList(loggedInUsername));
                     request.setAttribute("itemCategoryStr", msmr.populateItemCategory());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewItemListingSYS";
                     break;
                 case "goToViewItemDetailsSYS":
@@ -112,6 +117,7 @@ public class MarketplaceSysUserController extends HttpServlet {
                     request.setAttribute("assocCategoryItemListSYS", (ArrayList) msmr.viewAssocCategoryItemList(hiddenCategoryName, hiddenItemID));
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(hiddenItemID, loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewItemDetailsSYS";
                     break;
                 case "goToMsgViewItemDetailsSYS":
@@ -121,12 +127,14 @@ public class MarketplaceSysUserController extends HttpServlet {
                     request.setAttribute("assocCategoryItemListSYS", (ArrayList) msmr.viewAssocCategoryItemList(categoryName, itemHidID));
                     request.setAttribute("itemDetailsSYSVec", msmr.viewItemDetails(itemHidID, loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewItemDetailsSYS";
                     break;
                 case "goToItemLikeList":
                     long itemID = Long.parseLong(request.getParameter("itemID"));
                     request.setAttribute("itemLikeListSYS", msmr.viewItemLikeList(itemID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ItemLikeListSYS";
                     break;
                 case "sendItemOfferPrice":
@@ -156,6 +164,7 @@ public class MarketplaceSysUserController extends HttpServlet {
                     break;
                 case "goToProximityItemListingSYS":
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     responseMessage = msmr.viewProximityItemListing(loggedInUsername);
                     request.setAttribute("jsonResponse", responseMessage);
                     pageAction = "ProximityItemListingSYS";

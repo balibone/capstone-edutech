@@ -37,16 +37,19 @@ public class ShoutsSysUserController extends HttpServlet {
                 case "goToViewShoutsListingSYS":
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewShoutsListingSYS";
                     break;
                 case "goToViewMyShoutsListingSYS":
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewMyShoutList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewMyShoutsListingSYS";
                     break;
                 case "goToViewMyBookmarkedShoutsListingSYS":
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewMyBookmarkedShoutList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewMyBookmarkedShoutsListingSYS";
                     break;
                 case "goToSetBookmarkSYS":
@@ -121,6 +124,7 @@ public class ShoutsSysUserController extends HttpServlet {
                     }
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewShoutsListingSYS";
                     //pageAction = "NewShoutModalSYS";
                     break;
@@ -135,6 +139,7 @@ public class ShoutsSysUserController extends HttpServlet {
                     //String usernameAfterShoutDelete = request.getParameter("loggedInUsername");
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewShoutsListingSYS";
                     break;
                 case "goToReportShoutSubmit":
@@ -147,6 +152,7 @@ public class ShoutsSysUserController extends HttpServlet {
                     }
                     request.setAttribute("shoutsListSYS", (ArrayList) ssmr.viewShoutList2(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewShoutsListingSYS";
                     //pageAction = "ReportShoutModalSYS";
                     break;

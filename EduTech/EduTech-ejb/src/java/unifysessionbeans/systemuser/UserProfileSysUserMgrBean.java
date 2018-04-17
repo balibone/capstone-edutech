@@ -1481,9 +1481,10 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     }
     
     @Override
-    public Long getUnreadNotificationCount() {
+    public Long getUnreadNotificationCount(String username) {
         Long unreadNotificationCount = new Long(0);
-        Query q = em.createQuery("SELECT COUNT(DISTINCT m.messageID) FROM Message m WHERE m.messageStatus='Unread'");
+        Query q = em.createQuery("SELECT COUNT(DISTINCT m.messageID) FROM Message m WHERE m.messageStatus='Unread' AND m.messageReceiverID=:username");
+        q.setParameter("username",username);
         try {
             unreadNotificationCount = (Long) q.getSingleResult();
         } catch (Exception ex) {

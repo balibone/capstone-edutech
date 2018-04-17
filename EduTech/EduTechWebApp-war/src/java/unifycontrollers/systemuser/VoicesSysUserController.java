@@ -58,6 +58,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
                     request.setAttribute("industryStrSYS", vsmr.populateCompanyIndustryString());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToNewReviewSYS":
@@ -68,6 +69,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("reviewedCompanyName", companyName);
                     request.setAttribute("reviewedCompanyIndustry", companyIndustry);
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "NewReviewSYS";
                     break;
                 case "createCompanyReviewSYS":
@@ -77,6 +79,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
                     request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToViewCompanyDetailsSYS":
@@ -86,6 +89,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID, loggedInUsername));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(companyID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewCompanyDetailsSYS";
                     break;
                 case "goToViewReviewListSYS":
@@ -95,11 +99,13 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(companyID_, loggedInUsername));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(companyID_));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     request.setAttribute("tabType", type);
                     pageAction="ViewCompanyDetailsSYS";
                     break;
                 case "goToNewCompanyRequestSYS":
                     request.setAttribute("industryStrSYS", vsmr.populateCompanyIndustryString());
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "NewCompanyRequestSYS";
                     break;
                 case "createRequestSYS":
@@ -110,6 +116,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("companyListSYS", (ArrayList) vsmr.viewCompanyList());
                     request.setAttribute("industryListSYS", (ArrayList) vsmr.populateCompanyIndustry());
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewCompanyListingSYS";
                     break;
                 case "goToNewReviewReportSYS":
@@ -119,6 +126,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("hiddenReviewID", request.getParameter("hiddenReviewID"));
                     request.setAttribute("hiddenReviewPoster", request.getParameter("hiddenReviewPoster"));
                     request.setAttribute("hiddenRequest", vsmr.lookupReviewReport(reviewReporter, hiddenReviewID));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "NewReviewReportSYS";
                     break;
                 case "createReviewReportSYS":
@@ -131,6 +139,7 @@ public class VoicesSysUserController extends HttpServlet {
                     request.setAttribute("associatedReviewListSYS", vsmr.viewAssociatedReviewList(returnCompanyID, loggedInUsername));
                     request.setAttribute("companyListInIndustrySYS", vsmr.viewCompanyInSameIndustry(returnCompanyID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewCompanyDetailsSYS";
                     break;
                 case "likeReviewListingSYS":
@@ -142,6 +151,7 @@ public class VoicesSysUserController extends HttpServlet {
                     break;
                 case "goToReviewDetails":
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ReviewDetails";
                     break;
                 default:
