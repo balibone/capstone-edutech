@@ -258,6 +258,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             }
             messageVec.add(dateString);
             messageVec.add(messageE.getMessageStatus());
+            messageVec.add(messageE.getMessageID());
             messageList.add(messageVec);
         }
         return messageList;
@@ -1451,8 +1452,8 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     }
     
     @Override
-    public String markNotification(long msgContentID, String msgSenderID) {
-        MessageEntity me = lookupMessage(msgContentID, msgSenderID);
+    public String markNotification(long msgID) {
+        MessageEntity me = lookupMessage(msgID);
         if(me == null) { return "Unsuccessful"; }
         else {
             me.setMessageStatus("Read");
@@ -1461,12 +1462,11 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return "Successful";
     }
     
-    public MessageEntity lookupMessage(long msgContentID, String msgSenderID) {
+    public MessageEntity lookupMessage(long msgID) {
         MessageEntity me = new MessageEntity();
         try {
-            Query q = em.createQuery("SELECT m FROM Message m WHERE m.contentID=:msgContentID AND m.messageSenderID=:msgSenderID");
-            q.setParameter("msgContentID",msgContentID);
-            q.setParameter("msgSenderID", msgSenderID);
+            Query q = em.createQuery("SELECT m FROM Message m WHERE m.messageID=:msgID");
+            q.setParameter("msgID",msgID);
             
             me = (MessageEntity) q.getSingleResult();
         } catch (EntityNotFoundException enfe) {

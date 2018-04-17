@@ -44,19 +44,22 @@ $(document).ready(function () {
 });
 
 function checkAll() {
+    var markBtn = document.getElementById('markBtn');
+    markBtn.disabled = false;
     
     var rows = document.getElementById("notificationTable").getElementsByTagName("tbody")[0].getElementsByTagName('tr').length;
     var checkbox = document.getElementById("notificationTable").getElementsByTagName("tbody")[0].getElementsByTagName('input');
-    
-    for(var i=0;i<rows;i++) {
+    var j=0;
+    for(var i=0;i<rows*2;i=i+2) {
         if(checkbox[i].type==='checkbox'&&checkbox[i].checked===false){
             checkbox[i].checked=true;
-            $('#'+i).addClass('checked');
+            $('#'+j).addClass('checked');
         } else if(checkbox[i].type==='checkbox'&&checkbox[i].checked===true){
             checkbox[i].checked=false;
-            $('#'+i).removeClass('checked');
+            $('#'+j).removeClass('checked');
         }
-    }
+        j++;
+    } 
 }
 
 function readMessage(sequenceID) {
@@ -75,12 +78,10 @@ function markRead() {
                 type: "POST",
                 url: "ProfileSysUser",
                 data: { 
-                    msgContentID: document.getElementById('msgContentID-'+i).innerHTML.substring(1),
-                    msgSenderID: document.getElementById('msgSenderID-'+i).innerHTML,
+                    msgID: document.getElementById('msgID-'+i).value,
                     pageTransit: 'markNotificationSYS'
                 },
                 success: function(returnString) {
-                    
                 }
             });
             $('input[id=' + i + ']').remove();

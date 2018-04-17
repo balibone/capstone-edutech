@@ -241,6 +241,7 @@
                                                     String msgSentDateTime = String.valueOf(v.get(5));
                                                     String msgSentDuration = String.valueOf(v.get(6));
                                                     String msgStatus = String.valueOf(v.get(7));
+                                                    String msgID = String.valueOf(v.get(8));
                                         %>
                                     <tr class="unread list-item">
                                             <td style="width: 5%;">
@@ -261,6 +262,7 @@
                                             <td class="msgContent" style="width: 40%;"><%= msgContent%><span id="msgContentID-<%= i%>" style="display:none;">;<%= msgContentID%></span></td>
                                             <td style="width: 25%;"><%= msgSentDateTime%><br/><%= msgSentDuration%></td>
                                         </tr>
+                                        <input type="hidden" name="msgID" id="msgID-<%= i%>" value="<%= msgID%>" />
                                     <%      }   %>
                                     <%  }%>
                                 </tbody>

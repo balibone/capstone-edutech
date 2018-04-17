@@ -46,6 +46,6 @@ public interface UserProfileSysUserMgrBeanRemote {
     public List<Vector> viewItemTransaction(String username);
     public Vector viewTransactionItemDetails(long itemID, long itemTransID, String username);
     
-    public String markNotification(long msgContentID, String msgSenderID);
+    public String markNotification(long msgID);
     public Long getUnreadNotificationCount(String username);
 }
