@@ -15,24 +15,28 @@ import GroupStore from '../../stores/GroupStore/GroupStore';
 const MainPage = () => (
   <div className="App">
     <Switch>
-      <Route exact path="/room/:meetingId/:groupId" component={CollabTopBar} />
+      <Route exact path="/room/:groupId" component={CollabTopBar} />
       <TopBar />
     </Switch>
     <Switch>
       <Route exact path="/" render={() => <LeftBar scene="home" />} />
       <Route exact path="/module/:moduleCode" render={() => <LeftBar scene="module" />} />
       <Route exact path="/group/:groupId" render={() => <LeftBar scene="group" />} />
-      <Route exact path="/room/:meetingId/:groupId" render={() => ''} />
+      <Route exact path="/room/:groupId" render={() => ''} />
       <LeftBar scene="home" />
     </Switch>
-    <div className="mainContent">
+    <div>
       <Switch>
-        <Route exact path="/" component={HomeScene} />
-        <Route exact path="/module/:moduleCode" component={ModuleScene} />
-        <Route exact path="/group/:groupId" component={GroupScene} />
-        <Route exact path="/myschedule" component={MyScheduleScene} />
-        <Route exact path="/mytasks" component={MyTasksScene} />
-        <Route exact path="/room/:meetingId/:groupId" component={CollabScene} />
+          <Route exact path="/" component={HomeScene} />
+          <Route exact path="/module/:moduleCode" component={ModuleScene} />
+          <Route exact path="/group/:groupId" component={GroupScene} />
+          <Route exact path="/myschedule" component={MyScheduleScene} />
+          <Route exact path="/mytasks" component={MyTasksScene} />
+      </Switch>
+    </div>
+    <div>
+      <Switch>
+        <Route exact path="/room/:groupId" component={CollabScene} />
       </Switch>
     </div>
   </div>

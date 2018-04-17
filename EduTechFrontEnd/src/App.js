@@ -50,7 +50,7 @@ class App extends Component {
     if (!GroupStore.donePopulating || !ScheduleItemStore.donePopulating
       || !TaskStore.donePopulating || !ModuleStore.donePopulating) {
         return (
-          <div className="fakeBody">
+          <div className="fakeBody mainContent">
             <div className="initialSpinner">
               <center>
                 <Wave size={100} />

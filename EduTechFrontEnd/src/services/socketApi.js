@@ -11,14 +11,14 @@ const captureTyping = (data) => {
 	socket.emit('typing', data);
 };
 
-const joinRoom = (meetingId) => {
+const joinRoom = (groupId) => {
 	const params = {
-		room: meetingId,
+		room: groupId,
 		user: JSON.parse(localStorage.getItem('currentUser')),
 	};
 	socket.emit('join', params, (err) => {
 		if (err) {
-			window.location.href('/');
+			window.location.replace('http://localhost:3000')
 		} else {
 			console.log('success');
 		}

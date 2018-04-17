@@ -9,7 +9,7 @@ import './style.css';
 
 const HomeScene = observer(() => (
   <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible>
-    <div>
+    <div className="mainContent">
       <Row>
         <Col md={8}>
           <MyCalendar step={60} expandViewButton />

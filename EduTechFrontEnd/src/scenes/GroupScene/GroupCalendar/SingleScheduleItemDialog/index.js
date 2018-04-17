@@ -100,14 +100,12 @@ export default class ViewScheduleItemDialog extends Component {
     const selectedScheduleItem = groupScheduleItems.filter(item => item.id === id);
     console.log('selectedScheduleItem: ', selectedScheduleItem[0])
     if (selectedScheduleItem[0].meetingMinute) {
-      let agendaList = <ListItem primaryText="No agenda created for this meeting" />
-      if(selectedScheduleItem[0].meetingMinute.agendas.length > 0) {
-        agendaList = selectedScheduleItem[0].meetingMinute.agendas.map((agenda, index) => (
-          <ListItem
-            primaryText={`${index+1}) ${agenda.title}`}
-          />
-        ));
-      }
+      console.log('render agendas lah')
+      const agendaList = selectedScheduleItem[0].meetingMinute.agendas.map((agenda, index) => (
+        <ListItem
+          primaryText={`${index+1}) ${agenda.title}`}
+        />
+      ));
       return (
           <div>
           <Divider />

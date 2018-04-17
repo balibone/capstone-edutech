@@ -195,7 +195,7 @@ class MeetingCard extends Component {
 			      {description}
 			    </CardText>
 			    <CardActions>
-			    	<FlatButton label="View Minutes" onClick={() => this.openMinutePageFunc()} />
+			    		<FlatButton label="View Agenda" onClick={() => this.openMinutePageFunc()} />
 			      	<FlatButton label="Edit Meeting" onClick={() => this.setState({ openEditForm: true })} />
 			      	<FlatButton label="Remove Meeting" onClick={this.removeMeeting.bind(this)}/>
 			    </CardActions>

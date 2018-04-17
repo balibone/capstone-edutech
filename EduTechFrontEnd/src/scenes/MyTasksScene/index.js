@@ -46,6 +46,7 @@ export default class MyTasksScene extends Component {
 
     return (
       <Animated animationIn="zoomIn" animationOut="fadeOut" isVisible>
+        <div className="mainContent">
           <Row>
             <Col md={12}>
               <Breadcrumb>
@@ -72,6 +73,7 @@ export default class MyTasksScene extends Component {
               </Paper>
             </Col>
           </Row>
+        </div>
       </Animated>
     );
   }

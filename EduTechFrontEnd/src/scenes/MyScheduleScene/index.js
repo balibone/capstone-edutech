@@ -19,7 +19,7 @@ export default class MyScheduleScene extends Component {
   render() {
     return (
       <Animated animationIn="zoomIn" animationOut="fadeOut" isVisible>
-        <div>
+        <div className="mainContent">
           <Breadcrumb>
             <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item> {/* eslint-disable-line */}
             <Breadcrumb.Item active>My Schedule</Breadcrumb.Item>
