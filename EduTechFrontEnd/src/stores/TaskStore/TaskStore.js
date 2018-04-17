@@ -3,7 +3,7 @@ import swal from 'sweetalert';
 import moment from 'moment';
 
 import Task from './Task';
-import { findUserTasks, createTask, deleteTask, editTask, updateTaskProgress } from '../../services/taskAPI';
+import { findUserTasks, createTask, deleteTask, editTask, updateTaskProgress } from '../../services/taskApi';
 import UtilStore from '../UtilStore/UtilStore';
 import ScheduleItemStore from '../ScheduleItemStore/ScheduleItemStore';
 
