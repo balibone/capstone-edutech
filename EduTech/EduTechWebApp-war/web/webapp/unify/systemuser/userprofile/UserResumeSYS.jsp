@@ -288,16 +288,11 @@
                                         <td><%= resumeDate %><span style="display: none">;<%= resumeID%></span></td>
                                         <td><%= resumeName %></td>
                                         <td><%= resumeCreator %></td>
-                                        <td><button type="submit" style="margin-left: 3px" class="btn btn-sm btn-primary">
-                                                <a href="ProfileSysUser?pageTransit=goToViewResumeDetails&hiddenResumeID=<%= resumeID%>" style="color: #fff; text-decoration:none;">View</a>
-                                            </button>
-                                            <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-warning">
-                                                <a href="ProfileSysUser?pageTransit=goToEditResumeDetailsSYS&hiddenResumeID=<%= resumeID%>" style="color: #fff; text-decoration:none;">Edit</a>
-                                            </button>
-                                            <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-danger">
-                                                <a href="ProfileSysUser?pageTransit=goToDeleteResumeSYS&hiddenResumeID=<%= resumeID%>" style="color: #fff; text-decoration:none;"
-                                                   onclick="return confirm('Are you sure to delete the resume?')">Delete</a>
-                                            </button></td>
+                                        <td><a href="ProfileSysUser?pageTransit=goToViewResumeDetails&hiddenResumeID=<%= resumeID%>" class="btn btn-sm btn-primary" style="color: #fff; text-decoration:none;margin-left: 3px">View</a>
+                                            <a href="ProfileSysUser?pageTransit=goToEditResumeDetailsSYS&hiddenResumeID=<%= resumeID%>" class="btn btn-sm btn-warning" style="color: #fff; text-decoration:none;margin-left: 3px">Edit</a>
+                                            <a href="ProfileSysUser?pageTransit=goToDeleteResumeSYS&hiddenResumeID=<%= resumeID%>" class="btn btn-sm btn-danger" style="color: #fff; text-decoration:none;margin-left: 3px"
+                                               onclick="return confirm('Are you sure to delete the resume?')">Delete</a>
+                                        </td>
                                     </tr>
                                     <%      }   %>
                                     <%  }%>

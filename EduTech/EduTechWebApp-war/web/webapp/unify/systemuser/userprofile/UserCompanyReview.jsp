@@ -278,10 +278,8 @@
                                         <td><%= reviewRating %></td>
                                         <td><%= reviewStatus %></td>
                                         <td>
-                                            <button type="submit" style="margin-left: 3px" class="btn btn-sm btn-danger">
-                                                <a href="ProfileSysUser?pageTransit=goToDeleteReview&hiddenReviewID=<%= reviewID%>" style="color: #fff; text-decoration:none;"
-                                                   onclick="return confirm('Are you sure to delete the review?')">Delete</a>
-                                            </button>
+                                            <a href="ProfileSysUser?pageTransit=goToDeleteReview&hiddenReviewID=<%= reviewID%>" class="btn btn-sm btn-danger" style="color: #fff; text-decoration:none;margin-left: 3px"
+                                               onclick="return confirm('Are you sure to delete the review?')">Delete</a>
                                         </td>
                                     </tr>
                                     <%      }   %>
