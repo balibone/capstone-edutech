@@ -25,7 +25,6 @@ var pointerIcon = L.icon({
 
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
-    $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
 
     map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
     map.locate({setView: true, watch: true}).on('locationfound', function (e) {

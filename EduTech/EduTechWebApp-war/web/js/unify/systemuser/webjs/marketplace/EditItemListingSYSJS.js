@@ -19,7 +19,6 @@ var pointerIcon = L.icon({
 
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
-    $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
     /* PREPOPULATE DATA */
     var dbTradeLocation = document.getElementById("dbTradeLocation").value;
