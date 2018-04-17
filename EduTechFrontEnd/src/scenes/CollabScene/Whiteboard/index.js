@@ -8,12 +8,11 @@ import {RaisedButton} from 'material-ui';
 import {Row, Col} from 'react-bootstrap';
 
 import { socket } from '../../../services/socketApi';
-import GroupScheduleItemStore from '../../../stores/ScheduleItemStore/GroupScheduleItemStore';
 import GroupStore from '../../../stores/GroupStore/GroupStore';
 
 
 const sketchPadStyle = {
-  border: '1px solid #eee',
+  border: '10px solid #000',
 }
 
 export default class Whiteboard extends Component {
@@ -46,27 +45,29 @@ export default class Whiteboard extends Component {
 				a.click();
 			});
 	}
-
-
   render() {
-      const { tool, size, color, fill, fillColor, items } = this.state;
+    const { tool, size, color, fill, fillColor, items } = this.state;
     return (
-      <div>
-        <div style={{ float:'left', marginRight:20, border: '1px solid #AAA'}} id="divToPrint">
+      <div className="text-center">
+			<Row>
+				<Col md={7}>
+        <div style={{ float:'left', marginRight:20, borderRight: '2px dotted #1fbcd3'}} id="divToPrint">
 					<SketchPad
-            width={900}
-            height={490}
+						style={sketchPadStyle}
+            width={500}
+            height={700}
             animate={true}
             size={size}
             color={color}
             fillColor={fill ? fillColor : ''}
             items={items}
             tool={tool}
-            onCompleteItem={i => socket.emit('addItem', i, GroupScheduleItemStore.collabMeeting.id)}
+            onCompleteItem={i => socket.emit('addItem', i, GroupStore.collabGroup.id)}
           />
         </div>
+				</Col>
+				<Col md={5}>
 				<Row>
-				<Col md={7}>
         <div style={{float:'left', padding: '20px'}}>
           <div className="tools" style={{marginBottom:20}}>
             <button
@@ -109,14 +110,13 @@ export default class Whiteboard extends Component {
                 </span> : ''}
             </div> : ''}
         </div>
-				</Col>
-				<Col md={5}>
+				</Row>
+				<Row>
 					<div style={{padding: '20px'}}>
 						<br />
-						<RaisedButton label="Save" fullWidth secondary onClick={() => this.printDocument()} />
-						<br />
-						<RaisedButton style={{marginTop: '15px'}}label="Download" fullWidth primary onClick={() => this.printDocument()} />
+						<RaisedButton style={{marginTop: '15px', width: '80%'}} secondary label="Download" onClick={() => this.printDocument()} />
 					</div>
+				</Row>
 				</Col>
 				</Row>
       </div>

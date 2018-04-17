@@ -6,7 +6,6 @@ import swal from 'sweetalert';
 
 import { STUDENT_PRIMARY2_COLOR } from '../../../utils/constants';
 
-import GroupScheduleItemStore from '../../../stores/ScheduleItemStore/GroupScheduleItemStore';
 import GroupStore from '../../../stores/GroupStore/GroupStore';
 
 
@@ -19,8 +18,7 @@ const styles = {
 @observer
 class CollabTopBar extends Component {
   async componentWillMount() {
-    const { meetingId, groupId } = this.props.match.params;
-    await GroupScheduleItemStore.fetchCollabMeeting(meetingId);
+    const { groupId } = this.props.match.params;
     await GroupStore.fetchCollabGroup(groupId);
   }
   handleLeaveSession() {
@@ -38,13 +36,13 @@ class CollabTopBar extends Component {
     });
   }
   render() {
-    if (!GroupScheduleItemStore.doneFetchingCollabMeeting || !GroupStore.doneFetchingCollabGroup) {
+    if (!GroupStore.doneFetchingCollabGroup) {
       return 'loading...'
     }
     return (
       <div>
         <AppBar
-          title={<span style={styles.title}>{GroupStore.collabGroup.title}: {GroupScheduleItemStore.collabMeeting.title}</span>}
+          title={<span style={styles.title}>Edutech Live Collab: {GroupStore.collabGroup.title}</span>}
           iconElementLeft={(<div />)}
           iconElementRight={<RaisedButton className="todayButton" backgroundColor={STUDENT_PRIMARY2_COLOR} labelColor="white" label="Leave Session" onClick={() => this.handleLeaveSession()} />}
           style={{ position: 'fixed', top: 0 }}

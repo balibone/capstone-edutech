@@ -2,11 +2,10 @@
   text-align: center;
   padding: 3px 15px 50px 15px;
   position: relative;
-  max-height: 90vh;
 }
 
 .sideSectionItem {
-  margin: 25px 0;
+  margin: 25px 0 0px 0;
 }
 
 .statNumberTask {
