@@ -116,6 +116,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobVec.add(getJobLikeCount(jobE.getJobID()));
             if(lookupLike(jobE.getJobID(), username) == null) { jobVec.add(false);}
             else { jobVec.add(true); }
+            jobVec.add(jobE.getJobPostDate());
             jobList.add(jobVec);
             dateString = "";
         }
@@ -1194,6 +1195,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             userJobVec.add(String.format ("%,.2f", jE.getJobRate()));
             //userJobVec.add(getItemLikeCount(jE.getJobID()));
             userJobVec.add(jE.getJobRateType());
+            userJobVec.add(jE.getJobStatus());
             userJobList.add(userJobVec);
             dateString = "";
         }

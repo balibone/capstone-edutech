@@ -28,9 +28,9 @@
                             String username = String.valueOf(v.get(0));
                             String userFirstName = String.valueOf(v.get(1));
                             String userLastName = String.valueOf(v.get(2));
-                            //String userItemPositiveRatingCount = String.valueOf(v.get(3));
-                            //String userItemNeutralRatingCount = String.valueOf(v.get(4));
-                            //String userItemNegativeRatingCount = String.valueOf(v.get(5));
+                            String userItemPositiveRatingCount = String.valueOf(v.get(3));
+                            String userItemNeutralRatingCount = String.valueOf(v.get(4));
+                            String userItemNegativeRatingCount = String.valueOf(v.get(5));
                 %>
                 <tr>
                     <td>
@@ -45,9 +45,9 @@
                                 <div class="rating">
                                     <ul class="profileRating">
                                         <li>@<%= username%></li>
-                                        <li>[&nbsp;&nbsp;<img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%--= userItemPositiveRatingCount--%></span></li>
-                                        <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%--= //userItemNeutralRatingCount--%></span></li>
-                                        <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%--= //userItemNegativeRatingCount--%></span>&nbsp;&nbsp;]</li>
+                                        <li>[&nbsp;&nbsp;<img class="ratingImage" src="images/profilerating/positive.png" /><span class="ratingValue"><%= userItemPositiveRatingCount%></span></li>
+                                        <li><img class="ratingImage" src="images/profilerating/neutral.png" /><span class="ratingValue"><%= userItemNeutralRatingCount%></span></li>
+                                        <li><img class="ratingImage" src="images/profilerating/negative.png" /><span class="ratingValue"><%= userItemNegativeRatingCount%></span>&nbsp;&nbsp;]</li>
                                     </ul>
                                 </div>
                             </div>

@@ -122,7 +122,7 @@ $("input[type='text'], input[type='number'], input[type='date'], input[type='tim
     
     if($(this).val() != ""  && $("input[name='jobDuration']").is(":checked") == true 
             && $("input[name='jobTitle']").val() != "" && $("input[name='workDate']").val()>'1980-01-01'
-            && $("input[type='number']").val() != "" && $("input[type='time']").val() != ""){
+            && $("input[type='number']").val() >= 0 && $("input[type='time']").val() != ""){
     	
             $("#step2").removeAttr("disabled");
         
@@ -146,7 +146,7 @@ var helperInput = document.getElementById('numOfHelpers');
 jobRateInput.onkeydown = function(e) {
     if(!((e.keyCode > 95 && e.keyCode < 106)
       || (e.keyCode > 47 && e.keyCode < 58) 
-      || e.keyCode == 8 || keyCode == 190)) {
+      || e.keyCode == 8 || keyCode === 190)) {
         return false;
     }
 };

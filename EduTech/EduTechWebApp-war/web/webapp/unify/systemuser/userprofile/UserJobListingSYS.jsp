@@ -248,6 +248,24 @@
                     </div>
                                     
                     <div class="col-lg-9 col-md-8">
+                        <%                    
+                            String successMessage = (String) request.getAttribute("successMessage");
+                            if (successMessage != null) {
+                        %>
+                        <div class="alert alert-success" id="successPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeSuccess">&times;</button>
+                            <%= successMessage%>
+                        </div>
+                        <%  }   %>
+                        <%
+                            String errorMessage = (String) request.getAttribute("errorMessage");
+                            if (errorMessage != null) {
+                        %>
+                        <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0;">
+                            <button type="button" class="close" id="closeError">&times;</button>
+                            <%= errorMessage%>
+                        </div>
+                        <%  }   %>
                         <div class="title"><span>Your Job Listing</span></div>
                         
                         <div class="jplist-search sorting-bar">
@@ -324,7 +342,7 @@
                                                 <span class="card-text category <%= categoryPath%>"><%= categoryName%></span><br/>
                                                 <span class="card-text rate jobRate">S$<%= jobRate%></span> <span>/<%= jobRateType%></span><br/>
                                                 <a href="ErrandsSysUser?pageTransit=goToEditJobListing&hiddenJobID=<%= jobID%>" class="btn btn-primary mt-2 mb-3" style="padding: 5px 5px; font-size: 15px;">Edit</a>
-                                                <a href="ErrandsSysUser?pageTransit=deleteJobListingSYS&hiddenJobID=<%= jobID%>" onclick="return confirm('Are you sure to delete the job?')" class="btn btn-danger mb-3 mt-2" style="padding: 5px 5px; font-size: 15px;">Delete</a>
+                                                <a href="ProfileSysUser?pageTransit=deleteMyJobListingSYS&hiddenJobID=<%= jobID%>" onclick="return confirm('Are you sure to delete the job?')" class="btn btn-danger mb-3 mt-2" style="padding: 5px 5px; font-size: 15px;">Delete</a>
                                             </div>
                                             
                                         </div>

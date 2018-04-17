@@ -230,7 +230,9 @@
                                     //String startLocation = String.valueOf(v.get(7));
                                     String jobRateType = String.valueOf(v.get(8));
                                     String jobRate = String.valueOf(v.get(9));
-                                    //String numOfLikes = String.valueOf(v.get(10));
+                                    String jobStatus = String.valueOf(v.get(10));
+                                    
+                                    if(!jobStatus.equals("Completed")){
                         %>
                        <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                         <div class="card card-product">
@@ -245,7 +247,7 @@
                                   
                                     <div class="col-xl-8 col-md-8 col-8">
                                         <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
-                                            <span class="jobTitle"><strong><%= jobTitle%></strong></span>
+                                            <span class="jobTitle" id="job-Title"><strong><%= jobTitle%></strong></span>
                                         </a>
                                         <p class="card-text"><%= jobCategoryName%></p>
                                         <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
@@ -255,6 +257,7 @@
                         </div>
                         </div>
                         <%
+                                        }
                                     }
                             }
                         %>

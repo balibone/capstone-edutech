@@ -288,8 +288,8 @@
                    
                         <span class="border-top-0" id="job_title" style="margin-left: 10px;"><strong><%= jobTitle%></strong></span><br/>
                         <table class="job-information" style="margin-left: 10px;">
-                            <col width="150px" />
-                            <col width="560px" />
+                            <col width="170px" />
+                            <col width="540px" />
                             <tr>
                                 <td colspan="2" style="font-size: 14px;"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;&nbsp;Posted <%=jobPostDate%> by <span><%= posterName%></span><br/></td> 
                             </tr>
@@ -319,8 +319,18 @@
                                 <% }%>
                             </tr>
                             <tr>   
+                                <td><i class="fa fa-users" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Helpers needed: </strong></span></td>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=numOfHelpers%></li></ul></td>
+                            </tr>
+                            <tr>   
                                 <td><i class="fa fa-sticky-note" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Est. Duration: </strong></span></td>
-                                <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=jobDuration%> hours</li></ul></td>
+                                <% if(jobDuration.equals("1.0")){ %>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item">less than one hour</li></ul></td>
+                                <% }else if(jobDuration.equals("2.0")){ %>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item">2-3 hours</li></ul></td>
+                                <% }else if(jobDuration.equals("3.0")){ %>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item">more than 4 hours</li></ul></td>
+                                <% } %>
                             </tr>
                             <tr>   
                                 <td><i class="fa fa-book" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Category: </strong></span></td>
@@ -332,6 +342,14 @@
                             <tr>
                                 <td><i class="fa fa-calendar" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Work Date: </strong></span></td>
                                 <td><ul class="list-inline mb-0"><li class="list-inline-item"><%= jobWorkDate%></li></ul></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-check-circle-o" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Checking: </strong></span></td>
+                                <% if(checking.equals("true")){ %>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item">Yes</li></ul></td>
+                                <% }else{ %>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item">No</li></ul></td>
+                                <% }%>
                             </tr>
                             <tr>
                                 <td valign="top"><i class="fa fa-info-circle" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Description: </strong></span></td>
@@ -347,7 +365,7 @@
                             <%  } else { 
                                   if(!(offerStatus.equals("Accepted") || offerStatus.equals("Completed"))){
                             %>
-                            <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
+                            
                             <button id="makeOfferBtn" type="button" class="btn btn-outline-theme" data-toggle="modal" data-target="#offerModal"><i class="fa fa-star"></i>&nbsp;&nbsp;Make Offer</button>
                             
                             
@@ -445,10 +463,6 @@
                                         <tr>
                                             <td class="bg-light w-25">Work Location Map</td>
                                             <td><div id="mapdiv" style="width: auto; height: 300px;"></div></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-light w-25">Other Information</td>
-                                            <td><%= otherInformation%></td>
                                         </tr>
                                     </tbody>
                                 </table>

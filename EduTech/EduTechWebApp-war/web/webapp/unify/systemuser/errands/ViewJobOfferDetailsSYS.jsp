@@ -237,6 +237,9 @@
                                     String jobRateType = String.valueOf(v.get(8));
                                     String jobRate = String.valueOf(v.get(9));
                                     //String numOfLikes = String.valueOf(v.get(10));
+                                    String jobStatus = String.valueOf(v.get(10));
+                                    
+                                    if(!jobStatus.equals("Completed")){
                         %>
                        <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
                         <div class="card card-product">
@@ -259,7 +262,7 @@
                            </div>
                         </div>
                         </div>
-                        <%
+                        <% }
                                     }
                             }
                         %>
@@ -293,7 +296,11 @@
                         </div>
                         <div class="col-xl-8 col-lg-7 col-md-6" >
                             <span style="font-size: 20px; line-height: 24px;"><strong><%= jobTitle%></strong></span><br/>
-                            <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <%= jobStatus%></span><br/>
+                            <%if(jobStatus.equals("Available")){%>
+                            <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <span class="p-1 text-white bg-success"><%= jobStatus%></span></span><br/>
+                            <%}else if(jobStatus.equals("Reserved")){%>
+                            <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <span class="p-1 bg-warning"><%= jobStatus%></span></span><br/>
+                            <%}%>
                             <span style="font-size: 16px;"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp; Category: <%= category%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; Helpers required: <%= numOfHelpers%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp; Job Rate: S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
