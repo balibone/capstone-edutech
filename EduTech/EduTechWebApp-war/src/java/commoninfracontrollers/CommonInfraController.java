@@ -40,7 +40,9 @@ public class CommonInfraController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-            
+            if(pageAction == null){
+                pageAction = "";
+            }
             switch (pageAction) {
                 case "loginToSys":
                     String enteredUsername = request.getParameter("username");
@@ -192,26 +194,19 @@ public class CommonInfraController extends HttpServlet {
                     }
                     break;
                 case "resetPassword":
-                    boolean captchaSuccess = verifyCaptcha(request.getParameter("g-recaptcha-response"));
-                    if(!captchaSuccess){
-                        response.sendError(400, "Captcha failed. Please try again.");
-                    }
                     boolean isValidUser = cir.isValidUser(request.getParameter("username"));
                     if(!isValidUser){
                         response.sendError(400, "Username does not exist in our system. Please make sure you have entered a valid username.");
+                        break;
                     }
                     boolean resetPasswordSuccess = cir.resetPassword(request.getParameter("username"), request.getParameter("oldPassword"),request.getParameter("password"));
                     if(!resetPasswordSuccess){
                         response.sendError(400, "Your existing password is invalid. Please make sure it is correct.");
+                        break;
                     }
-                    //if both isValidUser and resetPasswordSuccess are true, then break is reached and AJAX call is returned with success. 
                     pageAction = "IntegratedSPLogin";
-                    break;
                 default:
                     break;
-            }
-            if(pageAction == null){
-                pageAction = "";
             }
             if(pageAction != null){
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
@@ -221,6 +216,7 @@ public class CommonInfraController extends HttpServlet {
                     response.sendError(404);
             }else{
                 System.out.println("WARNING: Your pageAction is null!");
+                response.sendError(404);
             }    
         }
         catch(Exception ex) {

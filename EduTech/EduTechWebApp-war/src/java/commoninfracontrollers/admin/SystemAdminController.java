@@ -43,7 +43,9 @@ public class SystemAdminController extends HttpServlet {
             RequestDispatcher dispatcher;
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
-            
+            if(pageAction == null){
+                pageAction = "";
+            }
             String loggedInUsername = "";
 
             //instantiate variables used in switch statement
@@ -259,18 +261,17 @@ public class SystemAdminController extends HttpServlet {
                 default:
                     break;
             }
-            if(pageAction == null){
-                pageAction = "";
-            }
+            
             if(pageAction != null){
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
                 if(dispatcher!=null)
                     dispatcher.forward(request, response);
-                else 
+                else//if dispatcher is null, means pageAction refers to an invalid jsp. 
                     response.sendError(404);
             }else{
                 System.out.println("WARNING: Your pageAction is null!");
-            }
+                response.sendError(404);
+            }   
         }
         catch(Exception ex) {
             log("Exception in CommonInfraController: processRequest()");

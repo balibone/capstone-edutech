@@ -4,25 +4,26 @@ import ChatContentArea from './ChatContentArea';
 import ChatTypeField from './ChatTypeField';
 
 const typingAreaStyle = {
-  height: '18vh',
+  height: '20vh',
   position: 'absolute',
   bottom:'0',
   width: '100%',
-  border: '1px solid #eee',
+  borderTop: '1px solid #1fbcd3',
 }
 
 const contentAreaStyle = {
-  height: '82vh',
+  height: '70vh',
   width: '100%',
-  border: '1px solid #eee',
-  overflow: 'hidden',
+  overflow: 'scroll',
 }
 
 export default class Chatroom extends Component {
   render() {
     return (
       <div>
-        <ChatContentArea/>
+        <div style={contentAreaStyle}>
+          <ChatContentArea messages={this.props.messages} />
+        </div>
         <div style={typingAreaStyle}>
           <ChatTypeField />
         </div>

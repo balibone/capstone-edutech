@@ -58,6 +58,7 @@ export default class ModuleScene extends Component {
     }
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible>
+        <div className="mainContent">
         <Row>
           <Col md={8}>
           <Paper>
@@ -89,6 +90,7 @@ export default class ModuleScene extends Component {
             <RightPanel moduleCode={moduleCode} />
           </Col>
         </Row>
+        </div>
       </Animated>
     );
   }

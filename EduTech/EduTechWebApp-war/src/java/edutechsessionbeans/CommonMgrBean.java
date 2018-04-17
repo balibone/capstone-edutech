@@ -907,7 +907,7 @@ public class CommonMgrBean {
                     + "<b>------------------START-----------------</b><br><br>"
                     + "Title: <i>"+ann.getTitle()+"</i><br><br>"
                     + "Message: "+ann.getMessage()+"<br><br>"
-                    + "<a href='http://localhost:3000/"+ann.getPath()+"'><button>Click here to see event in EduTech</button></a><br><br>"
+                    + "<a href='http://"+java.net.InetAddress.getLocalHost().getHostAddress()+":3000"+ann.getPath()+"'><button>Click here to see event in EduTech</button></a><br><br>"
                     + "<b>------------------END-----------------</b><br><br>"
                     + "<br><br>Cheers,<br>EduBox Team";
             mailMessage.setContent(emailBody, "text/html");
@@ -956,7 +956,7 @@ public class CommonMgrBean {
                     + "\"headings\": {\"en\": \"EduTech : "+ann.getTitle()+"\"},"
                     //contents is notification body
                     + "\"contents\": {\"en\": \""+ann.getMessage()+"\"}"
-                    + ",\"url\": \"http://localhost:3000/"+ann.getPath()+"\""
+                    + ",\"url\": \"http://"+java.net.InetAddress.getLocalHost().getHostAddress()+":3000/"+ann.getPath()+"\""
                     + "}";
             
             //for debugging

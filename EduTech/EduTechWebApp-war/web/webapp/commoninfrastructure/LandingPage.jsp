@@ -1,3 +1,4 @@
+<%@page import="commoninfrasessionbeans.CommonInfraMgrBeanRemote"%>
 <%@include file="/webapp/commoninfrastructure/SessionCheck.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
@@ -68,16 +69,18 @@
             <button type="button" class="btn btn-outline-primary" onclick="location.href='CommonInfra?pageTransit=goToLogout'">Log Out</button>
         </nav>
         <div class="splitcontainer">
-            <div class="split left">
-                <h1>Unify</h1>
-                <p>Your campus community.</p>
-                <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS&userID=<%= loggedInUsername %>" class="enterButton">Enter</a>
-            </div>
-            <div class="split right">
-                <h1>EduTech</h1>
-                <p>Boost your productivity.</p>
-                <a href="http://localhost:3000/" class="enterButton">Enter</a>
-            </div>
+            <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS&userID=<%= loggedInUsername %>">
+                <div class="split left">
+                    <h1>Unify</h1>
+                    <p>Your campus community.</p>
+                </div>
+            </a>
+            <a href="http://<%=java.net.InetAddress.getLocalHost().getHostAddress()%>:3000">
+                <div class="split right">
+                    <h1>EduTech</h1>
+                    <p>Boost your productivity.</p>
+                </div>
+            </a>
         </div>
         
             
