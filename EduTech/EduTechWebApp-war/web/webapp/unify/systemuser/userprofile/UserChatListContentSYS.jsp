@@ -136,11 +136,11 @@
                     </div>
                     <div class="col-2 col-sm-1 col-lg-3 pr-0">
                         <div class="d-flex align-items-center logo-wrapper">
-                            <a href="index.html" class="d-lg-none">
-                                <img src="images/edubox-logo.png" class="logo" />
+                            <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" class="d-lg-none">
+                                <img src="images/edubox-unify-logo.png" class="logo" />
                             </a>
-                            <a href="index.html" class="d-none d-lg-flex mb-2 mb-lg-0">
-                                <img src="images/edubox-logo.png" class="logo" />
+                            <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" class="d-none d-lg-flex mb-2 mb-lg-0">
+                                <img src="images/edubox-unify-logo.png" class="logo" />
                             </a>
                         </div>
                     </div>
@@ -430,6 +430,8 @@
                     </div>
                 </div>
             </div>
+            <div id="marketplace-overlay"></div>
+            <div id="sellNewItem-iframe"></div>
             <input type="hidden" id="messageSenderID" />
             <input type="hidden" id="loggedInUserID" value="<%= loggedInUsername%>" />
         </div>

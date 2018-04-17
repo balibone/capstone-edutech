@@ -24,7 +24,7 @@
     <body>
         <nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-between">
             <a class="navbar-brand" href="CommonInfra?pageTransit=goToCommonLanding">
-                <img src="images/edubox-logo.png" width="auto" height="30" class="d-inline-block align-top" alt="">
+                <img src="images/edubox-unify-logo.png" width="auto" height="30" class="d-inline-block align-top" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

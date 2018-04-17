@@ -12,7 +12,6 @@ var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png
 
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
-    $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
 
     var tradeLocation = document.getElementById("tradeLocation").value;
     var tradeLatitude = document.getElementById("tradeLat").value;

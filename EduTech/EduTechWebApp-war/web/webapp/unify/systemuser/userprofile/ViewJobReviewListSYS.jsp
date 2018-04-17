@@ -9,7 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Unify Errands - Job Review</title>
-        
+
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
@@ -20,12 +20,12 @@
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/weblayout/userprofile/UserJobTransactionCSS.css" rel="stylesheet" type="text/css" />
-        
+
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
-        
-        
+
+
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -70,7 +70,7 @@
                                             <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications<span class="badge badge-light"><%= request.getAttribute("unreadNotificationCount")%></span>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <% 
+                                            <%
                                                 ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
                                                     for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
@@ -99,7 +99,7 @@
                                             <%  } else {    %>
                                             <p style="text-align:center;">There are no notifications.</p>
                                             <div class="dropdown-divider"></div>
-                                            <%  }   %>
+                                            <%  }%>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
@@ -137,11 +137,11 @@
                     </div>
                     <div class="col-2 col-sm-1 col-lg-3 pr-0">
                         <div class="d-flex align-items-center logo-wrapper">
-                            <a href="index.html" class="d-lg-none">
-                                <img src="images/edubox-logo.png" class="logo" />
+                            <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" class="d-lg-none">
+                                <img src="images/edubox-unify-logo.png" class="logo" />
                             </a>
-                            <a href="index.html" class="d-none d-lg-flex mb-2 mb-lg-0">
-                                <img src="images/edubox-logo.png" class="logo" />
+                            <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" class="d-none d-lg-flex mb-2 mb-lg-0">
+                                <img src="images/edubox-unify-logo.png" class="logo" />
                             </a>
                         </div>
                     </div>
@@ -192,11 +192,11 @@
                     </nav>
                 </div>
             </div>
-            
+
             <div id="contentArea" class="container jplist mb-3">
                 <div class="row">
-                <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                    <div class="card user-card">
+                    <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                        <div class="card user-card">
                             <%
                                 Vector userAccountVec = (Vector) request.getAttribute("userAccountVec");
                                 String username, userFirstName, userLastName, userImage, userCreationDate;
@@ -267,90 +267,91 @@
                                 </a>
                             </div>
                         </div>
-                </div>
-                    
-                <div class="col-lg-9 col-md-8">
-                     <div class="title"><span>Errands Reviews</span></div>
+                    </div>
+
+                    <div class="col-lg-9 col-md-8">
+                        <div class="title"><span>Errands Reviews</span></div>
                         <div class="table-responsive">
                             <table id="jobReviewTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" style="font-size: 13px;">
                                 <thead>
-                                  <tr>
-                                    <th scope="col">The Review is Given by</th>
-                                    <th scope="col">Job Title</th>
-                                    <th scope="col">Rating</th>
-                                    <th scope="col">Review Content</th>
-                                    <th scope="col">Review Date</th>
-                                  </tr>
+                                    <tr>
+                                        <th scope="col">The Review is Given by</th>
+                                        <th scope="col">Job Title</th>
+                                        <th scope="col">Rating</th>
+                                        <th scope="col">Review Content</th>
+                                        <th scope="col">Review Date</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                  <%
-                                      ArrayList<Vector> allReviewList = (ArrayList)request.getAttribute("allReviewList");
-                                      
-                                      for(int i=0; i<allReviewList.size(); i++){
-                                          Vector reviewDetails = (Vector)allReviewList.get(i);
-                                          
-                                          String reviewer = (String)reviewDetails.get(0);
-                                          String firstName = (String)reviewDetails.get(1);
-                                          String lastName = (String)reviewDetails.get(2);
-                                          String userImg = (String)reviewDetails.get(3);
-                                          String jobTitle = (String)reviewDetails.get(4);
-                                          String reviewRating = (String)reviewDetails.get(5);
-                                          String reviewContent = (String)reviewDetails.get(6);
-                                          String reviewDate = String.valueOf(reviewDetails.get(7));
-                                          String jobTransactionID = String.valueOf(reviewDetails.get(8));
-                                          String jobID = String.valueOf(reviewDetails.get(9));
-                                  %>
-                                <tr>
-                                    <td>
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <img src="uploads/commoninfrastructure/admin/images/<%= userImg%>" style="width:35px; height:35px;"/>
+                                    <%
+                                        ArrayList<Vector> allReviewList = (ArrayList) request.getAttribute("allReviewList");
+
+                                        for (int i = 0; i < allReviewList.size(); i++) {
+                                            Vector reviewDetails = (Vector) allReviewList.get(i);
+
+                                            String reviewer = (String) reviewDetails.get(0);
+                                            String firstName = (String) reviewDetails.get(1);
+                                            String lastName = (String) reviewDetails.get(2);
+                                            String userImg = (String) reviewDetails.get(3);
+                                            String jobTitle = (String) reviewDetails.get(4);
+                                            String reviewRating = (String) reviewDetails.get(5);
+                                            String reviewContent = (String) reviewDetails.get(6);
+                                            String reviewDate = String.valueOf(reviewDetails.get(7));
+                                            String jobTransactionID = String.valueOf(reviewDetails.get(8));
+                                            String jobID = String.valueOf(reviewDetails.get(9));
+                                    %>
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <img src="uploads/commoninfrastructure/admin/images/<%= userImg%>" style="width:35px; height:35px;"/>
+                                                </div>
+                                                <div class="col-10">
+                                                    <span class="senderName"><strong>&nbsp;&nbsp;&nbsp;<%= reviewer%></strong></span><br/>
+                                                    <span class="senderName">&nbsp;&nbsp;&nbsp;<%= firstName%> <%= lastName%></span>
+                                                </div>
                                             </div>
-                                            <div class="col-10">
-                                                <span class="senderName"><strong>&nbsp;&nbsp;&nbsp;<%= reviewer%></strong></span><br/>
-                                                <span class="senderName">&nbsp;&nbsp;&nbsp;<%= firstName%> <%= lastName%></span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><%= jobTitle%></td>  
-                                    <td><span class="offerPrice"><%= reviewRating%></span></td>
-                                    <td><%= reviewContent%></td>
-                                    <td><%= reviewDate%><span style="display: none">;<%= jobID%>;<%= jobTransactionID%></span></td>
-                                </tr>
-                                  <%
-                                      }
-                                    
-                                  %>
+                                        </td>
+                                        <td><%= jobTitle%></td>  
+                                        <td><span class="offerPrice"><%= reviewRating%></span></td>
+                                        <td><%= reviewContent%></td>
+                                        <td><%= reviewDate%><span style="display: none">;<%= jobID%>;<%= jobTransactionID%></span></td>
+                                    </tr>
+                                    <%
+                                        }
+
+                                    %>
                                 </tbody>
                             </table> 
-                          </div>
-                        </div><br/>
-                       
-                      </div>
-                </div>
-                </div>
-            
-        
-        
-         <div class="chat-main">
-                <div class="col-md-12 chat-header">
-                    <div class="row header-one text-white p-1">
-                        <div class="col-md-6 name pl-2">
-                            <i class="fa fa-comment"></i>
-                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
                         </div>
-                        <div class="col-md-6 options text-right pr-0">
-                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
-                        </div>
+                    </div><br/>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="chat-main">
+            <div class="col-md-12 chat-header">
+                <div class="row header-one text-white p-1">
+                    <div class="col-md-6 name pl-2">
+                        <i class="fa fa-comment"></i>
+                        <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
+                    </div>
+                    <div class="col-md-6 options text-right pr-0">
+                        <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
                     </div>
                 </div>
-                <div class="chat-content">
-                    <div class="col-md-12 chats">
-                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
-                    </div>
+            </div>
+            <div class="chat-content">
+                <div class="col-md-12 chats">
+                    <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
                 </div>
-            </div>           
-                    
+            </div>
+        </div>
+        <div id="marketplace-overlay"></div>
+        
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
@@ -360,7 +361,7 @@
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
-    
+
         <script src="js/unify/systemuser/basejs/datatable/buttons.html5.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/buttons.print.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
@@ -373,6 +374,5 @@
         <script src="js/unify/systemuser/basejs/datatable/vfs_fonts-v0.1.32.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/ViewJobReviewListSYSJS.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/UserJobTransactionJS.js" type="text/javascript"></script>
-        
     </body>
 </html>

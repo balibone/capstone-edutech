@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
-    $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
     $('.mailinbox tbody input:checkbox').click(function () {
         $(this).parents('tr').toggleClass('selected', $(this).prop('checked'));

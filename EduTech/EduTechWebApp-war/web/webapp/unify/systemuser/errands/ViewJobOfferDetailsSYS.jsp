@@ -152,11 +152,11 @@
                     </div>
                     <div class="col-2 col-sm-1 col-lg-3 pr-0">
                         <div class="d-flex align-items-center logo-wrapper">
-                            <a href="index.html" class="d-lg-none">
-                                <img src="images/edubox-logo.png" class="logo" />
+                            <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" class="d-lg-none">
+                                <img src="images/edubox-unify-logo.png" class="logo" />
                             </a>
-                            <a href="index.html" class="d-none d-lg-flex mb-2 mb-lg-0">
-                                <img src="images/edubox-logo.png" class="logo" />
+                            <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" class="d-none d-lg-flex mb-2 mb-lg-0">
+                                <img src="images/edubox-unify-logo.png" class="logo" />
                             </a>
                         </div>
                     </div>
@@ -434,24 +434,25 @@
                 </div>
             </div>
                                 </div>
-          <div class="chat-main">
-                <div class="col-md-12 chat-header">
-                    <div class="row header-one text-white p-1">
-                        <div class="col-md-6 name pl-2">
-                            <i class="fa fa-comment"></i>
-                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
-                        </div>
-                        <div class="col-md-6 options text-right pr-0">
-                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
-                        </div>
+        <div class="chat-main">
+            <div class="col-md-12 chat-header">
+                <div class="row header-one text-white p-1">
+                    <div class="col-md-6 name pl-2">
+                        <i class="fa fa-comment"></i>
+                        <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
                     </div>
-                </div>
-                <div class="chat-content">
-                    <div class="col-md-12 chats">
-                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
+                    <div class="col-md-6 options text-right pr-0">
+                        <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
                     </div>
                 </div>
             </div>
+            <div class="chat-content">
+                <div class="col-md-12 chats">
+                    <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
+                </div>
+            </div>
+        </div>
+        <div id="marketplace-overlay"></div>
         
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
         <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>

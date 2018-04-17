@@ -148,11 +148,11 @@
                     </div>
                     <div class="col-2 col-sm-1 col-lg-3 pr-0">
                         <div class="d-flex align-items-center logo-wrapper">
-                            <a href="index.html" class="d-lg-none">
-                                <img src="images/edubox-logo.png" class="logo" />
+                            <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" class="d-lg-none">
+                                <img src="images/edubox-unify-logo.png" class="logo" />
                             </a>
-                            <a href="index.html" class="d-none d-lg-flex mb-2 mb-lg-0">
-                                <img src="images/edubox-logo.png" class="logo" />
+                            <a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS" class="d-none d-lg-flex mb-2 mb-lg-0">
+                                <img src="images/edubox-unify-logo.png" class="logo" />
                             </a>
                         </div>
                     </div>
@@ -207,56 +207,7 @@
 
             <div id="contentArea" class="container jplist mb-3">
                 <div class="row">
-                    <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                        <div class="card user-card">
-                            <%
-                                Vector userAccountVec = (Vector) request.getAttribute("userAccountVec");
-                                String username, userFirstName, userLastName, userImage, userCreationDate;
-                                username = userFirstName = userLastName = userImage = userCreationDate = "";
-
-                                if (userAccountVec != null) {
-                                    username = (String) userAccountVec.get(0);
-                                    userFirstName = (String) userAccountVec.get(1);
-                                    userLastName = (String) userAccountVec.get(2);
-                                    userImage = (String) userAccountVec.get(3);
-                                    userCreationDate = (String.valueOf(userAccountVec.get(4)));
-                                }
-                            %>
-                            <div class="card-body p-2 mb-3 mb-md-0 mb-xl-3">
-                                <div class="media">
-                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= userImage%>" style="width:50px;height:50px;"/>
-                                    <div class="media-body ml-2">
-                                        <h5 class="user-name"><strong><%= userFirstName%>&nbsp;<%= userLastName%></strong></h5>
-                                        <p>@<%= username%></p>
-                                        <small class="card-text text-muted mt-2">Joined <%= userCreationDate%></small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group list-group-flush">
-                                <button type="button" class="list-group-item list-group-item-action marketplaceBtn active">
-                                    <i class="fa fa-fw fa-shopping-cart"></i>&nbsp;My Marketplace
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action errandsBtn" data-toggle="modal" data-target="#errandsModalCenter">
-                                    <i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action shoutBtn">
-                                    <i class="fa fa-fw fa-comments"></i>&nbsp;My Whispers
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action eventBtn">
-                                    <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action voicesBtn" data-toggle="modal" data-target="#voicesModalCenter">
-                                    <i class="fa fa-fw fa-commenting"></i>&nbsp;My Voices
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-md-8">
+                    <div class="col-lg-12 col-md-12">
                         <%
                             String successMessage = (String) request.getAttribute("successMessage");
                             if (successMessage != null) {
@@ -384,7 +335,7 @@
                                             <div class="card-body mb-2">
                                                 <div class="img-wrapper mb-2">
                                                     <a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%= itemID%>&hiddenCategoryName=<%= itemCategoryName%>">
-                                                        <img class="card-img-top" style="width: 130px; height: 130px;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
+                                                        <img style="width:calc(80%); height:auto;" src="uploads/unify/images/marketplace/item/<%= itemImage%>" />
                                                     </a>
                                                     <div class="tools tools-left" data-animate-in="fadeInLeft" data-animate-out="fadeOutUp">
                                                         <div class="btn-group-vertical" role="group" aria-label="card-product-tools">
@@ -464,6 +415,7 @@
             <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
                 <i class="fa fa-angle-double-up"></i>
             </a>
+            <div id="marketplace-overlay"></div>
             <div id="itemLikeList-iframe"></div>
             <div id="sellNewItem-iframe"></div>
             <div id="shout-iframe"></div>
@@ -487,58 +439,6 @@
                 <input type="hidden" id="itemHiddenID" />
                 <span id="successReportResponse"></span><span id="failedReportResponse"></span>
             </div>
-
-            <div id="modal-custom">
-                <button data-iziModal-close class="icon-close"><i class="fa fa-times"></i></button>
-                <div class="sections">
-                    <section>
-                        <p class="text-center"><strong>Select one of the following to view.</strong></p>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUnifyUserAccountSYS';">
-                                    <div class="card-block card-title mt-5 mb-5">
-                                        <h1 class="mb-3"><i class="fa fa-shopping-cart display-2"></i></h1>
-                                        <h6>My Listings</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMarketplaceTransSYS';">
-                                    <div class="card-block card-title mt-5 mb-5">
-                                        <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
-                                        <h6>My Transactions</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUserItemWishlistSYS';">
-                                    <div class="card-block card-title mt-5 mb-5">
-                                        <h1 class="mb-3"><i class="fa fa-heart display-2"></i></h1>
-                                        <h6>My Wishlist</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS';">
-                                    <div class="card-block card-title mt-5 mb-5">
-                                        <h1 class="mb-3"><i class="fa fa-edit display-2"></i></h1>
-                                        <h6>My Offers</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToPendingItemOfferListSYS';">
-                                    <div class="card-block card-title mt-5 mb-5">
-                                        <h1 class="mb-3"><i class="fa fa-bullhorn display-2"></i></h1>
-                                        <h6>Marketplace Offers</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-            
             
             <!-- Modal -->
             <div class="modal fade" id="errandsModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width: 1200px;">
