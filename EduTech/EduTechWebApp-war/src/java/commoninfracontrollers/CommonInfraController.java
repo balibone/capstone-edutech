@@ -184,12 +184,6 @@ public class CommonInfraController extends HttpServlet {
                     
                     break;
                 case "sendResetEmail":
-                    boolean captchaSuccess1 = verifyCaptcha(request.getParameter("g-recaptcha-response"));
-                    if(!captchaSuccess1){
-                        request.setAttribute("failMsg", "Captcha failed. Please try again."); 
-                        pageAction = "ForgotPassword";
-                        break;
-                    }
                     success = cir.sendResetEmail(request.getParameter("username"),request.getLocalPort());
                     if(success){
                         request.setAttribute("successMsg", "Recover email has been sent. Please check your inbox."); 
@@ -210,6 +204,7 @@ public class CommonInfraController extends HttpServlet {
                         response.sendError(400, "Your existing password is invalid. Please make sure it is correct.");
                         break;
                     }
+                    pageAction = "IntegratedSPLogin";
                 default:
                     break;
             }
