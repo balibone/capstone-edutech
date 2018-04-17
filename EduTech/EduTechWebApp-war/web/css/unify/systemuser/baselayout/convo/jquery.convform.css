@@ -324,14 +324,14 @@ span.clear {
 .spinLoader,
 .spinLoader:before,
 .spinLoader:after {
-    background: #009688 !important;
+    background: transparent;
     -webkit-animation: spinLoaderChat 1s infinite ease-in-out;
     animation: spinLoaderChat 1s infinite ease-in-out;
     width: 1em;
     height: 4em;
 }
 .spinLoader {
-    color: #009688 !important;
+    color: transparent;
     text-indent: -9999em;
     margin: 50% auto;
     position: relative;

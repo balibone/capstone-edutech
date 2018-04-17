@@ -83,6 +83,7 @@
                             <ul class="sub-menu">
                                 <li><a href="MarketplaceAdmin?pageTransit=goToViewItemCategoryListing"><i class="fa fa-bookmark"></i>&nbsp;Item Categories</a></li>
                                 <li><a href="MarketplaceAdmin?pageTransit=goToViewItemListing"><i class="fa fa-th-list"></i>&nbsp;Item Listing</a></li>
+                                <li><a href="MarketplaceAdmin?pageTransit=goToViewItemTransactionList"><i class="fa fa-th-list"></i>&nbsp;Item Transactions</a></li>
                             </ul>
                         </li>
                         <li>

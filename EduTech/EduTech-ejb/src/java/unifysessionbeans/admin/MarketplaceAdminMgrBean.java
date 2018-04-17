@@ -350,11 +350,8 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             return "Selected item cannot be found. Please try again.";
         } else {
             iEntity = lookupItem(urlItemID);
-            CategoryEntity categoryE = iEntity.getCategoryEntity();
             UserEntity userE = iEntity.getUserEntity();
-            
-            categoryE.getItemSet().remove(iEntity);
-            userE.getItemSet().remove(iEntity);
+            iEntity.setItemStatus("Delisted");
             
             mEntity = new MessageEntity();
             String messageContent = "Dear " + iEntity.getUserEntity().getUsername() + ", your '" + 
@@ -364,12 +361,8 @@ public class MarketplaceAdminMgrBean implements MarketplaceAdminMgrBeanRemote {
             userE.getMessageSet().add(mEntity);
             
             em.persist(mEntity);
-            em.merge(categoryE);
             em.merge(userE);
-            
-            em.remove(iEntity);
-            em.flush();
-            em.clear();
+            em.merge(iEntity);
             return "Selected item has been deleted successfully (A system notification has been sent to the seller)!";
         }
     }

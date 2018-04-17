@@ -800,7 +800,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
     }
     
     @Override
-    public String completeAnItemOffer(long itemOfferID, String itemStatus) {
+    public String completeAnItemOffer(String username, long itemOfferID, String itemStatus) {
         if (lookupItemOffer(itemOfferID) == null) { return "Some errors occured while processing your item offer. Please try again."; }
         else {
             ioEntity = lookupItemOffer(itemOfferID);
@@ -817,14 +817,15 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             mEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
             (ioEntity.getUserEntity()).getMessageSet().add(mEntity);
             
-            itEntity = new ItemTransactionEntity();
-            itEntity.createItemTransaction(ioEntity.getItemOfferPrice(), ioEntity.getUserEntity().getUsername());
-            iEntity.getItemTransactionSet().add(itEntity);
-            itEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
-            itEntity.setItemEntity(iEntity);
-            
+            if((iEntity.getUserEntity().getUsername()).equals(username)) {
+                itEntity = new ItemTransactionEntity();
+                itEntity.createItemTransaction(ioEntity.getItemOfferPrice(), ioEntity.getUserEntity().getUsername());
+                iEntity.getItemTransactionSet().add(itEntity);
+                itEntity.setUserEntity(ioEntity.getItemEntity().getUserEntity());
+                itEntity.setItemEntity(iEntity);
+                em.persist(itEntity);
+            }
             em.persist(mEntity);
-            em.persist(itEntity);
             
             em.merge(ioEntity);
             em.merge(iEntity);

@@ -187,14 +187,13 @@
                                     <th data-class="expand">Reviewer ID</th>
                                     <th data-class="expand">Receiver ID</th>
                                     <th data-hide="phone">Review Rating</th>
-                                    <th data-hide="phone">Review Content</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <%
                                     ArrayList<Vector> itemReviewList = (ArrayList) request.getAttribute("itemReviewList");
                                     if (!itemReviewList.isEmpty()) {
-                                        for (int i = 0; i <= itemReviewList.size() - 1; i++) {
+                                        for (int i = 0; i <= itemReviewList.size()-1; i++) {
                                             Vector v = itemReviewList.get(i);
                                             String itemReviewDate = String.valueOf(v.get(0));
                                             String itemReviewerID = String.valueOf(v.get(1));
@@ -207,7 +206,6 @@
                                     <td><%= itemReviewerID%></td>
                                     <td><%= itemReviewReceiverID%></td>
                                     <td><%= itemReviewRating%></td>
-                                    <td><%= itemReviewContent%></td>
                                 </tr>
                                 <%      }   %>
                                 <%  }   %>

@@ -270,9 +270,9 @@
                                         <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
                                              data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
                                             <ul>
-                                                <li><span data-number="2" data-default="true">2 per page</span></li>
-                                                <li><span data-number="4">4 per page</span></li>
-                                                <li><span data-number="8">8 per page</span></li>
+                                                <li><span data-number="3" data-default="true">3 per page</span></li>
+                                                <li><span data-number="6">6 per page</span></li>
+                                                <li><span data-number="9">9 per page</span></li>
                                             </ul>
                                         </div>
                                         <div class="jplist-checkbox-dropdown" data-control-type="checkbox-dropdown" 

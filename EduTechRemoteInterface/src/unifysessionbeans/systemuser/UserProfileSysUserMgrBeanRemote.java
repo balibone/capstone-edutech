@@ -29,7 +29,7 @@ public interface UserProfileSysUserMgrBeanRemote {
     public String acceptAnItemOffer(long itemOfferID, String sellerComments);
     public String negotiateAnItemOffer(long itemOfferID, String sellerComments);
     public String rejectAnItemOffer(long itemOfferID);
-    public String completeAnItemOffer(long itemOfferID, String itemStatus);
+    public String completeAnItemOffer(String username, long itemOfferID, String itemStatus);
     public String reopenAnItemOffer(long itemOfferID, String itemStatus);
     public String provideTransFeedback(String username, long itemOfferID, String transactionRating);
     

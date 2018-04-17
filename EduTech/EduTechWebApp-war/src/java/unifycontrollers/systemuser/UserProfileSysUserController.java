@@ -228,7 +228,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     long itemOfferIDComplete = Long.parseLong(request.getParameter("urlItemOfferID"));
                     String itemStatusComplete = request.getParameter("itemStatus");
                     
-                    responseMessage = usmr.completeAnItemOffer(itemOfferIDComplete, itemStatusComplete);
+                    responseMessage = usmr.completeAnItemOffer(loggedInUsername, itemOfferIDComplete, itemStatusComplete);
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     
