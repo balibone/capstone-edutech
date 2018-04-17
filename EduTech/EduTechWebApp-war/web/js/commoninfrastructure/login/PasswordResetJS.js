@@ -105,6 +105,7 @@ $(function(){
                     },
                     error: function(jqXHR,status,error){
                         alert(status+": "+error);
+                        window.location.reload();
                     }
                 });
             }

@@ -39,6 +39,8 @@
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/ForgotCSS.css">
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/dashboard/baselayout/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/coming-soon.min.css">
+        <!--ReCAPTCHA-->
+        <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
     
     <body class="text-center">
@@ -51,7 +53,9 @@
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" placeholder="Enter your username" required name="username">
             </div>
-                
+            <div class="form-group">
+                <div class="g-recaptcha" data-sitekey="6Lc-c1MUAAAAAD9JbT3Qwqu9Rx7cSFD8gGJiuKoQ"></div>
+            </div>    
             <input type="hidden" name="pageTransit" value="sendResetEmail"/>
             <%  if(request.getAttribute("failMsg") != null) {   %>
             <div class="alert alert-danger" role="alert"><%= request.getAttribute("failMsg")%></div>
@@ -68,43 +72,5 @@
         <!--Custom JS-->
         <script src="js/commoninfrastructure/login/coming-soon.min.js" type="text/javascript"></script>
         
-<!--        <script>
-            $(function(){
-                $("#newUser").on("submit", function(event){
-                    event.preventDefault();
-                    var username = $("#username").val();
-                    var password = $("#password").val();
-                    var contact = $("#contactNum").val();
-                    var goodToSubmit = true;
-                    //validate username
-                    if(username.length < 8){
-                        goodToSubmit = false;
-                        
-                    }
-                    //validate password
-                    //validate contactNum
-                    if(startTime >= endTime){
-                        alert("Invalid time range!");
-                    }
-                    if(goodToSubmit){
-                        var formData = $(this).serialize();
-                        console.log(formData);
-                        $.ajax({
-                            url: "EduTechAdmin",
-                            type: 'POST',
-                            data: formData,
-                            success: function(data){
-                                $('#newEventModal').modal('hide');
-                                alert('Event successfully created');
-                                top.location.reload();
-                            },
-                            error: function(jqXHR,status,error){
-                                alert(status+": "+error);
-                            }
-                        });
-                    }
-                });
-            });
-        </script>-->
     </body>
 </html>
