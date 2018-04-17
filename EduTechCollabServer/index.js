@@ -15,7 +15,7 @@ var server = app.listen(4000, function(){
 app.use(express.static('public'));
 
 const sessions = []
-const folderPath = './data/';
+const folderPath = './data/';   
 
 // Socket setup & pass server
 var io = socket(server);
