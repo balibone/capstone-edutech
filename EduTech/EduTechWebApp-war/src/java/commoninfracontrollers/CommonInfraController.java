@@ -41,7 +41,7 @@ public class CommonInfraController extends HttpServlet {
             ServletContext servletContext = getServletContext();
             String pageAction = request.getParameter("pageTransit");
             if(pageAction == null){
-                pageAction = "";
+                pageAction = "placeHolderAction";
             }
             switch (pageAction) {
                 case "loginToSys":
@@ -205,19 +205,14 @@ public class CommonInfraController extends HttpServlet {
                         break;
                     }
                     pageAction = "IntegratedSPLogin";
-                default:
-                    break;
             }
-            if(pageAction != null){
+            if(pageAction != null && !pageAction.equals("placeHolderAction")){
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
                 if(dispatcher!=null)
                     dispatcher.forward(request, response);
                 else//if dispatcher is null, means pageAction refers to an invalid jsp. 
                     response.sendError(404);
-            }else{
-                System.out.println("WARNING: Your pageAction is null!");
-                response.sendError(404);
-            }    
+            }
         }
         catch(Exception ex) {
             log("Exception in CommonInfraController: processRequest()");

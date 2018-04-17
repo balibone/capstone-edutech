@@ -106,7 +106,7 @@
                                     <input type="hidden" name="id" value="<%=username%>"/>
                                     <button type="submit" class="btn btn-primary" value="submit">Assign Module</button>
                                     <%
-                                        String type = (String)userInfo.get(6);
+                                        String type = (String)userInfo.get(7);
                                         if (type.equalsIgnoreCase("instructor")) {
                                     %>
                                     <a href="EduTechAdmin?pageTransit=InstructorList"><button type="button" class="btn btn-default">Go Back To Instructor List</button></a>
