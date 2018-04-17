@@ -10,7 +10,7 @@
         
         <!-- CASCADING STYLESHEET -->
         <link href="css/unify/systemuser/weblayout/errands/SignaturePadSYSCSS.css" rel="stylesheet" type="text/css">
-        
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
     </head>
     <body onload="init()">
         
@@ -19,8 +19,8 @@
         <div style="position:absolute;top:10%;left:85%;">Eraser</div>
         <div id="white" onclick="color(this)"></div>
         
-        <button type="button" id="saveBtn" style="position:absolute; top:80%; left:10%;">Save</button>
-        <button type="button" id="clr" onclick="erase()" style="position:absolute; top:80%; left:20%;">Clear</button>
+        <button type="button" class="btn btn-primary" id="saveBtn" style="position:absolute; top:80%; left:30%;">Complete</button>
+        <button type="button" class="btn btn-warning text-white" id="clr" onclick="erase()" style="position:absolute; top:80%; left:50%;">Clear</button>
         <input type="hidden" id="hiddenJobID" value="<%= request.getParameter("jobID")%>">
         <input type="hidden" id="hiddenUsername" value="<%= request.getParameter("username")%>">
         <input type="hidden" id="hiddenCategory" value="<%= request.getParameter("category")%>">
@@ -28,5 +28,6 @@
     
     <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
     <script src="js/unify/systemuser/webjs/errands/SignaturePadSYSJS.js" type="text/javascript"></script>
+    <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
     </body>
 </html>

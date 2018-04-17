@@ -129,7 +129,8 @@ $(document).on('click', '#saveBtn', function() {
                 signatureImg: dataURL,
                 pageTransit: 'completeJobTransaction'
             },
-            success: {
+            success: function(){
+                window.parent.location.assign("ErrandsSysUser?pageTransit=goToJobDetailsAfterSign&jobID=" + $('#hiddenJobID').val() + "&category=" + $('#hiddenCategory').val());
             }
         });  
         
