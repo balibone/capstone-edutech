@@ -1,4 +1,5 @@
-var webSocket = new WebSocket('ws://localhost:8080/EduTechWebApp-war/WebSocketGateway/' + $('#hiddenChatID').val());
+var windowIP = window.location.hostname;
+var webSocket = new WebSocket('ws://windowIP:8080/EduTechWebApp-war/WebSocketGateway/' + $('#hiddenChatID').val());
 webSocket.onerror = function (event) {
     console.log(event.data);
 };
@@ -15,15 +16,19 @@ $(document).ready(function () {
     $('#sellingContacts').hide();
     
     $('ul.buyingContacts li').click(function () {
-        var buyingChatID = $(this).attr('id');
-        buyingChatID = buyingChatID.replace('contact', '');
-        window.open('ProfileSysUser?pageTransit=goToViewChatListContentSYS&hidChatID=' + buyingChatID + '&hidChatType=Buying', '_self');
+        var tempBuyingChatID = $(this).attr('id');
+        tempBuyingChatID = tempBuyingChatID.replace('contact', '');
+        var buyingChatID = tempBuyingChatID.split('%')[0];
+        var buyerCRED = tempBuyingChatID.split('%')[1];
+        window.open('ProfileSysUser?pageTransit=goToViewChatListContentSYS&hidChatID=' + buyingChatID + '&hidChatType=Buying&hidBuyerCRED=' + buyerCRED, '_self');
     });
-    
+
     $('ul.sellingContacts li').click(function () {
-        var sellingChatID = $(this).attr('id');
-        sellingChatID = sellingChatID.replace('contact', '');
-        window.open('ProfileSysUser?pageTransit=goToViewChatListContentSYS&hidChatID=' + sellingChatID + '&hidChatType=Selling', '_self');
+        var tempSellingChatID = $(this).attr('id');
+        tempSellingChatID = tempSellingChatID.replace('contact', '');
+        var sellingChatID = tempSellingChatID.split('%')[0];
+        var buyerCRED = tempSellingChatID.split('%')[1];
+        window.open('ProfileSysUser?pageTransit=goToViewChatListContentSYS&hidChatID=' + sellingChatID + '&hidChatType=Selling&hidBuyerCRED=' + buyerCRED, '_self');
     });
     
     $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });

@@ -336,6 +336,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     String hidChatType = request.getParameter("hidChatType");
                     request.setAttribute("contentChatID", hidChatID);
                     request.setAttribute("hidChatType", hidChatType);
+                    
                     request.setAttribute("chatListContentSYS", usmr.viewChatListContent(loggedInUsername, hidChatID));
                     request.setAttribute("chatContentInfoVecSYS", usmr.viewChatContentInfo(loggedInUsername, hidChatID));
                     request.setAttribute("userChatBuyingListSYS", usmr.viewUserChatBuyingList(loggedInUsername, "", false));

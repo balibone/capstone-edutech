@@ -43,7 +43,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
         width: 100%;
         margin: 0 auto;
         padding: 5px 0 0 0;
-        background: #4D7496;
+        background: #009688;
     }
 }
 #frame #sidepanel #profile.expanded .wrap {
@@ -120,7 +120,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     margin-top: 23px;
     font-size: 0.8em;
     cursor: pointer;
-    color: #4D7496;
+    color: #009688;
 }
 @media screen and (max-width: 735px) {
     #frame #sidepanel #profile .wrap i.expand-button {
@@ -136,7 +136,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     border-radius: 6px;
     z-index: 99;
     line-height: initial;
-    background: #4D7496;
+    background: #009688;
     -moz-transition: 0.3s all ease;
     -o-transition: 0.3s all ease;
     -webkit-transition: 0.3s all ease;
@@ -165,7 +165,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-bottom: 8px solid #4D7496;
+    border-bottom: 8px solid #009688;
     margin: -8px 0 0 24px;
 }
 @media screen and (max-width: 735px) {
@@ -265,7 +265,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
 #frame #sidepanel #profile .wrap #expanded input {
     border: none;
     margin-bottom: 6px;
-    background: #4D7496;
+    background: #009688;
     border-radius: 3px;
     color: #f5f5f5;
     padding: 7px;
@@ -273,7 +273,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
 }
 #frame #sidepanel #profile .wrap #expanded input:focus {
     outline: none;
-    background: #4D7496;
+    background: #009688;
 }
 #frame #sidepanel #search {
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
@@ -369,16 +369,16 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     }
 }
 #frame #sidepanel #buyingContacts ul li.contact:hover {
-    background: #4D7496;
+    background: #009688;
     color: #FFFFFF;
 }
 #frame #sidepanel #buyingContacts ul li.contact.active {
-    background: #4D7496;
+    background: #009688;
     color: #FFFFFF;
-    border-right: 5px solid #4D7496;
+    border-right: 5px solid #009688;
 }
 #frame #sidepanel #buyingContacts ul li.contact.active span.contact-status {
-    border: 2px solid #4D7496 !important;
+    border: 2px solid #009688 !important;
 }
 #frame #sidepanel #buyingContacts ul li.contact .wrap {
     width: 88%;
@@ -491,16 +491,16 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     }
 }
 #frame #sidepanel #sellingContacts ul li.contact:hover {
-    background: #4D7496;
+    background: #009688;
     color: #FFFFFF;
 }
 #frame #sidepanel #sellingContacts ul li.contact.active {
-    background: #4D7496;
+    background: #009688;
     color: #FFFFFF;
-    border-right: 5px solid #4D7496;
+    border-right: 5px solid #009688;
 }
 #frame #sidepanel #sellingContacts ul li.contact.active span.contact-status {
-    border: 2px solid #4D7496 !important;
+    border: 2px solid #009688 !important;
 }
 #frame #sidepanel #sellingContacts ul li.contact .wrap {
     width: 88%;
@@ -586,7 +586,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     width: 50%;
     padding: 10px 0;
     background: #F5F5F5;
-    color: #4D7496;
+    color: #009688;
     font-weight: bold;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     cursor: pointer;
@@ -613,7 +613,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     }
 }
 #frame #sidepanel #top-bar button:hover {
-    background: #4D7496;
+    background: #009688;
     color: #F5F5F5;
     font-weight: bold;
 }
@@ -660,7 +660,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
 #frame .content .contact-profile .social-media { float: right; }
 #frame .content .contact-profile .social-media i { margin-left: 14px; cursor: pointer; }
 #frame .content .contact-profile .social-media i:nth-last-child(1) { margin-right: 20px; }
-#frame .content .contact-profile .social-media i:hover { color: #4D7496; }
+#frame .content .contact-profile .social-media i:hover { color: #009688; }
 
 
 #frame .content .messages {
@@ -698,7 +698,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     margin: 6px 8px 0 0;
 }
 #frame .content .messages ul li.sent p {
-    background: #4D7496;
+    background: #009688;
     color: #F5F5F5;
 }
 #frame .content .messages ul li.replies img {
@@ -744,7 +744,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     width: calc(100% - 50px);
     padding: 11px 32px 10px 8px;
     font-size: 0.8em;
-    color: #4D7496;
+    color: #009688;
 }
 @media screen and (max-width: 735px) {
     #frame .content .message-input .wrap input {
@@ -760,7 +760,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     z-index: 4;
     margin-top: 10px;
     font-size: 1.1em;
-    color: #4D7496;
+    color: #009688;
     opacity: .5;
     cursor: pointer;
 }
@@ -779,7 +779,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     width: 50px;
     padding: 12px 0;
     cursor: pointer;
-    background: #4D7496;
+    background: #009688;
     color: #f5f5f5;
 }
 @media screen and (max-width: 735px) {
@@ -788,7 +788,7 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
     }
 }
 #frame .content .message-input .wrap button:hover {
-    background: #4D7496;
+    background: #009688;
 }
 #frame .content .message-input .wrap button:focus {
     outline: none;

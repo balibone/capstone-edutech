@@ -206,7 +206,7 @@ div#chat div.options div.option {
     display: inline-block;
     margin: 5px;
     background: #fff;
-    color: #4D7496;
+    color: #009688;
     cursor: pointer;
     border-radius: 20px;
     font-size: 0.9rem;
@@ -244,7 +244,7 @@ div#chat.conv-form-wrapper  div#messages div.message.to {
     border-top-left-radius: 0;
 }
 div#chat.conv-form-wrapper div#messages div.message.from {
-    background: #4D7496;
+    background: #009688;
     color: #fff;
     border-top-right-radius: 0;
 }
@@ -272,11 +272,11 @@ div#chat div.options div.option:hover {
     background: #eeeeee;
 }
 div#chat div.options div.option.selected {
-    background: #4D7496;
+    background: #009688;
     color: #fff;
 }
 div#chat div.options div.option.selected:hover {
-    background: #4D7496;
+    background: #009688;
 }
 
 form.convFormDynamic button.submit {
@@ -284,7 +284,7 @@ form.convFormDynamic button.submit {
     border: none;
     float: left;
     margin: 5px;
-    color: #4D7496;
+    color: #009688;
     cursor: pointer;
     border-radius: 8px;
     font-size: 1.1rem;
@@ -297,7 +297,7 @@ form.convFormDynamic button.submit {
 
 
 form.convFormDynamic button.submit:hover {
-    background: #4D7496;
+    background: #009688;
     color: #fff;
 }
 
@@ -324,14 +324,14 @@ span.clear {
 .spinLoader,
 .spinLoader:before,
 .spinLoader:after {
-    background: #4D7496 !important;
+    background: #009688 !important;
     -webkit-animation: spinLoaderChat 1s infinite ease-in-out;
     animation: spinLoaderChat 1s infinite ease-in-out;
     width: 1em;
     height: 4em;
 }
 .spinLoader {
-    color: #4D7496 !important;
+    color: #009688 !important;
     text-indent: -9999em;
     margin: 50% auto;
     position: relative;

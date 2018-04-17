@@ -190,7 +190,8 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="ProfileSysUser?pageTransit=goToUnifyUserAccountSYS">Unify Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Marketplace (Item Listing Around Me)</li>
+                            <li class="breadcrumb-item"><a href="MarketplaceSysUser?pageTransit=goToViewItemListingSYS">Marketplace Listings</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Edit Marketplace Listing</li>
                         </ol>
                     </nav>
                 </div>

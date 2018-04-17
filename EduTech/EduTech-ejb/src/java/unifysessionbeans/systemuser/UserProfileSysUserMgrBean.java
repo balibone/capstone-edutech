@@ -321,6 +321,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                 userChatVec.add(chatE.getChatID());
                 userChatVec.add(chatE.getChatStatus());
                 userChatVec.add(chatE.getChatContent());
+                userChatVec.add(chatE.getItemBuyerID());
                 userChatList.add(userChatVec);
             }
         }
@@ -339,6 +340,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                     userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getChatStatus());
                     userChatVec.add("You: " + chatE.getChatContent());
+                    userChatVec.add(chatE.getItemBuyerID());
                     userChatList.add(userChatVec);
                     nameItemHolderArrList.add(chatE.getChatReceiverID() + ";" + chatE.getItemEntity().getItemID());
                 }
@@ -350,6 +352,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                     userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getChatStatus());
                     userChatVec.add(chatE.getChatContent());
+                    userChatVec.add(chatE.getItemBuyerID());
                     userChatList.add(userChatVec);
                     nameItemHolderArrList.add(chatE.getUserEntity().getUsername() + ";" + chatE.getItemEntity().getItemID());
                 }
@@ -379,6 +382,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                     userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getChatStatus());
                     userChatVec.add("You: " + chatE.getChatContent());
+                    userChatVec.add(chatE.getItemBuyerID());
                     userChatList.add(userChatVec);
                     nameItemHolderArrList.add(chatE.getChatReceiverID() + ";" + chatE.getItemEntity().getItemID());
                 }
@@ -390,6 +394,7 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
                     userChatVec.add(chatE.getChatID());
                     userChatVec.add(chatE.getChatStatus());
                     userChatVec.add(chatE.getChatContent());
+                    userChatVec.add(chatE.getItemBuyerID());
                     userChatList.add(userChatVec);
                     nameItemHolderArrList.add(chatE.getUserEntity().getUsername() + ";" + chatE.getItemEntity().getItemID());
                 }

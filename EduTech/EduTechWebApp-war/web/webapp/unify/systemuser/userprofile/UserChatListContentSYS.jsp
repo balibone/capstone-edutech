@@ -194,18 +194,18 @@
                 <div id="frame">
                     <div id="sidepanel">
                         <div id="top-bar">
-                            <button type="button" onclick="javascript:toggleBuying();">
+                            <button id="buyingPanelBtn" type="button" onclick="javascript:toggleBuying();">
                                 <i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i>
                                 <span>Buying</span>
                             </button>
-                            <button type="button" onclick="javascript:toggleSelling();">
+                            <button id="sellingPanelBtn" type="button" onclick="javascript:toggleSelling();">
                                 <i class="fa fa-send-o fa-fw" aria-hidden="true"></i>
                                 <span>Selling</span>
                             </button>
                         </div>
                         <div id="search"><input type="text" placeholder="Search Contacts..." /></div>
                         <div id="buyingContacts">
-                            <ul class="buyingContacts">
+                            <ul id="buyingContactsUL" class="buyingContacts">
                                 <%
                                     ArrayList<Vector> userChatBuyingListSYS = (ArrayList) request.getAttribute("userChatBuyingListSYS");
                                     if (!userChatBuyingListSYS.isEmpty()) {
@@ -217,8 +217,9 @@
                                             String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
+                                            String buyerCRED = String.valueOf(v.get(6));
                                 %>
-                                <li id="contact<%= chatID%>" class="contact">
+                                <li id="contact<%= chatID%>%<%= buyerCRED%>" class="contact">
                                     <div class="wrap">
                                         <img src="uploads/commoninfrastructure/admin/images/<%= itemBuyerImage%>" />
                                         <div class="meta">
@@ -241,7 +242,7 @@
                             </ul>
                         </div>
                         <div id="sellingContacts">
-                            <ul class="sellingContacts">
+                            <ul id="sellingContactsUL" class="sellingContacts">
                                 <%
                                     ArrayList<Vector> userChatSellingListSYS = (ArrayList) request.getAttribute("userChatSellingListSYS");
                                     if (!userChatSellingListSYS.isEmpty()) {
@@ -253,8 +254,9 @@
                                             String chatID = String.valueOf(v.get(3));
                                             String chatStatus = String.valueOf(v.get(4));
                                             String chatContent = String.valueOf(v.get(5));
+                                            String buyerCRED = String.valueOf(v.get(6));
                                 %>
-                                <li id="contact<%= chatID%>" class="contact">
+                                <li id="contact<%= chatID%>%<%= buyerCRED%>" class="contact">
                                     <div class="wrap">
                                         <img src="uploads/commoninfrastructure/admin/images/<%= itemSellerImage%>" />
                                         <div class="meta">
