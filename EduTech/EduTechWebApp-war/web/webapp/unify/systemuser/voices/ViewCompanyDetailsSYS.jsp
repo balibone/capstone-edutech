@@ -326,8 +326,6 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -396,8 +394,8 @@
                                         <ul>
                                             <li><span data-path=".reviewTitle" data-order="asc" data-type="text">Name Asc</span></li>
                                             <li><span data-path=".reviewTitle" data-order="desc" data-type="text">Name Desc</span></li>
-                                            <li><span data-path=".companyRating" data-order="asc" data-type="text">Rating Asc</span></li>
-                                            <li><span data-path=".companyRating" data-order="desc" data-type="text">Rating Desc</span></li>
+                                            <li><span data-path=".reviewRating" data-order="asc" data-type="number">Rating Asc</span></li>
+                                            <li><span data-path=".reviewRating" data-order="desc" data-type="number">Rating Desc</span></li>
                                         </ul>
                                     </div>
                                     <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -416,7 +414,7 @@
                                     </div>
                                 </div>
                                 
-                                <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
+                                <div class="row equal-height" add-class-on-xs="no-gutters">
                                     <div class="list searchresult-row">
                                         <%  ArrayList<Vector> reviewListSYS = (ArrayList) request.getAttribute("associatedReviewListSYS");
                                             if (!reviewListSYS.isEmpty()) {
@@ -449,7 +447,7 @@
                                                                     <span class="card-title reviewTitle" style="color: #333; font-size: 18px; line-height: 1.5;"><strong><%= reviewTitle%></strong></span><br/>
                                                                 </div>
                                                                 <div class="row" style="margin-left: 0px">
-                                                                    <div style="margin-top: 2px"><span class="ml-1 card-text rating companyRating" id="average_rating"><%= reviewRating%></span></div>       
+                                                                    <div style="margin-top: 2px"><span class="ml-1 card-text rating reviewRating" id="average_rating"><%= reviewRating%></span></div>       
                                                                     <div class="star-rating">
                                                                     <% double review_rating = Double.parseDouble(reviewRating);
                                                                         double review_percent = 0.0;
@@ -498,7 +496,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-7 col-md-7 col-7"></div>
                                                             <div class="col-lg-2 col-md-2 col-2">
-                                                                <input type="hidden" id="tabType" value="<%= (String) request.getAttribute("tabType")%>" />
+                                                                <input type="hidden" id="tabType" value="<%= request.getAttribute("tabType")%>" />
                                                                 <input type="hidden" id="companyID" value="<%= companyID%>" />
                                                                 <input type="hidden" id="reviewPoster" value="<%= reviewPoster%>" />
                                                                 <input type="hidden" id="reviewID" value="<%= reviewID%>" />
@@ -527,7 +525,7 @@
                                 <div class="box jplist-no-results text-shadow align-center">
                                     <p><strong>No results found. Please refine your search.</strong></p>
                                 </div>
-                                <div class="jplist-search">
+                                <div class="jplist-search box">
                                     <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
                                         data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
                                     </div>

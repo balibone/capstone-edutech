@@ -1,4 +1,6 @@
-.table > thead > tr > th { background: #4D7496; color: #fff; font-weight: 700; border: 1px solid #8b8c8d; border-top: 2px solid #ddd; border-bottom: 2px solid #ddd; }
+.table { font-size: 13px; }
+.table > tbody > tr:hover { cursor: pointer; }
+.table > tbody > tr > td { vertical-align: middle; }
 
 .mailinbox [class*="col-md-"] {
     padding: 0;
@@ -97,18 +99,17 @@
 .inbox tbody tr.selected td {
     background: #FFFBDB;
 }
-.mailinbox input[type=checkbox] {
+.mailList input[type=checkbox] {
     display: none;
 }
 
 
 /*Center Checkbox*/
-.mailinbox thead th:first-child {
+.mailList thead th:first-child {
     text-align: center;
 }
-.mailinbox th input[type=checkbox] + label:before {
+.mailList th input[type=checkbox] + label:before {
     content: "\f0c8";
-    color: #FFF;
     font-family: FontAwesome;
     text-align: center;
     position: inherit;
@@ -118,20 +119,19 @@
     line-height: 9px;
     padding: 0;
 }
-.mailinbox th input[type=checkbox] + label:after {
+.mailList th input[type=checkbox] + label:after {
     display: none
 }
 
 
 /* checked icon for thead */
-.mailinbox th input[type=checkbox]:checked + label:before {
+.mailList th input[type=checkbox]:checked + label:before {
     content: "\f14a";
-    color: #fff;
 }
 
 
 /* Different style for tbody input */
-.mailinbox input[type=checkbox] + label:before {
+.mailList input[type=checkbox] + label:before {
     content: "\f111";
     color: #d0dad9;
     font-family: FontAwesome;
@@ -148,7 +148,7 @@
 
 
 /* Draw One Else Symbol Behind Check Icon to Create Right Crossbrowser Outline Effect */
-.mailinbox input[type=checkbox] + label:after {
+.mailList input[type=checkbox] + label:after {
     font-family: FontAwesome;
     content: "\f111";
     position: absolute;
@@ -162,7 +162,7 @@
 
 
 /* checked icon */
-.mailinbox input[type=checkbox]:checked + label:before {
+.mailList input[type=checkbox]:checked + label:before {
     content: "\f058";
     color: #595f66
 }
@@ -185,14 +185,14 @@
     cursor: pointer;
     line-height: .85em;
 }
-.mailinbox .user-image {
+.mailList .user-image {
     position: relative;
     margin: 5px;
     display: block;
     width: 40px;
     height: 40px;
 }
-.mailinbox .user-image img {
+.mailList .user-image img {
     display: block;
     max-width: 100%;
     border-radius: 50%;
@@ -313,4 +313,23 @@
     .mailinbox .left-content .list-group-item:first-child {
         border-top-right-radius: 4px;
     }
+}
+
+.badge-light {
+    color: #fff;
+    background-color: red;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
 }

@@ -53,3 +53,22 @@ th {
 
 #successOfferResponse { color: #228B22; font-weight: bold; display: none; }
 #failedOfferResponse { color: #FF0000; font-weight: bold; display: none; }
+
+.badge-light {
+    color: #fff;
+    background-color: red;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+}

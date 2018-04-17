@@ -288,31 +288,34 @@
                                     
                                     <!-- Modal body -->
                                     <div class="modal-body">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="Request Company Name (required)" required="required" name="requestCompany" id="requestCompany" />
+                                        <form action="VoicesSysUser" method="POST" enctype="multipart/form-data">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Request Company Name (required)" required="required" name="requestCompany" id="requestCompany" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <input type="hidden" id="dbCompanyIndustry" value="<%= request.getAttribute("industryStrSYS")%>" />
-                                                <select class="form-control" id="companyIndustry" name="companyIndustry" onchange="javascript: otherIndustry()" required>
-                                                    <option value="" disabled selected>-- Select Company Industry --</option>
-                                                    <option value="otherIndustry" >Other Industry</option>
-                                                </select>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="hidden" id="dbCompanyIndustry" value="<%= request.getAttribute("industryStrSYS")%>" />
+                                                    <select class="form-control" id="companyIndustry" name="companyIndustry" required="required" required="required" onchange="javascript: otherIndustry()" required>
+                                                        <option value="" disabled selected>-- Select Company Industry --</option>
+                                                        <option value="otherIndustry" >Other Industry</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mt-3" id="otherIndustry" ></div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <textarea rows="2" cols="30" class="form-control" placeholder="Request Comment" name="requestComment" id="requestComment"></textarea>
+                                            <div class="mt-3" id="otherIndustry" ></div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <textarea rows="2" cols="30" class="form-control" placeholder="Request Comment" name="requestComment" id="requestComment" required="required"></textarea>
+                                                </div>
                                             </div>
-                                        </div>
                                     </div>
+                                    <input type="hidden" name="pageTransit" value="createRequestSYS" />
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" id="companyRequest">Report</button>
+                                        <button type="submit" class="btn btn-primary" id="companyRequest">Send</button>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -392,7 +395,7 @@
                                                         </div>
                                                         <div class="company-latest-post">
                                                             <i class="fa fa-list-alt">&nbsp;</i><span class="float-none" style="font-size: 12px">
-                                                                <%  if (companyNumOfReview.equals("0")) {%><%= companyNumOfReview%>&nbsp;Review
+                                                                <%  if (companyNumOfReview.equals("0")||companyNumOfReview.equals("1")) {%><%= companyNumOfReview%>&nbsp;Review
                                                                 <%  }  else {%><%= companyNumOfReview%>&nbsp;Reviews
                                                             <%  }   %>
                                                             </span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -410,16 +413,14 @@
                                                                 <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit"><i class="fa fa-plus">&nbsp;&nbsp;</i>Add A Review</button>
                                                             </form>
                                                         </div>
-                                                        <% if(!companyNumOfReview.equals("0")) { %>
                                                         <br/>
                                                         <form action="VoicesSysUser" method="POST">
                                                             <input type="hidden" name="pageTransit" value="goToViewReviewListSYS"/>
                                                             <input type="hidden" name="hiddenCompanyID" value="<%= companyID %>"/>
                                                             <input type="hidden" id="username" value="<%= loggedInUsername %>"/>
                                                             <input type="hidden" name="type" value="reviewListPane"/>
-                                                            <button class="btn btn-outline btn-primary btn-sm btn-block" type="submot"><i class="fa fa-list-alt">&nbsp;&nbsp;</i>View All Reviews</button>
+                                                            <button class="btn btn-outline btn-primary btn-sm btn-block" type="submot"><i class="fa fa-list-alt">&nbsp;&nbsp;</i>View Details</button>
                                                         </form>
-                                                        <% } %>
                                                     </div> 
                                                     
                                                 </div>

@@ -22,8 +22,9 @@
         <script src="js/unify/systemuser/webjs/voices/NewCompanyRequestSYSJS.js" type="text/javascript"></script>  
     </head>
     <body style="background-color: #FFFFFF;">
-        <% Vector report = (Vector) request.getAttribute("hiddenRequest");
-           if (report != null) { 
+        <%  Vector report = (Vector) request.getAttribute("hiddenRequest");
+            String reviewPoster = (String) request.getAttribute("hiddenReviewPoster");
+            if (report != null) { 
             String reportDate = String.valueOf(report.get(0));
             String reportStatus = String.valueOf(report.get(1));%>
             <div>&nbsp;</div>
@@ -31,8 +32,13 @@
             <div>&nbsp;</div>
             <div>&nbsp;</div>
             <div><span><center>Your report sent on <%= reportDate%> is being processed. Please wait.</center></span></div>
-        <% } else {
-        %>
+        <% } else if(reviewPoster.equals(loggedInUsername)){ %>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div><span><center>You cannot report your own review.</center></span></div>
+        <% } else { %>
         <form action="VoicesSysUser" method="POST" enctype="multipart/form-data" target="_parent">
             <table border="0">
                 <tr>

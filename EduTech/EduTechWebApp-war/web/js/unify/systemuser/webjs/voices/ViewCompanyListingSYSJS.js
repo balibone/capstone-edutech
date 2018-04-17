@@ -26,25 +26,36 @@ $(document).ready(function () {
     $('#contentArea').jplist({
         itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
     });
-    
-    $('#newCompanyRequest').on('click', function() {
-        $('iframe').attr('src', 'VoicesSysUser?pageTransit=goToNewCompanyRequestSYS&hiddenUsername='+ $('#username').val());
-        $('#newCompanyRequest-iframe').iziModal('open', event);
-    });
-    
-    $('#newCompanyRequest-iframe').iziModal({
-        title: 'Request for New Company',
-        subtitle: 'Fill in the information of the requested company here',
-        iconClass: 'fa fa-tag',
-        transitionIn: 'transitionIn',
-        transitionOut: 'transitionOut',
-        headerColor: '#4D7496',
-        width: 500,
-        overlayClose: true,
-        iframe : true,
-        iframeHeight: 325
-    });
-    
+    /*
+    $('#requestForm').validate({
+        
+        submitHandler: function (form) {
+            // form validates so do the ajax
+            $.ajax({
+            type: "POST",
+            url: "VoicesSysUser",
+            data: { 
+                companyIndustry: $('#companyIndustry').val(),
+                otherIndustry: $('#newIndustry').val(),
+                requestCompany: $('#requestCompany').val(),
+                requestComment: $('#requestComment').val(),
+                username: $('#username').val(),
+                pageTransit: 'createRequestSYS'
+            },
+            success: function(returnString) {
+                alert("Your request has been sent successfully!");
+                return false;
+            },
+            error: function(e) {
+                alert("Not Work");
+            }
+            
+        });
+            
+            return false; // ajax used, block the normal submit
+        }
+    }); */
+    /*
     $('#companyRequest').click(function(){
         $.ajax({
             type: "POST",
@@ -61,7 +72,7 @@ $(document).ready(function () {
                 alert("Your request has been sent successfully!");
             }
         });
-    });
+    }); */
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });

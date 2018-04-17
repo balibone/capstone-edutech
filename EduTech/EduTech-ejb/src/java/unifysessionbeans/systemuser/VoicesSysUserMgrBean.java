@@ -274,7 +274,7 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
     
     @Override
     public String createResume(String userFullName, String contactNum, String emailAddr, String postalAddr, String summary, String awardStr,
-                               String[] eduExprList, String[] proExprList, String[] skillList, String[] workExprList, String[] referenceList, String fileName, String username) {
+                               String[] eduExprList, String[] proExprList, String[] skillList, String[] workExprList, String[] referenceList, String fileName, String username, String type) {
         
         UserEntity userEntity = lookupUnifyUser(username);
         ResumeEntity resumeEntity = new ResumeEntity();
@@ -328,9 +328,17 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
         if(resumeEntity.createResume(userFullName, contactNum, emailAddr, postalAddr, summary, awardStr, eduExprSet, proExprSet, skillSet, workExprSet, referenceSet, fileName, userEntity)) {
             userEntity.getResumeSet().add(resumeEntity);
             em.persist(resumeEntity);
-            return "Resume has been created successfully!";
+            if(type.equals("create")) {
+                return "Resume has been created successfully!";
+            } else {
+                return "Resume has been updated successfully!";
+            }
         } else {
-            return "There were some issues encountered while creating your resume. Please try again.";
+            if(type.equals("create")) {
+                return "There were some issues encountered while creating your resume. Please try again.";
+            } else {
+                return "There were some issues encountered while updating your resume. Please try again.";
+            }
         }
     }
     
@@ -622,8 +630,9 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             reviewVec.add(cre.getUserEntity().getUsername());
             reviewVec.add(cre.getCompanyEntity().getCompanyName());
             reviewVec.add(cre.getReviewTitle());
-            reviewVec.add(getReviewLikeCount(cre.getReviewID()));
+            reviewVec.add(cre.getReviewRating());
             reviewVec.add(cre.getReviewStatus());
+            reviewVec.add(cre.getCompanyEntity().getCompanyID());
             reviewList.add(reviewVec);
         }
         return reviewList;
@@ -681,6 +690,8 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             basicVec.add(re.getContactNum());
             basicVec.add(re.getEmailAddr());
             basicVec.add(re.getPostalAddr());
+            basicVec.add(re.getSummary());
+            basicVec.add(re.getAwardStr());
         }
         return basicVec;
     }
@@ -741,5 +752,65 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
             }
         }
         return proExprList;
+    }
+    
+    @Override
+    public List<Vector> viewReferenceList(long resumeID) {
+        ResumeEntity re = lookupResume(resumeID);
+        List<Vector> referenceList = new ArrayList<Vector>();
+        
+        Collection<ReferenceEntity> referenceSet = re.getReferenceSet();
+        if(referenceSet!=null) {
+            for(ReferenceEntity pe: referenceSet) {
+                Vector refVec = new Vector();
+                
+                refVec.add(pe.getRefereeName());
+                refVec.add(pe.getRefereeCompany());
+                refVec.add(pe.getRefereePosition());
+                refVec.add(pe.getReferenceContent());
+                referenceList.add(refVec);
+            }
+        }
+        return referenceList;
+    }
+    
+    @Override
+    public List<Vector> viewProSkillList(long resumeID) {
+        ResumeEntity re = lookupResume(resumeID);
+        List<Vector> skillList = new ArrayList<Vector>();
+        
+        Collection<SkillEntity> skillSet = re.getSkillSet();
+        if(skillSet!=null) {
+            for(SkillEntity pe: skillSet) {
+                Vector skillVec = new Vector();
+                if(pe.getSkillType().equals("Professional")) {
+                    skillVec.add(pe.getSkillName());
+                    skillVec.add(pe.getSkillLevel());
+                    skillVec.add(pe.getSkillType());
+                    skillList.add(skillVec);
+                }
+            }
+        }
+        return skillList;
+    }
+    
+    @Override
+    public List<Vector> viewPerSkillList(long resumeID) {
+        ResumeEntity re = lookupResume(resumeID);
+        List<Vector> skillList = new ArrayList<Vector>();
+        
+        Collection<SkillEntity> skillSet = re.getSkillSet();
+        if(skillSet!=null) {
+            for(SkillEntity pe: skillSet) {
+                Vector skillVec = new Vector();
+                if(pe.getSkillType().equals("Personal")) {
+                    skillVec.add(pe.getSkillName());
+                    skillVec.add(pe.getSkillLevel());
+                    skillVec.add(pe.getSkillType());
+                    skillList.add(skillVec);
+                }
+            }
+        }
+        return skillList;
     }
 }

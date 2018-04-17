@@ -19,23 +19,21 @@
         <title>Unify - My Notification List</title>
 
         <!-- CASCADING STYLESHEET -->
-        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
+        <link href="css/unify/systemuser/baselayout/bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/animate-v3.5.2.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/font-awesome-v4.7.0.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/owl.carousel-v2.2.1.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/owl.theme.default.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/iziModal.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/weblayout/userprofile/UserNotificationListSYSCSS.css" rel="stylesheet" type="text/css">
         
-        <link href="css/unify/systemuser/baselayout/jplist/jquery-ui.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.filter-toggle-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/unify/systemuser/baselayout/datatable/select.dataTables.min.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -77,7 +75,7 @@
                                 <li class="nav-item d-none d-md-block">
                                     <div class="dropdown-container">
                                         <a href="#" class="nav-link" id="dropdown-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block;">
-                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications
+                                            <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications<span class="badge badge-light"><%= request.getAttribute("unreadNotificationCount")%></span>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
                                             <% 
@@ -203,7 +201,7 @@
                 </div>
             </div>
 
-            <div id="contentArea" class="container jplist mb-3">
+            <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
                         <div class="card user-card">
@@ -231,11 +229,11 @@
                                 </div>
                             </div>
                             <div class="list-group list-group-flush">
-                                <button type="button" class="list-group-item list-group-item-action marketplaceBtn">
+                                <button type="button" class="list-group-item list-group-item-action marketplaceBtn active">
                                     <i class="fa fa-fw fa-shopping-cart"></i>&nbsp;My Marketplace
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
-                                <button type="button" class="list-group-item list-group-item-action">
+                                <button type="button" class="list-group-item list-group-item-action errandsBtn" data-toggle="modal" data-target="#errandsModalCenter">
                                     <i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
@@ -247,35 +245,17 @@
                                     <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
                                     <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
                                 </button>
+                                <button type="button" class="list-group-item list-group-item-action voicesBtn" data-toggle="modal" data-target="#voicesModalCenter">
+                                    <i class="fa fa-fw fa-commenting"></i>&nbsp;My Voices
+                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-8">
-                        <div class="title"><span>Your Item Listing</span></div>
-                        <div class="jplist-search sorting-bar">
-                            <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
-                                 data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort" 
-                                 data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
-                                <ul>
-                                    <li><span data-path=".itemPostingDate" data-order="desc" data-type="datetime" data-default="true">Recently Posted</span></li>
-                                    <li><span data-path=".itemNumOfLikes" data-order="desc" data-type="number">Popularity</span></li>
-                                    <li><span data-path=".itemNumOfPendingOffer" data-order="desc" data-type="number">Pending Offer</span></li>
-                                    <li><span data-path=".itemName" data-order="asc" data-type="text">Name Asc</span></li>
-                                    <li><span data-path=".itemName" data-order="desc" data-type="text">Name Desc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="asc" data-type="number">Price Asc</span></li>
-                                    <li><span data-path=".itemPrice" data-order="desc" data-type="number">Price Desc</span></li>
-                                </ul>
-                            </div>
-                            <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
-                                 data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true">
-                                <ul>
-                                    <li><span data-number="4">4 per page</span></li>
-                                    <li><span data-number="8">8 per page</span></li>
-                                    <li><span data-number="12" data-default="true">12 per page</span></li>
-                                    <li><span data-number="16">16 per page</span></li>
-                                </ul>
-                            </div>
-                            <div class="input-group-addon" style="float: right; margin-top: 10px">
+                        <div class="title"><span>Your Notification Listing</span></div>
+                        <div class="table-responsive mailList">
+                            <div class="input-group-addon" style="float: left;">
                                 <form action="VoicesSysUser" method="POST" name="notificationForm" enctype="multipart/form-data">
                                     <input type="hidden" name="pageTransit" value="markNotificationSYS" />
                                     <input type="hidden" name="notificationList" value="" />
@@ -284,25 +264,20 @@
                                 <button id="markBtn" class="btn btn-sm btn-theme" disabled="disabled" onclick="markRead()">&nbsp;Mark As Read</button>
                                 
                             </div>
-                        </div>
-                        
-                        <!-- USER MESSAGE LIST -->
-                        <!-- <div class="list searchresult-row"> -->
-                            <div class="table-relative table-responsive mailinbox">
-                                <table id="notificationTable" class="table table-condensed table-striped margin-0px">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2">
-                                                <input id="all" type="checkbox" class="checkall" />
-                                                <label for="all"></label>&nbsp;&nbsp;&nbsp;Sender
-                                            </th>
-                                            <th>Notification Type</th>
-                                            <th>Notification Content</th>
-                                            <th>Notification Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% 
+                            <table id="notificationTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <input id="all" type="checkbox" class="checkall" onchange="checkAll()"/>
+                                            <label for="all"></label>&nbsp;&nbsp;&nbsp;Sender
+                                        </th>
+                                        <th>Notification Type</th>
+                                        <th>Notification Content</th>
+                                        <th>Notification Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% 
                                             ArrayList<Vector> userMessageListSYS = (ArrayList) request.getAttribute("userMessageListSYS");
                                             if (!userMessageListSYS.isEmpty()) {
                                                 for (int i = 0; i <= userMessageListSYS.size() - 1; i++) {
@@ -316,7 +291,7 @@
                                                     String msgSentDuration = String.valueOf(v.get(6));
                                                     String msgStatus = String.valueOf(v.get(7));
                                         %>
-                                        <tr class="unread">
+                                    <tr class="unread list-item">
                                             <td style="width: 5%;">
                                                 <div class="user-image">
                                                     <%  if (msgType.equals("System")) {%>
@@ -332,25 +307,13 @@
                                             </td>
                                             <td id="msgSenderID-<%= i%>" style="width: 10%;"><%= msgSenderID%></td>
                                             <td style="width: 20%;"><%= msgType%></td>
-                                            <td style="width: 40%;"><%= msgContent%><span id="msgContentID-<%= i%>" style="display:none;">;<%= msgContentID%></span></td>
+                                            <td class="msgContent" style="width: 40%;"><%= msgContent%><span id="msgContentID-<%= i%>" style="display:none;">;<%= msgContentID%></span></td>
                                             <td style="width: 25%;"><%= msgSentDateTime%><br/><%= msgSentDuration%></td>
                                         </tr>
-                                        <%      }   %>
-                                        <%  }   %>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <!-- </div> -->
-                        <div class="box jplist-no-results text-shadow align-center">
-                            <p><strong>No results found. Please refine your search.</strong></p>
-                        </div>
-                        <div class="jplist-search">
-                            <div class="jplist-label" data-type="Displaying {end} of all {all} results" 
-                                 data-control-type="pagination-info" data-control-name="paging" data-control-action="paging">
-                            </div>
-                            <div class="jplist-pagination" data-control-animate-to-top="true" 
-                                 data-control-type="pagination" data-control-name="paging" data-control-action="paging">
-                            </div>
+                                    <%      }   %>
+                                    <%  }%>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -430,6 +393,48 @@
                     </section>
                 </div>
             </div>
+            
+            <div class="modal fade" id="voicesModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width: 1200px;">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle" style="font-size: 15px"><strong>Select one of the following to view.</strong></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-5 ml-4">
+                                    <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToCompanyReview';">
+                                        <div class="card-block card-title mt-5 mb-5">
+                                            <h1 class="mb-3"><i class="fa fa-fw fa-building"></i></h1>
+                                            <h6>My Company Reviews</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 ml-4">
+                                    <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToCompanyRequest';">
+                                        <div class="card-block card-title mt-5 mb-5">
+                                            <h1 class="mb-3"><i class="fa fa-fw fa-question-circle"></i></h1>
+                                            <h6>My Company Requests</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <div class="col-sm-5 ml-4">
+                                    <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToResume';">
+                                        <div class="card-block card-title mt-5 mb-5">
+                                            <h1 class="mb-3"><i class="fa fa-fw fa-file"></i></h1>
+                                            <h6>My Resume List</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
@@ -442,15 +447,16 @@
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/userprofile/UserNotificationListSYSJS.js" type="text/javascript"></script>
-
-        <script src="js/unify/systemuser/basejs/jplist/jquery-ui.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.core.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-dropdown-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.filter-toggle-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.history-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.jquery-ui-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.pagination-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.sort-bundle.min.js"></script>
-        <script src="js/unify/systemuser/basejs/jplist/jplist.textbox-filter.min.js"></script>
+        
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.buttons-v1.5.1.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.responsive.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/dataTables.select-v1.2.5.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/jquery.dataTables-v1.10.16.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/jszip-v3.1.3.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/pdfmake-v0.1.32.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/vfs_fonts-v0.1.32.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/buttons.html5.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/datatable/buttons.print.min.js" type="text/javascript"></script>
     </body>
 </html>

@@ -260,7 +260,14 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="companyRating">Overall Rating&nbsp;<span class="asterik">*</span></label>
-                                                <input type="number" step="0.1" min="0" max="5" class="form-control" name="companyRating" aria-label="companyRating" required="required" />
+                                                <select class="form-control" name="companyRating" data-width="75%" required>
+                                                    <option value="">Select</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="salaryRange">Salary Range&nbsp;<span class="asterik">*</span></label><br/>

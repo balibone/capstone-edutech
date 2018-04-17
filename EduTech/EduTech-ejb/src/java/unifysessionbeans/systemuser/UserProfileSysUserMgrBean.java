@@ -1479,4 +1479,17 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         }
         return me;
     }
+    
+    @Override
+    public Long getUnreadNotificationCount() {
+        Long unreadNotificationCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(DISTINCT m.messageID) FROM Message m WHERE m.messageStatus='Unread'");
+        try {
+            unreadNotificationCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in UserProfilesSysUserMgrBean.getUnreadNotificationCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return unreadNotificationCount;
+    }
 }

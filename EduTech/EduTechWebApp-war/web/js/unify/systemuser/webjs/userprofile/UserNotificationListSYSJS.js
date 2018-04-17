@@ -2,10 +2,6 @@ $(document).ready(function () {
     $('#unifyPageNAV').load('webapp/unify/systemuser/masterpage/PageNavigation.jsp');
     $('#unifyFooter').load('webapp/unify/systemuser/masterpage/PageFooter.jsp');
     
-    $('#contentArea').jplist({
-        itemsBox: '.list', itemPath: '.list-item', panelPath: '.jplist-search'
-    });
-    
     $('.mailinbox tbody input:checkbox').click(function () {
         $(this).parents('tr').toggleClass('selected', $(this).prop('checked'));
     });
@@ -31,19 +27,44 @@ $(document).ready(function () {
         } else if (msgType.indexOf('Errands') >= 0) {
             window.open('ProfileSysUser?pageTransit=', '_self');
         } else if (msgType.indexOf('Voices') >= 0) {
-            window.open('ProfileSysUser?pageTransit=', '_self');
+            //window.open('ProfileSysUser?pageTransit=', '_self');
         }
         }
     });
     
     $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
+    
+    $('#notificationTable').DataTable({
+        'dom': 'Bfrtip',
+        'responsive': true, 
+        'pageLength': 10,
+        'buttons': [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
 });
+
+function checkAll() {
+    
+    var rows = document.getElementById("notificationTable").getElementsByTagName("tbody")[0].getElementsByTagName('tr').length;
+    var checkbox = document.getElementById("notificationTable").getElementsByTagName("tbody")[0].getElementsByTagName('input');
+    
+    for(var i=0;i<rows;i++) {
+        if(checkbox[i].type==='checkbox'&&checkbox[i].checked===false){
+            checkbox[i].checked=true;
+            $('#'+i).addClass('checked');
+        } else if(checkbox[i].type==='checkbox'&&checkbox[i].checked===true){
+            checkbox[i].checked=false;
+            $('#'+i).removeClass('checked');
+        }
+    }
+}
 
 function readMessage(sequenceID) {
     var markBtn = document.getElementById('markBtn');
     markBtn.disabled = false;
-    var message = document.getElementById(sequenceID);
-    $('#'+sequenceID).addClass('checked');
+    if($('#'+sequenceID).hasClass('checked')) { $('#'+sequenceID).removeClass('checked'); }
+    else { $('#'+sequenceID).addClass('checked'); }
 }
 
 function markRead() {

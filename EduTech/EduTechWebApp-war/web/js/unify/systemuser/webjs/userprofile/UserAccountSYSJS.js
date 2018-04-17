@@ -104,7 +104,6 @@ $(document).ready(function () {
     $('#closeSuccess').click(function () { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function () { $('#errorPanel').fadeOut(300); });
     $('.marketplaceBtn').click(function (event) { $('#modal-custom').iziModal('open', event); });
-    $('.voicesBtn').click(function (event) { $('#modal-voices').iziModal('open', event); });
     
     $('.shoutBtn').click(function (event) {$('iframe').attr('src', 'ProfileSysUser?pageTransit=goToViewShoutModalSYS'); $('#shout-iframe').iziModal('open', event); });
     $('.eventBtn').click(function (event) {$('iframe').attr('src', 'ProfileSysUser?pageTransit=goToViewEventModalSYS'); $('#event-iframe').iziModal('open', event); });

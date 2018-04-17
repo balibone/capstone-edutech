@@ -796,3 +796,22 @@ p,ul,li { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vert
 #frame .content .message-input .wrap button:focus {
     outline: none;
 }
+
+.badge-light {
+    color: #fff;
+    background-color: red;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+}

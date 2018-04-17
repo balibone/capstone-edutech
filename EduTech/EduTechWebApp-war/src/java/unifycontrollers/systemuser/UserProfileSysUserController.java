@@ -79,6 +79,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(itemSellerID));
                     request.setAttribute("userJobListing", esmr.viewUserJobList(itemSellerID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserProfileSYS";
                     break;
                 case "goToUnifyUserAccountSYS":
@@ -87,18 +88,21 @@ public class UserProfileSysUserController extends HttpServlet {
                     
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserAccountSYS";
                     break;
                 case "goToMarketplaceTransSYS":
                     request.setAttribute("itemTransListSYS", (ArrayList) usmr.viewItemTransaction(loggedInUsername));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserItemTransactionSYS";
                     break;
                 case "goToErrandsTrans":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("jobTransListSYS", (ArrayList) esmr.viewJobTransaction(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserJobTransaction";
                     break;
                 case "goToMarketplaceTransDetailsSYS":
@@ -108,6 +112,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemTransDetailsSYSVec", usmr.viewTransactionItemDetails(itemID, itemTransID, loggedInUsername));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserItemTransactionDetailsSYS";
                     break;
                 case "goToErrandsTransDetailsSYS":
@@ -117,6 +122,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("jobTransDetailsSYSVec", esmr.viewTransactionJobDetails(jobID, jobTransID, loggedInUsername));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserJobTransactionDetailsSYS";
                     break;
                 case "createJobReview":
@@ -136,6 +142,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
                     request.setAttribute("allReviewList", (ArrayList)esmr.viewAllReviewsReceived(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "ViewJobReviewListSYS";
                     break;
                 case "goToViewJobReviewDetails":
@@ -145,6 +152,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
                     request.setAttribute("jobReviewList", (ArrayList)esmr.viewReviewListOfAJob(loggedInUsername, hiddenJobID));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "ViewJobReviewDetailsSYS";
                     break;
                 case "goToJobListingInUserProfile":
@@ -152,12 +160,14 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(user));
                     request.setAttribute("userJobListing", esmr.viewUserJobList(user));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "JobListingInUserProfileSYS";
                     break;
                 case "goToPendingItemOfferListSYS":
                     request.setAttribute("userMarketplaceOfferListSYS", (ArrayList) usmr.viewUserMarketplaceOfferList(loggedInUsername));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "PendingItemOfferListSYS";
                     break;
                 case "goToPendingItemOfferDetailsSYS":
@@ -166,6 +176,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "PendingItemOfferDetailsSYS";
                     break;
                 case "acceptAnItemOfferSYS":
@@ -180,6 +191,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemOfferUserListSYS", usmr.viewAnItemOfferUserList(loggedInUsername, itemIDHid));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "PendingItemOfferDetailsSYS";
                     break;
                 case "negotiateAnItemOfferSYS":
@@ -194,6 +206,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemOfferUserListSYS", usmr.viewAnItemOfferUserList(loggedInUsername, itemIDHidd));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "PendingItemOfferDetailsSYS";
                     break;
                 case "rejectAnItemOfferSYS":
@@ -207,6 +220,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemOfferUserListSYS", usmr.viewAnItemOfferUserList(loggedInUsername, itemIDHiddd));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "PendingItemOfferDetailsSYS";
                     break;
                 case "completeAnItemOfferSYS":
@@ -221,6 +235,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemOfferUserListSYS", usmr.viewAnItemOfferUserList(loggedInUsername, itemIDComplete));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "PendingItemOfferDetailsSYS";
                     break;
                 case "reopenAnItemOfferSYS":
@@ -235,6 +250,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("itemOfferUserListSYS", usmr.viewAnItemOfferUserList(loggedInUsername, itemIDReopen));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "PendingItemOfferDetailsSYS";
                     break;
                 case "provideFeedbackSYS":
@@ -248,6 +264,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     
                     if(responseMessage.contains("about the buyer")) {
                         request.setAttribute("itemOfferUserListSYS", usmr.viewAnItemOfferUserList(loggedInUsername, itemIDFeedback));
@@ -264,6 +281,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserItemWishlistSYS";
                     break;
                 case "goToUserJobWishlistSYS":
@@ -272,12 +290,14 @@ public class UserProfileSysUserController extends HttpServlet {
                     
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserJobWishlistSYS";
                     break;
                 case "goToUserNotificationListSYS":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListSYS", usmr.viewUserMessageList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserNotificationListSYS";
                     break;
                 case "goToMyBuyerOfferListSYS":
@@ -285,6 +305,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userBuyerOfferListSYS", (ArrayList) usmr.viewPersonalBuyerOfferList(loggedInUsername));
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserItemOfferListSYS";
                     break;
                 case "cancelPersonalItemOfferSYS":
@@ -307,6 +328,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userChatBuyingListSYS", usmr.viewUserChatBuyingList(loggedInUsername, assocItemID, true));
                     request.setAttribute("userChatSellingListSYS", usmr.viewUserChatSellingList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserChatListSYS";
                     break;
                 case "goToViewChatListContentSYS":
@@ -320,6 +342,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userChatBuyingListSYS", usmr.viewUserChatBuyingList(loggedInUsername, "", false));
                     request.setAttribute("userChatSellingListSYS", usmr.viewUserChatSellingList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     
                     HttpSession session = request.getSession(true);
                     session.setAttribute("username", loggedInUsername);
@@ -342,6 +365,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userJobListing", (ArrayList) esmr.viewUserJobList(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserJobListingSYS";
                     break;
                 case "goToViewMyJobOfferSYS":
@@ -349,6 +373,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "editMyJobOfferSYS":
@@ -357,18 +382,21 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "goToDeleteMyJobOfferSYS":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("myJobOfferList", (ArrayList)esmr.viewMyJobOffer(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "ViewMyJobOfferSYS";
                     break;
                 case "goToCompanyReview":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserCompanyReview";
                     break;
                 case "goToDeleteReview":
@@ -381,22 +409,26 @@ public class UserProfileSysUserController extends HttpServlet {
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("companyReviewListSYS", (ArrayList) vsmr.viewUserCompanyReview(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserCompanyReview";
                     break;
                 case "goToCompanyRequest":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("companyRequestListSYS", (ArrayList) vsmr.viewUserCompanyRequest(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "UserCompanyRequest";
                     break;
                 case "goToResume":
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
                     request.setAttribute("resumeListSYS", (ArrayList) vsmr.viewUserResume(loggedInUsername));
-                    pageAction = "UserResume";
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
+                    pageAction = "UserResumeSYS";
                     break;
                 case "goToNewResumeSYS":
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "NewResumeSYS";
                     break;
                 case "createResumeSYS":
@@ -404,18 +436,37 @@ public class UserProfileSysUserController extends HttpServlet {
                     if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
                     else { request.setAttribute("errorMessage", responseMessage); }
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     pageAction = "NewResumeSYS";
+                    break;
+                case "updateResumeSYS":
+                    responseMessage = updateResume(request);
+                    if (responseMessage.endsWith("!")) { request.setAttribute("successMessage", responseMessage); } 
+                    else { request.setAttribute("errorMessage", responseMessage); }
+                    
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
+                    request.setAttribute("resumeListSYS", (ArrayList) vsmr.viewUserResume(loggedInUsername));
+                    pageAction = "UserResumeSYS";
                     break;
                 case "goToViewResumeDetails":
                     long resumeID = Long.parseLong(request.getParameter("hiddenResumeID"));
+                    
+                    request.setAttribute("hiddenResumeID", resumeID);
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     request.setAttribute("basicDetailsVec", vsmr.viewResumeBasicDetails(resumeID));
                     request.setAttribute("eduExprList", vsmr.viewEduExprList(resumeID));
-                    request.setAttribute("workExprList", vsmr.viewWorkExprList(resumeID));
                     request.setAttribute("proExprList", vsmr.viewProjectExprList(resumeID));
-                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("workExprList", vsmr.viewWorkExprList(resumeID));
+                    request.setAttribute("referenceList", vsmr.viewReferenceList(resumeID));
+                    request.setAttribute("proSkillList", vsmr.viewProSkillList(resumeID));
+                    request.setAttribute("perSkillList", vsmr.viewPerSkillList(resumeID));
                     pageAction = "ViewResumeDetailsSYS";
                     break;
-                case "goToDeleteResume":
+                case "goToDeleteResumeSYS":
                     long delResumeID = Long.parseLong(request.getParameter("hiddenResumeID"));
                     if (vsmr.deleteResume(delResumeID)) {
                         System.out.println("Selected Resume has been deleted successfully.");
@@ -424,8 +475,25 @@ public class UserProfileSysUserController extends HttpServlet {
                     }
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
                     request.setAttribute("resumeListSYS", (ArrayList) vsmr.viewUserResume(loggedInUsername));
-                    pageAction = "UserResume";
+                    pageAction = "UserResumeSYS";
+                    break;
+                case "goToEditResumeDetailsSYS":
+                    long editResumeID = Long.parseLong(request.getParameter("hiddenResumeID"));
+                    
+                    request.setAttribute("hiddenResumeID", editResumeID);
+                    request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount());
+                    request.setAttribute("basicDetailsVec", vsmr.viewResumeBasicDetails(editResumeID));
+                    request.setAttribute("eduExprList", vsmr.viewEduExprList(editResumeID));
+                    request.setAttribute("proExprList", vsmr.viewProjectExprList(editResumeID));
+                    request.setAttribute("workExprList", vsmr.viewWorkExprList(editResumeID));
+                    request.setAttribute("referenceList", vsmr.viewReferenceList(editResumeID));
+                    request.setAttribute("proSkillList", vsmr.viewProSkillList(editResumeID));
+                    request.setAttribute("perSkillList", vsmr.viewPerSkillList(editResumeID));
+                    pageAction = "EditResumeDetailsSYS";
                     break;
                 case "markNotificationSYS":
                     long msgContentID = Long.parseLong(request.getParameter("msgContentID"));
@@ -556,15 +624,90 @@ public class UserProfileSysUserController extends HttpServlet {
         String reference = request.getParameter("referenceList");
         String[] referenceList = reference.split(";&",Integer.MAX_VALUE);
         
+        String loggedInUsername = getCookieUsername(request);
         
-        //System.out.print("InfoInfoInfo: " + workExpr);
-        //System.out.print("InfoInfoInfo: " + workExprList.length);
+        responseMessage = vsmr.createResume(userFullName, contactNum, emailAddr, postalAddr, summary, awardStr, eduExprList, proExprList, skillList, workExprList, referenceList, fileName, loggedInUsername, "create");
+        return responseMessage;
+    }
+    
+    private String updateResume(HttpServletRequest request) {
+        String fileName = "";
+        String imageUploadStatus = request.getParameter("imageUploadStatus");
         
+        if(imageUploadStatus.equals("Uploaded")) {
+            try {
+                Part filePart = request.getPart("userImage");
+                fileName = (String) getFileName(filePart);
+                if(fileName.contains("\\")) {
+                    fileName = fileName.replace(fileName.substring(0, fileName.lastIndexOf("\\")+1), "");
+                }
+
+                String appPath = request.getServletContext().getRealPath("");
+                String truncatedAppPath = appPath.replace("dist" + File.separator + "gfdeploy" + File.separator
+                        + "EduTech" + File.separator + "EduTechWebApp-war_war", "");
+                String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
+                        + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "voices"
+                        + File.separator + "resume" + File.separator;
+
+                InputStream inputStream = null;
+                OutputStream outputStream = null;
+
+                try {
+                    File outputFilePath = new File(imageDir + fileName);
+                    inputStream = filePart.getInputStream();
+                    outputStream = new FileOutputStream(outputFilePath);
+
+                    int read = 0;
+                    final byte[] bytes = new byte[1024];
+                    while ((read = inputStream.read(bytes)) != -1) {
+                        outputStream.write(bytes, 0, read);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    fileName = "";
+                } finally {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    if (outputStream != null) {
+                        outputStream.close();
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                fileName = "";
+            }
+        }
+        else { fileName = request.getParameter("oldUserImage"); }
+        
+        long resumeID = Long.parseLong(request.getParameter("hiddenResumeID"));
+        String userFullName = request.getParameter("userFullName");
+        String contactNum = request.getParameter("contactNum");
+        String emailAddr = request.getParameter("emailAddr");
+        String postalAddr = request.getParameter("postalAddr");
+        String summary = request.getParameter("summary");
+        String awardStr = request.getParameter("awardStr");
+        
+        String eduExpr = request.getParameter("eduExprList");
+        String[] eduExprList = eduExpr.split(";&",Integer.MAX_VALUE);
+        String proExpr = request.getParameter("proExprList");
+        String[] proExprList = proExpr.split(";&",Integer.MAX_VALUE);
+        String skill = request.getParameter("skillList");
+        String[] skillList = skill.split(";&",Integer.MAX_VALUE);
+        String workExpr = request.getParameter("workExprList");
+        String[] workExprList = workExpr.split(";&",Integer.MAX_VALUE);
+        String reference = request.getParameter("referenceList");
+        String[] referenceList = reference.split(";&",Integer.MAX_VALUE);
         
         String loggedInUsername = getCookieUsername(request);
         
-        responseMessage = vsmr.createResume(userFullName, contactNum, emailAddr, postalAddr, summary, awardStr, eduExprList, proExprList, skillList, workExprList, referenceList, fileName, loggedInUsername);
-        return responseMessage;
+        if(vsmr.deleteResume(resumeID)) {
+            responseMessage = vsmr.createResume(userFullName, contactNum, emailAddr, postalAddr, summary, awardStr, eduExprList, proExprList, skillList, workExprList, referenceList, fileName, loggedInUsername, "update");
+            return responseMessage;
+        } else {
+            return "There were some issues encountered while updating your resume. Please try again.";
+        }
+        
     }
     
     private String getFileName(final Part part) {
