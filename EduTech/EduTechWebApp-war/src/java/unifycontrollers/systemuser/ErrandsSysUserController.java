@@ -239,6 +239,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     long jobToComplete = Long.parseLong(request.getParameter("jobID"));
                     String category = request.getParameter("category");
                     if(getSignatureImg(request)){ System.out.println("save"); }
+                    String msgmsg = esmr.completeAJob(loggedInUsername, jobToComplete);
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobToComplete, loggedInUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(category, jobToComplete));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));

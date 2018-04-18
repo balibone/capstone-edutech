@@ -476,7 +476,7 @@
     <servlet><servlet-name>UserJobListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserJobListingSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewMyJobOfferSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/ViewMyJobOfferSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>JobListingInUserProfileSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/JobListingInUserProfileSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>UserResume</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserResume.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserResumeSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserResumeSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewShoutModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/ViewShoutModalSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewEventModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/ViewEventModalSYS.jsp</jsp-file></servlet>
     
