@@ -34,7 +34,6 @@ webSocket.onmessage = function (event) {
         $('<li class="replies"><img src="uploads/commoninfrastructure/admin/images/' + $('#receiverIMG').val() + '" /><p>' + socketMSG.split('|')[0] + '</p></li>').appendTo($('.messages ul'));
         
         if(dbResponse.split('|')[0] == 1 && hidChatType == 'Selling') {
-            alert("LOL!");
             dbResponseHTML = '<li id="contact' + dbResponse.split('|')[0] + '%' + itemBuyerID + '" class="contact"><div class="wrap"><img src="uploads/commoninfrastructure/admin/images/' + dbResponse.split('|')[2] + '" /><div class="meta"></div><p class="name" style="font-weight:bolder;">' + itemBuyerID + '<span style="display:none">;' + dbResponse.split('|')[0] + '</span></p><p class="name" style="font-weight:bolder;">' + dbResponse.split('|')[1] + '</p><p class="preview" style="font-weight:bolder;">' + socketMSG.split('|')[0] + '</p></div></li>';
             $('#sellingContactsUL').prepend(dbResponseHTML);
         }
