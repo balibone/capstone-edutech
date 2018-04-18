@@ -13,10 +13,33 @@ webSocket.onopen = function (event) {
     console.log(event.data);
 };
 webSocket.onmessage = function (event) {
+    var dbResponse, dbResponseHTML;
+    var socketMSG = event.data;
+    var itemID = (socketMSG.split('|')[1]).split('&')[0];
+    var itemBuyerID = (socketMSG.split('|')[1]).split('&')[1];
+    
+    $.ajax({
+        type: "POST",
+        url: "ProfileSysUser",
+        data: { 
+            itemIDSocket: itemID,
+            itemBuyerIDSocket: itemBuyerID,
+            pageTransit: 'getChatAvailability'
+        },
+        success: function(returnString) { 
+            dbResponse = returnString;
+        }
+    });
     if(event.data != null && ($('#messageSenderID').val() != $('#loggedInUserID').val())) {
-        $('<li class="replies"><img src="uploads/commoninfrastructure/admin/images/' + $('#receiverIMG').val() + '" /><p>' + event.data + '</p></li>').appendTo($('.messages ul'));
+        $('<li class="replies"><img src="uploads/commoninfrastructure/admin/images/' + $('#receiverIMG').val() + '" /><p>' + socketMSG.split('|')[0] + '</p></li>').appendTo($('.messages ul'));
+        
+        if(dbResponse.split('|')[0] == 1 && hidChatType == 'Selling') {
+            alert("LOL!");
+            dbResponseHTML = '<li id="contact' + dbResponse.split('|')[0] + '%' + itemBuyerID + '" class="contact"><div class="wrap"><img src="uploads/commoninfrastructure/admin/images/' + dbResponse.split('|')[2] + '" /><div class="meta"></div><p class="name" style="font-weight:bolder;">' + itemBuyerID + '<span style="display:none">;' + dbResponse.split('|')[0] + '</span></p><p class="name" style="font-weight:bolder;">' + dbResponse.split('|')[1] + '</p><p class="preview" style="font-weight:bolder;">' + socketMSG.split('|')[0] + '</p></div></li>';
+            $('#sellingContactsUL').prepend(dbResponseHTML);
+        }
     }
-    $(".messages").animate({scrollTop: $(document).height()}, "fast");
+    $(".messages").animate({scrollTop: $('#frame').prop('scrollHeight')}, "fast");
     
     var messageContent = event.data;
     if (messageContent.indexOf('Offered') >= 0 && hidChatType == 'Selling') {
@@ -76,7 +99,7 @@ $(document).ready(function () {
         $('#buyingContacts').hide();
     }
     
-    $(".messages").animate({scrollTop: $(document).height()}, "fast");
+    $(".messages").animate({scrollTop: $('#frame').prop('scrollHeight')}, "fast");
     $('ul').find('#contact' + $('#contentChatID').val() + '\\%' + hidBuyerCRED + '.contact').addClass('active');
     
     $('ul.buyingContacts li').click(function () {

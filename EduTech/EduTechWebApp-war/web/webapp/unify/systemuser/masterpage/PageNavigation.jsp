@@ -2,7 +2,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <style type="text/css">li { cursor: pointer; }</style>
+    </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-0 d-none d-lg-flex navbar-theme">
             <div class="container">

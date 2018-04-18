@@ -20,6 +20,7 @@ public interface UserProfileSysUserMgrBeanRemote {
     public List<Vector> viewChatListContent(String username, long chatID);
     public String addNewChatContent(String senderID, String receiverID, String chatContent, 
             String buyerOrSellerStat, String buyerOrSellerID, long itemID);
+    public String getChatAvailability(long itemID, String itemBuyerID);
     
     /*  ====================    MISCELLANEOUS METHODS (USER ITEM OFFER)    ==================== */
     public List<Vector> viewUserItemAccountList(String username);
