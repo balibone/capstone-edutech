@@ -169,11 +169,16 @@
                 </div>
             </div>
         </div>
-        
+
         <%
             Vector eventDetailsVec = (Vector) request.getAttribute("eventDetailsVec");
-            String eventRequestID, eventRequestStatus, eventRequestTitle, eventRequestDesc, eventRequestStart, eventRequestEnd, eventRequestVenue, eventRequestDate, eventReviewedDate, eventRequestor, eventCreatedID;
-            eventRequestID = eventRequestStatus = eventRequestTitle = eventRequestDesc = eventRequestStart = eventRequestEnd = eventRequestVenue = eventRequestDate = eventReviewedDate = eventRequestor = eventCreatedID = "";
+            String eventRequestID, eventRequestStatus, eventRequestTitle, eventRequestDesc,
+                    eventRequestStart, eventRequestEnd, eventRequestVenue, eventRequestDate,
+                    eventReviewedDate, eventRequestor, eventCreatedID, eventRequestPoster;
+            eventRequestID = eventRequestStatus = eventRequestTitle = eventRequestDesc
+                    = eventRequestStart = eventRequestEnd = eventRequestVenue
+                    = eventRequestDate = eventReviewedDate = eventRequestor
+                    = eventCreatedID = eventRequestPoster = "";
 
             if (eventDetailsVec != null) {
                 eventRequestID = String.valueOf(eventDetailsVec.get(0));
@@ -187,7 +192,7 @@
                 eventReviewedDate = String.valueOf(eventDetailsVec.get(8));
                 eventRequestor = String.valueOf(eventDetailsVec.get(9));
                 eventCreatedID = String.valueOf(eventDetailsVec.get(10));
-
+                eventRequestPoster = String.valueOf(eventDetailsVec.get(11));
             }
         %>
 
@@ -240,9 +245,24 @@
 
                                 <p>Fill up your event details in the form below</p>
 
-                                <form class="form-horizontal form-label-left" action="EventsSysUser" method="POST" enctype="form-data">
+                                <form class="form-horizontal form-label-left" action="EventsSysUser" method="POST" enctype="multipart/form-data">
 
                                     <div class="form-row">
+
+                                        <div class="col-md-3 ml-3">
+                                            <div class="form-group">
+                                                <div class="image-upload">
+                                                    <img id="output-image" src="uploads/unify/images/events/<%= eventRequestPoster%>" />
+                                                </div>
+                                                <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 171px;">
+                                                    <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
+                                                </label>
+                                                <input id="file-upload" name="eventPoster" type="file" accept="image/*" onchange="javascript: previewImage(event)"/>
+                                                    <input type="hidden" name="hiddenEventPoster" value="<%= eventRequestPoster%>" />
+                                                    <input type="hidden" name="imageUploadedCheck" id="imageUploadedCheck" />
+                                            </div>
+
+                                        </div>
 
                                         <div class="col-md-6 ml-6">
 
@@ -324,6 +344,6 @@
         <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/events/ViewEventDetailsSYSJS.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/webjs/events/EditEventRequestSYSJS.js" type="text/javascript"></script>
     </body>
 </html>

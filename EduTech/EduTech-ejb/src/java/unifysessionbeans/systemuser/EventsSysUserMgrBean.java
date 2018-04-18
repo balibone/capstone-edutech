@@ -44,6 +44,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
         String dateString = "";
 
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy h:mm aaa");
+        DateFormat df2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.getResultList()) {
             EventEntity eventE = (EventEntity) o;
@@ -137,6 +138,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
             eventVec.add(dateString);
             eventVec.add(eventE.getEventTitle());
             eventVec.add(getEventRsvpCount(eventE.getEventID()));
+            eventVec.add(df2.format(eventE.getEventStartDateTime()));
 
             eventList.add(eventVec);
         }
@@ -154,6 +156,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
         String dateString = "";
 
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy h:mm aaa");
+        DateFormat df2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.getResultList()) {
             EventEntity eventE = (EventEntity) o;
@@ -284,6 +287,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
             eventVec.add(dateString);
             eventVec.add(eventE.getEventTitle());
             eventVec.add(getEventRsvpCount(eventE.getEventID()));
+            eventVec.add(df2.format(eventE.getEventStartDateTime()));
 
             eventList.add(eventVec);
         }

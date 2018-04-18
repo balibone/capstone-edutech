@@ -238,9 +238,6 @@
                                         </div>
 
                                         <div class="col-md-6 ml-6">
-
-
-
                                             <div class="form-group">
                                                 <label for="eventTitle">Event Title</label>
                                                 <textarea class="form-control" name="eventTitle" rows="1" placeholder="Title here" required="required"></textarea>
@@ -255,11 +252,8 @@
                                                 <input type="datetime-local" name="eventStartDateTime" required="required">
 
                                                 <label for="eventEndDateTime">Event End Date & Time</label>
-                                                <input type="datetime-local" name="eventEndDateTime" required="required">
+                                                <input type="datetime-local" name="eventEndDateTime" required="required">                                              
                                             </div>
-
-
-
                                         </div>
 
                                     </div>
@@ -269,12 +263,12 @@
                                             <input type="hidden" name="pageTransit" value="goToCreateEvent" />
                                             <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button>
                                         </div>
-                                        </div>  
+                                    </div>  
 
                                 </form>
                                 <div class="col-md-5">
                                     <a href="EventsSysUser?pageTransit=goToViewEventsListingSYS" ><button class="btn btn-outline-warning btn-primary btn-sm btn-block"  type="cancel">Cancel</button></a>
-                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
