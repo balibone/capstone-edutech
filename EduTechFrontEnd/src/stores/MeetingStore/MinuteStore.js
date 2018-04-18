@@ -63,7 +63,7 @@ class MinuteStore {
 		try {
 			await updateAgenda(meetingMinuteId, agenda);
 			MeetingStore.populateMeetings(groupId);
-			UtilStore.openSnackbar('Agenda Updated successfully.')
+			UtilStore.openSnackbar('Agenda Updated successfully.');
 		} catch (e) {
 			console.log(e)
 		}

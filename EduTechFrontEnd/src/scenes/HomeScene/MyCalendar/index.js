@@ -154,6 +154,7 @@ class MyCalendar extends Component {
 		return (
       <Paper className="myCalendar">
         <h3> My Schedule </h3>
+        {this.renderToggle()}
         <div className="calendarContainter">
           <BigCalendar
             events={events}

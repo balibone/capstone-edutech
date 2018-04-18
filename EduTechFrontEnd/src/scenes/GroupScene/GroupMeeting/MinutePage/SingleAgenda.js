@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { FormGroup, FormControl, Button, Panel, Col, Row, ControlLabel } from 'react-bootstrap';
+import RaisedButton from 'material-ui/RaisedButton';
+import moment from 'moment';
+import swal from 'sweetalert';
 
 import MinuteStore from '../../../../stores/MeetingStore/MinuteStore';
 
@@ -25,7 +28,7 @@ class SingleAgenda extends Component {
 
   handleUpdateId(agenda) {
     console.log('UPDATING PROPS')
-    this.setState({ id: agenda.id })
+    this.setState({ id: agenda.id, discussion: agenda.discussion, conclusion: agenda.conclusion })
   }
 
   submitAgenda() {
@@ -34,16 +37,28 @@ class SingleAgenda extends Component {
     const {
       title, discussion, conclusion
     } = this.state;
+    const modifiedAt = moment(new Date()).format('YYYY-MM-DDTHH:mm:ss');
     const agenda = {
-      id, title, discussion, conclusion
+      id, title, discussion, conclusion, modifiedAt, modifiedBy: JSON.parse(localStorage.getItem('currentUser'))
     }
-    console.log('agenda in submit agenda:', agenda);
+    // console.log('submit agenda thing: ', agenda)
     MinuteStore.updateAgenda(minuteId, agenda, this.props.groupId);
   }
 
   deleteAgenda() {
     const { id } = this.props.agenda;
-    MinuteStore.deleteAgenda(id, this.props.groupId);
+    swal({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this agenda if you delete it!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        MinuteStore.deleteAgenda(id, this.props.groupId);
+      }
+    });
   }
 
   handleDiscussionChange(event) {
@@ -54,12 +69,17 @@ class SingleAgenda extends Component {
   }
 
   render() {
+    console.log('agenda in SingleAgenda:', this.props.agenda)
+
+    const { modifiedAt, modifiedBy } = this.props.agenda;
     return (
       <Panel eventKey={this.state.id} className="standardTopGap">
           <Panel.Heading>
               <Panel.Title toggle>
                 {this.state.title}
                 <i className="fas fa-trash-alt pull-right" onClick={() => this.deleteAgenda()} />
+                <p className="smallText">Modified At: {moment(modifiedAt).format('D MMM, h:mm a')}</p>
+                <p className="smallText">Modified By: {modifiedBy.username}</p>
               </Panel.Title>
           </Panel.Heading>
 
@@ -85,7 +105,7 @@ class SingleAgenda extends Component {
                       onChange={this.handleConclusionChange.bind(this)}
                     />
                   </FormGroup>
-                  <Button bsStyle="primary" onClick={() => this.submitAgenda()}>Submit</Button>
+                  <RaisedButton label="Submit" primary onClick={() => this.submitAgenda()} />
                 </Col>
               </Row>
           </Panel.Body>

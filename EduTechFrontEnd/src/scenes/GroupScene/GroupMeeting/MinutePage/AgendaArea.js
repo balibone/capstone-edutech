@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Form, FormGroup, FormControl, Button, PanelGroup } from 'react-bootstrap';
+import moment from 'moment';
 
 import SingleAgenda from './SingleAgenda';
 import MinuteStore from '../../../../stores/MeetingStore/MinuteStore';
@@ -26,8 +27,12 @@ class AgendaArea extends Component {
 	addAgenda(event) {
 		event.preventDefault();
 		const { agenda, agendaList } = this.state;
-		const agendaObj = { title: agenda, discussion: '', conclusion: '' };
+		const modifiedAt = moment(new Date()).format('YYYY-MM-DDTHH:mm:ss');
+		const agendaObj = {
+			title: agenda, discussion: '', conclusion: '', modifiedAt, modifiedBy: JSON.parse(localStorage.getItem('currentUser'))
+		};
 		agendaList.push(agendaObj);
+		console.log('submit agenda thing: ', agendaObj)
 		MinuteStore.addAgenda(this.props.minuteId, agendaObj, this.props.groupId);
 		// MeetingStore.populateMeetings(this.props.groupId);
 		this.setState({ agenda: '', agendaList })

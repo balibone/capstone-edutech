@@ -2,6 +2,7 @@ var express = require('express');
 var socket = require('socket.io');
 var jsonfile = require('jsonfile');
 const {Users} = require('./utils/users');
+var fs = require('file-system');
 var users = new Users();
 
 
@@ -15,13 +16,19 @@ var server = app.listen(4000, function(){
 app.use(express.static('public'));
 
 const sessions = []
-const folderPath = './data/';   
+const folderPath = './data/';
+const directory = './data';   
 
 // Socket setup & pass server
 var io = socket(server);
 io.on('connection', (socket) => {
     // once a client has connected, we expect to get a ping from them saying what room they want to join
     socket.on('join', (data, callback) => {
+
+        if (!fs.existsSync(directory)){
+            fs.mkdirSync(directory);
+        }
+
         socket.join(data.room);
         users.removeUser(socket.id);
         users.addUser(socket.id, data.user, data.room);

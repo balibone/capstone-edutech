@@ -1,9 +1,9 @@
 import io from 'socket.io-client';
+import { HOST_NAME } from '../utils/constants';
 
-const socket = io('http://localhost:4000');
+const socket = io(`http://${HOST_NAME}:4000`);
 
 const sendMessage = (message) => {
-	console.log('msg LOL', message)
 	socket.emit('chat', message);
 };
 
@@ -18,7 +18,7 @@ const joinRoom = (groupId) => {
 	};
 	socket.emit('join', params, (err) => {
 		if (err) {
-			window.location.replace('http://localhost:3000')
+			window.location.replace(`http://${HOST_NAME}:3000`)
 		} else {
 			console.log('success');
 		}

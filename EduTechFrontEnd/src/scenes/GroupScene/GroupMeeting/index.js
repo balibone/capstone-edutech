@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Paper } from 'material-ui';
 import { observer } from 'mobx-react';
-import {toJS} from 'mobx';
-import axios from 'axios';
+import { toJS } from 'mobx';
 import moment from 'moment';
 import swal from 'sweetalert';
-import { Tabs, Tab, Col, Row, Button, Glyphicon, Checkbox } from 'react-bootstrap';
-import { DateTimePicker, DropdownList } from 'react-widgets';
+import { Tabs, Tab, Col, Row, Button, Glyphicon } from 'react-bootstrap';
+import RaisedButton from 'material-ui/RaisedButton';
+import ContentAddCircle from 'material-ui/svg-icons/content/add-circle';
 import momentLocalizer from 'react-widgets-moment';
 import './styles.css';
 import 'react-widgets/dist/css/react-widgets.css';
@@ -40,10 +40,10 @@ class GroupMeeting extends Component {
   }
   checkSelectedDateValid(startTime , endTime) {
     const membersScheduleItems = toJS(ScheduleItemStore.userGroupScheduleItems);
-    for(var i=0 ; i<membersScheduleItems.length ; i++) {
-      let memberStart = new Date(membersScheduleItems[i].startDate);
-      let memnberEnd = new Date(membersScheduleItems[i].endDate);
-      if ((startTime>memberStart && startTime<memnberEnd) || (endTime>memberStart && endTime<memnberEnd)) {
+    for (let i = 0; i < membersScheduleItems.length; i++) {
+      const memberStart = new Date(membersScheduleItems[i].startDate);
+      const memnberEnd = new Date(membersScheduleItems[i].endDate);
+      if ((startTime > memberStart && startTime < memnberEnd) || (endTime > memberStart && endTime < memnberEnd)) {
         // console.log("1 selected: ",startTime, endTime)
         // console.log("1 member: ", memberStart, memnberEnd)
         swal("Warning!", "Your chosen time is clashing with your member schedule.", "warning");
@@ -108,10 +108,13 @@ class GroupMeeting extends Component {
     const groupMeetings = GroupScheduleItemStore.meetingItems;
     return (
       <div>
-        <Button bsStyle="primary" onClick={() => this.meetingFormShow()}>
-          Create Meeting
-          <Glyphicon glyph="plus" style={{ marginLeft: '5px' }} />
-        </Button>
+        <RaisedButton
+            label="Create Meeting"
+            labelPosition="before"
+            primary
+            onClick={() => this.meetingFormShow()}
+            icon={<ContentAddCircle />}
+        />
         {
             groupMeetings.map((meeting) => {
               return (<MeetingCard

@@ -17,6 +17,7 @@ class Lesson extends Component {
 				  {
 				  	lessonList.map((lesson) => {
 				  		LessonStore.fetchFilesForLesson(lesson.id);
+							console.log('lesson lesson: ', lesson)
 				  		return <SingleLesson key={lesson.id} lesson={lesson} uploadedFile={uploadedFile} />
 				  	})
 				  }

@@ -7,16 +7,18 @@ export class Minute {
   @observable endTime;
   @observable attendees;
   @observable agendas;
-  @observable createdAt;
+  @observable modifiedAt;
+  @observable modifiedBy;
   @observable attachments;
 
-  constructor(meeting, startTime, endTime, attendees, agendas, createdAt, attachments) {
+  constructor(meeting, startTime, endTime, attendees, agendas, modifiedAt, attachments, modifiedBy) {
       this.meeting = meeting;
       this.startTime = startTime;
       this.endTime = endTime;
       this.attendees = attendees;
       this.agendas = agendas;
-      this.createdAt = createdAt;
+      this.modifiedAt = modifiedAt;
       this.attachments = attachments;
+      this.modifiedBy = modifiedBy;
   }
 }

@@ -8,7 +8,7 @@
 .expandButton {
   position: absolute;
   left: 0;
-  bottom: 25px;
+  bottom: 28px;
 }
 
 .calendarContainter {
@@ -27,9 +27,6 @@
   padding: 15px;
 }
 
-#root > div > div.mainContent > div > div > div.col-md-8 > div > div.calendarContainter > div > div.rbc-time-view > div.rbc-time-header.rbc-overflowing > div.rbc-time-header-content > div.rbc-allday-cell > div.rbc-row-content > div {
-    /* display: none; */
-}
 
 .calendarFormField {
   margin: 20px 0;

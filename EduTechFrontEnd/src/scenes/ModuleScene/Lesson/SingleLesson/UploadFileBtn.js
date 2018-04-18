@@ -11,32 +11,32 @@ class UploadFileBtn extends Component {
 
   constructor(props) {
     super(props);
-    this.state ={
-      title: "",
-      file:null
+    this.state = {
+      title: '',
+      file: null,
     }
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onChange = this.onChange.bind(this)
   }
 
-  onFormSubmit(event){
+  onFormSubmit(event) {
     event.preventDefault()
     const selectedFile = this.state.file;
-    const lessonId = this.props.lessonId;
-    const title = this.state.title;
+    const { lessonId } = this.props;
+    const { title } = this.state;
     const username = localStorage.getItem('username');
-    if(selectedFile){
-      if(selectedFile.size > 10000000){   // 10MB is max file size
+    if (selectedFile) {
+      if (selectedFile.size > 10000000) {   // 10MB is max file size
         swal("File Size Error!", "Your file size is more than 10MB.", "error");
-      }else{
+      } else {
         LessonStore.uploadAttachment(title, selectedFile, lessonId, username);
-        this.setState({file: null, title: ""})
+        this.setState({ file: null, title: '' })
       }
     }
   }
 
   onChange(e) {
-    this.setState({file:e.target.files[0]})
+    this.setState({ file:e.target.files[0] })
   }
 
   handleChangeTitle(e){
@@ -45,7 +45,7 @@ class UploadFileBtn extends Component {
 
   render() {
   	let file = this.state.file;
-    	
+
     return (
       <form className="standardTopGap" onSubmit={this.onFormSubmit}>
         <input type="file" onChange={this.onChange} size="1000" />
@@ -61,7 +61,7 @@ class UploadFileBtn extends Component {
                 onChange={this.handleChangeTitle.bind(this)}
               />
             </div>
-          ): (<span></span>) 
+          ): (<span></span>)
         }
         <Button className="standardTopGap" type="submit" bsStyle="primary" block>Upload Attachment</Button>
       </form>

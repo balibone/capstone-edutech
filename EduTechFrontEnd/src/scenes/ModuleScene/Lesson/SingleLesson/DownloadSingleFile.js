@@ -3,6 +3,7 @@ import {ListGroupItem, Button, ButtonToolbar} from 'react-bootstrap';
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import swal from 'sweetalert';
+import _ from 'lodash';
 
 import LessonStore from '../../../../stores/LessonStore/LessonStore';
 
@@ -11,14 +12,14 @@ import './styles.css';
 @observer
 class DownloadSingleFile extends Component {
 
-	downloadFile(){
+	downloadFile() {
 		const { id, fileName } = this.props.file;
 		const { lessonId } = this.props;
 		LessonStore.downloadOneFile(lessonId, id, fileName);
 	}
 
-	removeFile(){
-		const {lessonId} = this.props;
+	removeFile() {
+		const { lessonId } = this.props;
 		const { id, fileName } = this.props.file;
 
 		swal({
@@ -31,30 +32,46 @@ class DownloadSingleFile extends Component {
 		.then((willDelete) => {
 		  if (willDelete) {
 			LessonStore.removeOneFile(lessonId, id, fileName);
-		  } 
+		  }
 		});
-
-
 	}
 
-	render(){
-		const file = this.props.file;
+	renderFileName(fileName) {
+		if (fileName.includes('qup')) {
+			const newFileName = _.split(fileName, 'qup', 2)
+			console.log('newFileName', newFileName[1]);
+			return newFileName[1];
+		}
+		return fileName;
+	}
 
-		return(
+	renderDeleteBtn() {
+		const userType = localStorage.getItem('userType');
+		if (userType === 'instructor') {
+			return (
+				<Button bsStyle="warning" bsSize="xsmall" onClick={this.removeFile.bind(this)}>
+					Delete
+				</Button>
+			)
+		}
+		return '';
+	}
+
+	render() {
+		const { file } = this.props;
+
+		return (
 			<ListGroupItem bsStyle="info">
-				{file.fileName}
-				<div className="pull-right" style={{marginBottom: '20px'}}>
+				{this.renderFileName(file.fileName)}
+				<div className="pull-right" style={{ marginBottom: '20px' }}>
 					<ButtonToolbar className="pull-right">
 						<Button bsStyle="primary" bsSize="xsmall" onClick={this.downloadFile.bind(this)}>
 					      Download
 					    </Button>
-					    <Button bsStyle="warning" bsSize="xsmall" onClick={this.removeFile.bind(this)}>
-					      Delete
-					    </Button>
+					    {this.renderDeleteBtn()}
 					</ButtonToolbar>
 				</div>
-				<p className="smallText" style={{color: '#000000'}}>{file.title}</p>
-		  		
+				<p className="smallText" style={{ color: '#000000' }}>{file.title}</p>
 		  	</ListGroupItem>
 		)
 	}

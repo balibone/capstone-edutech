@@ -99,7 +99,7 @@ export default class ScheduleItemsChart extends Component {
         <h3>Semester Weekly Chart</h3>
         <p className="lead">{ScheduleItemStore.semester.title}</p>
         <p className="dateRange">
-          {moment(ScheduleItemStore.semester.endDate).format('DD/MM/YYYY')}
+          {moment(ScheduleItemStore.semester.startDate).format('DD/MM/YYYY')}
           &nbsp;-&nbsp;
           {moment(ScheduleItemStore.semester.endDate).format('DD/MM/YYYY')}
         </p>
