@@ -440,6 +440,8 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="marketplace-overlay"></div>
+            
+            
         </div>
         </div>
         <!-- #1. jQuery v2.2.4 -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
