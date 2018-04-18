@@ -343,38 +343,20 @@
         <jsp-file>/webapp/unify/admin/contentadmin/TagListing.jsp</jsp-file>
     </servlet>
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMINPORTAL - REPORTS (JSP) -->
-    <servlet>
-        <servlet-name>ReportedMarketplaceDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedErrandReviewDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandReviewDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedErrandDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedReviewDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedShoutDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedShoutDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedShoutCommentDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedShoutCommentDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>ReportedEventDetailsFromAllList</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/ReportedEventDetailsFromAllList.jsp</jsp-file>
-    </servlet>
-    <servlet>
-        <servlet-name>AllReportedListing</servlet-name>
-        <jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing.jsp</jsp-file>
-    </servlet>
+    <servlet><servlet-name>ReportedMarketplaceDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedMarketplaceDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportedErrandReviewDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandReviewDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportedErrandDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedErrandDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportedReviewDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedReviewDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportedShoutDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedShoutDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportedShoutCommentDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedShoutCommentDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ReportedEventDetailsFromAllList</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ReportedEventDetailsFromAllList.jsp</jsp-file></servlet>
+    <servlet><servlet-name>AllReportedListing</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/AllReportedListing.jsp</jsp-file></servlet>
+    
+    <!-- SERVLET CLASS MAPPING - UNIFY - ADMINPORTAL - SHOUTS (JSP) -->
+    <servlet><servlet-name>ShoutCategory</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/ShoutCategory.jsp</jsp-file></servlet>
+    <servlet><servlet-name>NewShoutCategory</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/NewShoutCategory.jsp</jsp-file></servlet>
+    <servlet><servlet-name>EditCategory</servlet-name><jsp-file>/webapp/unify/admin/contentadmin/EditCategory.jsp</jsp-file></servlet>
+    
     <!-- SERVLET CLASS MAPPING - UNIFY - ADMINPORTAL - EVENT REQUESTS (JSP) -->
     <servlet>
         <servlet-name>EventRequest</servlet-name>
@@ -494,7 +476,9 @@
     <servlet><servlet-name>UserJobListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserJobListingSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>ViewMyJobOfferSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/ViewMyJobOfferSYS.jsp</jsp-file></servlet>
     <servlet><servlet-name>JobListingInUserProfileSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/JobListingInUserProfileSYS.jsp</jsp-file></servlet>
-    <servlet><servlet-name>UserResumeSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserResumeSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>UserResume</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/UserResume.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewShoutModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/ViewShoutModalSYS.jsp</jsp-file></servlet>
+    <servlet><servlet-name>ViewEventModalSYS</servlet-name><jsp-file>/webapp/unify/systemuser/userprofile/ViewEventModalSYS.jsp</jsp-file></servlet>
     
     <!-- SERVLET CLASS MAPPING - UNIFY - SYSTEMUSER - VOICES (JSP) -->
     <servlet><servlet-name>ViewCompanyListingSYS</servlet-name><jsp-file>/webapp/unify/systemuser/voices/ViewCompanyListingSYS.jsp</jsp-file></servlet>

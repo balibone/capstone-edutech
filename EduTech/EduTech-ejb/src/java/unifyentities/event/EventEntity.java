@@ -43,6 +43,7 @@ public class EventEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date eventEndDateTime;
     private String eventVenue;
+    private String eventPoster;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date eventApprovalDate;
@@ -83,6 +84,8 @@ public class EventEntity implements Serializable {
     public Date getEventEndDateTime() { return eventEndDateTime; }
     public String getEventVenue() { return eventVenue; }
     public String getEventTitle() { return eventTitle; }
+    public String getEventTitle(Long eventID) { return eventTitle; }
+    public String getEventPoster() { return eventPoster; }
     
     public UserEntity getUserEntity() { return userEntity; }
     public EventRequestEntity getEventRequestEntity() { return eventRequestEntity; }
@@ -99,6 +102,7 @@ public class EventEntity implements Serializable {
     public void setEventEndDateTime(Date eventEndDateTime) { this.eventEndDateTime = eventEndDateTime; }
     public void setEventVenue(String eventVenue) {this.eventVenue = eventVenue; }
     public void setEventTitle(String eventTitle) {this.eventTitle = eventTitle; }
+    public void setEventPoster(String eventPoster) {this.eventPoster = eventPoster; }
     
     public void setUserEntity(UserEntity userEntity) { this.userEntity = userEntity; }
     public void setEventRequestEntity(EventRequestEntity eventRequestEntity) { this.eventRequestEntity = eventRequestEntity; }

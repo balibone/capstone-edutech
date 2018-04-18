@@ -189,7 +189,7 @@
                 <div class="row">
                     <div class="col-md-9 col-sm-9 col-xs-9">
                         <div class="x_panel">
-                            <%                                
+                            <%
                                 String successMessage = (String) request.getAttribute("successMessage");
                                 if (successMessage != null) {
                             %>
@@ -220,7 +220,7 @@
 
                                 <p>Fill up your event details in the form below</p>
 
-                                <form class="form-horizontal form-label-left" action="EventsSysUser" method="POST" enctype="form-data">
+                                <form class="form-horizontal form-label-left" action="EventsSysUser" method="POST" enctype="multipart/form-data">
 
                                     <div class="form-row" style="justify-content: left">
 
@@ -232,15 +232,12 @@
                                                 <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 171px;">
                                                     <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
                                                 </label>
-                                                <input id="file-upload" name="eventPoster" type="file" accept="image/*" onchange="javascript: previewImage(event)"/>
+                                                <input id="file-upload" name="eventPoster" type="file" accept="image/*" required="required" onchange="javascript: previewImage(event)"/>
                                             </div>
 
                                         </div>
 
                                         <div class="col-md-6 ml-6">
-
-
-
                                             <div class="form-group">
                                                 <label for="eventTitle">Event Title</label>
                                                 <textarea class="form-control" name="eventTitle" rows="1" placeholder="Title here" required="required"></textarea>
@@ -255,17 +252,14 @@
                                                 <input type="datetime-local" name="eventStartDateTime" required="required">
 
                                                 <label for="eventEndDateTime">Event End Date & Time</label>
-                                                <input type="datetime-local" name="eventEndDateTime" required="required">
+                                                <input type="datetime-local" name="eventEndDateTime" required="required">                                              
                                             </div>
-                                            
-                                            
-
                                         </div>
 
                                     </div>
                                     <div class="form-row" >
 
-                                        <div class="col-md-4" style="justify-content: center">
+                                        <div class="col-md-4">
                                             <input type="hidden" name="pageTransit" value="goToCreateEvent" />
                                             <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button>
                                         </div>

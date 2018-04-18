@@ -83,6 +83,56 @@ public class ContentAdminController extends HttpServlet {
                     request.setAttribute("tagsList", (ArrayList) camr.viewTagListing());
                     pageAction = "TagListing";
                     break;
+                case "goToShoutCategory":
+                    request.setAttribute("tagsListCount", camr.getTagsListCount());
+                    request.setAttribute("shoutCatList", (ArrayList) camr.viewShoutCategoryListing());
+                    pageAction = "ShoutCategory";
+                    break;
+                case "goToNewShoutCategory":
+                    pageAction = "NewShoutCategory";
+                    break;
+                case "createCategory":
+                    responseMessage = createCategory(request);
+                    if (responseMessage.endsWith("!")) {
+                        request.setAttribute("successMessage", responseMessage);
+                    } else {
+                        request.setAttribute("errorMessage", responseMessage);
+                    }
+
+                    request.setAttribute("tagsListCount", camr.getTagsListCount());
+                    request.setAttribute("shoutCatList", (ArrayList) camr.viewShoutCategoryListing());
+                    pageAction = "ShoutCategory";
+                    break;
+                case "deleteCategory":
+                    String categoryID = request.getParameter("categoryID");
+                    responseMessage = camr.deleteCategory(categoryID);
+                    if (responseMessage.endsWith("!")) {
+                        request.setAttribute("successMessage", responseMessage);
+                    } else {
+                        request.setAttribute("errorMessage", responseMessage);
+                    }
+
+                    request.setAttribute("tagsListCount", camr.getTagsListCount());
+                    request.setAttribute("shoutCatList", (ArrayList) camr.viewShoutCategoryListing());
+                    pageAction = "ShoutCategory";
+                    break;
+                case "goToEditCategory":
+                    String categoryIDEdit = request.getParameter("categoryID");
+                    request.setAttribute("catDetailsVec", camr.viewCategoryDetails(categoryIDEdit));
+                    pageAction = "EditCategory";
+                    break;
+                case "updateCategory":
+                    responseMessage = updateCategory(request);
+                    if (responseMessage.endsWith("!")) {
+                        request.setAttribute("successMessage", responseMessage);
+                    } else {
+                        request.setAttribute("errorMessage", responseMessage);
+                    }
+
+                    request.setAttribute("tagsListCount", camr.getTagsListCount());
+                    request.setAttribute("shoutCatList", (ArrayList) camr.viewShoutCategoryListing());
+                    pageAction = "ShoutCategory";
+                    break;
                 case "goToReportedShoutDetailsFromAllList":
                     String shoutReportID = request.getParameter("shoutView");
                     request.setAttribute("reportedShoutVec", camr.viewShoutDetails(shoutReportID));
@@ -121,7 +171,7 @@ public class ContentAdminController extends HttpServlet {
                     //for sending message to poster of marketplace item
                     String delistShoutPosterID = request.getParameter("reportedPosterID");
                     String delistShoutSenderID = request.getParameter("loggedInUsername");
-                    camr.sendAlertReport(delistShoutSenderID, delistShoutPosterID, delistShoutID);
+                    camr.sendAlertShoutReport(delistShoutSenderID, delistShoutPosterID, delistShoutID);
 
                     request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount() + camr.getUnresolvedShoutReportCount() + camr.getUnresolvedShoutCommentReportCount() + camr.getUnresolvedEventReportCount());
                     request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount() + camr.getResolvedShoutReportCount() + camr.getResolvedShoutCommentReportCount() + camr.getResolvedEventReportCount());
@@ -172,7 +222,7 @@ public class ContentAdminController extends HttpServlet {
                     //for sending message to poster of marketplace item
                     String delistShoutCommentPosterID = request.getParameter("reportedPosterID");
                     String delistShoutCommentSenderID = request.getParameter("loggedInUsername");
-                    camr.sendAlertReport(delistShoutCommentSenderID, delistShoutCommentPosterID, delistShoutCommentID);
+                    camr.sendAlertShoutCommentReport(delistShoutCommentSenderID, delistShoutCommentPosterID, delistShoutCommentID);
 
                     request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount() + camr.getUnresolvedShoutReportCount() + camr.getUnresolvedShoutCommentReportCount() + camr.getUnresolvedEventReportCount());
                     request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount() + camr.getResolvedShoutReportCount() + camr.getResolvedShoutCommentReportCount() + camr.getResolvedEventReportCount());
@@ -223,7 +273,7 @@ public class ContentAdminController extends HttpServlet {
                     //for sending message to poster of marketplace item
                     String delistEventPosterID = request.getParameter("reportedPosterID");
                     String delistEventSenderID = request.getParameter("loggedInUsername");
-                    camr.sendAlertReport(delistEventSenderID, delistEventPosterID, delistEventID);
+                    camr.sendAlertEventReport(delistEventSenderID, delistEventPosterID, delistEventID);
 
                     request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount() + camr.getUnresolvedShoutReportCount() + camr.getUnresolvedShoutCommentReportCount() + camr.getUnresolvedEventReportCount());
                     request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount() + camr.getResolvedShoutReportCount() + camr.getResolvedShoutCommentReportCount() + camr.getResolvedEventReportCount());
@@ -297,7 +347,7 @@ public class ContentAdminController extends HttpServlet {
                     //for sending message to poster of marketplace item
                     String delistPosterID = request.getParameter("reportedPosterID");
                     String delistSenderID = request.getParameter("loggedInUsername");
-                    camr.sendAlertReport(delistSenderID, delistPosterID, delistItemID);
+                    camr.sendAlertItemReport(delistSenderID, delistPosterID, delistItemID);
 
                     request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount() + camr.getUnresolvedShoutReportCount() + camr.getUnresolvedShoutCommentReportCount() + camr.getUnresolvedEventReportCount());
                     request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount() + camr.getResolvedShoutReportCount() + camr.getResolvedShoutCommentReportCount() + camr.getResolvedEventReportCount());
@@ -383,7 +433,7 @@ public class ContentAdminController extends HttpServlet {
                     //for sending message to poster of errand
                     String delistPosterID2 = request.getParameter("reportedPosterID");
                     String delistSenderID2 = request.getParameter("loggedInUsername");
-                    camr.sendAlertReport(delistSenderID2, delistPosterID2, delistJobID);
+                    camr.sendAlertErrandReport(delistSenderID2, delistPosterID2, delistJobID);
 
                     request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount() + camr.getUnresolvedShoutReportCount() + camr.getUnresolvedShoutCommentReportCount() + camr.getUnresolvedEventReportCount());
                     request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount() + camr.getResolvedShoutReportCount() + camr.getResolvedShoutCommentReportCount() + camr.getResolvedEventReportCount());
@@ -558,7 +608,7 @@ public class ContentAdminController extends HttpServlet {
                     //for sending message to poster of errand
                     String delistPosterID4 = request.getParameter("reportedPosterID");
                     String delistSenderID4 = request.getParameter("loggedInUsername");
-                    camr.sendAlertReport(delistSenderID4, delistPosterID4, delistReviewID);
+                    camr.sendAlertReviewReport(delistSenderID4, delistPosterID4, delistReviewID);
 
                     request.setAttribute("unresolvedContentReportCount", camr.getUnresolvedCompanyReviewReportCount() + camr.getUnresolvedErrandsReportCount() + camr.getUnresolvedErrandsReviewReportCount() + camr.getUnresolvedItemReportCount() + camr.getUnresolvedShoutReportCount() + camr.getUnresolvedShoutCommentReportCount() + camr.getUnresolvedEventReportCount());
                     request.setAttribute("resolvedContentReportCount", camr.getResolvedCompanyReviewReportCount() + camr.getResolvedErrandsReportCount() + camr.getResolvedErrandsReviewReportCount() + camr.getResolvedItemReportCount() + camr.getResolvedShoutReportCount() + camr.getResolvedShoutCommentReportCount() + camr.getResolvedEventReportCount());
@@ -609,11 +659,6 @@ public class ContentAdminController extends HttpServlet {
                     break;
                 case "approveEventRequest":
                     String approveEventRequestID = request.getParameter("requestID");
-                    //if (camr.approveEventRequest(approveEventRequestID)) {
-                    //    request.setAttribute("successMessage", "Selected event has been set to <b>approved</b> and <b>event has been created</b>.");
-                    //} else {
-                    //    request.setAttribute("errorMessage", "Selected event cannot be updated. Please try again.");
-                    //}
                     responseMessage = camr.approveEventRequest(approveEventRequestID);
                     if (responseMessage.endsWith("!")) {
                         request.setAttribute("successMessage", responseMessage);
@@ -634,11 +679,6 @@ public class ContentAdminController extends HttpServlet {
                     break;
                 case "rejectEventRequest":
                     String rejectEventRequestID = request.getParameter("requestID");
-                    //if (camr.rejectEventRequest(rejectEventRequestID)) {
-                    //    request.setAttribute("successMessage", "Selected event has been <b>rejected</b>.");
-                    //} else {
-                    //    request.setAttribute("errorMessage", "Selected event cannot be updated. Please try again.");
-                    //}
                     responseMessage = camr.rejectEventRequest(rejectEventRequestID);
                     if (responseMessage.endsWith("!")) {
                         request.setAttribute("successMessage", responseMessage);
@@ -1086,6 +1126,21 @@ public class ContentAdminController extends HttpServlet {
         }
 
         return reportUpdateStatus;
+    }
+    
+    //for shout category
+    private String createCategory(HttpServletRequest request) {
+        String catName = request.getParameter("catName");
+        String catStatus = request.getParameter("catStatus");
+        return camr.createCategory(catName, catStatus);
+    }
+    
+    private String updateCategory(HttpServletRequest request) {
+        String catID = request.getParameter("hiddenCatID");
+        String catName = request.getParameter("catName");
+        String catStatus = request.getParameter("catStatus");
+
+        return camr.updateCategoryDetails(catID, catName, catStatus);
     }
     
     //for shout comments

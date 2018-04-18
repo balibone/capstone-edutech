@@ -100,6 +100,7 @@ public class ItemEntity implements Serializable {
     /* GETTER METHODS */
     public Long getItemID() { return itemID; }
     public String getItemName() { return itemName; }
+    public String getItemName(Long itemID) { return itemName; }
     public double getItemPrice() { return itemPrice; }
     public String getItemCondition() { return itemCondition; }
     public String getItemDescription() { return itemDescription; }

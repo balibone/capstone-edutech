@@ -52,6 +52,7 @@ public class ShoutsCommentsEntity implements Serializable {
     /* GETTER METHODS */
     public Long getCommentID() { return commentID; }
     public String getCommentContent() { return commentContent; }
+    public String getCommentContent(Long commentID) { return commentContent; }
     public Date getCommentDate() { return commentDate; }
     public String getCommentStatus() { return commentStatus; }
     

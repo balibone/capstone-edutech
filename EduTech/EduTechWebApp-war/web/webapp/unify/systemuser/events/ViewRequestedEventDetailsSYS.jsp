@@ -172,8 +172,13 @@
 
         <%
             Vector eventDetailsVec = (Vector) request.getAttribute("eventDetailsVec");
-            String eventRequestID, eventRequestStatus, eventRequestTitle, eventRequestDesc, eventRequestStart, eventRequestEnd, eventRequestVenue, eventRequestDate, eventReviewedDate, eventRequestor, eventCreatedID;
-            eventRequestID = eventRequestStatus = eventRequestTitle = eventRequestDesc = eventRequestStart = eventRequestEnd = eventRequestVenue = eventRequestDate = eventReviewedDate = eventRequestor = eventCreatedID = "";
+            String eventRequestID, eventRequestStatus, eventRequestTitle, eventRequestDesc, 
+                    eventRequestStart, eventRequestEnd, eventRequestVenue, eventRequestDate, 
+                    eventReviewedDate, eventRequestor, eventCreatedID, eventRequestPoster;
+            eventRequestID = eventRequestStatus = eventRequestTitle = eventRequestDesc = 
+                    eventRequestStart = eventRequestEnd = eventRequestVenue = 
+                    eventRequestDate = eventReviewedDate = eventRequestor = 
+                    eventCreatedID = eventRequestPoster = "";
 
             if (eventDetailsVec != null) {
                 eventRequestID = String.valueOf(eventDetailsVec.get(0));
@@ -187,6 +192,7 @@
                 eventReviewedDate = String.valueOf(eventDetailsVec.get(8));
                 eventRequestor = String.valueOf(eventDetailsVec.get(9));
                 eventCreatedID = String.valueOf(eventDetailsVec.get(10));
+                eventRequestPoster = String.valueOf(eventDetailsVec.get(11));
 
             }
         %>
@@ -233,7 +239,7 @@
                         <div class="title"><span><%= eventRequestTitle%></span></div>
                     </div>
                     <div class="col-xl-4 col-lg-5 col-md-6">
-                        <img src="" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer;">
+                        <img src="uploads/unify/images/events/<%= eventRequestPoster%>" class="img-fluid mb-2 border w-100 image-detail" style="cursor: pointer;">
                         <div class="title d-none d-md-block"><span>Share to</span></div>
                         <ul class="list-inline d-none d-md-block">
                             <li class="list-inline-item"><button type="button" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-facebook"></i></button></li>

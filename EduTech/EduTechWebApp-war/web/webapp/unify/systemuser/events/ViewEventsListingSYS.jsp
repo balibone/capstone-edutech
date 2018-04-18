@@ -229,21 +229,21 @@
                                     <%-- search by shout content --%>
                                     <div class="filter-sidebar">
                                         <div class="title"><span>Search Filter</span></div>
-                                        <div class="subtitle" style="margin-bottom: 5px">Search Events Title</div>
+                                        <div class="subtitle" style="margin-bottom: 5px">Search by Event Title</div>
                                         <input type="text" data-path=".eventTitle" class="form-control" placeholder="Enter keyword" 
                                                aria-label="Search Content" data-control-type="textbox" id="title-filter"
                                                data-control-name="title-text-filter" data-control-action="filter" />
                                     </div>
 
                                     <div class="filter-sidebar">
-                                        <div class="subtitle" style="margin-bottom: 5px">Search Events Venue</div>
+                                        <div class="subtitle" style="margin-bottom: 5px">Search by Event Venue</div>
                                         <input type="text" data-path=".eventVenue" class="form-control" placeholder="Enter keyword" 
                                                aria-label="Search Content" data-control-type="textbox" id="venue-filter"
                                                data-control-name="venue-text-filter" data-control-action="filter" />
                                     </div>
 
                                     <div class="filter-sidebar">
-                                        <div class="subtitle" style="margin-bottom: 5px">Search User</div>
+                                        <div class="subtitle" style="margin-bottom: 5px">Search by User</div>
                                         <input type="text" data-path=".eventUsername" class="form-control" placeholder="Search User" 
                                                aria-label="Search User" data-control-type="textbox" id="user-filter"
                                                data-control-name="user-text-filter" data-control-action="filter" />
@@ -264,8 +264,8 @@
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort"
                                  data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                 <ul>
-                                    <li><span data-path=".startDate" data-order="desc" data-type="datetime" data-default="true">Upcoming First</span></li>
-                                    <li><span data-path=".startDate" data-order="asc" data-type="datetime">Upcoming Last</span></li>
+                                    <li><span data-path=".startDate" data-order="asc" data-type="datetime" data-default="true">Upcoming First</span></li>
+                                    <li><span data-path=".startDate" data-order="desc" data-type="datetime">Upcoming Last</span></li>
                                     <li><span data-path=".eventRSVP" data-order="desc" data-type="number">Most RSVP'ed Event</span></li>
                                 </ul>
                             </div>
@@ -304,6 +304,7 @@
                                             String dateString = String.valueOf(v.get(8));
                                             String eventTitle = String.valueOf(v.get(9));
                                             String rsvpCount = String.valueOf(v.get(10));
+                                            String rawEventStartDateTime = String.valueOf(v.get(11));
 
                                 %>
                                 <div class="col-xl-6 col-md-6 col-6 d-block d-lg-none d-xl-block list-item">
@@ -380,7 +381,7 @@
                                                     <%--    on <%= shoutDate%> --%>
                                                 </span>
 
-                                                <span class="float-none startDate" hidden="true" style="color: #64676d; font-size: 12px"><%= eventStart%>
+                                                <span class="float-none startDate" hidden="true" style="color: #64676d; font-size: 12px"><%= rawEventStartDateTime%>
                                                 </span>
                                             </div>
 

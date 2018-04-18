@@ -78,6 +78,12 @@ public interface ContentAdminMgrBeanRemote {
     public Long getResolvedCompanyReviewReportCount();
     //message sending
     public String sendAlertReport(String messageSenderID, String messageReceiverID, String itemReported);
+    public String sendAlertItemReport(String messageSenderID, String messageReceiverID, String itemIDReported);
+    public String sendAlertErrandReport(String messageSenderID, String messageReceiverID, String jobIDReported);
+    public String sendAlertReviewReport(String messageSenderID, String messageReceiverID, String reviewIDReported);
+    public String sendAlertShoutReport(String messageSenderID, String messageReceiverID, String shoutIDReported);
+    public String sendAlertShoutCommentReport(String messageSenderID, String messageReceiverID, String shoutCommentIDReported);
+    public String sendAlertEventReport(String messageSenderID, String messageReceiverID, String eventIDReported);
     public String sendAlertEventRequest(String messageSenderID, String messageReceiverID, String itemReported, String status);
     //event related
     public List<Vector> viewEventRequestListing();
@@ -96,6 +102,12 @@ public interface ContentAdminMgrBeanRemote {
     public String delistShout(String reportID);
     public Long getUnresolvedShoutReportCount();
     public Long getResolvedShoutReportCount();
+    //shouts category related
+    public List<Vector> viewShoutCategoryListing();
+    public String createCategory(String catName, String catStatus);
+    public String deleteCategory(String categoryID);
+    public Vector viewCategoryDetails(String categoryID);
+    public String updateCategoryDetails(String catID, String catName, String catStatus);
     //shout comments related
     public List<Vector> viewReportedShoutCommentsListing();
     public Vector viewShoutCommentDetails(String shoutCommentReportID);

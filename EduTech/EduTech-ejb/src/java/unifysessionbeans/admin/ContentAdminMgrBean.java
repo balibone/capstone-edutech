@@ -27,6 +27,7 @@ import javax.persistence.Query;
 
 //imported entities
 import commoninfrastructureentities.UserEntity;
+import unifyentities.common.CategoryEntity;
 import unifyentities.common.TagEntity;
 import unifyentities.common.CompanyReviewReportEntity;
 import unifyentities.common.ItemReportEntity;
@@ -70,6 +71,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     private ShoutsCommentsReportEntity scrEntity;
     private ShoutsCommentsEntity scEntity;
     private EventReportEntity erpEntity;
+    private CategoryEntity catEntity;
 
     @Override
     public List<Vector> viewTagListing() {
@@ -497,7 +499,12 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             reviewReportDetails.add(crrEntity.getReviewID());
             reviewReportDetails.add(crrEntity.getReviewPosterID());
             reviewReportDetails.add(crrEntity.getReviewReporterID());
-            reviewReportDetails.add(df.format(crrEntity.getReviewReviewedDate()));
+            if (crrEntity.getReviewReviewedDate() == null) {
+                reviewReportDetails.add("");
+            } else {
+                reviewReportDetails.add(df.format(crrEntity.getReviewReviewedDate()));
+            }
+            
             System.out.println("ADDED REVIEW REPORT DETAILS");
             //from review entity
             if (lookupReview(crrEntity.getReviewID()) != null) {
@@ -981,7 +988,12 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             errandDetails.add(jrEntity.getUserEntity().getUsername());
             //errandDetails.add(jrEntity.getJobPosterID());
             //errandDetails.add(jrEntity.getJobReporterID());
-            errandDetails.add(df.format(jrEntity.getJobReviewedDate()));
+            if (jrEntity.getJobReviewedDate() == null) {
+                errandDetails.add("");
+            } else {
+                errandDetails.add(df.format(jrEntity.getJobReviewedDate()));
+            }
+            
             System.out.println("ADDED ERRAND REPORT DETAILS");
             //from job entity
             if (lookupJob(jrEntity.getJobEntity().getJobID()) != null) {
@@ -990,7 +1002,9 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
                 errandDetails.add(jEntity.getJobDescription());
                 errandDetails.add(jEntity.getJobImage());
                 errandDetails.add(jEntity.getJobStatus());
-                System.out.println("ADDED ERRAND DETAILS");
+                errandDetails.add(jEntity.getJobRate());
+                errandDetails.add(jEntity.getJobRateType());
+                errandDetails.add(jEntity.getJobID());
 
                 return errandDetails;
             }
@@ -1295,7 +1309,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             mEntity = new MessageEntity();
 
             mEntity.createContentMessage(messageSenderID, messageReceiverID,
-                    itemReported + " was delisted due to violation of posting guidelines.",
+                    "Your "+itemReported + " listing has been delisted due to violation of posting guidelines.",
                     Long.parseLong(itemReported), "System");
 
             UserEntity user = lookupUnifyUser(messageSenderID);
@@ -1324,7 +1338,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             String eventTitle = erEntity.getEventRequestTitle(Long.parseLong(eventID));
 
             mEntity.createContentMessage(messageSenderID, messageReceiverID,
-                    eventTitle + " (Request ID: " + eventID + ") was " + status + " by the administrator.",
+                    "Event: "+eventTitle + " (Request ID: " + eventID + ") was " + status + " by the administrator.",
                     Long.parseLong(eventID), "System");
 
             UserEntity user = lookupUnifyUser(messageSenderID);
@@ -1343,6 +1357,180 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
     }
 
+    @Override
+    public String sendAlertShoutReport(String messageSenderID, String messageReceiverID, String shoutID) {
+
+        try {
+            /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
+            mEntity = new MessageEntity();
+            
+            String shoutContent = shEntity.getShoutContent(Long.parseLong(shoutID));
+
+            mEntity.createContentMessage(messageSenderID, messageReceiverID,
+                    "Your shout: '"+shoutContent + "' has been delisted due to violation of posting guidelines.",
+                    Long.parseLong(shoutID), "System");
+
+            UserEntity user = lookupUnifyUser(messageSenderID);
+
+            mEntity.setUserEntity(user);
+
+            em.persist(mEntity);
+
+            return "Message successfully sent!";
+
+        } catch (Exception nre) {
+            System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
+
+            return "Error sending message to user";
+        }
+
+    }
+    
+    @Override
+    public String sendAlertShoutCommentReport(String messageSenderID, String messageReceiverID, String shoutCommentID) {
+
+        try {
+            /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
+            mEntity = new MessageEntity();
+            
+            String shoutCommentContent = scEntity.getCommentContent(Long.parseLong(shoutCommentID));
+
+            mEntity.createContentMessage(messageSenderID, messageReceiverID,
+                    "Your shout comment: '"+shoutCommentContent + "' has been delisted due to violation of posting guidelines.",
+                    Long.parseLong(shoutCommentID), "System");
+
+            UserEntity user = lookupUnifyUser(messageSenderID);
+
+            mEntity.setUserEntity(user);
+
+            em.persist(mEntity);
+
+            return "Message successfully sent!";
+
+        } catch (Exception nre) {
+            System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
+
+            return "Error sending message to user";
+        }
+
+    }
+    
+    @Override
+    public String sendAlertEventReport(String messageSenderID, String messageReceiverID, String eventID) {
+
+        try {
+            /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
+            mEntity = new MessageEntity();
+            
+            String eventTitle = eEntity.getEventTitle(Long.parseLong(eventID));
+
+            mEntity.createContentMessage(messageSenderID, messageReceiverID,
+                    "Your event: '"+eventTitle + "' has been delisted due to violation of event guidelines.",
+                    Long.parseLong(eventID), "System");
+
+            UserEntity user = lookupUnifyUser(messageSenderID);
+
+            mEntity.setUserEntity(user);
+
+            em.persist(mEntity);
+
+            return "Message successfully sent!";
+
+        } catch (Exception nre) {
+            System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
+
+            return "Error sending message to user";
+        }
+
+    }
+    
+    @Override
+    public String sendAlertErrandReport(String messageSenderID, String messageReceiverID, String errandID) {
+
+        try {
+            /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
+            mEntity = new MessageEntity();
+            
+            String errandTitle = jEntity.getJobTitle(Long.parseLong(errandID));
+
+            mEntity.createContentMessage(messageSenderID, messageReceiverID,
+                    "Your job: '"+errandTitle + "' has been delisted due to violation of posting guidelines.",
+                    Long.parseLong(errandID), "System");
+
+            UserEntity user = lookupUnifyUser(messageSenderID);
+
+            mEntity.setUserEntity(user);
+
+            em.persist(mEntity);
+
+            return "Message successfully sent!";
+
+        } catch (Exception nre) {
+            System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
+
+            return "Error sending message to user";
+        }
+
+    }
+    
+    @Override
+    public String sendAlertReviewReport(String messageSenderID, String messageReceiverID, String reviewID) {
+
+        try {
+            /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
+            mEntity = new MessageEntity();
+            
+            String reviewTitle = crEntity.getReviewTitle(Long.parseLong(reviewID));
+
+            mEntity.createContentMessage(messageSenderID, messageReceiverID,
+                    "Your company review: '"+reviewTitle + "' has been delisted due to violation of posting guidelines.",
+                    Long.parseLong(reviewID), "System");
+
+            UserEntity user = lookupUnifyUser(messageSenderID);
+
+            mEntity.setUserEntity(user);
+
+            em.persist(mEntity);
+
+            return "Message successfully sent!";
+
+        } catch (Exception nre) {
+            System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
+
+            return "Error sending message to user";
+        }
+
+    }
+    
+    @Override
+    public String sendAlertItemReport(String messageSenderID, String messageReceiverID, String itemID) {
+
+        try {
+            /* MESSAGE SENDER IS THE ADMIN, MESSAGE RECEIVER IS THE REPORTED ENTITY CREATOR */
+            mEntity = new MessageEntity();
+            
+            String itemTitle = iEntity.getItemName(Long.parseLong(itemID));
+
+            mEntity.createContentMessage(messageSenderID, messageReceiverID,
+                    "Your marketplace item: '"+itemTitle + "' has been delisted due to violation of posting guidelines.",
+                    Long.parseLong(itemID), "System");
+
+            UserEntity user = lookupUnifyUser(messageSenderID);
+
+            mEntity.setUserEntity(user);
+
+            em.persist(mEntity);
+
+            return "Message successfully sent!";
+
+        } catch (Exception nre) {
+            System.out.println("ERROR: Message cannot be sent. " + nre.getMessage());
+
+            return "Error sending message to user";
+        }
+
+    }
+    
     @Override
     public Long getUnresolvedErrandsReviewReportCount() {
         Long unresolvedErrandsReviewReportCount = new Long(0);
@@ -1470,6 +1658,8 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
             requestDetails.add(erEntity.getEventRequestTitle());
 
+            requestDetails.add(erEntity.getEventRequestPoster());
+
             System.out.println("ADDED EVENT REQUEST DETAILS");
 
             return requestDetails;
@@ -1512,6 +1702,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             eEntity = new EventEntity();
             eEntity.createEvent(erEntity.getEventRequestTitle(), erEntity.getEventRequestDescription(), erEntity.getEventRequestVenue(),
                     erEntity.getEventRequestStartDateTime(), erEntity.getEventRequestEndDateTime(), erEntity.getUserEntity());
+            eEntity.setEventPoster(erEntity.getEventRequestPoster());
             eEntity.setEventRequestEntity(erEntity);
             erEntity.setEventEntity(eEntity);
             em.persist(eEntity);
@@ -1581,7 +1772,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return rejectedEventRequestCount;
     }
-    
+
     //shouts related
     public ShoutsReportEntity lookupShoutReport(String shoutReportID) {
         ShoutsReportEntity ire = new ShoutsReportEntity();
@@ -1601,10 +1792,10 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return ire;
     }
-    
+
     public ShoutsEntity lookupShout(Long shoutID) {
         ShoutsEntity se = new ShoutsEntity();
-        
+
         try {
             Query q = em.createQuery("SELECT c FROM Shouts c WHERE c.shoutID = :shoutID");
             q.setParameter("shoutID", shoutID);
@@ -1620,7 +1811,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return se;
     }
-    
+
     @Override
     public List<Vector> viewReportedShoutsListing() {
         Query q = em.createQuery("SELECT i FROM ShoutsReport i ORDER BY i.shoutReportDate DESC");
@@ -1643,11 +1834,11 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return reportedList;
     }
-    
+
     @Override
     public Vector viewShoutDetails(String shoutReportID) {
         srEntity = lookupShoutReport(shoutReportID);
-        
+
         Vector shoutReportDetails = new Vector();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -1684,7 +1875,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return null;
     }
-    
+
     @Override
     public String resolveOnlyShoutReport(String reportID) {
         try {
@@ -1698,7 +1889,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             return "Error resolving shout report";
         }
     }
-    
+
     @Override
     public String resolveDelistShoutReport(String reportID) {
         try {
@@ -1712,7 +1903,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             return "Error resolving shout report";
         }
     }
-    
+
     @Override
     public String delistShout(String reportID) {
 
@@ -1736,10 +1927,10 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         } catch (NoResultException nre) {
             System.out.println("ERROR: Shout to be delisted does not exist. " + nre.getMessage());
             em.remove(shEntity);
-            return "Shout to be deleted does not exist";            
+            return "Shout to be deleted does not exist";
         }
     }
-    
+
     @Override
     public Long getUnresolvedShoutReportCount() {
         Long unresolvedShoutReportCount = new Long(0);
@@ -1766,9 +1957,139 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
         }
         return resolvedShoutReportCount;
     }
-    
-    //shout comments related
-    public ShoutsCommentsReportEntity lookupShoutCommentReport(String shoutCommentReportID) {
+
+    //shout category related
+    @Override
+    public List<Vector> viewShoutCategoryListing() {
+        Query q = em.createQuery("SELECT t FROM Category t WHERE t.categoryType = 'Shouts'");
+        List<Vector> shoutCatList = new ArrayList<Vector>();
+
+        for (Object o : q.getResultList()) {
+            CategoryEntity catE = (CategoryEntity) o;
+            Vector catVec = new Vector();
+
+            catVec.add(catE.getCategoryID());
+            catVec.add(catE.getCategoryName());
+            catVec.add(catE.getCategoryActiveStatus());
+            shoutCatList.add(catVec);
+        }
+        return shoutCatList;
+    }
+
+    @Override
+    public String createCategory(String catName, String catStatus) {
+        catEntity = new CategoryEntity();
+        if (lookupCatName(catName) == null) {
+            if (catStatus.equals("Active")) {
+                catEntity.setCategoryName(catName);
+                catEntity.setCategoryType("Shouts");
+                catEntity.setCategoryActiveStatus(Boolean.TRUE);
+            } else {
+                catEntity.setCategoryName(catName);
+                catEntity.setCategoryType("Shouts");
+                catEntity.setCategoryActiveStatus(Boolean.FALSE);
+            }
+            em.persist(catEntity);
+            return "The category has been created successfully!";
+
+        } else {
+            return "Category name already exists for shouts.";
+        }
+    }
+
+    public CategoryEntity lookupCatName(String catName) {
+        CategoryEntity ce = new CategoryEntity();
+        //Long tagIDNum = Long.parseLong(tagID);
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Category c WHERE upper(c.categoryName) = :catName AND c.categoryType = 'Shouts'");
+            q.setParameter("catName", catName.toUpperCase());
+            ce = (CategoryEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());
+            em.remove(ce);
+            ce = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Category does not exist. " + nre.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        return ce;
+    }
+
+    public CategoryEntity lookupCatID(String categoryID) {
+        CategoryEntity ce = new CategoryEntity();
+        Long categoryIDLong = Long.parseLong(categoryID);
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Category c WHERE c.categoryID = :categoryID AND c.categoryType = 'Shouts'");
+            q.setParameter("categoryID", categoryIDLong);
+            ce = (CategoryEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());
+            em.remove(ce);
+            ce = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Category does not exist. " + nre.getMessage());
+            em.remove(ce);
+            ce = null;
+        }
+        return ce;
+    }
+
+    @Override
+    public String deleteCategory(String categoryID) {
+        if (lookupCatID(categoryID) == null) {
+            return "Selected category cannot be found. Please try again.";
+        } else {
+            catEntity = lookupCatID(categoryID);
+            em.remove(catEntity);
+            em.flush();
+            em.clear();
+            return "Selected category has been deleted successfully!";
+        }
+    }
+
+    @Override
+    public Vector viewCategoryDetails(String categoryID) {
+        catEntity = lookupCatID(categoryID);
+        Vector catDetailsVec = new Vector();
+
+        if (catEntity != null) {
+            catDetailsVec.add(catEntity.getCategoryID());
+            catDetailsVec.add(catEntity.getCategoryName());
+            catDetailsVec.add(catEntity.getCategoryActiveStatus());
+        }
+        return catDetailsVec;
+    }
+
+    @Override
+    public String updateCategoryDetails(String categoryID, String catName, String catStatus) {
+        
+        if (lookupCatID(categoryID) == null) {
+            return "Selected category cannot be found. Please try again.";
+        } else {
+
+            catEntity = lookupCatID(categoryID);
+            catEntity.setCategoryName(catName);
+            if (catStatus.equals("Active")) {
+                catEntity.setCategoryActiveStatus(Boolean.TRUE);
+            } else {
+                catEntity.setCategoryActiveStatus(Boolean.FALSE);
+            }
+
+            em.merge(catEntity);
+            return "Selected category has been updated successfully!";
+        }
+        //else if (catEntity.getCategoryName().equals(catName) && catEntity.getCategoryActiveStatus().equals(catStatusBoolean)) {
+        //       return "Selected category has no changes made.";
+        //   }
+        //return "Category name already exists.";
+    }
+
+
+//shout comments related
+public ShoutsCommentsReportEntity lookupShoutCommentReport(String shoutCommentReportID) {
         ShoutsCommentsReportEntity ire = new ShoutsCommentsReportEntity();
         Long shoutCommentReportIDLong = Long.valueOf(shoutCommentReportID);
         try {
@@ -1807,7 +2128,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public List<Vector> viewReportedShoutCommentsListing() {
+        public List<Vector> viewReportedShoutCommentsListing() {
         Query q = em.createQuery("SELECT i FROM ShoutsCommentsReport i ORDER BY i.shoutCommentReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
@@ -1830,7 +2151,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public Vector viewShoutCommentDetails(String shoutCommentReportID) {
+        public Vector viewShoutCommentDetails(String shoutCommentReportID) {
         scrEntity = lookupShoutCommentReport(shoutCommentReportID);
         
         Vector shoutCommentReportDetails = new Vector();
@@ -1870,7 +2191,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public String resolveOnlyShoutCommentReport(String reportID) {
+        public String resolveOnlyShoutCommentReport(String reportID) {
         try {
             scrEntity = lookupShoutCommentReport(reportID);
             scrEntity.setShoutCommentReportStatus("Resolved (No Issue Found)");
@@ -1884,7 +2205,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public String resolveDelistShoutCommentReport(String reportID) {
+        public String resolveDelistShoutCommentReport(String reportID) {
         try {
             scrEntity = lookupShoutCommentReport(reportID);
             scrEntity.setShoutCommentReportStatus("Resolved (Delisted)");
@@ -1898,7 +2219,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public String delistShoutComment(String reportID) {
+        public String delistShoutComment(String reportID) {
 
         double reportIDLong = Double.parseDouble(reportID);
 
@@ -1925,7 +2246,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public Long getUnresolvedShoutCommentReportCount() {
+        public Long getUnresolvedShoutCommentReportCount() {
         Long unresolvedShoutCommentReportCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.shoutCommentReportID) FROM ShoutsCommentsReport c WHERE c.shoutCommentReportStatus='Unresolved'");
         try {
@@ -1938,7 +2259,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
-    public Long getResolvedShoutCommentReportCount() {
+        public Long getResolvedShoutCommentReportCount() {
         Long resolvedShoutCommentReportCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.shoutCommentReportID) FROM ShoutsCommentsReport c WHERE c.shoutCommentReportStatus<>'Unresolved'");
         try {
@@ -1991,7 +2312,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public List<Vector> viewReportedEventsListing() {
+        public List<Vector> viewReportedEventsListing() {
         Query q = em.createQuery("SELECT i FROM EventReport i ORDER BY i.eventReportDate DESC");
         List<Vector> reportedList = new ArrayList<Vector>();
 
@@ -2015,7 +2336,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public Vector viewEventDetails(String eventReportID) {
+        public Vector viewEventDetails(String eventReportID) {
         erpEntity = lookupEventReport(eventReportID);
         
         Vector eventReportDetails = new Vector();
@@ -2057,7 +2378,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public String resolveOnlyEventReport(String reportID) {
+        public String resolveOnlyEventReport(String reportID) {
         try {
             erpEntity = lookupEventReport(reportID);
             erpEntity.setEventReportStatus("Resolved (No Issue Found)");
@@ -2071,7 +2392,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public String resolveDelistEventReport(String reportID) {
+        public String resolveDelistEventReport(String reportID) {
         try {
             erpEntity = lookupEventReport(reportID);
             erpEntity.setEventReportStatus("Resolved (Delisted)");
@@ -2085,7 +2406,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public String delistEvent(String reportID) {
+        public String delistEvent(String reportID) {
 
         double reportIDLong = Double.parseDouble(reportID);
 
@@ -2112,7 +2433,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
     
     @Override
-    public Long getUnresolvedEventReportCount() {
+        public Long getUnresolvedEventReportCount() {
         Long unresolvedEventReportCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.eventReportID) FROM EventReport c WHERE c.eventReportStatus='Unresolved'");
         try {
@@ -2125,7 +2446,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
     }
 
     @Override
-    public Long getResolvedEventReportCount() {
+        public Long getResolvedEventReportCount() {
         Long resolvedEventReportCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(DISTINCT c.eventReportID) FROM EventReport c WHERE c.eventReportStatus<>'Unresolved'");
         try {
@@ -2200,7 +2521,7 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
 
     /* METHODS FOR UNIFY ADMIN DASHBOARD */
     @Override
-    public Long getTagsListCount() {
+        public Long getTagsListCount() {
         Long tagsListCount = new Long(0);
         Query q = em.createQuery("SELECT COUNT(t.tagID) FROM Tag t");
         try {
