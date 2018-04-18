@@ -4,8 +4,10 @@ import {
   blueGrey500, purple500,
  } from 'material-ui/styles/colors';
 
-export const GROUP_IMAGE_PATH = 'http://localhost:8080/EduTechWebApp-war/uploads/edutech/group/images/';
-export const USER_IMAGE_PATH = 'http://localhost:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/';
+export const HOST_NAME = window.location.hostname;
+
+export const GROUP_IMAGE_PATH = `http://${HOST_NAME}:8080/EduTechWebApp-war/uploads/edutech/group/images/`;
+export const USER_IMAGE_PATH = `http://${HOST_NAME}:8080/EduTechWebApp-war/uploads/commoninfrastructure/admin/images/`;
 
 export const INSTRUCTOR_PRIMARY1_COLOR = teal500;
 export const INSTRUCTOR_PRIMARY2_COLOR = teal700;

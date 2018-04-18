@@ -1,3 +1,7 @@
 .btnHover{
   cursor: pointer;
 }
+
+.smallText {
+  font-size: small;
+}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import moment from 'moment';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import { Tabs, Tab, Col, Row, Button, FormControl, ControlLabel, FormGroup } from 'react-bootstrap';
 import { DateTimePicker, DropdownList } from 'react-widgets';
 import momentLocalizer from 'react-widgets-moment';
@@ -15,8 +15,7 @@ momentLocalizer();
 
 @observer
 class EditMeetingForm extends Component {
-
-	constructor(props){
+	constructor(props) {
 		super(props)
 		let { title, description, location, startDate, endDate, createdBy, groupId } = this.props.meeting;
 		this.state={
@@ -61,7 +60,7 @@ class EditMeetingForm extends Component {
 	           <div className="row mt-1">
 	            <label htmlFor="eventName" className="col-2 col-form-label">Meeting Title:</label>
 	            <div className="col-8">
-	              <input className="form-control" type="text" id="eventName" ref="name" 
+	              <input className="form-control" type="text" id="eventName" ref="name"
 	              	value={this.state.title}
 	                onChange={(e)=>this.setState({title: e.target.value})}
 	              />
@@ -72,7 +71,7 @@ class EditMeetingForm extends Component {
 	            <label htmlFor="location" className="col-2 col-form-label">Location:</label>
 	            <div className="col-8">
 	              <input className="form-control" type="text" id="location" ref="location"
-	              value={this.state.location} 
+	              value={this.state.location}
 	              onChange={(e)=>this.setState({location: e.target.value})}
 	              />
 	            </div>
@@ -105,7 +104,7 @@ class EditMeetingForm extends Component {
 	            />
 	          </Col>
 	        </Row>
-	        
+
 	        <Row className="smallTopGap">
 	          <Col md={12}>
 	            <Button bsStyle="primary" onClick={this.editMeeting.bind(this)}>

@@ -48,7 +48,7 @@ class AssignmentStore {
 				const assignmentItem = await createGroupAssignment(numOfGroups, groupSize, dataSet)
 				console.log('assignment item: ', assignmentItem.data);
 				this.populateModuleAssignments(moduleCode);
-				UtilStore.openSnackbar("Group Assignment created successfully");
+				UtilStore.openSnackbar('Group Assignment created successfully');
 				AnnouncementStore.postAnnouncement(
 					ModuleStore.selectedModule.moduleCode,
 					`Group Assignment: ${title} published`,
@@ -83,7 +83,7 @@ class AssignmentStore {
 				const index = this.getIndex(assignmentId, this.assignmentList, 'id')
 				console.log('return assignment: ', index, assignment.data)
 				this.assignmentList[index] = assignment.data;
-				swal('Success!', `${file.name} uploaded successfully.`, 'success');
+				UtilStore.openSnackbar(`${file.name} uploaded successfully.`);
 		} catch (e) {
 			swal('Error', 'Unable to submit assignment', 'error');
 		}
@@ -91,7 +91,6 @@ class AssignmentStore {
 
 	@action
 	downloadAssignment(assignmentId, attachmentId, fileName) {
-		console.log("DOWNLOADING ONE Assignment FILE", assignmentId, attachmentId, fileName)
 		axios.get(`/assignment/download/${assignmentId}/${attachmentId}`, { responseType: 'blob' })
 		.then((res) => {
 			const downloadedFile = res.data;

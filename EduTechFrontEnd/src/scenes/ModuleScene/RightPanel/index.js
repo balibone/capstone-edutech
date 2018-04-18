@@ -98,9 +98,9 @@ class RightPanel extends Component {
     return '';
   }
   renderMembersDialog() {
-    console.log('ModuleStore.selectedModule', ModuleStore.selectedModule)
     let instructorsList = <ListItem primaryText="Instructors will be assigned soon." />;
-    if (ModuleStore.instructors && ModuleStore.instructors > 0) {
+    if (ModuleStore.instructors && ModuleStore.instructors.length > 0) {
+          console.log('module instructors', ModuleStore.instructors)
       instructorsList = ModuleStore.instructors.map(member => (
           <ListItem
             primaryText={member.userFirstName + ' ' + member.userLastName}

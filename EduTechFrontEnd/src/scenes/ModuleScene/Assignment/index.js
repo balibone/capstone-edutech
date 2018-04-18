@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
-import {Button ,Glyphicon, Modal} from 'react-bootstrap';
+import { Button ,Glyphicon, Modal } from 'react-bootstrap';
+import RaisedButton from 'material-ui/RaisedButton';
+import ContentAddCircle from 'material-ui/svg-icons/content/add-circle';
 
 import CreateAssignmentForm from './CreateAssignmentForm';
 // import CreateAssessmentForm from '../RightPanel/CreateAssessmentForm';
@@ -12,7 +14,6 @@ import ModuleStore from '../../../stores/ModuleStore/ModuleStore';
 
 @observer
 class Assignment extends Component {
-
 	constructor() {
 		super()
 		this.state = {
@@ -28,10 +29,13 @@ class Assignment extends Component {
 		const userType = localStorage.getItem('userType');
 		if (userType === 'instructor') {
 			return (
-	        <Button bsStyle="primary" onClick={() => this.flipShowAssignmentFormState()}>
-	          Create Assignment
-	          <Glyphicon glyph="plus" style={{marginLeft: '5px'}}/>
-	        </Button>
+					<RaisedButton
+				      label="Create Assignment"
+				      labelPosition="before"
+				      primary
+							onClick={() => this.flipShowAssignmentFormState()}
+				      icon={<ContentAddCircle />}
+				  />
 	      )
 		}
 		return '';

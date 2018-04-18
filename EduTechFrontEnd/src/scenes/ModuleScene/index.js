@@ -52,6 +52,7 @@ export default class ModuleScene extends Component {
 
   render() {
     const { moduleCode } = this.props.match.params;
+    console.log('active tab key', this.state.tabKey)
     let module = null;
     if (ModuleStore.moduleList.length > 0) {
       module = ModuleStore.getModule(moduleCode);

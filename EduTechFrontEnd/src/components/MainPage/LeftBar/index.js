@@ -6,7 +6,7 @@ import swal from 'sweetalert';
 
 import GroupStore from '../../../stores/GroupStore/GroupStore';
 import ModuleStore from '../../../stores/ModuleStore/ModuleStore';
-import { GROUP_IMAGE_PATH, USER_IMAGE_PATH, INSTRUCTOR_PRIMARY1_COLOR, STUDENT_PRIMARY1_COLOR } from '../../../utils/constants';
+import { HOST_NAME, GROUP_IMAGE_PATH, USER_IMAGE_PATH, INSTRUCTOR_PRIMARY1_COLOR, STUDENT_PRIMARY1_COLOR } from '../../../utils/constants';
 import './styles.css';
 
 
@@ -27,7 +27,7 @@ export default class LeftBar extends Component {
         // clear localStorage
         localStorage.clear();
         // redirect to login page
-        window.location.replace('http://localhost:8080/EduTechWebApp-war/CommonInfra?pageTransit=goToLogout');
+        window.location.replace(`http://${HOST_NAME}:8080/EduTechWebApp-war/CommonInfra?pageTransit=goToLogout`);
       }
     });
   }
@@ -46,7 +46,7 @@ export default class LeftBar extends Component {
       if (GroupStore.selectedGroup) {
         const group = GroupStore.selectedGroup;
         name = group.title;
-        image = GROUP_IMAGE_PATH + group.imagefilename;
+        image = '/img/group.png';
       }
     }
     const backgroundColor = localStorage.getItem('userType') === 'instructor' ? INSTRUCTOR_PRIMARY1_COLOR : STUDENT_PRIMARY1_COLOR;
@@ -93,7 +93,7 @@ export default class LeftBar extends Component {
           <Divider />
             <ListItem
               primaryText="My Groups"
-              leftIcon={<i className="fas fa-group" />}
+              leftIcon={<i className="fas fa-users" />}
               initiallyOpen={false}
               primaryTogglesNestedList
               nestedItems={groupListItems}
@@ -105,15 +105,15 @@ export default class LeftBar extends Component {
   }
   renderOthersMenu() {
     const otherListItems = [
-      <ListItem primaryText="Edubox" key={1} onClick={() => window.location.replace('http://localhost:8080/EduTechWebApp-war/')} />,
+      <ListItem primaryText="Edubox Landing" key={1} onClick={() => window.location.replace(`http://${HOST_NAME}:8080/EduTechWebApp-war/`)} />,
       <ListItem primaryText="Logout" key={1} onClick={() => this.handleLogout()} />,
     ];
     return (
       <div>
         <Divider />
           <ListItem
-            primaryText="Others"
-            leftIcon={<i className="fas fa-bookmark" />}
+            primaryText="Exit"
+            leftIcon={<i className="fas fa-sign-out-alt" />}
             initiallyOpen={false}
             primaryTogglesNestedList
             nestedItems={otherListItems}

@@ -4,12 +4,12 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import { Avatar, Divider, Tabs, Tab } from 'material-ui';
 
 import GroupStore from '../../stores/GroupStore/GroupStore';
-import {USER_IMAGE_PATH, STUDENT_PRIMARY1_COLOR} from '../../utils/constants';
+import { HOST_NAME, USER_IMAGE_PATH, STUDENT_PRIMARY1_COLOR } from '../../utils/constants';
 
 import { joinRoom, socket } from '../../services/socketApi';
 import Chatroom from './Chatroom';
 import Whiteboard from './Whiteboard';
-import Brainstorm from './Brainstorm';
+// import Brainstorm from './Brainstorm';
 import './styles.css';
 
 @observer
@@ -55,7 +55,7 @@ export default class CollabScene extends Component {
     const index = GroupStore.collabGroup.members.findIndex(member => member.username === currentUser.username);
 
     if (index === -1) {
-      window.location.replace('http://localhost:3000');
+      window.location.replace(`http://${HOST_NAME}:3000`);
     }
 
 
@@ -70,12 +70,14 @@ export default class CollabScene extends Component {
           </Col>
           <Col md={7} className="section collabDrawArea">
             <Tabs>
-              <Tab label="Sketch">
+              <Tab label="Collaborative Whiteboard">
                 <Whiteboard />
               </Tab>
-              <Tab label="Brainstorm">
-                <Brainstorm />
-              </Tab>
+              {/*
+                <Tab label="Collaborative Whiteboard">
+                  <Whiteboard />
+                </Tab>
+              */}
             </Tabs>
           </Col>
         </Row>

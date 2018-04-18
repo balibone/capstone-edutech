@@ -13,8 +13,7 @@ import DownloadSingleFile from './DownloadSingleFile';
 import './styles.css';
 
 class SingleLesson extends Component {
-
-constructor(props){
+constructor(props) {
   super(props)
   this.state = {
     files: [],
@@ -22,7 +21,7 @@ constructor(props){
   }
 }
 
-componentDidMount(){
+componentDidMount() {
   const lessonId = this.props.lesson.id;
 
   axios.get(`/lesson/allAttachments/${lessonId}`)
@@ -35,24 +34,32 @@ componentDidMount(){
     })
 }
 
-componentDidUpdate(prevProps, prevState){
+componentDidUpdate(prevProps, prevState) {
   if (prevProps.uploadedFile !== this.props.uploadedFile) {
     this.setState({uploadedFile: this.props.uploadedFile})
   }
 }
 
+renderUploadFilebtn(lessonId) {
+  const wellStyles = { margin: '15px 0' };
+  const userType = localStorage.getItem('userType');
+  if (userType === 'instructor') {
+    return (
+      <div className="well" style={wellStyles}>
+        <UploadFileBtn lessonId={lessonId} />
+      </div>
+    )
+  }
+  return '';
+}
+
 renderAttachmentBtn() {
-    const wellStyles = { maxWidth: 400, margin: '0 auto 10px' };
     const lessonId = this.props.lesson.id;
     const lesson = toJS(this.props.lesson);
-    var files = this.state.files;
-    var uploadedFile = this.state.uploadedFile;
-    var fileListArea = (<span>LOADING...</span>)
-    var downloadAllFileBtnArea = (<span></span>)
-    var uploadedFileArea = (<span></span>)
-    if (this.state.uploadedFile.length > 0) {
-      console.log("this uploaded file:", this.state.uploadedFile);
-    }
+    const { files, uploadedFile } = this.state;
+    let fileListArea = (<span>LOADING...</span>)
+    let downloadAllFileBtnArea = (<span></span>)
+    let uploadedFileArea = (<span></span>)
 
     if (files && files.length>0) {
       fileListArea = files.map((file) => {
@@ -68,36 +75,36 @@ renderAttachmentBtn() {
     }
     return (
             <Row className="show-grid">
-              <Col xs={12} md={8}>
+              <Col md={12}>
                 <ListGroup>
                     { fileListArea }
                 </ListGroup>
                 {downloadAllFileBtnArea}
               </Col>
-              <Col xs={6} md={4}>
-                <div className="well" style={wellStyles}>
-                  <UploadFileBtn lessonId={lessonId}/>
-                </div>
+              <Col md={12}>
+              {this.renderUploadFilebtn(lessonId)}
               </Col>
             </Row>
     )
   }
 
-  render(){
-    const {id, title, startDate, endDate} = this.props.lesson;
-    const start = moment(startDate).format("h:mm a");
-    const end = moment(endDate).format("h:mm a");
-    const date = moment(startDate).format("dddd, Do MMMM");
+  render() {
+    const {
+      id, title, startDate, endDate
+    } = this.props.lesson;
+    const start = moment(startDate).format('h:mm a');
+    const end = moment(endDate).format('h:mm a');
+    const date = moment(startDate).format('dddd, Do MMMM');
     const currentDateTime = moment(new Date());
     const lessonEndDateTime = moment(endDate);
 
-    return(
+    return (
       <Panel eventKey={id}>
           <Panel.Heading>
               <Panel.Title toggle>{title}
               {
-                currentDateTime>lessonEndDateTime ?
-                (<Badge className="pull-right" style={{background: '#008B8B'}}>Completed</Badge>) : (<span></span>)
+                currentDateTime > lessonEndDateTime ?
+                (<Badge className="pull-right" style={{ background: '#008B8B' }}>Completed</Badge>) : ('')
               }
 
               <p className="smallText">{date}, {start} - {end} </p>

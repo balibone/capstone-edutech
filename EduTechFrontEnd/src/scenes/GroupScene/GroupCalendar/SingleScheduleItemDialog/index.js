@@ -100,12 +100,14 @@ export default class ViewScheduleItemDialog extends Component {
     const selectedScheduleItem = groupScheduleItems.filter(item => item.id === id);
     console.log('selectedScheduleItem: ', selectedScheduleItem[0])
     if (selectedScheduleItem[0].meetingMinute) {
-      console.log('render agendas lah')
-      const agendaList = selectedScheduleItem[0].meetingMinute.agendas.map((agenda, index) => (
-        <ListItem
-          primaryText={`${index+1}) ${agenda.title}`}
-        />
-      ));
+      let agendaList = (<p>No agenda created for this meeting.</p>)
+      if (selectedScheduleItem[0].meetingMinute.agendas.length > 0) {
+        agendaList = selectedScheduleItem[0].meetingMinute.agendas.map((agenda, index) => (
+          <ListItem
+            primaryText={`${index+1}) ${agenda.title}`}
+          />
+        ));
+      }
       return (
           <div>
           <Divider />
@@ -116,7 +118,7 @@ export default class ViewScheduleItemDialog extends Component {
           </div>
       );
     }
-    return (<p className="lead">No agenda created for this meeting.</p>);
+    return '';
   }
 
   renderTime(start, end) {

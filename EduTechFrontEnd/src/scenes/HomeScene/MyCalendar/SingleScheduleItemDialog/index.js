@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Dialog, FlatButton } from 'material-ui';
+import { Dialog, FlatButton, List, ListItem, Divider } from 'material-ui';
 import { Badge, Row, Col, ControlLabel, FormControl } from 'react-bootstrap';
 import { DateTimePicker } from 'react-widgets';
+import { toJS } from 'mobx';
 import Autosuggest from 'react-bootstrap-autosuggest';
 import moment from 'moment';
 import swal from 'sweetalert';
@@ -80,7 +81,6 @@ export default class ViewScheduleItemDialog extends Component {
     } catch (e) {
       swal('error!', 'error downloading file', 'error');
     }
-
   }
   handleCancelEdit() {
     const { title, start, end, description, location } = this.props.selectedEvent; // eslint-disable-line
@@ -119,6 +119,33 @@ export default class ViewScheduleItemDialog extends Component {
         handleCloseDialog();
       }
     });
+  }
+
+  renderAgendaList() {
+    const groupScheduleItems = toJS(ScheduleItemStore.scheduleItems);
+    const { id } = this.props.selectedEvent;
+    const selectedScheduleItem = groupScheduleItems.filter(item => item.id === id);
+    console.log('selectedScheduleItem: ', selectedScheduleItem[0])
+    if (selectedScheduleItem[0].meetingMinute) {
+      let agendaList = (<p>No agenda created for this meeting.</p>)
+      if (selectedScheduleItem[0].meetingMinute.agendas.length > 0) {
+        agendaList = selectedScheduleItem[0].meetingMinute.agendas.map((agenda, index) => (
+          <ListItem
+            primaryText={`${index+1}) ${agenda.title}`}
+          />
+        ));
+      }
+      return (
+          <div>
+          <Divider />
+          <h4 className="lead">Agenda List</h4>
+          <List>
+            {agendaList}
+          </List>
+          </div>
+      );
+    }
+    return '';
   }
 
   renderType(type) {
@@ -197,6 +224,7 @@ export default class ViewScheduleItemDialog extends Component {
         <h4>{edittedTitle} @ {edittedLocation} {this.renderType(type)}</h4>
         {this.renderTime(edittedStart, edittedEnd)}
         <p>{this.state.edittedDescription}</p>
+        {this.renderAgendaList()}
       </div>
     );
   }

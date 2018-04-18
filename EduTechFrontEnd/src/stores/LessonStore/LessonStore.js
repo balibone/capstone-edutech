@@ -7,6 +7,8 @@ import FileSaver from 'file-saver';
 import _ from 'lodash';
 
 import UtilStore from '../UtilStore/UtilStore';
+import AnnouncementStore from '../AnnouncementStore/AnnouncementStore';
+import ModuleStore from '../ModuleStore/ModuleStore';
 
 class LessonStore {
 	@observable lessonList = [];
@@ -33,11 +35,20 @@ class LessonStore {
     formData.append('file', file)
     formData.append('createdBy', username)
 
-    axios.post(`/lesson/uploadAttachment/${lessonId}`,formData)
+    axios.post(`/lesson/uploadAttachment/${lessonId}`, formData)
     .then((res) => {
       this.uploadedFile = res.data;
       this.uploadedFile[0].lessonId = lessonId;
-			UtilStore.openSnackbar(`${file.name} is successfully uploaded.`)
+			UtilStore.openSnackbar(`${file.name} is successfully uploaded.`);
+
+			setTimeout(() => {
+				AnnouncementStore.postAnnouncement(
+					ModuleStore.selectedModule.moduleCode,
+					 `File ${file.name} uploaded.`,
+					 ModuleStore.selectedModule.members,
+					 `/module/${ModuleStore.selectedModule.moduleCode}?tabKey=Lessons`,
+				);
+			}, 5000);
     })
     .catch((err) => {
       console.log(err);
@@ -45,7 +56,7 @@ class LessonStore {
   }
 
   @action
-  downloadAllFiles(lessonId, title, dateTimeFormat){
+  downloadAllFiles(lessonId, title, dateTimeFormat) {
     axios.get(`/lesson/downloadAllAttachments/${lessonId}`, { responseType: 'blob' })
     .then((res) => {
       const downloadedZip = res.data;
