@@ -45,9 +45,10 @@
                             <div class="dropdown-menu t-90 smooth" aria-labelledby="myAccountNav">
                                 <a class="dropdown-item marketplaceBtn" data-toggle="modal" data-target="#marketplaceModal"><i class="fa fa-fw fa-shopping-cart"></i>&nbsp;My Marketplace</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#errandsModalCenter"><i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands</a>
-                                <a class="dropdown-item shoutBtn"><i class="fa fa-fw fa-comments"></i>&nbsp;My Whispers</a>
-                                <a class="dropdown-item eventBtn"><i class="fa fa-fw fa-calendar"></i>&nbsp;My Events</a>
                                 <a class="dropdown-item voicesBtn" data-toggle="modal" data-target="#voicesModalCenter"><i class="fa fa-fw fa-commenting"></i>&nbsp;My Voices</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#shoutsModalCenter"><i class="fa fa-fw fa-comments"></i>&nbsp;My Shouts</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#eventsModalCenter"><i class="fa fa-fw fa-calendar"></i>&nbsp;My Events</a>
+                                
                             </div>
                         </li>
                     </ul>
