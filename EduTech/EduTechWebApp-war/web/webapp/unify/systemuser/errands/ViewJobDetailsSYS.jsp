@@ -600,10 +600,13 @@
             <div id="marketplace-overlay"></div>
             <div id="jobLikeList-iframe"></div>
             <div id="signaturePad-iframe"></div>
+            <div id="errandsModal"></div>
                 
             <input type="hidden" id="jobIDHidden" value="<%= jobID%>" />
             <input type="hidden" id="usernameHidden" value="<%= loggedInUsername%>" />
             <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
+            
+            
             
         </div>
 

@@ -208,57 +208,9 @@
 
             <div id="contentArea" class="container jplist mb-3">
                 <div class="row">
-                    <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                        <div class="card user-card">
-                            <%
-                                Vector userAccountVec = (Vector) request.getAttribute("userAccountVec");
-                                String username, userFirstName, userLastName, userImage, userCreationDate;
-                                username = userFirstName = userLastName = userImage = userCreationDate = "";
-
-                                if (userAccountVec != null) {
-                                    username = (String) userAccountVec.get(0);
-                                    userFirstName = (String) userAccountVec.get(1);
-                                    userLastName = (String) userAccountVec.get(2);
-                                    userImage = (String) userAccountVec.get(3);
-                                    userCreationDate = (String.valueOf(userAccountVec.get(4)));
-                                }
-                            %>
-                            <div class="card-body p-2 mb-3 mb-md-0 mb-xl-3">
-                                <div class="media">
-                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= userImage%>" style="width:50px;height:50px;"/>
-                                    <div class="media-body ml-2">
-                                        <h5 class="user-name"><strong><%= userFirstName%>&nbsp;<%= userLastName%></strong></h5>
-                                        <p>@<%= username%></p>
-                                        <small class="card-text text-muted mt-2">Joined <%= userCreationDate%></small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group list-group-flush">
-                                <button type="button" class="list-group-item list-group-item-action marketplaceBtn active">
-                                    <i class="fa fa-fw fa-shopping-cart"></i>&nbsp;My Marketplace
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action errandsBtn" data-toggle="modal" data-target="#errandsModalCenter">
-                                    <i class="fa fa-fw fa-suitcase"></i>&nbsp;My Errands
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-comments"></i>&nbsp;My Whispers
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-calendar"></i>&nbsp;My Events
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action voicesBtn" data-toggle="modal" data-target="#voicesModalCenter">
-                                    <i class="fa fa-fw fa-commenting"></i>&nbsp;My Voices
-                                    <div class="pull-right"><i class="fa fa-fw fa-angle-double-right"></i></div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    
                                     
-                    <div class="col-lg-9 col-md-8">
+                    <div class="col-lg-12 col-md-12">
                         <%                    
                             String successMessage = (String) request.getAttribute("successMessage");
                             if (successMessage != null) {
@@ -347,9 +299,9 @@
                                     <div class="card-content">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-4"><img src="uploads/unify/images/errands/job/<%=jobImg%>" style="height: 100px; width: 100px;"></div>
-                                            <div class="col-md-8">
-                                                <span class="jobTitle job-title" style="font-size: 17px;"><strong><%= jobTitle%></strong></span><br/>
+                                            <div class="col-md-3"><img src="uploads/unify/images/errands/job/<%=jobImg%>" style="height: 100px; width: 100px;"></div>
+                                            <div class="col-md-9">
+                                                <span class="jobTitle job-title" style="font-size: 17px;"><strong><%= jobTitle%></strong></span>
                                                 <span class="card-text category <%= categoryPath%>"><%= categoryName%></span><br/>
                                                 <span class="card-text rate jobRate">S$<%= jobRate%></span> <span>/<%= jobRateType%></span><br/>
                                                 <%--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal<%=jobID%>">Edit Job Status</button>--%>
