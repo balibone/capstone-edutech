@@ -360,6 +360,14 @@ public class UserProfileSysUserController extends HttpServlet {
                     response.setContentType("text/plain");
                     response.getWriter().write(responseMessage);
                     break;
+                case "getChatAvailability":
+                    long itemIDSocket = Long.parseLong(request.getParameter("itemIDSocket"));
+                    String itemBuyerIDSocket = request.getParameter("itemBuyerIDSocket");
+                    
+                    responseMessage = usmr.getChatAvailability(itemIDSocket, itemBuyerIDSocket);
+                    response.setContentType("text/plain");
+                    response.getWriter().write(responseMessage);
+                    break;
                 case "goToMyJobListing":
                     request.setAttribute("jobCategoryStr", esmr.getJobCategoryList());
                     request.setAttribute("userAccountVec", usmr.viewUserProfileDetails(loggedInUsername));

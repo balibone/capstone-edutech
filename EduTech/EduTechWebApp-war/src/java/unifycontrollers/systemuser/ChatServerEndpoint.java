@@ -50,7 +50,7 @@ public class ChatServerEndpoint {
         sessionUsers.stream().forEach(x-> {
             try {
                 // x.getBasicRemote().sendText(buildJSONData(username, message));
-                x.getBasicRemote().sendText(message);
+                x.getBasicRemote().sendText(message + '|' + sessionID);
             } catch(Exception ex) {
                 ex.printStackTrace();
             }

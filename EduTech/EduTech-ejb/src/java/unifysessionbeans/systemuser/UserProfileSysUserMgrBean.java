@@ -510,6 +510,20 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
         return "Message has been sent successfully!";
     }
     
+    @Override
+    public String getChatAvailability(long itemID, String itemBuyerID) {
+        String dbResponse = "";
+        
+        Query searchQ = em.createQuery("SELECT c FROM Chat c WHERE c.itemEntity.itemID = :itemID AND c.itemBuyerID = :itemBuyerID ORDER BY c.chatPostingDate DESC");
+        searchQ.setParameter("itemID", itemID);
+        searchQ.setParameter("itemBuyerID", itemBuyerID);
+        for (Object o : searchQ.setMaxResults(1).getResultList()) {
+            ChatEntity chatE = (ChatEntity) o;
+            dbResponse = chatE.getChatID() + "|" + chatE.getItemEntity().getItemName() + "|" + lookupUnifyUser(itemBuyerID).getImgFileName() + "|" + getChatConvoCount(itemID, itemBuyerID);
+        }
+        return dbResponse;
+    }
+    
     /*  ====================    USER ITEM OFFERS (ACCOUNT)    ==================== */
     @Override
     public List<Vector> viewUserItemAccountList(String username) {
@@ -1215,6 +1229,20 @@ public class UserProfileSysUserMgrBean implements UserProfileSysUserMgrBeanRemot
             che = null;
         }
         return che;
+    }
+    
+    public Long getChatConvoCount(long itemID, String itemBuyerID) {
+        Long chatConvoCount = new Long(0);
+        Query q = em.createQuery("SELECT COUNT(c.chatID) FROM Chat c WHERE c.itemEntity.itemID = :itemID AND c.itemBuyerID = :itemBuyerID");
+        q.setParameter("itemID", itemID);
+        q.setParameter("itemBuyerID", itemBuyerID);
+        try {
+            chatConvoCount = (Long) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Exception in UserProfileSysUserMgrBean.getChatConvoCount().getSingleResult()");
+            ex.printStackTrace();
+        }
+        return chatConvoCount;
     }
     
     public ItemEntity lookupItem(long itemID) {
