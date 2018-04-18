@@ -29,7 +29,7 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
-        
+
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -78,7 +78,7 @@
                                             <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications<span class="badge badge-light"><%= request.getAttribute("unreadNotificationCount")%></span>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <% 
+                                            <%
                                                 ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
                                                     for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
@@ -107,7 +107,7 @@
                                             <%  } else {    %>
                                             <p style="text-align:center;">There are no notifications.</p>
                                             <div class="dropdown-divider"></div>
-                                            <%  }   %>
+                                            <%  }%>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
@@ -237,7 +237,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="col-lg-9 col-md-8">
@@ -298,11 +298,25 @@
                                                 <div class="row">
 
                                                     <div class="col-xl-8 col-md-8 col-8">
+
+                                                        <%
+                                                            if (shoutStatus.equals("Delisted")) {
+                                                        %>
+
+                                                        <div class="shout-user-info">
+                                                            <span class="card-header shoutStatus" style="color: #b72714; font-size: 12px">Delisted</span>
+                                                        </div>
+
+                                                        <%  }%>
+
                                                         <div class="shout-content">
                                                             <span class="card-content shoutContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><%= shoutContent%></span>
                                                         </div>
                                                         <br>
                                                         <%-- like & comment --%>
+                                                        <%
+                                                            if (!shoutStatus.equals("Delisted")) {
+                                                        %>
                                                         <div class="shout-likes-info">
                                                             <span class="card-text shoutLike" style="font-size: 12px"><%= shoutLikes%> likes &nbsp;
                                                             </span>
@@ -329,12 +343,13 @@
                                                                 </a>
                                                             </i>
                                                         </div>
+                                                        <%  }%>
                                                     </div>
                                                     <div class="col-xl-4 col-md-4 col-4 float-right">
                                                         <div class="bookmark-Shout">
                                                             <%
 
-                                                                if (shoutBookmarkStatus.equals("false")) {
+                                                                if (shoutBookmarkStatus.equals("false") && !shoutStatus.equals("Delisted")) {
                                                             %>
                                                             <span class = "float-right"><a onClick ="bookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkThis">
                                                                     <i class="fa fa-bookmark icon"></i>
@@ -343,7 +358,7 @@
                                                                 </a></span>
                                                                 <%
 
-                                                                } else if (shoutBookmarkStatus.equals("true")) {
+                                                                } else if (shoutBookmarkStatus.equals("true") && !shoutStatus.equals("Delisted")) {
                                                                 %>     
                                                             <span class = "float-right"><a onClick ="unbookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkedThis">
                                                                     <i class="fa fa-bookmark icon"></i>
@@ -363,7 +378,7 @@
                                                                     <span class="float-none shoutDelete" style="color: #64676d; font-size: 12px">&nbsp;Delete Shout</a></span>
                                                                     <%  }%>
                                                         </div>
-                                                       
+
 
                                                     </div> 
 
@@ -373,14 +388,14 @@
 
                                         <%-- card footer --%>
                                         <div class="card-footer text-muted mt-1">
-                                            
+
                                             <div class="shout-user-info">
                                                 <i class="fa fa-users" style="color: #64676d">&nbsp;</i><span class="card-text shoutUsername" style="font-size: 12px">Posted by you</span>
                                             </div>
-                                            
+
                                             <div class="shout-post-date">
                                                 <i class="fa fa-clock-o">&nbsp;</i><span class="float-none shoutDuration" style="color: #64676d; font-size: 12px">Posted <%= shoutDuration%>
-                                                    
+
                                                 </span>
 
                                                 <span class="float-none shoutDate" hidden="true" style="color: #64676d; font-size: 12px"><%= shoutDate%>
