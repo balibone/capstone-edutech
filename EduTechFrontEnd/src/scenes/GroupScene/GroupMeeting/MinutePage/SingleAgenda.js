@@ -37,11 +37,11 @@ class SingleAgenda extends Component {
     const {
       title, discussion, conclusion
     } = this.state;
-    const modifiedBy = localStorage.getItem('currentUser');
     const modifiedAt = moment(new Date()).format('YYYY-MM-DDTHH:mm:ss');
     const agenda = {
-      id, title, discussion, conclusion, modifiedBy, modifiedAt
+      id, title, discussion, conclusion, modifiedAt, modifiedBy: JSON.parse(localStorage.getItem('currentUser'))
     }
+    // console.log('submit agenda thing: ', agenda)
     MinuteStore.updateAgenda(minuteId, agenda, this.props.groupId);
   }
 
@@ -77,8 +77,9 @@ class SingleAgenda extends Component {
           <Panel.Heading>
               <Panel.Title toggle>
                 {this.state.title}
-                <p className="smallText">Modified At: {moment(modifiedAt).format('D MMM, h:mm a')}</p>
                 <i className="fas fa-trash-alt pull-right" onClick={() => this.deleteAgenda()} />
+                <p className="smallText">Modified At: {moment(modifiedAt).format('D MMM, h:mm a')}</p>
+                <p className="smallText">Modified By: {modifiedBy.username}</p>
               </Panel.Title>
           </Panel.Heading>
 

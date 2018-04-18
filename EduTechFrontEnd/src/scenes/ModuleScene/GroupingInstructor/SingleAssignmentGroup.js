@@ -26,6 +26,7 @@ class SingleAssignmentGroup extends Component {
 	doAutoAssignMembers(assignmentId) {
 		const { moduleCode } = ModuleStore.selectedModule;
 		GroupStore.doAutoAssignMembers(assignmentId, moduleCode);
+		this.setState({ openMembersDialog: false })
 	}
 	renderViewMembersWithtouGroupBtn() {
 		return (<Button bsStyle="primary" onClick={() => this.getMembersWithoutGroup()}>View Members Without Group</Button>)

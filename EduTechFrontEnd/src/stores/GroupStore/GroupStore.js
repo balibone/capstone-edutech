@@ -38,6 +38,7 @@ class GroupStore {
       const res = await autoAssignMembers(assignmentId);
       console.log('res data auto assign: ', res.data);
       AssignmentStore.populateModuleAssignments(moduleCode)
+      UtilStore.openSnackbar('Auto-assign students successful!')
       // this.groupList = res.data;
       // this.donePopulating = true;
     } catch(e) {
