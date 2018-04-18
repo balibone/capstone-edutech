@@ -2,6 +2,12 @@ $(document).ready(function () {
     App.init();
     Plugins.init();
     FormComponents.init();
+    
+    var dbCompanyIndustry = $('#dbCompanyIndustry').val();
+    var splitResult = dbCompanyIndustry.split(';');
+    splitResult.forEach(function (industryEntry) {
+        $('#companyIndustry').append($('<option>', {value: industryEntry, text: industryEntry}));
+    });
 
     var options = {
         url: "resources/countries.json",

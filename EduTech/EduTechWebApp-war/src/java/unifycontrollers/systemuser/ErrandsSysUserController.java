@@ -280,6 +280,7 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("jobDetailsSYSVec", (Vector)esmr.viewJobDetails(jobToGo, loggedInUsername));
                     request.setAttribute("assocCategoryJobListSYS", esmr.viewAssocCategoryJobList(categoryToGo, jobToGo));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobDetailsSYS";
                     break;
                 default:

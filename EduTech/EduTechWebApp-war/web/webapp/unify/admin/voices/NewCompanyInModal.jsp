@@ -74,8 +74,10 @@
                     </td>
                     <td colspan="2">
                         <div class="form-group">
-                            <input type="hidden" name="urlCompanyIndustry" value="<%= request.getAttribute("requestCompanyIndustry")%>" />
-                            <label class="control-label">Company Industry:&nbsp;&nbsp;<u><%= request.getAttribute("requestCompanyIndustry")%></u></label>
+                            <input type="hidden" id="dbCompanyIndustry" value="<%= request.getAttribute("companyIndustryStr")%>" />
+                                <select class="form-control" id="companyIndustry" name="companyIndustry" required="required">
+                                    <option value="" disabled selected>-- Select Company Industry --</option>
+                                </select>
                         </div>
                     </td>
                 </tr>
