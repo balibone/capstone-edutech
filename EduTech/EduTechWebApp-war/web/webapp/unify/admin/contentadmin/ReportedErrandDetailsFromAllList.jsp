@@ -42,9 +42,11 @@
     <body style="background-color: #FFFFFF;">
         <%            Vector reportListVec = (Vector) request.getAttribute("reportedErrandsVec");
             String reportID, reportStatus, reportDescription, reportDate, reportedErrandID,
-                    reportedPosterID, reportedReporterID, jobTitle, jobDescription, jobImage, jobReviewedDate, jobStatus;
+                    reportedPosterID, reportedReporterID, jobTitle, jobDescription, 
+                    jobImage, jobReviewedDate, jobStatus, jobRate, jobRateType, jobID;
             reportID = reportStatus = reportDescription = reportDate = reportedErrandID = reportedPosterID = reportedReporterID
-                    = jobTitle = jobDescription = jobImage = jobReviewedDate = jobStatus = "";
+                    = jobTitle = jobDescription = jobImage = jobReviewedDate = 
+                    jobStatus = jobRate = jobRateType = jobID = "";
             if (reportListVec != null) {
                 reportID = (String.valueOf(reportListVec.get(0)));
                 reportStatus = (String.valueOf(reportListVec.get(1)));
@@ -59,6 +61,9 @@
                     jobDescription = (String.valueOf(reportListVec.get(9)));
                     jobImage = (String.valueOf(reportListVec.get(10)));
                     jobStatus = (String.valueOf(reportListVec.get(11)));
+                    jobRate = (String.valueOf(reportListVec.get(12)));
+                    jobRateType = (String.valueOf(reportListVec.get(13)));
+                    jobID = (String.valueOf(reportListVec.get(14)));
                 }
             }
         %>
@@ -99,6 +104,14 @@
                             <tr>
                                 <td>Job Description</td>
                                 <td><%= jobDescription%></td>
+                            </tr>
+                            <tr>
+                                <td>Job Rate</td>
+                                <td>$<%= jobRate%>/<%= jobRateType%></td>
+                            </tr>
+                            <tr>
+                                <td>Link to Job Page</td>
+                                <td><a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%=jobID%>" target="_blank">Click here</a></td>
                             </tr>
                             <%
                             } else {

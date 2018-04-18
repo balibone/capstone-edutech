@@ -108,6 +108,10 @@
                                 <td>Item Image</td>
                                 <td><div style="height:auto;overflow: auto;"><img src="uploads/unify/images/marketplace/item/<%= itemImage%>" alt="" style="width:250px; height:auto;"></div></td>
                             </tr>
+                            <tr>
+                                <td>Link to Item Page</td>
+                                <td><a href="MarketplaceSysUser?pageTransit=goToViewItemDetailsSYS&hiddenItemID=<%=reportedItemID%>" target="_blank">Click here</a></td>
+                            </tr>
                             <%
                             } else {
                             %>

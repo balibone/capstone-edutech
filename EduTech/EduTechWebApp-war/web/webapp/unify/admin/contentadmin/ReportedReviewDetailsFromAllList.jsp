@@ -42,9 +42,11 @@
     <body style="background-color: #FFFFFF;">
         <%            Vector reportListVec = (Vector) request.getAttribute("reportedReviewVec");
             String reportID, reportStatus, reportDescription, reportDate, reportedReviewID,
-                    reportedPosterID, reportedReporterID, reviewCompany, reviewTitle, reviewPro, reviewCon, reviewedDate, reviewStatus;
+                    reportedPosterID, reportedReporterID, reviewCompany, reviewTitle, reviewPro, 
+                    reviewCon, reviewedDate, reviewStatus;
             reportID = reportStatus = reportDescription = reportDate = reportedReviewID
-                    = reportedPosterID = reportedReporterID = reviewCompany = reviewTitle = reviewPro = reviewCon = reviewedDate = reviewStatus = "";
+                    = reportedPosterID = reportedReporterID = reviewCompany = reviewTitle = 
+                    reviewPro = reviewCon = reviewedDate = reviewStatus = "";
             if (reportListVec != null) {
                 reportID = (String.valueOf(reportListVec.get(0)));
                 reportStatus = (String.valueOf(reportListVec.get(1)));

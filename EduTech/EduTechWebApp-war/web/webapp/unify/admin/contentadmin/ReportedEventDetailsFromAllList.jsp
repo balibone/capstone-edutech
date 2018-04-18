@@ -108,6 +108,10 @@
                                 <td>Event Description</td>
                                 <td><%= eventContent%></td>
                             </tr>
+                            <tr>
+                                <td>Link to Event Page</td>
+                                <td><a href="EventsSysUser?pageTransit=goToViewEventDetailsSYS&hiddenEventID=<%=eventID%>" target="_blank">Click here</a></td>
+                            </tr>
                             <%
                             } else {
                             %>

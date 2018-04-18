@@ -212,7 +212,7 @@
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a href="#companyReview" data-toggle="tab">Company Reviews Reported</a></li>
                                         <li><a href="#errandReport" data-toggle="tab">Errands Reported</a></li>
-                                        <li><a href="#errandReviewReport" data-toggle="tab">Errand Reviews Reported</a></li>
+                                        <%--<li><a href="#errandReviewReport" data-toggle="tab">Errand Reviews Reported</a></li>--%>
                                         <li><a href="#marketplaceReport" data-toggle="tab">Marketplace Items Reported</a></li>
                                     </ul>
 
@@ -322,7 +322,8 @@
                                             </div>
                                         </div>
 
-                                        <%-- third tab --%>
+                                        <%--
+                                        <%-- third tab -%>
                                         <div class="tab-pane" id="errandReviewReport">
                                             <div class="widget-content no-padding">
                                                 <table class="table table-striped table-checkable table-hover">
@@ -374,7 +375,8 @@
                                                 <a class="tableMore" href="ContentAdmin?pageTransit=goToAllReportedListing#errandReviewReport">View More&nbsp;<i class="pull-right fa fa-chevron-right"></i></a>
                                             </div>
                                         </div>
-
+                                        --%>
+                                        
                                         <%-- fourth tab --%>
                                         <div class="tab-pane" id="marketplaceReport">
                                             <div class="widget-content no-padding">
