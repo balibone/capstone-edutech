@@ -119,6 +119,7 @@ public class JobEntity implements Serializable {
     /* GETTER METHODS */
     public Long getJobID() { return jobID; }
     public String getJobTitle() { return jobTitle; }
+    public String getJobTitle(Long jobID) { return jobTitle; }
     public String getJobDescription() { return jobDescription; }
     public String getJobStartLocation() { return jobStartLocation; }
     public String getJobStartLat() { return jobStartLat; }

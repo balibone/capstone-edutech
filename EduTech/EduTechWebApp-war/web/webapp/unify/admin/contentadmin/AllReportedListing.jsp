@@ -182,7 +182,7 @@
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#companyReview" data-toggle="tab">Company Reviews Reported</a></li>
                                 <li><a href="#errandReport" data-toggle="tab">Errands Reported</a></li>
-                                <li><a href="#errandReviewReport" data-toggle="tab">Errand Reviews Reported</a></li>
+                                <%-- <li><a href="#errandReviewReport" data-toggle="tab">Errand Reviews Reported</a></li> --%>
                                 <li><a href="#marketplaceReport" data-toggle="tab">Marketplace Items Reported</a></li>
                                 <li><a href="#shoutReport" data-toggle="tab">Shouts Reported</a></li>
                                 <li><a href="#shoutCommentReport" data-toggle="tab">Shout Comments Reported</a></li>
@@ -266,7 +266,9 @@
                                 </div>
                                 <%-- end of div class 1--%>
 
+                                
                                 <%-- second table --%>
+                                <%--
                                 <div class="tab-pane" id="errandReviewReport">
                                     <div class="col-md-12">    
                                         <div class="widget box">
@@ -279,7 +281,7 @@
                                                 </div>
                                             </div>
 
-                                            <%-- datatable --%>
+                                            <%-- datatable -%>
                                             <div class="widget-content no-padding">
                                                 <table id="reportedErrandsReviewList" class="table table-striped table-bordered table-hover table-checkable table-responsive datatable">
                                                     <thead>
@@ -337,7 +339,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                --%>
                                 <%-- end of second table --%>
+                                
 
                                 <%-- third table --%>
                                 <div class="tab-pane" id="marketplaceReport">

@@ -79,6 +79,7 @@ public class CompanyReviewEntity implements Serializable {
     /* GETTER METHODS */
     public Long getReviewID() { return reviewID; }
     public String getReviewTitle() { return reviewTitle; }
+    public String getReviewTitle(Long reviewID) { return reviewTitle; }
     public Double getReviewRating() { return reviewRating; }
     public String getReviewPros() { return reviewPros; }
     public String getReviewCons() { return reviewCons; }

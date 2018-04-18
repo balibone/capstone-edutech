@@ -73,7 +73,9 @@ public class ShoutsEntity implements Serializable {
     public Long getShoutID() { return shoutID; }
     public String getShoutStatus() { return shoutStatus; }
     public String getShoutContent() { return shoutContent; }
+    public String getShoutContent(Long shoutID) { return shoutContent; }
     public Date getShoutDate() { return shoutDate; }
+    public Date getShoutDate(Long shoutID) { return shoutDate; }
 
     public Date getShoutEditedDate() { return shoutEditedDate; }
     public String getShoutLat() { return shoutLat; }

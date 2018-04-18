@@ -84,6 +84,7 @@ public class EventEntity implements Serializable {
     public Date getEventEndDateTime() { return eventEndDateTime; }
     public String getEventVenue() { return eventVenue; }
     public String getEventTitle() { return eventTitle; }
+    public String getEventTitle(Long eventID) { return eventTitle; }
     public String getEventPoster() { return eventPoster; }
     
     public UserEntity getUserEntity() { return userEntity; }
