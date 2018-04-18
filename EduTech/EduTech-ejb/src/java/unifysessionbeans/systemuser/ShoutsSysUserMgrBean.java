@@ -263,7 +263,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
     }
 
     public List<Vector> viewMyShoutList(String username) {
-        Query q = em.createQuery("SELECT c FROM Shouts c WHERE c.shoutStatus='Active' AND c.shoutUser.username = :username ORDER BY c.shoutDate DESC");
+        Query q = em.createQuery("SELECT c FROM Shouts c WHERE c.shoutUser.username = :username ORDER BY c.shoutDate DESC");
         q.setParameter("username", username);
         List<Vector> myShoutList = new ArrayList<Vector>();
 
@@ -341,7 +341,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
     }
 
     public List<Vector> viewMyBookmarkedShoutList(String username) {
-        Query q = em.createQuery("SELECT c FROM ShoutsBookmarks c WHERE c.userEntity.username = :username ORDER BY c.shoutsEntity.shoutDate DESC");
+        Query q = em.createQuery("SELECT c FROM ShoutsBookmarks c WHERE c.shoutsEntity.shoutStatus='Active' AND c.userEntity.username = :username ORDER BY c.shoutsEntity.shoutDate DESC");
         q.setParameter("username", username);
         List<Vector> myShoutList = new ArrayList<Vector>();
 
