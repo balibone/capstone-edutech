@@ -292,7 +292,7 @@
                                                     String itemPrice = String.valueOf(v.get(5));
                                                     String itemCondition = String.valueOf(v.get(6));
                                         %>
-                                        <div class="col-sm-6 pl-1 pr-1 list-item">
+                                        <div class="col-sm-4 pl-1 pr-1 list-item">
                                             <div class="card">
                                                 <div class="card-body media">
                                                     <img class="img-circle pull-left mr-3 d-flex align-self-start" src="uploads/unify/images/marketplace/item/<%= itemImage%>" style="width:70px;height:70px;" />
