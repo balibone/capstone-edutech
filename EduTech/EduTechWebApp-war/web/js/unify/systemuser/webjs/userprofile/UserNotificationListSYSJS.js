@@ -50,15 +50,16 @@ function checkAll() {
     var rows = document.getElementById("notificationTable").getElementsByTagName("tbody")[0].getElementsByTagName('tr').length;
     var checkbox = document.getElementById("notificationTable").getElementsByTagName("tbody")[0].getElementsByTagName('input');
     var j=0;
-    for(var i=0;i<rows*2;i=i+2) {
+    for(var i=0;i<checkbox.length;i=i+1) {
         if(checkbox[i].type==='checkbox'&&checkbox[i].checked===false){
             checkbox[i].checked=true;
             $('#'+j).addClass('checked');
         } else if(checkbox[i].type==='checkbox'&&checkbox[i].checked===true){
             checkbox[i].checked=false;
             $('#'+j).removeClass('checked');
+        } else if(checkbox[i].type==='hidden') {
+            j++;
         }
-        j++;
     } 
 }
 
