@@ -234,7 +234,7 @@
                                             <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 151px;">
                                                 <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
                                             </label>
-                                            <input id="file-upload" name="userImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" required="required" />
+                                            <input id="file-upload" name="userImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" required/>
                                         </div>
                                     </div>
                                     <div class="col-md-1" style="padding-top: 30px; display: table-cell; vertical-align:middle;">

@@ -166,6 +166,9 @@ function previewImage(event) {
 }
 
 function createWorkExprList() {
+    if(document.getElementById("file-upload").value==="") {
+        alert("Please upload your image.");
+    }
     
     if(document.getElementById("contactNum").value!=="") {
         var contactNum = document.getElementById("contactNum").value;
@@ -175,8 +178,8 @@ function createWorkExprList() {
                 document.getElementById('contactNum').focus();
                 event.preventDefault();
                 return false;
-            } else if(!(contactNum.charAt(0)==="9" || contactNum.charAt(0)==="8")) {
-                alert("Mobile No. should start with 9 or 8 ");
+            } else if(!(contactNum.charAt(0)==="9" || contactNum.charAt(0)==="8" || contactNum.charAt(0)==="6")) {
+                alert("Mobile No. should start with 6,8,9 ");
                 document.getElementById('contactNum').focus();
                 event.preventDefault();
                 return false;

@@ -152,6 +152,7 @@ public class VoicesAdminController extends HttpServlet {
                     request.setAttribute("urlCompanyCategoryID", newCompanyCategoryID);
                     request.setAttribute("companyCategoryDetailsVec", vamr.viewCompanyCategoryDetails(newCompanyCategoryID));
                     request.setAttribute("associatedCompanyList", (ArrayList) vamr.viewAssociatedCompanyList(newCompanyCategoryID));
+                    request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
                     pageAction = "ViewCompanyCategoryDetails";
                     break;
                 case "createCompanyfromRequest":
@@ -291,6 +292,7 @@ public class VoicesAdminController extends HttpServlet {
                     request.setAttribute("requestPoster", addRequestPoster);
                     request.setAttribute("requestCompanyName", addRequestCompany);
                     request.setAttribute("requestCompanyIndustry", addRequestIndustry);
+                    request.setAttribute("companyIndustryStr", vamr.populateCompanyIndustry());
                     pageAction = "NewCompanyInModal";
                     break;
                 case "goToDeleteReview":
@@ -598,7 +600,7 @@ public class VoicesAdminController extends HttpServlet {
             fileName = "";
         }
         
-        String companyIndustry = request.getParameter("urlCompanyIndustry");
+        String companyIndustry = request.getParameter("companyIndustry");
         String companyName = request.getParameter("companyName");
         String requestCompanyName = request.getParameter("oldCompanyName");
         String companySize = request.getParameter("companySize");
@@ -676,7 +678,7 @@ public class VoicesAdminController extends HttpServlet {
             fileName = "";
         }
         
-        String companyIndustry = request.getParameter("urlCompanyIndustry");
+        String companyIndustry = request.getParameter("companyIndustry");
         String companyName = request.getParameter("companyName");
         String companySize = (String) request.getParameter("companySize");
         String companyWebsite = request.getParameter("companyWebsite");
