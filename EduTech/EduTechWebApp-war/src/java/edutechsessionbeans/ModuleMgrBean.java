@@ -277,15 +277,20 @@ public class ModuleMgrBean {
         return ass;
     }
 
-    public void massAssignUsersToMods(ArrayList<ModuleAndUser> nominalRoll) {
+    public boolean massAssignUsersToMods(ArrayList<ModuleAndUser> nominalRoll) {
         for(ModuleAndUser row : nominalRoll){
             ModuleEntity mod = em.find(ModuleEntity.class, row.getModuleCode());
             UserEntity user = em.find(UserEntity.class, row.getUsername());
-            //if mod and user exist, and user is not in module yet, add user to module.
-            if(mod!=null && user !=null && !mod.getMembers().contains(user)){
-                mod.getMembers().add(user);
+            //if mod and user exist
+            if(mod!=null && user !=null){
+                //, and user is not in module yet, add user to module.
+                if(!mod.getMembers().contains(user))
+                    mod.getMembers().add(user);
+            }else{
+                return false;
             }
         }
+        return true;
     }
 
 }

@@ -279,6 +279,7 @@ public class EduTechAdminController extends HttpServlet {
                     break;
             }
             if(pageAction != null && !pageAction.equals("placeHolderAction")){
+                System.out.println("pageAction is :"+pageAction);
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
                 if(dispatcher!=null)
                     dispatcher.forward(request, response);

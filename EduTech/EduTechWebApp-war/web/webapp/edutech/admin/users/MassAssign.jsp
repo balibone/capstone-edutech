@@ -53,7 +53,8 @@
                                 <button type="submit" form="uploadCsv" class="btn btn-success" style="margin: unset;">Submit CSV & Perform Mass Assignment</button>
                             </form>
                             <div class="alert alert-info fade in" role="alert" style="font-size: 15px;">
-                                <b>Attention! Ensure that all module codes and usernames in the CSV refer to existing modules and users.</b>
+                                <b>Attention!</b> Ensure that all <b>module codes and usernames in the CSV refer to existing modules and users.</b> <br>
+                                <b>Note: </b> This facility will not affect linkings which already exist.
                             </div>
                         </div>
                     </div>

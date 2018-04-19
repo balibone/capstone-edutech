@@ -22,7 +22,8 @@ $(document).ready(function() {
                 },
                 error: function(jqXHR,status,error){
                     console.log("Request fired to "+this.url);
-                    alert(status+": "+error+". Please ensure usernames in CSV do not duplicate with any existing usernames and that your CSV is formatted according to the <b>example CSV<b>.");
+//                    alert(status+": "+error+". Please ensure usernames in CSV do not duplicate with any existing usernames and that your CSV is formatted according to the example CSV.");
+                    alert("Error: Please ensure usernames in CSV do not duplicate with any existing usernames and that your CSV is formatted according to the example CSV.");
                 }
             });
         }
