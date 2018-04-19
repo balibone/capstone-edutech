@@ -46,7 +46,8 @@ $(document).ready(function () {
         width: 400,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 230
+        iframeHeight: 230,
+        onClosed: function () { window.location.reload(true); }
     });
     
     $('#contentArea').jplist({

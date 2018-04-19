@@ -207,7 +207,6 @@
                         String image, userFullName, userContactNum, userEmailAddr, userPostalAddr, userSummary, userAwardStr;
                         image = userFullName = userContactNum = userEmailAddr = userPostalAddr = userSummary = userAwardStr = "";
     
-                        if(basicDetailsSYS!=null) {
                             image = String.valueOf(basicDetailsSYS.get(0));
                             userFullName = String.valueOf(basicDetailsSYS.get(1));
                             userContactNum = String.valueOf(basicDetailsSYS.get(2));
@@ -215,10 +214,13 @@
                             userPostalAddr = String.valueOf(basicDetailsSYS.get(4));
                             userSummary = String.valueOf(basicDetailsSYS.get(5));
                             userAwardStr = String.valueOf(basicDetailsSYS.get(6));
-                        }
+                            String[] contactNum = userContactNum.split("\\+");
                     %>
                     
                     <div class="resumeContent col-lg-9 col-md-8" >
+                        <div class="input-group-addon" style="float: left; margin-top: 10px; margin-left: 50px">
+                            <button onclick="back()" class="btn btn-sm btn-theme"><i class="fa fa fa-chevron-left"></i>&nbsp;Back To List</button>
+                        </div>
                         <div class="input-group-addon" style="float: right; margin-top: 10px; margin-right: 50px">
                             <button onclick="download()" class="btn btn-sm btn-theme">&nbsp;Download</button>
                         </div>
@@ -235,7 +237,7 @@
                                 <div class="contact-container container-block">
                                     <ul class="list-unstyled contact-list">
                                         <li class="email"><i class="fa fa-envelope"></i><%= userEmailAddr%></li>
-                                        <li class="phone"><i class="fa fa-phone"></i><%= userContactNum%></li>
+                                        <li class="phone"><i class="fa fa-phone"></i>(<%= contactNum[0]%>)&nbsp;<%= contactNum[1]%></li>
                                         <li class="home"><i class="fa fa-home"></i><%= userPostalAddr%></li>
                                     </ul>
                                 </div>
@@ -243,7 +245,7 @@
                                 <!--EDUCATION CONTAINER-->
                                 <%
                                     List<Vector> eduExprList = (ArrayList) request.getAttribute("eduExprList");
-                                    if(eduExprList!=null) {
+                                    if(eduExprList.size()!=0) {
                                 %>
                                 <div class="education-container container-block">
                                     <h2 class="container-block-title">Education</h2>
@@ -260,14 +262,15 @@
                                         <h5 class="meta"><%= schoolName%></h5>
                                         <div class="time"><%= schoolPeriod%></div>
                                     </div>
-                                    <%      } 
-                                        }%>
+                                    <%      }%>
                                 </div>
+                                <% } %>
                                 
                                 <!--ACHIEVEMENTS-->
-                                <% String[] award = userAwardStr.split(";&");%>
+                                <% String[] award = userAwardStr.split(";&");
+                                    System.out.println(award.length);%>
                                 <div class="awards-container container-block">
-                                    <% if(award.length != 0) {%>
+                                    <% if(award.length!=0 && !award[0].equals("")) {%>
                                     <h2 class="container-block-title">Awards & Achievements</h2>
                                     <ul class="list-unstyled awards-list">
                                         <% for(int i=0;i<award.length;i++) {%>
@@ -387,7 +390,8 @@
                                                 proSkillLevel = String.valueOf(pro.get(1));
                                                 if(proSkillLevel.equals("Beginner")) { pro_proficiency = 25; }
                                                 else if(proSkillLevel.equals("Intermediate")) { pro_proficiency = 50; }
-                                                else { pro_proficiency = 75; }
+                                                else if(proSkillLevel.equals("Advanced")) { pro_proficiency = 75; }
+                                                else { pro_proficiency = 0; }
                                             }
                                             if(i<perSkillList.size()) {
                                                 Vector per = perSkillList.get(i);
@@ -395,7 +399,8 @@
                                                 perSkillLevel = String.valueOf(per.get(1));
                                                 if(perSkillLevel.equals("Beginner")) { per_proficiency = 25; }
                                                 else if(perSkillLevel.equals("Intermediate")) { per_proficiency = 50; }
-                                                else { per_proficiency = 75; }
+                                                else if(perSkillLevel.equals("Advanced")) { per_proficiency = 75; }
+                                                else { per_proficiency = 0; }
                                             }
                                     %>
                                     <div class="skillset">

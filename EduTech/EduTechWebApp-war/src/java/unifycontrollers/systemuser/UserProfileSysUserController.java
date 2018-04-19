@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.ejb.EJB;
@@ -607,6 +609,7 @@ public class UserProfileSysUserController extends HttpServlet {
             String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
                     + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "voices"
                     + File.separator + "resume" + File.separator;
+            Files.createDirectories(Paths.get(imageDir));
             
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -638,7 +641,7 @@ public class UserProfileSysUserController extends HttpServlet {
         }
         
         String userFullName = request.getParameter("userFullName");
-        String contactNum = request.getParameter("contactNum");
+        String contactNum = request.getParameter("fullContactNum");
         String emailAddr = request.getParameter("emailAddr");
         String postalAddr = request.getParameter("postalAddr");
         String summary = request.getParameter("summary");
@@ -679,7 +682,8 @@ public class UserProfileSysUserController extends HttpServlet {
                 String imageDir = truncatedAppPath + "EduTechWebApp-war" + File.separator + "web" + File.separator
                         + "uploads" + File.separator + "unify" + File.separator + "images" + File.separator + "voices"
                         + File.separator + "resume" + File.separator;
-
+                Files.createDirectories(Paths.get(imageDir));
+                 
                 InputStream inputStream = null;
                 OutputStream outputStream = null;
 
@@ -713,7 +717,7 @@ public class UserProfileSysUserController extends HttpServlet {
         
         long resumeID = Long.parseLong(request.getParameter("hiddenResumeID"));
         String userFullName = request.getParameter("userFullName");
-        String contactNum = request.getParameter("contactNum");
+        String contactNum = request.getParameter("fullContactNum");
         String emailAddr = request.getParameter("emailAddr");
         String postalAddr = request.getParameter("postalAddr");
         String summary = request.getParameter("summary");

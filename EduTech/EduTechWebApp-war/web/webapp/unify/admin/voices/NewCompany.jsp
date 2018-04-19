@@ -62,7 +62,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <input type="hidden" id="dbCompanyIndustry" value="<%= request.getAttribute("companyIndustryStr")%>" />
-                                <select class="form-control" id="companyIndustry" name="companyIndustry">
+                                <select class="form-control" id="companyIndustry" name="companyIndustry" required="required">
                                     <option value="" disabled selected>-- Select Company Industry --</option>
                                 </select>
                             </div>

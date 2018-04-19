@@ -244,11 +244,16 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="contactNum">Contact Number&nbsp;<span class="asterik">*</span></label><br/>
-                                            <input type="text" class="form-control" name="contactNum" placeholder="Enter your contact number" required="required" style="width: 50%"/>
+                                            <select class="form-control" name="countryCode" id="countryCode" style="height: 34.67px; width: 9%; float: left" required>
+                                                <option value="065" default>065</option>
+                                                <option value="852" default>852</option>
+                                                <option value="091" default>091</option>
+                                            </select>
+                                            <input type="text" class="form-control" name="contactNum" id="contactNum" placeholder="Enter your contact number" required="required" style="width: 41%"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="emailAddr">Email Address&nbsp;<span class="asterik">*</span></label><br/>
-                                            <input type="text" class="form-control" name="emailAddr" placeholder="Enter your email address" required="required" style="width: 50%"/>
+                                            <input type="email" class="form-control" name="emailAddr" placeholder="Enter your email address" required="required" style="width: 50%"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="postalAddr">Postal Address&nbsp;<span class="asterik">*</span></label><br/>
@@ -422,13 +427,14 @@
                                 <br/>
                                 <div class="form-row" style="justify-content: center;">
                                     <input type="hidden" name="pageTransit" id="pageTransit" value="createResumeSYS" />
+                                    <input type="hidden" name="fullContactNum" id="fullContactNum" value="" />
                                     <input type="hidden" name="eduExprList" id="eduExprList" value="" />
                                     <input type="hidden" name="proExprList" id="proExprList" value="" />
                                     <input type="hidden" name="awardStr" id="awardStr" value="" />
                                     <input type="hidden" name="skillList" id="skillList" value="" />
                                     <input type="hidden" name="workExprList" id="workExprList" value="" />
                                     <input type="hidden" name="referenceList" id="referenceList" value="" />
-                                    <button class="btn btn-theme btn-search" type="submit" onclick="createWorkExprList()">Save</button>
+                                    <button class="btn btn-theme btn-search" id="saveForm" type="submit" onclick="createWorkExprList()">Save</button>
                                 </div>
                             </form>
                         </div>

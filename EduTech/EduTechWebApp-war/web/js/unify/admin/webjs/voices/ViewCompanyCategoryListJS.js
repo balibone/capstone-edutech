@@ -15,7 +15,8 @@ $(document).ready(function() {
         width: 600,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 325
+        iframeHeight: 325,
+        onClosed: function () { window.location.reload(true); }
     });
     
     

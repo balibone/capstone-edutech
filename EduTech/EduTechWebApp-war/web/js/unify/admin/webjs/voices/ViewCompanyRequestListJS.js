@@ -42,7 +42,8 @@ $(document).ready(function() {
         width: 500,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 325
+        iframeHeight: 325,
+        onClosed: function () { window.location.reload(true); }
     });
     
     $('#newCompany-iframe').iziModal({
@@ -55,7 +56,8 @@ $(document).ready(function() {
         width: 775,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 350
+        iframeHeight: 350,
+        onClosed: function () { window.location.reload(true); }
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });

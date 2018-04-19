@@ -230,8 +230,7 @@
                                     Vector basicDetailsSYS = (Vector) request.getAttribute("basicDetailsVec");
                                     String image, userFullName, userContactNum, userEmailAddr, userPostalAddr, userSummary, userAwardStr;
                                         image = userFullName = userContactNum = userEmailAddr = userPostalAddr = userSummary = userAwardStr = "";
-    
-                                    if(basicDetailsSYS!=null) {
+   
                                         image = String.valueOf(basicDetailsSYS.get(0));
                                         userFullName = String.valueOf(basicDetailsSYS.get(1));
                                         userContactNum = String.valueOf(basicDetailsSYS.get(2));
@@ -239,7 +238,7 @@
                                         userPostalAddr = String.valueOf(basicDetailsSYS.get(4));
                                         userSummary = String.valueOf(basicDetailsSYS.get(5));
                                         userAwardStr = String.valueOf(basicDetailsSYS.get(6));
-                                    }
+                                        String[] contactNum = userContactNum.split("\\+");
                                 %>
                                 <div class="row" style="background-color: #D9DEE4; display: table-row; border-spacing: 10px">
                                     <div class="ml-1" style="display: table-cell">
@@ -251,25 +250,30 @@
                                             <label for="file-upload" class="btn btn-theme btn-sm btn-block" style="margin-top: 10px; width: 151px;">
                                                 <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
                                             </label>
-                                            <input id="file-upload" name="userImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" required="required" />
+                                            <input id="file-upload" name="userImage" type="file" accept="image/*" onchange="javascript: previewImage(event)" />
                                         </div>
                                     </div>
                                     <div class="col-md-1" style="padding-top: 30px; display: table-cell; vertical-align:middle;">
                                         <div class="form-group">
                                             <label for="userFullName">Full Name&nbsp;<span class="asterik">*</span></label>
-                                            <input type="text" class="form-control" name="userFullName" value="<%= userFullName%>" style="width: 50%"/>
+                                            <input type="text" class="form-control" name="userFullName" value="<%= userFullName%>" style="width: 50%" required="required"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="contactNum">Contact Number&nbsp;<span class="asterik">*</span></label><br/>
-                                            <input type="text" class="form-control" name="contactNum" value="<%= userContactNum%>" style="width: 50%"/>
+                                            <select class="form-control" name="countryCode" id="countryCode" style="height: 34.67px; width: 9%; float: left" required>
+                                                <option value="065" <%if((contactNum[0].equals("065"))){%> selected <%}%>>065</option>
+                                                <option value="852" <%if((contactNum[0].equals("852"))){%> selected <%}%>>852</option>
+                                                <option value="091" <%if((contactNum[0].equals("091"))){%> selected <%}%>>091</option>
+                                            </select>
+                                            <input type="text" class="form-control" name="contactNum" id="contactNum" value="<%= contactNum[1]%>" style="width: 41%" required="required"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="emailAddr">Email Address&nbsp;<span class="asterik">*</span></label><br/>
-                                            <input type="text" class="form-control" name="emailAddr" value="<%= userEmailAddr%>" style="width: 50%"/>
+                                            <input type="text" class="form-control" name="emailAddr" value="<%= userEmailAddr%>" style="width: 50%" required="required"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="postalAddr">Postal Address&nbsp;<span class="asterik">*</span></label><br/>
-                                            <input type="text" class="form-control" name="postalAddr" value="<%= userPostalAddr%>" />
+                                            <input type="text" class="form-control" name="postalAddr" value="<%= userPostalAddr%>" required="required"/>
                                         </div>
                                     </div>
                                 </div>
@@ -677,8 +681,9 @@
                                 </table>
                                 <br/>
                                 <div class="form-row" style="justify-content: center;">
-                                    <input type="hidden" name="pageTransit" id="pageTransit" value="" />
+                                    <input type="hidden" name="pageTransit" id="pageTransit" value="updateResumeSYS" />
                                     <input type="hidden" name="hiddenResumeID" id="hiddenResumeID" value="<%= request.getAttribute("hiddenResumeID")%>" />
+                                    <input type="hidden" name="fullContactNum" id="fullContactNum" value="" />
                                     <input type="hidden" name="imageUploadStatus" id="imageUploadStatus" value="" />
                                     <input type="hidden" name="eduExprList" id="eduExprList" value="" />
                                     <input type="hidden" name="proExprList" id="proExprList" value="" />
