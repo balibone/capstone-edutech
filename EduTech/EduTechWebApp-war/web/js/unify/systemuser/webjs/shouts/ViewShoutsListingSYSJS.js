@@ -206,7 +206,7 @@ $(document).ready(function () {
         iconClass: 'fa fa-comments',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#4D7496',
+        headerColor: '#009688',
         width: 500,
         overlayClose: true,
         iframe: true,

@@ -91,7 +91,7 @@
                                                 <input type="hidden" name="loggedInUsername" value= "<%= loggedInUsername%>" />
                                                 <input type="hidden" name="shoutCommentID" value= "<%= reportShoutCommentID%>" />
                                                 <input type="hidden" name="shoutID" value= "<%= reportShoutCommentShoutID%>" />
-                                                <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button></div>
+                                                <button class="btn btn-outline-theme btn-primary btn-sm btn-block" type="submit">Submit</button></div>
                                                 
                                             </div>  
                                         
