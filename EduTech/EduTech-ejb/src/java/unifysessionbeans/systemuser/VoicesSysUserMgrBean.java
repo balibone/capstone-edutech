@@ -80,8 +80,10 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
                 double aveReviewRating = 0.0;
                 for(Object obj: reviewList) {
                     CompanyReviewEntity cre = (CompanyReviewEntity) obj;
-                    reviewDateList.add(cre.getReviewDate());
-                    aveReviewRating += cre.getReviewRating();
+                    if(cre.getReviewStatus().equals("Active")) {
+                        reviewDateList.add(cre.getReviewDate());
+                        aveReviewRating += cre.getReviewRating();
+                    }
                 }
                 
                 Collections.sort(reviewDateList, new Comparator<Date>(){
@@ -122,7 +124,9 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
                 double rating = 0.00;
                 for(Object o: companyReviewSet) {
                     CompanyReviewEntity companyReview = (CompanyReviewEntity) o;
-                    rating += companyReview.getReviewRating();
+                    if(companyReview.getReviewStatus().equals("Active")) {
+                        rating += companyReview.getReviewRating();
+                    }
                 }
                 rating = rating/companyReviewSet.size();
                 companyDetailsVec.add(df_num.format(rating));
@@ -212,7 +216,9 @@ public class VoicesSysUserMgrBean implements VoicesSysUserMgrBeanRemote {
                 double aveReviewRating = 0.0;
                 for(Object obj: reviewList) {
                     CompanyReviewEntity cre = (CompanyReviewEntity) obj;
-                    aveReviewRating += cre.getReviewRating();
+                    if(cre.getReviewStatus().equals("Active")) {
+                        aveReviewRating += cre.getReviewRating();
+                    }
                 }
                 companyVec.add(df_num.format(aveReviewRating/reviewList.size()));
             } else {
