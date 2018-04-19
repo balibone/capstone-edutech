@@ -21,7 +21,8 @@ $(document).ready(function() {
                 },
                 error: function(jqXHR,status,error){
                     console.log("Request fired to "+this.url);
-                    alert(status+": "+error+". Please ensure that your CSV is formatted according to the <b>example CSV<b>.");
+//                    alert(status+": "+error+". CSV contains invalid users or modules.");
+                    alert("Error: CSV contains invalid users or modules.");
                 }
             });
         }

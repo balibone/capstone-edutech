@@ -32,7 +32,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         
-        <title>Sign Up</title>
+        <title>Forgot Password</title>
         
         <!-- Cascading Style Sheet (CSS) -->
         <link rel="stylesheet" type="text/css" href="css/commoninfrastructure/login/bootstrapv4.min.css">

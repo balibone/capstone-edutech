@@ -6,6 +6,7 @@
 package edutechsessionbeans.admin;
 
 import commoninfrastructureentities.UserEntity;
+import edutechentities.AssignmentEntity;
 import edutechentities.LessonEntity;
 import edutechentities.ModuleEntity;
 import edutechentities.RecurringEventEntity;
@@ -257,15 +258,29 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
                 SemesterEntity s = (SemesterEntity) o;
                 Collection<ModuleEntity> mods = s.getModules();
                 if(s.getModules().contains(mod)){
-                    System.out.println("BEFORE: "+Arrays.toString(mods.toArray()));
                     s.getModules().remove(mod);
-                    System.out.println(mod.getTitle()+" removed from "+s.getTitle());
-                    System.out.println("AFTER: "+Arrays.toString(mods.toArray()));
                 }
             }
+            //detach schedule items
             mod.setModuleEvents(null);
-            mod.setRecurringEvents(null);
+            //detach members
             mod.setMembers(null);
+            //need to detach module from recurring events because recurring event is the owning entity in bidirectional.
+            Query q2 = em.createQuery("SELECT r FROM RecurringEvent r WHERE r.module = :mod");
+            q2.setParameter("mod", mod);
+            for(Object o : q2.getResultList()){
+                RecurringEventEntity rec = (RecurringEventEntity)o;
+                //detach module from recurring event
+                rec.setModule(null);
+            }
+            //need to detach module from assignments because assignment is the owning entity in unidirectional.
+            Query q3 = em.createQuery("SELECT a FROM Assignment a WHERE a.module = :mod");
+            q3.setParameter("mod", mod);
+            for(Object o : q3.getResultList()){
+                AssignmentEntity ass = (AssignmentEntity)o;
+                //detach module from recurring event
+                ass.setModule(null);
+            }
             em.remove(mod);
         }
     }
@@ -573,7 +588,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             q1.setParameter("modCode", module.getModuleCode());
             for(Object o : q1.getResultList()){
                 LessonEntity l = (LessonEntity) o;
-                //if lesson contains user, assign him/her
+                //if lesson contains user, unassign him/her
                 if(l.getAssignedTo().contains(user)){
                     l.getAssignedTo().remove(user);
                 }
@@ -583,7 +598,7 @@ public class EduTechAdminMgrBean implements EduTechAdminMgrBeanRemote {
             q2.setParameter("modCode", module.getModuleCode());
             for(Object o : q2.getResultList()){
                 TaskEntity t = (TaskEntity) o;
-                //if task contains user, assign him/her
+                //if task contains user, unassign him/her
                 if(t.getAssignedTo().contains(user)){
                     t.getAssignedTo().remove(user);
                 }

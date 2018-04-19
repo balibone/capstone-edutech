@@ -200,6 +200,7 @@ public class EduTechAdminController extends HttpServlet {
                     eam.removeEventFromMod(request.getParameter("eventId"),id);
                     //refresh page
                     response.sendRedirect("EduTechAdmin?pageTransit=EditModule&id="+id);
+                    pageAction = "placeHolderAction";
                     break;
                 case "checkModule":
                     id = request.getParameter("id");
@@ -210,10 +211,12 @@ public class EduTechAdminController extends HttpServlet {
                     }else{
                         response.setHeader("hasUsers", "false");
                     }
+                    pageAction = "placeHolderAction";
                     break;
                 case "deleteModule":
                     id = request.getParameter("id");
                     eam.deleteModule(id);
+                    pageAction = "placeHolderAction";
                     break;
                 case "SemesterList":
                     request.setAttribute("semesterList", eam.getAllSemesters());
@@ -272,13 +275,16 @@ public class EduTechAdminController extends HttpServlet {
                     }else{
                         response.setHeader("hasModules", "false");
                     }
+                    pageAction = "placeHolderAction";
                     break;
                 case "deleteSemester":
                     id = request.getParameter("id");
                     eam.deleteSemester(id);
+                    pageAction = "placeHolderAction";
                     break;
             }
             if(pageAction != null && !pageAction.equals("placeHolderAction")){
+                System.out.println("pageAction is :"+pageAction);
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
                 if(dispatcher!=null)
                     dispatcher.forward(request, response);

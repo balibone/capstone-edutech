@@ -23,6 +23,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -88,8 +89,17 @@ public class ModuleREST {
     @POST 
     @Path("massassign")
     @Consumes({ MediaType.APPLICATION_JSON})
-    public void massAssignUsersToMods(ArrayList<ModuleAndUser> nominalRoll) {
-        mrb.massAssignUsersToMods(nominalRoll);
+    public Response massAssignUsersToMods(ArrayList<ModuleAndUser> nominalRoll) {
+        boolean massAssignSuccess = mrb.massAssignUsersToMods(nominalRoll);
+        if(massAssignSuccess){
+            return Response
+                    .ok()
+                    .build();
+        }else{
+            return Response
+                    .serverError()
+                    .build();
+        }
     }
     
     @POST
