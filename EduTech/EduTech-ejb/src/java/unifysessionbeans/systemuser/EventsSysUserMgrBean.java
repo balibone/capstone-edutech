@@ -560,7 +560,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
             else{
                 eventRequestVec.add("");
             }
-            eventRequestVec.add(eventRequestE.getEventRequestPoster());
+            eventRequestVec.add(eventRequestE.getEventRequestPoster());            
         }
         
         return eventRequestVec;
@@ -575,6 +575,10 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
 
         //System.out.println(shoutPoster);
         userEntity = lookupUnifyUser(username);
+        
+        if(getDateFromString(eventStartDateTime).after(getDateFromString(eventEndDateTime))){
+            return "End date is earlier than start date. Please resubmit request.";
+        }
 
         if (eventRequestEntity.createEvent(eventTitle)) {
             eventRequestEntity.setUserEntity(userEntity);
@@ -722,6 +726,10 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
     public String editEventRequest(String eventRequestID, String eventRequestTitle, String eventRequestDesc,
             String eventRequestVenue, String eventRequestStartDateTime, String eventRequestEndDateTime, String fileName) {
 
+        if(getDateFromString(eventRequestStartDateTime).after(getDateFromString(eventRequestEndDateTime))){
+            return "End date is earlier than start date. Please resubmit request.";
+        }
+        
         if (lookupEventRequest(eventRequestID) == null) {
             
             return "System is not feeling well and cannot edit your request at the moment :( Please try again later.";

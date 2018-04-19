@@ -29,7 +29,7 @@
         <link href="css/unify/systemuser/baselayout/jplist/jplist.history-bundle.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
         <link href="css/unify/systemuser/baselayout/jplist/jplist.jquery-ui-bundle.min.css" rel="stylesheet" type="text/css" />
-        
+
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -78,7 +78,7 @@
                                             <i class="fa fa-bell"></i>&nbsp;&nbsp;Notifications<span class="badge badge-light"><%= request.getAttribute("unreadNotificationCount")%></span>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-cart" aria-labelledby="dropdown-cart">
-                                            <% 
+                                            <%
                                                 ArrayList<Vector> userMessageListTopThreeSYS = (ArrayList) request.getAttribute("userMessageListTopThreeSYS");
                                                 if (!userMessageListTopThreeSYS.isEmpty()) {
                                                     for (int i = 0; i <= userMessageListTopThreeSYS.size() - 1; i++) {
@@ -107,7 +107,7 @@
                                             <%  } else {    %>
                                             <p style="text-align:center;">There are no notifications.</p>
                                             <div class="dropdown-divider"></div>
-                                            <%  }   %>
+                                            <%  }%>
                                             <div class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="ProfileSysUser?pageTransit=goToUserNotificationListSYS" role="button" class="btn btn-outline-theme">
@@ -234,10 +234,17 @@
                                                data-control-name="content-text-filter" data-control-action="filter" />
                                     </div>
 
+                                    <div class="filter-sidebar">
+                                        <div class="subtitle" style="margin-bottom: 5px">Search By Category</div>
+                                        <input type="text" data-path=".shoutCategory" class="form-control" placeholder="Enter keyword" 
+                                               aria-label="Search Category" data-control-type="textbox" id="user-filter"
+                                               data-control-name="user-text-filter" data-control-action="filter" />
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="col-lg-9 col-md-8">
@@ -290,6 +297,7 @@
                                             String shoutComments = String.valueOf(v.get(10));
                                             String shoutBookmarkStatus = String.valueOf(v.get(11));
                                             String shoutLikeStatus = String.valueOf(v.get(12));
+                                            String shoutCategory = String.valueOf(v.get(13));
                                 %>
                                 <div class="col-xl-6 col-md-6 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -298,6 +306,9 @@
                                                 <div class="row">
 
                                                     <div class="col-xl-8 col-md-8 col-8">
+                                                        <div class="shout-category">
+                                                            <span class="card-content shoutCategory" style="line-height: 2.0; color: #2b3233; font-size: 10px;"><%= shoutCategory%></span>
+                                                        </div>
                                                         <div class="shout-content">
                                                             <span class="card-content shoutContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><%= shoutContent%></span>
                                                         </div>
@@ -363,7 +374,7 @@
                                                                     <span class="float-none shoutDelete" style="color: #64676d; font-size: 12px">&nbsp;Delete Shout</a></span>
                                                                     <%  }%>
                                                         </div>
-                                                       
+
 
                                                     </div> 
 
@@ -373,14 +384,14 @@
 
                                         <%-- card footer --%>
                                         <div class="card-footer text-muted mt-1">
-                                            
+
                                             <div class="shout-user-info">
                                                 <i class="fa fa-users" style="color: #64676d">&nbsp;</i><span class="card-text shoutUsername" style="font-size: 12px"><%= shoutUsername%></span>
                                             </div>
-                                            
+
                                             <div class="shout-post-date">
                                                 <i class="fa fa-clock-o">&nbsp;</i><span class="float-none shoutDuration" style="color: #64676d; font-size: 12px">Posted <%= shoutDuration%>
-                                                    
+
                                                 </span>
 
                                                 <span class="float-none shoutDate" hidden="true" style="color: #64676d; font-size: 12px"><%= shoutDate%>

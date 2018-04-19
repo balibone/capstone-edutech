@@ -213,7 +213,7 @@
 
             <div class="container" style="margin-bottom: 30px;">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-9 col-sm-9 col-xs-9">
                         <div class="x_panel">
                             <%                                String successMessage = (String) request.getAttribute("successMessage");
                                 if (successMessage != null) {
@@ -258,8 +258,8 @@
                                                     <i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;Upload Image
                                                 </label>
                                                 <input id="file-upload" name="eventPoster" type="file" accept="image/*" onchange="javascript: previewImage(event)"/>
-                                                    <input type="hidden" name="hiddenEventPoster" value="<%= eventRequestPoster%>" />
-                                                    <input type="hidden" name="imageUploadedCheck" id="imageUploadedCheck" />
+                                                <input type="hidden" name="hiddenEventPoster" value="<%= eventRequestPoster%>" />
+                                                <input type="hidden" name="imageUploadedCheck" id="imageUploadedCheck" />
                                             </div>
 
                                         </div>
@@ -277,10 +277,18 @@
                                                 <textarea class="form-control" name="eventVenue" rows="1" required="required"><%=eventRequestVenue%></textarea>
 
                                                 <label for="eventStartDateTime">Event Start Date & Time</label>
-                                                <input type="datetime-local" name="eventStartDateTime" value="<%=eventRequestStart%>" required="required">
+                                                <input type="datetime-local" class="form-control" name="eventStartDateTime" value="<%=eventRequestStart%>" required="required">
 
                                                 <label for="eventEndDateTime">Event End Date & Time</label>
-                                                <input type="datetime-local" name="eventEndDateTime" value="<%=eventRequestEnd%>" required="required">
+                                                <input type="datetime-local" class="form-control" name="eventEndDateTime" value="<%=eventRequestEnd%>" required="required">
+
+                                                <br>
+                                                <div class="col-md-6" style="justify-content: center">
+                                                    <input type="hidden" name="pageTransit" value="goToEditEventRequestSubmit" />
+                                                    <input type="hidden" name="eventRequestID" value=<%=eventRequestID%> />
+                                                    <button class="btn btn-outline-theme btn-primary btn-sm btn-block" type="submit">Submit</button>
+                                                </div>
+
                                             </div>
 
                                         </div>
@@ -288,16 +296,18 @@
                                     </div>
                                     <div class="form-row" >
 
-                                        <div class="col-md-4" style="justify-content: center">
-                                            <input type="hidden" name="pageTransit" value="goToEditEventRequestSubmit" />
-                                            <input type="hidden" name="eventRequestID" value=<%=eventRequestID%> />
-                                            <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button>
-                                        </div>
+
                                     </div>  
 
                                 </form>
-                                <div class="col-md-5">
-                                    <a href="EventsSysUser?pageTransit=goToViewRequestedEventDetailsSYS&hiddenEventRequestID=<%=eventRequestID%>" ><button class="btn btn-outline-warning btn-primary btn-sm btn-block"  type="cancel">Cancel</button></a>
+                                <div class="form-row" >
+                                    <div class="col-md-3 ml-3">
+                                    </div>
+                                    <div class="col-md-6 ml-6">
+                                        <div class="col-md-6">
+                                            <a href="EventsSysUser?pageTransit=goToViewRequestedEventDetailsSYS&hiddenEventRequestID=<%=eventRequestID%>" ><button class="btn btn-outline-warning btn-primary btn-sm btn-block"  type="cancel">Cancel</button></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

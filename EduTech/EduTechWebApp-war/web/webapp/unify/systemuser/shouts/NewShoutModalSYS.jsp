@@ -70,15 +70,25 @@
                                             <textarea class="form-control" name="shoutContent" rows="5" placeholder="Shout here!" required="required"></textarea>
                                         </div>
 
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="hidden" id="dbShoutCat" value="<%= request.getAttribute("shoutCategoryListSYS")%>" />
+                                                <select class="form-control" id="shoutCat" name="shoutCat">
+                                                    <option value="" disabled selected>-- Select Category --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                 </div>
+
                                 <div class="form-row" >
 
                                     <div class="col-md-2" style="justify-content: center">
                                         <input type="hidden" name="pageTransit" value="goToCreateShout" />
                                         <input type="hidden" name="loggedInUsername" value= "<%= loggedInUsername%>" />
-                                        <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button>
+                                        <button class="btn btn-outline-theme btn-primary btn-sm btn-block" type="submit">Submit</button>
                                     </div>
                                 </div>  
 
@@ -105,8 +115,21 @@
     <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
     <script src="js/unify/systemuser/basejs/validator-v1.1.0.js" type="text/javascript"></script>
 
-    <script src="js/unify/systemuser/webjs/marketplace/jquery.smartWizard-v3.3.1.js" type="text/javascript"></script>
-    <script src="js/unify/systemuser/webjs/marketplace/custom.min.js"></script>
-    <script src="js/unify/systemuser/webjs/marketplace/NewItemListingSYSJS.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/jquery-v1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/bootstrap-v3.1.1.min.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/lodash.compat-v2.0.0.min.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/breakpoints-v1.0.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll-v1.3.1.min.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/jquery.slimscroll.horizontal-v0.6.5.min.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/jquery.sparkline-v2.1.2.min.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminAppJS.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginJS.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminPluginFormComponentsJS.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/UnifyAdminBaseJS.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/easy-autocomplete/jquery.easy-autocomplete.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/easy-autocomplete/jquery.easy-autocomplete.min.js"></script>
+    <script type="text/javascript" src="js/unify/admin/basejs/validator-v1.1.0.js"></script>
+    <script src="js/unify/systemuser/webjs/shouts/NewShoutModalSYSJS.js" type="text/javascript"></script>
+
 </body>
 </html>

@@ -233,6 +233,13 @@
                                                aria-label="Search Content" data-control-type="textbox" id="name-filter"
                                                data-control-name="content-text-filter" data-control-action="filter" />
                                     </div>
+                                    
+                                    <div class="filter-sidebar">
+                                        <div class="subtitle" style="margin-bottom: 5px">Search By Category</div>
+                                        <input type="text" data-path=".shoutCategory" class="form-control" placeholder="Enter keyword" 
+                                               aria-label="Search Category" data-control-type="textbox" id="user-filter"
+                                               data-control-name="user-text-filter" data-control-action="filter" />
+                                    </div>
 
                                 </div>
                             </div>
@@ -290,6 +297,7 @@
                                             String shoutComments = String.valueOf(v.get(10));
                                             String shoutBookmarkStatus = String.valueOf(v.get(11));
                                             String shoutLikeStatus = String.valueOf(v.get(12));
+                                            String shoutCategory = String.valueOf(v.get(13));
                                 %>
                                 <div class="col-xl-6 col-md-6 col-6 d-block d-lg-none d-xl-block list-item">
                                     <div class="card card-product">
@@ -304,10 +312,14 @@
                                                         %>
 
                                                         <div class="shout-user-info">
-                                                            <span class="card-header shoutStatus" style="color: #b72714; font-size: 12px">Delisted</span>
+                                                            <span class="card-header shoutStatus" style="line-height: 2.0; color: #b72714; font-size: 12px">Delisted</span>
                                                         </div>
 
                                                         <%  }%>
+                                                        
+                                                        <div class="shout-category">
+                                                            <span class="card-content shoutCategory" style="line-height: 2.0; color: #2b3233; font-size: 10px;"><%= shoutCategory%></span>
+                                                        </div>
 
                                                         <div class="shout-content">
                                                             <span class="card-content shoutContent" style="line-height: 2.0; color: #2b3233; font-size: 18px;"><%= shoutContent%></span>

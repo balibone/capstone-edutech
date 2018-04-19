@@ -39,7 +39,10 @@ public class ShoutsEntity implements Serializable {
     
     @ManyToOne
     private UserEntity shoutUser;
-      
+    
+    @ManyToOne
+    private CategoryEntity categoryEntity;
+    
     //link to likes entity
     @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "shoutsEntity")
     private Collection<ShoutsLikesEntity> shoutsLikesSet = new ArrayList<ShoutsLikesEntity>();
@@ -56,7 +59,7 @@ public class ShoutsEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "shoutsEntity")
     private Collection<ShoutsReportEntity> shoutsReportSet = new ArrayList<ShoutsReportEntity>(); 
     
-    //@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shoutsEntity")
+    //@OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "shoutsEntity")
     //private Collection<ShoutsCommentsReportEntity> shoutsCommentsReportSet = new ArrayList<ShoutsCommentsReportEntity>(); 
         
     @PrePersist
@@ -82,6 +85,7 @@ public class ShoutsEntity implements Serializable {
     public String getShoutLong() { return shoutLong; }
     
     public UserEntity getUserEntity() { return shoutUser; }
+    public CategoryEntity getCategoryEntity() { return categoryEntity; }
     
     public Collection<ShoutsLikesEntity> getShoutsLikesSet() { return shoutsLikesSet; }
     public Collection<ShoutsCommentsEntity> getShoutsCommentsSet() { return shoutsCommentsSet; }
@@ -100,4 +104,5 @@ public class ShoutsEntity implements Serializable {
     public void setShoutLong(String shoutLong) {this.shoutLong = shoutLong; }
     
     public void setUserEntity(UserEntity shoutUser) { this.shoutUser = shoutUser; }
+    public void setCategoryEntity(CategoryEntity categoryEntity) { this.categoryEntity = categoryEntity; }
 }

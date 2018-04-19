@@ -39,7 +39,7 @@ function deleteAlert(shoutID) {
 
         $.get('ShoutsSysUser?pageTransit=goToDeleteShoutSYS&hiddenShoutID=' + shoutID + '');
 
-        setTimeout(window.location.reload(true),10);
+        setTimeout(window.location.reload(true),15);
         //window.location.reload(true);
         //$('#deleteShout-alert').iziModal('open', event);
     }
@@ -62,7 +62,7 @@ function bookmarkAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    setTimeout(window.location.reload(true),10);
+    setTimeout(window.location.reload(true),15);
     //window.location.reload(true);
     //$('#bookmark-alert').iziModal('open', event);
 }
@@ -84,7 +84,7 @@ function unbookmarkAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    setTimeout(window.location.reload(true),10);
+    setTimeout(window.location.reload(true),15);
     //window.location.reload(true);
     //$('#unbookmark-alert').iziModal('open', event);
 }
@@ -131,7 +131,7 @@ function likeAlert(shoutIDusername) {
 
     //$('#like-alert').iziModal('open', event);
 
-    setTimeout(window.location.reload(true),10);
+    setTimeout(window.location.reload(true),15);
     //window.location.reload(true);
 
 }
@@ -154,7 +154,7 @@ function unlikeAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    setTimeout(window.location.reload(true),10);
+    setTimeout(window.location.reload(true),15);
     //window.location.reload(true);
     //$('#unlike-alert').iziModal('open', event);
 }
@@ -206,7 +206,7 @@ $(document).ready(function () {
         iconClass: 'fa fa-comments',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#4D7496',
+        headerColor: '#009688',
         width: 500,
         overlayClose: true,
         iframe: true,
@@ -221,7 +221,7 @@ $(document).ready(function () {
         iconClass: 'fa fa-bullhorn',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#4D7496',
+        headerColor: '#009688',
         width: 500,
         overlayClose: true,
         iframe: true,
@@ -233,7 +233,7 @@ $(document).ready(function () {
         iconClass: 'fa fa-flag',
         transitionIn: 'transitionIn',
         transitionOut: 'transitionOut',
-        headerColor: '#4D7496',
+        headerColor: '#009688',
         width: 500,
         overlayClose: true,
         iframe: true,

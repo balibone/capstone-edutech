@@ -90,7 +90,7 @@
                                                 <input type="hidden" name="shoutID" value= "<%= editShoutCommentShoutID%>" />
                                                 <input type="hidden" name="commentID" value= "<%= editShoutCommentID%>" />
                                                 <input type="hidden" name="shoutContent" value= "<%= editShoutCommentShoutContent%>" />
-                                                <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button></div>
+                                                <button class="btn btn-outline-theme btn-primary btn-sm btn-block" type="submit">Submit</button></div>
                                                 
                                             </div>  
                                         

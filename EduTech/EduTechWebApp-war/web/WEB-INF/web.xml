@@ -702,6 +702,10 @@
         <servlet-name>EditEventRequestSYS</servlet-name>
         <jsp-file>/webapp/unify/systemuser/events/EditEventRequestSYS.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>CreateEventHoldingPage</servlet-name>
+        <jsp-file>/webapp/unify/systemuser/events/CreateEventHoldingPage.jsp</jsp-file>
+    </servlet>
     <!-- END OF UNIFY - SYSTEMUSER -->
     <!-- URL MAPPING - COMMON INFRASTRUCTURE - ADMIN (SERVLET) -->
     <servlet-mapping>

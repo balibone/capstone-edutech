@@ -27,6 +27,7 @@ import javax.persistence.TemporalType;
 import unifyentities.voices.CompanyEntity;
 import unifyentities.marketplace.ItemEntity;
 import unifyentities.errands.JobEntity;
+import unifyentities.shouts.ShoutsEntity;
 
 @Entity(name = "Category")
 public class CategoryEntity implements Serializable {
@@ -48,6 +49,8 @@ public class CategoryEntity implements Serializable {
     private Collection<ItemEntity> itemSet = new ArrayList<ItemEntity>();
     @OneToMany(mappedBy = "categoryEntity")
     private Collection<JobEntity> jobSet = new ArrayList<JobEntity>();
+    @OneToMany(mappedBy = "categoryEntity")
+    private Collection<ShoutsEntity> shoutSet = new ArrayList<ShoutsEntity>();
     
     /* DEFAULT CONSTRUCTOR */
     public CategoryEntity() { 
@@ -77,6 +80,7 @@ public class CategoryEntity implements Serializable {
     public Set<CompanyEntity> getCompanySet() { return companySet; }
     public Collection<ItemEntity> getItemSet() { return itemSet; }
     public Collection<JobEntity> getJobSet() { return jobSet; }
+    public Collection<ShoutsEntity> getShoutSet() { return shoutSet; }
     
     /* SETTER METHODS */
     public void setCategoryID(Long categoryID) { this.categoryID = categoryID; }
@@ -89,4 +93,5 @@ public class CategoryEntity implements Serializable {
     public void setCompanySet(Set<CompanyEntity> companySet) { this.companySet = companySet; }
     public void setItemSet(Collection<ItemEntity> itemSet) { this.itemSet = itemSet; }
     public void setJobSet(Collection<JobEntity> jobSet) { this.jobSet = jobSet; }
+    public void setShoutSet(Collection<ShoutsEntity> shoutSet) { this.shoutSet = shoutSet; }
 }

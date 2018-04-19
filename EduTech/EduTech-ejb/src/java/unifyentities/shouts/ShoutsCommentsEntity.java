@@ -38,6 +38,8 @@ public class ShoutsCommentsEntity implements Serializable {
     @ManyToOne
     private UserEntity userEntity;
     
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "shoutsCommentEntity")
+    private Collection<ShoutsCommentsReportEntity> shoutsCommentsReportSet = new ArrayList<ShoutsCommentsReportEntity>(); 
     
     
     @PrePersist
@@ -58,6 +60,7 @@ public class ShoutsCommentsEntity implements Serializable {
     
     public ShoutsEntity getShoutsEntity() { return shoutsEntity; }
     public UserEntity getUserEntity() { return userEntity; }
+    public Collection<ShoutsCommentsReportEntity> getShoutsCommentsReportSet() { return shoutsCommentsReportSet; }
     
     /* SETTER METHODS */
     public void setCommentID(Long commentID) { this.commentID = commentID; }

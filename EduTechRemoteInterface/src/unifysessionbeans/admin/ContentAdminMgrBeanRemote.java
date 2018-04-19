@@ -104,6 +104,7 @@ public interface ContentAdminMgrBeanRemote {
     public Long getResolvedShoutReportCount();
     //shouts category related
     public List<Vector> viewShoutCategoryListing();
+    public String viewShoutCategoryAtCreate();
     public String createCategory(String catName, String catStatus);
     public String deleteCategory(String categoryID);
     public Vector viewCategoryDetails(String categoryID);

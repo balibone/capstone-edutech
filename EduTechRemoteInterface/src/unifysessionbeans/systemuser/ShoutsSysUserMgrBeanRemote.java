@@ -14,7 +14,7 @@ public interface ShoutsSysUserMgrBeanRemote {
     public List<Vector> viewMyBookmarkedShoutList(String username);
     public List<Vector> viewCommentList(String commentShoutID);
     public String viewShoutContent(String shoutID);
-    public String createShout(String shoutContent, String shoutPoster);
+    public String createShout(String shoutContent, String shoutPoster, String shoutCat);
     public String deleteShout(String shoutID);
     public String createShoutReport(String shoutReportContent, String shoutPoster, String shoutID);
     public String createShoutCommentReport(String shoutReportContent, String shoutPoster, String shoutCommentID);

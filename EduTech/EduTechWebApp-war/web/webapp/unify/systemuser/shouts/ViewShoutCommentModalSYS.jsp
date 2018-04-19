@@ -114,7 +114,7 @@
                         </div>
 
                         <br>
-                        <left><a href="ShoutsSysUser?pageTransit=goToNewShoutCommentSYS&hiddenShoutID=<%=commentShoutIDModal%>&hiddenShoutContent=<%=commentShoutContentModal%>"><button type="button" class="btn btn-outline-info center"  ><i class="fa fa-plus"></i>&nbsp;&nbsp;New Comment</button></a><br></left>
+                        <left><a href="ShoutsSysUser?pageTransit=goToNewShoutCommentSYS&hiddenShoutID=<%=commentShoutIDModal%>&hiddenShoutContent=<%=commentShoutContentModal%>"><button type="button" class="btn btn-outline-theme center"  ><i class="fa fa-plus"></i>&nbsp;&nbsp;New Comment</button></a><br></left>
 
                         <br>
                         <div class="jplist-search sorting-bar" hidden="true">

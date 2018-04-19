@@ -302,24 +302,24 @@
                                                     <%
                                                     } else if (eventRequestStatus.equals("Approved")) {
                                                     %>
-                                                    <span class="badge badge-success" style="font-size: 12px">
+                                                    <span class="badge badge-success custom-badge" style="font-size: 12px">
                                                         Approved
                                                     </span>
                                                     &nbsp;&nbsp;<a href="EventsSysUser?pageTransit=goToViewEventDetailsSYS&hiddenEventID=<%=eventCreatedID%>"><span style="font-size:14">View Event Page</style></a>
                                                     <%
                                                     } else if (eventRequestStatus.equals("Rejected")) {
                                                     %>
-                                                    <span class="badge badge-warning" style="font-size: 12px">
+                                                    <span class="badge badge-warning custom-badge" style="font-size: 12px">
                                                         Rejected
                                                     </span>
                                                     <%  }%>
                                                     <%
                                                         if (eventRequestor.equals(request.getAttribute("loggedInUsername")) && eventRequestStatus.equals("Pending")) {
                                                     %>
-                                                    <a href="EventsSysUser?pageTransit=goToEditEventRequestSYS&hiddenEventRequestID=<%= eventRequestID%>"><span class="badge badge-info" style="font-size: 12px">
+                                                    <a href="EventsSysUser?pageTransit=goToEditEventRequestSYS&hiddenEventRequestID=<%= eventRequestID%>"><span class="badge badge-info custom-badge" style="font-size: 12px">
                                                             Edit this request
                                                         </span></a>
-                                                    <a href="EventsSysUser?pageTransit=goToDeleteEventRequestSYS&hiddenEventRequestID=<%= eventRequestID%>"><span class="badge badge-danger" style="font-size: 12px">
+                                                    <a href="EventsSysUser?pageTransit=goToDeleteEventRequestSYS&hiddenEventRequestID=<%= eventRequestID%>"><span class="badge badge-danger custom-badge" style="font-size: 12px">
                                                             Delete this request
                                                         </span></a>
                                                     <%  }%></h5></li></ul>
