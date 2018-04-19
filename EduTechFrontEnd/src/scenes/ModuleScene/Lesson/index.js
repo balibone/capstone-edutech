@@ -11,13 +11,14 @@ class Lesson extends Component {
 	render() {
 		const lessonList = toJS(LessonStore.lessonList);
 		const uploadedFile = toJS(LessonStore.uploadedFile);
+		console.log('first uploadedFile: ', uploadedFile)
 		return (
 			<div className="standardTopGap">
 				<PanelGroup accordion id="accordion-example">
 				  {
 				  	lessonList.map((lesson) => {
 				  		LessonStore.fetchFilesForLesson(lesson.id);
-							console.log('lesson lesson: ', lesson)
+							// console.log('lesson lesson: ', lesson)
 				  		return <SingleLesson key={lesson.id} lesson={lesson} uploadedFile={uploadedFile} />
 				  	})
 				  }

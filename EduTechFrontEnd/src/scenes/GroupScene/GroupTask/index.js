@@ -129,9 +129,12 @@ export default class GroupTask extends Component {
         </Row>
         <Row className="smallTopGap">
           <Col md={12}>
-            <Button bsStyle="primary" className="pull-right" onClick={() => this.addGroupTask()}>
-              Add Task
-            </Button>
+          <RaisedButton
+            className="pull-right"
+            label="Add Task"
+            primary
+            onClick={() => this.addGroupTask()}
+          />
           </Col>
         </Row>
       </div>

@@ -60,19 +60,10 @@ class App extends Component {
           </div>
         );
       }
-    if (localStorage.getItem('userType') === 'instructor') {
+    const theme = localStorage.getItem('userType') === 'instructor' ? muiTheme : '';
       return (
         <BrowserRouter>
-          <MuiThemeProvider muiTheme={muiTheme}>
-            <MainPage />
-          </MuiThemeProvider>
-        </BrowserRouter>
-      );
-    }
-    return (
-      <BrowserRouter>
-        <MuiThemeProvider>
-          <div>
+          <MuiThemeProvider muiTheme={theme}>
             <MainPage />
             <Snackbar
               open={UtilStore.snackbarIsOpen}
@@ -80,10 +71,9 @@ class App extends Component {
               autoHideDuration={4000}
               onRequestClose={() => UtilStore.closeSnackbar()}
             />
-          </div>
-        </MuiThemeProvider>
-      </BrowserRouter>
-    );
+          </MuiThemeProvider>
+        </BrowserRouter>
+      );
   }
 }
 

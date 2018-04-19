@@ -29,6 +29,7 @@ class AnnouncementStore {
         this.announcements.unshift(announcement.data);
       } catch (e) {
         swal('Error', 'Error pushing announcement', 'error');
+        console.log('error: ', e)
       }
     }
 }

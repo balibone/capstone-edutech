@@ -53,7 +53,7 @@ class AssignmentStore {
 					ModuleStore.selectedModule.moduleCode,
 					`Group Assignment: ${title} published`,
 					 ModuleStore.selectedModule.members,
-					 `/module/${ModuleStore.selectedModule.moduleCode}`,
+					 `/module/${ModuleStore.selectedModule.moduleCode}?tabKey=Assignments`,
 				);
 			} catch (e) {
 				swal('Error!', 'Unable to create group assignment', 'error')

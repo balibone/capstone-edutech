@@ -101,9 +101,9 @@ export default class GroupScene extends Component {
           <ListItem
             primaryText={`${index+1}) ${agenda.title}`}
           />
-        ));  
+        ));
       }
-      
+
       const actions = [
        <FlatButton
          label="Close"
@@ -134,10 +134,11 @@ export default class GroupScene extends Component {
     if (GroupScheduleItemStore.sortedUpcomingMeetings[0]) {
       const { title, startDate, endDate, location, id, groupId} = GroupScheduleItemStore.sortedUpcomingMeetings[0];
       return (
+        <div className="sideSection">
         <div className="sideSectionItem">
           <div className="paperDefault standardTopGap">
             <div className="">
-              <p>Upcoming Meeting:</p> 
+              <p>Upcoming Meeting:</p>
               <h4><b>{title}</b></h4>
               <p>
                 {moment(startDate).format('Do MMMM h:mm a') + ' - '
@@ -148,9 +149,10 @@ export default class GroupScene extends Component {
             </div>
           </div>
         </div>
+        </div>
       )
     }
-    return <p className="lead">No Upcoming Meetings</p>
+    return <p className="lead standardTopGap">No Upcoming Meetings</p>
   }
 
   renderGroupDescription() {
@@ -227,7 +229,7 @@ export default class GroupScene extends Component {
                 <br />
               </Row>
               <Divider />
-              <Row className="sideSection">
+              <Row>
                 <div>
                   {this.renderUpcomingMeetings()}
                 </div>

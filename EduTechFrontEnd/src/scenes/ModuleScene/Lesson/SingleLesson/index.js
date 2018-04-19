@@ -17,7 +17,6 @@ constructor(props) {
   super(props)
   this.state = {
     files: [],
-    uploadedFile: this.props.uploadedFile
   }
 }
 
@@ -32,12 +31,6 @@ componentDidMount() {
     .catch((err) => {
       console.log(err);
     })
-}
-
-componentDidUpdate(prevProps, prevState) {
-  if (prevProps.uploadedFile !== this.props.uploadedFile) {
-    this.setState({uploadedFile: this.props.uploadedFile})
-  }
 }
 
 renderUploadFilebtn(lessonId) {
@@ -56,22 +49,23 @@ renderUploadFilebtn(lessonId) {
 renderAttachmentBtn() {
     const lessonId = this.props.lesson.id;
     const lesson = toJS(this.props.lesson);
-    const { files, uploadedFile } = this.state;
+    const { files } = this.state;
+    const { uploadedFile } = this.props;
     let fileListArea = (<span>LOADING...</span>)
-    let downloadAllFileBtnArea = (<span></span>)
-    let uploadedFileArea = (<span></span>)
+    let downloadAllFileBtnArea = ''
+    console.log('uploadedFile lessonId: ', uploadedFile)
+    if (uploadedFile.length > 0 && uploadedFile[0].lessonId === lessonId) {
 
-    if (files && files.length>0) {
-      fileListArea = files.map((file) => {
-        return <DownloadSingleFile key={file.id} file={file} lessonId={lessonId}/>
-      })
-      downloadAllFileBtnArea = (<DownloadAllFileBtn lessonId={lessonId} lesson={lesson}/>)
+      fileListArea = uploadedFile.map(file =>
+        <DownloadSingleFile key={file.id} file={file} lessonId={lessonId} />)
+      downloadAllFileBtnArea = (<DownloadAllFileBtn lessonId={lessonId} lesson={lesson} />)
+    } else if (files && files.length > 0) {
+      fileListArea = files.map(file =>
+        <DownloadSingleFile key={file.id} file={file} lessonId={lessonId} />
+      )
+      downloadAllFileBtnArea = (<DownloadAllFileBtn lessonId={lessonId} lesson={lesson} />)
     } else {
       fileListArea = (<p>No file for this lesson.</p>)
-    }
-
-    if (uploadedFile && uploadedFile.length > 0) {
-      uploadedFileArea = (<DownloadSingleFile file={uploadedFile} lessonId={lessonId}/>)
     }
     return (
             <Row className="show-grid">

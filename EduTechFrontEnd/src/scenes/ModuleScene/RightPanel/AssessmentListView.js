@@ -8,15 +8,14 @@ import ScheduleItemStore from '../../../stores/ScheduleItemStore/ScheduleItemSto
 
 @observer
 class AssessmentListView extends Component {
-	constructor(props) {
-		super(props)
-		const filteredKeyAssessmentDates = ScheduleItemStore.getModuleKeyDates(this.props.moduleCode);
-		this.state = {
-			filteredKeyAssessmentDates
-		}
-	}
+	// constructor(props) {
+	// 	super(props)
+	// 	const filteredKeyAssessmentDates = ScheduleItemStore.getModuleKeyDates(this.props.moduleCode);
+	// 	this.state = {
+	// 		filteredKeyAssessmentDates
+	// 	}
+	// }
 	deleteAssessment(id) {
-		console.log('id to be removed', id)
 		swal({
       title: 'Are you sure?',
       text: 'You will not be able to recover this assessment!',
@@ -27,9 +26,9 @@ class AssessmentListView extends Component {
     .then((willDelete) => {
       if (willDelete) {
         ScheduleItemStore.removeScheduleItem(id);
-				this.setState({
-					filteredKeyAssessmentDates: ScheduleItemStore.getModuleKeyDates(this.props.moduleCode)
-				})
+				// this.setState({
+				// 	filteredKeyAssessmentDates: ScheduleItemStore.getModuleKeyDates(this.props.moduleCode)
+				// })
       }
     });
 	}
@@ -40,11 +39,11 @@ class AssessmentListView extends Component {
 		}
 		return '';
 	}
-	renderKeyDates() {
-		const filteredKeyDates = this.state.filteredKeyAssessmentDates;
-		if (filteredKeyDates.length > 0) {
+	renderKeyDates(filteredKeyDates) {
+		// const filteredKeyDates = this.state.filteredKeyAssessmentDates;
+		if (filteredKeyDates && filteredKeyDates.length > 0) {
 			return filteredKeyDates.map((keyDate) => {
-				console.log(keyDate)
+				// console.log(keyDate)
 				let time = '';
 				let location = '';
 				const { title } = keyDate;
@@ -71,10 +70,12 @@ class AssessmentListView extends Component {
 		return (<p className="lead">No Upcoming Assessment and Assignment</p>)
 	}
 	render() {
+		const filteredKeyAssessmentDates = ScheduleItemStore.moduleKeyDates;
+		console.log('KeyAssessmentDates in AssessmentListView', filteredKeyAssessmentDates)
 		// const filteredKeyDates = ScheduleItemStore.getModuleKeyDates(this.props.moduleCode);
 		return (
 			<div>
-				{this.renderKeyDates()}
+				{this.renderKeyDates(filteredKeyAssessmentDates)}
 			</div>
 		);
 	}

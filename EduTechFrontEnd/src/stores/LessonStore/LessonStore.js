@@ -38,6 +38,7 @@ class LessonStore {
     axios.post(`/lesson/uploadAttachment/${lessonId}`, formData)
     .then((res) => {
       this.uploadedFile = res.data;
+			console.log('res data', res.data);
       this.uploadedFile[0].lessonId = lessonId;
 			UtilStore.openSnackbar(`${file.name} is successfully uploaded.`);
 
@@ -48,7 +49,7 @@ class LessonStore {
 					 ModuleStore.selectedModule.members,
 					 `/module/${ModuleStore.selectedModule.moduleCode}?tabKey=Lessons`,
 				);
-			}, 5000);
+			}, 10000);
     })
     .catch((err) => {
       console.log(err);
@@ -70,7 +71,6 @@ class LessonStore {
 
   @action
   downloadOneFile(lessonId, attachmentId, fileName) {
-    console.log("DOWNLOADING ONE FILE", lessonId, attachmentId, fileName)
     axios.get(`/lesson/downloadAttachment/${lessonId}/${attachmentId}`,{responseType: 'blob'})
     .then((res) => {
       const downloadedFile = res.data;
@@ -85,13 +85,26 @@ class LessonStore {
   removeOneFile(lessonId, attachmentId, fileName) {
     axios.delete(`/lesson/deleteAttachment/${lessonId}/${attachmentId}`)
     .then((res) => {
-      console.log("delete file success!", res.data);
-			UtilStore.openSnackbar(`${fileName} has been deleted!`)
+			const trimmedFileName = this.trimFileName(fileName);
+			console.log('res data removeOneFile: ', res.data);
+			this.uploadedFile = res.data;
+			console.log('res data', res.data);
+			this.uploadedFile[0].lessonId = lessonId;
+			UtilStore.openSnackbar(`${trimmedFileName} has been deleted!`)
     })
     .catch((err) => {
       console.log(err);
     })
   }
+
+	trimFileName(fileName) {
+		if (fileName.includes('qup')) {
+			const newFileName = _.split(fileName, 'qup', 2)
+			console.log('newFileName', newFileName[1]);
+			return newFileName[1];
+		}
+		return fileName;
+	}
 
   // @action
   // getFilesForLesson(lessonId){

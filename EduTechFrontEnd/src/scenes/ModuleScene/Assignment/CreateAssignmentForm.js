@@ -46,7 +46,7 @@ class CreateAssignmentForm extends Component {
 		this.setState({ groupSize: value })
 	}
 	handleClose() {
-		this.props.flipShowAssignmentFormState();
+		this.props.hideAssignmentForm();
 	}
 	createAssignment(event) {
 		event.preventDefault();

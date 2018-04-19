@@ -31,6 +31,11 @@ class RightPanel extends Component {
     };
   }
 
+  // componentWillMount() {
+  //   const module = ModuleStore.getModule(this.props.moduleCode);
+  //   ScheduleItemStore.getModuleKeyDates(module.moduleCode);
+  // }
+
   handleEnterPress(e) {
     if (e.which === 13) {
       ModuleStore.editModuleDescription(e.target.value);
@@ -93,14 +98,20 @@ class RightPanel extends Component {
   }
   renderCreateAssessmentBtn(userType) {
     if (userType === 'instructor') {
-      return (<Button className="standardTopGap" bsStyle="primary" block onClick={() => this.openAssessmentDialog()}>Add Assessment</Button>)
+      return (
+        <RaisedButton
+          className="standardTopGap"
+          label="Add Assessment"
+          fullWidth
+          primary
+          onClick={() => this.openAssessmentDialog()}
+        />)
     }
     return '';
   }
   renderMembersDialog() {
     let instructorsList = <ListItem primaryText="Instructors will be assigned soon." />;
     if (ModuleStore.instructors && ModuleStore.instructors.length > 0) {
-          console.log('module instructors', ModuleStore.instructors)
       instructorsList = ModuleStore.instructors.map(member => (
           <ListItem
             primaryText={member.userFirstName + ' ' + member.userLastName}
@@ -164,7 +175,7 @@ class RightPanel extends Component {
   render() {
     const module = ModuleStore.getModule(this.props.moduleCode);
     const userType = localStorage.getItem('userType');
-    const { moduleCode, title } = module;
+    const { moduleCode } = module;
     return (
             <Paper className="moduleInfo">
               <Row className="sideTopSection">

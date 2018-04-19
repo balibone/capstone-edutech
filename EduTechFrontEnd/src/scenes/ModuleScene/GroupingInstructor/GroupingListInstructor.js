@@ -35,9 +35,6 @@ class GroupingListInstructor extends Component {
 						  		{this.renderStudentList(group)}
 								</ListGroup>
 				    </CardText>
-				    <CardActions>
-				      <FlatButton label="Delete Group" />
-				    </CardActions>
 				  </Card>
 			</Col>
 		)

@@ -25,7 +25,9 @@ export default class LeftBar extends Component {
         // clear cookie
         document.cookie.split(';').forEach((c) => { document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/'); }); // eslint-disable-line
         // clear localStorage
-        localStorage.clear();
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('username');
+        localStorage.removeItem('userType');
         // redirect to login page
         window.location.replace(`http://${HOST_NAME}:8080/EduTechWebApp-war/CommonInfra?pageTransit=goToLogout`);
       }

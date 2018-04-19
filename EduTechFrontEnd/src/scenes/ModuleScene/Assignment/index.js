@@ -21,7 +21,7 @@ class Assignment extends Component {
 		}
 	}
 
-	flipShowAssignmentFormState() {
+	hideAssignmentForm() {
 		this.setState({ showAssignmentForm: !this.state.showAssignmentForm })
 	}
 
@@ -33,7 +33,7 @@ class Assignment extends Component {
 				      label="Create Assignment"
 				      labelPosition="before"
 				      primary
-							onClick={() => this.flipShowAssignmentFormState()}
+							onClick={() => this.hideAssignmentForm()}
 				      icon={<ContentAddCircle />}
 				  />
 	      )
@@ -54,7 +54,7 @@ class Assignment extends Component {
 						<CreateAssignmentForm
 						  moduleCode={this.props.moduleCode}
 						  selectedModule={selectedModule}
-						  flipShowAssignmentFormState={() => this.flipShowAssignmentFormState()}
+						  hideAssignmentForm={() => this.hideAssignmentForm()}
 						/>
 						: this.renderCreateButton()
 					}

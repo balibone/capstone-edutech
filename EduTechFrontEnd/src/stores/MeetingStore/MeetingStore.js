@@ -1,7 +1,7 @@
 import {observable, action, computed, toJS} from 'mobx';
 import axios from 'axios';
 import moment from 'moment';
-import {Meeting} from './Meeting';
+import { Meeting } from './Meeting';
 import swal from 'sweetalert';
 import _ from 'lodash';
 

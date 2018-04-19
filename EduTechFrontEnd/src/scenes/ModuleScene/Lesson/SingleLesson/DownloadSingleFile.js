@@ -23,9 +23,9 @@ class DownloadSingleFile extends Component {
 		const { id, fileName } = this.props.file;
 
 		swal({
-		  title: "Are you sure?",
-		  text: "You will not be able to recover this file!",
-		  icon: "warning",
+		  title: 'Are you sure?',
+		  text: 'You will not be able to recover this file!',
+		  icon: 'warning',
 		  buttons: true,
 		  dangerMode: true,
 		})
@@ -39,7 +39,6 @@ class DownloadSingleFile extends Component {
 	renderFileName(fileName) {
 		if (fileName.includes('qup')) {
 			const newFileName = _.split(fileName, 'qup', 2)
-			console.log('newFileName', newFileName[1]);
 			return newFileName[1];
 		}
 		return fileName;
