@@ -242,7 +242,7 @@
                                                data-control-name="venue-text-filter" data-control-action="filter" />
                                     </div>
 
-                                    <div class="jplist-radio-buttons-dropdown"
+                                    <div class="jplist-radio-buttons-dropdown" hidden="true"
                                          data-control-type="radio-buttons-dropdown"
                                          data-control-name="category-radio-buttons-dropdown"
                                          data-control-action="filter"
