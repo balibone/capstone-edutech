@@ -119,7 +119,6 @@ $(document).ready(function () {
     });*/
     
     $('#sendOfferBtn').click(function(){
-        $('#offerModal').modal('toggle');
         $.ajax({
             type: "POST",
             url: "ErrandsSysUser",
@@ -132,6 +131,7 @@ $(document).ready(function () {
             },
             success: function(returnString){
                 if(returnString.endsWith("!")){
+                    $('#offerModal').modal('toggle');
                     $('#successPanel').css('display','block');
                     $('#success').text(returnString);
                 }else{
@@ -143,23 +143,6 @@ $(document).ready(function () {
         });
     });
     
-    
-    $('#reportJobBtn').click(function(){
-        $('#reportJobModal').modal('toggle');
-        $.ajax({
-            type: "POST",
-            url: "ErrandsSysUser",
-            data: { 
-                jobID: $('#jobIDHidden').val(),
-                username: $('#usernameHidden').val(),
-                reportReason: $('#reportReason').val(),
-                pageTransit: 'reportJobListing'
-            },
-            success: function(returnString) {
-               alert(returnString);
-            }
-        });
-    });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
     $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
@@ -189,7 +172,26 @@ $(document).on('click', '#likeJobBtn', function() {
                 else { $('.likeWording').text("Like"); }
             }
         });    
- });   
+ });
+ 
+ $(document).on('click', '#reportJobBtn', function(){
+        
+        $.ajax({
+            type: "POST",
+            url: "ErrandsSysUser",
+            data: { 
+                jobID: $('#jobIDHidden').val(),
+                username: $('#usernameHidden').val(),
+                reportReason: $('#reportReason').val(),
+                pageTransit: 'reportJobListing'
+            },
+            success: function(returnString) {
+               $('#reportJobModal').modal('toggle');
+               alert(returnString);
+               
+            }
+        });
+    });
 
 
 /*function deleteAlert(jobID, username) {

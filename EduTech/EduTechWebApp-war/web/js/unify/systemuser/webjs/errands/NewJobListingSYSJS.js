@@ -26,6 +26,10 @@ $(document).ready(function () {
     map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
     basemap.addTo(map);
     
+    $("#collapseThree").on('shown.bs.collapse', function(e) {
+        map.invalidateSize(e);
+    });
+    
     $('#startLocation').keyup(function () {
         var baseHtml = 'https://developers.onemap.sg/commonapi/search?searchVal=';
         var location = $('#startLocation').val();
@@ -137,6 +141,8 @@ $("input[type='text']").on("keyup", function(){
         
     }
 });
+
+$("input[name='workDate']").keydown(false);
     
 
 var jobRateInput = document.getElementById('jobRate');
@@ -153,7 +159,7 @@ jobRateInput.onkeydown = function(e) {
 
 helperInput.onkeydown = function(e) {
     if(!((e.keyCode > 95 && e.keyCode < 106)
-      || (e.keyCode > 47 && e.keyCode < 58) 
+      || (e.keyCode > 48 && e.keyCode < 58) 
       || e.keyCode == 8)) {
         return false;
     }

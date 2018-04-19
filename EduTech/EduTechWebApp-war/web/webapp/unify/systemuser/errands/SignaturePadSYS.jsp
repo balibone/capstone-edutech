@@ -16,10 +16,7 @@
         
         <canvas id="can" width="400" height="300"></canvas>
         
-        <div style="position:absolute;top:10%;left:85%;">Eraser</div>
-        <div id="white" onclick="color(this)"></div>
-        
-        <button type="button" class="btn btn-primary" id="saveBtn" style="position:absolute; top:80%; left:30%;">Complete</button>
+        <button type="button" class="btn btn-primary" id="saveBtn" style="position:absolute; top:80%; left:30%;" disabled>Complete</button>
         <button type="button" class="btn btn-warning text-white" id="clr" onclick="erase()" style="position:absolute; top:80%; left:50%;">Clear</button>
         <input type="hidden" id="hiddenJobID" value="<%= request.getParameter("jobID")%>">
         <input type="hidden" id="hiddenUsername" value="<%= request.getParameter("username")%>">

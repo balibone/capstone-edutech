@@ -31,6 +31,13 @@
         <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
         <link href="css/unify/systemuser/weblayout/errands/ViewJobListingSysCSS.css" rel="stylesheet" type="text/css">
+    
+        <style>
+            .jobCard:hover{
+                cursor: pointer;
+            }
+        </style>
+    
     </head>
     <body>
         <!-- MOBILE SIDE NAVIGATION -->
@@ -352,7 +359,7 @@
                                         <div class="card-content">
                                             <div class="card-body">
                                                 <div class="row">
-                                                    <div class="col-xl-3 col-md-3 col-3">
+                                                    <div class="col-xl-3 col-md-3 col-3 jobCard">
                                                         <div class="img-wrapper" style="margin-bottom: 15px">
                                                             <a href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%= loggedInUsername%>">
                                                                 <img class="card-img-top" style="width: 160px; height: 150px;" src="uploads/unify/images/errands/job/<%= jobImage%>" />
@@ -360,7 +367,7 @@
                                                         </div>
                                                     </div>
                                                             
-                                                    <div class="col-xl-7 col-md-7 col-7" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%= loggedInUsername%>';">
+                                                    <div class="col-xl-7 col-md-7 col-7 jobCard" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= jobCategoryName%>&loggedinUser=<%= loggedInUsername%>';">
                                                         <span class="jobTitle job-title"><strong><%= jobTitle%></strong></span><br/>
                                                         <span class="card-text category <%= categoryPath%>"><%= jobCategoryName%></span><br/>
                                                         <i class="far fa-calendar-alt"></i>&nbsp; <span class="card-text date"><%= jobWorkDate%></span>&nbsp;<br/> 
