@@ -244,7 +244,6 @@ export default class GroupScene extends Component {
               <Divider />
               <Row className="">
                 <h3> Live Collab Room </h3>
-                <p> No member in room currently. </p>
                 <RaisedButton label="Enter Collab Room" primary style={{ margin: '15px' }} containerElement={<Link to={`/room/${groupId}`} target="_blank" />}/>
               </Row>
             </Paper>
