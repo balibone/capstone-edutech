@@ -19,7 +19,7 @@
         <link href="css/unify/systemuser/baselayout/nouislider-v11.0.3.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/style.min.css" rel="stylesheet" type="text/css">
         <link href="css/unify/systemuser/baselayout/leaflet.css" rel="stylesheet" type="text/css">
-        <link href="css/unify/systemuser/weblayout/marketplace/NewItemListingSYSCSS.css" rel="stylesheet" type="text/css">
+        
     </head>
 
     <body class="nav-md">
@@ -89,7 +89,7 @@
                                                 <input type="hidden" name="pageTransit" value="goToReportShoutSubmit" />
                                                 <input type="hidden" name="loggedInUsername" value= "<%= loggedInUsername%>" />
                                                 <input type="hidden" name="shoutID" value= "<%= shoutID%>" />
-                                                <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button></div>
+                                                <button class="btn btn-outline-theme btn-primary btn-sm btn-block" type="submit">Submit</button></div>
                                                 
                                             </div>  
                                         

@@ -78,7 +78,7 @@
                                     <div class="col-md-2" style="justify-content: center">
                                         <input type="hidden" name="pageTransit" value="goToCreateShout" />
                                         <input type="hidden" name="loggedInUsername" value= "<%= loggedInUsername%>" />
-                                        <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button>
+                                        <button class="btn btn-outline-theme btn-primary btn-sm btn-block" type="submit">Submit</button>
                                     </div>
                                 </div>  
 
