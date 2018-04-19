@@ -185,7 +185,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-8 col-sm-6 col-md-7 col-lg-6 mt-3">
+                    <div class="col-8 col-sm-6 col-md-7 col-lg-6 mt-3" style="visibility:hidden">
                         <div class="d-flex align-items-center">
                             <div class="input-group input-group-search">
                                 <div class="input-group-prepend d-none d-md-flex">
