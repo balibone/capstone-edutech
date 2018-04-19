@@ -560,7 +560,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
             else{
                 eventRequestVec.add("");
             }
-            eventRequestVec.add(eventRequestE.getEventRequestPoster());
+            eventRequestVec.add(eventRequestE.getEventRequestPoster());            
         }
         
         return eventRequestVec;

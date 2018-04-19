@@ -323,7 +323,7 @@
                                                         <%  }%>
 
                                                         <div class="event-title">
-                                                            <span class="card-title eventTitle" style="color: #2b3233; font-size: 25px; line-height: 2.5;">
+                                                            <span class="card-title eventTitle" style="color: #2b3233; font-size: 25px;">
                                                                 <strong><%= eventTitle%></strong></span>
                                                         </div>
 

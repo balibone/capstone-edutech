@@ -249,71 +249,75 @@
                                                 <textarea class="form-control" name="eventVenue" rows="1" placeholder="Venue here" required="required"></textarea>
 
                                                 <label for="eventStartDateTime">Event Start Date & Time</label>
-                                                <input type="datetime-local" name="eventStartDateTime" required="required">
+                                                <input type="datetime-local" class="form-control" name="eventStartDateTime" required="required">
 
                                                 <label for="eventEndDateTime">Event End Date & Time</label>
-                                                <input type="datetime-local" name="eventEndDateTime" required="required">                                              
+                                                <input type="datetime-local" class="form-control" name="eventEndDateTime" required="required">                                              
+
+                                                <br>
+                                                <div class="col-md-6">
+                                                    <input type="hidden" name="pageTransit" value="goToCreateEvent" />
+                                                    <button class="btn btn-outline-theme btn-primary btn-sm btn-block" type="submit">Submit</button>
+                                                </div>
+
                                             </div>
                                         </div>
 
                                     </div>
-                                    <div class="form-row" >
-
-                                        <div class="col-md-4">
-                                            <input type="hidden" name="pageTransit" value="goToCreateEvent" />
-                                            <button class="btn btn-outline btn-primary btn-sm btn-block" type="submit">Submit</button>
-                                        </div>
-                                    </div>  
-
                                 </form>
-                                <div class="col-md-5">
-                                    <a href="EventsSysUser?pageTransit=goToViewEventsListingSYS" ><button class="btn btn-outline-warning btn-primary btn-sm btn-block"  type="cancel">Cancel</button></a>
+                                <div class="form-row" >
+                                    <div class="col-md-3 ml-3">
+                                    </div>
+                                    <div class="col-md-6 ml-6">
+                                        <div class="col-md-6">
+                                            <a href="EventsSysUser?pageTransit=goToViewEventsListingSYS" ><button class="btn btn-outline-warning btn-primary btn-sm btn-block"  type="cancel">Cancel</button></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="chat-main">
-                <div class="col-md-12 chat-header">
-                    <div class="row header-one text-white p-1">
-                        <div class="col-md-6 name pl-2">
-                            <i class="fa fa-comment"></i>
-                            <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
+                <div class="chat-main">
+                    <div class="col-md-12 chat-header">
+                        <div class="row header-one text-white p-1">
+                            <div class="col-md-6 name pl-2">
+                                <i class="fa fa-comment"></i>
+                                <h6 class="ml-1 mb-0 mt-1">Unify Bot</h6>
+                            </div>
+                            <div class="col-md-6 options text-right pr-0">
+                                <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
+                            </div>
                         </div>
-                        <div class="col-md-6 options text-right pr-0">
-                            <i class="fa fa-window-minimize hide-chat-box hover text-center"></i>
+                    </div>
+                    <div class="chat-content">
+                        <div class="col-md-12 chats">
+                            <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
                         </div>
                     </div>
                 </div>
-                <div class="chat-content">
-                    <div class="col-md-12 chats">
-                        <iframe src="ProfileSysUser?pageTransit=goToUnifyBot" width="305" height="285" frameborder="0" ></iframe>
-                    </div>
-                </div>
+
+                <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
+                    <i class="fa fa-angle-double-up"></i>
+                </a>
+                <div id="marketplace-overlay"></div>
+                <div id="sellNewItem-iframe"></div>
+                <div id="itemLikeList-iframe"></div>
+
             </div>
 
-            <a href="#top" class="back-top text-center" onclick="$('body,html').animate({scrollTop: 0}, 500); return false">
-                <i class="fa fa-angle-double-up"></i>
-            </a>
-            <div id="marketplace-overlay"></div>
-            <div id="sellNewItem-iframe"></div>
-            <div id="itemLikeList-iframe"></div>
-
-        </div>
-
-        <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
-        <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/webjs/events/NewEventSYSJS.js" type="text/javascript"></script>
+            <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->
+            <script src="js/unify/systemuser/basejs/jquery-v3.2.1.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/popper.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/bootstrap-v4.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/iziModal.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/leaflet/leaflet.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
+            <script src="js/unify/systemuser/webjs/events/NewEventSYSJS.js" type="text/javascript"></script>
     </body>
 </html>
