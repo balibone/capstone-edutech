@@ -17,11 +17,6 @@ export default class KeyActivities extends Component {
   }
   renderNotifications() {
     const sortedAnnouncements = toJS(AnnouncementStore.announcements).reverse();
-    if (!sortedAnnouncements || sortedAnnouncements.length < 1) {
-      return (
-        <p className="lead">None.</p>
-      )
-    }
     return sortedAnnouncements.map(announcement => (
       <div>
         <ListItem
