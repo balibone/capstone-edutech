@@ -1,10 +1,10 @@
 import { observable, action, computed, runInAction } from 'mobx';
 import moment from 'moment';
 import swal from 'sweetalert';
-import axios from 'axios';
 
 import ScheduleItem from './ScheduleItem';
 import UtilStore from '../UtilStore/UtilStore';
+import ModuleStore from '../ModuleStore/ModuleStore';
 import { findSemester, findUserScheduleItems, createScheduleItem, editScheduleItem, deleteScheduleItem } from '../../services/scheduleItemApi';
 
 class ScheduleItemStore {
@@ -99,6 +99,7 @@ class ScheduleItemStore {
   async removeScheduleItem(scheduleItemId) {
     try {
       await deleteScheduleItem(scheduleItemId);
+
       const index =
         this.scheduleItems.findIndex(scheduleItem => scheduleItem.id === scheduleItemId);
       const deletedScheduleItem = this.scheduleItems[index];
@@ -109,9 +110,11 @@ class ScheduleItemStore {
     }
   }
 
-  @action
-  getModuleKeyDates(moduleCode) {
-    return this.sortedUpcomingKeyDates.filter(scheduleItem => (scheduleItem.itemType === 'assessment' || scheduleItem.itemType === 'task') && scheduleItem.moduleCode === moduleCode);
+  @computed
+  get moduleKeyDates() {
+    const { moduleCode } = ModuleStore.selectedModule;
+    const sortedScheduleItems = this.sortScheduleItemsAsc(this.scheduleItems)
+    return sortedScheduleItems.filter(scheduleItem => (scheduleItem.itemType === 'assessment' || scheduleItem.itemType === 'task') && scheduleItem.moduleCode === moduleCode);
   }
 
   @action
@@ -137,16 +140,6 @@ class ScheduleItemStore {
     const upcomingScheduleItems = this.getUpcomingScheduleItems(this.scheduleItems);
     const sortedScheduleItems = this.sortScheduleItemsAsc(upcomingScheduleItems);
     return sortedScheduleItems;
-  }
-
-  @action
-  getModuleKeyDates(moduleCode) {
-    return this.sortedUpcomingKeyDates.filter(scheduleItem => (scheduleItem.itemType === 'assessment' || scheduleItem.itemType === 'task') && scheduleItem.moduleCode === moduleCode);
-  }
-
-  @action
-  getGroupKeyDates(groupId) {
-    return this.sortedUpcomingKeyDates.filter(scheduleItem => (scheduleItem.itemType === 'meeting' || scheduleItem.itemType === 'task') && scheduleItem.groupId === groupId);
   }
 
   @action
@@ -180,16 +173,16 @@ class ScheduleItemStore {
     return moment(this.semester.endDate).diff(moment(this.semester.startDate), 'week') + 1;
   }
 
-  @action
-  populateMergedScheduleItemsForGroup(groupId){
-   axios.get(`/scheduleitem/members/${groupId}`)
-     .then((res) => {
-       this.userGroupScheduleItems = res.data;
-     })
-     .catch((err) => {
-       console.log(err);
-     })
-  }
+  // @action
+  // populateMergedScheduleItemsForGroup(groupId) {
+  //  axios.get(`/scheduleitem/members/${groupId}`)
+  //    .then((res) => {
+  //      this.userGroupScheduleItems = res.data;
+  //    })
+  //    .catch((err) => {
+  //      console.log(err);
+  //    })
+  // }
 }
 
 export default new ScheduleItemStore();

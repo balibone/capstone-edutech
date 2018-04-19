@@ -43,7 +43,7 @@ class IndividualAssignmentView extends Component {
   renderFileName(fileName) {
     if (fileName.includes('qup')) {
       const newFileName = _.split(fileName, 'qup', 2)
-      console.log('newFileName', newFileName[1]);
+      // console.log('newFileName', newFileName[1]);
       return newFileName[1];
     }
     return fileName;

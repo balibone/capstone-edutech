@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
-import axios, { post } from 'axios';
-import {Button, Grid, Row, Col, FormControl, ControlLabel} from 'react-bootstrap';
+import { Button, FormControl, ControlLabel } from 'react-bootstrap';
+import { RaisedButton } from 'material-ui';
 import swal from 'sweetalert';
 
 import LessonStore from '../../../../stores/LessonStore/LessonStore';
@@ -39,18 +39,16 @@ class UploadFileBtn extends Component {
     this.setState({ file:e.target.files[0] })
   }
 
-  handleChangeTitle(e){
+  handleChangeTitle(e) {
     this.setState({ title: e.target.value });
   }
 
   render() {
-  	let file = this.state.file;
-
     return (
       <form className="standardTopGap" onSubmit={this.onFormSubmit}>
         <input type="file" onChange={this.onChange} size="1000" />
         {
-          this.state.file !==null ?
+          this.state.file !== null ?
           (
             <div>
               <ControlLabel>Description (optional)</ControlLabel>
@@ -61,9 +59,15 @@ class UploadFileBtn extends Component {
                 onChange={this.handleChangeTitle.bind(this)}
               />
             </div>
-          ): (<span></span>)
+          ) : ''
         }
-        <Button className="standardTopGap" type="submit" bsStyle="primary" block>Upload Attachment</Button>
+        <RaisedButton
+          type="submit"
+          className="standardTopGap"
+          label="Upload Attachment"
+          fullWidth
+          primary
+        />
       </form>
 
    )

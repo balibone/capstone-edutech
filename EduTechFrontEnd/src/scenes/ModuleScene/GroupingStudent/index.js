@@ -8,28 +8,22 @@ import AssignmentStore from '../../../stores/ModuleStore/AssignmentStore';
 
 
 @observer
-class GroupingStudent extends Component{
-
-	renderAssignmentList(){
+class GroupingStudent extends Component {
+	renderAssignmentList() {
 		const assignmentList = toJS(AssignmentStore.assignmentList);
-    	if(assignmentList.length > 0){
-    		return assignmentList.map((assignment) =>
-
+    	if (assignmentList.length > 0) {
+    		return assignmentList.map(assignment =>
     			(
-    				(assignment.groups.length>0) ?
+    				(assignment.groups.length > 0) ?
     				<SingleAssignmentGroup key={assignment.id} assignment={assignment} />
-    				:(<span></span>)
-    			)
-    		)
-    	}else{
-    		return (<span>No Assignments</span>)
+    				: ''
+    			))
     	}
+    	return (<span>No Assignments</span>)
 	}
 
-
-	render(){
-
-		return(
+	render() {
+		return (
 			<div className="standardTopGap">
 				{this.renderAssignmentList()}
 			</div>

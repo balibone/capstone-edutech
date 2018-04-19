@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Label, Row, Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import { RaisedButton, Divider, Paper, FlatButton, List, ListItem, Avatar, Dialog, Subheader } from 'material-ui';
+import SocialGroup from 'material-ui/svg-icons/social/group';
 
 import GroupingListInstructor from './GroupingListInstructor';
 import AssignmentStore from '../../../stores/ModuleStore/AssignmentStore';
@@ -29,7 +30,15 @@ class SingleAssignmentGroup extends Component {
 		this.setState({ openMembersDialog: false })
 	}
 	renderViewMembersWithtouGroupBtn() {
-		return (<Button bsStyle="primary" onClick={() => this.getMembersWithoutGroup()}>View Members Without Group</Button>)
+		return (
+			<RaisedButton
+					label="View Members Without Group"
+					labelPosition="before"
+					primary
+					onClick={() => this.getMembersWithoutGroup()}
+					icon={<SocialGroup />}
+			/>
+		)
 	}
 	renderMembersWithoutGroupDialog() {
 		const { assignment } = this.props;

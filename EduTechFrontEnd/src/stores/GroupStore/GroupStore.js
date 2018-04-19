@@ -1,10 +1,11 @@
-import { observable, action, runInAction, computed } from 'mobx';
+import { observable, action, runInAction, computed, toJS } from 'mobx';
 import axios from 'axios';
 import swal from 'sweetalert';
 
 import UtilStore from '../UtilStore/UtilStore';
 
 import AssignmentStore from '../ModuleStore/AssignmentStore';
+import AnnouncementStore from '../AnnouncementStore/AnnouncementStore';
 import { findUserGroups, autoAssignMembers, findGroup } from '../../services/groupApi';
 
 class GroupStore {
@@ -33,15 +34,22 @@ class GroupStore {
 
   @action
   async doAutoAssignMembers(assignmentId, moduleCode) {
-    console.log('autoAssign members in ', assignmentId)
+    const { membersWithoutGroup } = AssignmentStore;
+    console.log('membersWithoutGroup membersWithoutGroup: ', toJS(membersWithoutGroup))
     try {
       const res = await autoAssignMembers(assignmentId);
       console.log('res data auto assign: ', res.data);
       AssignmentStore.populateModuleAssignments(moduleCode)
       UtilStore.openSnackbar('Auto-assign students successful!')
+      AnnouncementStore.postAnnouncement(
+        moduleCode,
+         'Assigned to project group.',
+         membersWithoutGroup,
+         `/module/${moduleCode}?tabKey=Groupings`,
+      );
       // this.groupList = res.data;
       // this.donePopulating = true;
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   }
