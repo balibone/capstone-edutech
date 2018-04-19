@@ -17,6 +17,11 @@ export default class KeyActivities extends Component {
   }
   renderNotifications() {
     const sortedAnnouncements = toJS(AnnouncementStore.announcements).reverse();
+    if (!sortedAnnouncements || sortedAnnouncements.length < 1) {
+      return (
+        <p className="lead">None.</p>
+      )
+    }
     return sortedAnnouncements.map(announcement => (
       <div>
         <ListItem
@@ -54,9 +59,10 @@ export default class KeyActivities extends Component {
           </div>
         );
       }
+    const word = toJS(AnnouncementStore.announcements).length < 1 ? 'No' : 'Recent';
     return (
       <div>
-        <Subheader>Latest Key Activities</Subheader>
+        <Subheader>{word} Key Activities</Subheader>
         <List>
           {this.renderNotifications()}
         </List>

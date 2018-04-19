@@ -15,7 +15,6 @@ class AnnouncementStore {
         runInAction(() => {
           this.announcements = userAnnouncements.data;
           this.donePopulating = true;
-          console.log('store inside there announcements', this.announcements[0].title)
         });
       } catch (e) {
         swal('Error', 'Error populating announcements', 'error');
