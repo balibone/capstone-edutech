@@ -63,7 +63,7 @@ class FeedStore {
     addPost(pageId, message) {
       const newPost = new Post(pageId, message, null);
       this.createPost(newPost);
-      this.posts.push(newPost);
+      this.posts.unshift(newPost);
     }
 
     @action
