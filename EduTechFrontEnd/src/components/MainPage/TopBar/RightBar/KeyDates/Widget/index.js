@@ -18,7 +18,7 @@ const Widget = ({ itemType }) => {
           <small>{moment(scheduleItem.startDate).format('HH:mm')} - {moment(scheduleItem.endDate).format('HH:mm')}</small>
         </Col>
         <Col md={7} className="contentSection">
-          <p className="widgetTitle">{scheduleItem.title} @ {scheduleItem.location}</p>
+          <p className="widgetTitle">{scheduleItem.title}</p>
         </Col>
       </Row>
     ));
