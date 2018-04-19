@@ -91,7 +91,6 @@ $(document).ready(function () {
 function validateFirstStep() {
     $(".wizard-card form").validate({
         rules: {
-            itemImage: "required",
             itemName: "required",
             itemCondition: "required",
             itemPrice: { required: true, range: [0, 9999] },
@@ -121,7 +120,6 @@ function validateFirstStep() {
 
         },
         messages: {
-            itemImage: "Please select an Item Image",
             itemName: "Please enter the Item Name",
             itemCondition: "Please enter the Item Condition",
             itemPrice: {
@@ -153,6 +151,10 @@ function validateFirstStep() {
     });
 
     if (!$(".wizard-card form").valid()) {
+        return false;
+    }
+    if($('#wizard-picture').val() == '' || $('#wizard-picture').val() == null) {
+        alert("Please select an item image!");
         return false;
     }
     return true;
