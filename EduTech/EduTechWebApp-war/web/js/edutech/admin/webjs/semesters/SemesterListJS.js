@@ -23,8 +23,7 @@ $(document).ready(function() {
     $('table tbody').on('click','#delete', function(event) {
         rowID = $(this).closest('tr').children('#id').text();
         console.log("Row ID is :"+rowID);
-        var startDelete = confirm('Delete Semester?');
-        console.log(startDelete);
+        var startDelete = confirm('Delete Semester '+rowID+ '?');
         if(startDelete === true){
             $.ajax({
                 url: "EduTechAdmin?pageTransit=checkSemester&id="+rowID,

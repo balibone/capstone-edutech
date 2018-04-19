@@ -78,6 +78,7 @@ public class CommonInfraController extends HttpServlet {
                         * Working as intended, please do not remove :)
                         */
                         response.sendRedirect("CommonInfra?pageTransit=goToCommonLanding");
+                        pageAction = "placeHolderAction";
                     }
                     else{
                         request.setAttribute("sysMessage", "<strong>Incorrect username or password. Please try again.</strong>");
@@ -115,8 +116,10 @@ public class CommonInfraController extends HttpServlet {
                         response.sendRedirect("CommonInfra?pageTransit=logout&unauthorised=true");
                     } 
                     //if just normal logout,
-                    else 
+                    else {
                         response.sendRedirect("CommonInfra?pageTransit=logout");
+                    }
+                    pageAction = "placeHolderAction";
                     break;
                 case "logout":
                     sessionInvalid = request.getParameter("sessionInvalid");
@@ -165,11 +168,13 @@ public class CommonInfraController extends HttpServlet {
                             default:
                                 //user type cookie is invalid. redirect to logout page
                                 response.sendRedirect("CommonInfra?pageTransit=goToLogout&unauthorised=true");
+                                pageAction = "placeHolderAction";
                                 break;
                         }
                     }else{
                         //user type cookie is invalid. redirect to logout page
                         response.sendRedirect("CommonInfra?pageTransit=goToLogout&sessionInvalid=true");
+                        pageAction = "placeHolderAction";
                     }
                     break;
                 case "registerUser":
@@ -181,7 +186,6 @@ public class CommonInfraController extends HttpServlet {
                         request.setAttribute("sysMessage", "User account with this username already exists. Please pick a different username."); 
                         pageAction = "Registration";
                     }                    
-                    
                     break;
                 case "sendResetEmail":
                     success = cir.sendResetEmail(request.getParameter("username"),request.getLocalPort());
@@ -204,7 +208,7 @@ public class CommonInfraController extends HttpServlet {
                         response.sendError(400, "Your existing password is invalid. Please make sure it is correct.");
                         break;
                     }
-                    pageAction = "IntegratedSPLogin";
+                    pageAction = "placeHolderAction";
             }
             if(pageAction != null && !pageAction.equals("placeHolderAction")){
                 dispatcher = servletContext.getNamedDispatcher(pageAction);
