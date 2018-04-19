@@ -95,7 +95,7 @@ export default class GroupTask extends Component {
 
   renderTaskInput() {
     return (
-      <div>
+      <div className="standardTopGap">
         <Row>
           <Col md={12}>
             <FormControl
@@ -119,7 +119,7 @@ export default class GroupTask extends Component {
           </Col>
           <Col md={6}>
             <DateTimePicker
-              time={false}
+              time
               min={new Date()}
               placeholder="Set deadline"
               onChange={selectedDate => this.setState({ taskDate: selectedDate })}
@@ -165,7 +165,7 @@ export default class GroupTask extends Component {
         <h3> {GroupStore.selectedGroup.title} Tasks </h3>
         <FlatButton
           secondary
-          label="View Chart"
+          label="Visualise Allocation"
           icon={<i className="fas fa-chart-bar" />}
           onClick={() => this.setState({ openChartDialog: true })}
         />

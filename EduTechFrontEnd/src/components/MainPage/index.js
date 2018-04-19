@@ -19,17 +19,14 @@ const MainPage = () => (
       <TopBar />
     </Switch>
     <Switch>
-      <Route exact path="/" render={() => <LeftBar scene="home" />} />
-      <Route exact path="/module/:moduleCode" render={() => <LeftBar scene="module" />} />
-      <Route exact path="/group/:groupId" render={() => <LeftBar scene="group" />} />
       <Route exact path="/room/:groupId" render={() => ''} />
       <LeftBar scene="home" />
     </Switch>
     <div>
       <Switch>
           <Route exact path="/" component={HomeScene} />
-          <Route exact path="/module/:moduleCode" component={ModuleScene} />
-          <Route exact path="/group/:groupId" component={GroupScene} />
+          <Route path="/module/:moduleCode" component={ModuleScene} />
+          <Route path="/group/:groupId" component={GroupScene} />
           <Route exact path="/myschedule" component={MyScheduleScene} />
           <Route exact path="/mytasks" component={MyTasksScene} />
       </Switch>

@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import { Animated } from 'react-animated-css';
 import * as qs from 'query-string';
+import { Link } from 'react-router-dom';
 
 import Lesson from './Lesson';
 import Assignment from './Assignment';
@@ -51,6 +52,7 @@ export default class ModuleScene extends Component {
   }
 
   render() {
+    console.log('TABBBB', this.state.activeTabKey)
     const { moduleCode } = this.props.match.params;
     console.log('active tab key', this.state.tabKey)
     let module = null;
@@ -64,22 +66,22 @@ export default class ModuleScene extends Component {
           <Col md={8}>
           <Paper>
             <Tabs value={this.state.activeTabKey} onChange={tabKey => this.setState({ activeTabKey: tabKey })}>
-              <Tab label="Conversations" value="Conversations">
+              <Tab label="Conversations" value="Conversations" containerElement={<Link to={`/module/${moduleCode}?tabKey=Conversations`}/>}>
                 <div className="tabContent">
                   <Feed pageId={moduleCode} scene="module" />
                 </div>
               </Tab>
-              <Tab label="Lessons" value="Lessons">
+              <Tab label="Lessons" value="Lessons" containerElement={<Link to={`/module/${moduleCode}?tabKey=Lessons`}/>}>
                 <div className="tabContent">
                   <Lesson />
                 </div>
               </Tab>
-              <Tab label="Assignments" value="Assignments">
+              <Tab label="Assignments" value="Assignments" containerElement={<Link to={`/module/${moduleCode}?tabKey=Assignments`}/>}>
                 <div className="tabContent">
                   <Assignment moduleCode={moduleCode} />
                 </div>
               </Tab>
-              <Tab label="Groupings" value="Groupings">
+              <Tab label="Groupings" value="Groupings" containerElement={<Link to={`/module/${moduleCode}?tabKey=Groupings`}/>}>
                 <div className="tabContent">
                   {this.renderGroupingPage()}
                 </div>

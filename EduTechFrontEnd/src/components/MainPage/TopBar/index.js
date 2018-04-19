@@ -3,6 +3,7 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import moment from 'moment';
 
+import AnnouncementStore from '../../../stores/AnnouncementStore/AnnouncementStore';
 import RightBar from './RightBar';
 import { INSTRUCTOR_PRIMARY2_COLOR, STUDENT_PRIMARY2_COLOR } from '../../../utils/constants';
 import './styles.css';
@@ -18,6 +19,7 @@ class TopBar extends Component {
     openRightBar: false,
   }
   handleToggleRightBar() {
+    AnnouncementStore.populateAnnouncements(localStorage.getItem('username'));
     this.setState({ openRightBar: !this.state.openRightBar });
   }
   render() {

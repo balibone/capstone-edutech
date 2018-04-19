@@ -159,7 +159,7 @@ class MyCalendar extends Component {
           <BigCalendar
             events={events}
             views={['month', 'week', 'day']}
-            defaultView={localStorage.getItem('defaultView') || 'week'}
+            defaultView={localStorage.getItem('defaultView') || 'month'}
             step={this.props.step}
             scrollToTime={new Date()}
             defaultDate={new Date(moment().startOf('day').toString())}

@@ -195,22 +195,22 @@ export default class GroupScene extends Component {
           <Col md={8}>
             <Paper className="animated fadeIn">
               <Tabs value={this.state.activeTabKey} onChange={tabKey => this.setState({ activeTabKey: tabKey })}>
-                <Tab label="Conversations" value="Conversations">
+                <Tab label="Conversations" value="Conversations" containerElement={<Link to={`/group/${groupId}?tabKey=Conversations`}/>}>
                   <div className="tabContent">
                     <Feed pageId={groupId} scene="group" />
                   </div>
                 </Tab>
-                <Tab label="Meetings" value="Meetings">
+                <Tab label="Meetings" value="Meetings" containerElement={<Link to={`/group/${groupId}?tabKey=Meetings`}/>}>
                   <div className="tabContent">
                     <GroupMeeting groupId={groupId} />
                   </div>
                 </Tab>
-                <Tab label="Tasks" value="Tasks">
+                <Tab label="Tasks" value="Tasks" containerElement={<Link to={`/group/${groupId}?tabKey=Tasks`}/>}>
                   <div className="tabContent">
                     <GroupTask groupId={groupId} selectedGroup={GroupStore.selectedGroup} />
                   </div>
                 </Tab>
-                <Tab label="Schedule" value="Schedule">
+                <Tab label="Schedule" value="Schedule" containerElement={<Link to={`/group/${groupId}?tabKey=Schedule`}/>}>
                   <div className="tabContent">
                     <GroupCalendar groupId={groupId} viewChart />
                   </div>
@@ -222,7 +222,9 @@ export default class GroupScene extends Component {
             <Paper className="sideSection">
               <Row className="sideTopSection">
                 <h3> {GroupStore.selectedGroup.title} </h3>
-                {this.renderGroupDescription()}
+                <div style={{ padding: '10px 25px' }}>
+                  {this.renderGroupDescription()}
+                </div>
                 <br />
                 <RaisedButton className="viewMembersButton" label="View Members" onClick={() => this.setState({ openMembersDialog: true })} />
                 <br />
