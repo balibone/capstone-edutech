@@ -246,11 +246,18 @@
                             <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <span class="p-1 text-white bg-success"><%= jobStatus%></span></span><br/>
                             <%}else if(jobStatus.equals("Reserved")){%>
                             <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <span class="p-1 text-white bg-warning"><%= jobStatus%></span></span><br/>
+                            <%}else{%>
+                            <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <span class="p-1 text-white bg-secondary"><%= jobStatus%></span></span><br/>
                             <%}%>
                             <span style="font-size: 16px;"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp; Category: <%= category%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; Helpers required: <%= numOfHelpers%></span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp; Job Rate: S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
-                            <a role="button" href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= category%>" class="btn btn-primary" >View Job Details</a>
+                            <a role="button" href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= category%>" class="btn btn-info" >View Job Details</a>
+                            <%if(jobStatus.equals("Available")){%>
+                            <a role="button" href="ErrandsSysUser?pageTransit=setJobAsReserved&jobID=<%= jobID%>" class="btn btn-warning" >Set as Reserved</a>
+                            <%}else if(jobStatus.equals("Reserved")){%>
+                            <a role="button" href="ErrandsSysUser?pageTransit=setJobAsCompleted&jobID=<%= jobID%>" class="btn btn-warning" >Set as Completed</a>
+                            <% }else{ }%>
                         </div>
                    
                       
@@ -322,7 +329,7 @@
                                           </div>
                                       </td>
                                     <td>S$<span class="offerPrice"><%= offerPrice%></span></td>
-                                    <td><%= offerDescription%>/<%=i%></td>
+                                    <td><%= offerDescription%></td>
                                     <td><%= offerStatus%></td>
                                     <td>
                                         <%
@@ -414,7 +421,7 @@
         <script src="js/unify/systemuser/basejs/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/owl.carousel-v2.2.1.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/basejs/nouislider-v11.0.3.min.js" type="text/javascript"></script>
-        <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>
+        <script src="js/unify/systemuser/basejs/style.min.js" type="text/javascript"></script>  
         <script src="js/unify/systemuser/basejs/qtip/jquery.qtip-v3.0.3.min.js" type="text/javascript"></script>
         <script src="js/unify/systemuser/webjs/errands/ViewJobOfferDetailsSYSJS.js" type="text/javascript"></script>
 

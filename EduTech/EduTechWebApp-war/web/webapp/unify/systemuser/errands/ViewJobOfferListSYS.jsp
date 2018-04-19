@@ -41,6 +41,10 @@
                 width: 100%;
                 display: block;
             }
+            
+            .box{
+                cursor: pointer;
+            }
         </style>
         
     </head>
@@ -239,11 +243,10 @@
                                     String jobRateType = String.valueOf(v.get(8));
                                     String jobRate = String.valueOf(v.get(9));
                                     String jobStatus = String.valueOf(v.get(10));
-                                    
-                                    if(!jobStatus.equals("Completed")){
+                                   
                         %>
                        <div class="col-xl-4 col-md-4 col-4 d-block d-lg-none d-xl-block list-item">
-                        <div class="card card-product">
+                        <div class="card card-product box">
                           <div class="card-body">
                               <div class="row" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>'">
                                   
@@ -255,6 +258,13 @@
                                   
                                     <div class="col-xl-8 col-md-8 col-8">
                                         <span class="jobTitle" style="font-size: 18px;"><strong><%= jobTitle%></strong></span>
+                                        <%if(jobStatus.equals("Available")){%>
+                                        <span class="bg-success text-white"><%=jobStatus%></span>
+                                        <%}else if(jobStatus.equals("Reserved")){%>
+                                        <span class="bg-warning text-white"><%=jobStatus%></span>
+                                        <%}else{%>
+                                        <span class="bg-secondary text-white"><%=jobStatus%></span>
+                                        <%}%>
                                         <p class="card-text"><%= jobCategoryName%></p>
                                         <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
                                     </div>
@@ -263,7 +273,7 @@
                         </div>
                         </div>
                         <%
-                                        }
+                                      
                                     }
                             }
                         %>

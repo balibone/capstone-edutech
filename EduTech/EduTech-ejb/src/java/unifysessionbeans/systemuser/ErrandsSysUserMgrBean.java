@@ -770,6 +770,27 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
     }
     
     @Override
+    public void setJobAsReserved(long jobID){
+        jEntity = lookupJob(jobID);
+        jEntity.setJobStatus("Reserved");
+        em.merge(jEntity);
+    }
+    
+    @Override
+    public void setJobAsCompleted(long jobID){
+        jEntity = lookupJob(jobID);
+        Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobOfferStatusForSender = 'Accepted' AND o.jobEntity.jobID = :jobID");
+        q.setParameter("jobID", jobID);
+        for(Object o: q.getResultList()){
+            JobOfferEntity jo = (JobOfferEntity) o;
+            jo.setJobOfferStatusForPoster("Completed");
+            jo.setJobOfferStatusForSender("Completed");
+        }
+        jEntity.setJobStatus("Completed");
+        em.merge(jEntity);
+    }
+    
+    @Override
     public String acceptJobOffer(long jobOfferID, String username){
         
         Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobOfferID = :offerID");

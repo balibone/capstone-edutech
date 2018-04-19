@@ -200,6 +200,24 @@ public class ErrandsSysUserController extends HttpServlet {
                     request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
                     pageAction = "ViewJobOfferDetailsSYS";
                     break;
+                case "setJobAsReserved":
+                    esmr.setJobAsReserved(Long.parseLong(request.getParameter("jobID")));
+                    request.setAttribute("message", "");
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
+                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, Long.parseLong(request.getParameter("jobID"))));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
+                    pageAction = "ViewJobOfferDetailsSYS";
+                    break;
+                case "setJobAsCompleted":
+                    esmr.setJobAsCompleted(Long.parseLong(request.getParameter("jobID")));
+                    request.setAttribute("message", "");
+                    request.setAttribute("jobListSYS", (ArrayList)esmr.viewUserJobList(loggedInUsername));
+                    request.setAttribute("jobOfferList", (ArrayList)esmr.viewOfferListOfAJob(loggedInUsername, Long.parseLong(request.getParameter("jobID"))));
+                    request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
+                    request.setAttribute("unreadNotificationCount", usmr.getUnreadNotificationCount(loggedInUsername));
+                    pageAction = "ViewJobOfferDetailsSYS";
+                    break;
                 case "acceptJobOffer":
                     long offerID = Long.parseLong(request.getParameter("offerID"));
                     long relevantJob = Long.parseLong(request.getParameter("jobId"));
