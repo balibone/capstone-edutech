@@ -61,13 +61,13 @@ class GroupCalendar extends Component {
   }
 
   eventStyleGetter(event) {
-  	const backgroundColor = event.hexColor;
-  	const style = {
+    const backgroundColor = event.hexColor;
+    const style = {
         backgroundColor,
         border: `1px solid ${backgroundColor}`,
-  	};
-  	return { style };
-	}
+    };
+    return { style };
+  }
 
   handleSelectSlot(slotInfo) {
     this.setState({
@@ -141,8 +141,9 @@ class GroupCalendar extends Component {
     if (this.props.viewChart) {
       return (
         <FlatButton
+          style={{marginTop: '-20px'}}
           secondary
-          label="View Chart"
+          label="Visualise Commitment"
           icon={<i className="fas fa-chart-bar" />}
           onClick={() => this.setState({ openChartDialog: true })}
         />
@@ -166,7 +167,7 @@ class GroupCalendar extends Component {
     );
   }
 
-	render() {
+  render() {
     const scheduleItems = this.state.groupItemsOnly ?
       GroupScheduleItemStore.groupItems : GroupScheduleItemStore.scheduleItems;
     if (!scheduleItems || scheduleItems.length < 1) {
@@ -184,7 +185,7 @@ class GroupCalendar extends Component {
           <BigCalendar
             events={events}
             views={['month', 'week', 'day']}
-            defaultView={localStorage.getItem('defaultView') || 'week'}
+            defaultView={localStorage.getItem('defaultView') || 'month'}
             step={60}
             scrollToTime={new Date()}
             defaultDate={new Date(moment().startOf('day').toString())}
@@ -201,8 +202,8 @@ class GroupCalendar extends Component {
         { this.renderViewScheduleItemDialog() }
         { this.renderChartDialog() }
       </div>
-		);
-	}
+    );
+  }
 }
 
 export default GroupCalendar;

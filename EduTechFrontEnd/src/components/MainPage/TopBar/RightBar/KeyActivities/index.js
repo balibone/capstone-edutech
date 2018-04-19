@@ -3,17 +3,21 @@ import { Wave } from 'better-react-spinkit';
 import { Paper, List, ListItem, Subheader, Avatar, Divider } from 'material-ui';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
+import { observer } from 'mobx-react';
+import { toJS } from 'mobx';
 
 import {USER_IMAGE_PATH} from '../../../../../utils/constants';
 import AnnouncementStore from '../../../../../stores/AnnouncementStore/AnnouncementStore';
 import './styles.css';
 
+@observer
 export default class KeyActivities extends Component {
   componentWillMount() {
     AnnouncementStore.populateAnnouncements(localStorage.getItem('username'));
   }
   renderNotifications() {
-    return AnnouncementStore.announcements.map(announcement => (
+    const sortedAnnouncements = toJS(AnnouncementStore.announcements).reverse();
+    return sortedAnnouncements.map(announcement => (
       <div>
         <ListItem
           containerElement={<Link to={announcement.path} />}

@@ -154,7 +154,7 @@ class RightPanel extends Component {
       </Dialog>
     );
   }
-  renderGroupDescription() {
+  renderModuleDescription() {
     if (this.state.editView) {
       return (
         <FormControl
@@ -180,7 +180,9 @@ class RightPanel extends Component {
             <Paper className="moduleInfo">
               <Row className="sideTopSection">
                 <h2> {moduleCode} </h2>
-                {this.renderGroupDescription()}
+                <div style={{ padding: '10px 25px' }}>
+                  {this.renderModuleDescription()}
+                </div>
                 <br />
                 <RaisedButton label="View Members" onClick={() => this.setState({ openMembersDialog: true })} />
                 <br />

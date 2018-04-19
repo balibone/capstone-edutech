@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Avatar, Divider, Tabs, Tab } from 'material-ui';
 
+import AnnouncementStore from '../../stores/AnnouncementStore/AnnouncementStore';
 import GroupStore from '../../stores/GroupStore/GroupStore';
 import { HOST_NAME, USER_IMAGE_PATH, STUDENT_PRIMARY1_COLOR } from '../../utils/constants';
 
@@ -34,6 +35,15 @@ export default class CollabScene extends Component {
     });
   }
 
+  pushAnnouncement(collabGroup) {
+    AnnouncementStore.postAnnouncement(
+      collabGroup.title,
+       'Entered Collab Room',
+       collabGroup.members,
+       `/room/${collabGroup.id}`,
+    );
+  }
+
   renderOnlineUsers() {
     return this.state.onlineUsers.map(user => (
       <div className="singleOnlineUser" key={user.username}>
@@ -47,6 +57,9 @@ export default class CollabScene extends Component {
     if (!GroupStore.doneFetchingCollabGroup) {
       return '';
     }
+
+    this.pushAnnouncement(GroupStore.collabGroup);
+
 
     console.log('curuser', JSON.parse(localStorage.getItem('currentUser')));
     console.log('members', GroupStore.collabGroup.members);
