@@ -1336,9 +1336,13 @@ public class ContentAdminMgrBean implements ContentAdminMgrBeanRemote {
             mEntity = new MessageEntity();
 
             String eventTitle = erEntity.getEventRequestTitle(Long.parseLong(eventID));
+            
+            if(status.equals("reject")){
+                status = "rejected";
+            }
 
             mEntity.createContentMessage(messageSenderID, messageReceiverID,
-                    "Event: "+eventTitle + " (Request ID: " + eventID + ") was " + status + " by the administrator.",
+                    "Event: "+eventTitle + " was " + status + " by the administrator.",
                     Long.parseLong(eventID), "System");
 
             UserEntity user = lookupUnifyUser(messageSenderID);
