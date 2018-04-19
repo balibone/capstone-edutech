@@ -245,7 +245,7 @@
                         </ul>
                         
                         <!-- Modal -->
-                        <div class="modal fade" id="reportJobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal fade" id="reportJobModal" tabindex="-1" role="dialog" aria-labelledby="reportJobModal" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
@@ -281,10 +281,10 @@
                         <span id="success"></span>
                         </div>
                     
-                        <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0; display: none;">
+                        <%--<div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0; display: none;">
                         <button type="button" class="close" id="closeError">&times;</button>
                         <span id="error"></span>
-                        </div>
+                        </div>--%>
                    
                         <span class="border-top-0" id="job_title" style="margin-left: 10px;"><strong><%= jobTitle%></strong></span><br/>
                         <table class="job-information" style="margin-left: 10px;">
@@ -378,7 +378,10 @@
                                       <span aria-hidden="true">&times;</span>
                                     </button>
                                   </div>
-                                    <span id="successOfferResponse"></span><span id="failedOfferResponse"></span>
+                                  <div class="alert alert-danger" id="errorPanel" style="margin: 10px 0 30px 0; display: none;">
+                                    <button type="button" class="close" id="closeError">&times;</button>
+                                    <span id="error"></span>
+                                  </div>
                                  <form id="offerDetails">
                                    <div class="modal-body">
                                       <div class="form-group row">
@@ -407,7 +410,6 @@
                             </div>
                             
                             <%  }else if(offerStatus.equals("Accepted")){ %>
-                                 <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Poster</button>
                                  <% if(checking.equals("false")){ %>
                                  <a role="button" href="ErrandsSysUser?pageTransit=completeJobTransaction&jobID=<%=jobID%>&category=<%=categoryName%>&signatureImg=no" class="btn btn-outline-theme"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;Complete Job</a>   
                                  <% }else{ %>
@@ -415,10 +417,11 @@
                             <%    }
                                 }else if(offerStatus.equals("Completed")){
                               %>
-                                <button type="button" class="btn btn-outline-theme"><i class="fa fa-comment"></i>&nbsp;&nbsp;Chat with Seller</button>
+                                
                                 <button type="button" class="btn btn-outline-theme" disabled><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;The Job Is Completed</button>
                             <% } %>
-                            <% } %>  
+                            <% } %> 
+                            
                             <%if(likeStatus.equals("true")) {   %>
                             <button type="button" id="likeJobBtn" class="btn btn-outline-theme likeStatus" data-toggle="tooltip" data-placement="top" title="Unlike this job"><i class="fa fa-heart"></i>&nbsp; <span class="likeCount"><%= numOfLikes%></span></button>
                             <%  } else if(likeStatus.equals("false")) {    %>
@@ -549,7 +552,7 @@
                                                 </a>
                                                 <div class="tools tools-bottom" data-animate-in="fadeInDown" data-animate-out="flipOutX">
                                                     <div class="btn-group" role="group" aria-label="card-product-tools">
-                                                        <button class="btn btn-link btn-sm">Chat with Seller</button>
+                                                        
                                                         <button class="btn btn-link btn-sm d-none d-md-inline-block"><i class="fa fa-heart"></i></button>
                                                     </div>
                                                 </div>

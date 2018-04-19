@@ -209,51 +209,7 @@
 
             <div id="contentArea" class="container jplist mb-3">
                 <div class="row">
-                    <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                        <div class="card user-card">
-                            <%
-                                Vector userAccountVec = (Vector) request.getAttribute("userAccountVec");
-                                String username, userFirstName, userLastName, userImage, userCreationDate;
-                                username = userFirstName = userLastName = userImage = userCreationDate = "";
-
-                                if (userAccountVec != null) {
-                                    username = (String) userAccountVec.get(0);
-                                    userFirstName = (String) userAccountVec.get(1);
-                                    userLastName = (String) userAccountVec.get(2);
-                                    userImage = (String) userAccountVec.get(3);
-                                    userCreationDate = (String.valueOf(userAccountVec.get(4)));
-                                }
-                            %>
-                            <div class="card-body p-2 mb-3 mb-md-0 mb-xl-3">
-                                <div class="media">
-                                    <img class="img-thumbnail" src="uploads/commoninfrastructure/admin/images/<%= userImage%>" style="width:50px;height:50px;"/>
-                                    <div class="media-body ml-2">
-                                        <h5 class="user-name"><strong><%= userFirstName%>&nbsp;<%= userLastName%></strong></h5>
-                                        <p>@<%= username%></p>
-                                        <small class="card-text text-muted mt-2">Joined <%= userCreationDate%></small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group list-group-flush">
-                                <a href="ErrandsSysUser?pageTransit=goToViewJobOfferList&username=<%=loggedInUsername%>" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I received)
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToViewMyJobOfferSYS" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Offers (I made)
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMyJobListing" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;&nbsp;Your Job Listing
-                                </a>
-                                <a href="ProfileSysUser?pageTransit=goToMarketplaceTrans" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Transaction
-                                </a>
-                                <a href="account-address.html" class="list-group-item list-group-item-action">
-                                    <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Transaction
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-md-8">
+                    <div class="col-lg-12 col-md-12">
                         <div class="title"><span>Job Offers(I've made)</span></div>
                         <div class="jplist-search sorting-bar">
                             <div class="mr-3 jplist-drop-down" remove-class-on-xs="mr-3" add-class-on-xs="w-100" 
@@ -282,8 +238,8 @@
                             <div class="list searchresult-row">
                                 <div class="col-xl-12 col-md-312 col-12 d-block d-lg-none d-xl-block">
                                 <table class="table-header">
-                                    <col width="420">
-                                    <col width="400">
+                                    <col width="620">
+                                    <col width="620">
                                     <tr>
                                         <th>Job Info</th>
                                         <th>My Offer</th>

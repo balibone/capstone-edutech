@@ -319,7 +319,7 @@
                                                             </div>
                                                            
                                                             <div class="col-sm-3">
-                                                                <input type="number" min="0" class="form-control" id="jobRate" name="jobRate" placeholder="Job Rate(S$)"/>
+                                                                <input type="number" step="0.1" min="0" class="form-control" id="jobRate" name="jobRate" placeholder="Job Rate(S$)"/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">

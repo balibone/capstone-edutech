@@ -116,7 +116,7 @@
                 </td>
             </tr>
             <tr style="text-align: center;">
-                <% if(!jobStatus.equals("Completed")) {%>
+                <% if(!jobStatus.equals("Completed") && !jobStatus.equals("Delisted")) {%>
                 <td colspan="2">
                     <%--<button type="button" class="btn btn-primary" onclick="return confirm('Do you really want to delete the job?'); return window.open('', '_parent');">Delete Job</button>&nbsp;&nbsp;--%>
                     <form target="_parent" method="post" action="ErrandsAdmin?pageTransit=deleteAJob&jobID=<%= request.getAttribute("urlJobID")%>" onsubmit="return confirm('Are you sure to delete the job?');">

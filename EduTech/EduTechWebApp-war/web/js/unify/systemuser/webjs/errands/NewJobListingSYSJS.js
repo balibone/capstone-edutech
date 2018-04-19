@@ -137,6 +137,8 @@ $("input[type='text']").on("keyup", function(){
         
     }
 });
+
+$("input[name='workDate']").keydown(false);
     
 
 var jobRateInput = document.getElementById('jobRate');
@@ -153,7 +155,7 @@ jobRateInput.onkeydown = function(e) {
 
 helperInput.onkeydown = function(e) {
     if(!((e.keyCode > 95 && e.keyCode < 106)
-      || (e.keyCode > 47 && e.keyCode < 58) 
+      || (e.keyCode > 48 && e.keyCode < 58) 
       || e.keyCode == 8)) {
         return false;
     }

@@ -53,14 +53,15 @@ $(document).ready(function () {
                 pageTransit: 'createJobReview'
             },
             success: function(returnString){
+                
                 if(returnString.endsWith("!")){
                     $('#successPanel').css('display','block');
                     $('#success').text(returnString);
                 }else{
                     $('#errorPanel').css('display','block');
                     $('#error').text(returnString);
-                   
                 }
+                
             }
         });
     });
@@ -78,6 +79,7 @@ $(document).ready(function () {
                 pageTransit: 'createJobReview'
             },
             success: function(returnString){
+                //window.location.reload();
                 if(returnString.endsWith("!")){
                     $('#successPanel').css('display','block');
                     $('#success').text(returnString);
@@ -86,12 +88,13 @@ $(document).ready(function () {
                     $('#error').text(returnString);
                    
                 }
+                
             }
         });
     });
     
-    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
-    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); });
+    $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); window.location.reload();});
+    $('#closeError').click(function() { $('#errorPanel').fadeOut(300); window.location.reload();});
     
 });
 

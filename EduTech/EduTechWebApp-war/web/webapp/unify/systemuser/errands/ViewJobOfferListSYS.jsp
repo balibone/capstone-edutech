@@ -211,10 +211,10 @@
             </div>
             
             <div class="row justify-content-center">
-                <div class="col-lg-3 col-md-3 ">
+                <div class="col-lg-10 col-md-10 ">
                     <div id="contentArea" class="container jplist">
                       <div class="jplist-search">
-                        <div class="title"><span>Job List</span></div>
+                        <div class="title"><span>Job List (Browse the job to view the offer list! )</span></div>
                         <input type="text" data-path=".jobTitle" class="form-control" placeholder="Search Job ..." 
                                                aria-label="Search Job ..." data-control-type="textbox" 
                                                data-control-name="transmission-text-filter" data-control-action="filter" />
@@ -242,19 +242,19 @@
                                     
                                     if(!jobStatus.equals("Completed")){
                         %>
-                       <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
+                       <div class="col-xl-4 col-md-4 col-4 d-block d-lg-none d-xl-block list-item">
                         <div class="card card-product">
                           <div class="card-body">
                               <div class="row" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>'">
                                   
                                     <div class="col-xl-4 col-md-4 col-4">
                                         <a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">
-                                        <img src="uploads/unify/images/errands/job/<%= jobImage%>" style="height: 70px; width: 70px;">
+                                        <img src="uploads/unify/images/errands/job/<%= jobImage%>" style="height: 85px; width: 85px;">
                                         </a>
                                     </div>
                                   
                                     <div class="col-xl-8 col-md-8 col-8">
-                                        <span class="jobTitle"><strong><%= jobTitle%></strong></span>
+                                        <span class="jobTitle" style="font-size: 18px;"><strong><%= jobTitle%></strong></span>
                                         <p class="card-text"><%= jobCategoryName%></p>
                                         <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
                                     </div>
@@ -275,10 +275,7 @@
                     </div>
                     </div>
                 </div>
-                    
-                <div class="col-lg-7 col-md-7 ml-1">
-                     <div style="vertial-align: center">Browse the job lists to view the offers that you received!</div>   
-                </div>
+                
                 
             </div>
         </div>

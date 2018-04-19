@@ -75,34 +75,21 @@ function erase() {
         ctx.clearRect(0, 0, w, h);
         document.getElementById("canvasimg").style.display = "none";
     }
-}
-
-/*function save() {
- document.getElementById("canvasimg").style.border = "2px solid";
- var jobID = document.getElementById("hiddenJobID").value;
- var username = document.getElementById("hiddenUsername").value;
- var dataURL = canvas.toDataURL();
- document.getElementById("canvasimg").src = dataURL;
- document.getElementById("canvasimg").style.display = "inline";
- location.href = "ErrandsSysUser?pageTransit=completeJobTransaction&jobID=" + jobID + "&username=" + username + "&signatureImg=" + dataURL;
- }*/
-
-function findxy(res, e) {
-    if (res == 'down') {
-        prevX = currX;
-        prevY = currY;
-        currX = e.clientX - canvas.offsetLeft;
-        currY = e.clientY - canvas.offsetTop;
-
-        flag = true;
-        dot_flag = true;
-        if (dot_flag) {
-            ctx.beginPath();
-            ctx.fillStyle = x;
-            ctx.fillRect(currX, currY, 2, 2);
-            ctx.closePath();
-            dot_flag = false;
-        }
+    
+    function draw() {
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(currX, currY);
+        ctx.strokeStyle = x;
+        ctx.lineWidth = y;
+        ctx.stroke();
+        ctx.closePath();
+    }
+    
+    function erase() {
+        ctx.clearRect(0, 0, w, h);
+        document.getElementById("canvasimg").style.display = "none";
+        $("#saveBtn").prop('disabled', true);
     }
     if (res == 'up' || res == "out") {
         flag = false;
@@ -116,22 +103,35 @@ function findxy(res, e) {
             draw();
         }
     }
-}
-
-$(document).on('click', '#saveBtn', function () {
-    var dataURL = canvas.toDataURL();
-
-    $.ajax({
-        type: "POST",
-        url: "ErrandsSysUser",
-        data: {
-            jobID: $('#hiddenJobID').val(),
-            category: $('#hiddenCategory').val(),
-            signatureImg: dataURL,
-            pageTransit: 'completeJobTransaction'
-        },
-        success: function () {
-            window.parent.location.assign("ErrandsSysUser?pageTransit=goToJobDetailsAfterSign&jobID=" + $('#hiddenJobID').val() + "&category=" + $('#hiddenCategory').val());
-        }
-    });
+    
+$(document).on('click', '#saveBtn', function() {
+        
+        var dataURL = canvas.toDataURL();
+        
+        $.ajax({
+            type: "POST",
+            url: "ErrandsSysUser",
+            data: { 
+                jobID: $('#hiddenJobID').val(),
+                category: $('#hiddenCategory').val(),
+                signatureImg: dataURL,
+                pageTransit: 'completeJobTransaction'
+            },
+            success: function(){
+                window.parent.location.assign("ErrandsSysUser?pageTransit=goToJobDetailsAfterSign&jobID=" + $('#hiddenJobID').val() + "&category=" + $('#hiddenCategory').val());
+            }
+        });  
+        
+ });
+ 
+$('#can').on('mousedown', function(){
+    $("#saveBtn").prop('disabled', false);
 });
+
+$('#can').on('mouseup', function(){
+    $("#saveBtn").prop('disabled', false);
+});
+
+
+
+

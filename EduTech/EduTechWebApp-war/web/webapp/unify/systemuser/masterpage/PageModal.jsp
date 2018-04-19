@@ -4,6 +4,7 @@
     <head>
         <style type="text/css">
             .cursorPointer { cursor: pointer; }
+            .box{ cursor: pointer; }
         </style>
     </head>
     <body>
@@ -155,7 +156,7 @@
                   <div class="modal-body">
                      <div class="row">
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToMyJobListing';">
+                                <div class="card text-center mb-3 bg-light text-dark box" onclick="window.location = 'ProfileSysUser?pageTransit=goToMyJobListing';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-shopping-cart display-2"></i></h1>
                                         <h6>My Listings</h6>
@@ -163,7 +164,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToErrandsTrans';">
+                                <div class="card text-center mb-3 bg-light text-dark box" onclick="window.location = 'ProfileSysUser?pageTransit=goToErrandsTrans';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-book display-2"></i></h1>
                                         <h6>My Transactions</h6>
@@ -171,7 +172,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToUserJobWishlistSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark box" onclick="window.location = 'ProfileSysUser?pageTransit=goToUserJobWishlistSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-heart display-2"></i></h1>
                                         <h6>My Wishlist</h6>
@@ -179,7 +180,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToViewMyJobOfferSYS';">
+                                <div class="card text-center mb-3 bg-light text-dark box" onclick="window.location = 'ProfileSysUser?pageTransit=goToViewMyJobOfferSYS';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-edit display-2"></i></h1>
                                         <h6>My Offers</h6>
@@ -187,7 +188,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ErrandsSysUser?pageTransit=goToViewJobOfferList';">
+                                <div class="card text-center mb-3 bg-light text-dark box" onclick="window.location = 'ErrandsSysUser?pageTransit=goToViewJobOfferList';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-bullhorn display-2"></i></h1>
                                         <h6>Errands Offers</h6>
@@ -195,7 +196,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToViewJobReviewList';">
+                                <div class="card text-center mb-3 bg-light text-dark box" onclick="window.location = 'ProfileSysUser?pageTransit=goToViewJobReviewList';">
                                     <div class="card-block card-title mt-5 mb-5">
                                         <h1 class="mb-3"><i class="fa fa-file-text-o" aria-hidden="true"></i></h1>
                                         <h6>Errands Review</h6>
@@ -207,7 +208,7 @@
               </div>
             </div>
            </div>
-        
+        <!-- End of Errands Modal-->
         
         <div class="modal fade" id="voicesModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width: 1200px;">
                 <div class="modal-dialog modal-dialog-centered" role="document">

@@ -23,11 +23,21 @@ $(document).ready(function () {
             window.open('ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS', '_self');
         } else if (msgType.indexOf('Marketplace (Item Like)') >= 0) {
             window.open('MarketplaceSysUser?pageTransit=goToMsgViewItemDetailsSYS&itemHidID=' + msgContentID, '_self');
-        } else if (msgType.indexOf('Errands') >= 0) {
-            window.open('ProfileSysUser?pageTransit=', '_self');
         } else if (msgType.indexOf('Voices') >= 0) {
             //window.open('ProfileSysUser?pageTransit=', '_self');
+        } else if (msgType.indexOf('Errands (Job Report)') >=0 || msgType.indexOf('Errands (Job Like)') >=0){
+            window.open('ErrandsSysUser?pageTransit=goToMsgViewJobDetailsSYS&hiddenJobID=' + msgContentID, '_self');
+        } else if (msgType.indexOf('Errands (Job Offer)') >=0) {
+            window.open('ErrandsSysUser?pageTransit=goToViewJobOfferDetails&jobID=' + msgContentID, '_self');
+        } else if (msgType.indexOf('Errands (My Job Offer)') >=0) {
+            window.open('ProfileSysUser?pageTransit=goToViewMyJobOfferSYS', '_self');
+        } else if (msgType.indexOf('Errands (Job Completion)') >=0) {
+            window.open('ProfileSysUser?pageTransit=goToErrandsTrans', '_self');
+        } else if (msgType.indexOf('Errands (Job Review)') >=0) {
+            window.open('ProfileSysUser?pageTransit=goToViewJobReviewList', '_self');
         }
+        
+        
         }
     });
     

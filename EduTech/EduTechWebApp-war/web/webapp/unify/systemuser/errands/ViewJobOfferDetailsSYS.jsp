@@ -219,70 +219,8 @@
             </div>
             
             <div class="row justify-content-center" >
-                <div class="col-lg-3 col-md-3 ">
-                    <div id="contentArea" class="container jplist">
-                      <div class="jplist-search">
-                        <div class="title"><span>Job List</span></div>
-                        <input type="text" data-path=".jobTitle" class="form-control" placeholder="Search Job ..." 
-                                               aria-label="Search Job ..." data-control-type="textbox" 
-                                               data-control-name="transmission-text-filter" data-control-action="filter" />
-                      </div>
-                        <br/>
-                      <div id="itemListing" class="row equal-height" add-class-on-xs="no-gutters">
-                      <div class="list searchresult-row">
-                        <%
-                            ArrayList<Vector> jobList = (ArrayList)request.getAttribute("jobListSYS");
-                            if (jobList.size()!=0) {
-                                for (int i = 0; i <= jobList.size() - 1; i++) {
-                                    Vector v = jobList.get(i);
-                                            
-                                    String jobID = String.valueOf(v.get(0));
-                                    String jobImage = String.valueOf(v.get(1));
-                                    String jobTitle = String.valueOf(v.get(2));
-                                    String jobCategoryName = String.valueOf(v.get(3));
-                                    String jobPosterName = String.valueOf(v.get(4));
-                                    //String jobPostDate = String.valueOf(v.get(5));
-                                    //String jobWorkDate = String.valueOf(v.get(6));
-                                    //String startLocation = String.valueOf(v.get(7));
-                                    String jobRateType = String.valueOf(v.get(8));
-                                    String jobRate = String.valueOf(v.get(9));
-                                    //String numOfLikes = String.valueOf(v.get(10));
-                                    String jobStatus = String.valueOf(v.get(10));
-                                    
-                                    if(!jobStatus.equals("Completed")){
-                        %>
-                       <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
-                        <div class="card card-product">
-                          <div class="card-body">
-                              <div class="row" onclick="location.href='ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>'">
-                                  <%--<a href="ErrandsSysUser?pageTransit=goToViewJobOfferDetails&hiddenUserName=<%= jobPosterName%>&jobID=<%= jobID%>">--%>
-                                    
-                                    <div class="col-xl-4 col-md-4 col-4">
-                                        <img src="uploads/unify/images/errands/job/<%= jobImage%>" style="height: 70px; width: 70px;">
-                                    </div>
-                                    
-                                    <div class="col-xl-8 col-md-8 col-8">
-                                        <span class="jobTitle" ><strong><%= jobTitle%></strong></span>
-                                        <p class="card-text"><%= jobCategoryName%></p>
-                                        <p class="card-text">S$<%= jobRate%>/<%= jobRateType%></p>
-                                    </div>
-                                </div>
-                           </div>
-                        </div>
-                        </div>
-                        <% }
-                                    }
-                            }
-                        %>
-                    </div>
-                    </div>
-                    
-                    <div class="box jplist-no-results text-shadow align-center">
-                            <p><strong>No results found. Please refine your search.</strong></p>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-lg-7 col-md-7 ml-1">
+                
+                <div class="col-lg-10 col-md-10 ml-1">
                     <div class="title"><span>Job Info</span></div>
                     <%
                         ArrayList<Vector> offerList = (ArrayList)request.getAttribute("jobOfferList");
@@ -340,11 +278,11 @@
                                 %>
                             <div class="list">
                             <table class="table table-striped" id="offer-table" style="font-size: 13px;">
-                                <col width="120">
-                                <col width="70">
-                                <col width="105">
-                                <col width="55">
                                 <col width="90">
+                                <col width="70">
+                                <col width="120">
+                                <col width="55">
+                                <col width="120">
                                 <thead>
                                   <tr>
                                     <th scope="col">The Offer is Made by</th>
@@ -395,11 +333,11 @@
                                         <%
                                             }else if(offerStatus.equals("Pending") || offerStatus.equals("Negotiating")){
                                         %>
-                                        <a role="button" class="btn btn-success" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Accept</span></a>
+                                        <a role="button" class="btn btn-success" onclick="return confirm('Are you sure to accept the offer?')" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Accept</span></a>
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#negotiateMessage<%=i%>"><span style="color: white; font-size: 12px;">Negotiate</span></button>
-                                        <a role="button" class="btn btn-danger" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Reject</span></a>
+                                        <a role="button" class="btn btn-danger" onclick="return confirm('Are you sure to reject the offer?')" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Reject</span></a>
                                         <% }else if(offerStatus.equals("Accepted")){ %>
-                                        <a role="button" class="btn btn-danger" href="ErrandsSysUser?pageTransit=rejectJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Reject</span></a>
+                                        <span>No Action Required.</span>
                                         <% }else if(offerStatus.equals("Rejected")){ %>
                                         <a role="button" class="btn btn-success" href="ErrandsSysUser?pageTransit=acceptJobOffer&offerID=<%=jobOfferID%>&username=<%=loggedInUsername%>&jobId=<%=jobID%>"><span style="font-size: 12px;">Accept</span></a>
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#negotiateMessage<%=i%>"><span style="color: white; font-size: 12px;">Negotiate</span></button>
