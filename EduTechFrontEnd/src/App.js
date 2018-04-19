@@ -5,7 +5,7 @@ import { teal500, teal700, orangeA200 } from 'material-ui/styles/colors';
 import { Snackbar } from 'material-ui';
 import { BrowserRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { Wave } from 'better-react-spinkit';
+import { FadingCircle } from 'better-react-spinkit';
 
 import MainPage from './components/MainPage';
 import TaskStore from './stores/TaskStore/TaskStore';
@@ -50,13 +50,11 @@ class App extends Component {
     if (!GroupStore.donePopulating || !ScheduleItemStore.donePopulating
       || !TaskStore.donePopulating || !ModuleStore.donePopulating) {
         return (
-          <div className="fakeBody mainContent">
-            <div className="initialSpinner">
-              <center>
-                <Wave size={100} />
+          <div className="fakeBody">
+            <center>
+                <FadingCircle size={100} />
                 <span className="spinnerText">Loading...</span>
-              </center>
-            </div>
+            </center>
           </div>
         );
       }

@@ -8,11 +8,12 @@ import momentLocalizer from 'react-widgets-moment';
 import { Link } from 'react-router-dom';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-widgets/dist/css/react-widgets.css';
-
+import {Col} from 'react-bootstrap';
 import AddScheduleItemDialog from './AddScheduleItemDialog';
 import SingleScheduleItemDialog from './SingleScheduleItemDialog';
 import ScheduleItemStore from '../../../stores/ScheduleItemStore/ScheduleItemStore';
 import { setScheduleItemsColor } from '../../../utils/helpers';
+import { TIMETABLE_ITEM_COLOR, PERSONAL_ITEM_COLOR, MEETING_ITEM_COLOR, TASK_ITEM_COLOR, ASSESSMENT_ITEM_COLOR } from '../../../utils/constants';
 import './style.css';
 
 moment.locale('en');
@@ -172,9 +173,35 @@ class MyCalendar extends Component {
             popup
           />
         </div>
+        <div style={{position: 'absolute', bottom: '20px', width: '100%'}}>
+          <center>
+            <Col md={1} />
+            <Col md={2}>
+              <div style={{ float: 'left', height: '10px', width: '10px', backgroundColor: PERSONAL_ITEM_COLOR }}/>
+              <div style={{marginTop: '-5px'}}>Personal</div>
+            </Col>
+            <Col md={2}>
+              <div style={{ float: 'left', height: '10px', width: '10px', backgroundColor: MEETING_ITEM_COLOR }}/>
+              <div style={{marginTop: '-5px'}}>Meeting</div>
+            </Col>
+            <Col md={2}>
+              <div style={{ float: 'left', height: '10px', width: '10px', backgroundColor: TASK_ITEM_COLOR }}/>
+              <div style={{marginTop: '-5px'}}>Deadline</div>
+            </Col>
+            <Col md={2} style={{padding: 0}}>
+              <div style={{ float: 'left', height: '10px', width: '10px', backgroundColor: ASSESSMENT_ITEM_COLOR }}/>
+              <div style={{marginTop: '-5px'}}>Assessment</div>
+            </Col>
+            <Col md={2}>
+              <div style={{ float: 'left', height: '10px', width: '10px', backgroundColor: TIMETABLE_ITEM_COLOR }}/>
+              <div style={{marginTop: '-5px'}}>Timetable</div>
+            </Col>
+          </center>
+        </div>
         { this.renderAddScheduleItemDialog() }
         { this.renderViewScheduleItemDialog() }
         { this.renderExpandViewButton() }
+
       </Paper>
 		);
 	}
