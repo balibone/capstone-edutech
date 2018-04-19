@@ -35,3 +35,28 @@
 .calendarDateFormField {
   margin: 0 3px;
 }
+
+
+.legend-meeting{
+  height: 10px;
+  width: 30px;
+  background-color: #FF8C00;
+}
+
+.legend-timetable{
+  height: 10px;
+  width: 30px;
+  background-color: #9932CC;
+}
+
+.legend-assessment{
+  height: 10px;
+  width: 30px;
+  background-color: #00BFFF;
+}
+
+.legend-task{
+  height: 10px;
+  width: 30px;
+  background-color: #800000;
+}
