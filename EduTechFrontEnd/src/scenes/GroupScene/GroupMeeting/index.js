@@ -104,6 +104,30 @@ class GroupMeeting extends Component {
       </Paper>
     );
   }
+
+  renderMeetings(groupMeetings) {
+    if(!groupMeetings || groupMeetings.length < 1) {
+      return (
+        <div className="feedEmptyState">
+          <i className="fas fa-handshake-o fa-10x" />
+          <p className="lead standardTopGap"> No Meetings</p>
+          <p className="lead"> Set one up when you need to!</p>
+        </div>
+      )
+    }
+    return (
+      groupMeetings.map((meeting) => {
+        return (<MeetingCard
+          key={meeting.id}
+          meeting={meeting}
+          groupId={this.props.groupId}
+          openMinutePage={() => this.openMinutePage()}
+          closeMinutePage={() => this.closeMinutePage()}
+          />);
+      })
+    );
+  }
+
   renderCreateButton() {
     const groupMeetings = GroupScheduleItemStore.meetingItems;
     return (
@@ -116,15 +140,7 @@ class GroupMeeting extends Component {
             icon={<ContentAddCircle />}
         />
         {
-            groupMeetings.map((meeting) => {
-              return (<MeetingCard
-                key={meeting.id}
-                meeting={meeting}
-                groupId={this.props.groupId}
-                openMinutePage={() => this.openMinutePage()}
-                closeMinutePage={() => this.closeMinutePage()}
-                />);
-            })
+            this.renderMeetings(groupMeetings)
         }
       </div>
       )

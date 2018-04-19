@@ -64,7 +64,7 @@ export default class LeftBar extends Component {
     if (modules && modules.length > 0) {
       const moduleListItems = [];
       for (let i = 0; i < modules.length; i += 1) {
-        moduleListItems.push(<ListItem primaryText={modules[i].moduleCode} key={modules[i].moduleCode} containerElement={<Link to={`/module/${modules[i].moduleCode}?tabKey=Conversations`} />} />); // eslint-disable-line
+        moduleListItems.push(<ListItem primaryText={modules[i].moduleCode} key={modules[i].moduleCode} containerElement={<Link to={`/module/${modules[i].moduleCode}`} />} />); // eslint-disable-line
       }
 
       return (

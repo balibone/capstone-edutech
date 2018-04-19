@@ -61,7 +61,13 @@ class AssignmentListView extends Component {
 		return (
 			<div className="standardTopGap">
 			{
-				(assignmentList.length > 0) ? (<h4>Students Submissions</h4>) : ''
+				(assignmentList.length > 0) ? (<h4>Students Submissions</h4>) : (
+					<div className="feedEmptyState">
+						<i className="fas fa-briefcase fa-10x" />
+						<p className="lead standardTopGap"> No Assignments</p>
+						<p className="lead"> Enjoy.... for now. </p>
+					</div>
+				)
 			}
 				<PanelGroup accordion id="accordion-example">
 					{this.renderAssignment(assignmentList)}
