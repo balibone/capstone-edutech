@@ -62,7 +62,7 @@ function bookmarkAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    setTimeout(window.location.reload(true),10);
+    setTimeout(window.location.reload(true),15);
     //window.location.reload(true);
     //$('#bookmark-alert').iziModal('open', event);
 }
@@ -84,7 +84,7 @@ function unbookmarkAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    setTimeout(window.location.reload(true),10);
+    setTimeout(window.location.reload(true),15);
     //window.location.reload(true);
     //$('#unbookmark-alert').iziModal('open', event);
 }
@@ -131,7 +131,7 @@ function likeAlert(shoutIDusername) {
 
     //$('#like-alert').iziModal('open', event);
 
-    setTimeout(window.location.reload(true),10);
+    setTimeout(window.location.reload(true),15);
     //window.location.reload(true);
 
 }
@@ -154,7 +154,7 @@ function unlikeAlert(shoutIDusername) {
     } else
         return [shoutIDusername];
 
-    setTimeout(window.location.reload(true),10);
+    setTimeout(window.location.reload(true),15);
     //window.location.reload(true);
     //$('#unlike-alert').iziModal('open', event);
 }
