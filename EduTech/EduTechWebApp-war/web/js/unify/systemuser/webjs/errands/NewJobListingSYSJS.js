@@ -26,6 +26,10 @@ $(document).ready(function () {
     map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
     basemap.addTo(map);
     
+    $("#collapseThree").on('shown.bs.collapse', function(e) {
+        map.invalidateSize(e);
+    });
+    
     $('#startLocation').keyup(function () {
         var baseHtml = 'https://developers.onemap.sg/commonapi/search?searchVal=';
         var location = $('#startLocation').val();
