@@ -19,7 +19,13 @@ class GroupingStudent extends Component {
     				: ''
     			))
     	}
-    	return (<span>No Assignments</span>)
+    	return (
+				<div className="feedEmptyState">
+								<i className="fas fa-group fa-10x" />
+								<p className="lead standardTopGap"> No Groupings</p>
+								<p className="lead"> Find other ways to be friends with your classmates. </p>
+							</div>
+						)
 	}
 
 	render() {

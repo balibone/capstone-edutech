@@ -66,22 +66,22 @@ export default class ModuleScene extends Component {
           <Col md={8}>
           <Paper>
             <Tabs value={this.state.activeTabKey} onChange={tabKey => this.setState({ activeTabKey: tabKey })}>
-              <Tab label="Conversations" value="Conversations" containerElement={<Link to={`/module/${moduleCode}?tabKey=Conversations`}/>}>
+              <Tab label="Conversations" value="Conversations">
                 <div className="tabContent">
                   <Feed pageId={moduleCode} scene="module" />
                 </div>
               </Tab>
-              <Tab label="Lessons" value="Lessons" containerElement={<Link to={`/module/${moduleCode}?tabKey=Lessons`}/>}>
+              <Tab label="Lessons" value="Lessons">
                 <div className="tabContent">
                   <Lesson />
                 </div>
               </Tab>
-              <Tab label="Assignments" value="Assignments" containerElement={<Link to={`/module/${moduleCode}?tabKey=Assignments`}/>}>
+              <Tab label="Assignments" value="Assignments">
                 <div className="tabContent">
                   <Assignment moduleCode={moduleCode} />
                 </div>
               </Tab>
-              <Tab label="Groupings" value="Groupings" containerElement={<Link to={`/module/${moduleCode}?tabKey=Groupings`}/>}>
+              <Tab label="Groupings" value="Groupings">
                 <div className="tabContent">
                   {this.renderGroupingPage()}
                 </div>

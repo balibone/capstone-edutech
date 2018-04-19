@@ -132,7 +132,7 @@ export default class GroupTask extends Component {
           <RaisedButton
             className="pull-right"
             label="Add Task"
-            primary
+            secondary
             onClick={() => this.addGroupTask()}
           />
           </Col>

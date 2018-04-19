@@ -126,7 +126,7 @@ export default class ViewScheduleItemDialog extends Component {
     const { id } = this.props.selectedEvent;
     const selectedScheduleItem = groupScheduleItems.filter(item => item.id === id);
     console.log('selectedScheduleItem: ', selectedScheduleItem[0])
-    if (selectedScheduleItem[0].meetingMinute) {
+    if (selectedScheduleItem[0].meetingMinute && selectedScheduleItem[0].meetingMinute.agendas.length > 0) {
       let agendaList = (<p>No agenda created for this meeting.</p>)
       if (selectedScheduleItem[0].meetingMinute.agendas.length > 0) {
         agendaList = selectedScheduleItem[0].meetingMinute.agendas.map((agenda, index) => (
@@ -164,6 +164,7 @@ export default class ViewScheduleItemDialog extends Component {
 
   renderContent(type) {
     const { openEditForm, edittedTitle, edittedDescription, edittedStart, edittedEnd, edittedLocation } = this.state; // eslint-disable-line
+    const location = edittedLocation ? `@ ${edittedLocation}` : '';
     if (openEditForm) {
       return (
         <div>
@@ -221,7 +222,7 @@ export default class ViewScheduleItemDialog extends Component {
     }
     return (
       <div>
-        <h4>{edittedTitle} @ {edittedLocation} {this.renderType(type)}</h4>
+        <h4>{edittedTitle} {location} {this.renderType(type)}</h4>
         {this.renderTime(edittedStart, edittedEnd)}
         <p>{this.state.edittedDescription}</p>
         {this.renderAgendaList()}

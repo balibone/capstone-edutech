@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Tabs, Tab, Paper, Divider, RaisedButton, Dialog, FlatButton, List, ListItem, Avatar } from 'material-ui';
 import { observer } from 'mobx-react';
 import { Animated } from 'react-animated-css';
-import { Wave } from 'better-react-spinkit';
+import { FadingCircle } from 'better-react-spinkit';
 import { Row, Col, FormControl } from 'react-bootstrap';
 import moment from 'moment';
 import swal from 'sweetalert';
@@ -181,7 +181,7 @@ export default class GroupScene extends Component {
         <div className="fakeBody">
           <div className="initialSpinner">
             <center>
-              <Wave size={100} />
+              <FadingCircle size={100} />
               <span className="spinnerText">Loading...</span>
             </center>
           </div>
@@ -244,7 +244,6 @@ export default class GroupScene extends Component {
               <Divider />
               <Row className="">
                 <h3> Live Collab Room </h3>
-                <p> No member in room currently. </p>
                 <RaisedButton label="Enter Collab Room" primary style={{ margin: '15px' }} containerElement={<Link to={`/room/${groupId}`} target="_blank" />}/>
               </Row>
             </Paper>

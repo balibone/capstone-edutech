@@ -37,3 +37,10 @@ body {
 .paperDefault:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2) !important;
 }
+
+.fakeBody {
+  padding: 0 !important;
+  margin: 200px auto !important;
+  height: 100vh !important;
+  width: 100% !important;
+}
