@@ -32,8 +32,10 @@ $(document).ready(function () {
     });
     
     $('#eduExprRemoveBtn').click(function() {
-        $('.eduExpr-'+eduExpr_count).remove();
-        eduExpr_count--;
+        if(eduExpr_count>0) {
+            $('.eduExpr-'+eduExpr_count).remove();
+            eduExpr_count--;
+        }
     });
     
     $('#proExprBtn').click(function() {

@@ -18,3 +18,7 @@ function download() {
             }
         });
 };
+
+function back() {
+    window.open('ProfileSysUser?pageTransit=goToResume', '_self');
+}

@@ -218,6 +218,9 @@
                     %>
                     
                     <div class="resumeContent col-lg-9 col-md-8" >
+                        <div class="input-group-addon" style="float: left; margin-top: 10px; margin-left: 50px">
+                            <button onclick="back()" class="btn btn-sm btn-theme"><i class="fa fa fa-chevron-left"></i>&nbsp;Back To List</button>
+                        </div>
                         <div class="input-group-addon" style="float: right; margin-top: 10px; margin-right: 50px">
                             <button onclick="download()" class="btn btn-sm btn-theme">&nbsp;Download</button>
                         </div>
@@ -387,7 +390,8 @@
                                                 proSkillLevel = String.valueOf(pro.get(1));
                                                 if(proSkillLevel.equals("Beginner")) { pro_proficiency = 25; }
                                                 else if(proSkillLevel.equals("Intermediate")) { pro_proficiency = 50; }
-                                                else { pro_proficiency = 75; }
+                                                else if(proSkillLevel.equals("Advanced")) { pro_proficiency = 75; }
+                                                else { pro_proficiency = 0; }
                                             }
                                             if(i<perSkillList.size()) {
                                                 Vector per = perSkillList.get(i);
@@ -395,7 +399,8 @@
                                                 perSkillLevel = String.valueOf(per.get(1));
                                                 if(perSkillLevel.equals("Beginner")) { per_proficiency = 25; }
                                                 else if(perSkillLevel.equals("Intermediate")) { per_proficiency = 50; }
-                                                else { per_proficiency = 75; }
+                                                else if(perSkillLevel.equals("Advanced")) { per_proficiency = 75; }
+                                                else { per_proficiency = 0; }
                                             }
                                     %>
                                     <div class="skillset">
