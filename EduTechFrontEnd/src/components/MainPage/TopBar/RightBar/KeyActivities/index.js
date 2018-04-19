@@ -54,9 +54,10 @@ export default class KeyActivities extends Component {
           </div>
         );
       }
+    const word = toJS(AnnouncementStore.announcements).length < 1 ? 'No' : 'Recent';
     return (
       <div>
-        <Subheader>Latest Key Activities</Subheader>
+        <Subheader>{word} Key Activities</Subheader>
         <List>
           {this.renderNotifications()}
         </List>
