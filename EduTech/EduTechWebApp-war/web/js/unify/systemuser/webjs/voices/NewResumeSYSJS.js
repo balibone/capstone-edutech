@@ -166,6 +166,9 @@ function previewImage(event) {
 }
 
 function createWorkExprList() {
+    if(document.getElementById("file-upload").value==="") {
+        alert("Please upload your image.");
+    }
     
     if(document.getElementById("contactNum").value!=="") {
         var contactNum = document.getElementById("contactNum").value;
