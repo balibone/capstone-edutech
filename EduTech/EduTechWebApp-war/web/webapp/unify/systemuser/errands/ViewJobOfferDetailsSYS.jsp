@@ -220,7 +220,7 @@
             
             <div class="row justify-content-center" >
                 
-                <div class="col-lg-10 col-md-10 ml-1">
+                <div class="col-lg-9 col-md-9 ml-1">
                     <div class="title"><span>Job Info</span></div>
                     <%
                         ArrayList<Vector> offerList = (ArrayList)request.getAttribute("jobOfferList");
