@@ -39,6 +39,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
     private ShoutsBookmarksEntity shoutsBookmarksEntity;
     private ShoutsLikesEntity shoutsLikesEntity;
     private UserEntity userEntity;
+    private CategoryEntity categoryEntity;
 
     public List<Vector> viewShoutList() {
         Query q = em.createQuery("SELECT c FROM Shouts c WHERE c.shoutStatus='Active' ORDER BY c.shoutDate DESC");
@@ -255,6 +256,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             shoutVec.add(checkBookmarkShout(username, shoutE.getShoutID()));
             shoutVec.add(checkLikeShout(username, shoutE.getShoutID()));
 
+            shoutVec.add(shoutE.getCategoryEntity().getCategoryName());
             //System.out.println(shoutVec.size());
             shoutList.add(shoutVec);
         }
@@ -263,7 +265,7 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
     }
 
     public List<Vector> viewMyShoutList(String username) {
-        Query q = em.createQuery("SELECT c FROM Shouts c WHERE c.shoutUser.username = :username ORDER BY c.shoutDate DESC");
+        Query q = em.createQuery("SELECT c FROM Shouts c WHERE c.shoutUser.username = :username AND c.shoutStatus='Active' ORDER BY c.shoutDate DESC");
         q.setParameter("username", username);
         List<Vector> myShoutList = new ArrayList<Vector>();
 
@@ -332,6 +334,8 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             //check for user bookmarked of this post
             shoutVec.add(checkBookmarkShout(username, myShoutE.getShoutID()));
             shoutVec.add(checkLikeShout(username, myShoutE.getShoutID()));
+            
+            shoutVec.add(myShoutE.getCategoryEntity().getCategoryName());
 
             //System.out.println(shoutVec.size());
             myShoutList.add(shoutVec);
@@ -410,6 +414,8 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             //check for user bookmarked of this post
             shoutVec.add(checkBookmarkShout(username, myShoutE.getShoutsEntity().getShoutID()));
             shoutVec.add(checkLikeShout(username, myShoutE.getShoutsEntity().getShoutID()));
+            
+            shoutVec.add(myShoutE.getShoutsEntity().getCategoryEntity().getCategoryName());
 
             //System.out.println(shoutVec.size());
             myShoutList.add(shoutVec);
@@ -506,15 +512,18 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
     }
 
     @Override
-    public String createShout(String shoutContent, String shoutPoster) {
+    public String createShout(String shoutContent, String shoutPoster, String shoutCat) {
 
         shoutsEntity = new ShoutsEntity();
 
         //System.out.println(shoutPoster);
         userEntity = lookupUnifyUser(shoutPoster);
+        
+        categoryEntity = lookupShoutCategory(shoutCat);
 
         if (shoutsEntity.createShout(shoutContent)) {
             shoutsEntity.setUserEntity(userEntity);
+            shoutsEntity.setCategoryEntity(categoryEntity);
 
             //temp
             shoutsEntity.setShoutEditedDate();
@@ -538,14 +547,11 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
         } else {
             shoutsEntity = lookupShout(shoutID);
 
-            UserEntity userE = shoutsEntity.getUserEntity();
+            //UserEntity userE = shoutsEntity.getUserEntity();
 
-            //ShoutsBookmarksEntity bookmarksE = shoutsEntity.getShoutsBookmarksSet();
-            //shoutE.getShoutsCommentsSet().remove(shoutsEntity);
-            //em.merge(shoutE);
-            em.merge(userE);
-
-            em.remove(shoutsEntity);
+            //em.merge(userE);
+            shoutsEntity.setShoutStatus("Inactive");
+            //em.remove(shoutsEntity);
             em.flush();
             em.clear();
             return "Shout has been deleted successfully!";
@@ -985,6 +991,25 @@ public class ShoutsSysUserMgrBean implements ShoutsSysUserMgrBeanRemote {
             sbe = null;
         }
         return sbe;
+    }
+    
+    public CategoryEntity lookupShoutCategory(String shoutCat) {
+        CategoryEntity se = new CategoryEntity();
+        
+        try {
+            Query q = em.createQuery("SELECT u FROM Category u WHERE u.categoryName = :shoutCat AND u.categoryType = 'Shouts'" );
+            q.setParameter("shoutCat", shoutCat);
+            se = (CategoryEntity) q.getSingleResult();
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("ERROR: Category cannot be found. " + enfe.getMessage());
+            em.remove(se);
+            se = null;
+        } catch (NoResultException nre) {
+            System.out.println("ERROR: Category does not exist. " + nre.getMessage());
+            em.remove(se);
+            se = null;
+        }
+        return se;
     }
 
 }

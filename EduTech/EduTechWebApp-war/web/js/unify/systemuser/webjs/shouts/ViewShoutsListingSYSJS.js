@@ -39,7 +39,7 @@ function deleteAlert(shoutID) {
 
         $.get('ShoutsSysUser?pageTransit=goToDeleteShoutSYS&hiddenShoutID=' + shoutID + '');
 
-        setTimeout(window.location.reload(true),10);
+        setTimeout(window.location.reload(true),15);
         //window.location.reload(true);
         //$('#deleteShout-alert').iziModal('open', event);
     }

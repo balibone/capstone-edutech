@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import unifysessionbeans.systemuser.ShoutsSysUserMgrBeanRemote;
 import unifysessionbeans.systemuser.UserProfileSysUserMgrBeanRemote;
+import unifysessionbeans.admin.ContentAdminMgrBeanRemote;
 
 public class ShoutsSysUserController extends HttpServlet {
 
@@ -20,6 +21,8 @@ public class ShoutsSysUserController extends HttpServlet {
     private ShoutsSysUserMgrBeanRemote ssmr;
     @EJB
     private UserProfileSysUserMgrBeanRemote usmr;
+    @EJB
+    private ContentAdminMgrBeanRemote camr;
     
     String responseMessage = "";
 
@@ -112,6 +115,7 @@ public class ShoutsSysUserController extends HttpServlet {
                     pageAction = "NewShoutSYS";
                     break;
                 case "goToNewShoutModalSYS":
+                    request.setAttribute("shoutCategoryListSYS", camr.viewShoutCategoryAtCreate());
                     pageAction = "NewShoutModalSYS";
                     break;
                 case "goToCreateShout":
@@ -298,6 +302,7 @@ public class ShoutsSysUserController extends HttpServlet {
     private String createShout(HttpServletRequest request) {
         String shoutContent = request.getParameter("shoutContent");
         String shoutPoster = request.getParameter("loggedInUsername");
+        String shoutCat = request.getParameter("shoutCat");
 
         System.out.println(shoutContent);
         System.out.println(shoutPoster);
@@ -306,7 +311,7 @@ public class ShoutsSysUserController extends HttpServlet {
 
         //responseMessage = vsmr.createCompanyReview(companyIndustry, companyName, reviewTitle, 
         //reviewPros, reviewCons, reviewRating, reviewDescription, employmentStatus, reviewPoster);
-        responseMessage = ssmr.createShout(shoutContent, shoutPoster);
+        responseMessage = ssmr.createShout(shoutContent, shoutPoster, shoutCat);
 
         return responseMessage;
     }
