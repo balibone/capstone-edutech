@@ -185,6 +185,52 @@ function previewImage(event) {
 
 function createList() {
     
+    if(document.getElementById("contactNum").value!=="") {
+        var contactNum = document.getElementById("contactNum").value;
+        if(document.getElementById("countryCode").value==="065") {
+            if(contactNum.length !== 8) {
+                alert("Mobile No. should be 8 digit");
+                document.getElementById('contactNum').focus();
+                event.preventDefault();
+                return false;
+            } else if(!(contactNum.charAt(0)==="9" || contactNum.charAt(0)==="8")) {
+                alert("Mobile No. should start with 9 or 8 ");
+                document.getElementById('contactNum').focus();
+                event.preventDefault();
+                return false;
+            }
+        } else if(document.getElementById("countryCode").value==="852") {
+            if(contactNum.length !== 8) {
+                alert("Mobile No. should be 8 digit");
+                document.getElementById('contactNum').focus();
+                event.preventDefault();
+                return false;
+            } else if(!(contactNum.charAt(0)==="9" || contactNum.charAt(0)==="8" || contactNum.charAt(0)==="7" 
+                        || contactNum.charAt(0)==="6" || contactNum.charAt(0)==="5" || contactNum.charAt(0)==="3"
+                        || contactNum.charAt(0)==="2")) {
+                alert("Mobile No. should start with 2,3,5,6,7,8,9 ");
+                document.getElementById('contactNum').focus();
+                event.preventDefault();
+                return false;
+            }
+        } else if(document.getElementById("countryCode").value==="090") {
+            if(contactNum.length !== 10) {
+                alert("Mobile No. should be 10 digit");
+                document.getElementById('contactNum').focus();
+                event.preventDefault();
+                return false;
+            } else if(!(contactNum.charAt(0)==="9" || contactNum.charAt(0)==="8" || contactNum.charAt(0)==="7")) {
+                alert("Mobile No. should start with 7,8,9 ");
+                document.getElementById('contactNum').focus();
+                event.preventDefault();
+                return false;
+            }
+        }
+    }
+    contactNum = document.getElementById("countryCode").value + "+" + contactNum;
+    document.getElementById("fullContactNum").value = contactNum;
+    
+    
     var eduTableLength = $("input[name^='schoolName']").length;
     var schoolNameArr = $("input[name^='schoolName']");
     var schoolDegreeArr = $("input[name^='schoolDegree']");
@@ -289,6 +335,5 @@ function createList() {
     document.getElementById("skillList").value = skillList;
     document.getElementById("workExprList").value = workExprList;
     document.getElementById("referenceList").value = referenceList;
-   
-    document.resumeForm.submit();
+    //document.resumeForm.submit();
 }

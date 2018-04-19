@@ -207,7 +207,6 @@
                         String image, userFullName, userContactNum, userEmailAddr, userPostalAddr, userSummary, userAwardStr;
                         image = userFullName = userContactNum = userEmailAddr = userPostalAddr = userSummary = userAwardStr = "";
     
-                        if(basicDetailsSYS!=null) {
                             image = String.valueOf(basicDetailsSYS.get(0));
                             userFullName = String.valueOf(basicDetailsSYS.get(1));
                             userContactNum = String.valueOf(basicDetailsSYS.get(2));
@@ -215,7 +214,7 @@
                             userPostalAddr = String.valueOf(basicDetailsSYS.get(4));
                             userSummary = String.valueOf(basicDetailsSYS.get(5));
                             userAwardStr = String.valueOf(basicDetailsSYS.get(6));
-                        }
+                            String[] contactNum = userContactNum.split("\\+");
                     %>
                     
                     <div class="resumeContent col-lg-9 col-md-8" >
@@ -235,7 +234,7 @@
                                 <div class="contact-container container-block">
                                     <ul class="list-unstyled contact-list">
                                         <li class="email"><i class="fa fa-envelope"></i><%= userEmailAddr%></li>
-                                        <li class="phone"><i class="fa fa-phone"></i><%= userContactNum%></li>
+                                        <li class="phone"><i class="fa fa-phone"></i>(<%= contactNum[0]%>)&nbsp;<%= contactNum[1]%></li>
                                         <li class="home"><i class="fa fa-home"></i><%= userPostalAddr%></li>
                                     </ul>
                                 </div>
@@ -243,7 +242,7 @@
                                 <!--EDUCATION CONTAINER-->
                                 <%
                                     List<Vector> eduExprList = (ArrayList) request.getAttribute("eduExprList");
-                                    if(eduExprList!=null) {
+                                    if(eduExprList.size()!=0) {
                                 %>
                                 <div class="education-container container-block">
                                     <h2 class="container-block-title">Education</h2>
@@ -260,14 +259,15 @@
                                         <h5 class="meta"><%= schoolName%></h5>
                                         <div class="time"><%= schoolPeriod%></div>
                                     </div>
-                                    <%      } 
-                                        }%>
+                                    <%      }%>
                                 </div>
+                                <% } %>
                                 
                                 <!--ACHIEVEMENTS-->
-                                <% String[] award = userAwardStr.split(";&");%>
+                                <% String[] award = userAwardStr.split(";&");
+                                    System.out.println(award.length);%>
                                 <div class="awards-container container-block">
-                                    <% if(award.length != 0) {%>
+                                    <% if(award.length!=0 && !award[0].equals("")) {%>
                                     <h2 class="container-block-title">Awards & Achievements</h2>
                                     <ul class="list-unstyled awards-list">
                                         <% for(int i=0;i<award.length;i++) {%>

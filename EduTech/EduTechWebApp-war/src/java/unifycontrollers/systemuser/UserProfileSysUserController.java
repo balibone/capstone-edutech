@@ -641,7 +641,7 @@ public class UserProfileSysUserController extends HttpServlet {
         }
         
         String userFullName = request.getParameter("userFullName");
-        String contactNum = request.getParameter("contactNum");
+        String contactNum = request.getParameter("fullContactNum");
         String emailAddr = request.getParameter("emailAddr");
         String postalAddr = request.getParameter("postalAddr");
         String summary = request.getParameter("summary");
@@ -717,7 +717,7 @@ public class UserProfileSysUserController extends HttpServlet {
         
         long resumeID = Long.parseLong(request.getParameter("hiddenResumeID"));
         String userFullName = request.getParameter("userFullName");
-        String contactNum = request.getParameter("contactNum");
+        String contactNum = request.getParameter("fullContactNum");
         String emailAddr = request.getParameter("emailAddr");
         String postalAddr = request.getParameter("postalAddr");
         String summary = request.getParameter("summary");

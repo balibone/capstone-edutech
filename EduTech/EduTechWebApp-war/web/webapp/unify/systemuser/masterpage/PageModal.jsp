@@ -223,7 +223,7 @@
                             <div class="row">
                                 <div class="col-sm-5 ml-4">
                                     <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToCompanyReview';">
-                                        <div class="card-block card-title mt-5 mb-5">
+                                        <div class="card-block card-title mt-5 mb-5 box">
                                             <h1 class="mb-3"><i class="fa fa-fw fa-building"></i></h1>
                                             <h6>My Company Reviews</h6>
                                         </div>
@@ -231,7 +231,7 @@
                                 </div>
                                 <div class="col-sm-5 ml-4">
                                     <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToCompanyRequest';">
-                                        <div class="card-block card-title mt-5 mb-5">
+                                        <div class="card-block card-title mt-5 mb-5 box">
                                             <h1 class="mb-3"><i class="fa fa-fw fa-question-circle"></i></h1>
                                             <h6>My Company Requests</h6>
                                         </div>
@@ -240,7 +240,7 @@
                             
                                 <div class="col-sm-5 ml-4">
                                     <div class="card text-center mb-3 bg-light text-dark" onclick="window.location = 'ProfileSysUser?pageTransit=goToResume';">
-                                        <div class="card-block card-title mt-5 mb-5">
+                                        <div class="card-block card-title mt-5 mb-5 box">
                                             <h1 class="mb-3"><i class="fa fa-fw fa-file"></i></h1>
                                             <h6>My Resume List</h6>
                                         </div>
