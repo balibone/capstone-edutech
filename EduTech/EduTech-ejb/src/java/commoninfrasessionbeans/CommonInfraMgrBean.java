@@ -112,7 +112,12 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
     public boolean sendResetEmail(String username, int localPort) {
         Query q1 = em.createQuery("SELECT s FROM SystemUser s WHERE s.username = :uName");
         q1.setParameter("uName", username);
-        UserEntity u = (UserEntity) q1.getSingleResult();
+        UserEntity u = null;
+        try{
+            u = (UserEntity) q1.getSingleResult();
+        }catch(Exception e){
+            return false;
+        }
         if(u != null){
             String tempPassword = generateAlphaNum(8);
             try {
@@ -278,8 +283,13 @@ public class CommonInfraMgrBean implements CommonInfraMgrBeanRemote {
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(CommonInfraMgrBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        UserEntity u = (UserEntity) q1.getSingleResult();
-        //if user exists & old password is correct, proceed with reset.
+        UserEntity u = null;
+        try{
+            u = (UserEntity) q1.getSingleResult();
+        }catch(Exception e){
+            return false;
+        }
+//if user exists & old password is correct, proceed with reset.
         if(u != null && u.getUserPassword().equals(encOldPassword)){
             System.out.println("RECEIVED PASSWORD IS "+encPassword);
             u.setUserPassword(encPassword);
