@@ -356,7 +356,7 @@
                                                     <div class="col-xl-4 col-md-4 col-4 float-right">
                                                         <div class="bookmark-Shout">
 
-                                                            <span class = "float-right"><a onClick ="eventDetails('<%= eventID%>')" class="viewThis">
+                                                            <span class = "float-right"><a onClick ="eventDetails('<%= eventID%>')" class="viewThis" onmouseover="" style="cursor: pointer;">
                                                                     <i class="fa fa-calendar icon"></i>
                                                                     <i class="fa fa-calendar-o icon"></i>
                                                                     <span class="bookmark" style="color: #64676d; font-size: 12px">View Details</span>

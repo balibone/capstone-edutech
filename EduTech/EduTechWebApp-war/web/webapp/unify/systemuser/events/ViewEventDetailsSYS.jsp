@@ -260,11 +260,11 @@
                                                 <%
                                                     if (eventHappening.contains("Ongoing")) {
                                                 %>
-                                            <span class="badge badge-success custom-badge">Event Ongoing</span>
+                                            <span class="p-1 text-white bg-success">Event Ongoing</span>
                                             <%
                                             } else if (eventHappening.contains("Ended")) {
                                             %>
-                                            <span class="badge badge-info custom-badge">Event Ended</span>
+                                            <span class="p-1 text-white bg-info">Event Ended</span>
                                             <%  }%>
                                         </div>
                                         <a href="EventsSysUser?pageTransit=goToViewEventsListingSYS"><div class="pull-right">Back to Listing </div></a>
@@ -317,19 +317,19 @@
                                     <td>RSVP Status</td>
                                     <%  if (rsvpStatus.equals("true")) {%>
                                     <td>
-                                        <span class="badge badge-success custom-badge">RSVP'ed!</span>                                            
+                                        <span class="p-1 text-white bg-success">RSVP'ed!</span>                                            
                                         <a href="EventsSysUser?pageTransit=goToRemoveRsvpToEventSYS&hiddenEventID=<%= eventID%>">
                                             <%  if (!eventHappening.contains("Ended")) {%>
-                                            <span class="badge badge-info custom-badge">
+                                            <span class="p-1 text-white bg-info">
                                                 Click here to withdraw RSVP
                                             </span></a>
                                             <%  }%>
                                     </td>
                                     <%  } else if (rsvpStatus.equals("false")) {%>
                                     <%  if (!eventHappening.contains("Ended")) {%>
-                                    <td><a href="EventsSysUser?pageTransit=goToRsvpToEventSYS&hiddenEventID=<%= eventID%>"><span class="badge badge-info custom-badge">Click here to RSVP to event</span></a></td>
+                                    <td><a href="EventsSysUser?pageTransit=goToRsvpToEventSYS&hiddenEventID=<%= eventID%>"><span class="p-1 text-white bg-info">Click here to RSVP to event</span></a></td>
                                     <%  } else {%>
-                                    <td><span class="badge badge-info custom-badge">Did not RSVP to event</span></a></td>
+                                    <td><span class="p-1 text-white bg-info">Did not RSVP to event</span></a></td>
                                     <%  }
                                         }%>
                                 </tr>

@@ -400,21 +400,21 @@
                                                             <%
                                                                 if (shoutLikeStatus.equals("false")) {
                                                             %>
-                                                            <a onClick ="likeAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="likeThis">
+                                                            <a onClick ="likeAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="likeThis" onmouseover="" style="cursor: pointer;">
                                                                 <i class="fa fa-thumbs-up icon"></i>
                                                                 <i class="fa fa-thumbs-o-up icon"></i>
                                                             </a>
                                                             <%
                                                             } else if (shoutLikeStatus.equals("true")) {
                                                             %>
-                                                            <a onClick ="unlikeAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="likedThis">
+                                                            <a onClick ="unlikeAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="likedThis" onmouseover="" style="cursor: pointer;">
                                                                 <i class="fa fa-thumbs-up icon"></i>
                                                                 <i class="fa fa-thumbs-o-up icon"></i>
                                                             </a>
                                                             <%  }%>   
                                                             &nbsp;&nbsp;
                                                             <i class="viewComment">
-                                                                <a onClick ="viewComment('<%= shoutID%>,<%= shoutContent%>')" textDecoration = "underline"><span class="float-none" style="color: #64676d; font-size: 12px"><%= shoutComments%> comments &nbsp;</span>
+                                                                <a onClick ="viewComment('<%= shoutID%>,<%= shoutContent%>')" textDecoration = "underline" onmouseover="" style="cursor: pointer;"><span class="float-none" style="color: #64676d; font-size: 12px"><%= shoutComments%> comments &nbsp;</span>
                                                                     <i class="fa fa-comment icon"></i>
                                                                     <i class="fa fa-comment-o icon"></i>
                                                                 </a>
@@ -427,7 +427,7 @@
 
                                                                 if (shoutBookmarkStatus.equals("false")) {
                                                             %>
-                                                            <span class = "float-right"><a onClick ="bookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkThis">
+                                                            <span class = "float-right"><a onClick ="bookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkThis" onmouseover="" style="cursor: pointer;">
                                                                     <i class="fa fa-bookmark icon"></i>
                                                                     <i class="fa fa-bookmark-o icon"></i>
                                                                     <span class="bookmark" style="color: #64676d; font-size: 12px">Bookmark This</span>
@@ -436,7 +436,7 @@
 
                                                                 } else if (shoutBookmarkStatus.equals("true")) {
                                                                 %>     
-                                                            <span class = "float-right"><a onClick ="unbookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkedThis">
+                                                            <span class = "float-right"><a onClick ="unbookmarkAlert('<%= shoutID%>,<%= loggedInUsername%>')" class="bookmarkedThis" onmouseover="" style="cursor: pointer;">
                                                                     <i class="fa fa-bookmark icon"></i>
                                                                     <i class="fa fa-bookmark-o icon"></i>
                                                                     <span class="bookmark" style="color: #64676d; font-size: 12px">Bookmarked</span>
@@ -462,7 +462,7 @@
                                                             <%
                                                                 if (shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
                                                             %>
-                                                            <span class = "float-right"><a onClick = "deleteAlert(<%=shoutID%>)" class="deleteThis">
+                                                            <span class = "float-right"><a onClick = "deleteAlert(<%=shoutID%>)" class="deleteThis" onmouseover="" style="cursor: pointer;">
                                                                     <i class="fa fa-trash icon"></i>
                                                                     <i class="fa fa-trash-o icon"></i>
                                                                     <span class="float-none shoutDelete" style="color: #64676d; font-size: 12px">&nbsp;Delete Shout</a></span>
@@ -504,7 +504,7 @@
                                                 <%
                                                     if (!shoutUsername.equals(request.getAttribute("loggedInUsername"))) {
                                                 %>
-                                                <span class = "float-right"><a onClick ="reportShout('<%= shoutID%>,<%= shoutContent%>')" class="reportThis">
+                                                <span class = "float-right"><a onClick ="reportShout('<%= shoutID%>,<%= shoutContent%>')" class="reportThis" onmouseover="" style="cursor: pointer;">
                                                         <i class="fa fa-flag icon"></i>
                                                         <i class="fa fa-flag-o icon"></i>
                                                         <span class="report" style="color: #64676d; font-size: 12px">Report Post</span>
