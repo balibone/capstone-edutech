@@ -260,11 +260,11 @@
                                                 <%
                                                     if (eventHappening.contains("Ongoing")) {
                                                 %>
-                                            <span class="badge badge-success">Event Ongoing</span>
+                                            <span class="badge badge-success custom-badge">Event Ongoing</span>
                                             <%
                                             } else if (eventHappening.contains("Ended")) {
                                             %>
-                                            <span class="badge badge-info">Event Ended</span>
+                                            <span class="badge badge-info custom-badge">Event Ended</span>
                                             <%  }%>
                                         </div>
                                         <a href="EventsSysUser?pageTransit=goToViewEventsListingSYS"><div class="pull-right">Back to Listing </div></a>
