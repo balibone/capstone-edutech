@@ -956,7 +956,7 @@ public class CommonMgrBean {
                     + "\"headings\": {\"en\": \"EduTech : "+ann.getTitle()+"\"},"
                     //contents is notification body
                     + "\"contents\": {\"en\": \""+ann.getMessage()+"\"}"
-                    + ",\"url\": \"http://"+java.net.InetAddress.getLocalHost().getHostAddress()+":3000/"+ann.getPath()+"\""
+                    + ",\"url\": \"http://"+java.net.InetAddress.getLocalHost().getHostAddress()+":3000"+ann.getPath()+"\""
                     + "}";
             
             //for debugging
