@@ -258,8 +258,8 @@
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort"
                                  data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                 <ul>
-                                    <li><span data-path=".startDate" data-order="desc" data-type="datetime" data-default="true">Upcoming First</span></li>
-                                    <li><span data-path=".startDate" data-order="asc" data-type="datetime">Upcoming First</span></li>
+                                    <li><span data-path=".startDate" data-order="asc" data-type="datetime" data-default="true">Upcoming First</span></li>
+                                    <li><span data-path=".startDate" data-order="dsc" data-type="datetime">Upcoming Last</span></li>
                                     <li><span data-path=".eventRSVP" data-order="desc" data-type="number">Most RSVP'ed Event</span></li>
                                 </ul>
                             </div>
@@ -299,6 +299,7 @@
                                             String eventTitle = String.valueOf(v.get(9));
                                             String rsvpCount = String.valueOf(v.get(10));
                                             String rsvpStatus = String.valueOf(v.get(11));
+                                            String rawEventStartDateTime = String.valueOf(v.get(12));
 
                                 %>
                                 <div class="col-xl-6 col-md-6 col-6 d-block d-lg-none d-xl-block list-item">
@@ -384,7 +385,7 @@
                                                     <%--    on <%= shoutDate%> --%>
                                                 </span>
 
-                                                <span class="float-none startDate" hidden="true" style="color: #64676d; font-size: 12px"><%= eventStart%>
+                                                <span class="float-none startDate" hidden="true" style="color: #64676d; font-size: 12px"><%= rawEventStartDateTime%>
                                                 </span>
                                             </div>
 

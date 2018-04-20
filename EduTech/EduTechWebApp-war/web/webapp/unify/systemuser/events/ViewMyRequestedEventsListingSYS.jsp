@@ -289,8 +289,8 @@
                                  data-control-type="sort-drop-down" data-control-name="sort" data-control-action="sort"
                                  data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">
                                 <ul>
-                                    <li><span data-path=".requestSubmittedDate" data-order="desc" data-type="datetime" data-default="true">Recently Requested</span></li>
-                                    <li><span data-path=".requestSubmittedDate" data-order="asc" data-type="datetime">Oldest Requested</span></li>
+                                    <li><span data-path=".requestedDate" data-order="desc" data-type="datetime" data-default="true">Recently Requested</span></li>
+                                    <li><span data-path=".requestedDate" data-order="asc" data-type="datetime">Oldest Requested</span></li>
                                 </ul>
                             </div>
                             <div class="jplist-drop-down" add-class-on-xs="w-100" data-control-type="items-per-page-drop-down" 
@@ -325,6 +325,7 @@
                                             String eventRequestEnd = String.valueOf(v.get(5));
                                             String eventRequestVenue = String.valueOf(v.get(6));
                                             String eventRequestDate = String.valueOf(v.get(7));
+                                            String rawEventRequestDate = String.valueOf(v.get(8));
 
                                 %>
                                 <div class="col-xl-6 col-md-6 col-6 d-block d-lg-none d-xl-block list-item">
@@ -392,6 +393,13 @@
 
                                             <div class="request-submitted-date">
                                                 <i class="fa fa-clock-o">&nbsp;</i><span class="float-none requestSubmittedDate" style="color: #64676d; font-size: 12px">Requested on <%= eventRequestDate%>
+                                                    <%--    on <%= shoutDate%> --%>
+                                                </span>
+
+                                            </div>
+                                                
+                                            <div class="request-submitted-date" hidden="true">
+                                                <i class="fa fa-clock-o">&nbsp;</i><span class="float-none requestedDate" style="color: #64676d; font-size: 12px">Requested on <%= rawEventRequestDate%>
                                                     <%--    on <%= shoutDate%> --%>
                                                 </span>
 

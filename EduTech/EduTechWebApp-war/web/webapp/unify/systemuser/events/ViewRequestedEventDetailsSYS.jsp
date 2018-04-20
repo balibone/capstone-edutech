@@ -319,7 +319,7 @@
                                                     <a href="EventsSysUser?pageTransit=goToEditEventRequestSYS&hiddenEventRequestID=<%= eventRequestID%>"><span class="badge badge-info custom-badge" style="font-size: 12px">
                                                             Edit this request
                                                         </span></a>
-                                                    <a href="EventsSysUser?pageTransit=goToDeleteEventRequestSYS&hiddenEventRequestID=<%= eventRequestID%>"><span class="badge badge-danger custom-badge" style="font-size: 12px">
+                                                    <a href="EventsSysUser?pageTransit=goToDeleteEventRequestSYS&hiddenEventRequestID=<%= eventRequestID%>"><span class="badge badge-danger custom-badge" style="font-size: 12px" onclick="return confirm('Confirm delete?')">
                                                             Delete this request
                                                         </span></a>
                                                     <%  }%></h5></li></ul>
@@ -346,6 +346,7 @@
                                         <tr>
                                             <td class="bg-light w-25">Venue</td>
                                             <td>
+                                                <%= eventRequestVenue%>
                                                 <input type="hidden" id="venueLocation" value="<%= eventRequestVenue%>" />
                                                 <input type="hidden" id="venueLat" value="TradeLat" />
                                                 <input type="hidden" id="venueLong" value="TradeLong" />

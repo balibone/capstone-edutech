@@ -305,6 +305,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
         String dateString = "";
 
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy h:mm aaa");
+        DateFormat df2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.getResultList()) {
             EventRSVPEntity eventR = (EventRSVPEntity) o;
@@ -437,6 +438,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
             eventVec.add(getEventRsvpCount(eventR.getEventEntity().getEventID()));
             //check for rsvp status
             eventVec.add(checkEventRsvp(username, eventR.getEventEntity().getEventID()));
+            eventVec.add(df2.format(eventR.getEventEntity().getEventStartDateTime()));
 
             eventList.add(eventVec);
         }
@@ -454,6 +456,7 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
         //String dateString = "";
 
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy h:mm aaa");
+        DateFormat df2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
         for (Object o : q.getResultList()) {
             EventRequestEntity eventRequestE = (EventRequestEntity) o;
@@ -470,6 +473,8 @@ public class EventsSysUserMgrBean implements EventsSysUserMgrBeanRemote {
             eventRequestVec.add(df.format(eventRequestE.getEventRequestDate()));
             //eventRequestVec.add(df.format(eventRequestE.getEventReviewedDate()));
             //eventRequestVec.add(eventRequestE.getUserEntity().getUsername());
+            
+            eventRequestVec.add(df2.format(eventRequestE.getEventRequestDate()));
 
             eventRequestList.add(eventRequestVec);
         }
