@@ -50,6 +50,10 @@
                 white-space: nowrap;
                 text-overflow: ellipsis;
             }
+            
+            .box{
+                cursor: pointer;
+            }
         </style>
     
     </head>
@@ -311,7 +315,7 @@
                                                 }
                                 %>
                                 <div class="col-xl-12 col-md-12 col-12 d-block d-lg-none d-xl-block list-item">
-                                    <div class="card card-product">
+                                    <div class="card card-product box">
                                         <div class="card-content">
                                             <div class="card-body">
                                                 <div class="row">
