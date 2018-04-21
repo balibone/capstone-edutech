@@ -457,6 +457,7 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="marketplace-overlay"></div>
+            <div id="sellNewItem-iframe"></div>
             
             <!-- Modal -->
             <div class="modal fade" id="errandsModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width: 1200px;">

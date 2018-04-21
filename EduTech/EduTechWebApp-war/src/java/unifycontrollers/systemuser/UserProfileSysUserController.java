@@ -158,7 +158,7 @@ public class UserProfileSysUserController extends HttpServlet {
                     pageAction = "ViewJobReviewDetailsSYS";
                     break;
                 case "goToJobListingInUserProfile":
-                    String user = request.getParameter("posterName");
+                    String user = request.getParameter("itemSellerID");
                     request.setAttribute("userProfileVec", usmr.viewUserProfileDetails(user));
                     request.setAttribute("userJobListing", esmr.viewUserJobList(user));
                     request.setAttribute("userMessageListTopThreeSYS", usmr.viewUserMessageListTopThree(loggedInUsername));
