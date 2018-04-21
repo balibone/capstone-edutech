@@ -396,7 +396,6 @@ a.bg-theme:hover,a.bg-theme:focus,button.bg-theme:hover,button.bg-theme:focus{ba
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: 50%;
     position: absolute;
     top: 1px;
 }
