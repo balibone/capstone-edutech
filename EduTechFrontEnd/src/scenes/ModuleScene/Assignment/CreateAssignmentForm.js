@@ -60,8 +60,8 @@ class CreateAssignmentForm extends Component {
 		if (this.props.selectedModule) {
 			memberSize = this.props.selectedModule.members.length;
 		}
-    // below step is temp
-		const tempMemberSize = memberSize + 11;
+    // below step is temp to populate more groups
+		const tempMemberSize = memberSize + 5;
 		AssignmentStore.createAssignment(currentDate, deadline,
       username, moduleCode, title, tempMemberSize, groupSize, type);
     this.handleClose();
