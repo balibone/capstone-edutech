@@ -42,7 +42,7 @@ $(document).ready(function () {
         for (i = 0; i < json_response.length; i++) {
             var popupOptions = {maxWidth: 150, maxHeight: 175};
             var popupContent =
-                    "<div id='itemListingDIV'><table border='0' id='itemListingContent'>" +
+                    "<div id='itemListingDIV' style='cursor:pointer;' onclick='javascript:redirectToItemDetails(" + json_response[i].itemID + ");'><table border='0' id='itemListingContent'>" +
                     "<tr><td rowspan='2'><img class='profilePic' src='uploads/commoninfrastructure/admin/images/" + json_response[i].itemSellerImage + "' /></td></tr>" +
                     "<tr><td><h3 class='profileHeader'>" + json_response[i].itemSellerID + "</h3><time class='profileTime'><i class='fa fa-clock-o' style='margin-right:5px;'></i>" + json_response[i].itemPostedDuration + "</time></td></tr>" +
                     "<tr><td colspan='2'><img style='width:95px;height:95px;margin:7px 0 7px 0;' src='uploads/unify/images/marketplace/item/" + json_response[i].itemImage + "' /></td></tr>" +
@@ -117,4 +117,8 @@ function getDistanceFromLatLngInKm(lat1, lon1, lat2, lon2) {
 
 function degreeToRadian(deg) {
     return deg * (Math.PI / 180);
+}
+
+function redirectToItemDetails(itemID) {
+    window.location.href = 'MarketplaceSysUser?pageTransit=goToMsgViewItemDetailsSYS&itemHidID=' + itemID;
 }
