@@ -34,7 +34,7 @@ class MeetingStore {
 	    })
 	    .catch((error) => {
 	      console.log(error);
-        swal('Error!', 'Network error in getting meetings.', 'error');
+        // swal('Error!', 'Network error in getting meetings.', 'error');
 	    });
      }
 
