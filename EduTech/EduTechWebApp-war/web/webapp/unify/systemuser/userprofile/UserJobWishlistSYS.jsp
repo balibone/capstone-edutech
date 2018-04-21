@@ -415,6 +415,7 @@
                 <i class="fa fa-angle-double-up"></i>
             </a>
             <div id="marketplace-overlay"></div>
+            <div id="sellNewItem-iframe"></div>
         </div>
 
         <!-- #1. jQuery -> #2. Popper.js -> #3. Bootstrap JS -> #4. Other Plugins -->

@@ -235,7 +235,7 @@
                                 <a href="ProfileSysUser?pageTransit=goToUserProfileSYS&itemSellerID=<%= username%>" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-user"></i>&nbsp;Marketplace Listing
                                 </a>
-                                <a href="ProfileSysUser?pageTransit=goToUserProfile&itemSellerID=<%= username%>" class="list-group-item list-group-item-action">
+                                <a href="ProfileSysUser?pageTransit=goToJobListingInUserProfile&itemSellerID=<%= username%>" class="list-group-item list-group-item-action">
                                     <i class="fa fa-fw fa-map-marker"></i>&nbsp;Errands Listing
                                 </a>
                             </div>
