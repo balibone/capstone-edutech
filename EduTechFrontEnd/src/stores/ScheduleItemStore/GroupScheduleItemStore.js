@@ -38,7 +38,6 @@ class GroupScheduleItemStore {
 
   async fetchCollabMeeting(id) {
     try {
-      console.log('fetchCollabMeeting id', id)
       const meeting = await findScheduleItem(id);
       console.log('meeting', meeting.data)
       runInAction(() => {

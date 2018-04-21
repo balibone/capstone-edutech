@@ -6,6 +6,7 @@ import moment from 'moment';
 import ScheduleItemStore from '../../../stores/ScheduleItemStore/ScheduleItemStore';
 import GroupScheduleItemStore from '../../../stores/ScheduleItemStore/GroupScheduleItemStore';
 import GroupStore from '../../../stores/GroupStore/GroupStore';
+import GroupTaskStore from '../../../stores/TaskStore/GroupTaskStore';
 import { MEETING_ITEM_COLOR, TASK_ITEM_COLOR } from '../../../utils/constants';
 import './styles.css';
 
@@ -17,12 +18,13 @@ export default class GroupScheduleItemsChart extends Component {
     let endDate = moment(ScheduleItemStore.semester.startDate).add(7, 'days').format('YYYY-MM-DD');
     const meetingItemsCounts = [];
     const taskItemsCounts = [];
-
+    let allGroupTasks = GroupTaskStore.backlogTasks.concat(GroupTaskStore.currentTasks);
+    allGroupTasks = allGroupTasks.filter(item => 'deadline' in item);
     for (let i = 0; i < numberOfWeeks; i += 1) {
       meetingItemsCounts.push(this
         .getScheduleItemsCountWithinDates(startDate, endDate, GroupScheduleItemStore.meetingItems));
       taskItemsCounts.push(this
-        .getScheduleItemsCountWithinDates(startDate, endDate, GroupScheduleItemStore.taskItems));
+        .getScheduleItemsCountWithinDates(startDate, endDate, allGroupTasks));
       startDate = endDate;
       endDate = moment(endDate).add(7, 'days').format('YYYY-MM-DD');
     }
@@ -33,8 +35,14 @@ export default class GroupScheduleItemsChart extends Component {
   }
 
   getScheduleItemsCountWithinDates(startDate, endDate, scheduleItems) {
-    const correctScheduleItems = scheduleItems.filter(scheduleItem =>
-        scheduleItem.startDate > startDate && scheduleItem.startDate < endDate);
+    let correctScheduleItems = [];
+    if (scheduleItems[0].deadline) {
+      correctScheduleItems = scheduleItems.filter(scheduleItem =>
+          scheduleItem.deadline > startDate && scheduleItem.deadline < endDate);
+    } else {
+      correctScheduleItems = scheduleItems.filter(scheduleItem =>
+          scheduleItem.startDate > startDate && scheduleItem.startDate < endDate);
+    }
     return correctScheduleItems.length;
   }
 
