@@ -215,7 +215,7 @@
                                 <button id="markBtn" class="btn btn-sm btn-theme" disabled="disabled" onclick="markRead()">&nbsp;Mark As Read</button>
                                 
                             </div>
-                            <table id="notificationTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            <table id="notificationTable" class="table table-striped table-bordered dt-responsive nowrap mailinbox" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th colspan="2">
