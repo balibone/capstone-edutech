@@ -672,6 +672,11 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         Date currentDate = new Date();
         String dateString = "";
         jEntity = lookupJob(urljobID);
+        int numOfHelpers = jEntity.getNumOfHelpers();
+        Query query = em.createQuery("SELECT COUNT(o.jobOfferID) FROM JobOffer o WHERE o.jobEntity = :job AND o.jobOfferStatusForPoster = 'Accepted'");
+        query.setParameter("job", jEntity);
+        Long count = (Long)query.getSingleResult();
+        
         List<Vector> jobOfferList = new ArrayList<Vector>();
 
         Query q = em.createQuery("SELECT o FROM JobOffer o WHERE o.jobEntity.userEntity.username = :username "
@@ -689,6 +694,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             jobDetails.add(jEntity.getCategoryEntity().getCategoryName());
             jobDetails.add(jEntity.getNumOfHelpers());
             jobDetails.add(jEntity.getJobStatus());
+            jobDetails.add(numOfHelpers-count);
+            
             jobOfferList.add(jobDetails);
             jobInfoEntry = true;
             
@@ -708,6 +715,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
                     jobDetailsVec.add(jobOfferE.getJobEntity().getCategoryEntity().getCategoryName());
                     jobDetailsVec.add(jobOfferE.getJobEntity().getNumOfHelpers());
                     jobDetailsVec.add(jobOfferE.getJobEntity().getJobStatus());
+                    jobDetailsVec.add(numOfHelpers-count);
+                    
                     jobOfferList.add(jobDetailsVec);
                     jobInfoEntry = true;
                 }
@@ -821,6 +830,7 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             Query query = em.createQuery("SELECT COUNT(o.jobOfferID) FROM JobOffer o WHERE o.jobEntity = :job AND o.jobOfferStatusForPoster = 'Accepted'");
             query.setParameter("job", offer.getJobEntity());
             Long count = (Long)query.getSingleResult();
+            
             if(count == numOfHelpers){ offer.getJobEntity().setJobStatus("Reserved"); }
             
             

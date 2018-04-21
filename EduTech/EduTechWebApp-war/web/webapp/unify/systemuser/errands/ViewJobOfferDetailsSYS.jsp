@@ -235,6 +235,7 @@
                             String category = (String)jobInfo.get(5);
                             int numOfHelpers = (Integer)jobInfo.get(6);
                             String jobStatus = (String)jobInfo.get(7);
+                            String count = String.valueOf(jobInfo.get(8));
                     %>
                     <div class="row">
                         <div class="col-xl-4 col-lg-5 col-md-6">
@@ -250,7 +251,7 @@
                             <span style="font-size: 16px;"><i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp; Status: <span class="p-1 text-white bg-secondary"><%= jobStatus%></span></span><br/>
                             <%}%>
                             <span style="font-size: 16px;"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp; Category: <%= category%></span><br/>
-                            <span style="font-size: 16px;"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; Helpers required: <%= numOfHelpers%></span><br/>
+                            <span style="font-size: 16px;"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp; You still need <strong><%= count%></strong> more helpers (<%= numOfHelpers%> helpers in total)</span><br/>
                             <span style="font-size: 16px;"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp; Job Rate: S$<%= jobRate%>/<%= jobRateType%></span><br/><br/>
                             <a role="button" href="ErrandsSysUser?pageTransit=goToViewJobDetailsSYS&hiddenJobID=<%= jobID%>&hiddenCategoryName=<%= category%>" class="btn btn-info" >View Job Details</a>
                             <%if(jobStatus.equals("Available")){%>
