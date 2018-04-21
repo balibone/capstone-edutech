@@ -7,38 +7,33 @@ $(document).ready(function () {
     
     $('.mailinbox tbody').on('click', 'tr', function() {
         var msgType, msgContent, msgContentID;
-        var $cell= $(event.target).closest('td');
+        var $cell = $(event.target).closest('td');
         if($cell.index() > 0 && $cell.index() < 4) {
             var rowData = $(this).children("td").map(function() {
-            return $(this).text();
-        }).get();
-        
-        msgType = $.trim(rowData[2]);
-        msgContent = $.trim(rowData[3]);
-        msgContentID = msgContent.split(';')[1];
-        
-        if(msgType.indexOf('Marketplace (Item Offer)') >= 0) {
-            window.open('ProfileSysUser?pageTransit=goToPendingItemOfferDetailsSYS&urlitemID=' + msgContentID, '_self');
-        } else if (msgType.indexOf('Marketplace (My Item Offer)') >= 0) {
-            window.open('ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS', '_self');
-        } else if (msgType.indexOf('Marketplace (Item Like)') >= 0) {
-            window.open('MarketplaceSysUser?pageTransit=goToMsgViewItemDetailsSYS&itemHidID=' + msgContentID, '_self');
-        } else if (msgType.indexOf('Voices') >= 0) {
-            //window.open('ProfileSysUser?pageTransit=', '_self');
-        } else if (msgType.indexOf('Errands (Job Report)') >=0 || msgType.indexOf('Errands (Job Like)') >=0){
-            window.open('ErrandsSysUser?pageTransit=goToMsgViewJobDetailsSYS&hiddenJobID=' + msgContentID, '_self');
-        } else if (msgType.indexOf('Errands (Job Offer)') >=0) {
-            alert();
-            window.open('ErrandsSysUser?pageTransit=goToViewJobOfferDetails&jobID=' + msgContentID, '_self');
-        } else if (msgType.indexOf('Errands (My Job Offer)') >=0) {
-            window.open('ProfileSysUser?pageTransit=goToViewMyJobOfferSYS', '_self');
-        } else if (msgType.indexOf('Errands (Job Completion)') >=0) {
-            window.open('ProfileSysUser?pageTransit=goToErrandsTrans', '_self');
-        } else if (msgType.indexOf('Errands (Job Review)') >=0) {
-            window.open('ProfileSysUser?pageTransit=goToViewJobReviewList', '_self');
-        }
-        
-        
+                return $(this).text();
+            }).get();
+            
+            msgType = $.trim(rowData[2]);
+            msgContent = $.trim(rowData[3]);
+            msgContentID = msgContent.split(';')[1];
+
+            if(msgType.indexOf('Marketplace (Item Offer)') >= 0) {
+                window.open('ProfileSysUser?pageTransit=goToPendingItemOfferDetailsSYS&urlitemID=' + msgContentID, '_self');
+            } else if (msgType.indexOf('Marketplace (My Item Offer)') >= 0) {
+                window.open('ProfileSysUser?pageTransit=goToMyBuyerOfferListSYS', '_self');
+            } else if (msgType.indexOf('Marketplace (Item Like)') >= 0) {
+                window.open('MarketplaceSysUser?pageTransit=goToMsgViewItemDetailsSYS&itemHidID=' + msgContentID, '_self');
+            } else if (msgType.indexOf('Errands (Job Report)') >= 0 || msgType.indexOf('Errands (Job Like)') >= 0){
+                window.open('ErrandsSysUser?pageTransit=goToMsgViewJobDetailsSYS&hiddenJobID=' + msgContentID, '_self');
+            } else if (msgType.indexOf('Errands (Job Offer)') >= 0) {
+                window.open('ErrandsSysUser?pageTransit=goToViewJobOfferDetails&jobID=' + msgContentID, '_self');
+            } else if (msgType.indexOf('Errands (My Job Offer)') >= 0) {
+                window.open('ProfileSysUser?pageTransit=goToViewMyJobOfferSYS', '_self');
+            } else if (msgType.indexOf('Errands (Job Completion)') >= 0) {
+                window.open('ProfileSysUser?pageTransit=goToErrandsTrans', '_self');
+            } else if (msgType.indexOf('Errands (Job Review)') >= 0) {
+                window.open('ProfileSysUser?pageTransit=goToViewJobReviewList', '_self');
+            }
         }
     });
     
