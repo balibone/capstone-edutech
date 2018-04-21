@@ -40,7 +40,8 @@ $(document).ready(function() {
         width: 725,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 425
+        iframeHeight: 425,
+        onClosed: function () { window.location.reload(true); }
     });
     
     
