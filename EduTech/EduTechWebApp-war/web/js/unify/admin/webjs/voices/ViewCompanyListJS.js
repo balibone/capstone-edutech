@@ -40,7 +40,8 @@ $(document).ready(function() {
         width: 750,
         overlayClose: true,
         iframe : true,
-        iframeHeight: 475
+        iframeHeight: 475,
+        onClosed: function () { window.location.reload(true); }
     });
     
     $('#closeSuccess').click(function() { $('#successPanel').fadeOut(300); });
