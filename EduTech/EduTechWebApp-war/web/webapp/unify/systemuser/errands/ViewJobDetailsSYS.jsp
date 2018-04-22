@@ -222,6 +222,7 @@
                     String checking = (String.valueOf(jobDetailsSYSVec.get(24)));
                     String likeStatus = (String.valueOf(jobDetailsSYSVec.get(25)));
                     String offerStatus = (String.valueOf(jobDetailsSYSVec.get(26)));
+                    String availableSlots = String.valueOf(jobDetailsSYSVec.get(27));
                 %>
                 <input type="hidden" id="priceType" value="<%=jobRateType%>"/>
                 <div class="row">
@@ -319,8 +320,8 @@
                                 <% }%>
                             </tr>
                             <tr>   
-                                <td><i class="fa fa-users" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Helpers needed: </strong></span></td>
-                                <td><ul class="list-inline mb-0"><li class="list-inline-item"><%=numOfHelpers%></li></ul></td>
+                                <td><i class="fa fa-users" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Slots left: </strong></span></td>
+                                <td><ul class="list-inline mb-0"><li class="list-inline-item"><strong><%= availableSlots%></strong> &nbsp;(The job needs <%=numOfHelpers%> helpers in total) </li></ul></td>
                             </tr>
                             <tr>   
                                 <td><i class="fa fa-sticky-note" aria-hidden="true"></i><span><strong>&nbsp;&nbsp;Est. Duration: </strong></span></td>
