@@ -176,6 +176,12 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
         String dateString = "";
         
         jEntity = lookupJob(jobID);
+        
+        int numOfHelpers = jEntity.getNumOfHelpers();
+        Query query = em.createQuery("SELECT COUNT(o.jobOfferID) FROM JobOffer o WHERE o.jobEntity = :job AND o.jobOfferStatusForPoster = 'Accepted'");
+        query.setParameter("job", jEntity);
+        Long count = (Long)query.getSingleResult();
+        
         Vector jobDetailsVec = new Vector();
 
         if (jEntity != null) {
@@ -248,6 +254,8 @@ public class ErrandsSysUserMgrBean implements ErrandsSysUserMgrBeanRemote {
             
             if(lookupExistingJobOffer(jobID, username) == null){ jobDetailsVec.add("No Offer"); }
             else{ jobDetailsVec.add(lookupExistingJobOffer(jobID, username).getJobOfferStatusForSender()); }
+            
+            jobDetailsVec.add(numOfHelpers-count);
             
             return jobDetailsVec;
         }
