@@ -15,6 +15,7 @@ webSocket.onopen = function (event) {
 webSocket.onmessage = function (event) {
     var dbResponse, dbResponseHTML;
     var socketMSG = event.data;
+    
     var itemID = (socketMSG.split('|')[1]).split('&')[0];
     var itemBuyerID = (socketMSG.split('|')[1]).split('&')[1];
     
@@ -30,7 +31,8 @@ webSocket.onmessage = function (event) {
             dbResponse = returnString;
         }
     });
-    if(event.data != null && ($('#messageSenderID').val() != $('#loggedInUserID').val())) {
+    
+    if(socketMSG != null && ($('#messageSenderID').val() != $('#loggedInUserID').val())) {
         $('<li class="replies"><img src="uploads/commoninfrastructure/admin/images/' + $('#receiverIMG').val() + '" /><p>' + socketMSG.split('|')[0] + '</p></li>').appendTo($('.messages ul'));
         
         if(dbResponse.split('|')[0] == 1 && hidChatType == 'Selling') {
