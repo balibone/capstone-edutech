@@ -1,6 +1,9 @@
 # :books: EduBox :books: 
 
-### How To Start using Git:
+# Setup Instructions 
+Jump to [application setup](#application-setup)
+
+## Git instructions for beginners
 1. Create GitHub account.
 2. Fork this repo (top right button) into your account. So now you have an exact copy of the group repo in your personal online repo. 
 3. Download your preferred Git desktop client. I recommend [GitKraken](https://www.gitkraken.com/download). 
@@ -30,3 +33,35 @@
 2. After all intended commit(s) have been reverted, perform the same procedure as pushing updates (section 1 above). Push to online repo & make a pull request to the group repo. 
 3. Once admin approves the pull request, the commit(s) will now be undone on the group repo too. 
 #### Note: Think of reverting commits as a set of undo operations. Like if you have pushed a buggy file online, reverting this commit will just delete that buggy file. 
+
+## Application Setup
+1. Install Netbeans 8.1, Node.js and Extract Glassfish 4.1 from the zipped folder
+2. Open Netbeans 8.1 and Open Projects from the zipped folder:
+  - EduTech, and “Open All Required Projects”
+  - EduTech Remote Interface
+  - NOTE: Set Netbeans Compatibility Properties to “Run this program as administrator”.
+3. Open GlasshFish Server's "View Domain Admin Console
+  - JDBC Connection Pool
+    - PoolName: CapstonePool
+    - Resource Type: javax.sql.DataSource
+    - Database Driver Vendor: JavaDB
+    - Database Name: CapstoneDB
+    - User: APP
+    - Password: app
+    - Description: Capstone Connected Pool
+    - Connection Attributes: create=true
+    - ServerName: localhost
+    - PortNumber: 1527
+    - Create and Ping
+  - JDBC Resource
+    - JNDI Name: jdbc/capstone
+    - PoolName: CapstonePool
+    - Description: capstoneDB
+4. Open Cmd and go to “..\EduTechFrontEnd” and run “npm install”, and then run “npm start”
+5. Open Cmd and go to “..\EduTechCollabServer” and run “npm install”, and then “node index.js”
+6. In NetBeans, “Clean & Build” the EduTech Application, and then “Deploy” it
+7. Connect to the jdbc/CapstoneDB
+  - Right click the jdbc/CapstoneDB and click on "Execute Command"
+  - Insert all SQL statements from the "SQL.txt" file from the zipped folder
+  - Click "Run SQL"
+8. Run the EduTech Application through <IPAddress>/EduTechWebApp-wa
