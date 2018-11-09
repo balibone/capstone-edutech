@@ -1,5 +1,11 @@
 # :books: EduBox :books: 
 
+## Login Page
+![Login Page](https://i.imgur.com/qqMZiaf.png)
+
+## Landing Page
+![Welcome Page](https://i.imgur.com/d6EIEyo.png)
+
 # Setup Instructions 
 Jump to [application setup](#application-setup)
 
