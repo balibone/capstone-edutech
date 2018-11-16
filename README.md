@@ -70,4 +70,4 @@ Jump to [application setup](#application-setup)
   - Right click the jdbc/CapstoneDB and click on "Execute Command"
   - Insert all SQL statements from the "SQL.txt" file from the zipped folder
   - Click "Run SQL"
-8. Run the EduTech Application through <IPAddress>/EduTechWebApp-wa
+8. Run the EduTech Application through <IPAddress>/EduTechWebApp-war
