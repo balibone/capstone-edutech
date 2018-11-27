@@ -1,10 +1,16 @@
 # :books: EduBox :books: 
+1. [About](#about)
+2. [Setup Instructions](#setup-instructions)
 
+# About
 ## Login Page
 ![Login Page](https://i.imgur.com/qqMZiaf.png)
 
 ## Landing Page
 ![Welcome Page](https://i.imgur.com/d6EIEyo.png)
+
+## Poster 
+![Poster](https://i.imgur.com/13kyTlP.png)
 
 # Setup Instructions 
 Jump to [application setup](#application-setup)
